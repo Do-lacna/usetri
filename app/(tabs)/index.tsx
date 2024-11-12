@@ -1,21 +1,14 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import ProductCardNew from "../../components/ui/product-card-new";
 import { products } from "../../test/test-data";
 
 export default function Page() {
   return (
-    <View>
-      {/* <ProductCardNew
-        onPress={() => console.log("Product selected:")}
-        product={{
-          imageUrl:
-            "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
-          name: "Svetle pivo",
-          brand: "Kelt",
-          amount: "0.5 l",
-          price: "15.50",
-        }}
-      /> */}
+    <View className="px-2">
+      <View className="flex-row ">
+        <Text className="text-3xl">Discounts in</Text>
+        <Text className="text-3xl font-semibold text-primary ml-1">Tesco</Text>
+      </View>
       <View className="flex-row px-4">
         <ScrollView
           horizontal

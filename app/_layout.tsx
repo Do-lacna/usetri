@@ -71,6 +71,16 @@ export default function RootLayout() {
           name="(tabs)"
           options={{ headerShown: false, headerRight: () => <ThemeToggle /> }}
         />
+        <Stack.Screen
+          name="product/[id]"
+          options={{
+            headerShown: false,
+            // Optional: Add presentation style
+            presentation: "card",
+            // Optional: Add animations
+            animation: "slide_from_right",
+          }}
+        />
       </Stack>
       <PortalHost />
     </ThemeProvider>
