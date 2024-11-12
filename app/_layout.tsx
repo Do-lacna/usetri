@@ -71,13 +71,6 @@ export default function RootLayout() {
           name="(tabs)"
           options={{ headerShown: false, headerRight: () => <ThemeToggle /> }}
         />
-        {/* <Stack.Screen
-          name='index'
-          options={{
-            title: 'Starter Base',
-            headerRight: () => <ThemeToggle />,
-          }}
-        /> */}
       </Stack>
       <PortalHost />
     </ThemeProvider>

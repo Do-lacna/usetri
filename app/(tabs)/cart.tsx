@@ -7,7 +7,12 @@ export default function Page() {
   return (
     <View>
       <Sun />
-      <Button variant="default" size="lg" onPress={() => console.log("lol")}>
+      <Button
+        variant="default"
+        size="lg"
+        onPress={() => console.log("lol")}
+        className="w-1/2"
+      >
         <Text>Default</Text>
       </Button>
       <Input
