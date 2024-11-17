@@ -9,6 +9,7 @@ export interface IProduct {
   brand?: string;
   amount?: string;
   price?: string;
+  [key: string]: any; // Index signature
 }
 
 export interface IProductCardProps {
