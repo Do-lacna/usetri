@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "504961053140",
+    "project_id": "dolacna-388d4",
+    "storage_bucket": "dolacna-388d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504961053140:android:a31a3f46a792c807fbe641",
+        "android_client_info": {
+          "package_name": "com.dutosvarc.usetri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTX--6-xIVAxqbY0JUrMA1tD4_UqWVufU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
