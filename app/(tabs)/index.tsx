@@ -32,8 +32,10 @@ export default function Page() {
         onSearch={setSearchQuery}
         onClear={() => setSearchQuery("")}
         searchText={searchQuery}
+        options={searchResults}
+        onOptionSelect={(option) => console.log("Option selected:", option)}
       />
-      <View className="flex-row ">
+      <View className="flex-row mt-4">
         <Text className="text-3xl">Discounts in</Text>
         <Text className="text-3xl font-semibold text-primary ml-1">Tesco</Text>
       </View>
@@ -47,7 +49,7 @@ export default function Page() {
           }}
           className="flex-row space-x-4"
         >
-          {searchResults?.map((product, index) => (
+          {products?.map((product, index) => (
             <ProductCardNew
               key={index}
               product={product}
