@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { Sun } from "~/lib/icons/Sun";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
 
 export default function Page() {
   return (

@@ -16,7 +16,10 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.dutosvarc.usetri"
+      "bundleIdentifier": "com.dutosvarc.usetri",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -34,12 +37,21 @@
     "plugins": [
       "expo-router",
       "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",
         {
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
       ]
     ],

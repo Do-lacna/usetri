@@ -1,10 +1,12 @@
 import React from "react";
-import { View } from "react-native";
-import DiscountList from "../../components/ui/discount-list";
-import { IProduct } from "../../components/ui/product-card-new";
-import SearchBar from "../../components/ui/search-bar";
-import { products } from "../../test/test-data";
-import { searchItems, SearchOptions } from "../../utils/search-utils";
+import { Text, View } from "react-native";
+import DiscountList from "~/components/ui/discount-list";
+import { IProduct } from "~/components/ui/product-card-new";
+import SearchBar from "~/components/ui/search-bar";
+import { useSession } from "~/context/authentication-context";
+import { products } from "~/test/test-data";
+import { searchItems, SearchOptions } from "~/utils/search-utils";
+import { Button } from "../../../components/ui/button";
 
 const options: SearchOptions<IProduct> = {
   threshold: 0.7,
@@ -15,6 +17,7 @@ const options: SearchOptions<IProduct> = {
 export default function Page() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<IProduct[]>([]);
+  const { signOut } = useSession();
 
   React.useEffect(() => {
     if (searchQuery?.length > 0) {
@@ -29,6 +32,9 @@ export default function Page() {
 
   return (
     <View className="px-2">
+      <Button onPress={signOut}>
+        <Text>Sign Out</Text>
+      </Button>
       <SearchBar
         onSearch={setSearchQuery}
         onClear={() => setSearchQuery("")}

@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { products } from "../../test/test-data";
+import { products } from "~/test/test-data";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();

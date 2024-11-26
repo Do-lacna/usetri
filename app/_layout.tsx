@@ -3,14 +3,14 @@ import "~/global.css";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
-import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { SessionProvider } from "../context/authentication-context";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -64,25 +64,12 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false, headerRight: () => <ThemeToggle /> }}
-        />
-        <Stack.Screen
-          name="product/[id]"
-          options={{
-            headerShown: false,
-            // Optional: Add presentation style
-            presentation: "card",
-            // Optional: Add animations
-            animation: "slide_from_right",
-          }}
-        />
-      </Stack>
-      <PortalHost />
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+        <Slot />
+        <PortalHost />
+      </ThemeProvider>
+    </SessionProvider>
   );
 }
