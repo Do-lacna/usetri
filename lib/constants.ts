@@ -16,3 +16,5 @@ export const NAV_THEME = {
     text: "hsl(0 0% 95%)", // foreground
   },
 };
+
+export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";

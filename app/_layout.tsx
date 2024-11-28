@@ -3,6 +3,7 @@ import "~/global.css";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
@@ -25,6 +26,8 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
+
+const queryClient = new QueryClient();
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
@@ -64,12 +67,14 @@ export default function RootLayout() {
   }
 
   return (
-    <SessionProvider>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Slot />
-        <PortalHost />
-      </ThemeProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Slot />
+          <PortalHost />
+        </ThemeProvider>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

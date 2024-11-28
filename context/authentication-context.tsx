@@ -1,5 +1,6 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, {
   createContext,
@@ -7,6 +8,7 @@ import React, {
   type PropsWithChildren,
 } from "react";
 import { auth } from "~/firebase.config";
+import { AUTH_TOKEN, USER_ID } from "../network/api-client";
 import { useStorageState } from "./useStorageState";
 
 export const firebaseConfig = {
@@ -65,16 +67,25 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("session");
   const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const [authToken, setAuthToken] = React.useState(null);
 
-  function reactToChangedAuthState(user: any) {
+  async function reactToChangedAuthState(user: any) {
+    const firebaseUser = user as FirebaseAuthTypes.User;
     console.log("User from context", user);
     if (user) {
+      await SecureStore.setItemAsync(USER_ID, user?.uid);
+      await SecureStore.setItemAsync(AUTH_TOKEN, user?.accessToken);
       setUser(user);
+      setAuthToken(user?.accessToken);
       router.replace("/");
     }
 
     if (initializing) setInitializing(false);
   }
+
+  //   React.useEffect(() => {
+
+  //    }, [authToken])
 
   React.useEffect(() => {
     const subscriber = onAuthStateChanged(auth, reactToChangedAuthState);
@@ -83,7 +94,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   const performSignOut = async () => {
     try {
+      await SecureStore.deleteItemAsync("authToken");
       await signOut(auth);
+      setAuthToken(null);
       setUser(null);
     } catch (e) {
       console.error(e);

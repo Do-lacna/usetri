@@ -1,0 +1,1264 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "Dolacna.Backend.Api", "version": "1.0" },
+  "paths": {
+    "/products": {
+      "post": {
+        "tags": ["Admin"],
+        "operationId": "AddProduct",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddProductRequest" }
+            },
+            "text/json": {
+              "schema": { "$ref": "#/components/schemas/AddProductRequest" }
+            },
+            "application/*+json": {
+              "schema": { "$ref": "#/components/schemas/AddProductRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetProducts",
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "style": "form",
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "style": "form",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "restricted_shops",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": { "type": "integer", "format": "int32" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/GetProductsResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetProductsResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/GetProductsResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shops": {
+      "post": {
+        "tags": ["Admin"],
+        "operationId": "AddShop",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddShopRequest" }
+            },
+            "text/json": {
+              "schema": { "$ref": "#/components/schemas/AddShopRequest" }
+            },
+            "application/*+json": {
+              "schema": { "$ref": "#/components/schemas/AddShopRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetShops",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/GetShopsResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetShopsResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/GetShopsResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{barcode}/prices": {
+      "put": {
+        "tags": ["Admin"],
+        "operationId": "ChangePrice",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": { "minimum": 0, "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeItemPriceRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeItemPriceRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeItemPriceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "post": {
+        "tags": ["Admin"],
+        "operationId": "AddCategory",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddCategoryRequest" }
+            },
+            "text/json": {
+              "schema": { "$ref": "#/components/schemas/AddCategoryRequest" }
+            },
+            "application/*+json": {
+              "schema": { "$ref": "#/components/schemas/AddCategoryRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/AddShopResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetCategories",
+        "parameters": [
+          {
+            "name": "category_name",
+            "in": "query",
+            "style": "form",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/GetCategoryResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetCategoryResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/GetCategoryResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart": {
+      "post": {
+        "tags": ["Customer"],
+        "operationId": "AddProduct",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_ids": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int32" }
+                  }
+                }
+              },
+              "encoding": { "category_ids": { "style": "form" } }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductToCartResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductToCartResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddProductToCartResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Customer"],
+        "operationId": "GetCart",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/GetCartResponse" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetCartResponse" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/GetCartResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Customer"],
+        "operationId": "RemoveFromCart",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": { "type": "string" },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category_ids": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int32" }
+                  }
+                }
+              },
+              "encoding": { "category_ids": { "style": "form" } }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFromCartResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFromCartResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveFromCartResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categorized-products": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetCategorizedProducts",
+        "parameters": [
+          {
+            "name": "category_ids",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": { "type": "integer", "format": "int32" }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategorizedProductsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategorizedProductsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategorizedProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{barcode}-{shopId}/prices": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetProductPrices",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": { "minimum": 0, "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "shopId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": { "minimum": 0, "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductPricesResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductPricesResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductPricesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{barcode}": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetProductsByBarcode",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": { "minimum": 0, "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "restricted_shops",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "array",
+              "items": { "type": "integer", "format": "int32" }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductsByBarcodeResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductsByBarcodeResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductsByBarcodeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              },
+              "text/json": {
+                "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddCategoryRequest": {
+        "type": "object",
+        "properties": {
+          "category": { "$ref": "#/components/schemas/CategoryDto" }
+        },
+        "additionalProperties": false
+      },
+      "AddProductRequest": {
+        "type": "object",
+        "properties": {
+          "product": { "$ref": "#/components/schemas/ProductDto" },
+          "shop_id": { "type": "integer", "format": "int32" },
+          "price": { "type": "number", "format": "double" },
+          "discount_price": { "$ref": "#/components/schemas/DiscountPriceDto" }
+        },
+        "additionalProperties": false
+      },
+      "AddProductToCartResponse": {
+        "type": "object",
+        "properties": { "cart": { "$ref": "#/components/schemas/CartDto" } },
+        "additionalProperties": false
+      },
+      "AddShopRequest": {
+        "type": "object",
+        "properties": { "shop": { "$ref": "#/components/schemas/ShopDto" } },
+        "additionalProperties": false
+      },
+      "AddShopResponse": {
+        "type": "object",
+        "properties": {
+          "shop": { "$ref": "#/components/schemas/ShopExtendedDto" }
+        },
+        "additionalProperties": false
+      },
+      "AvailableCategoriesForShopDto": {
+        "type": "object",
+        "properties": {
+          "shop_id": { "type": "integer", "format": "int32" },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableProductsFromCategoryDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AvailableProductsFromCategoryDto": {
+        "type": "object",
+        "properties": {
+          "category_id": { "type": "integer", "format": "int32" },
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ShopItemDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CartDto": {
+        "type": "object",
+        "properties": {
+          "category_ids": {
+            "type": "array",
+            "items": { "type": "string" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "nullable": true },
+          "parent_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CategoryExtendedWithPathDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "nullable": true },
+          "parent_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "id": { "type": "integer", "format": "int32" },
+          "path_from_root": { "type": "string", "nullable": true },
+          "path_from_root_numeric": { "type": "string", "nullable": true }
+        },
+        "additionalProperties": false
+      },
+      "ChangeItemPriceRequest": {
+        "type": "object",
+        "properties": {
+          "price": { "type": "number", "format": "double" },
+          "shop_id": { "type": "integer", "format": "int32" }
+        },
+        "additionalProperties": false
+      },
+      "DiscountPriceDto": {
+        "type": "object",
+        "properties": {
+          "price": { "type": "number", "format": "double" },
+          "valid_from": { "type": "string", "format": "date-time" },
+          "valid_to": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      },
+      "GetCartResponse": {
+        "type": "object",
+        "properties": { "cart": { "$ref": "#/components/schemas/CartDto" } },
+        "additionalProperties": false
+      },
+      "GetCategorizedProductsResponse": {
+        "type": "object",
+        "properties": {
+          "available_shops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailableCategoriesForShopDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryExtendedWithPathDto"
+            },
+            "nullable": true
+          },
+          "unsorted_categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryExtendedWithPathDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProductPricesResponse": {
+        "type": "object",
+        "properties": {
+          "current_price": { "$ref": "#/components/schemas/PriceDto" },
+          "price_history": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PriceDto" },
+            "nullable": true
+          },
+          "current_discount": {
+            "$ref": "#/components/schemas/DiscountPriceDto"
+          },
+          "discount_history": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/DiscountPriceDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProductsByBarcodeResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ShopItemDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProductsResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ShopItemListDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetShopsResponse": {
+        "type": "object",
+        "properties": {
+          "shops": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ShopExtendedDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PriceDto": {
+        "type": "object",
+        "properties": {
+          "price": { "type": "number", "format": "double" },
+          "barcode": { "type": "integer", "format": "int32" },
+          "shop_id": { "type": "integer", "format": "int32" },
+          "change_requested": { "type": "string", "format": "date-time" },
+          "change_confirmed": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "status": { "type": "string", "nullable": true }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "nullable": true },
+          "title": { "type": "string", "nullable": true },
+          "status": { "type": "integer", "format": "int32", "nullable": true },
+          "detail": { "type": "string", "nullable": true },
+          "instance": { "type": "string", "nullable": true }
+        },
+        "additionalProperties": {}
+      },
+      "ProductDto": {
+        "type": "object",
+        "properties": {
+          "barcode": { "type": "integer", "format": "int32" },
+          "name": { "type": "string", "nullable": true },
+          "amount": { "type": "number", "format": "double" },
+          "brand": { "type": "string", "nullable": true },
+          "unit": { "type": "string", "nullable": true },
+          "category_id": { "type": "integer", "format": "int32" }
+        },
+        "additionalProperties": false
+      },
+      "RemoveFromCartResponse": {
+        "type": "object",
+        "properties": { "cart": { "$ref": "#/components/schemas/CartDto" } },
+        "additionalProperties": false
+      },
+      "ShopDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "nullable": true },
+          "image_url": { "type": "string", "nullable": true }
+        },
+        "additionalProperties": false
+      },
+      "ShopExtendedDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "nullable": true },
+          "image_url": { "type": "string", "nullable": true },
+          "id": { "type": "integer", "format": "int32" }
+        },
+        "additionalProperties": false
+      },
+      "ShopItemDto": {
+        "type": "object",
+        "properties": {
+          "detail": { "$ref": "#/components/schemas/ProductDto" },
+          "shop_id": { "type": "integer", "format": "int32" },
+          "price": { "type": "number", "format": "double" }
+        },
+        "additionalProperties": false
+      },
+      "ShopItemListDto": {
+        "type": "object",
+        "properties": {
+          "shop_id": { "type": "integer", "format": "int32" },
+          "products": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ShopItemDto" },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter your Bearer token",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [{ "Bearer": [] }]
+}

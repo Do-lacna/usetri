@@ -1,14 +1,16 @@
 import React from "react";
 import { Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
-import { IProduct } from "~/components/ui/product-card-new";
 import SearchBar from "~/components/ui/search-bar";
 import { useSession } from "~/context/authentication-context";
-import { products } from "~/test/test-data";
 import { searchItems, SearchOptions } from "~/utils/search-utils";
 import { Button } from "../../../components/ui/button";
+import { isArrayNotEmpty } from "../../../lib/utils";
+import { ProductDto } from "../../../network/model";
+import { useGetCategories, useGetProducts } from "../../../network/query/query";
+import { products } from "../../../test/test-data";
 
-const options: SearchOptions<IProduct> = {
+const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
   searchFields: ["name", "brand"],
   matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
@@ -16,12 +18,22 @@ const options: SearchOptions<IProduct> = {
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState<IProduct[]>([]);
+  const [searchResults, setSearchResults] = React.useState<ProductDto[]>([]);
   const { signOut } = useSession();
+  const { data: { data: { categories } = {} } = {} } = useGetCategories();
+
+  const { data: { data: { products: searchProducts } = {} } = {} } =
+    useGetProducts({
+      search: searchQuery,
+    });
+
+  console.log(products);
 
   React.useEffect(() => {
-    if (searchQuery?.length > 0) {
-      setSearchResults(searchItems(products, searchQuery, options));
+    if (searchQuery?.length > 0 && isArrayNotEmpty(searchProducts)) {
+      //TODO quick fix until BE is fixed
+      const searchProductsMapped = searchProducts as ProductDto[];
+      setSearchResults(searchItems(searchProductsMapped, searchQuery, options));
     } else {
       setSearchResults([]);
     }
@@ -35,12 +47,16 @@ export default function Page() {
       <Button onPress={signOut}>
         <Text>Sign Out</Text>
       </Button>
-      <SearchBar
+      <SearchBar<ProductDto>
         onSearch={setSearchQuery}
         onClear={() => setSearchQuery("")}
         searchText={searchQuery}
         options={searchResults}
         onOptionSelect={(option) => console.log("Option selected:", option)}
+        renderOption={(item) => (
+          <Text className="text-gray-800 text-lg">{item?.name}</Text>
+        )}
+        keyExtractor={(item) => String(item.id)}
       />
       <DiscountList
         products={products}

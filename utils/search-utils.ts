@@ -86,7 +86,8 @@ const wordMatchesTarget = (
  * Searches through items using fuzzy matching and diacritic normalization
  * Supports multi-word search terms
  */
-export const searchItems = <T extends Searchable>(
+//// T extends Searchable should be here
+export const searchItems = <T extends any>(
   items: T[],
   searchTerm: string,
   options: SearchOptions<T> = {}

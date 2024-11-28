@@ -2,39 +2,32 @@ import React from "react";
 import {
   FlatList,
   Pressable,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { X } from "~/lib/icons/Cancel";
 import { Search } from "~/lib/icons/Search";
-import { IProduct } from "./product-card-new";
 
-export interface ISearchBarProps {
+export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
   searchText: string;
   onClear: () => void;
-  options: IProduct[];
-  onOptionSelect: (option: IProduct) => void;
+  options: T[];
+  onOptionSelect: (option: T) => void;
+  renderOption: (item: T) => React.ReactNode;
+  keyExtractor: (item: T) => string;
 }
 
-const SearchBar = ({
+const SearchBar = <T,>({
   onSearch,
   onClear,
   searchText = "",
   options = [],
   onOptionSelect,
-}: ISearchBarProps) => {
-  const renderOption = ({ item }: { item: IProduct }) => (
-    <TouchableOpacity
-      onPress={() => onOptionSelect(item)}
-      className="px-4 py-4 border-b border-gray-200"
-    >
-      <Text className="text-gray-800 text-lg">{item?.name}</Text>
-    </TouchableOpacity>
-  );
-
+  renderOption,
+  keyExtractor,
+}: ISearchBarProps<T>) => {
   return (
     <View className="relative z-10">
       <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
@@ -67,8 +60,15 @@ const SearchBar = ({
         >
           <FlatList
             data={options}
-            renderItem={renderOption}
-            keyExtractor={({ id }) => id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => onOptionSelect(item)}
+                className="px-4 py-4 border-b border-gray-200"
+              >
+                {renderOption(item)}
+              </TouchableOpacity>
+            )}
+            keyExtractor={keyExtractor}
             keyboardShouldPersistTaps="handled"
           />
         </View>
