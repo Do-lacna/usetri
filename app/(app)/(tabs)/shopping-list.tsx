@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { CategoryExtendedWithPathDto } from "../../../apicko";
+import EmptyShoppingListPlaceholderScreen from "../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import SearchBar from "../../../components/ui/search-bar";
 import { isArrayNotEmpty } from "../../../lib/utils";
 import { useGetCategories } from "../../../network/query/query";
@@ -41,6 +42,7 @@ export default function Page() {
         )}
         keyExtractor={(item) => String(item.id)}
       />
+      <EmptyShoppingListPlaceholderScreen />
     </View>
   );
 }
