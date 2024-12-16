@@ -1,5 +1,5 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { router } from "expo-router";
+import { useRootNavigationState } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, {
@@ -68,6 +68,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [initializing, setInitializing] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const [authToken, setAuthToken] = React.useState(null);
+  const navigationState = useRootNavigationState();
+  const navigatorReady = navigationState?.key != null;
 
   async function reactToChangedAuthState(user: any) {
     const firebaseUser = user as FirebaseAuthTypes.User;
@@ -77,15 +79,27 @@ export function SessionProvider({ children }: PropsWithChildren) {
       await SecureStore.setItemAsync(AUTH_TOKEN, user?.accessToken);
       setUser(user);
       setAuthToken(user?.accessToken);
-      router.replace("/");
     }
 
-    if (initializing) setInitializing(false);
+    // if (initializing) setInitializing(false);
   }
 
-  //   React.useEffect(() => {
+  // React.useEffect(() => {
+  //   // const inAuthGroup = segments[0] === "(auth)";
+  //   if (!navigatorReady) {
+  //     return;
+  //   }
+  //   if (user && authToken) {
+  //     router.replace("/");
+  //   }
+  // }, [user, authToken, navigatorReady]);
 
-  //    }, [authToken])
+  // React.useEffect(() => {
+  //   // const inAuthGroup = segments[0] === "(auth)";
+  //   if (user && authToken && navigationState?.key) {
+  //     router.replace("/");
+  //   }
+  // }, [user, authToken, navigationState?.key]);
 
   React.useEffect(() => {
     const subscriber = onAuthStateChanged(auth, reactToChangedAuthState);

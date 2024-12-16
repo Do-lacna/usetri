@@ -1,3 +1,4 @@
+import { Redirect, useRootNavigationState } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik } from "formik";
 import React from "react";
@@ -18,7 +19,8 @@ const SignupSchema = Yup.object().shape({
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { signIn } = useSession();
+  const rootNavigationState = useRootNavigationState();
+  const { user } = useSession();
 
   const performSignIn = async (values: { email: string; password: string }) => {
     setIsLoading(true);
@@ -36,6 +38,21 @@ export default function SignIn() {
       setIsLoading(false);
     }
   };
+
+  // You can keep the splash screen open, or render a loading screen like we do here.
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (!rootNavigationState?.key) return null;
+
+  // Only require authentication within the (app) group's layout as users
+  // need to be able to access the (auth) group and sign in again.
+  if (user) {
+    // On web, static rendering will stop here as the user is not authenticated
+    // in the headless Node process that the pages are rendered in.
+    return <Redirect href="/" />;
+  }
 
   return (
     <Formik

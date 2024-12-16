@@ -15,6 +15,7 @@ const Input = React.forwardRef<
         className
       )}
       placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
+      autoCapitalize="none"
       {...props}
     />
   );
