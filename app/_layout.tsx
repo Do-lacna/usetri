@@ -1,7 +1,7 @@
 import "~/global.css";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import { Theme, ThemeProvider,DefaultTheme } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, SplashScreen } from "expo-router";
@@ -14,10 +14,12 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { SessionProvider } from "../context/authentication-context";
 
 const LIGHT_THEME: Theme = {
+  ...DefaultTheme,
   dark: false,
   colors: NAV_THEME.light,
 };
 const DARK_THEME: Theme = {
+  ...DefaultTheme,
   dark: true,
   colors: NAV_THEME.dark,
 };
