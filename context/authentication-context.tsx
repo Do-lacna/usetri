@@ -1,11 +1,10 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { useRootNavigationState } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import React, {
+import { onAuthStateChanged, signOut,User as FirebaseUser} from "firebase/auth";
+import {
   createContext,
   useContext,
-  type PropsWithChildren,
+  type PropsWithChildren, useState, useEffect, Dispatch, SetStateAction,
 } from "react";
 import { auth } from "~/firebase.config";
 import { AUTH_TOKEN, USER_ID } from "../network/api-client";
@@ -23,15 +22,13 @@ export const firebaseConfig = {
 export const AuthContext = createContext<{
   signIn: () => void;
   signOut: () => void;
-  session?: string | null;
   isLoading: boolean;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
-  user?: FirebaseAuthTypes.User | null;
+  setUser: Dispatch<SetStateAction<any>>;
+  session?: string | null;
+  user?: FirebaseUser;
 }>({
   signIn: () => null,
   signOut: () => null,
-  session: null,
-  user: null,
   setUser: () => {},
   isLoading: false,
 });
@@ -65,20 +62,24 @@ const listenToAuthState = () => {
 
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("session");
-  const [initializing, setInitializing] = React.useState(true);
-  const [user, setUser] = React.useState(null);
-  const [authToken, setAuthToken] = React.useState(null);
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState<FirebaseUser>();
   const navigationState = useRootNavigationState();
-  const navigatorReady = navigationState?.key != null;
 
-  async function reactToChangedAuthState(user: any) {
-    const firebaseUser = user as FirebaseAuthTypes.User;
-    console.log("User from context", user);
-    if (user) {
-      await SecureStore.setItemAsync(USER_ID, user?.uid);
-      await SecureStore.setItemAsync(AUTH_TOKEN, user?.accessToken);
-      setUser(user);
-      setAuthToken(user?.accessToken);
+    const reactToChangedAuthState=async (user: FirebaseUser|null)=> {
+    setInitializing(true)
+    try {
+      if (user) {
+        const token = await user.getIdToken();
+        await SecureStore.setItemAsync(USER_ID, user.uid);
+        await SecureStore.setItemAsync(AUTH_TOKEN, token);
+        setUser(user);
+      }
+    } catch (e) {
+      console.error(e)
+    }
+    finally {
+      setInitializing(false)
     }
 
     // if (initializing) setInitializing(false);
@@ -101,7 +102,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   //   }
   // }, [user, authToken, navigationState?.key]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const subscriber = onAuthStateChanged(auth, reactToChangedAuthState);
     return subscriber; // unsubscribe on unmount
   }, []);
@@ -110,8 +111,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     try {
       await SecureStore.deleteItemAsync("authToken");
       await signOut(auth);
-      setAuthToken(null);
-      setUser(null);
+      setUser(undefined);
     } catch (e) {
       console.error(e);
     }
@@ -126,7 +126,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         signOut: performSignOut,
         session,
-        isLoading,
+        isLoading:isLoading || initializing,
         setUser,
         user,
       }}
