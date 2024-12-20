@@ -1,5 +1,5 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { useRootNavigationState } from "expo-router";
+import { router, useRootNavigationState } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, {
@@ -84,15 +84,14 @@ export function SessionProvider({ children }: PropsWithChildren) {
     // if (initializing) setInitializing(false);
   }
 
-  // React.useEffect(() => {
-  //   // const inAuthGroup = segments[0] === "(auth)";
-  //   if (!navigatorReady) {
-  //     return;
-  //   }
-  //   if (user && authToken) {
-  //     router.replace("/");
-  //   }
-  // }, [user, authToken, navigatorReady]);
+  React.useEffect(() => {
+    if (!navigatorReady) {
+      return;
+    }
+    if (user && authToken) {
+      router.replace("/");
+    }
+  }, [user, authToken, navigatorReady]);
 
   // React.useEffect(() => {
   //   // const inAuthGroup = segments[0] === "(auth)";
