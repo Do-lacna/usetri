@@ -14,16 +14,13 @@ const options: SearchOptions<CategoryExtendedWithPathDto> = {
 };
 
 export default function Page() {
-  const {
-    data: {
-      data: { categories = [] } = {},
-    } = {},
-  } = useGetCategories();
-
+  const { data } = useGetCategories();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<
     CategoryExtendedWithPathDto[]
   >([]);
+
+  const categories = data?.categories ?? [];
 
   useEffect(() => {
     if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {

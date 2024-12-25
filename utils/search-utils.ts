@@ -3,7 +3,7 @@
 export interface SearchOptions<T> {
   threshold?: number;
   searchFields?: (keyof T)[];
-  matchMode?: "any" | "all"; // 'any' matches if any word matches, 'all' requires all words to match
+  matchMode?: 'any' | 'all'; // 'any' matches if any word matches, 'all' requires all words to match
 }
 
 export interface Searchable {
@@ -16,8 +16,8 @@ export interface Searchable {
 export const normalizeText = (text: string): string => {
   return text
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 };
 
 /**
@@ -53,7 +53,7 @@ export const calculateSimilarity = (str1: string, str2: string): number => {
         matrix[i][j] = Math.min(
           matrix[i - 1][j - 1] + 1, // substitution
           matrix[i][j - 1] + 1, // insertion
-          matrix[i - 1][j] + 1 // deletion
+          matrix[i - 1][j] + 1, // deletion
         );
       }
     }
@@ -70,7 +70,7 @@ export const calculateSimilarity = (str1: string, str2: string): number => {
 const wordMatchesTarget = (
   searchWord: string,
   targetWords: string[],
-  threshold: number
+  threshold: number,
 ): boolean => {
   return targetWords.some((targetWord) => {
     // Check for exact match after normalization
@@ -87,15 +87,15 @@ const wordMatchesTarget = (
  * Supports multi-word search terms
  */
 //// T extends Searchable should be here
-export const searchItems = <T extends any>(
+export const searchItems = <T>(
   items: T[],
   searchTerm: string,
-  options: SearchOptions<T> = {}
+  options: SearchOptions<T> = {},
 ): T[] => {
   const {
     threshold = 0.7,
     searchFields = Object.keys(items[0] || {}) as (keyof T)[],
-    matchMode = "all",
+    matchMode = 'all',
   } = options;
 
   // Split and normalize search terms
@@ -111,24 +111,23 @@ export const searchItems = <T extends any>(
       const fieldValue = item[field];
 
       // Skip if field value is not a string
-      if (typeof fieldValue !== "string") {
+      if (typeof fieldValue !== 'string') {
         return false;
       }
 
       // Split and normalize field value
       const fieldWords = normalizeAndSplitWords(fieldValue);
 
-      if (matchMode === "all") {
+      if (matchMode === 'all') {
         // All search words must match at least one field word
         return searchWords.every((searchWord) =>
-          wordMatchesTarget(searchWord, fieldWords, threshold)
-        );
-      } else {
-        // At least one search word must match
-        return searchWords.some((searchWord) =>
-          wordMatchesTarget(searchWord, fieldWords, threshold)
+          wordMatchesTarget(searchWord, fieldWords, threshold),
         );
       }
+      // At least one search word must match
+      return searchWords.some((searchWord) =>
+        wordMatchesTarget(searchWord, fieldWords, threshold),
+      );
     });
   });
 };
