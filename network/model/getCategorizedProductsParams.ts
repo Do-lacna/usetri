@@ -6,5 +6,5 @@
  */
 
 export type GetCategorizedProductsParams = {
-category_ids?: number[];
+  category_ids?: number[];
 };

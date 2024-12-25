@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { BASE_API_URL } from "../lib/constants";
 
@@ -42,7 +42,14 @@ apiClient.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
+
+export async function orvalApiClient<T>(
+  config: AxiosRequestConfig,
+  options?: AxiosRequestConfig,
+): Promise<T> {
+  return apiClient({ ...config, ...options }).then(({ data }) => data);
+}
 
 export default apiClient;

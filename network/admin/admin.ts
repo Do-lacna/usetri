@@ -4,32 +4,43 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import { useMutation } from '@tanstack/react-query';
 import type {
   MutationFunction,
   UseMutationOptions,
   UseMutationResult,
-} from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+} from '@tanstack/react-query';
 import type {
   AddCategoryRequest,
   AddShopRequest,
   AddShopResponse,
   ChangeItemPriceRequest,
   ProblemDetails,
-} from ".././model";
-import apiClient from "../api-client";
+} from '.././model';
+import { orvalApiClient } from '.././api-client';
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const addShop = (
   addShopRequest: AddShopRequest,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<AddShopResponse>> => {
-  return apiClient.post(`/shops`, addShopRequest, options);
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<AddShopResponse>(
+    {
+      url: `/shops`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: addShopRequest,
+      signal,
+    },
+    options,
+  );
 };
 
 export const getAddShopMutationOptions = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addShop>>,
@@ -37,14 +48,14 @@ export const getAddShopMutationOptions = <
     { data: AddShopRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addShop>>,
   TError,
   { data: AddShopRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addShop>>,
@@ -52,7 +63,7 @@ export const getAddShopMutationOptions = <
   > = (props) => {
     const { data } = props ?? {};
 
-    return addShop(data, axiosOptions);
+    return addShop(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -62,11 +73,11 @@ export type AddShopMutationResult = NonNullable<
   Awaited<ReturnType<typeof addShop>>
 >;
 export type AddShopMutationBody = AddShopRequest;
-export type AddShopMutationError = AxiosError<ProblemDetails>;
+export type AddShopMutationError = ProblemDetails;
 
 export const useAddShop = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addShop>>,
@@ -74,7 +85,7 @@ export const useAddShop = <
     { data: AddShopRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof addShop>>,
   TError,
@@ -88,18 +99,22 @@ export const useAddShop = <
 export const changePrice = (
   barcode: number,
   changeItemPriceRequest: ChangeItemPriceRequest,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<void>> => {
-  return apiClient.put(
-    `/products/${barcode}/prices`,
-    changeItemPriceRequest,
-    options
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/products/${barcode}/prices`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: changeItemPriceRequest,
+    },
+    options,
   );
 };
 
 export const getChangePriceMutationOptions = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof changePrice>>,
@@ -107,14 +122,14 @@ export const getChangePriceMutationOptions = <
     { barcode: number; data: ChangeItemPriceRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof changePrice>>,
   TError,
   { barcode: number; data: ChangeItemPriceRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof changePrice>>,
@@ -122,7 +137,7 @@ export const getChangePriceMutationOptions = <
   > = (props) => {
     const { barcode, data } = props ?? {};
 
-    return changePrice(barcode, data, axiosOptions);
+    return changePrice(barcode, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -132,11 +147,11 @@ export type ChangePriceMutationResult = NonNullable<
   Awaited<ReturnType<typeof changePrice>>
 >;
 export type ChangePriceMutationBody = ChangeItemPriceRequest;
-export type ChangePriceMutationError = AxiosError<ProblemDetails>;
+export type ChangePriceMutationError = ProblemDetails;
 
 export const useChangePrice = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof changePrice>>,
@@ -144,7 +159,7 @@ export const useChangePrice = <
     { barcode: number; data: ChangeItemPriceRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof changePrice>>,
   TError,
@@ -157,14 +172,24 @@ export const useChangePrice = <
 };
 export const addCategory = (
   addCategoryRequest: AddCategoryRequest,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<AddShopResponse>> => {
-  return apiClient.post(`/categories`, addCategoryRequest, options);
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<AddShopResponse>(
+    {
+      url: `/categories`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: addCategoryRequest,
+      signal,
+    },
+    options,
+  );
 };
 
 export const getAddCategoryMutationOptions = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addCategory>>,
@@ -172,14 +197,14 @@ export const getAddCategoryMutationOptions = <
     { data: AddCategoryRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addCategory>>,
   TError,
   { data: AddCategoryRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addCategory>>,
@@ -187,7 +212,7 @@ export const getAddCategoryMutationOptions = <
   > = (props) => {
     const { data } = props ?? {};
 
-    return addCategory(data, axiosOptions);
+    return addCategory(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -197,11 +222,11 @@ export type AddCategoryMutationResult = NonNullable<
   Awaited<ReturnType<typeof addCategory>>
 >;
 export type AddCategoryMutationBody = AddCategoryRequest;
-export type AddCategoryMutationError = AxiosError<ProblemDetails>;
+export type AddCategoryMutationError = ProblemDetails;
 
 export const useAddCategory = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addCategory>>,
@@ -209,7 +234,7 @@ export const useAddCategory = <
     { data: AddCategoryRequest },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof addCategory>>,
   TError,

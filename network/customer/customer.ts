@@ -4,6 +4,7 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -16,9 +17,7 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from "@tanstack/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+} from '@tanstack/react-query';
 import type {
   AddProductBody,
   AddProductToCartResponse,
@@ -26,26 +25,38 @@ import type {
   ProblemDetails,
   RemoveFromCartBody,
   RemoveFromCartResponse,
-} from ".././model";
-import apiClient from "../api-client";
+} from '.././model';
+import { orvalApiClient } from '.././api-client';
+
+type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const addProduct = (
   addProductBody: AddProductBody,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<AddProductToCartResponse>> => {
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
   const formData = new FormData();
   if (addProductBody.category_ids !== undefined) {
     addProductBody.category_ids.forEach((value) =>
-      formData.append("category_ids", value.toString())
+      formData.append('category_ids', value.toString()),
     );
   }
 
-  return apiClient.post(`/cart`, formData, options);
+  return orvalApiClient<AddProductToCartResponse>(
+    {
+      url: `/cart`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+      signal,
+    },
+    options,
+  );
 };
 
 export const getAddProductMutationOptions = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addProduct>>,
@@ -53,14 +64,14 @@ export const getAddProductMutationOptions = <
     { data: AddProductBody },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addProduct>>,
   TError,
   { data: AddProductBody },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addProduct>>,
@@ -68,7 +79,7 @@ export const getAddProductMutationOptions = <
   > = (props) => {
     const { data } = props ?? {};
 
-    return addProduct(data, axiosOptions);
+    return addProduct(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -78,11 +89,11 @@ export type AddProductMutationResult = NonNullable<
   Awaited<ReturnType<typeof addProduct>>
 >;
 export type AddProductMutationBody = AddProductBody;
-export type AddProductMutationError = AxiosError<ProblemDetails>;
+export type AddProductMutationError = ProblemDetails;
 
 export const useAddProduct = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addProduct>>,
@@ -90,7 +101,7 @@ export const useAddProduct = <
     { data: AddProductBody },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof addProduct>>,
   TError,
@@ -102,9 +113,13 @@ export const useAddProduct = <
   return useMutation(mutationOptions);
 };
 export const getCart = (
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetCartResponse>> => {
-  return apiClient.get(`/cart`, options);
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetCartResponse>(
+    { url: `/cart`, method: 'GET', signal },
+    options,
+  );
 };
 
 export const getGetCartQueryKey = () => {
@@ -113,20 +128,20 @@ export const getGetCartQueryKey = () => {
 
 export const getGetCartQueryOptions = <
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = AxiosError<ProblemDetails>
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getGetCartQueryKey();
 
   const queryFn: QueryFunction<Awaited<ReturnType<typeof getCart>>> = ({
     signal,
-  }) => getCart({ signal, ...axiosOptions });
+  }) => getCart(requestOptions, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof getCart>>,
@@ -138,11 +153,11 @@ export const getGetCartQueryOptions = <
 export type GetCartQueryResult = NonNullable<
   Awaited<ReturnType<typeof getCart>>
 >;
-export type GetCartQueryError = AxiosError<ProblemDetails>;
+export type GetCartQueryError = ProblemDetails;
 
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = AxiosError<ProblemDetails>
+  TError = ProblemDetails,
 >(options: {
   query: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -153,15 +168,15 @@ export function useGetCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData>;
 };
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = AxiosError<ProblemDetails>
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -172,28 +187,28 @@ export function useGetCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = AxiosError<ProblemDetails>
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = AxiosError<ProblemDetails>
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetCartQueryOptions(options);
 
@@ -208,21 +223,29 @@ export function useGetCart<
 
 export const removeFromCart = (
   removeFromCartBody: RemoveFromCartBody,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<RemoveFromCartResponse>> => {
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
   const formData = new FormData();
   if (removeFromCartBody.category_ids !== undefined) {
     removeFromCartBody.category_ids.forEach((value) =>
-      formData.append("category_ids", value.toString())
+      formData.append('category_ids', value.toString()),
     );
   }
 
-  return apiClient.delete(`/cart`, { data: formData, ...options });
+  return orvalApiClient<RemoveFromCartResponse>(
+    {
+      url: `/cart`,
+      method: 'DELETE',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+    },
+    options,
+  );
 };
 
 export const getRemoveFromCartMutationOptions = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeFromCart>>,
@@ -230,14 +253,14 @@ export const getRemoveFromCartMutationOptions = <
     { data: RemoveFromCartBody },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof removeFromCart>>,
   TError,
   { data: RemoveFromCartBody },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof removeFromCart>>,
@@ -245,7 +268,7 @@ export const getRemoveFromCartMutationOptions = <
   > = (props) => {
     const { data } = props ?? {};
 
-    return removeFromCart(data, axiosOptions);
+    return removeFromCart(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -255,11 +278,11 @@ export type RemoveFromCartMutationResult = NonNullable<
   Awaited<ReturnType<typeof removeFromCart>>
 >;
 export type RemoveFromCartMutationBody = RemoveFromCartBody;
-export type RemoveFromCartMutationError = AxiosError<ProblemDetails>;
+export type RemoveFromCartMutationError = ProblemDetails;
 
 export const useRemoveFromCart = <
-  TError = AxiosError<ProblemDetails>,
-  TContext = unknown
+  TError = ProblemDetails,
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeFromCart>>,
@@ -267,7 +290,7 @@ export const useRemoveFromCart = <
     { data: RemoveFromCartBody },
     TContext
   >;
-  axios?: AxiosRequestConfig;
+  request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof removeFromCart>>,
   TError,

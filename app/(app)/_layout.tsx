@@ -1,22 +1,16 @@
-import {  Stack } from "expo-router";
-import { ThemeToggle } from "~/components/ThemeToggle";
-import "~/global.css";
+import { Stack } from 'expo-router';
+import '~/global.css';
 
 export default function AppLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{ headerShown: false, headerRight: () => <ThemeToggle /> }}
-      />
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="product/[id]"
         options={{
-          headerShown: false,
           // Optional: Add presentation style
-          presentation: "card",
+          presentation: 'card',
           // Optional: Add animations
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
         }}
       />
     </Stack>

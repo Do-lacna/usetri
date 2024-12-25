@@ -6,5 +6,5 @@
  */
 
 export type GetProductsByBarcodeParams = {
-restricted_shops?: number[];
+  restricted_shops?: number[];
 };

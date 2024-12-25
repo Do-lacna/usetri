@@ -6,5 +6,5 @@
  */
 
 export type GetCategoriesParams = {
-category_name?: string;
+  category_name?: string;
 };
