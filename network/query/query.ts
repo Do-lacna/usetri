@@ -17,24 +17,24 @@ import type {
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import type {
+  GetCartComparisonParams,
+  GetCartResponse,
   GetCategoriesParams,
-  GetCategorizedProductsParams,
-  GetCategorizedProductsResponse,
   GetCategoryResponse,
   GetProductPricesResponse,
   GetProductsByBarcodeParams,
   GetProductsByBarcodeResponse,
   GetProductsParams,
-  GetProductsResponse,
   GetShopsResponse,
   ProblemDetails,
+  ShopItemListDto,
 } from ".././model";
 import apiClient from "../api-client";
 
 export const getProducts = (
   params?: GetProductsParams,
   options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetProductsResponse>> => {
+): Promise<AxiosResponse<ShopItemListDto[]>> => {
   return apiClient.get(`/products`, {
     ...options,
     params: { ...params, ...options?.params },
@@ -260,14 +260,162 @@ export function useGetShops<
   return query;
 }
 
+export const getCartComparison = (
+  params?: GetCartComparisonParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GetCartResponse>> => {
+  return apiClient.get(`/carts-comparison`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  });
+};
+
+export const getGetCartComparisonQueryKey = (
+  params?: GetCartComparisonParams
+) => {
+  return [`/carts-comparison`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCartComparisonQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = AxiosError<ProblemDetails>
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCartComparisonQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCartComparison>>
+  > = ({ signal }) => getCartComparison(params, { signal, ...axiosOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCartComparison>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type GetCartComparisonQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCartComparison>>
+>;
+export type GetCartComparisonQueryError = AxiosError<ProblemDetails>;
+
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = AxiosError<ProblemDetails>
+>(
+  params: undefined | GetCartComparisonParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCartComparison>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    axios?: AxiosRequestConfig;
+  }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = AxiosError<ProblemDetails>
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCartComparison>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = AxiosError<ProblemDetails>
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = AxiosError<ProblemDetails>
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetCartComparisonQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const getCategories = (
   params?: GetCategoriesParams,
   options?: AxiosRequestConfig
 ): Promise<AxiosResponse<GetCategoryResponse>> => {
-  return apiClient.get(`/categories`, {
+  const response = apiClient.get(`/categories`, {
     ...options,
     params: { ...params, ...options?.params },
   });
+  return response;
 };
 
 export const getGetCategoriesQueryKey = (params?: GetCategoriesParams) => {
@@ -374,154 +522,6 @@ export function useGetCategories<
   }
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetCategoriesQueryOptions(params, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const getCategorizedProducts = (
-  params?: GetCategorizedProductsParams,
-  options?: AxiosRequestConfig
-): Promise<AxiosResponse<GetCategorizedProductsResponse>> => {
-  return apiClient.get(`/categorized-products`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  });
-};
-
-export const getGetCategorizedProductsQueryKey = (
-  params?: GetCategorizedProductsParams
-) => {
-  return [`/categorized-products`, ...(params ? [params] : [])] as const;
-};
-
-export const getGetCategorizedProductsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = AxiosError<ProblemDetails>
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    axios?: AxiosRequestConfig;
-  }
-) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetCategorizedProductsQueryKey(params);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getCategorizedProducts>>
-  > = ({ signal }) =>
-    getCategorizedProducts(params, { signal, ...axiosOptions });
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getCategorizedProducts>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> };
-};
-
-export type GetCategorizedProductsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getCategorizedProducts>>
->;
-export type GetCategorizedProductsQueryError = AxiosError<ProblemDetails>;
-
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = AxiosError<ProblemDetails>
->(
-  params: undefined | GetCategorizedProductsParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCategorizedProducts>>,
-          TError,
-          TData
-        >,
-        "initialData"
-      >;
-    axios?: AxiosRequestConfig;
-  }
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>;
-};
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = AxiosError<ProblemDetails>
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCategorizedProducts>>,
-          TError,
-          TData
-        >,
-        "initialData"
-      >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = AxiosError<ProblemDetails>
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = AxiosError<ProblemDetails>
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    axios?: AxiosRequestConfig;
-  }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetCategorizedProductsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>;

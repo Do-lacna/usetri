@@ -19,7 +19,7 @@ apiClient.interceptors.request.use(async (config) => {
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    config.headers["user-id"] = `Bearer ${token}`;
+    config.headers["user-id"] = userId;
   }
   return config;
 });

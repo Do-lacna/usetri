@@ -6,6 +6,6 @@
  */
 import type { ShopCart } from './shopCart';
 
-export interface GetCartResponse {
+export interface CreateCartResponse {
   cart?: ShopCart;
 }

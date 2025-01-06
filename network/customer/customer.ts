@@ -20,95 +20,258 @@ import type {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import type {
-  AddProductBody,
-  AddProductToCartResponse,
+  CreateArchivedCartRequest,
+  CreateCartRequest,
+  CreateCartResponse,
+  GetArchivedCartResponse,
   GetCartResponse,
   ProblemDetails,
-  RemoveFromCartBody,
-  RemoveFromCartResponse,
 } from ".././model";
 import apiClient from "../api-client";
 
-export const addProduct = (
-  addProductBody: AddProductBody,
+export const createArchivedCart = (
+  createArchivedCartRequest: CreateArchivedCartRequest,
   options?: AxiosRequestConfig
-): Promise<AxiosResponse<AddProductToCartResponse>> => {
-  const formData = new FormData();
-  if (addProductBody.category_ids !== undefined) {
-    addProductBody.category_ids.forEach((value) =>
-      formData.append("category_ids", value.toString())
-    );
-  }
-
-  return apiClient.post(`/cart`, formData, options);
+): Promise<AxiosResponse<void>> => {
+  return apiClient.post(`/archived-carts`, createArchivedCartRequest, options);
 };
 
-export const getAddProductMutationOptions = <
+export const getCreateArchivedCartMutationOptions = <
   TError = AxiosError<ProblemDetails>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addProduct>>,
+    Awaited<ReturnType<typeof createArchivedCart>>,
     TError,
-    { data: AddProductBody },
+    { data: CreateArchivedCartRequest },
     TContext
   >;
   axios?: AxiosRequestConfig;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof addProduct>>,
+  Awaited<ReturnType<typeof createArchivedCart>>,
   TError,
-  { data: AddProductBody },
+  { data: CreateArchivedCartRequest },
   TContext
 > => {
   const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof addProduct>>,
-    { data: AddProductBody }
+    Awaited<ReturnType<typeof createArchivedCart>>,
+    { data: CreateArchivedCartRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return addProduct(data, axiosOptions);
+    return createArchivedCart(data, axiosOptions);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type AddProductMutationResult = NonNullable<
-  Awaited<ReturnType<typeof addProduct>>
+export type CreateArchivedCartMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createArchivedCart>>
 >;
-export type AddProductMutationBody = AddProductBody;
-export type AddProductMutationError = AxiosError<ProblemDetails>;
+export type CreateArchivedCartMutationBody = CreateArchivedCartRequest;
+export type CreateArchivedCartMutationError = AxiosError<ProblemDetails>;
 
-export const useAddProduct = <
+export const useCreateArchivedCart = <
   TError = AxiosError<ProblemDetails>,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addProduct>>,
+    Awaited<ReturnType<typeof createArchivedCart>>,
     TError,
-    { data: AddProductBody },
+    { data: CreateArchivedCartRequest },
     TContext
   >;
   axios?: AxiosRequestConfig;
 }): UseMutationResult<
-  Awaited<ReturnType<typeof addProduct>>,
+  Awaited<ReturnType<typeof createArchivedCart>>,
   TError,
-  { data: AddProductBody },
+  { data: CreateArchivedCartRequest },
   TContext
 > => {
-  const mutationOptions = getAddProductMutationOptions(options);
+  const mutationOptions = getCreateArchivedCartMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getArchivedCart = (
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GetArchivedCartResponse>> => {
+  return apiClient.get(`/archived-carts`, options);
+};
+
+export const getGetArchivedCartQueryKey = () => {
+  return [`/archived-carts`] as const;
+};
+
+export const getGetArchivedCartQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = AxiosError<ProblemDetails>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetArchivedCartQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchivedCart>>> = ({
+    signal,
+  }) => getArchivedCart({ signal, ...axiosOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getArchivedCart>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type GetArchivedCartQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArchivedCart>>
+>;
+export type GetArchivedCartQueryError = AxiosError<ProblemDetails>;
+
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = AxiosError<ProblemDetails>
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getArchivedCart>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+  axios?: AxiosRequestConfig;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = AxiosError<ProblemDetails>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getArchivedCart>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = AxiosError<ProblemDetails>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = AxiosError<ProblemDetails>
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  axios?: AxiosRequestConfig;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetArchivedCartQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const createCart = (
+  createCartRequest: CreateCartRequest,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<CreateCartResponse>> => {
+  return apiClient.put(`/carts`, createCartRequest, options);
+};
+
+export const getCreateCartMutationOptions = <
+  TError = AxiosError<ProblemDetails>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCart>>,
+    TError,
+    { data: CreateCartRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createCart>>,
+  TError,
+  { data: CreateCartRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createCart>>,
+    { data: CreateCartRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createCart(data, axiosOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateCartMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createCart>>
+>;
+export type CreateCartMutationBody = CreateCartRequest;
+export type CreateCartMutationError = AxiosError<ProblemDetails>;
+
+export const useCreateCart = <
+  TError = AxiosError<ProblemDetails>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createCart>>,
+    TError,
+    { data: CreateCartRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createCart>>,
+  TError,
+  { data: CreateCartRequest },
+  TContext
+> => {
+  const mutationOptions = getCreateCartMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 export const getCart = (
   options?: AxiosRequestConfig
 ): Promise<AxiosResponse<GetCartResponse>> => {
-  return apiClient.get(`/cart`, options);
+  return apiClient.get(`/carts`, options);
 };
 
 export const getGetCartQueryKey = () => {
-  return [`/cart`] as const;
+  return [`/carts`] as const;
 };
 
 export const getGetCartQueryOptions = <
@@ -207,17 +370,9 @@ export function useGetCart<
 }
 
 export const removeFromCart = (
-  removeFromCartBody: RemoveFromCartBody,
   options?: AxiosRequestConfig
-): Promise<AxiosResponse<RemoveFromCartResponse>> => {
-  const formData = new FormData();
-  if (removeFromCartBody.category_ids !== undefined) {
-    removeFromCartBody.category_ids.forEach((value) =>
-      formData.append("category_ids", value.toString())
-    );
-  }
-
-  return apiClient.delete(`/cart`, { data: formData, ...options });
+): Promise<AxiosResponse<void>> => {
+  return apiClient.delete(`/carts`, options);
 };
 
 export const getRemoveFromCartMutationOptions = <
@@ -227,25 +382,23 @@ export const getRemoveFromCartMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeFromCart>>,
     TError,
-    { data: RemoveFromCartBody },
+    void,
     TContext
   >;
   axios?: AxiosRequestConfig;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof removeFromCart>>,
   TError,
-  { data: RemoveFromCartBody },
+  void,
   TContext
 > => {
   const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof removeFromCart>>,
-    { data: RemoveFromCartBody }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return removeFromCart(data, axiosOptions);
+    void
+  > = () => {
+    return removeFromCart(axiosOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -254,7 +407,7 @@ export const getRemoveFromCartMutationOptions = <
 export type RemoveFromCartMutationResult = NonNullable<
   Awaited<ReturnType<typeof removeFromCart>>
 >;
-export type RemoveFromCartMutationBody = RemoveFromCartBody;
+
 export type RemoveFromCartMutationError = AxiosError<ProblemDetails>;
 
 export const useRemoveFromCart = <
@@ -264,14 +417,14 @@ export const useRemoveFromCart = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeFromCart>>,
     TError,
-    { data: RemoveFromCartBody },
+    void,
     TContext
   >;
   axios?: AxiosRequestConfig;
 }): UseMutationResult<
   Awaited<ReturnType<typeof removeFromCart>>,
   TError,
-  { data: RemoveFromCartBody },
+  void,
   TContext
 > => {
   const mutationOptions = getRemoveFromCartMutationOptions(options);
