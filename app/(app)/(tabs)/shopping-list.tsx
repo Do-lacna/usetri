@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import EmptyShoppingListPlaceholderScreen from "../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import SearchBar from "../../../components/ui/search-bar";
+import ShoppingListItem from "../../../components/ui/shopping-list-item";
 import useCartStore from "../../../hooks/use-cart-store";
 import { isArrayNotEmpty } from "../../../lib/utils";
 import { useCreateCart, useGetCart } from "../../../network/customer/customer";
@@ -34,8 +35,6 @@ export default function Page() {
   const { data: { data: { cart } = {} } = {} } = useGetCart();
 
   const { mirrorCartState } = useCartStore();
-
-  console.log(isLoading);
 
   const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<
@@ -82,6 +81,7 @@ export default function Page() {
         )}
         keyExtractor={(item) => String(item.id)}
       />
+      <ShoppingListItem label="Test" onDelete={() => {}} />
       <EmptyShoppingListPlaceholderScreen />
     </View>
   );
