@@ -1,11 +1,11 @@
 import auth, { type FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { deleteItemAsync, setItemAsync } from "expo-secure-store";
 import {
-	type PropsWithChildren,
-	createContext,
-	useContext,
-	useEffect,
-	useState,
+  type PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 import { AUTH_TOKEN, USER_ID } from "../network/api-client";
 import { useStorageState } from "./useStorageState";

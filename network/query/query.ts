@@ -16,17 +16,17 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 import type {
+  GetCartComparisonParams,
+  GetCartResponse,
   GetCategoriesParams,
-  GetCategorizedProductsParams,
-  GetCategorizedProductsResponse,
   GetCategoryResponse,
   GetProductPricesResponse,
   GetProductsByBarcodeParams,
   GetProductsByBarcodeResponse,
   GetProductsParams,
-  GetProductsResponse,
   GetShopsResponse,
   ProblemDetails,
+  ShopItemListDto,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -37,7 +37,7 @@ export const getProducts = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
-  return orvalApiClient<GetProductsResponse>(
+  return orvalApiClient<ShopItemListDto[]>(
     { url: `/products`, method: 'GET', params, signal },
     options,
   );
@@ -266,6 +266,154 @@ export function useGetShops<
   return query;
 }
 
+export const getCartComparison = (
+  params?: GetCartComparisonParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetCartResponse>(
+    { url: `/carts-comparison`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetCartComparisonQueryKey = (
+  params?: GetCartComparisonParams,
+) => {
+  return [`/carts-comparison`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCartComparisonQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCartComparisonQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCartComparison>>
+  > = ({ signal }) => getCartComparison(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCartComparison>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> };
+};
+
+export type GetCartComparisonQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCartComparison>>
+>;
+export type GetCartComparisonQueryError = ProblemDetails;
+
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = ProblemDetails,
+>(
+  params: undefined | GetCartComparisonParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCartComparison>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCartComparison>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useGetCartComparison<
+  TData = Awaited<ReturnType<typeof getCartComparison>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCartComparisonParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCartComparison>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetCartComparisonQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const getCategories = (
   params?: GetCategoriesParams,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -381,154 +529,6 @@ export function useGetCategories<
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetCategoriesQueryOptions(params, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const getCategorizedProducts = (
-  params?: GetCategorizedProductsParams,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetCategorizedProductsResponse>(
-    { url: `/categorized-products`, method: 'GET', params, signal },
-    options,
-  );
-};
-
-export const getGetCategorizedProductsQueryKey = (
-  params?: GetCategorizedProductsParams,
-) => {
-  return [`/categorized-products`, ...(params ? [params] : [])] as const;
-};
-
-export const getGetCategorizedProductsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = ProblemDetails,
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetCategorizedProductsQueryKey(params);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getCategorizedProducts>>
-  > = ({ signal }) => getCategorizedProducts(params, requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getCategorizedProducts>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData> };
-};
-
-export type GetCategorizedProductsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getCategorizedProducts>>
->;
-export type GetCategorizedProductsQueryError = ProblemDetails;
-
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = ProblemDetails,
->(
-  params: undefined | GetCategorizedProductsParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCategorizedProducts>>,
-          TError,
-          TData
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>;
-};
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = ProblemDetails,
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getCategorizedProducts>>,
-          TError,
-          TData
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = ProblemDetails,
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-export function useGetCategorizedProducts<
-  TData = Awaited<ReturnType<typeof getCategorizedProducts>>,
-  TError = ProblemDetails,
->(
-  params?: GetCategorizedProductsParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getCategorizedProducts>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetCategorizedProductsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>;

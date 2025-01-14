@@ -4,8 +4,7 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopCart } from './shopCart';
 
-export interface GetCartResponse {
-  cart?: ShopCart;
-}
+export type UploadFileBody = {
+  file?: Blob;
+};

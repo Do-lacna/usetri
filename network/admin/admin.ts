@@ -11,7 +11,7 @@ import type {
   UseMutationResult,
 } from '@tanstack/react-query';
 import type {
-  AddCategoryRequest,
+  AddProductRequest,
   AddShopRequest,
   AddShopResponse,
   ChangeItemPriceRequest,
@@ -21,6 +21,81 @@ import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const addProduct = (
+  addProductRequest: AddProductRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/products`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: addProductRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getAddProductMutationOptions = <
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addProduct>>,
+    TError,
+    { data: AddProductRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addProduct>>,
+  TError,
+  { data: AddProductRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addProduct>>,
+    { data: AddProductRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return addProduct(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type AddProductMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addProduct>>
+>;
+export type AddProductMutationBody = AddProductRequest;
+export type AddProductMutationError = ProblemDetails;
+
+export const useAddProduct = <
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addProduct>>,
+    TError,
+    { data: AddProductRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof addProduct>>,
+  TError,
+  { data: AddProductRequest },
+  TContext
+> => {
+  const mutationOptions = getAddProductMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const addShop = (
   addShopRequest: AddShopRequest,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -167,81 +242,6 @@ export const useChangePrice = <
   TContext
 > => {
   const mutationOptions = getChangePriceMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-export const addCategory = (
-  addCategoryRequest: AddCategoryRequest,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<AddShopResponse>(
-    {
-      url: `/categories`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: addCategoryRequest,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getAddCategoryMutationOptions = <
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addCategory>>,
-    TError,
-    { data: AddCategoryRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof addCategory>>,
-  TError,
-  { data: AddCategoryRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof addCategory>>,
-    { data: AddCategoryRequest }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return addCategory(data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type AddCategoryMutationResult = NonNullable<
-  Awaited<ReturnType<typeof addCategory>>
->;
-export type AddCategoryMutationBody = AddCategoryRequest;
-export type AddCategoryMutationError = ProblemDetails;
-
-export const useAddCategory = <
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addCategory>>,
-    TError,
-    { data: AddCategoryRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof addCategory>>,
-  TError,
-  { data: AddCategoryRequest },
-  TContext
-> => {
-  const mutationOptions = getAddCategoryMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

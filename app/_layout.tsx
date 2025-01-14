@@ -1,9 +1,9 @@
 import "~/global.css";
 
 import {
-	DefaultTheme,
-	type Theme,
-	ThemeProvider,
+  DefaultTheme,
+  type Theme,
+  ThemeProvider,
 } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
+import Toast from "react-native-toast-message";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
@@ -29,8 +30,8 @@ const DARK_THEME: Theme = {
 };
 
 export {
-	// Catch any errors thrown by the Layout component.
-	ErrorBoundary,
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary
 } from "expo-router";
 
 const queryClient = new QueryClient();
@@ -79,6 +80,7 @@ export default function RootLayout() {
 					<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
 					<Slot />
 					<PortalHost />
+          <Toast />
 				</ThemeProvider>
 			</SessionProvider>
 		</QueryClientProvider>
