@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import DiscountList from '~/components/ui/discount-list';
 import SearchBar from '~/components/ui/search-bar';
 import { useSession } from '~/context/authentication-context';
+import { resetAndRedirect } from '~/utils/navigation-utils';
 import { type SearchOptions, searchItems } from '~/utils/search-utils';
 import { Button } from '../../../../components/ui/button';
 import { isArrayNotEmpty } from '../../../../lib/utils';
@@ -37,6 +38,11 @@ export default function Page() {
     search: searchQuery,
   });
 
+  const performSignOut = () => {
+    signOut();
+    resetAndRedirect('/');
+  };
+
   // console.log(products);
 
   React.useEffect(() => {
@@ -54,7 +60,7 @@ export default function Page() {
 
   return (
     <View className="px-2">
-      <Button onPress={signOut}>
+      <Button onPress={performSignOut}>
         <Text>Sign Out</Text>
       </Button>
       <SearchBar<ProductDto>
