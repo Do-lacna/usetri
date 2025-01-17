@@ -6,6 +6,6 @@
  */
 
 export type GetCartComparisonParams = {
-CategoryIds?: number[];
-Barcodes?: number[];
+  CategoryIds?: number[];
+  Barcodes?: number[];
 };
