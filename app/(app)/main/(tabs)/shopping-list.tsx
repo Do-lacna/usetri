@@ -1,56 +1,48 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import Toast from 'react-native-toast-message';
-import EmptyShoppingListPlaceholderScreen from '../../../../components/placeholders/empty-shopping-list-placeholder-screen';
-import SearchBar from '../../../../components/ui/search-bar';
-import ShoppingListItem from '../../../../components/ui/shopping-list-item';
-import useCartStore from '../../../../hooks/use-cart-store';
-import { isArrayNotEmpty } from '../../../../lib/utils';
+import React from "react";
+import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
+import PriceSummary from "../../../../components/ui/price-summary";
+import SearchBar from "../../../../components/ui/search-bar";
+import ShoppingListItem from "../../../../components/ui/shopping-list-item";
+import useCartStore from "../../../../hooks/use-cart-store";
+import { isArrayNotEmpty } from "../../../../lib/utils";
 import {
   useCreateCart,
   useGetCart,
-} from '../../../../network/customer/customer';
-import type { CategoryExtendedWithPathDto } from '../../../../network/model';
-import { useGetCategories } from '../../../../network/query/query';
+} from "../../../../network/customer/customer";
+import type { CategoryExtendedWithPathDto } from "../../../../network/model";
+import { useGetCategories } from "../../../../network/query/query";
 import {
   type SearchOptions,
   searchItems,
-} from '../../../../utils/search-utils';
+} from "../../../../utils/search-utils";
 
 const options: SearchOptions<CategoryExtendedWithPathDto> = {
   threshold: 0.7,
-  searchFields: ['name'],
-  matchMode: 'all', // Use 'all' to require all words to match, 'any' for partial matches
+  searchFields: ["name"],
+  matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
 export default function Page() {
-  const {
-    data: {
-      data: { categories = [] } = {},
-    } = {},
-    isLoading,
-  } = useGetCategories();
+  const { data: { categories = [] } = {}, isLoading } = useGetCategories();
 
   const { mutate: sendUpdateCart, isIdle } = useCreateCart({
     mutation: {
       onError: () => {
         Toast.show({
-          type: 'error',
-          text1: 'Failed to update cart',
-          position: 'bottom',
+          type: "error",
+          text1: "Failed to update cart",
+          position: "bottom",
         });
       },
     },
   });
-  const {
-    data: {
-      data: { cart } = {},
-    } = {},
-  } = useGetCart();
+  const { data: { cart } = {} } = ({} = useGetCart());
 
   const { mirrorCartState } = useCartStore();
 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<
     CategoryExtendedWithPathDto[]
   >([]);
@@ -83,10 +75,10 @@ export default function Page() {
   };
 
   return (
-    <View className="px-2">
+    <View className="px-2 flex-1">
       <SearchBar<CategoryExtendedWithPathDto>
         onSearch={setSearchQuery}
-        onClear={() => setSearchQuery('')}
+        onClear={() => setSearchQuery("")}
         searchText={searchQuery}
         options={searchResults}
         onOptionSelect={handleAddToCart}
@@ -97,6 +89,10 @@ export default function Page() {
       />
       <ShoppingListItem label="Test" onDelete={() => {}} />
       <EmptyShoppingListPlaceholderScreen />
+      <PriceSummary
+        price={12.5}
+        onPress={() => console.log("summary pressed")}
+      />
     </View>
   );
 }

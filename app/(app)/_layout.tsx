@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
-import '~/global.css';
+import { Stack } from "expo-router";
+import "~/global.css";
 
 export default function AppLayout() {
   return (
@@ -8,9 +8,15 @@ export default function AppLayout() {
         name="product/[id]"
         options={{
           // Optional: Add presentation style
-          presentation: 'card',
+          presentation: "card",
           // Optional: Add animations
-          animation: 'slide_from_right',
+          animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="main/modal/index"
+        options={{
+          presentation: "modal",
         }}
       />
     </Stack>

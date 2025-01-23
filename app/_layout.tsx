@@ -19,19 +19,19 @@ import { getTheme, setTheme } from "~/persistence/theme-storage";
 import { SessionProvider } from "../context/authentication-context";
 
 const LIGHT_THEME: Theme = {
-	...DefaultTheme,
-	dark: false,
-	colors: NAV_THEME.light,
+  ...DefaultTheme,
+  dark: false,
+  colors: NAV_THEME.light,
 };
 const DARK_THEME: Theme = {
-	...DefaultTheme,
-	dark: true,
-	colors: NAV_THEME.dark,
+  ...DefaultTheme,
+  dark: true,
+  colors: NAV_THEME.dark,
 };
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from "expo-router";
 
 const queryClient = new QueryClient();
@@ -40,49 +40,49 @@ const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-	const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
 
-	useEffect(() => {
-		(async () => {
-			const theme = getTheme();
-			if (Platform.OS === "web") {
-				// Adds the background color to the html element to prevent white background on overscroll.
-				document.documentElement.classList.add("bg-background");
-			}
-			if (!theme) {
-				setTheme(colorScheme);
-				setIsColorSchemeLoaded(true);
-				return;
-			}
-			const colorTheme = theme === "dark" ? "dark" : "light";
-			if (colorTheme !== colorScheme) {
-				setColorScheme(colorTheme);
-				setAndroidNavigationBar(colorTheme);
-				setIsColorSchemeLoaded(true);
-				return;
-			}
-			setAndroidNavigationBar(colorTheme);
-			setIsColorSchemeLoaded(true);
-		})().finally(() => {
-			SplashScreen.hideAsync();
-		});
-	}, []);
+  useEffect(() => {
+    (async () => {
+      const theme = getTheme();
+      if (Platform.OS === "web") {
+        // Adds the background color to the html element to prevent white background on overscroll.
+        document.documentElement.classList.add("bg-background");
+      }
+      if (!theme) {
+        setTheme(colorScheme);
+        setIsColorSchemeLoaded(true);
+        return;
+      }
+      const colorTheme = theme === "dark" ? "dark" : "light";
+      if (colorTheme !== colorScheme) {
+        setColorScheme(colorTheme);
+        setAndroidNavigationBar(colorTheme);
+        setIsColorSchemeLoaded(true);
+        return;
+      }
+      setAndroidNavigationBar(colorTheme);
+      setIsColorSchemeLoaded(true);
+    })().finally(() => {
+      SplashScreen.hideAsync();
+    });
+  }, []);
 
-	if (!isColorSchemeLoaded) {
-		return null;
-	}
+  if (!isColorSchemeLoaded) {
+    return null;
+  }
 
-	return (
-		<QueryClientProvider client={queryClient}>
-			<SessionProvider>
-				<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-					<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-					<Slot />
-					<PortalHost />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Slot />
+          <PortalHost />
           <Toast />
-				</ThemeProvider>
-			</SessionProvider>
-		</QueryClientProvider>
-	);
+        </ThemeProvider>
+      </SessionProvider>
+    </QueryClientProvider>
+  );
 }

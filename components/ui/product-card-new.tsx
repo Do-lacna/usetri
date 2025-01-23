@@ -30,8 +30,6 @@ const ProductCardNew = ({ product, onPress }: IProductCardProps) => {
     id,
   } = product;
 
-  console.log(retailer_ids);
-
   return (
     <Link asChild href={`/product/${product.id}`}>
       <Pressable className="w-40 mr-20 last:mr-0">

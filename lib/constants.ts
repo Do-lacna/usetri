@@ -19,4 +19,6 @@ export const NAV_THEME = {
 
 export const PRIMARY_HEX = "#16a34a";
 
+export const NAVBAR_HEIGHT = 70;
+
 export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";
