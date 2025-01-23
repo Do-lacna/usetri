@@ -29,6 +29,7 @@ export default function ProductDetailScreen() {
         options={{
           headerShown: true,
           headerBackTitle: "Back",
+          // headerBackTitleStyle: { fontSize: 22 },
           headerTitle: "Product Details",
           // Add any other screen options you need
         }}

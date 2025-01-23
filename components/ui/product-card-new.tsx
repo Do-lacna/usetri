@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
+import { SvgUri } from "react-native-svg";
 
 export interface IProduct {
   id: string;
@@ -9,6 +10,7 @@ export interface IProduct {
   brand?: string;
   amount?: string;
   price?: string;
+  retailer_ids?: number[];
   [key: string]: any; // Index signature
 }
 
@@ -18,7 +20,17 @@ export interface IProductCardProps {
 }
 
 const ProductCardNew = ({ product, onPress }: IProductCardProps) => {
-  const { imageUrl, name, brand, amount, price, id } = product;
+  const {
+    imageUrl,
+    name,
+    brand,
+    amount,
+    price,
+    retailer_ids = [],
+    id,
+  } = product;
+
+  console.log(retailer_ids);
 
   return (
     <Link asChild href={`/product/${product.id}`}>
@@ -41,6 +53,17 @@ const ProductCardNew = ({ product, onPress }: IProductCardProps) => {
               </View>
               <Text className="text-sm font-bold">{price}</Text>
             </View>
+          </View>
+          <View className="flex-row gap-x-2 mt-1">
+            {retailer_ids.map((retailer, index) => (
+              <SvgUri
+                key={index}
+                width="20"
+                height="20"
+                uri="https://upload.wikimedia.org/wikipedia/commons/9/91/Lidl-Logo.svg"
+                style={{ borderRadius: 50 }}
+              />
+            ))}
           </View>
         </View>
       </Pressable>

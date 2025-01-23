@@ -10,6 +10,7 @@ import { ChevronDown } from "~/lib/icons/ChevronDown";
 import { ChevronUp } from "~/lib/icons/ChevronUp";
 import { Trash2 } from "~/lib/icons/Trash";
 import { useGetProducts } from "../../network/query/query";
+import ProductCardNew from "./product-card-new";
 
 interface IShoppingListItemProps {
   label: string;
@@ -95,6 +96,22 @@ const ShoppingListItem = ({
                 <Text className="text-gray-600">${product.price}</Text>
               </View>
             ))} */}
+              <ProductCardNew
+                product={{
+                  id: "123",
+                  amount: "0.5 l",
+                  imageUrl:
+                    "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+                  brand: "Kelt",
+                  name: "Svetle pivo",
+                  price: "15.5",
+                  description: "A beer that is light and refreshing.",
+                  retailer_ids: [1, 2, 3],
+                }}
+                onPress={() => {
+                  console.log("Product selected:", 123);
+                }}
+              />
             </View>
           </ScrollView>
         ))}

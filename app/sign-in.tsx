@@ -1,13 +1,13 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
-import { Controller, useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
-import type { z } from 'zod';
-import { signInSchema } from '~/schema/signin';
-import { resetAndRedirect } from '~/utils/navigation-utils';
-import { Button } from '../components/ui/button';
-import { GoogleSignIn } from '../components/ui/google-sign-in';
-import { Input } from '../components/ui/input';
+import { zodResolver } from "@hookform/resolvers/zod";
+import auth, { signInWithEmailAndPassword } from "@react-native-firebase/auth";
+import { Controller, useForm } from "react-hook-form";
+import { Text, View } from "react-native";
+import type { z } from "zod";
+import { signInSchema } from "~/schema/signin";
+import { resetAndRedirect } from "~/utils/navigation-utils";
+import { Button } from "../components/ui/button";
+import { GoogleSignIn } from "../components/ui/google-sign-in";
+import { Input } from "../components/ui/input";
 
 export default function SignIn() {
   const {
@@ -15,7 +15,7 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors, touchedFields, isValid, isDirty },
   } = useForm({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: "", password: "" },
     resolver: zodResolver(signInSchema),
   });
 
@@ -24,11 +24,11 @@ export default function SignIn() {
     password,
   }: z.infer<typeof signInSchema>) => {
     signInWithEmailAndPassword(auth(), email, password)
-      .then(() => resetAndRedirect('/main'))
+      .then(() => resetAndRedirect("/main"))
       .catch(console.error);
   };
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <GoogleSignIn />
       <Controller
         control={control}
