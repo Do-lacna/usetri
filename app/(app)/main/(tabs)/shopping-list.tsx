@@ -25,7 +25,10 @@ const options: SearchOptions<CategoryExtendedWithPathDto> = {
 };
 
 export default function Page() {
-  const { data: { categories = [] } = {}, isLoading } = useGetCategories();
+  const { data: { categories = [] } = {}, isLoading } = useGetCategories(
+    {},
+    { query: { enabled: false } }
+  );
 
   const { mutate: sendUpdateCart, isIdle } = useCreateCart({
     mutation: {
@@ -92,16 +95,15 @@ export default function Page() {
         )}
         keyExtractor={(item) => String(item.id)}
       />
-      <ShoppingListItem label="Test" onDelete={() => {}} />
-      {/* 
-        {cartCategories.map(({ name, id }) => (
-          <ShoppingListItem
-            key={id}
-            label={name}
-            categoryId={id}
-            onDelete={() => {}}
-          />
-        ))} */}
+
+      {cartCategories.map(({ category_id, category_name = "Category" }) => (
+        <ShoppingListItem
+          key={category_id}
+          label={category_name}
+          categoryId={category_id}
+          onDelete={() => {}}
+        />
+      ))}
 
       {cartProducts.map(
         ({

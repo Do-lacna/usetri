@@ -29,11 +29,11 @@ const ShoppingListItem = ({
 }: IShoppingListItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { data: { data = {} } = {}, isLoading } = useGetProducts(
+  const { data: suggestedProducts = [], isLoading } = useGetProducts(
     {
       category_id: categoryId,
     },
-    { query: { enabled: !!categoryId } }
+    { query: { enabled: !!categoryId && isExpanded } }
   );
 
   useEffect(() => {
@@ -96,7 +96,22 @@ const ShoppingListItem = ({
                 <Text className="text-gray-600">${product.price}</Text>
               </View>
             ))} */}
-              <ProductCardNew
+              {suggestedProducts.map(
+                (
+                  { barcode, products = [], available_shop_ids = [] },
+                  index
+                ) => (
+                  <ProductCardNew
+                    key={barcode || index}
+                    product={products?.[0]}
+                    availableShopIds={available_shop_ids}
+                    onPress={() => {
+                      console.log("Product selected:", barcode);
+                    }}
+                  />
+                )
+              )}
+              {/* <ProductCardNew
                 product={{
                   id: "123",
                   amount: "0.5 l",
@@ -111,7 +126,7 @@ const ShoppingListItem = ({
                 onPress={() => {
                   console.log("Product selected:", 123);
                 }}
-              />
+              /> */}
             </View>
           </ScrollView>
         ))}

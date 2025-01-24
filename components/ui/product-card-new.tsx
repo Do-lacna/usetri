@@ -2,6 +2,7 @@ import { Link } from "expo-router";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { SvgUri } from "react-native-svg";
+import { ShopItemDto } from "../../network/model";
 
 export interface IProduct {
   id: string;
@@ -15,27 +16,35 @@ export interface IProduct {
 }
 
 export interface IProductCardProps {
-  product: IProduct;
+  product?: ShopItemDto;
+  availableShopIds: number[] | null;
   onPress?: () => void;
 }
 
-const ProductCardNew = ({ product, onPress }: IProductCardProps) => {
+const ProductCardNew = ({
+  product,
+  availableShopIds = [],
+  onPress,
+}: IProductCardProps) => {
   const {
-    imageUrl,
-    name,
-    brand,
-    amount,
-    price,
-    retailer_ids = [],
-    id,
-  } = product;
+    detail: {
+      // imageUrl = "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+      name,
+      brand,
+      amount,
+      barcode,
+    } = {},
+    price = 0,
+  } = { ...product };
 
   return (
-    <Link asChild href={`/product/${product.id}`}>
+    <Link asChild href={`/product/${barcode}`}>
       <Pressable className="w-40 mr-20 last:mr-0">
         <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
           <Image
-            source={{ uri: imageUrl }}
+            source={{
+              uri: "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+            }}
             className="w-full h-36 rounded-lg"
             resizeMode="cover"
           />
@@ -53,7 +62,7 @@ const ProductCardNew = ({ product, onPress }: IProductCardProps) => {
             </View>
           </View>
           <View className="flex-row gap-x-2 mt-1">
-            {retailer_ids.map((retailer, index) => (
+            {availableShopIds?.map((retailer, index) => (
               <SvgUri
                 key={index}
                 width="20"
