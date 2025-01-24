@@ -1,122 +1,131 @@
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { products } from "~/test/test-data";
+import { ChevronRight } from "lucide-react-native";
+import React, { useState } from "react";
+import { Dimensions, Text, View } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 
-export default function ShoppingSummary() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
-
-  // In a real app, you'd fetch product data based on the id
-  const product = {
-    ...products[0],
-    prices: [
-      { store: "Budget Market", price: "119.99", distance: "0.8 mi" },
-      { store: "Super Store", price: "124.99", distance: "1.2 mi" },
-      { store: "Premium Goods", price: "129.99", distance: "0.5 mi" },
-      { store: "City Market", price: "134.99", distance: "2.1 mi" },
+// Mock data for shops and groceries
+const mockShops = [
+  {
+    id: 1,
+    name: "Cheapest Market",
+    totalPrice: 45.5,
+    groceries: [
+      { id: 1, name: "Apples", quantity: 2, price: 3.99 },
+      { id: 2, name: "Milk", quantity: 1, price: 2.5 },
+      { id: 3, name: "Bread", quantity: 1, price: 4.2 },
+      { id: 4, name: "Eggs", quantity: 12, price: 5.99 },
+      { id: 5, name: "Chicken", quantity: 1, price: 7.8 },
     ],
-  };
+  },
+  {
+    id: 2,
+    name: "Fresh Mart",
+    totalPrice: 48.75,
+    groceries: [
+      { id: 1, name: "Apples", quantity: 2, price: 4.5 },
+      { id: 2, name: "Milk", quantity: 1, price: 3.0 },
+      { id: 3, name: "Bread", quantity: 1, price: 4.5 },
+      { id: 4, name: "Eggs", quantity: 12, price: 6.5 },
+      { id: 5, name: "Chicken", quantity: 1, price: 8.25 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Grocery World",
+    totalPrice: 47.2,
+    groceries: [
+      { id: 1, name: "Apples", quantity: 2, price: 4.2 },
+      { id: 2, name: "Milk", quantity: 1, price: 2.75 },
+      { id: 3, name: "Bread", quantity: 1, price: 4.35 },
+      { id: 4, name: "Eggs", quantity: 12, price: 6.2 },
+      { id: 5, name: "Chicken", quantity: 1, price: 8.0 },
+    ],
+  },
+];
 
-  // Sort prices from lowest to highest
-  const sortedPrices = [...product.prices].sort(
-    (a, b) => parseFloat(a.price) - parseFloat(b.price)
+const GroceryPriceComparisonScreen = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const width = Dimensions.get("window").width;
+  const h = Dimensions.get("window").height;
+
+  const renderPaginationDots = () => (
+    <View className="flex-row justify-center items-center mb-8">
+      {mockShops.map((_, index) => (
+        <View
+          key={index}
+          className={`w-3 h-3 rounded-full mx-2 ${
+            index === currentPage ? "bg-primary" : "bg-gray-300"
+          }`}
+        />
+      ))}
+    </View>
+  );
+
+  //TODO maybe check rn-pager-view library for this https://docs.expo.dev/versions/latest/sdk/view-pager/
+
+  const renderShopDetail = ({ item }: any) => (
+    <View
+      className="flex-1 p-4 bg-white rounded-lg shadow-md m-4"
+      style={{ width: width - 32 }}
+    >
+      <View className="flex-row justify-between items-center mb-4">
+        <Text className="text-xl font-bold">{item.name}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-lg font-semibold mr-2">
+            Total: ${item.totalPrice}
+          </Text>
+          <ChevronRight size={24} color="#888" />
+        </View>
+      </View>
+
+      <View>
+        {item.groceries.map((grocery: any) => (
+          <View key={grocery.id} className="flex-row justify-between mb-2">
+            <Text className="text-base">
+              {grocery.name} (x{grocery.quantity})
+            </Text>
+            <Text className="text-base font-semibold">
+              ${grocery.price.toFixed(2)}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 
   return (
-    <View className="flex-1 bg-gray-50">
-      {/* Optional: Add Stack.Screen for custom header options */}
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          headerBackTitle: "Back",
-          // headerBackTitleStyle: { fontSize: 22 },
-          headerTitle: "Product Details",
-          // Add any other screen options you need
-        }}
+    // <View className="flex-1 bg-gray-100">
+    //   <Text className="text-2xl font-bold p-4">Cart Price Comparison</Text>
+
+    //   <Carousel
+    //     width={width}
+    //     height={width * 1.2}
+    //     data={mockShops}
+    //     renderItem={renderShopDetail}
+    //     onSnapToItem={(index) => setCurrentPage(index)}
+    //     mode="parallax"
+    //     modeConfig={{
+    //       parallaxScrollingScale: 0.9,
+    //       parallaxScrollingOffset: 50,
+    //     }}
+    //   />
+
+    //   {renderPaginationDots()}
+    // </View>
+    <View className="flex flex-1 align-center justify-center">
+      <Carousel
+        loop
+        width={width}
+        style={{ flex: 1 }}
+        data={mockShops}
+        scrollAnimationDuration={1000}
+        mode="parallax"
+        onSnapToItem={(index) => setCurrentPage(index)}
+        renderItem={renderShopDetail}
       />
-
-      <ScrollView className="flex-1">
-        {/* Image Section */}
-        <View className="relative bg-white">
-          <Image
-            source={{ uri: product.imageUrl }}
-            className="w-full h-80"
-            resizeMode="contain"
-          />
-
-          {/* Back Button */}
-          {/* <SafeAreaView className="absolute top-0 left-0 right-0">
-            <Pressable
-              onPress={() => router.back()}
-              className="ml-4 mt-2 w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm items-center justify-center"
-            >
-              <ChevronLeft size={24} color="white" />
-            </Pressable>
-          </SafeAreaView> */}
-        </View>
-
-        {/* Product Info Section */}
-        <View className="px-4 py-5 space-y-4">
-          {/* Product Details */}
-          <View className="space-x-1 flex-row items-center justify-between">
-            <View>
-              <Text className="text-xl text-gray-600 font-medium">
-                {product.brand}
-              </Text>
-              <Text className="text-xl font-bold">{product.name}</Text>
-            </View>
-            <Text className="text-xl text-gray-500">{product.amount}</Text>
-          </View>
-
-          {/* Prices Section */}
-          <View className="space-y-3 mt-4">
-            <Text className="text-lg font-semibold">
-              Available at {product.prices.length} stores
-            </Text>
-
-            {/* Price Cards */}
-            <View className="space-y-2">
-              {sortedPrices.map((price, index) => (
-                <Pressable
-                  key={price.store}
-                  className={`p-4 rounded-xl ${
-                    index === 0
-                      ? "bg-green-50 border border-green-100"
-                      : "bg-white"
-                  }`}
-                  onPress={() => {
-                    // Handle store selection
-                    console.log(`Selected store: ${price.store}`);
-                  }}
-                >
-                  <View className="flex-row justify-between items-center">
-                    <View>
-                      <Text className="font-medium">{price.store}</Text>
-                      <Text className="text-sm text-gray-500">
-                        {price.distance}
-                      </Text>
-                    </View>
-                    <View className="items-end">
-                      <Text
-                        className={`text-lg font-bold ${
-                          index === 0 ? "text-green-600" : "text-black"
-                        }`}
-                      >
-                        ${price.price}
-                      </Text>
-                      {index === 0 && (
-                        <Text className="text-xs text-green-600">
-                          Best Price
-                        </Text>
-                      )}
-                    </View>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+      {renderPaginationDots()}
     </View>
   );
-}
+};
+
+export default GroceryPriceComparisonScreen;
