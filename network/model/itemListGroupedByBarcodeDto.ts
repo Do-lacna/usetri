@@ -4,15 +4,12 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { ShopItemDto } from './shopItemDto';
 
-export interface ProductDto {
+export interface ItemListGroupedByBarcodeDto {
   barcode?: number;
-  category_id?: number;
   /** @nullable */
-  name?: string | null;
-  amount?: number;
+  products?: ShopItemDto[] | null;
   /** @nullable */
-  brand?: string | null;
-  /** @nullable */
-  unit?: string | null;
+  available_shop_ids?: number[] | null;
 }

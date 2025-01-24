@@ -6,7 +6,9 @@
  */
 import type { ShopItemDto } from './shopItemDto';
 
-export interface GetProductsByBarcodeResponse {
+export interface ShopCartCategory {
+  category_id?: number;
   /** @nullable */
-  products?: ShopItemDto[] | null;
+  category_name?: string | null;
+  cheapest_product?: ShopItemDto;
 }

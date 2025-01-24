@@ -148,7 +148,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopItemListDto"
+                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
                   }
                 }
               },
@@ -156,7 +156,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopItemListDto"
+                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
                   }
                 }
               },
@@ -164,7 +164,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ShopItemListDto"
+                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
                   }
                 }
               }
@@ -1140,17 +1140,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetCartResponse"
+                  "$ref": "#/components/schemas/GetCartComparisonResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetCartResponse"
+                  "$ref": "#/components/schemas/GetCartComparisonResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetCartResponse"
+                  "$ref": "#/components/schemas/GetCartComparisonResponse"
                 }
               }
             }
@@ -1585,6 +1585,19 @@
         },
         "additionalProperties": false
       },
+      "GetCartComparisonResponse": {
+        "type": "object",
+        "properties": {
+          "carts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopCart"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetCartResponse": {
         "type": "object",
         "properties": {
@@ -1660,6 +1673,31 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ShopExtendedDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemListGroupedByBarcodeDto": {
+        "type": "object",
+        "properties": {
+          "barcode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopItemDto"
+            },
+            "nullable": true
+          },
+          "available_shop_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
             },
             "nullable": true
           }
@@ -1770,7 +1808,7 @@
           "categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ShopCategory"
+              "$ref": "#/components/schemas/ShopCartCategory"
             },
             "nullable": true
           },
@@ -1793,21 +1831,18 @@
         },
         "additionalProperties": false
       },
-      "ShopCategory": {
+      "ShopCartCategory": {
         "type": "object",
         "properties": {
           "category_id": {
             "type": "integer",
             "format": "int32"
           },
-          "category_products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopItemDto"
-            },
+          "category_name": {
+            "type": "string",
             "nullable": true
           },
-          "cheapest": {
+          "cheapest_product": {
             "$ref": "#/components/schemas/ShopItemDto"
           }
         },
@@ -1858,23 +1893,6 @@
           "price": {
             "type": "number",
             "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ShopItemListDto": {
-        "type": "object",
-        "properties": {
-          "shop_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopItemDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

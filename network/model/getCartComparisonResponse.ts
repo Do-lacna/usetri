@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopExtendedDto } from './shopExtendedDto';
+import type { ShopCart } from './shopCart';
 
-export interface GetShopsResponse {
+export interface GetCartComparisonResponse {
   /** @nullable */
-  shops?: ShopExtendedDto[] | null;
+  carts?: ShopCart[] | null;
 }
