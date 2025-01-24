@@ -13,8 +13,8 @@ import { useGetProducts } from "../../network/query/query";
 import ProductCardNew from "./product-card-new";
 
 interface IShoppingListItemProps {
-  label: string;
-  categoryId: number;
+  label: string | null;
+  categoryId?: number;
   isExpanded?: boolean;
   onExpandChange?: (isExpanded: boolean) => void;
   onDelete: () => void;

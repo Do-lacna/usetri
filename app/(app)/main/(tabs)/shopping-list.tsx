@@ -40,6 +40,8 @@ export default function Page() {
   });
   const { data: { cart } = {} } = ({} = useGetCart());
 
+  console.log(cart);
+
   const { mirrorCartState } = useCartStore();
 
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -74,6 +76,9 @@ export default function Page() {
     // sendUpdateCart({ category_id: option.id });
   };
 
+  const cartCategories = cart?.categories ?? [];
+  const cartProducts = cart?.specific_products ?? [];
+
   return (
     <View className="px-2 flex-1">
       <SearchBar<CategoryExtendedWithPathDto>
@@ -88,11 +93,35 @@ export default function Page() {
         keyExtractor={(item) => String(item.id)}
       />
       <ShoppingListItem label="Test" onDelete={() => {}} />
+      {/* 
+        {cartCategories.map(({ name, id }) => (
+          <ShoppingListItem
+            key={id}
+            label={name}
+            categoryId={id}
+            onDelete={() => {}}
+          />
+        ))} */}
+
+      {cartProducts.map(
+        ({
+          detail: { barcode, name = "Specific product", category_id } = {},
+        }) => (
+          <ShoppingListItem
+            key={barcode}
+            label={name}
+            categoryId={category_id}
+            onDelete={() => {}}
+          />
+        )
+      )}
       <EmptyShoppingListPlaceholderScreen />
-      <PriceSummary
-        price={12.5}
-        onPress={() => console.log("summary pressed")}
-      />
+      {cart?.total_price && (
+        <PriceSummary
+          price={cart.total_price}
+          onPress={() => console.log("summary pressed")}
+        />
+      )}
     </View>
   );
 }
