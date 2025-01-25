@@ -33,6 +33,7 @@ const ProductCardNew = ({
       brand,
       amount,
       barcode,
+      unit,
     } = {},
     price = 0,
   } = { ...product };
@@ -56,7 +57,9 @@ const ProductCardNew = ({
                 <Text className="text-sm font-medium" numberOfLines={1}>
                   {name}
                 </Text>
-                <Text className="text-xs text-gray-500">{amount}</Text>
+                <Text className="text-xs text-gray-500">
+                  {amount} {unit}
+                </Text>
               </View>
               <Text className="text-sm font-bold">{price}</Text>
             </View>

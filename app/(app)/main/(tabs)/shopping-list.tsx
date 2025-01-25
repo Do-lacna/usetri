@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
@@ -8,6 +9,7 @@ import ShoppingListItem from "../../../../components/ui/shopping-list-item";
 import useCartStore from "../../../../hooks/use-cart-store";
 import { isArrayNotEmpty } from "../../../../lib/utils";
 import {
+  getGetCartQueryKey,
   useCreateCart,
   useGetCart,
 } from "../../../../network/customer/customer";
@@ -25,9 +27,10 @@ const options: SearchOptions<CategoryExtendedWithPathDto> = {
 };
 
 export default function Page() {
+  const queryClient = useQueryClient();
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
     {},
-    { query: { enabled: false } }
+    { query: { enabled: true } }
   );
 
   const { mutate: sendUpdateCart, isIdle } = useCreateCart({
@@ -37,6 +40,11 @@ export default function Page() {
           type: "error",
           text1: "Failed to update cart",
           position: "bottom",
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetCartQueryKey(),
         });
       },
     },
@@ -67,11 +75,15 @@ export default function Page() {
   }, [searchQuery]);
 
   const handleAddToCart = (option: CategoryExtendedWithPathDto) => {
+    setSearchQuery("");
     //find out if user has a cart
     if (
       [...(cart?.specific_products ?? []), ...(cart?.categories ?? [])].length >
       0
     ) {
+      //TODO uncomment when BE changes
+      // let updatedCart = { ...cart}
+      // updatedCart.category_ids.push(option.id)
       //update only existing cart with new category
       // sendUpdateCart({ category_id: option.id, cart_id: cart.id });
     }
@@ -81,6 +93,27 @@ export default function Page() {
 
   const cartCategories = cart?.categories ?? [];
   const cartProducts = cart?.specific_products ?? [];
+
+  const areAnyItemsInCart =
+    cartCategories.length > 0 || cartProducts.length > 0;
+
+  const handleRemoveProductFromCard = (
+    type: "category" | "product",
+    id?: number
+  ) => {
+    //TODO when BE adjusts DTO uncomment this
+    // let updatedCart: CreateCartRequest = { category_ids: cartCategories, barcodes: cartProducts };
+    // if (type === "category") {
+    //   updatedCart.category_ids = cartCategories.filter(
+    //     (category) => category.category_id !== id
+    //   );
+    // } else {
+    //   updatedCart.barcodes = cartProducts.filter(
+    //     (product) => product?.detail?.barcode !== id
+    //   );
+    // }
+    // sendUpdateCart({ data: updatedCart });
+  };
 
   return (
     <View className="px-2 flex-1">
@@ -99,9 +132,10 @@ export default function Page() {
       {cartCategories.map(({ category_id, category_name = "Category" }) => (
         <ShoppingListItem
           key={category_id}
+          id={category_id}
           label={category_name}
           categoryId={category_id}
-          onDelete={() => {}}
+          onDelete={(id) => handleRemoveProductFromCard("category", id)}
         />
       ))}
 
@@ -111,14 +145,15 @@ export default function Page() {
         }) => (
           <ShoppingListItem
             key={barcode}
+            id={barcode}
             label={name}
             categoryId={category_id}
-            onDelete={() => {}}
+            onDelete={(id) => handleRemoveProductFromCard("product", id)}
           />
         )
       )}
-      <EmptyShoppingListPlaceholderScreen />
-      {cart?.total_price && (
+      {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
+      {!!cart?.total_price && (
         <PriceSummary
           price={cart.total_price}
           onPress={() => console.log("summary pressed")}

@@ -14,14 +14,16 @@ import ProductCardNew from "./product-card-new";
 
 interface IShoppingListItemProps {
   label: string | null;
+  id?: number;
   categoryId?: number;
   isExpanded?: boolean;
   onExpandChange?: (isExpanded: boolean) => void;
-  onDelete: () => void;
+  onDelete: (id?: number) => void;
 }
 
 const ShoppingListItem = ({
   label,
+  id,
   categoryId,
   isExpanded: externalIsExpanded,
   onExpandChange,
@@ -60,7 +62,7 @@ const ShoppingListItem = ({
         <Text className="text-base font-medium text-gray-800">{label}</Text>
 
         <View className="flex-row items-center">
-          <TouchableOpacity onPress={onDelete} className="mr-4 p-2">
+          <TouchableOpacity onPress={() => onDelete(id)} className="mr-4 p-2">
             <Trash2 className="text-red-500" size={20} />
           </TouchableOpacity>
 
