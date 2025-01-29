@@ -65,8 +65,6 @@ export default function Page() {
   });
   const { data: { cart } = {} } = ({} = useGetCart());
 
-  console.log(cart);
-
   const { mirrorCartState } = useCartStore();
 
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -98,7 +96,7 @@ export default function Page() {
     const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { ...barcodes, category_ids: [...category_ids, option?.id] },
+      data: { barcodes, category_ids: [...category_ids, option?.id] },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },
@@ -135,6 +133,24 @@ export default function Page() {
     sendUpdateCart({ data: simplifiedCart });
   };
 
+  const handleProductSelect = (barcode: number, categoryId: number) => {
+    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+
+    const updatedCategoryIds = category_ids.includes(categoryId)
+      ? category_ids.filter((id) => id !== categoryId)
+      : category_ids;
+
+    sendUpdateCart({
+      data: {
+        category_ids: updatedCategoryIds,
+        barcodes: [...barcodes, barcode],
+      },
+      additionalData: {
+        operation: CartOperationsEnum.ADD,
+      },
+    });
+  };
+
   return (
     <View className="px-2 flex-1">
       <SearchBar<CategoryExtendedWithPathDto>
@@ -158,6 +174,7 @@ export default function Page() {
           onDelete={(id) => handleRemoveProductFromCard("category", id)}
           isExpanded={expandedOption === id}
           onExpandChange={handleResetExpandedOption}
+          onProductSelect={handleProductSelect}
         />
       ))}
 

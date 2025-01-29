@@ -17,6 +17,7 @@ interface IShoppingListItemProps {
   id?: number;
   categoryId?: number;
   isExpanded?: boolean;
+  onProductSelect?: (barcode: number, categoryId: number) => void;
   onExpandChange?: (isExpanded: boolean) => void;
   onDelete: (id?: number) => void;
 }
@@ -26,6 +27,7 @@ const ShoppingListItem = ({
   id,
   categoryId,
   isExpanded: externalIsExpanded,
+  onProductSelect,
   onExpandChange,
   onDelete,
 }: IShoppingListItemProps) => {
@@ -107,9 +109,7 @@ const ShoppingListItem = ({
                     key={barcode || index}
                     product={products?.[0]}
                     availableShopIds={available_shop_ids}
-                    onPress={() => {
-                      console.log("Product selected:", barcode);
-                    }}
+                    onPress={onProductSelect}
                   />
                 )
               )}

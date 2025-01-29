@@ -2,6 +2,8 @@ import { ChevronRight } from "lucide-react-native";
 import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { getSimplifiedCart } from "../../../../lib/utils";
+import { useGetCart } from "../../../../network/customer/customer";
 import { useGetCartComparison } from "../../../../network/query/query";
 
 // Mock data for shops and groceries
@@ -49,9 +51,18 @@ const GroceryPriceComparisonScreen = () => {
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
 
+  const { data: cartData = {} } = useGetCart({
+    query: {
+      select(data) {
+        return getSimplifiedCart(data.cart);
+      },
+    },
+  });
+
   //TODO send whole cart as parameter
-  const { data: { carts = [] } = {} } = useGetCartComparison();
-  console.log(carts);
+  const { data: { carts = [] } = {} } = useGetCartComparison(cartData, {
+    query: { enabled: Object.keys(cartData).length > 0 },
+  });
 
   const renderPaginationDots = () => (
     <View className="flex-row justify-center items-center mb-8">
