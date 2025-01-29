@@ -18,7 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { UploadFileBody } from '.././model';
+import type { UploadCategoriesFileBody } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
@@ -521,14 +521,14 @@ export function useExport<
   return query;
 }
 
-export const uploadFile = (
-  uploadFileBody: UploadFileBody,
+export const uploadCategoriesFile = (
+  uploadCategoriesFileBody: UploadCategoriesFileBody,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   const formData = new FormData();
-  if (uploadFileBody.file !== undefined) {
-    formData.append('file', uploadFileBody.file);
+  if (uploadCategoriesFileBody.file !== undefined) {
+    formData.append('file', uploadCategoriesFileBody.file);
   }
 
   return orvalApiClient<void>(
@@ -543,20 +543,20 @@ export const uploadFile = (
   );
 };
 
-export const getUploadFileMutationOptions = <
-  TData = Awaited<ReturnType<typeof uploadFile>>,
+export const getUploadCategoriesFileMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadFileBody },
+    { data: UploadCategoriesFileBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadFile'];
+  const mutationKey = ['uploadCategoriesFile'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -566,42 +566,47 @@ export const getUploadFileMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadFile>>,
-    { data: UploadFileBody }
+    Awaited<ReturnType<typeof uploadCategoriesFile>>,
+    { data: UploadCategoriesFileBody }
   > = (props) => {
     const { data } = props ?? {};
 
-    return uploadFile(data, requestOptions);
+    return uploadCategoriesFile(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UploadFileBody },
+    { data: UploadCategoriesFileBody },
     TContext
   >;
 };
 
-export type UploadFileMutationResult = NonNullable<
-  Awaited<ReturnType<typeof uploadFile>>
+export type UploadCategoriesFileMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadCategoriesFile>>
 >;
-export type UploadFileMutationBody = UploadFileBody;
-export type UploadFileMutationError = unknown;
+export type UploadCategoriesFileMutationBody = UploadCategoriesFileBody;
+export type UploadCategoriesFileMutationError = unknown;
 
-export const useUploadFile = <
-  TData = Awaited<ReturnType<typeof uploadFile>>,
+export const useUploadCategoriesFile = <
+  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadFileBody },
+    { data: UploadCategoriesFileBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, { data: UploadFileBody }, TContext> => {
-  const mutationOptions = getUploadFileMutationOptions(options);
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: UploadCategoriesFileBody },
+  TContext
+> => {
+  const mutationOptions = getUploadCategoriesFileMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

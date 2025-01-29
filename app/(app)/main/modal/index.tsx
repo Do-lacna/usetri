@@ -2,6 +2,7 @@ import { ChevronRight } from "lucide-react-native";
 import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { useGetCartComparison } from "../../../../network/query/query";
 
 // Mock data for shops and groceries
 const mockShops = [
@@ -47,6 +48,10 @@ const GroceryPriceComparisonScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
+
+  //TODO send whole cart as parameter
+  const { data: { carts = [] } = {} } = useGetCartComparison();
+  console.log(carts);
 
   const renderPaginationDots = () => (
     <View className="flex-row justify-center items-center mb-8">

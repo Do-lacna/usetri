@@ -4,11 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryExtendedDto } from './categoryExtendedDto';
 
-export interface ProductDto {
+export interface ProductImportDto {
   barcode?: number;
-  category?: CategoryExtendedDto;
   /** @nullable */
   name?: string | null;
   amount?: number;
@@ -16,4 +14,5 @@ export interface ProductDto {
   brand?: string | null;
   /** @nullable */
   unit?: string | null;
+  category_id?: number;
 }

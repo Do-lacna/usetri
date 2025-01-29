@@ -1,46 +1,38 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import DiscountList from '~/components/ui/discount-list';
-import SearchBar from '~/components/ui/search-bar';
-import { useSession } from '~/context/authentication-context';
-import { resetAndRedirect } from '~/utils/navigation-utils';
-import { type SearchOptions, searchItems } from '~/utils/search-utils';
-import { Button } from '../../../../components/ui/button';
-import { isArrayNotEmpty } from '../../../../lib/utils';
-import type { ProductDto } from '../../../../network/model';
+import React from "react";
+import { Text, View } from "react-native";
+import DiscountList from "~/components/ui/discount-list";
+import SearchBar from "~/components/ui/search-bar";
+import { useSession } from "~/context/authentication-context";
+import { resetAndRedirect } from "~/utils/navigation-utils";
+import { type SearchOptions, searchItems } from "~/utils/search-utils";
+import { Button } from "../../../../components/ui/button";
+import { isArrayNotEmpty } from "../../../../lib/utils";
+import type { ProductDto } from "../../../../network/model";
 import {
   useGetCategories,
   useGetProducts,
-} from '../../../../network/query/query';
-import { products } from '../../../../test/test-data';
+} from "../../../../network/query/query";
+import { products } from "../../../../test/test-data";
 
 const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
-  searchFields: ['name', 'brand'],
-  matchMode: 'all', // Use 'all' to require all words to match, 'any' for partial matches
+  searchFields: ["name", "brand"],
+  matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
 export default function Page() {
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<ProductDto[]>([]);
   const { signOut } = useSession();
-  const {
-    data: {
-      data: { categories } = {},
-    } = {},
-  } = useGetCategories();
+  const { data: { categories } = {} } = useGetCategories();
 
-  const {
-    data: {
-      data: { products: searchProducts } = {},
-    } = {},
-  } = useGetProducts({
+  const { data: searchProducts = [] } = useGetProducts({
     search: searchQuery,
   });
 
   const performSignOut = () => {
     signOut();
-    resetAndRedirect('/');
+    resetAndRedirect("/");
   };
 
   // console.log(products);
@@ -65,10 +57,10 @@ export default function Page() {
       </Button>
       <SearchBar<ProductDto>
         onSearch={setSearchQuery}
-        onClear={() => setSearchQuery('')}
+        onClear={() => setSearchQuery("")}
         searchText={searchQuery}
         options={searchResults}
-        onOptionSelect={(option) => console.log('Option selected:', option)}
+        onOptionSelect={(option) => console.log("Option selected:", option)}
         renderOption={(item) => (
           <Text className="text-gray-800 text-lg">{item?.name}</Text>
         )}
@@ -76,11 +68,11 @@ export default function Page() {
       />
       <DiscountList
         products={products}
-        store={{ name: 'Tesco', id: '12', image: '12' }}
+        store={{ name: "Tesco", id: "12", image: "12" }}
       />
       <DiscountList
         products={products}
-        store={{ name: 'Lidl', id: '12', image: '12' }}
+        store={{ name: "Lidl", id: "12", image: "12" }}
       />
     </View>
   );

@@ -7,7 +7,7 @@ import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem from "../../../../components/ui/shopping-list-item";
 import useCartStore from "../../../../hooks/use-cart-store";
-import { isArrayNotEmpty } from "../../../../lib/utils";
+import { getSimplifiedCart, isArrayNotEmpty } from "../../../../lib/utils";
 import {
   getGetCartQueryKey,
   useCreateCart,
@@ -42,10 +42,12 @@ export default function Page() {
           position: "bottom",
         });
       },
-      onSuccess: () => {
+      onSuccess: ({ cart }) => {
         queryClient.invalidateQueries({
           queryKey: getGetCartQueryKey(),
         });
+        const lastAddedCategory = cart?.categories?.slice(-1)[0]?.id;
+        if (lastAddedCategory) setExpandedOption(lastAddedCategory);
       },
     },
   });
@@ -59,6 +61,9 @@ export default function Page() {
   const [searchResults, setSearchResults] = React.useState<
     CategoryExtendedWithPathDto[]
   >([]);
+  const [expandedOption, setExpandedOption] = React.useState<number | null>(
+    null
+  );
 
   React.useEffect(() => {
     if (cart) {
@@ -75,20 +80,19 @@ export default function Page() {
   }, [searchQuery]);
 
   const handleAddToCart = (option: CategoryExtendedWithPathDto) => {
+    if (!option?.id) return;
+
     setSearchQuery("");
-    //find out if user has a cart
-    if (
-      [...(cart?.specific_products ?? []), ...(cart?.categories ?? [])].length >
-      0
-    ) {
-      //TODO uncomment when BE changes
-      // let updatedCart = { ...cart}
-      // updatedCart.category_ids.push(option.id)
-      //update only existing cart with new category
-      // sendUpdateCart({ category_id: option.id, cart_id: cart.id });
-    }
-    sendUpdateCart({ data: { category_ids: [option?.id ?? 0] } });
-    // sendUpdateCart({ category_id: option.id });
+    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+
+    sendUpdateCart({
+      data: { ...barcodes, category_ids: [...category_ids, option?.id] },
+    });
+  };
+
+  const handleResetExpandedOption = (isExpanded?: boolean) => {
+    // Reset expanded option if the item is collapsed
+    if (!!expandedOption && !isExpanded) setExpandedOption(null);
   };
 
   const cartCategories = cart?.categories ?? [];
@@ -101,18 +105,18 @@ export default function Page() {
     type: "category" | "product",
     id?: number
   ) => {
+    const simplifiedCart = getSimplifiedCart(cart);
     //TODO when BE adjusts DTO uncomment this
-    // let updatedCart: CreateCartRequest = { category_ids: cartCategories, barcodes: cartProducts };
-    // if (type === "category") {
-    //   updatedCart.category_ids = cartCategories.filter(
-    //     (category) => category.category_id !== id
-    //   );
-    // } else {
-    //   updatedCart.barcodes = cartProducts.filter(
-    //     (product) => product?.detail?.barcode !== id
-    //   );
-    // }
-    // sendUpdateCart({ data: updatedCart });
+    if (type === "category") {
+      simplifiedCart.category_ids = simplifiedCart.category_ids?.filter(
+        (categoryId) => categoryId !== id
+      );
+    } else {
+      simplifiedCart.barcodes = simplifiedCart.barcodes?.filter(
+        (barcode) => barcode !== id
+      );
+    }
+    sendUpdateCart({ data: simplifiedCart });
   };
 
   return (
@@ -129,26 +133,33 @@ export default function Page() {
         keyExtractor={(item) => String(item.id)}
       />
 
-      {cartCategories.map(({ category_id, category_name = "Category" }) => (
+      {cartCategories.map(({ id, name = "Category" }) => (
         <ShoppingListItem
-          key={category_id}
-          id={category_id}
-          label={category_name}
-          categoryId={category_id}
+          key={id}
+          id={id}
+          categoryId={id}
+          label={name}
           onDelete={(id) => handleRemoveProductFromCard("category", id)}
+          isExpanded={expandedOption === id}
+          onExpandChange={handleResetExpandedOption}
         />
       ))}
 
       {cartProducts.map(
         ({
-          detail: { barcode, name = "Specific product", category_id } = {},
+          detail: {
+            barcode,
+            name = "Specific product",
+            category: { id: categoryId } = {},
+          } = {},
         }) => (
           <ShoppingListItem
             key={barcode}
             id={barcode}
             label={name}
-            categoryId={category_id}
+            categoryId={categoryId}
             onDelete={(id) => handleRemoveProductFromCard("product", id)}
+            // onExpandChange={handleResetExpandedOption}
           />
         )
       )}

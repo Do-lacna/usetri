@@ -3,6 +3,7 @@ import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { SvgUri } from "react-native-svg";
 import { ShopItemDto } from "../../network/model";
+import { useGetShops } from "../../network/query/query";
 
 export interface IProduct {
   id: string;
@@ -37,6 +38,8 @@ const ProductCardNew = ({
     } = {},
     price = 0,
   } = { ...product };
+
+  const { data: { shops = [] } = {} } = useGetShops();
 
   return (
     <Link asChild href={`/product/${barcode}`}>
