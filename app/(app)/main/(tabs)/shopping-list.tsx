@@ -26,6 +26,12 @@ const options: SearchOptions<CategoryExtendedWithPathDto> = {
   matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
+enum CartOperationsEnum {
+  ADD = "ADD",
+  REMOVE = "REMOVE",
+  UPDATE = "UPDATE",
+}
+
 export default function Page() {
   const queryClient = useQueryClient();
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
@@ -42,12 +48,18 @@ export default function Page() {
           position: "bottom",
         });
       },
-      onSuccess: ({ cart }) => {
+      // onMutate: ({ data }) => {},
+      onSuccess: ({ cart }, variables) => {
         queryClient.invalidateQueries({
           queryKey: getGetCartQueryKey(),
         });
         const lastAddedCategory = cart?.categories?.slice(-1)[0]?.id;
-        if (lastAddedCategory) setExpandedOption(lastAddedCategory);
+        if (
+          lastAddedCategory &&
+          variables?.additionalData?.operation === CartOperationsEnum.ADD
+        ) {
+          setExpandedOption(lastAddedCategory);
+        }
       },
     },
   });
@@ -87,6 +99,10 @@ export default function Page() {
 
     sendUpdateCart({
       data: { ...barcodes, category_ids: [...category_ids, option?.id] },
+      additionalData: {
+        operation: CartOperationsEnum.ADD,
+      },
+      //here I want to pass more data for example to the context
     });
   };
 
