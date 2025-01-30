@@ -2,8 +2,10 @@ import { ChevronRight } from "lucide-react-native";
 import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { CarouselRenderItemInfo } from "react-native-reanimated-carousel/lib/typescript/types";
 import { getSimplifiedCart } from "../../../../lib/utils";
 import { useGetCart } from "../../../../network/customer/customer";
+import { ShopCart } from "../../../../network/model";
 import { useGetCartComparison } from "../../../../network/query/query";
 
 // Mock data for shops and groceries
@@ -79,61 +81,75 @@ const GroceryPriceComparisonScreen = () => {
 
   //TODO maybe check rn-pager-view library for this https://docs.expo.dev/versions/latest/sdk/view-pager/
 
-  const renderShopDetail = ({ item }: any) => (
-    <View
-      className="flex-1 p-4 bg-white rounded-lg shadow-md m-4"
-      style={{ width: width - 32 }}
-    >
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-xl font-bold">{item.name}</Text>
-        <View className="flex-row items-center">
-          <Text className="text-lg font-semibold mr-2">
-            Total: ${item.totalPrice}
-          </Text>
-          <ChevronRight size={24} color="#888" />
+  const renderShopDetail = ({
+    item = {},
+  }: CarouselRenderItemInfo<ShopCart>) => {
+    const {
+      shop: { name: shopName, image_url } = {},
+      categories = [],
+      specific_products: groceries = [],
+      total_price,
+    } = item;
+    return (
+      <View
+        className="flex-1 p-4 bg-white rounded-lg shadow-md m-4"
+        style={{ width: width - 32 }}
+      >
+        <View className="flex-row justify-between items-center mb-4">
+          <Text className="text-xl font-bold">{shopName}</Text>
+          <View className="flex-row items-center">
+            <Text className="text-lg font-semibold mr-2">
+              Total: {total_price?.toFixed(2)} €
+            </Text>
+            <ChevronRight size={24} color="#888" />
+          </View>
+        </View>
+
+        <View>
+          {categories?.map(({ id, name }) => (
+            <View key={id} className="flex-row justify-between mb-2">
+              <Text className="text-base">
+                {name}
+                {/* (x{grocery.quantity}) */}
+              </Text>
+              <Text className="text-base font-semibold">
+                {/* //TODO add price here */}${id?.toFixed(2)}
+              </Text>
+            </View>
+          ))}
+          {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
+            <View key={barcode} className="flex-row justify-between mb-2">
+              <Text className="text-base">
+                {name}
+                {/* (x{grocery.quantity}) */}
+              </Text>
+              <Text className="text-base font-semibold">
+                {price?.toFixed(2)} €
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
+    );
+  };
 
-      <View>
-        {item.groceries.map((grocery: any) => (
-          <View key={grocery.id} className="flex-row justify-between mb-2">
-            <Text className="text-base">
-              {grocery.name} (x{grocery.quantity})
-            </Text>
-            <Text className="text-base font-semibold">
-              ${grocery.price.toFixed(2)}
-            </Text>
-          </View>
-        ))}
+  if (!carts?.length) {
+    return (
+      <View className="flex-1 justify-center align-center">
+        <Text className="text-xl font-bold text-center">
+          No carts to compare
+        </Text>
       </View>
-    </View>
-  );
+    );
+  }
 
   return (
-    // <View className="flex-1 bg-gray-100">
-    //   <Text className="text-2xl font-bold p-4">Cart Price Comparison</Text>
-
-    //   <Carousel
-    //     width={width}
-    //     height={width * 1.2}
-    //     data={mockShops}
-    //     renderItem={renderShopDetail}
-    //     onSnapToItem={(index) => setCurrentPage(index)}
-    //     mode="parallax"
-    //     modeConfig={{
-    //       parallaxScrollingScale: 0.9,
-    //       parallaxScrollingOffset: 50,
-    //     }}
-    //   />
-
-    //   {renderPaginationDots()}
-    // </View>
     <View className="flex flex-1 align-center justify-center">
       <Carousel
         loop
         width={width}
         style={{ flex: 1 }}
-        data={mockShops}
+        data={carts}
         scrollAnimationDuration={1000}
         mode="parallax"
         onSnapToItem={(index) => setCurrentPage(index)}
