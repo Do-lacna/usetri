@@ -5,6 +5,7 @@ import { Label } from "../label";
 import { Text } from "../text";
 
 interface ShoppingListFilterContentProps {
+  currentFilter?: ShoppingListFilter;
   onFilterChange: (filter: ShoppingListFilter) => void;
 }
 
@@ -45,10 +46,11 @@ function RadioGroupItemWithLabel({
 }
 
 const ShoppingListFilterContent: React.FC<ShoppingListFilterContentProps> = ({
+  currentFilter,
   onFilterChange,
 }) => {
   const [filter, setFilter] = React.useState<ShoppingListFilter>(
-    ShoppingListFilter.CATEGORIES
+    currentFilter ?? ShoppingListFilter.CATEGORIES
   );
 
   const handleFilterChange = (value: string) => {

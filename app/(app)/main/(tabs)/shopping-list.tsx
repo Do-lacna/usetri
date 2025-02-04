@@ -10,7 +10,9 @@ import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-m
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem from "../../../../components/ui/shopping-list-item";
-import ShoppingListFilterContent from "../../../../components/ui/shopping-list/shopping-list-filter-content";
+import ShoppingListFilterContent, {
+  ShoppingListFilter,
+} from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import useCartStore from "../../../../hooks/use-cart-store";
 import { getSimplifiedCart, isArrayNotEmpty } from "../../../../lib/utils";
 import {
@@ -40,6 +42,9 @@ enum CartOperationsEnum {
 export default function Page() {
   const queryClient = useQueryClient();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const [filter, setFilter] = React.useState<ShoppingListFilter>(
+    ShoppingListFilter.CATEGORIES
+  );
 
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
@@ -166,7 +171,8 @@ export default function Page() {
     <View className="flex-1 content-center">
       <CustomBottomSheetModal ref={bottomSheetRef}>
         <ShoppingListFilterContent
-          onFilterChange={(filter) => console.log(filter)}
+          currentFilter={filter}
+          onFilterChange={setFilter}
         />
       </CustomBottomSheetModal>
       <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
