@@ -10,6 +10,7 @@ import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-m
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem from "../../../../components/ui/shopping-list-item";
+import ShoppingListFilterContent from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import useCartStore from "../../../../hooks/use-cart-store";
 import { getSimplifiedCart, isArrayNotEmpty } from "../../../../lib/utils";
 import {
@@ -163,7 +164,11 @@ export default function Page() {
 
   return (
     <View className="flex-1 content-center">
-      <CustomBottomSheetModal ref={bottomSheetRef} />
+      <CustomBottomSheetModal ref={bottomSheetRef}>
+        <ShoppingListFilterContent
+          onFilterChange={(filter) => console.log(filter)}
+        />
+      </CustomBottomSheetModal>
       <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
         <View className="flex-row items-center gap-4 mt-2 z-10">
           <SearchBar<CategoryExtendedWithPathDto>
