@@ -14,6 +14,7 @@ export * from './addShopResponse';
 export * from './archivedCartDto';
 export * from './availableCategoriesForShopDto';
 export * from './availableProductsFromCategoryDto';
+export * from './cartCategory';
 export * from './cartDto';
 export * from './categoryDto';
 export * from './categoryExtendedDto';

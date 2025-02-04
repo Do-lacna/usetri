@@ -15,4 +15,6 @@ export interface ProductImportDto {
   /** @nullable */
   unit?: string | null;
   category_id?: number;
+  /** @nullable */
+  image_url?: string | null;
 }

@@ -9,6 +9,8 @@ export interface CategoryExtendedDto {
   /** @nullable */
   name?: string | null;
   /** @nullable */
+  image_url?: string | null;
+  /** @nullable */
   parent_id?: number | null;
   id?: number;
 }

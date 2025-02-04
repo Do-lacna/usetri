@@ -6,14 +6,14 @@
  */
 import type { ShopExtendedDto } from './shopExtendedDto';
 import type { ShopItemDto } from './shopItemDto';
-import type { CategoryExtendedDto } from './categoryExtendedDto';
+import type { CartCategory } from './cartCategory';
 
 export interface ShopCart {
   shop?: ShopExtendedDto;
   /** @nullable */
   specific_products?: ShopItemDto[] | null;
   /** @nullable */
-  categories?: CategoryExtendedDto[] | null;
+  categories?: CartCategory[] | null;
   total_price?: number;
   normalized_total_price?: number;
   /** @nullable */

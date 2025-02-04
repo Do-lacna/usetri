@@ -29,7 +29,7 @@ const SearchBar = <T,>({
   keyExtractor,
 }: ISearchBarProps<T>) => {
   return (
-    <View className="relative z-10">
+    <View className="relative z-10 flex-1">
       <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
         <Search size={20} className="text-primary mr-3" />
         <TextInput
@@ -46,7 +46,7 @@ const SearchBar = <T,>({
       </View>
       {options.length > 0 && (
         <View
-          className="absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100"
+          className="absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20"
           style={{
             elevation: 5, // for Android shadow
             shadowColor: "#000", // for iOS shadow

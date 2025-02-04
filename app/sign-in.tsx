@@ -28,15 +28,15 @@ export default function SignIn() {
       .catch(console.error);
   };
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View className="flex-1 items-center justify-center gap-2">
       <GoogleSignIn />
       <Controller
         control={control}
         name="email"
         render={({ field: { value, onBlur, onChange } }) => (
           <Input
-            placeholder="Write some stuff..."
-            aria-labelledby="inputLabel"
+            placeholder="Enter your username"
+            aria-labelledby="username"
             aria-errormessage="inputError"
             className="mt-4 w-[80%]"
             onChangeText={onChange}
@@ -53,9 +53,10 @@ export default function SignIn() {
         name="password"
         render={({ field: { value, onBlur, onChange } }) => (
           <Input
-            placeholder="Write some stuff..."
-            aria-labelledby="inputLabel"
-            aria-errormessage="inputError"
+            secureTextEntry
+            placeholder="Enter your password"
+            aria-labelledby="password"
+            aria-errormessage="passwordError"
             className="mt-4 w-[80%]"
             onChangeText={onChange}
             onBlur={onBlur}
@@ -69,6 +70,7 @@ export default function SignIn() {
       <Button
         disabled={!isDirty || !isValid}
         onPress={handleSubmit(performSignIn)}
+        className="w-[80%] mt-4"
       >
         <Text>Sign In</Text>
       </Button>

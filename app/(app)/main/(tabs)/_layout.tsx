@@ -16,7 +16,7 @@ export default function TabLayout() {
         options={{
           title: "Hladat",
           tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
+            <FontAwesome size={28} name="search" color={color} />
           ),
           headerRight: () => <ThemeToggle />,
         }}
@@ -27,6 +27,15 @@ export default function TabLayout() {
           title: "Nakupny zoznam",
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="shopping-cart" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profil",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="user" color={color} />
           ),
         }}
       />

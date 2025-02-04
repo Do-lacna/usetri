@@ -1,7 +1,14 @@
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { Fragment, useCallback, useRef } from "react";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { ListFilter } from "~/lib/icons/Filter";
+import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
@@ -34,6 +41,12 @@ enum CartOperationsEnum {
 
 export default function Page() {
   const queryClient = useQueryClient();
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
     {},
     { query: { enabled: true } }
@@ -53,7 +66,7 @@ export default function Page() {
         queryClient.invalidateQueries({
           queryKey: getGetCartQueryKey(),
         });
-        const lastAddedCategory = cart?.categories?.slice(-1)[0]?.id;
+        const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
         if (
           lastAddedCategory &&
           variables?.additionalData?.operation === CartOperationsEnum.ADD
@@ -151,58 +164,87 @@ export default function Page() {
     });
   };
 
+  console.log(bottomSheetRef?.current);
   return (
-    <View className="px-2 flex-1">
-      <SearchBar<CategoryExtendedWithPathDto>
-        onSearch={setSearchQuery}
-        onClear={() => setSearchQuery("")}
-        searchText={searchQuery}
-        options={searchResults}
-        onOptionSelect={handleAddToCart}
-        renderOption={(item) => (
-          <Text className="text-gray-800 text-lg">{item?.name}</Text>
-        )}
-        keyExtractor={(item) => String(item.id)}
-      />
-
-      {cartCategories.map(({ id, name = "Category" }) => (
-        <ShoppingListItem
-          key={id}
-          id={id}
-          categoryId={id}
-          label={name}
-          onDelete={(id) => handleRemoveProductFromCard("category", id)}
-          isExpanded={expandedOption === id}
-          onExpandChange={handleResetExpandedOption}
-          onProductSelect={handleProductSelect}
-        />
-      ))}
-
-      {cartProducts.map(
-        ({
-          detail: {
-            barcode,
-            name = "Specific product",
-            category: { id: categoryId } = {},
-          } = {},
-        }) => (
-          <ShoppingListItem
-            key={barcode}
-            id={barcode}
-            label={name}
-            categoryId={categoryId}
-            onDelete={(id) => handleRemoveProductFromCard("product", id)}
-            // onExpandChange={handleResetExpandedOption}
+    <Fragment>
+      <BottomSheetModalProvider>
+        <BottomSheetModal ref={bottomSheetRef} onChange={handleSheetChanges}>
+          <BottomSheetView
+            style={{ flex: 1, alignItems: "center", zIndex: 50 }}
+          >
+            <View className="flex-1 bg-red h-40">
+              <Text>Awesome 🎉</Text>
+              <Text>Awesome 🎉</Text>
+              <Text>Awesome 🎉</Text>
+              <Text className="h-50">Awesome 🎉</Text>
+            </View>
+          </BottomSheetView>
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
+      <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
+        <View className="flex-row items-center gap-4 mt-2 z-10">
+          <SearchBar<CategoryExtendedWithPathDto>
+            onSearch={setSearchQuery}
+            onClear={() => setSearchQuery("")}
+            searchText={searchQuery}
+            options={searchResults}
+            onOptionSelect={handleAddToCart}
+            renderOption={(item) => (
+              <Text className="text-gray-800 text-lg">{item?.name}</Text>
+            )}
+            keyExtractor={(item) => String(item.id)}
           />
-        )
-      )}
-      {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
-      {!!cart?.total_price && (
-        <PriceSummary
-          price={cart.total_price}
-          onPress={() => console.log("summary pressed")}
-        />
-      )}
-    </View>
+          <IconButton
+            onPress={() => bottomSheetRef?.current?.present()}
+            className="w-10"
+          >
+            <ListFilter size={24} className="text-primary mr-3" />
+          </IconButton>
+        </View>
+
+        <View className="flex-1 gap-2 mt-4">
+          {cartCategories.map(
+            ({ category: { id, name = "Category" } = {} }) => (
+              <ShoppingListItem
+                key={id}
+                id={id}
+                categoryId={id}
+                label={name}
+                onDelete={(id) => handleRemoveProductFromCard("category", id)}
+                isExpanded={expandedOption === id}
+                onExpandChange={handleResetExpandedOption}
+                onProductSelect={handleProductSelect}
+              />
+            )
+          )}
+
+          {cartProducts.map(
+            ({
+              detail: {
+                barcode,
+                name = "Specific product",
+                category: { id: categoryId } = {},
+              } = {},
+            }) => (
+              <ShoppingListItem
+                key={barcode}
+                id={barcode}
+                label={name}
+                categoryId={categoryId}
+                onDelete={(id) => handleRemoveProductFromCard("product", id)}
+                // onExpandChange={handleResetExpandedOption}
+              />
+            )
+          )}
+        </View>
+        {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
+        {!!cart?.total_price && (
+          <PriceSummary
+            price={cart.total_price}
+            onPress={() => console.log("summary pressed")}
+          />
+        )}
+      </View>
+    </Fragment>
   );
 }

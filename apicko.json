@@ -1110,7 +1110,7 @@
         "operationId": "GetCartComparison",
         "parameters": [
           {
-            "name": "CategoryIds",
+            "name": "category_ids",
             "in": "query",
             "style": "form",
             "schema": {
@@ -1122,7 +1122,7 @@
             }
           },
           {
-            "name": "Barcodes",
+            "name": "barcodes",
             "in": "query",
             "style": "form",
             "schema": {
@@ -1460,10 +1460,31 @@
         },
         "additionalProperties": false
       },
+      "CartCategory": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/CategoryExtendedDto"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "normalized_price": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "CategoryExtendedDto": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "image_url": {
             "type": "string",
             "nullable": true
           },
@@ -1483,6 +1504,10 @@
         "type": "object",
         "properties": {
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "image_url": {
             "type": "string",
             "nullable": true
           },
@@ -1806,6 +1831,10 @@
           "unit": {
             "type": "string",
             "nullable": true
+          },
+          "image_url": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1836,6 +1865,10 @@
           "category_id": {
             "type": "integer",
             "format": "int32"
+          },
+          "image_url": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1856,7 +1889,7 @@
           "categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CategoryExtendedDto"
+              "$ref": "#/components/schemas/CartCategory"
             },
             "nullable": true
           },

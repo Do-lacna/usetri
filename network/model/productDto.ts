@@ -16,4 +16,6 @@ export interface ProductDto {
   brand?: string | null;
   /** @nullable */
   unit?: string | null;
+  /** @nullable */
+  image_url?: string | null;
 }

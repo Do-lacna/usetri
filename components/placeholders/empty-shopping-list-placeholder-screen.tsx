@@ -4,7 +4,7 @@ import { Text } from "../ui/text";
 
 const EmptyShoppingListPlaceholderScreen = () => {
   return (
-    <View className="w-full justify-center items-center mt-40">
+    <View className="w-full justify-center items-center mt-40 -z-10">
       <Image
         source={require("../../assets/images/empty-cart.png")}
         className="w-60 h-60 mb-1"

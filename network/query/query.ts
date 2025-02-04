@@ -4,6 +4,7 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import { useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -13,9 +14,7 @@ import type {
   UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult,
-} from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
-import { orvalApiClient } from ".././api-client";
+} from '@tanstack/react-query';
 import type {
   GetCartComparisonParams,
   GetCartComparisonResponse,
@@ -28,18 +27,19 @@ import type {
   GetShopsResponse,
   ItemListGroupedByBarcodeDto,
   ProblemDetails,
-} from ".././model";
+} from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const getProducts = (
   params?: GetProductsParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<ItemListGroupedByBarcodeDto[]>(
-    { url: `/products`, method: "GET", params, signal },
-    options
+    { url: `/products`, method: 'GET', params, signal },
+    options,
   );
 };
 
@@ -49,7 +49,7 @@ export const getGetProductsQueryKey = (params?: GetProductsParams) => {
 
 export const getGetProductsQueryOptions = <
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetProductsParams,
   options?: {
@@ -57,7 +57,7 @@ export const getGetProductsQueryOptions = <
       UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -81,7 +81,7 @@ export type GetProductsQueryError = ProblemDetails;
 
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params: undefined | GetProductsParams,
   options: {
@@ -94,16 +94,16 @@ export function useGetProducts<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetProductsParams,
   options?: {
@@ -116,16 +116,16 @@ export function useGetProducts<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetProductsParams,
   options?: {
@@ -133,14 +133,14 @@ export function useGetProducts<
       UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetProducts<
   TData = Awaited<ReturnType<typeof getProducts>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetProductsParams,
   options?: {
@@ -148,7 +148,7 @@ export function useGetProducts<
       UseQueryOptions<Awaited<ReturnType<typeof getProducts>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -165,11 +165,11 @@ export function useGetProducts<
 
 export const getShops = (
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetShopsResponse>(
-    { url: `/shops`, method: "GET", signal },
-    options
+    { url: `/shops`, method: 'GET', signal },
+    options,
   );
 };
 
@@ -179,7 +179,7 @@ export const getGetShopsQueryKey = () => {
 
 export const getGetShopsQueryOptions = <
   TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
@@ -208,7 +208,7 @@ export type GetShopsQueryError = ProblemDetails;
 
 export function useGetShops<
   TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options: {
   query: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
@@ -219,7 +219,7 @@ export function useGetShops<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): DefinedUseQueryResult<TData, TError> & {
@@ -227,7 +227,7 @@ export function useGetShops<
 };
 export function useGetShops<
   TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
@@ -238,7 +238,7 @@ export function useGetShops<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & {
@@ -246,7 +246,7 @@ export function useGetShops<
 };
 export function useGetShops<
   TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
@@ -258,7 +258,7 @@ export function useGetShops<
 
 export function useGetShops<
   TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
@@ -281,24 +281,23 @@ export function useGetShops<
 export const getCartComparison = (
   params?: GetCartComparisonParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
-  console.log(params);
   return orvalApiClient<GetCartComparisonResponse>(
-    { url: `/carts-comparison`, method: "GET", params, signal },
-    options
+    { url: `/carts-comparison`, method: 'GET', params, signal },
+    options,
   );
 };
 
 export const getGetCartComparisonQueryKey = (
-  params?: GetCartComparisonParams
+  params?: GetCartComparisonParams,
 ) => {
   return [`/carts-comparison`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetCartComparisonQueryOptions = <
   TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCartComparisonParams,
   options?: {
@@ -310,7 +309,7 @@ export const getGetCartComparisonQueryOptions = <
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -335,7 +334,7 @@ export type GetCartComparisonQueryError = ProblemDetails;
 
 export function useGetCartComparison<
   TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params: undefined | GetCartComparisonParams,
   options: {
@@ -352,16 +351,16 @@ export function useGetCartComparison<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetCartComparison<
   TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCartComparisonParams,
   options?: {
@@ -378,16 +377,16 @@ export function useGetCartComparison<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetCartComparison<
   TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCartComparisonParams,
   options?: {
@@ -399,14 +398,14 @@ export function useGetCartComparison<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetCartComparison<
   TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCartComparisonParams,
   options?: {
@@ -418,7 +417,7 @@ export function useGetCartComparison<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -436,11 +435,11 @@ export function useGetCartComparison<
 export const getCategories = (
   params?: GetCategoriesParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetCategoryResponse>(
-    { url: `/categories`, method: "GET", params, signal },
-    options
+    { url: `/categories`, method: 'GET', params, signal },
+    options,
   );
 };
 
@@ -450,7 +449,7 @@ export const getGetCategoriesQueryKey = (params?: GetCategoriesParams) => {
 
 export const getGetCategoriesQueryOptions = <
   TData = Awaited<ReturnType<typeof getCategories>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCategoriesParams,
   options?: {
@@ -458,7 +457,7 @@ export const getGetCategoriesQueryOptions = <
       UseQueryOptions<Awaited<ReturnType<typeof getCategories>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -482,7 +481,7 @@ export type GetCategoriesQueryError = ProblemDetails;
 
 export function useGetCategories<
   TData = Awaited<ReturnType<typeof getCategories>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params: undefined | GetCategoriesParams,
   options: {
@@ -495,16 +494,16 @@ export function useGetCategories<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetCategories<
   TData = Awaited<ReturnType<typeof getCategories>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCategoriesParams,
   options?: {
@@ -517,16 +516,16 @@ export function useGetCategories<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetCategories<
   TData = Awaited<ReturnType<typeof getCategories>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCategoriesParams,
   options?: {
@@ -534,14 +533,14 @@ export function useGetCategories<
       UseQueryOptions<Awaited<ReturnType<typeof getCategories>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetCategories<
   TData = Awaited<ReturnType<typeof getCategories>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   params?: GetCategoriesParams,
   options?: {
@@ -549,7 +548,7 @@ export function useGetCategories<
       UseQueryOptions<Awaited<ReturnType<typeof getCategories>>, TError, TData>
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -568,24 +567,24 @@ export const getProductPrices = (
   barcode: number,
   shopId: number,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductPricesResponse>(
-    { url: `/products/${barcode}-${shopId}/prices`, method: "GET", signal },
-    options
+    { url: `/products/${barcode}-${shopId}/prices`, method: 'GET', signal },
+    options,
   );
 };
 
 export const getGetProductPricesQueryKey = (
   barcode: number,
-  shopId: number
+  shopId: number,
 ) => {
   return [`/products/${barcode}-${shopId}/prices`] as const;
 };
 
 export const getGetProductPricesQueryOptions = <
   TData = Awaited<ReturnType<typeof getProductPrices>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   shopId: number,
@@ -598,7 +597,7 @@ export const getGetProductPricesQueryOptions = <
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -628,7 +627,7 @@ export type GetProductPricesQueryError = ProblemDetails;
 
 export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   shopId: number,
@@ -646,16 +645,16 @@ export function useGetProductPrices<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   shopId: number,
@@ -673,16 +672,16 @@ export function useGetProductPrices<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   shopId: number,
@@ -695,14 +694,14 @@ export function useGetProductPrices<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   shopId: number,
@@ -715,14 +714,14 @@ export function useGetProductPrices<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetProductPricesQueryOptions(
     barcode,
     shopId,
-    options
+    options,
   );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -738,24 +737,24 @@ export const getProductsByBarcode = (
   barcode: number,
   params?: GetProductsByBarcodeParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductsByBarcodeResponse>(
-    { url: `/products/${barcode}`, method: "GET", params, signal },
-    options
+    { url: `/products/${barcode}`, method: 'GET', params, signal },
+    options,
   );
 };
 
 export const getGetProductsByBarcodeQueryKey = (
   barcode: number,
-  params?: GetProductsByBarcodeParams
+  params?: GetProductsByBarcodeParams,
 ) => {
   return [`/products/${barcode}`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetProductsByBarcodeQueryOptions = <
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   params?: GetProductsByBarcodeParams,
@@ -768,7 +767,7 @@ export const getGetProductsByBarcodeQueryOptions = <
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -799,7 +798,7 @@ export type GetProductsByBarcodeQueryError = ProblemDetails;
 
 export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   params: undefined | GetProductsByBarcodeParams,
@@ -817,16 +816,16 @@ export function useGetProductsByBarcode<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   params?: GetProductsByBarcodeParams,
@@ -844,16 +843,16 @@ export function useGetProductsByBarcode<
           TError,
           TData
         >,
-        "initialData"
+        'initialData'
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   params?: GetProductsByBarcodeParams,
@@ -866,14 +865,14 @@ export function useGetProductsByBarcode<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(
   barcode: number,
   params?: GetProductsByBarcodeParams,
@@ -886,14 +885,14 @@ export function useGetProductsByBarcode<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  }
+  },
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetProductsByBarcodeQueryOptions(
     barcode,
     params,
-    options
+    options,
   );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {

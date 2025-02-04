@@ -24,8 +24,8 @@ export const getSimplifiedCart = (
   cart?: Pick<ShopCart, "categories" | "specific_products">
 ) => {
   if (!cart) return { category_ids: [], barcodes: [] };
-  const categoryIds = [...(cart?.categories ?? [])].map((category) =>
-    Number(category.id)
+  const categoryIds = [...(cart?.categories ?? [])].map(
+    ({ category: { id } = {} }) => Number(id)
   );
   const barcodes = cart?.specific_products?.map((product) =>
     Number(product?.detail?.barcode)
