@@ -1,5 +1,6 @@
 import "~/global.css";
 
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   DefaultTheme,
   type Theme,
@@ -78,12 +79,14 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <GestureHandlerRootView>
-          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-            <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-            <Slot />
-            <PortalHost />
-            <Toast />
-          </ThemeProvider>
+          <BottomSheetModalProvider>
+            <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+              <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+              <Slot />
+              <PortalHost />
+              <Toast />
+            </ThemeProvider>
+          </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </SessionProvider>
     </QueryClientProvider>

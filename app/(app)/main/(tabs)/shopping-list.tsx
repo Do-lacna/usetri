@@ -1,15 +1,12 @@
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { Fragment, useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
+import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem from "../../../../components/ui/shopping-list-item";
@@ -164,23 +161,9 @@ export default function Page() {
     });
   };
 
-  console.log(bottomSheetRef?.current);
   return (
-    <Fragment>
-      <BottomSheetModalProvider>
-        <BottomSheetModal ref={bottomSheetRef} onChange={handleSheetChanges}>
-          <BottomSheetView
-            style={{ flex: 1, alignItems: "center", zIndex: 50 }}
-          >
-            <View className="flex-1 bg-red h-40">
-              <Text>Awesome 🎉</Text>
-              <Text>Awesome 🎉</Text>
-              <Text>Awesome 🎉</Text>
-              <Text className="h-50">Awesome 🎉</Text>
-            </View>
-          </BottomSheetView>
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+    <View className="flex-1 content-center">
+      <CustomBottomSheetModal ref={bottomSheetRef} />
       <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
         <View className="flex-row items-center gap-4 mt-2 z-10">
           <SearchBar<CategoryExtendedWithPathDto>
@@ -245,6 +228,6 @@ export default function Page() {
           />
         )}
       </View>
-    </Fragment>
+    </View>
   );
 }
