@@ -1,10 +1,11 @@
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { IStoreDto } from "../../models/store.dto";
-import ProductCardNew, { IProduct } from "./product-card-new";
+import { ShopItemDto } from "../../network/model";
+import ProductCardNew from "./product-card-new";
 
 export interface IDiscountListProps {
-  products: IProduct[];
+  products: ShopItemDto[];
   store: IStoreDto;
 }
 
@@ -13,9 +14,9 @@ const DiscountList = ({
   store: { name: storeName = "Tesco" } = {} as IStoreDto,
 }: IDiscountListProps) => {
   return (
-    <>
+    <View>
       <View className="flex-row mt-4">
-        <Text className="text-3xl">Discounts in</Text>
+        <Text className="text-3xl">Zľavy v</Text>
         <Text className="text-3xl font-semibold text-primary ml-1">
           {storeName}
         </Text>
@@ -37,11 +38,12 @@ const DiscountList = ({
               onPress={() => {
                 console.log("Product selected:", product);
               }}
+              availableShopIds={[index + 1]}
             />
           ))}
         </ScrollView>
       </View>
-    </>
+    </View>
   );
 };
 

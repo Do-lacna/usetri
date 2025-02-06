@@ -22,6 +22,7 @@ import {
 } from "../../../../network/customer/customer";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 import { useGetCategories } from "../../../../network/query/query";
+import { getShopLogo } from "../../../../utils/logo-utils";
 import {
   type SearchOptions,
   searchItems,
@@ -167,6 +168,8 @@ export default function Page() {
     });
   };
 
+  console.log(getShopLogo(1));
+
   return (
     <View className="flex-1 content-center">
       <CustomBottomSheetModal ref={bottomSheetRef}>
@@ -181,6 +184,7 @@ export default function Page() {
             onSearch={setSearchQuery}
             onClear={() => setSearchQuery("")}
             searchText={searchQuery}
+            placeholder="Vyhľadaj kategóriu produktu"
             options={searchResults}
             onOptionSelect={handleAddToCart}
             renderOption={(item) => (

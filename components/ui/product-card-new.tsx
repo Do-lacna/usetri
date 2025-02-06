@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
-import { SvgUri } from "react-native-svg";
 import { ShopItemDto } from "../../network/model";
 import { useGetShops } from "../../network/query/query";
+import { getShopLogo } from "../../utils/logo-utils";
 
 export interface IProduct {
   id: string;
@@ -59,7 +59,7 @@ const ProductCardNew = ({
 
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
-            <View>
+            <View className="flex-1">
               <Text className="text-xs text-gray-600">{brand}</Text>
               <Text className="text-sm font-medium" numberOfLines={1}>
                 {name}
@@ -71,15 +71,27 @@ const ProductCardNew = ({
             <Text className="text-sm font-bold">{price}</Text>
           </View>
         </View>
-        <View className="flex-row gap-x-2 mt-1">
+        <View className="flex-row gap-x-2 mt-1 relative">
           {availableShopIds?.map((retailer, index) => (
-            <SvgUri
-              key={index}
-              width="20"
-              height="20"
-              uri="https://upload.wikimedia.org/wikipedia/commons/9/91/Lidl-Logo.svg"
-              style={{ borderRadius: 50 }}
-            />
+            <View
+              key={retailer}
+              style={{ width: 20, height: 20, borderRadius: 50 }}
+            >
+              <Image
+                {...getShopLogo(retailer as any)}
+                key={index}
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 50,
+                  position: "absolute",
+                  right: index * 15,
+                  zIndex: index + 1,
+                  backgroundColor: "white",
+                  //TODO add here some elevation to visually differentiate the shop logos
+                }}
+              />
+            </View>
           ))}
         </View>
       </View>

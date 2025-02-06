@@ -12,6 +12,7 @@ import { Search } from "~/lib/icons/Search";
 export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
   searchText: string;
+  placeholder?: string;
   onClear: () => void;
   options: T[];
   onOptionSelect: (option: T) => void;
@@ -23,19 +24,20 @@ const SearchBar = <T,>({
   onSearch,
   onClear,
   searchText = "",
+  placeholder = "Hľadať",
   options = [],
   onOptionSelect,
   renderOption,
   keyExtractor,
 }: ISearchBarProps<T>) => {
   return (
-    <View className="relative z-10 flex-1">
+    <View className="relative z-10 w-full flex-shrink">
       <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
         <Search size={20} className="text-primary mr-3" />
         <TextInput
           value={searchText}
           onChangeText={onSearch}
-          placeholder="Search"
+          placeholder={placeholder}
           className="flex-1 text-gray-800 text-xl"
         />
         {searchText?.length > 0 && (

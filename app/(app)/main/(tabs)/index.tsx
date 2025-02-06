@@ -1,17 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
-import { useSession } from "~/context/authentication-context";
-import { resetAndRedirect } from "~/utils/navigation-utils";
-import { type SearchOptions, searchItems } from "~/utils/search-utils";
-import { Button } from "../../../../components/ui/button";
-import { isArrayNotEmpty } from "../../../../lib/utils";
+import { type SearchOptions } from "~/utils/search-utils";
 import type { ProductDto } from "../../../../network/model";
-import {
-  useGetCategories,
-  useGetProducts,
-} from "../../../../network/query/query";
+import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
 
 const options: SearchOptions<ProductDto> = {
@@ -22,58 +15,48 @@ const options: SearchOptions<ProductDto> = {
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState<ProductDto[]>([]);
-  const { signOut } = useSession();
-  const { data: { categories } = {} } = useGetCategories();
 
-  const { data: searchProducts = [] } = useGetProducts({
-    search: searchQuery,
-  });
-
-  const performSignOut = () => {
-    signOut();
-    resetAndRedirect("/");
-  };
-
-  // console.log(products);
-
-  React.useEffect(() => {
-    if (searchQuery?.length > 0 && isArrayNotEmpty(searchProducts)) {
-      //TODO quick fix until BE is fixed
-      const searchProductsMapped = searchProducts as ProductDto[];
-      setSearchResults(searchItems(searchProductsMapped, searchQuery, options));
-    } else {
-      setSearchResults([]);
+  const { data: searchProducts = [] } = useGetProducts(
+    {
+      search: searchQuery,
+    },
+    {
+      query: {
+        enabled: searchQuery?.length > 2,
+      },
     }
-  }, [searchQuery]);
+  );
 
-  // console.log(searchQuery);
-  // console.log(searchResults);
+  console.log(searchProducts);
 
   return (
-    <View className="px-2">
-      <Button onPress={performSignOut}>
-        <Text>Sign Out</Text>
-      </Button>
+    <View className="flex justify-start px-2">
       <SearchBar<ProductDto>
         onSearch={setSearchQuery}
         onClear={() => setSearchQuery("")}
         searchText={searchQuery}
-        options={searchResults}
+        placeholder="Hľadaj produkty"
+        options={[]}
         onOptionSelect={(option) => console.log("Option selected:", option)}
         renderOption={(item) => (
           <Text className="text-gray-800 text-lg">{item?.name}</Text>
         )}
         keyExtractor={(item) => String(item.id)}
       />
-      <DiscountList
-        products={products}
-        store={{ name: "Tesco", id: "12", image: "12" }}
-      />
-      <DiscountList
-        products={products}
-        store={{ name: "Lidl", id: "12", image: "12" }}
-      />
+      <ScrollView>
+        <DiscountList
+          products={products}
+          store={{ name: "Tescu", id: "12", image: "12" }}
+        />
+        <DiscountList
+          products={products}
+          store={{ name: "Lidli", id: "12", image: "12" }}
+        />
+        <DiscountList
+          products={products}
+          store={{ name: "Bille", id: "12", image: "12" }}
+        />
+      </ScrollView>
     </View>
   );
 }

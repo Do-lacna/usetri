@@ -17,7 +17,7 @@ const PriceSummary = ({ price = 12.5, onPress }: PriceSummaryProps) => {
         onPress={onPress}
       >
         <View className="p-2 shadow-sm shadow-foreground/10 flex-row justify-between items-center">
-          <Text className="text-foreground font-bold">Total Price</Text>
+          <Text className="text-foreground font-bold">Celková suma</Text>
           <Text className="text-foreground font-bold">{price} €</Text>
         </View>
       </Pressable>

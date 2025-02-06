@@ -90,7 +90,7 @@ const ShoppingListItem = ({
             className="p-4"
             showsHorizontalScrollIndicator={false}
           >
-            <View className="flex-row align-center justify-center space-x-4 w-full h-45">
+            <View className="flex-row align-center justify-center space-x-4 w-full h-45 gap-4">
               {/* {products.map((product, index) => (
               <View 
                 key={product.id || index}
@@ -113,22 +113,6 @@ const ShoppingListItem = ({
                   />
                 )
               )}
-              {/* <ProductCardNew
-                product={{
-                  id: "123",
-                  amount: "0.5 l",
-                  imageUrl:
-                    "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
-                  brand: "Kelt",
-                  name: "Svetle pivo",
-                  price: "15.5",
-                  description: "A beer that is light and refreshing.",
-                  retailer_ids: [1, 2, 3],
-                }}
-                onPress={() => {
-                  console.log("Product selected:", 123);
-                }}
-              /> */}
             </View>
           </ScrollView>
         ))}
