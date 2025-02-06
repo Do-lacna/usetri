@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { ShoppingCart } from "~/lib/icons/Cart";
 import { UserIcon } from "~/lib/icons/User";
-import { Button } from "../../../../components/ui/button";
 import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
 import { resetAndRedirect } from "../../../../utils/navigation-utils";
@@ -52,7 +51,7 @@ export default function ProfileScreen() {
           <ShoppingCart size={20} />
         </View>
 
-        <View className="space-y-3">
+        <View className="space-y-3 gap-3">
           {archived_carts?.map(({ cart_id, created_at, owner_id }) => (
             <TouchableOpacity
               key={cart_id}
@@ -71,9 +70,9 @@ export default function ProfileScreen() {
           ))}
         </View>
 
-        <Button onPress={performSignOut}>
+        {/* <Button onPress={performSignOut}>
           <Text>Sign Out</Text>
-        </Button>
+        </Button> */}
       </ScrollView>
     </SafeAreaView>
   );

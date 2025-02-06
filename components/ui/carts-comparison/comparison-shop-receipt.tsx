@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { ChevronRight } from "lucide-react-native";
 import React from "react";
 import { Dimensions, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
@@ -29,23 +28,21 @@ const ComparisonShopReceipt = ({
       onError: () => {
         Toast.show({
           type: "error",
-          text1: "Failed to save cart",
+          text1: "Nepodarilo sa uložiť košík",
           position: "bottom",
         });
       },
-      // onMutate: ({ data }) => {},
-      // onSuccess: ({ cart }, variables) => {
-      //   queryClient.invalidateQueries({
-      //     queryKey: getGetCartQueryKey(),
-      //   });
-      //   const lastAddedCategory = cart?.categories?.slice(-1)[0]?.id;
-      //   if (
-      //     lastAddedCategory &&
-      //     variables?.additionalData?.operation === CartOperationsEnum.ADD
-      //   ) {
-      //     setExpandedOption(lastAddedCategory);
-      //   }
-      // },
+      onSuccess: () => {
+        Toast.show({
+          type: "success",
+          text1: "Váš košík bol úspešne uložený vo vašom profile",
+          position: "bottom",
+        });
+        queryClient.invalidateQueries({
+          queryKey: getGetCartQueryKey(),
+        });
+        router.back();
+      },
     },
   });
 
@@ -53,8 +50,13 @@ const ComparisonShopReceipt = ({
     mutation: {
       onError: () => {
         Toast.show({
+          type: "success",
+          text1: "Váš košík bol úspešne vymazaný",
+          position: "bottom",
+        });
+        Toast.show({
           type: "error",
-          text1: "Failed to discard cart",
+          text1: "Nepodarilo sa zahodiť košík",
           position: "bottom",
         });
       },
@@ -76,61 +78,54 @@ const ComparisonShopReceipt = ({
       data: simplifiedCart,
     });
   };
-
   return (
     <View
       className="flex-1 p-4 bg-white rounded-lg shadow-md m-4 justify-between"
       style={{ width: width - 32 }}
     >
-      <View className="flex-row justify-between items-center mb-4">
-        <Text className="text-xl font-bold">{shopName}</Text>
-        <View className="flex-row items-center">
-          <Text className="text-lg font-semibold mr-2">
-            Total: {total_price?.toFixed(2)} €
+      <View className="gap-4">
+        <View className="flex items-center my-4 gap-4">
+          <Text className="text-4xl font-bold text-primary">
+            {shopName?.toLocaleUpperCase()}
           </Text>
-          <ChevronRight size={24} color="#888" />
+          <Text className="text-2xl font-bold">Zoznam produktov</Text>
+          <View className="w-[100%] border-black border" />
+        </View>
+
+        <View>
+          {categories?.map(({ category: { id, name } = {}, price }) => (
+            <View key={id} className="flex-row justify-between mb-2">
+              <Text className="text-lg">{name}</Text>
+              <Text className="text-lg font-semibold">
+                {price?.toFixed(2)} €
+              </Text>
+            </View>
+          ))}
+          {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
+            <View key={barcode} className="flex-row justify-between mb-2">
+              <Text className="text-lg">{name}</Text>
+              <Text className="text-lg font-semibold">
+                {price?.toFixed(2)} €
+              </Text>
+            </View>
+          ))}
         </View>
       </View>
-
-      <View>
-        {categories?.map(({ category: { id, name } = {} }) => (
-          <View key={id} className="flex-row justify-between mb-2">
-            <Text className="text-base">
-              {name}
-              {/* (x{grocery.quantity}) */}
-            </Text>
-            <Text className="text-base font-semibold">
-              {/* //TODO add price here */}${id?.toFixed(2)}
-            </Text>
-          </View>
-        ))}
-        {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
-          <View key={barcode} className="flex-row justify-between mb-2">
-            <Text className="text-base">
-              {name}
-              {/* (x{grocery.quantity}) */}
-            </Text>
-            <Text className="text-base font-semibold">
-              {price?.toFixed(2)} €
-            </Text>
-          </View>
-        ))}
-      </View>
-      <View className="flex-row justify-center items-center my-4 p-4 gap-2">
-        <Button
-          // disabled={!isDirty || !isValid}
-          onPress={handleSaveCart}
-          className="flex-1"
-        >
-          <Text>Ulozit kosik</Text>
-        </Button>
+      <View className="flex-row justify-center items-center my-4 p-4 gap-4">
         <Button
           // disabled={!isDirty || !isValid}
           variant="outline"
           onPress={() => sendDiscardCart()}
-          className="flex-1 bg-red-500"
+          className="w-[40%] border-2 border-gray-600"
         >
-          <Text>Zahodit</Text>
+          <Text className="font-bold">Zahodit</Text>
+        </Button>
+        <Button
+          // disabled={!isDirty || !isValid}
+          onPress={handleSaveCart}
+          className="w-[60%]"
+        >
+          <Text className="font-bold">Ulozit kosik</Text>
         </Button>
       </View>
     </View>
