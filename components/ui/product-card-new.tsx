@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { ShopItemDto } from "../../network/model";
@@ -19,12 +20,14 @@ export interface IProductCardProps {
   product?: ShopItemDto;
   availableShopIds: number[] | null;
   onPress?: (id: number, categoryId: number) => void;
+  className?: string;
 }
 
 const ProductCardNew = ({
   product,
   availableShopIds = [],
   onPress,
+  className,
 }: IProductCardProps) => {
   const {
     detail: {
@@ -44,7 +47,7 @@ const ProductCardNew = ({
   return (
     // <Link asChild href={`/product/${barcode}`}>
     <Pressable
-      className="w-40 mr-20 last:mr-0"
+      className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
       onPress={() => onPress?.(Number(barcode), Number(categoryId))}
       // onPress={() => console.log("prudct")}
     >
@@ -60,7 +63,9 @@ const ProductCardNew = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs text-gray-600">{brand}</Text>
+              <Text className="text-xs text-gray-600" numberOfLines={1}>
+                {brand}
+              </Text>
               <Text className="text-sm font-medium" numberOfLines={1}>
                 {name}
               </Text>

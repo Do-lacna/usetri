@@ -39,6 +39,8 @@ const SearchBar = <T,>({
           onChangeText={onSearch}
           placeholder={placeholder}
           className="flex-1 text-gray-800 text-xl"
+          autoComplete="off"
+          autoCorrect={false}
         />
         {searchText?.length > 0 && (
           <Pressable onPress={onClear}>

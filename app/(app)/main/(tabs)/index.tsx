@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
 import { type SearchOptions } from "~/utils/search-utils";
+import ProductCardNew from "../../../../components/ui/product-card-new";
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
@@ -27,7 +28,10 @@ export default function Page() {
     }
   );
 
-  console.log(searchProducts);
+  const outputProducts = searchProducts?.map(({ products }) => products?.[0]);
+
+  const displaySearchResult =
+    searchQuery?.length > 0 && outputProducts?.length > 0;
 
   return (
     <View className="flex justify-start px-2">
@@ -41,22 +45,41 @@ export default function Page() {
         renderOption={(item) => (
           <Text className="text-gray-800 text-lg">{item?.name}</Text>
         )}
-        keyExtractor={(item) => String(item.id)}
+        keyExtractor={(item) => String(item.barcode)}
       />
-      <ScrollView>
-        <DiscountList
-          products={products}
-          store={{ name: "Tescu", id: "12", image: "12" }}
+      {displaySearchResult ? (
+        <FlatList
+          data={outputProducts}
+          renderItem={({ item }) => (
+            <ProductCardNew
+              product={item}
+              onPress={() => {
+                console.log("Product selected:", item);
+              }}
+              availableShopIds={[1]}
+            />
+          )}
+          numColumns={3}
+          keyExtractor={(product) => String(product?.detail?.barcode)}
+          contentContainerClassName="gap-4 p-1"
+          columnWrapperClassName="gap-4"
         />
-        <DiscountList
-          products={products}
-          store={{ name: "Lidli", id: "12", image: "12" }}
-        />
-        <DiscountList
-          products={products}
-          store={{ name: "Bille", id: "12", image: "12" }}
-        />
-      </ScrollView>
+      ) : (
+        <ScrollView>
+          <DiscountList
+            products={products}
+            store={{ name: "Tescu", id: "12", image: "12" }}
+          />
+          <DiscountList
+            products={products}
+            store={{ name: "Lidli", id: "12", image: "12" }}
+          />
+          <DiscountList
+            products={products}
+            store={{ name: "Bille", id: "12", image: "12" }}
+          />
+        </ScrollView>
+      )}
     </View>
   );
 }

@@ -1,7 +1,7 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useCallback, useRef } from "react";
-import { Text, View } from "react-native";
+import { Keyboard, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
@@ -77,6 +77,7 @@ export default function Page() {
         ) {
           setExpandedOption(lastAddedCategory);
         }
+        Keyboard.dismiss();
       },
     },
   });
