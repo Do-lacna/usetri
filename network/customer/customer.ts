@@ -4,6 +4,7 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -16,9 +17,7 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from "@tanstack/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { orvalApiClient } from ".././api-client";
+} from '@tanstack/react-query';
 import type {
   CreateArchivedCartRequest,
   CreateCartRequest,
@@ -26,31 +25,32 @@ import type {
   GetArchivedCartResponse,
   GetCartResponse,
   ProblemDetails,
-} from ".././model";
+} from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const createArchivedCart = (
   createArchivedCartRequest: CreateArchivedCartRequest,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
     {
       url: `/archived-carts`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       data: createArchivedCartRequest,
       signal,
     },
-    options
+    options,
   );
 };
 
 export const getCreateArchivedCartMutationOptions = <
   TData = Awaited<ReturnType<typeof createArchivedCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -60,10 +60,10 @@ export const getCreateArchivedCartMutationOptions = <
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ["createArchivedCart"];
+  const mutationKey = ['createArchivedCart'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      "mutationKey" in options.mutation &&
+      'mutationKey' in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -95,7 +95,7 @@ export type CreateArchivedCartMutationError = ProblemDetails;
 export const useCreateArchivedCart = <
   TData = Awaited<ReturnType<typeof createArchivedCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -116,11 +116,11 @@ export const useCreateArchivedCart = <
 };
 export const getArchivedCart = (
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetArchivedCartResponse>(
-    { url: `/archived-carts`, method: "GET", signal },
-    options
+    { url: `/archived-carts`, method: 'GET', signal },
+    options,
   );
 };
 
@@ -130,7 +130,7 @@ export const getGetArchivedCartQueryKey = () => {
 
 export const getGetArchivedCartQueryOptions = <
   TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
@@ -159,7 +159,7 @@ export type GetArchivedCartQueryError = ProblemDetails;
 
 export function useGetArchivedCart<
   TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options: {
   query: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
@@ -170,7 +170,7 @@ export function useGetArchivedCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): DefinedUseQueryResult<TData, TError> & {
@@ -178,7 +178,7 @@ export function useGetArchivedCart<
 };
 export function useGetArchivedCart<
   TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
@@ -189,7 +189,7 @@ export function useGetArchivedCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & {
@@ -197,7 +197,7 @@ export function useGetArchivedCart<
 };
 export function useGetArchivedCart<
   TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
@@ -209,7 +209,7 @@ export function useGetArchivedCart<
 
 export function useGetArchivedCart<
   TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
@@ -231,23 +231,23 @@ export function useGetArchivedCart<
 
 export const createCart = (
   createCartRequest: CreateCartRequest,
-  options?: SecondParameter<typeof orvalApiClient>
+  options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<CreateCartResponse>(
     {
       url: `/carts`,
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       data: createCartRequest,
     },
-    options
+    options,
   );
 };
 
 export const getCreateCartMutationOptions = <
   TData = Awaited<ReturnType<typeof createCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -257,10 +257,10 @@ export const getCreateCartMutationOptions = <
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ["createCart"];
+  const mutationKey = ['createCart'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      "mutationKey" in options.mutation &&
+      'mutationKey' in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -292,32 +292,27 @@ export type CreateCartMutationError = ProblemDetails;
 export const useCreateCart = <
   TData = Awaited<ReturnType<typeof createCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: CreateCartRequest; additionalData?: any },
+    { data: CreateCartRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<
-  TData,
-  TError,
-  { data: CreateCartRequest; additionalData?: any },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { data: CreateCartRequest }, TContext> => {
   const mutationOptions = getCreateCartMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 export const getCart = (
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetCartResponse>(
-    { url: `/carts`, method: "GET", signal },
-    options
+    { url: `/carts`, method: 'GET', signal },
+    options,
   );
 };
 
@@ -327,7 +322,7 @@ export const getGetCartQueryKey = () => {
 
 export const getGetCartQueryOptions = <
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -356,7 +351,7 @@ export type GetCartQueryError = ProblemDetails;
 
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options: {
   query: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -367,7 +362,7 @@ export function useGetCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): DefinedUseQueryResult<TData, TError> & {
@@ -375,7 +370,7 @@ export function useGetCart<
 };
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -386,7 +381,7 @@ export function useGetCart<
         TError,
         TData
       >,
-      "initialData"
+      'initialData'
     >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseQueryResult<TData, TError> & {
@@ -394,7 +389,7 @@ export function useGetCart<
 };
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -406,7 +401,7 @@ export function useGetCart<
 
 export function useGetCart<
   TData = Awaited<ReturnType<typeof getCart>>,
-  TError = ProblemDetails
+  TError = ProblemDetails,
 >(options?: {
   query?: Partial<
     UseQueryOptions<Awaited<ReturnType<typeof getCart>>, TError, TData>
@@ -427,23 +422,23 @@ export function useGetCart<
 }
 
 export const removeFromCart = (
-  options?: SecondParameter<typeof orvalApiClient>
+  options?: SecondParameter<typeof orvalApiClient>,
 ) => {
-  return orvalApiClient<void>({ url: `/carts`, method: "DELETE" }, options);
+  return orvalApiClient<void>({ url: `/carts`, method: 'DELETE' }, options);
 };
 
 export const getRemoveFromCartMutationOptions = <
   TData = Awaited<ReturnType<typeof removeFromCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<TData, TError, void, TContext>;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ["removeFromCart"];
+  const mutationKey = ['removeFromCart'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      "mutationKey" in options.mutation &&
+      'mutationKey' in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -473,7 +468,7 @@ export type RemoveFromCartMutationError = ProblemDetails;
 export const useRemoveFromCart = <
   TData = Awaited<ReturnType<typeof removeFromCart>>,
   TError = ProblemDetails,
-  TContext = unknown
+  TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<TData, TError, void, TContext>;
   request?: SecondParameter<typeof orvalApiClient>;

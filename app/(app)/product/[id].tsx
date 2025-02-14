@@ -1,25 +1,35 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { products } from "~/test/test-data";
+import { getShopById } from "../../../lib/utils";
+import {
+  useGetProductsByBarcode,
+  useGetShops,
+} from "../../../network/query/query";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  // In a real app, you'd fetch product data based on the id
-  const product = {
-    ...products[0],
-    prices: [
-      { store: "Budget Market", price: "119.99", distance: "0.8 mi" },
-      { store: "Super Store", price: "124.99", distance: "1.2 mi" },
-      { store: "Premium Goods", price: "129.99", distance: "0.5 mi" },
-      { store: "City Market", price: "134.99", distance: "2.1 mi" },
-    ],
+  const { data: { shops = [] } = {} } = useGetShops();
+
+  const { data: { products = [] } = {} } = useGetProductsByBarcode(
+    Number(id),
+    undefined,
+    {
+      query: {
+        enabled: !!id,
+      },
+    }
+  );
+
+  //TODO this EP should return only detail of the product in 1 object
+  const { detail: { image_url, brand, name, amount, unit } = {}, price } = {
+    ...products?.[0],
   };
 
   // Sort prices from lowest to highest
-  const sortedPrices = [...product.prices].sort(
-    (a, b) => parseFloat(a.price) - parseFloat(b.price)
+  const sortedPrices = (products ?? []).sort(
+    (a, b) => (a.price ?? 0) - (b.price ?? 0)
   );
 
   return (
@@ -39,20 +49,14 @@ export default function ProductDetailScreen() {
         {/* Image Section */}
         <View className="relative bg-white">
           <Image
-            source={{ uri: product.imageUrl }}
+            source={{
+              uri:
+                image_url ??
+                "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+            }}
             className="w-full h-80"
             resizeMode="contain"
           />
-
-          {/* Back Button */}
-          {/* <SafeAreaView className="absolute top-0 left-0 right-0">
-            <Pressable
-              onPress={() => router.back()}
-              className="ml-4 mt-2 w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm items-center justify-center"
-            >
-              <ChevronLeft size={24} color="white" />
-            </Pressable>
-          </SafeAreaView> */}
         </View>
 
         {/* Product Info Section */}
@@ -60,25 +64,22 @@ export default function ProductDetailScreen() {
           {/* Product Details */}
           <View className="space-x-1 flex-row items-center justify-between">
             <View>
-              <Text className="text-xl text-gray-600 font-medium">
-                {product.brand}
-              </Text>
-              <Text className="text-xl font-bold">{product.name}</Text>
+              <Text className="text-xl text-gray-600 font-medium">{brand}</Text>
+              <Text className="text-xl font-bold">{name}</Text>
             </View>
-            <Text className="text-xl text-gray-500">{product.amount}</Text>
+            <Text className="text-xl text-gray-500">{`${amount} ${unit}`}</Text>
           </View>
+          <View className="my-2 border-divider border-2" />
 
-          {/* Prices Section */}
           <View className="space-y-3 mt-4">
             <Text className="text-lg font-semibold">
-              Available at {product.prices.length} stores
+              Dostupné v {products?.length} obchodoch
             </Text>
 
-            {/* Price Cards */}
             <View className="space-y-2">
-              {sortedPrices.map((price, index) => (
+              {sortedPrices.map(({ price, shop_id }, index) => (
                 <Pressable
-                  key={price.store}
+                  key={shop_id}
                   className={`p-4 rounded-xl ${
                     index === 0
                       ? "bg-green-50 border border-green-100"
@@ -86,14 +87,13 @@ export default function ProductDetailScreen() {
                   }`}
                   onPress={() => {
                     // Handle store selection
-                    console.log(`Selected store: ${price.store}`);
+                    console.log(`Selected store: ${price}`);
                   }}
                 >
                   <View className="flex-row justify-between items-center">
                     <View>
-                      <Text className="font-medium">{price.store}</Text>
-                      <Text className="text-sm text-gray-500">
-                        {price.distance}
+                      <Text className="font-medium">
+                        {getShopById(Number(shop_id), shops ?? [])?.name}
                       </Text>
                     </View>
                     <View className="items-end">
@@ -102,11 +102,11 @@ export default function ProductDetailScreen() {
                           index === 0 ? "text-green-600" : "text-black"
                         }`}
                       >
-                        ${price.price}
+                        ${price}
                       </Text>
                       {index === 0 && (
                         <Text className="text-xs text-green-600">
-                          Best Price
+                          Najlepšia cena
                         </Text>
                       )}
                     </View>

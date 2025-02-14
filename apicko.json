@@ -371,7 +371,7 @@
             "schema": {
               "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             }
           },
           {
@@ -471,21 +471,20 @@
         }
       }
     },
-    "/admin": {
+    "/adminMVC/categories": {
       "get": {
-        "tags": ["AdminTool"],
-        "operationId": "Index",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/admin/category": {
-      "get": {
-        "tags": ["AdminTool"],
+        "tags": ["AdminMVC"],
         "operationId": "CategoryManagement",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -493,20 +492,9 @@
         }
       }
     },
-    "/admin/product": {
+    "/adminMVC/categories/export": {
       "get": {
-        "tags": ["AdminTool"],
-        "operationId": "ProductManagement",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/admin/export-categories": {
-      "get": {
-        "tags": ["AdminTool"],
+        "tags": ["AdminMVC"],
         "operationId": "Export",
         "responses": {
           "200": {
@@ -515,9 +503,9 @@
         }
       }
     },
-    "/admin/upload-categories": {
+    "/adminMVC/categories/import": {
       "post": {
-        "tags": ["AdminTool"],
+        "tags": ["AdminMVC"],
         "operationId": "UploadCategoriesFile",
         "requestBody": {
           "content": {
@@ -533,6 +521,66 @@
               },
               "encoding": {
                 "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/adminMVC": {
+      "get": {
+        "tags": ["AdminMVC"],
+        "operationId": "Index",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/adminMVC/products": {
+      "get": {
+        "tags": ["AdminMVC"],
+        "operationId": "ProductManagement",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["AdminMVC"],
+        "operationId": "DropAllProducts",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["AdminMVC"],
+        "operationId": "ImportProducts",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productsCsv": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "productsCsv": {
                   "style": "form"
                 }
               }
@@ -1129,7 +1177,7 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int64"
               }
             }
           }
@@ -1249,7 +1297,7 @@
             "schema": {
               "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             }
           },
           {
@@ -1321,7 +1369,7 @@
             "schema": {
               "minimum": 0,
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             }
           },
           {
@@ -1422,7 +1470,7 @@
         },
         "additionalProperties": false
       },
-      "ArchivedCartDto": {
+      "ArchivedCartModel": {
         "type": "object",
         "properties": {
           "cart_id": {
@@ -1445,7 +1493,7 @@
             "type": "array",
             "items": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             },
             "nullable": true
           },
@@ -1453,14 +1501,21 @@
             "type": "string",
             "format": "date-time"
           },
-          "all_carts_at_creation_time": {
-            "type": "string",
-            "nullable": true
+          "selected_shop_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "selected_cart": {
+            "$ref": "#/components/schemas/ShopCartModel"
+          },
+          "price_difference": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
       },
-      "CartCategory": {
+      "CartCategoryModel": {
         "type": "object",
         "properties": {
           "category": {
@@ -1548,21 +1603,9 @@
       "CreateArchivedCartRequest": {
         "type": "object",
         "properties": {
-          "category_ids": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "nullable": true
-          },
-          "barcodes": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "nullable": true
+          "selected_shop_id": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1582,7 +1625,7 @@
             "type": "array",
             "items": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             },
             "nullable": true
           }
@@ -1593,7 +1636,7 @@
         "type": "object",
         "properties": {
           "cart": {
-            "$ref": "#/components/schemas/ShopCart"
+            "$ref": "#/components/schemas/ShopCartModel"
           }
         },
         "additionalProperties": false
@@ -1619,10 +1662,14 @@
       "GetArchivedCartResponse": {
         "type": "object",
         "properties": {
+          "total_price_spared": {
+            "type": "number",
+            "format": "double"
+          },
           "archived_carts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ArchivedCartDto"
+              "$ref": "#/components/schemas/ArchivedCartModel"
             },
             "nullable": true
           }
@@ -1635,7 +1682,7 @@
           "carts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ShopCart"
+              "$ref": "#/components/schemas/ShopCartModel"
             },
             "nullable": true
           }
@@ -1646,7 +1693,7 @@
         "type": "object",
         "properties": {
           "cart": {
-            "$ref": "#/components/schemas/ShopCart"
+            "$ref": "#/components/schemas/ShopCartModel"
           }
         },
         "additionalProperties": false
@@ -1728,7 +1775,7 @@
         "properties": {
           "barcode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "products": {
             "type": "array",
@@ -1757,7 +1804,7 @@
           },
           "barcode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "shop_id": {
             "type": "integer",
@@ -1811,7 +1858,7 @@
         "properties": {
           "barcode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "category": {
             "$ref": "#/components/schemas/CategoryExtendedDto"
@@ -1844,7 +1891,7 @@
         "properties": {
           "barcode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
           "name": {
             "type": "string",
@@ -1873,7 +1920,7 @@
         },
         "additionalProperties": false
       },
-      "ShopCart": {
+      "ShopCartModel": {
         "type": "object",
         "properties": {
           "shop": {
@@ -1889,7 +1936,7 @@
           "categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CartCategory"
+              "$ref": "#/components/schemas/CartCategoryModel"
             },
             "nullable": true
           },

@@ -6,8 +6,5 @@
  */
 
 export interface CreateArchivedCartRequest {
-  /** @nullable */
-  category_ids?: number[] | null;
-  /** @nullable */
-  barcodes?: number[] | null;
+  selected_shop_id?: number;
 }

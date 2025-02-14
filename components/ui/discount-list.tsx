@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { IStoreDto } from "../../models/store.dto";
@@ -35,9 +36,7 @@ const DiscountList = ({
             <ProductCardNew
               key={index}
               product={product}
-              onPress={() => {
-                console.log("Product selected:", product);
-              }}
+              onPress={(id) => router.navigate(`/product/${id}`)}
               availableShopIds={[index + 1]}
             />
           ))}

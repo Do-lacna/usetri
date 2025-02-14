@@ -25,6 +25,10 @@ module.exports = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        divider: {
+          DEFAULT: "hsl(var(--divider))",
+          foreground: "hsl(var(--divider))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

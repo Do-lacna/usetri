@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
@@ -53,9 +54,7 @@ export default function Page() {
           renderItem={({ item }) => (
             <ProductCardNew
               product={item}
-              onPress={() => {
-                console.log("Product selected:", item);
-              }}
+              onPress={(id) => router.navigate(`/product/${id}`)}
               availableShopIds={[1]}
             />
           )}
