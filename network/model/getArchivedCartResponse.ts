@@ -4,10 +4,11 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ArchivedCartModel } from './archivedCartModel';
+import type { ShortArchivedCartModel } from './shortArchivedCartModel';
 
 export interface GetArchivedCartResponse {
   total_price_spared?: number;
+  total_price_spared_last_month?: number;
   /** @nullable */
-  archived_carts?: ArchivedCartModel[] | null;
+  archived_carts?: ShortArchivedCartModel[] | null;
 }

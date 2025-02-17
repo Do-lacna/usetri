@@ -17,4 +17,7 @@ export interface ProductImportDto {
   category_id?: number;
   /** @nullable */
   image_url?: string | null;
+  /** @nullable */
+  source_image?: string | null;
+  is_barcode_checked?: boolean;
 }

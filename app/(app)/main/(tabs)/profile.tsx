@@ -50,7 +50,7 @@ export default function ProfileScreen() {
 
         <View className="space-y-3 gap-3">
           {(archived_carts ?? []).length > 0 ? (
-            archived_carts?.map(({ cart_id, created_at, owner_id }) => (
+            archived_carts?.map(({ cart_id, created_at, total_price }) => (
               <TouchableOpacity
                 key={cart_id}
                 onPress={() =>
@@ -61,7 +61,7 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center space-x-3">
                   {/* <Cart size={20} color="#3B82F6" /> */}
                   <View>
-                    <Text className="font-semibold">{owner_id}</Text>
+                    <Text className="font-semibold">{total_price}</Text>
                     {/* <Text className="text-gray-600">${cart.total}</Text> */}
                     <Text className="text-gray-400 text-xs">{created_at}</Text>
                   </View>

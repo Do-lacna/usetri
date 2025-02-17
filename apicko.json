@@ -1152,6 +1152,136 @@
         }
       }
     },
+    "/archived-carts/{cartId}": {
+      "get": {
+        "tags": ["Customer"],
+        "operationId": "GetArchivedCartById",
+        "parameters": [
+          {
+            "name": "cartId",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetArchivedCartByIdResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetArchivedCartByIdResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetArchivedCartByIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/carts-comparison": {
       "get": {
         "tags": ["Query"],
@@ -1484,16 +1614,14 @@
           "categories": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/CartCategoryModel"
             },
             "nullable": true
           },
           "barcodes": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/ShopItemDto"
             },
             "nullable": true
           },
@@ -1502,11 +1630,11 @@
             "format": "date-time"
           },
           "selected_shop_id": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/ShopExtendedDto"
           },
-          "selected_cart": {
-            "$ref": "#/components/schemas/ShopCartModel"
+          "total_price": {
+            "type": "number",
+            "format": "double"
           },
           "price_difference": {
             "type": "number",
@@ -1659,6 +1787,15 @@
         },
         "additionalProperties": false
       },
+      "GetArchivedCartByIdResponse": {
+        "type": "object",
+        "properties": {
+          "cart": {
+            "$ref": "#/components/schemas/ArchivedCartModel"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetArchivedCartResponse": {
         "type": "object",
         "properties": {
@@ -1666,10 +1803,14 @@
             "type": "number",
             "format": "double"
           },
+          "total_price_spared_last_month": {
+            "type": "number",
+            "format": "double"
+          },
           "archived_carts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ArchivedCartModel"
+              "$ref": "#/components/schemas/ShortArchivedCartModel"
             },
             "nullable": true
           }
@@ -1916,6 +2057,13 @@
           "image_url": {
             "type": "string",
             "nullable": true
+          },
+          "source_image": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_barcode_checked": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -2004,6 +2152,32 @@
           "price": {
             "type": "number",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShortArchivedCartModel": {
+        "type": "object",
+        "properties": {
+          "cart_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "selected_shop_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total_price": {
+            "type": "number",
+            "format": "double"
+          },
+          "price_difference": {
+            "type": "number",
+            "format": "double"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
