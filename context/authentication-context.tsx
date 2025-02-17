@@ -46,7 +46,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const reactToChangedAuthState = async (user: User | null) => {
     setInitializing(true);
     try {
-      if (user) {
+      if (user && user?.emailVerified) {
         const token = await user.getIdToken();
         await setItemAsync(USER_ID, user.uid);
         await setItemAsync(AUTH_TOKEN, token);

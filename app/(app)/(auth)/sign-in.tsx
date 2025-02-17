@@ -1,13 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import auth, { signInWithEmailAndPassword } from "@react-native-firebase/auth";
+import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import type { z } from "zod";
+import { Button } from "~/components/ui/button";
+import { GoogleSignIn } from "~/components/ui/google-sign-in";
+import { Input } from "~/components/ui/input";
 import { signInSchema } from "~/schema/signin";
 import { resetAndRedirect } from "~/utils/navigation-utils";
-import { Button } from "../components/ui/button";
-import { GoogleSignIn } from "../components/ui/google-sign-in";
-import { Input } from "../components/ui/input";
 
 export default function SignIn() {
   const {
@@ -24,8 +26,26 @@ export default function SignIn() {
     password,
   }: z.infer<typeof signInSchema>) => {
     signInWithEmailAndPassword(auth(), email, password)
-      .then(() => resetAndRedirect("/main"))
-      .catch(console.error);
+      .then(async (data) => {
+        console.log(data);
+        if (data?.user?.emailVerified) {
+          resetAndRedirect("/main");
+        }
+        Toast.show({
+          type: "error",
+          text1:
+            "Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku",
+          position: "bottom",
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        Toast.show({
+          type: "error",
+          text1: "Nepodarilo sa prihlásiť",
+          position: "bottom",
+        });
+      });
   };
   return (
     <View className="flex-1 items-center justify-center gap-2">
@@ -35,7 +55,7 @@ export default function SignIn() {
         name="email"
         render={({ field: { value, onBlur, onChange } }) => (
           <Input
-            placeholder="Enter your username"
+            placeholder="Zadajte svoj e-mail"
             aria-labelledby="username"
             aria-errormessage="inputError"
             className="mt-4 w-[80%]"
@@ -54,7 +74,7 @@ export default function SignIn() {
         render={({ field: { value, onBlur, onChange } }) => (
           <Input
             secureTextEntry
-            placeholder="Enter your password"
+            placeholder="Zadajte svoje heslo"
             aria-labelledby="password"
             aria-errormessage="passwordError"
             className="mt-4 w-[80%]"
@@ -72,7 +92,11 @@ export default function SignIn() {
         onPress={handleSubmit(performSignIn)}
         className="w-[80%] mt-4"
       >
-        <Text>Sign In</Text>
+        <Text>Prihlásiť sa</Text>
+      </Button>
+
+      <Button onPress={() => router.push("/sign-up")} className="w-[60%] mt-4">
+        <Text>Registrovať</Text>
       </Button>
     </View>
   );

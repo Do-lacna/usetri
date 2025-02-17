@@ -28,6 +28,34 @@ export default function AppLayout() {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="main/archived-cart/[id]"
+        options={{
+          title: "Detail košíka",
+          // headerStyle: {
+          //   backgroundColor: "#f4f4f4", // Optional: customize header background
+          // },
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="sign-in"
+        options={{
+          title: "Porovnanie cien",
+          // headerStyle: {
+          //   backgroundColor: "#f4f4f4", // Optional: customize header background
+          // },
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 }

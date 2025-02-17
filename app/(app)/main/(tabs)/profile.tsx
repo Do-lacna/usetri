@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import {
   SafeAreaView,
@@ -8,20 +9,14 @@ import {
 } from "react-native";
 import { ShoppingCart } from "~/lib/icons/Cart";
 import { UserIcon } from "~/lib/icons/User";
+import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
 import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
-import { resetAndRedirect } from "../../../../utils/navigation-utils";
 
 export default function ProfileScreen() {
   const { signOut } = useSession();
   const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
 
-  console.log(archived_carts);
-
-  const performSignOut = () => {
-    signOut();
-    resetAndRedirect("/");
-  };
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView className="px-6">
@@ -46,28 +41,38 @@ export default function ProfileScreen() {
           <View className="h-28" />
         </View>
 
+        <TotalSavedCard />
+
         <View className="flex-row items-center gap-2 my-4">
           <Text className="text-2xl font-bold">Uložené košíky</Text>
           <ShoppingCart size={20} />
         </View>
 
         <View className="space-y-3 gap-3">
-          {archived_carts?.map(({ cart_id, created_at, owner_id }) => (
-            <TouchableOpacity
-              key={cart_id}
-              //   onPress={() => setSelectedCart(cart)}
-              className="bg-white p-4 rounded-xl shadow-sm"
-            >
-              <View className="flex-row items-center space-x-3">
-                {/* <Cart size={20} color="#3B82F6" /> */}
-                <View>
-                  <Text className="font-semibold">{owner_id}</Text>
-                  {/* <Text className="text-gray-600">${cart.total}</Text> */}
-                  <Text className="text-gray-400 text-xs">{created_at}</Text>
+          {(archived_carts ?? []).length > 0 ? (
+            archived_carts?.map(({ cart_id, created_at, owner_id }) => (
+              <TouchableOpacity
+                key={cart_id}
+                onPress={() =>
+                  router.navigate(`/main/archived-cart/${cart_id}`)
+                }
+                className="bg-white p-4 rounded-xl shadow-sm"
+              >
+                <View className="flex-row items-center space-x-3">
+                  {/* <Cart size={20} color="#3B82F6" /> */}
+                  <View>
+                    <Text className="font-semibold">{owner_id}</Text>
+                    {/* <Text className="text-gray-600">${cart.total}</Text> */}
+                    <Text className="text-gray-400 text-xs">{created_at}</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text className="my-2 text-center text-gray-600">
+              Nemáte žiadne uložené košíky
+            </Text>
+          )}
         </View>
 
         {/* <Button onPress={performSignOut}>

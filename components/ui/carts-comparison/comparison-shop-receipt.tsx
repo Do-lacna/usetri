@@ -4,7 +4,6 @@ import React from "react";
 import { Dimensions, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Button } from "~/components/ui/button";
-import { getSimplifiedCart } from "../../../lib/utils";
 import {
   getGetCartQueryKey,
   useCreateArchivedCart,
@@ -13,7 +12,7 @@ import {
 import { ShopCart } from "../../../network/model";
 
 const ComparisonShopReceipt = ({
-  shop: { name: shopName, image_url } = {},
+  shop: { name: shopName, image_url, id: shopId } = {},
   categories = [],
   specific_products: groceries = [],
   total_price,
@@ -70,12 +69,8 @@ const ComparisonShopReceipt = ({
   });
 
   const handleSaveCart = () => {
-    const simplifiedCart = getSimplifiedCart({
-      categories,
-      specific_products: groceries,
-    });
     sendCreateArchivedCart({
-      data: simplifiedCart,
+      data: { selected_shop_id: shopId },
     });
   };
   return (

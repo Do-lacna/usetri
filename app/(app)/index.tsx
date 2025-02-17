@@ -1,6 +1,6 @@
-import { Redirect } from 'expo-router';
-import { Text } from 'react-native';
-import { useSession } from '~/context/authentication-context';
+import { Redirect } from "expo-router";
+import { Text } from "react-native";
+import { useSession } from "~/context/authentication-context";
 const AppIndex = () => {
   const { user, isLoading } = useSession();
 
@@ -14,7 +14,7 @@ const AppIndex = () => {
   if (!user) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/sign-in" />;
+    return <Redirect href="/(app)/(auth)/sign-in" />;
   }
 
   return <Redirect href="/main" />;

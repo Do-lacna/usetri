@@ -48,7 +48,7 @@ export function GoogleSignIn() {
 
   return (
     <Button onPress={handleGoogleSignIn} className="w-[80%] mt-4">
-      <Text>Sign in with Google </Text>
+      <Text>Prihlásiť sa pomocou Google </Text>
     </Button>
   );
 }
