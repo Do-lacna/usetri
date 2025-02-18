@@ -24,4 +24,6 @@ export const NAVBAR_HEIGHT = 75;
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 export const DATE_FORMAT = "dd.MM.yyyy";
 
-export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";
+// export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";
+export const BASE_API_URL =
+  "https://usetri-api.livelypond-189c8f13.polandcentral.azurecontainerapps.io/";

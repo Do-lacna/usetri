@@ -12,6 +12,10 @@ export default function AppLayout() {
           presentation: "card",
           // Optional: Add animations
           animation: "slide_from_right",
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
         }}
       />
       <Stack.Screen

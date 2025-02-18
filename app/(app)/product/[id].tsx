@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { getShopById } from "../../../lib/utils";
 import {
@@ -10,17 +10,28 @@ export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
+  console.log(id);
+
   const { data: { shops = [] } = {} } = useGetShops();
 
   const { data: { products = [] } = {} } = useGetProductsByBarcode(
     Number(id),
-    undefined,
-    {
-      query: {
-        enabled: !!id,
-      },
-    }
+    undefined
+    // {
+    //   query: {
+    //     enabled: !!id,
+    //   },
+    // }
   );
+
+  if (!products?.[0]) {
+    //TODO create adequate error screen for not found product
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text className="text-3xl">Product not found</Text>
+      </View>
+    );
+  }
 
   //TODO this EP should return only detail of the product in 1 object
   const { detail: { image_url, brand, name, amount, unit } = {}, price } = {
@@ -35,15 +46,6 @@ export default function ProductDetailScreen() {
   return (
     <View className="flex-1 bg-gray-50">
       {/* Optional: Add Stack.Screen for custom header options */}
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          headerBackTitle: "Back",
-          // headerBackTitleStyle: { fontSize: 22 },
-          headerTitle: "Product Details",
-          // Add any other screen options you need
-        }}
-      />
 
       <ScrollView className="flex-1">
         {/* Image Section */}
