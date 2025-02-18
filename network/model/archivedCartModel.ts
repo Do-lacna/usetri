@@ -17,7 +17,7 @@ export interface ArchivedCartModel {
   /** @nullable */
   barcodes?: ShopItemDto[] | null;
   created_at?: string;
-  selected_shop_id?: ShopExtendedDto;
+  shop?: ShopExtendedDto;
   total_price?: number;
   price_difference?: number;
 }

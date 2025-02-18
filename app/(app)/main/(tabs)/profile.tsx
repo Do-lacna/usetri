@@ -1,14 +1,8 @@
-import { router } from "expo-router";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { ShoppingCart } from "~/lib/icons/Cart";
 import { UserIcon } from "~/lib/icons/User";
+import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
 import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
@@ -50,24 +44,17 @@ export default function ProfileScreen() {
 
         <View className="space-y-3 gap-3">
           {(archived_carts ?? []).length > 0 ? (
-            archived_carts?.map(({ cart_id, created_at, total_price }) => (
-              <TouchableOpacity
-                key={cart_id}
-                onPress={() =>
-                  router.navigate(`/main/archived-cart/${cart_id}`)
-                }
-                className="bg-white p-4 rounded-xl shadow-sm"
-              >
-                <View className="flex-row items-center space-x-3">
-                  {/* <Cart size={20} color="#3B82F6" /> */}
-                  <View>
-                    <Text className="font-semibold">{total_price}</Text>
-                    {/* <Text className="text-gray-600">${cart.total}</Text> */}
-                    <Text className="text-gray-400 text-xs">{created_at}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))
+            archived_carts?.map(
+              ({ cart_id, created_at, total_price, selected_shop_id }) => (
+                <SavedCartCard
+                  key={cart_id}
+                  id={Number(cart_id)}
+                  shopId={Number(selected_shop_id)}
+                  totalPrice={Number(total_price)}
+                  createdDate={String(created_at)}
+                />
+              )
+            )
           ) : (
             <Text className="my-2 text-center text-gray-600">
               Nemáte žiadne uložené košíky

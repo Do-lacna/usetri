@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { AUTH_TOKEN, USER_ID } from "../network/api-client";
+import { resetAndRedirect } from "../utils/navigation-utils";
 import { useStorageState } from "./useStorageState";
 
 type User = FirebaseAuthTypes.User;
@@ -46,6 +47,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const reactToChangedAuthState = async (user: User | null) => {
     setInitializing(true);
     try {
+      if (!user) {
+        resetAndRedirect("/");
+      }
       if (user && user?.emailVerified) {
         const token = await user.getIdToken();
         await setItemAsync(USER_ID, user.uid);

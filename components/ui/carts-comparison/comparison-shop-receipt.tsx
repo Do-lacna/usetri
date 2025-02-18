@@ -5,6 +5,7 @@ import { Dimensions, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { Button } from "~/components/ui/button";
 import {
+  getGetArchivedCartQueryKey,
   getGetCartQueryKey,
   useCreateArchivedCart,
   useRemoveFromCart,
@@ -16,7 +17,8 @@ const ComparisonShopReceipt = ({
   categories = [],
   specific_products: groceries = [],
   total_price,
-}: ShopCart) => {
+  actionsExecutable = true,
+}: ShopCart & { actionsExecutable?: boolean }) => {
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
   const queryClient = useQueryClient();
@@ -39,6 +41,9 @@ const ComparisonShopReceipt = ({
         });
         queryClient.invalidateQueries({
           queryKey: getGetCartQueryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: getGetArchivedCartQueryKey(),
         });
         router.back();
       },
@@ -75,8 +80,11 @@ const ComparisonShopReceipt = ({
   };
   return (
     <View
-      className="flex-1 p-4 bg-white rounded-lg shadow-md m-4 justify-between"
-      style={{ width: width - 32 }}
+      className={
+        actionsExecutable
+          ? "flex-1 p-4 bg-white rounded-lg shadow-md m-4 justify-between"
+          : ""
+      }
     >
       <View className="gap-4">
         <View className="flex items-center my-4 gap-4">
@@ -106,23 +114,25 @@ const ComparisonShopReceipt = ({
           ))}
         </View>
       </View>
-      <View className="flex-row justify-center items-center my-4 p-4 gap-4">
-        <Button
-          // disabled={!isDirty || !isValid}
-          variant="outline"
-          onPress={() => sendDiscardCart()}
-          className="w-[40%] border-2 border-gray-600"
-        >
-          <Text className="font-bold">Zahodit</Text>
-        </Button>
-        <Button
-          // disabled={!isDirty || !isValid}
-          onPress={handleSaveCart}
-          className="w-[60%]"
-        >
-          <Text className="font-bold">Ulozit kosik</Text>
-        </Button>
-      </View>
+      {actionsExecutable && (
+        <View className="flex-row justify-center items-center my-4 p-4 gap-4">
+          <Button
+            // disabled={!isDirty || !isValid}
+            variant="outline"
+            onPress={() => sendDiscardCart()}
+            className="w-[40%] border-2 border-gray-600"
+          >
+            <Text className="font-bold">Zahodit</Text>
+          </Button>
+          <Button
+            // disabled={!isDirty || !isValid}
+            onPress={handleSaveCart}
+            className="w-[60%]"
+          >
+            <Text className="font-bold">Ulozit kosik</Text>
+          </Button>
+        </View>
+      )}
     </View>
   );
 };

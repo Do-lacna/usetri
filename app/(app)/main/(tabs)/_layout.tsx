@@ -5,14 +5,12 @@ import { LogOut } from "~/lib/icons/Log-out";
 import IconButton from "../../../../components/icon-button";
 import { useSession } from "../../../../context/authentication-context";
 import { NAVBAR_HEIGHT } from "../../../../lib/constants";
-import { resetAndRedirect } from "../../../../utils/navigation-utils";
 
 export default function TabLayout() {
   const { signOut } = useSession();
 
   const performSignOut = () => {
     signOut();
-    resetAndRedirect("/");
   };
   return (
     <Tabs

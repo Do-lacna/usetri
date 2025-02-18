@@ -1,24 +1,25 @@
+import { format } from "date-fns";
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
-import { useGetArchivedCart } from "../../../../network/customer/customer";
+import ComparisonShopReceipt from "../../../../components/ui/carts-comparison/comparison-shop-receipt";
+import { DATE_FORMAT } from "../../../../lib/constants";
+import { useGetArchivedCartById } from "../../../../network/customer/customer";
 
 export default function ArchivedCartScreen() {
   const { id: cartId } = useLocalSearchParams();
-  const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
+  const { data: { cart } = {} } = useGetArchivedCartById(Number(cartId), {
+    query: {
+      enabled: !!cartId,
+    },
+  });
 
-  const selectedArchivedCart = archived_carts?.find(
-    ({ cart_id }) => cart_id === Number(cartId)
-  );
-
-  if (!selectedArchivedCart) {
+  if (!cart) {
     return (
       <View>
         <Text>Not found</Text>
       </View>
     );
   }
-
-  const { categories, barcodes, selected_shop_id } = selectedArchivedCart;
 
   //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return (
@@ -27,8 +28,11 @@ export default function ArchivedCartScreen() {
     //   specific_products={barcodes}
     //   shop={selected_shop_id}
     // />
-    <View>
-      <Text>Tu je detail nakupu</Text>
+    <View className="flex-1 p-4">
+      <Text>Nákup z {format(String(cart?.created_at), DATE_FORMAT)}</Text>
+      <Text>Ušetrených {cart?.total_price?.toFixed(2)} eur</Text>
+
+      <ComparisonShopReceipt actionsExecutable={false} {...cart} />
     </View>
   );
 }
