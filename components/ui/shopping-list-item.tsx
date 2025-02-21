@@ -14,12 +14,12 @@ import ProductCardNew from "./product-card-new";
 
 interface IShoppingListItemProps {
   label: string | null;
-  id?: number;
+  id?: number | string;
   categoryId?: number;
   isExpanded?: boolean;
-  onProductSelect?: (barcode: number, categoryId: number) => void;
+  onProductSelect?: (barcode: string, categoryId: number) => void;
   onExpandChange?: (isExpanded: boolean) => void;
-  onDelete: (id?: number) => void;
+  onDelete: (id?: number | string) => void;
 }
 
 const ShoppingListItem = ({
@@ -33,12 +33,13 @@ const ShoppingListItem = ({
 }: IShoppingListItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { data: suggestedProducts = [], isLoading } = useGetProducts(
-    {
-      category_id: categoryId,
-    },
-    { query: { enabled: !!categoryId && isExpanded } }
-  );
+  const { data: { products: suggestedProducts = [] } = {}, isLoading } =
+    useGetProducts(
+      {
+        category_id: categoryId,
+      },
+      { query: { enabled: !!categoryId && isExpanded } }
+    );
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -100,7 +101,7 @@ const ShoppingListItem = ({
                 <Text className="text-gray-600">${product.price}</Text>
               </View>
             ))} */}
-              {suggestedProducts.map(
+              {suggestedProducts?.map(
                 (
                   { barcode, products = [], available_shop_ids = [] },
                   index

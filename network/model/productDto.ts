@@ -7,7 +7,8 @@
 import type { CategoryExtendedDto } from './categoryExtendedDto';
 
 export interface ProductDto {
-  barcode?: number;
+  /** @nullable */
+  barcode?: string | null;
   category?: CategoryExtendedDto;
   /** @nullable */
   name?: string | null;

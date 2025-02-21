@@ -24,8 +24,8 @@ import type {
   GetProductsByBarcodeParams,
   GetProductsByBarcodeResponse,
   GetProductsParams,
+  GetProductsResponse,
   GetShopsResponse,
-  ItemListGroupedByBarcodeDto,
   ProblemDetails,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
@@ -37,7 +37,7 @@ export const getProducts = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
-  return orvalApiClient<ItemListGroupedByBarcodeDto[]>(
+  return orvalApiClient<GetProductsResponse>(
     { url: `/products`, method: 'GET', params, signal },
     options,
   );
@@ -153,121 +153,6 @@ export function useGetProducts<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetProductsQueryOptions(params, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const getShops = (
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetShopsResponse>(
-    { url: `/shops`, method: 'GET', signal },
-    options,
-  );
-};
-
-export const getGetShopsQueryKey = () => {
-  return [`/shops`] as const;
-};
-
-export const getGetShopsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getGetShopsQueryKey();
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getShops>>> = ({
-    signal,
-  }) => getShops(requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getShops>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetShopsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getShops>>
->;
-export type GetShopsQueryError = ProblemDetails;
-
-export function useGetShops<
-  TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getShops>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetShops<
-  TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getShops>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetShops<
-  TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useGetShops<
-  TData = Awaited<ReturnType<typeof getShops>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetShopsQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
@@ -564,7 +449,7 @@ export function useGetCategories<
 }
 
 export const getProductPrices = (
-  barcode: number,
+  barcode: string,
   shopId: number,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -576,7 +461,7 @@ export const getProductPrices = (
 };
 
 export const getGetProductPricesQueryKey = (
-  barcode: number,
+  barcode: string,
   shopId: number,
 ) => {
   return [`/products/${barcode}-${shopId}/prices`] as const;
@@ -586,7 +471,7 @@ export const getGetProductPricesQueryOptions = <
   TData = Awaited<ReturnType<typeof getProductPrices>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   shopId: number,
   options?: {
     query?: Partial<
@@ -629,7 +514,7 @@ export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   shopId: number,
   options: {
     query: Partial<
@@ -656,7 +541,7 @@ export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   shopId: number,
   options?: {
     query?: Partial<
@@ -683,7 +568,7 @@ export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   shopId: number,
   options?: {
     query?: Partial<
@@ -703,7 +588,7 @@ export function useGetProductPrices<
   TData = Awaited<ReturnType<typeof getProductPrices>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   shopId: number,
   options?: {
     query?: Partial<
@@ -734,7 +619,7 @@ export function useGetProductPrices<
 }
 
 export const getProductsByBarcode = (
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -746,7 +631,7 @@ export const getProductsByBarcode = (
 };
 
 export const getGetProductsByBarcodeQueryKey = (
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
 ) => {
   return [`/products/${barcode}`, ...(params ? [params] : [])] as const;
@@ -756,7 +641,7 @@ export const getGetProductsByBarcodeQueryOptions = <
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
@@ -800,7 +685,7 @@ export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   params: undefined | GetProductsByBarcodeParams,
   options: {
     query: Partial<
@@ -827,7 +712,7 @@ export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
@@ -854,7 +739,7 @@ export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
@@ -874,7 +759,7 @@ export function useGetProductsByBarcode<
   TData = Awaited<ReturnType<typeof getProductsByBarcode>>,
   TError = ProblemDetails,
 >(
-  barcode: number,
+  barcode: string,
   params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
@@ -894,6 +779,121 @@ export function useGetProductsByBarcode<
     params,
     options,
   );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getShops = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetShopsResponse>(
+    { url: `/shops`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetShopsQueryKey = () => {
+  return [`/shops`] as const;
+};
+
+export const getGetShopsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetShopsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getShops>>> = ({
+    signal,
+  }) => getShops(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getShops>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetShopsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getShops>>
+>;
+export type GetShopsQueryError = ProblemDetails;
+
+export function useGetShops<
+  TData = Awaited<ReturnType<typeof getShops>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getShops>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetShops<
+  TData = Awaited<ReturnType<typeof getShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getShops>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetShops<
+  TData = Awaited<ReturnType<typeof getShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetShops<
+  TData = Awaited<ReturnType<typeof getShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetShopsQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

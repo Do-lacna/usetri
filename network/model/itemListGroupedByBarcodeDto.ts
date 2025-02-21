@@ -7,7 +7,8 @@
 import type { ShopItemDto } from './shopItemDto';
 
 export interface ItemListGroupedByBarcodeDto {
-  barcode?: number;
+  /** @nullable */
+  barcode?: string | null;
   /** @nullable */
   products?: ShopItemDto[] | null;
   /** @nullable */

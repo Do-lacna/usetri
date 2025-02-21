@@ -1,6 +1,6 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 import { Keyboard, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
@@ -20,9 +20,14 @@ import {
   useCreateCart,
   useGetCart,
 } from "../../../../network/customer/customer";
-import type { CategoryExtendedWithPathDto } from "../../../../network/model";
-import { useGetCategories } from "../../../../network/query/query";
-import { getShopLogo } from "../../../../utils/logo-utils";
+import type {
+  CategoryExtendedWithPathDto,
+  ShopItemDto,
+} from "../../../../network/model";
+import {
+  useGetCategories,
+  useGetProducts,
+} from "../../../../network/query/query";
 import {
   type SearchOptions,
   searchItems,
@@ -46,14 +51,33 @@ export default function Page() {
   const [filter, setFilter] = React.useState<ShoppingListFilter>(
     ShoppingListFilter.CATEGORIES
   );
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState<
+    CategoryExtendedWithPathDto[]
+  >([]);
+  const [expandedOption, setExpandedOption] = React.useState<number | null>(
+    null
+  );
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
     {},
-    { query: { enabled: true } }
+    { query: { enabled: filter === ShoppingListFilter.CATEGORIES } }
+  );
+
+  const { data: { products: searchProducts = [] } = {} } = useGetProducts(
+    {
+      search: searchQuery,
+    },
+    {
+      query: {
+        enabled:
+          filter === ShoppingListFilter.PRODUCTS && searchQuery?.length > 2,
+      },
+    }
+  );
+
+  const productOptions = searchProducts?.map(
+    ({ products }) => products?.[0] as ShopItemDto
   );
 
   const { mutate: sendUpdateCart, isIdle } = useCreateCart({
@@ -85,14 +109,6 @@ export default function Page() {
 
   const { mirrorCartState } = useCartStore();
 
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState<
-    CategoryExtendedWithPathDto[]
-  >([]);
-  const [expandedOption, setExpandedOption] = React.useState<number | null>(
-    null
-  );
-
   React.useEffect(() => {
     if (cart) {
       mirrorCartState(cart);
@@ -106,6 +122,22 @@ export default function Page() {
       setSearchResults([]);
     }
   }, [searchQuery]);
+
+  const handleAddProductToCart = ({
+    detail: { barcode } = {},
+  }: ShopItemDto) => {
+    if (!barcode) return;
+    setSearchQuery("");
+    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+
+    sendUpdateCart({
+      data: { ...category_ids, barcodes: [...barcodes, barcode] },
+      additionalData: {
+        operation: CartOperationsEnum.ADD,
+      },
+      //here I want to pass more data for example to the context
+    });
+  };
 
   const handleAddToCart = (option: CategoryExtendedWithPathDto) => {
     if (!option?.id) return;
@@ -135,7 +167,7 @@ export default function Page() {
 
   const handleRemoveProductFromCard = (
     type: "category" | "product",
-    id?: number
+    id?: number | string
   ) => {
     const simplifiedCart = getSimplifiedCart(cart);
     //TODO when BE adjusts DTO uncomment this
@@ -151,7 +183,7 @@ export default function Page() {
     sendUpdateCart({ data: simplifiedCart });
   };
 
-  const handleProductSelect = (barcode: number, categoryId: number) => {
+  const handleProductSelect = (barcode: string, categoryId: number) => {
     const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
 
     const updatedCategoryIds = category_ids.includes(categoryId)
@@ -169,30 +201,52 @@ export default function Page() {
     });
   };
 
-  console.log(getShopLogo(1));
+  const handleFilterChange = (filter: ShoppingListFilter) => {
+    setFilter(filter);
+    bottomSheetRef?.current?.dismiss();
+  };
 
   return (
     <View className="flex-1 content-center">
       <CustomBottomSheetModal ref={bottomSheetRef}>
         <ShoppingListFilterContent
           currentFilter={filter}
-          onFilterChange={setFilter}
+          onFilterChange={handleFilterChange}
         />
       </CustomBottomSheetModal>
       <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
         <View className="flex-row items-center gap-4 mt-2 z-10">
-          <SearchBar<CategoryExtendedWithPathDto>
-            onSearch={setSearchQuery}
-            onClear={() => setSearchQuery("")}
-            searchText={searchQuery}
-            placeholder="Vyhľadaj kategóriu produktu"
-            options={searchResults}
-            onOptionSelect={handleAddToCart}
-            renderOption={(item) => (
-              <Text className="text-gray-800 text-lg">{item?.name}</Text>
-            )}
-            keyExtractor={(item) => String(item.id)}
-          />
+          {filter === ShoppingListFilter.CATEGORIES ? (
+            <SearchBar<CategoryExtendedWithPathDto>
+              onSearch={setSearchQuery}
+              onClear={() => setSearchQuery("")}
+              searchText={searchQuery}
+              placeholder={"Vyhľadaj kategóriu produktu"}
+              options={searchResults}
+              onOptionSelect={handleAddToCart}
+              renderOption={(item) => (
+                <Text className="text-gray-800 text-lg">{item?.name}</Text>
+              )}
+              keyExtractor={(item) => String(item.id)}
+            />
+          ) : (
+            //TODO simplify and generalize methods for both search bars and handler methods
+            <SearchBar<ShopItemDto>
+              onSearch={setSearchQuery}
+              onClear={() => setSearchQuery("")}
+              searchText={searchQuery}
+              placeholder={"Vyhľadaj konkrétny produkt"}
+              options={productOptions ?? []}
+              onOptionSelect={handleAddProductToCart}
+              renderOption={(item) => (
+                <Text className="text-gray-800 text-lg">
+                  {item?.detail?.name}
+                </Text>
+              )}
+              keyExtractor={(item) => String(item?.detail?.barcode)}
+            />
+          )}
+
           <IconButton
             onPress={() => bottomSheetRef?.current?.present()}
             className="w-10"
@@ -227,7 +281,7 @@ export default function Page() {
             }) => (
               <ShoppingListItem
                 key={barcode}
-                id={barcode}
+                id={String(barcode)}
                 label={name}
                 categoryId={categoryId}
                 onDelete={(id) => handleRemoveProductFromCard("product", id)}

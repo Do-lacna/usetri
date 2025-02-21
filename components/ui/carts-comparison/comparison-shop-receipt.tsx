@@ -92,7 +92,7 @@ const ComparisonShopReceipt = ({
             {shopName?.toLocaleUpperCase()}
           </Text>
           <Text className="text-2xl font-bold">Zoznam produktov</Text>
-          <View className="w-[100%] border-black border" />
+          <View className="w-[100%] border-primary border" />
         </View>
 
         <View>
@@ -114,25 +114,34 @@ const ComparisonShopReceipt = ({
           ))}
         </View>
       </View>
-      {actionsExecutable && (
-        <View className="flex-row justify-center items-center my-4 p-4 gap-4">
-          <Button
-            // disabled={!isDirty || !isValid}
-            variant="outline"
-            onPress={() => sendDiscardCart()}
-            className="w-[40%] border-2 border-gray-600"
-          >
-            <Text className="font-bold">Zahodit</Text>
-          </Button>
-          <Button
-            // disabled={!isDirty || !isValid}
-            onPress={handleSaveCart}
-            className="w-[60%]"
-          >
-            <Text className="font-bold">Ulozit kosik</Text>
-          </Button>
+      <View>
+        <View className="w-[100%] border-primary border" />
+        <View className="flex-row justify-between items-center my-4">
+          <Text className="text-2xl text-primary">Celková suma</Text>
+          <Text className="text-2xl font-bold text-primary">
+            {total_price?.toFixed(2)} €
+          </Text>
         </View>
-      )}
+        {actionsExecutable && (
+          <View className="flex-row justify-center items-center my-4 p-4 gap-4">
+            <Button
+              // disabled={!isDirty || !isValid}
+              variant="outline"
+              onPress={() => sendDiscardCart()}
+              className="w-[40%] border-2 border-gray-600"
+            >
+              <Text className="font-bold">Zahodit</Text>
+            </Button>
+            <Button
+              // disabled={!isDirty || !isValid}
+              onPress={handleSaveCart}
+              className="w-[60%]"
+            >
+              <Text className="font-bold">Ulozit kosik</Text>
+            </Button>
+          </View>
+        )}
+      </View>
     </View>
   );
 };

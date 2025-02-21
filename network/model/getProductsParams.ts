@@ -9,4 +9,6 @@ export type GetProductsParams = {
   category_id?: number;
   search?: string;
   restricted_shops?: number[];
+  Limit?: number;
+  Offset?: number;
 };

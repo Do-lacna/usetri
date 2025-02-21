@@ -7,8 +7,7 @@
 import type { CategoryExtendedWithPathDto } from './categoryExtendedWithPathDto';
 
 export interface GetCategoryResponse {
+  count?: number;
   /** @nullable */
   categories?: CategoryExtendedWithPathDto[] | null;
-  /** @nullable */
-  unsorted_categories?: CategoryExtendedWithPathDto[] | null;
 }

@@ -33,7 +33,7 @@ export const getSimplifiedCart = (
     ({ category: { id } = {} }) => Number(id)
   );
   const barcodes = cart?.specific_products?.map((product) =>
-    Number(product?.detail?.barcode)
+    String(product?.detail?.barcode)
   );
 
   return {

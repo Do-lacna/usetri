@@ -22,14 +22,16 @@ const TotalSavedCard: React.FC<ProductCardProps> = ({
       <CardTitle className="mb-4">Ušetril si už</CardTitle>
       <View className="flex-1 flex-row items-center justify-between">
         <View className="flex-1">
-          <Text className="text-2xl text-center">
+          <Text className="text-2xl font-bold text-center">
             {total_price_spared_last_month}
           </Text>
           <Text className="text-center">Tento mesiac</Text>
         </View>
         <View className="h-[100%] w-0.5 bg-divider" />
         <View className="flex-1">
-          <Text className="text-2xl text-center">{total_price_spared}</Text>
+          <Text className="text-2xl font-bold text-center">
+            {total_price_spared}
+          </Text>
           <Text className="text-center">Celkovo</Text>
         </View>
       </View>

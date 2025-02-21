@@ -59,5 +59,6 @@ export * from './shopExtendedDto';
 export * from './shopItemDto';
 export * from './shopItemListDto';
 export * from './shortArchivedCartModel';
+export * from './updateShopRequest';
 export * from './uploadCategoriesFileBody';
 export * from './uploadFileBody';

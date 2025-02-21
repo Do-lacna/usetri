@@ -10,8 +10,6 @@ export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  console.log(id);
-
   const { data: { shops = [] } = {} } = useGetShops();
 
   const { data: { products = [] } = {} } = useGetProductsByBarcode(

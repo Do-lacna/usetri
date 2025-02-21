@@ -5,6 +5,225 @@
     "version": "1.0"
   },
   "paths": {
+    "/admin/shops": {
+      "post": {
+        "tags": ["Admin"],
+        "operationId": "AddShop",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShopRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShopRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShopRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddShopResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddShopResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddShopResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Admin"],
+        "operationId": "UpdateShop",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShopRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShopRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShopRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products": {
       "post": {
         "tags": ["Admin"],
@@ -138,6 +357,24 @@
                 "format": "int32"
               }
             }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         ],
         "responses": {
@@ -146,26 +383,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
-                  }
+                  "$ref": "#/components/schemas/GetProductsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
-                  }
+                  "$ref": "#/components/schemas/GetProductsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
-                  }
+                  "$ref": "#/components/schemas/GetProductsResponse"
                 }
               }
             }
@@ -193,10 +421,10 @@
         }
       }
     },
-    "/shops": {
-      "post": {
+    "/admin/products": {
+      "delete": {
         "tags": ["Admin"],
-        "operationId": "AddShop",
+        "operationId": "DropAllProducts",
         "parameters": [
           {
             "name": "user-id",
@@ -209,45 +437,9 @@
             "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddShopRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddShopRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddShopRequest"
-              }
-            }
-          }
-        },
         "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddShopResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddShopResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddShopResponse"
-                }
-              }
-            }
+          "201": {
+            "description": "Created"
           },
           "400": {
             "description": "Bad Request",
@@ -310,33 +502,90 @@
             }
           }
         }
-      },
-      "get": {
-        "tags": ["Query"],
-        "operationId": "GetShops",
+      }
+    },
+    "/admin/products/import": {
+      "post": {
+        "tags": ["Admin"],
+        "operationId": "ImportProducts",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productsCsv": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "productsCsv": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "Success",
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetShopsResponse"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetShopsResponse"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetShopsResponse"
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
             "content": {
               "text/plain": {
                 "schema": {
@@ -358,7 +607,7 @@
         }
       }
     },
-    "/products/{barcode}/prices": {
+    "/admin/products/{barcode}/prices": {
       "put": {
         "tags": ["Admin"],
         "operationId": "ChangePrice",
@@ -369,9 +618,7 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
@@ -471,18 +718,20 @@
         }
       }
     },
-    "/adminMVC/categories": {
+    "/admin/categories/export": {
       "get": {
-        "tags": ["AdminMVC"],
-        "operationId": "CategoryManagement",
+        "tags": ["Admin"],
+        "operationId": "Export",
         "parameters": [
           {
-            "name": "message",
-            "in": "query",
-            "style": "form",
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
           }
         ],
         "responses": {
@@ -492,21 +741,22 @@
         }
       }
     },
-    "/adminMVC/categories/export": {
-      "get": {
-        "tags": ["AdminMVC"],
-        "operationId": "Export",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/adminMVC/categories/import": {
+    "/admin/categories/import": {
       "post": {
-        "tags": ["AdminMVC"],
+        "tags": ["Admin"],
         "operationId": "UploadCategoriesFile",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -534,6 +784,27 @@
         }
       }
     },
+    "/adminMVC/categories": {
+      "get": {
+        "tags": ["AdminMVC"],
+        "operationId": "CategoryManagement",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/adminMVC": {
       "get": {
         "tags": ["AdminMVC"],
@@ -549,44 +820,6 @@
       "get": {
         "tags": ["AdminMVC"],
         "operationId": "ProductManagement",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["AdminMVC"],
-        "operationId": "DropAllProducts",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": ["AdminMVC"],
-        "operationId": "ImportProducts",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "productsCsv": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "productsCsv": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -1368,6 +1601,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
         ],
         "responses": {
@@ -1425,9 +1676,7 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
@@ -1497,9 +1746,7 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
@@ -1532,6 +1779,54 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetProductsByBarcodeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shops": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetShops",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetShopsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetShopsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetShopsResponse"
                 }
               }
             }
@@ -1752,8 +2047,7 @@
           "barcodes": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             },
             "nullable": true
           }
@@ -1842,14 +2136,11 @@
       "GetCategoryResponse": {
         "type": "object",
         "properties": {
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryExtendedWithPathDto"
-            },
-            "nullable": true
+          "count": {
+            "type": "integer",
+            "format": "int32"
           },
-          "unsorted_categories": {
+          "categories": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CategoryExtendedWithPathDto"
@@ -1898,6 +2189,23 @@
         },
         "additionalProperties": false
       },
+      "GetProductsResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemListGroupedByBarcodeDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetShopsResponse": {
         "type": "object",
         "properties": {
@@ -1915,8 +2223,8 @@
         "type": "object",
         "properties": {
           "barcode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "products": {
             "type": "array",
@@ -1944,8 +2252,8 @@
             "format": "double"
           },
           "barcode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "shop_id": {
             "type": "integer",
@@ -1998,8 +2306,8 @@
         "type": "object",
         "properties": {
           "barcode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "category": {
             "$ref": "#/components/schemas/CategoryExtendedDto"
@@ -2031,8 +2339,8 @@
         "type": "object",
         "properties": {
           "barcode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true
           },
           "name": {
             "type": "string",
@@ -2178,6 +2486,15 @@
           "created_at": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateShopRequest": {
+        "type": "object",
+        "properties": {
+          "shop": {
+            "$ref": "#/components/schemas/ShopExtendedDto"
           }
         },
         "additionalProperties": false

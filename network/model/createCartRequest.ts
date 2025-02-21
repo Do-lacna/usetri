@@ -9,5 +9,5 @@ export interface CreateCartRequest {
   /** @nullable */
   category_ids?: number[] | null;
   /** @nullable */
-  barcodes?: number[] | null;
+  barcodes?: string[] | null;
 }

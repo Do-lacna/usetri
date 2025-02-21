@@ -7,4 +7,6 @@
 
 export type GetCategoriesParams = {
   category_name?: string;
+  Limit?: number;
+  Offset?: number;
 };

@@ -18,7 +18,7 @@ const options: SearchOptions<ProductDto> = {
 export default function Page() {
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const { data: searchProducts = [] } = useGetProducts(
+  const { data: { products: searchProducts = [] } = {} } = useGetProducts(
     {
       search: searchQuery,
     },

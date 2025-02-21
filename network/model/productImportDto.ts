@@ -6,7 +6,8 @@
  */
 
 export interface ProductImportDto {
-  barcode?: number;
+  /** @nullable */
+  barcode?: string | null;
   /** @nullable */
   name?: string | null;
   amount?: number;

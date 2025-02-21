@@ -4,23 +4,190 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import type {
   AddProductRequest,
   AddShopRequest,
   AddShopResponse,
   ChangeItemPriceRequest,
+  ImportProductsBody,
   ProblemDetails,
+  UpdateShopRequest,
+  UploadCategoriesFileBody,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const addShop = (
+  addShopRequest: AddShopRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<AddShopResponse>(
+    {
+      url: `/admin/shops`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: addShopRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getAddShopMutationOptions = <
+  TData = Awaited<ReturnType<typeof addShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['addShop'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addShop>>,
+    { data: AddShopRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return addShop(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: AddShopRequest },
+    TContext
+  >;
+};
+
+export type AddShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addShop>>
+>;
+export type AddShopMutationBody = AddShopRequest;
+export type AddShopMutationError = ProblemDetails;
+
+export const useAddShop = <
+  TData = Awaited<ReturnType<typeof addShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, { data: AddShopRequest }, TContext> => {
+  const mutationOptions = getAddShopMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const updateShop = (
+  updateShopRequest: UpdateShopRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/shops`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateShopRequest,
+    },
+    options,
+  );
+};
+
+export const getUpdateShopMutationOptions = <
+  TData = Awaited<ReturnType<typeof updateShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UpdateShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['updateShop'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateShop>>,
+    { data: UpdateShopRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return updateShop(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UpdateShopRequest },
+    TContext
+  >;
+};
+
+export type UpdateShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateShop>>
+>;
+export type UpdateShopMutationBody = UpdateShopRequest;
+export type UpdateShopMutationError = ProblemDetails;
+
+export const useUpdateShop = <
+  TData = Awaited<ReturnType<typeof updateShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UpdateShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, { data: UpdateShopRequest }, TContext> => {
+  const mutationOptions = getUpdateShopMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const addProduct = (
   addProductRequest: AddProductRequest,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -100,37 +267,24 @@ export const useAddProduct = <
 
   return useMutation(mutationOptions);
 };
-export const addShop = (
-  addShopRequest: AddShopRequest,
+export const dropAllProducts = (
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
 ) => {
-  return orvalApiClient<AddShopResponse>(
-    {
-      url: `/shops`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: addShopRequest,
-      signal,
-    },
+  return orvalApiClient<void>(
+    { url: `/admin/products`, method: 'DELETE' },
     options,
   );
 };
 
-export const getAddShopMutationOptions = <
-  TData = Awaited<ReturnType<typeof addShop>>,
+export const getDropAllProductsMutationOptions = <
+  TData = Awaited<ReturnType<typeof dropAllProducts>>,
   TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: AddShopRequest },
-    TContext
-  >;
+  mutation?: UseMutationOptions<TData, TError, void, TContext>;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['addShop'];
+  const mutationKey = ['dropAllProducts'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -140,53 +294,135 @@ export const getAddShopMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof addShop>>,
-    { data: AddShopRequest }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return addShop(data, requestOptions);
+    Awaited<ReturnType<typeof dropAllProducts>>,
+    void
+  > = () => {
+    return dropAllProducts(requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: AddShopRequest },
+    void,
     TContext
   >;
 };
 
-export type AddShopMutationResult = NonNullable<
-  Awaited<ReturnType<typeof addShop>>
+export type DropAllProductsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof dropAllProducts>>
 >;
-export type AddShopMutationBody = AddShopRequest;
-export type AddShopMutationError = ProblemDetails;
 
-export const useAddShop = <
-  TData = Awaited<ReturnType<typeof addShop>>,
+export type DropAllProductsMutationError = ProblemDetails;
+
+export const useDropAllProducts = <
+  TData = Awaited<ReturnType<typeof dropAllProducts>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, void, TContext>;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, void, TContext> => {
+  const mutationOptions = getDropAllProductsMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const importProducts = (
+  importProductsBody: ImportProductsBody,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  const formData = new FormData();
+  if (importProductsBody.productsCsv !== undefined) {
+    formData.append('productsCsv', importProductsBody.productsCsv);
+  }
+
+  return orvalApiClient<void>(
+    {
+      url: `/admin/products/import`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getImportProductsMutationOptions = <
+  TData = Awaited<ReturnType<typeof importProducts>>,
   TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: AddShopRequest },
+    { data: ImportProductsBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, { data: AddShopRequest }, TContext> => {
-  const mutationOptions = getAddShopMutationOptions(options);
+}) => {
+  const mutationKey = ['importProducts'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof importProducts>>,
+    { data: ImportProductsBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return importProducts(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ImportProductsBody },
+    TContext
+  >;
+};
+
+export type ImportProductsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof importProducts>>
+>;
+export type ImportProductsMutationBody = ImportProductsBody;
+export type ImportProductsMutationError = ProblemDetails;
+
+export const useImportProducts = <
+  TData = Awaited<ReturnType<typeof importProducts>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: ImportProductsBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: ImportProductsBody },
+  TContext
+> => {
+  const mutationOptions = getImportProductsMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 export const changePrice = (
-  barcode: number,
+  barcode: string,
   changeItemPriceRequest: ChangeItemPriceRequest,
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<void>(
     {
-      url: `/products/${barcode}/prices`,
+      url: `/admin/products/${barcode}/prices`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: changeItemPriceRequest,
@@ -203,7 +439,7 @@ export const getChangePriceMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: number; data: ChangeItemPriceRequest },
+    { barcode: string; data: ChangeItemPriceRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -219,7 +455,7 @@ export const getChangePriceMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof changePrice>>,
-    { barcode: number; data: ChangeItemPriceRequest }
+    { barcode: string; data: ChangeItemPriceRequest }
   > = (props) => {
     const { barcode, data } = props ?? {};
 
@@ -229,7 +465,7 @@ export const getChangePriceMutationOptions = <
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { barcode: number; data: ChangeItemPriceRequest },
+    { barcode: string; data: ChangeItemPriceRequest },
     TContext
   >;
 };
@@ -248,17 +484,221 @@ export const useChangePrice = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: number; data: ChangeItemPriceRequest },
+    { barcode: string; data: ChangeItemPriceRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { barcode: number; data: ChangeItemPriceRequest },
+  { barcode: string; data: ChangeItemPriceRequest },
   TContext
 > => {
   const mutationOptions = getChangePriceMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const _export = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/categories/export`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getExportQueryKey = () => {
+  return [`/admin/categories/export`] as const;
+};
+
+export const getExportQueryOptions = <
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getExportQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof _export>>> = ({
+    signal,
+  }) => _export(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof _export>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type _ExportQueryResult = NonNullable<
+  Awaited<ReturnType<typeof _export>>
+>;
+export type _ExportQueryError = unknown;
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof _export>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof _export>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getExportQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const uploadCategoriesFile = (
+  uploadCategoriesFileBody: UploadCategoriesFileBody,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  const formData = new FormData();
+  if (uploadCategoriesFileBody.file !== undefined) {
+    formData.append('file', uploadCategoriesFileBody.file);
+  }
+
+  return orvalApiClient<void>(
+    {
+      url: `/admin/categories/import`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getUploadCategoriesFileMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadCategoriesFileBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['uploadCategoriesFile'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadCategoriesFile>>,
+    { data: UploadCategoriesFileBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return uploadCategoriesFile(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadCategoriesFileBody },
+    TContext
+  >;
+};
+
+export type UploadCategoriesFileMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadCategoriesFile>>
+>;
+export type UploadCategoriesFileMutationBody = UploadCategoriesFileBody;
+export type UploadCategoriesFileMutationError = unknown;
+
+export const useUploadCategoriesFile = <
+  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadCategoriesFileBody },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: UploadCategoriesFileBody },
+  TContext
+> => {
+  const mutationOptions = getUploadCategoriesFileMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

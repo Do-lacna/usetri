@@ -19,7 +19,7 @@ export interface IProduct {
 export interface IProductCardProps {
   product?: ShopItemDto;
   availableShopIds: number[] | null;
-  onPress?: (id: number, categoryId: number) => void;
+  onPress?: (barcode: string, categoryId: number) => void;
   className?: string;
 }
 
@@ -48,7 +48,7 @@ const ProductCardNew = ({
     // <Link asChild href={`/product/${barcode}`}>
     <Pressable
       className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
-      onPress={() => onPress?.(Number(barcode), Number(categoryId))}
+      onPress={() => onPress?.(String(barcode), Number(categoryId))}
       // onPress={() => console.log("prudct")}
     >
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
