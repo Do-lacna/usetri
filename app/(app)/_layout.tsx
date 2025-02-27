@@ -46,7 +46,7 @@ export default function AppLayout() {
           presentation: "modal",
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="sign-in"
         options={{
           title: "Porovnanie cien",
@@ -59,7 +59,7 @@ export default function AppLayout() {
           },
           presentation: "modal",
         }}
-      />
+      /> */}
     </Stack>
   );
 }

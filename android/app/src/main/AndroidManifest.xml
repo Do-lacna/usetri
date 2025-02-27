@@ -27,6 +27,7 @@
         <data android:scheme="myapp"/>
         <data android:scheme="com.dutosvarc.usetri"/>
         <data android:scheme="exp+usetri"/>
+        <data android:scheme="usetri"/>
       </intent-filter>
     </activity>
   </application>

@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>myapp</string>
+          <string>usetri</string>
           <string>com.dutosvarc.usetri</string>
         </array>
       </dict>
