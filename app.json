@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
@@ -40,6 +38,7 @@
       "expo-router",
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics",
       "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",
