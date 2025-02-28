@@ -4,6 +4,8 @@ import { FlatList, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
 import { type SearchOptions } from "~/utils/search-utils";
+import { Button } from "../../../../components/ui/button";
+import CameraView from "../../../../components/ui/camera-view/camera-view";
 import ProductCardNew from "../../../../components/ui/product-card-new";
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
@@ -16,6 +18,7 @@ const options: SearchOptions<ProductDto> = {
 };
 
 export default function Page() {
+  const [isCameraView, setIsCameraView] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const { data: { products: searchProducts = [] } = {} } = useGetProducts(
@@ -34,7 +37,9 @@ export default function Page() {
   const displaySearchResult =
     searchQuery?.length > 0 && outputProducts?.length > 0;
 
-  return (
+  return isCameraView ? (
+    <CameraView />
+  ) : (
     <View className="flex justify-start px-2">
       <SearchBar<ProductDto>
         onSearch={setSearchQuery}
@@ -48,6 +53,9 @@ export default function Page() {
         )}
         keyExtractor={(item) => String(item.barcode)}
       />
+      <Button onPress={() => setIsCameraView(true)}>
+        <Text>Scan</Text>
+      </Button>
       {displaySearchResult ? (
         <FlatList
           data={outputProducts}
