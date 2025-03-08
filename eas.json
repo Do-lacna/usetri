@@ -5,7 +5,11 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EAS_BUILD_DISABLE_NPM_CACHE": "1",
+        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
+      }
     },
     "preview": {
       "distribution": "internal"

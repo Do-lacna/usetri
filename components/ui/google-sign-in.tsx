@@ -10,14 +10,22 @@ import { Button } from "./button";
 maybeCompleteAuthSession();
 
 export function GoogleSignIn() {
-  const [_, response, promptAsync] = useAuthRequest({
-    androidClientId:
-      "504961053140-o0ue7qneapk7ch614i13i14p1s28ud0h.apps.googleusercontent.com",
-    iosClientId:
-      "504961053140-oveffkqr0tkt5mbj0ksfkggv055n7i33.apps.googleusercontent.com",
-    webClientId:
-      "504961053140-5fb7kj7fg852n3nhuaadn0hopblh6djl.apps.googleusercontent.com",
-  });
+  const [_, response, promptAsync] = useAuthRequest(
+    {
+      androidClientId:
+        "504961053140-o0ue7qneapk7ch614i13i14p1s28ud0h.apps.googleusercontent.com",
+      iosClientId:
+        "504961053140-oveffkqr0tkt5mbj0ksfkggv055n7i33.apps.googleusercontent.com",
+      webClientId:
+        "504961053140-5fb7kj7fg852n3nhuaadn0hopblh6djl.apps.googleusercontent.com",
+    },
+    {
+      path: "/(app)/(auth)/sign-in",
+      scheme: "usetri",
+    }
+  );
+
+  console.log(response);
 
   const { setUser } = useSession();
 
@@ -30,8 +38,11 @@ export function GoogleSignIn() {
           authentication.accessToken
         );
 
+        console.log("Signing with google");
+
         signInWithCredential(auth(), credential)
           .then(({ user }) => {
+            console.log("Successfull sign in " + user);
             setUser(user);
             resetAndRedirect("/main");
           })

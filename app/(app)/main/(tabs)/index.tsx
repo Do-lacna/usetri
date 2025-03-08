@@ -3,10 +3,11 @@ import React from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
+import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 import { type SearchOptions } from "~/utils/search-utils";
-import { Button } from "../../../../components/ui/button";
+import IconButton from "../../../../components/icon-button";
 import CameraView from "../../../../components/ui/camera-view/camera-view";
-import ProductCardNew from "../../../../components/ui/product-card-new";
+import ProductCardNew2 from "../../../../components/ui/product-card/product-card";
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
@@ -41,26 +42,33 @@ export default function Page() {
     <CameraView />
   ) : (
     <View className="flex justify-start px-2">
-      <SearchBar<ProductDto>
-        onSearch={setSearchQuery}
-        onClear={() => setSearchQuery("")}
-        searchText={searchQuery}
-        placeholder="Hľadaj produkty"
-        options={[]}
-        onOptionSelect={(option) => console.log("Option selected:", option)}
-        renderOption={(item) => (
-          <Text className="text-gray-800 text-lg">{item?.name}</Text>
-        )}
-        keyExtractor={(item) => String(item.barcode)}
-      />
-      <Button onPress={() => setIsCameraView(true)}>
-        <Text>Scan</Text>
-      </Button>
+      <View className="flex-row items-center gap-4 mt-2 z-10">
+        <SearchBar<ProductDto>
+          onSearch={setSearchQuery}
+          onClear={() => setSearchQuery("")}
+          searchText={searchQuery}
+          placeholder="Hľadaj produkty"
+          options={[]}
+          onOptionSelect={(option) => console.log("Option selected:", option)}
+          renderOption={(item) => (
+            <Text className="text-gray-800 text-lg">{item?.name}</Text>
+          )}
+          keyExtractor={(item) => String(item.barcode)}
+        />
+
+        <IconButton
+          onPress={() => router.navigate(`/(app)/oauthredirect`)}
+          className="w-10"
+        >
+          <ScanBarcode size={24} className="text-primary mr-3" />
+        </IconButton>
+      </View>
+
       {displaySearchResult ? (
         <FlatList
           data={outputProducts}
           renderItem={({ item }) => (
-            <ProductCardNew
+            <ProductCardNew2
               product={item}
               onPress={(id) => router.navigate(`/product/${id}`)}
               availableShopIds={[1]}
