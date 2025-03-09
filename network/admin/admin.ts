@@ -19,14 +19,23 @@ import type {
   UseQueryResult,
 } from '@tanstack/react-query';
 import type {
-  AddProductRequest,
+  AddCategoryRequest,
+  AddProductAdminRequest,
   AddShopRequest,
   AddShopResponse,
   ChangeItemPriceRequest,
-  ImportProductsBody,
+  GetCategoriesAdminParams,
+  GetCategoryAdminResponse,
+  GetCategoryManagementAdminResponse,
+  GetProductPricesResponse,
+  GetProductsAdminParams,
+  GetProductsAdminResponse,
+  GetShopsAdminResponse,
+  PatchCategoryRequest,
   ProblemDetails,
+  UpdateProductModel,
   UpdateShopRequest,
-  UploadCategoriesFileBody,
+  UploadDiscountPricesJsonBody,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -111,17 +120,127 @@ export const useAddShop = <
 
   return useMutation(mutationOptions);
 };
+export const adminGetShops = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetShopsAdminResponse>(
+    { url: `/admin/shops`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getAdminGetShopsQueryKey = () => {
+  return [`/admin/shops`] as const;
+};
+
+export const getAdminGetShopsQueryOptions = <
+  TData = Awaited<ReturnType<typeof adminGetShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof adminGetShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getAdminGetShopsQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof adminGetShops>>> = ({
+    signal,
+  }) => adminGetShops(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof adminGetShops>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type AdminGetShopsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof adminGetShops>>
+>;
+export type AdminGetShopsQueryError = ProblemDetails;
+
+export function useAdminGetShops<
+  TData = Awaited<ReturnType<typeof adminGetShops>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof adminGetShops>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof adminGetShops>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useAdminGetShops<
+  TData = Awaited<ReturnType<typeof adminGetShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof adminGetShops>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof adminGetShops>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useAdminGetShops<
+  TData = Awaited<ReturnType<typeof adminGetShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof adminGetShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useAdminGetShops<
+  TData = Awaited<ReturnType<typeof adminGetShops>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof adminGetShops>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getAdminGetShopsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const updateShop = (
-  updateShopRequest: UpdateShopRequest,
+  shopId: number,
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<void>(
-    {
-      url: `/admin/shops`,
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      data: updateShopRequest,
-    },
+    { url: `/admin/shops/${shopId}`, method: 'DELETE' },
     options,
   );
 };
@@ -131,12 +250,7 @@ export const getUpdateShopMutationOptions = <
   TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: UpdateShopRequest },
-    TContext
-  >;
+  mutation?: UseMutationOptions<TData, TError, { shopId: number }, TContext>;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
   const mutationKey = ['updateShop'];
@@ -150,17 +264,17 @@ export const getUpdateShopMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateShop>>,
-    { data: UpdateShopRequest }
+    { shopId: number }
   > = (props) => {
-    const { data } = props ?? {};
+    const { shopId } = props ?? {};
 
-    return updateShop(data, requestOptions);
+    return updateShop(shopId, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UpdateShopRequest },
+    { shopId: number },
     TContext
   >;
 };
@@ -168,7 +282,7 @@ export const getUpdateShopMutationOptions = <
 export type UpdateShopMutationResult = NonNullable<
   Awaited<ReturnType<typeof updateShop>>
 >;
-export type UpdateShopMutationBody = UpdateShopRequest;
+
 export type UpdateShopMutationError = ProblemDetails;
 
 export const useUpdateShop = <
@@ -176,29 +290,107 @@ export const useUpdateShop = <
   TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: UpdateShopRequest },
-    TContext
-  >;
+  mutation?: UseMutationOptions<TData, TError, { shopId: number }, TContext>;
   request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, { data: UpdateShopRequest }, TContext> => {
+}): UseMutationResult<TData, TError, { shopId: number }, TContext> => {
   const mutationOptions = getUpdateShopMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
+export const patchShop = (
+  shopId: number,
+  updateShopRequest: UpdateShopRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/shops/${shopId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateShopRequest,
+    },
+    options,
+  );
+};
+
+export const getPatchShopMutationOptions = <
+  TData = Awaited<ReturnType<typeof patchShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { shopId: number; data: UpdateShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['patchShop'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchShop>>,
+    { shopId: number; data: UpdateShopRequest }
+  > = (props) => {
+    const { shopId, data } = props ?? {};
+
+    return patchShop(shopId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { shopId: number; data: UpdateShopRequest },
+    TContext
+  >;
+};
+
+export type PatchShopMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchShop>>
+>;
+export type PatchShopMutationBody = UpdateShopRequest;
+export type PatchShopMutationError = ProblemDetails;
+
+export const usePatchShop = <
+  TData = Awaited<ReturnType<typeof patchShop>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { shopId: number; data: UpdateShopRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { shopId: number; data: UpdateShopRequest },
+  TContext
+> => {
+  const mutationOptions = getPatchShopMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const addProduct = (
-  addProductRequest: AddProductRequest,
+  addProductAdminRequest: AddProductAdminRequest,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
     {
-      url: `/products`,
+      url: `/admin/products`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: addProductRequest,
+      data: addProductAdminRequest,
       signal,
     },
     options,
@@ -213,7 +405,7 @@ export const getAddProductMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: AddProductRequest },
+    { data: AddProductAdminRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -229,7 +421,7 @@ export const getAddProductMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addProduct>>,
-    { data: AddProductRequest }
+    { data: AddProductAdminRequest }
   > = (props) => {
     const { data } = props ?? {};
 
@@ -239,7 +431,7 @@ export const getAddProductMutationOptions = <
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: AddProductRequest },
+    { data: AddProductAdminRequest },
     TContext
   >;
 };
@@ -247,7 +439,7 @@ export const getAddProductMutationOptions = <
 export type AddProductMutationResult = NonNullable<
   Awaited<ReturnType<typeof addProduct>>
 >;
-export type AddProductMutationBody = AddProductRequest;
+export type AddProductMutationBody = AddProductAdminRequest;
 export type AddProductMutationError = ProblemDetails;
 
 export const useAddProduct = <
@@ -258,171 +450,345 @@ export const useAddProduct = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: AddProductRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, { data: AddProductRequest }, TContext> => {
-  const mutationOptions = getAddProductMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-export const dropAllProducts = (
-  options?: SecondParameter<typeof orvalApiClient>,
-) => {
-  return orvalApiClient<void>(
-    { url: `/admin/products`, method: 'DELETE' },
-    options,
-  );
-};
-
-export const getDropAllProductsMutationOptions = <
-  TData = Awaited<ReturnType<typeof dropAllProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const mutationKey = ['dropAllProducts'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof dropAllProducts>>,
-    void
-  > = () => {
-    return dropAllProducts(requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    void,
-    TContext
-  >;
-};
-
-export type DropAllProductsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof dropAllProducts>>
->;
-
-export type DropAllProductsMutationError = ProblemDetails;
-
-export const useDropAllProducts = <
-  TData = Awaited<ReturnType<typeof dropAllProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, void, TContext> => {
-  const mutationOptions = getDropAllProductsMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-export const importProducts = (
-  importProductsBody: ImportProductsBody,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  const formData = new FormData();
-  if (importProductsBody.productsCsv !== undefined) {
-    formData.append('productsCsv', importProductsBody.productsCsv);
-  }
-
-  return orvalApiClient<void>(
-    {
-      url: `/admin/products/import`,
-      method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      data: formData,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getImportProductsMutationOptions = <
-  TData = Awaited<ReturnType<typeof importProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: ImportProductsBody },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const mutationKey = ['importProducts'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof importProducts>>,
-    { data: ImportProductsBody }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return importProducts(data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: ImportProductsBody },
-    TContext
-  >;
-};
-
-export type ImportProductsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof importProducts>>
->;
-export type ImportProductsMutationBody = ImportProductsBody;
-export type ImportProductsMutationError = ProblemDetails;
-
-export const useImportProducts = <
-  TData = Awaited<ReturnType<typeof importProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: ImportProductsBody },
+    { data: AddProductAdminRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: ImportProductsBody },
+  { data: AddProductAdminRequest },
   TContext
 > => {
-  const mutationOptions = getImportProductsMutationOptions(options);
+  const mutationOptions = getAddProductMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getProductsAdmin = (
+  params?: GetProductsAdminParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetProductsAdminResponse>(
+    { url: `/admin/products`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetProductsAdminQueryKey = (
+  params?: GetProductsAdminParams,
+) => {
+  return [`/admin/products`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetProductsAdminQueryOptions = <
+  TData = Awaited<ReturnType<typeof getProductsAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetProductsAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductsAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetProductsAdminQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getProductsAdmin>>
+  > = ({ signal }) => getProductsAdmin(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getProductsAdmin>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetProductsAdminQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProductsAdmin>>
+>;
+export type GetProductsAdminQueryError = ProblemDetails;
+
+export function useGetProductsAdmin<
+  TData = Awaited<ReturnType<typeof getProductsAdmin>>,
+  TError = ProblemDetails,
+>(
+  params: undefined | GetProductsAdminParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductsAdmin>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProductsAdmin>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetProductsAdmin<
+  TData = Awaited<ReturnType<typeof getProductsAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetProductsAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductsAdmin>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProductsAdmin>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetProductsAdmin<
+  TData = Awaited<ReturnType<typeof getProductsAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetProductsAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductsAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetProductsAdmin<
+  TData = Awaited<ReturnType<typeof getProductsAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetProductsAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductsAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetProductsAdminQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const deleteProductAdmin = (
+  barcode: string,
+  shopId: number,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/products/${barcode}-${shopId}`, method: 'DELETE' },
+    options,
+  );
+};
+
+export const getDeleteProductAdminMutationOptions = <
+  TData = Awaited<ReturnType<typeof deleteProductAdmin>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['deleteProductAdmin'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteProductAdmin>>,
+    { barcode: string; shopId: number }
+  > = (props) => {
+    const { barcode, shopId } = props ?? {};
+
+    return deleteProductAdmin(barcode, shopId, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number },
+    TContext
+  >;
+};
+
+export type DeleteProductAdminMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteProductAdmin>>
+>;
+
+export type DeleteProductAdminMutationError = ProblemDetails;
+
+export const useDeleteProductAdmin = <
+  TData = Awaited<ReturnType<typeof deleteProductAdmin>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { barcode: string; shopId: number },
+  TContext
+> => {
+  const mutationOptions = getDeleteProductAdminMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const patchProductAdmin = (
+  barcode: string,
+  shopId: number,
+  updateProductModel: UpdateProductModel,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/products/${barcode}-${shopId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: updateProductModel,
+    },
+    options,
+  );
+};
+
+export const getPatchProductAdminMutationOptions = <
+  TData = Awaited<ReturnType<typeof patchProductAdmin>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number; data: UpdateProductModel },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['patchProductAdmin'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchProductAdmin>>,
+    { barcode: string; shopId: number; data: UpdateProductModel }
+  > = (props) => {
+    const { barcode, shopId, data } = props ?? {};
+
+    return patchProductAdmin(barcode, shopId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number; data: UpdateProductModel },
+    TContext
+  >;
+};
+
+export type PatchProductAdminMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchProductAdmin>>
+>;
+export type PatchProductAdminMutationBody = UpdateProductModel;
+export type PatchProductAdminMutationError = ProblemDetails;
+
+export const usePatchProductAdmin = <
+  TData = Awaited<ReturnType<typeof patchProductAdmin>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { barcode: string; shopId: number; data: UpdateProductModel },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { barcode: string; shopId: number; data: UpdateProductModel },
+  TContext
+> => {
+  const mutationOptions = getPatchProductAdminMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
 export const changePrice = (
   barcode: string,
+  shopId: number,
   changeItemPriceRequest: ChangeItemPriceRequest,
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<void>(
     {
-      url: `/admin/products/${barcode}/prices`,
+      url: `/admin/products/${barcode}-${shopId}/prices`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: changeItemPriceRequest,
@@ -439,7 +805,7 @@ export const getChangePriceMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: ChangeItemPriceRequest },
+    { barcode: string; shopId: number; data: ChangeItemPriceRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -455,17 +821,17 @@ export const getChangePriceMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof changePrice>>,
-    { barcode: string; data: ChangeItemPriceRequest }
+    { barcode: string; shopId: number; data: ChangeItemPriceRequest }
   > = (props) => {
-    const { barcode, data } = props ?? {};
+    const { barcode, shopId, data } = props ?? {};
 
-    return changePrice(barcode, data, requestOptions);
+    return changePrice(barcode, shopId, data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: ChangeItemPriceRequest },
+    { barcode: string; shopId: number; data: ChangeItemPriceRequest },
     TContext
   >;
 };
@@ -484,125 +850,184 @@ export const useChangePrice = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: ChangeItemPriceRequest },
+    { barcode: string; shopId: number; data: ChangeItemPriceRequest },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { barcode: string; data: ChangeItemPriceRequest },
+  { barcode: string; shopId: number; data: ChangeItemPriceRequest },
   TContext
 > => {
   const mutationOptions = getChangePriceMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
-export const _export = (
+export const getProductPrices = (
+  barcode: string,
+  shopId: number,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
-  return orvalApiClient<void>(
-    { url: `/admin/categories/export`, method: 'GET', signal },
+  return orvalApiClient<GetProductPricesResponse>(
+    {
+      url: `/admin/products/${barcode}-${shopId}/prices`,
+      method: 'GET',
+      signal,
+    },
     options,
   );
 };
 
-export const getExportQueryKey = () => {
-  return [`/admin/categories/export`] as const;
+export const getGetProductPricesQueryKey = (
+  barcode: string,
+  shopId: number,
+) => {
+  return [`/admin/products/${barcode}-${shopId}/prices`] as const;
 };
 
-export const getExportQueryOptions = <
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
+export const getGetProductPricesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getProductPrices>>,
+  TError = ProblemDetails,
+>(
+  barcode: string,
+  shopId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getExportQueryKey();
+  const queryKey =
+    queryOptions?.queryKey ?? getGetProductPricesQueryKey(barcode, shopId);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof _export>>> = ({
-    signal,
-  }) => _export(requestOptions, signal);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getProductPrices>>
+  > = ({ signal }) => getProductPrices(barcode, shopId, requestOptions, signal);
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof _export>>,
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!(barcode && shopId),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getProductPrices>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type _ExportQueryResult = NonNullable<
-  Awaited<ReturnType<typeof _export>>
+export type GetProductPricesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProductPrices>>
 >;
-export type _ExportQueryError = unknown;
+export type GetProductPricesQueryError = ProblemDetails;
 
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof _export>>,
+export function useGetProductPrices<
+  TData = Awaited<ReturnType<typeof getProductPrices>>,
+  TError = ProblemDetails,
+>(
+  barcode: string,
+  shopId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductPrices>>,
         TError,
         TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProductPrices>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof _export>>,
+export function useGetProductPrices<
+  TData = Awaited<ReturnType<typeof getProductPrices>>,
+  TError = ProblemDetails,
+>(
+  barcode: string,
+  shopId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductPrices>>,
         TError,
         TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getProductPrices>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
+export function useGetProductPrices<
+  TData = Awaited<ReturnType<typeof getProductPrices>>,
+  TError = ProblemDetails,
+>(
+  barcode: string,
+  shopId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
+export function useGetProductPrices<
+  TData = Awaited<ReturnType<typeof getProductPrices>>,
+  TError = ProblemDetails,
+>(
+  barcode: string,
+  shopId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getProductPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getExportQueryOptions(options);
+  const queryOptions = getGetProductPricesQueryOptions(
+    barcode,
+    shopId,
+    options,
+  );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
@@ -613,19 +1038,19 @@ export function useExport<
   return query;
 }
 
-export const uploadCategoriesFile = (
-  uploadCategoriesFileBody: UploadCategoriesFileBody,
+export const uploadDiscountPricesJson = (
+  uploadDiscountPricesJsonBody: UploadDiscountPricesJsonBody,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   const formData = new FormData();
-  if (uploadCategoriesFileBody.file !== undefined) {
-    formData.append('file', uploadCategoriesFileBody.file);
+  if (uploadDiscountPricesJsonBody.jsonFile !== undefined) {
+    formData.append('jsonFile', uploadDiscountPricesJsonBody.jsonFile);
   }
 
   return orvalApiClient<void>(
     {
-      url: `/admin/categories/import`,
+      url: `/admin/discount-prices`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,
@@ -635,20 +1060,20 @@ export const uploadCategoriesFile = (
   );
 };
 
-export const getUploadCategoriesFileMutationOptions = <
-  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
+export const getUploadDiscountPricesJsonMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadCategoriesFileBody },
+    { data: UploadDiscountPricesJsonBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadCategoriesFile'];
+  const mutationKey = ['uploadDiscountPricesJson'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -658,47 +1083,575 @@ export const getUploadCategoriesFileMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadCategoriesFile>>,
-    { data: UploadCategoriesFileBody }
+    Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
+    { data: UploadDiscountPricesJsonBody }
   > = (props) => {
     const { data } = props ?? {};
 
-    return uploadCategoriesFile(data, requestOptions);
+    return uploadDiscountPricesJson(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UploadCategoriesFileBody },
+    { data: UploadDiscountPricesJsonBody },
     TContext
   >;
 };
 
-export type UploadCategoriesFileMutationResult = NonNullable<
-  Awaited<ReturnType<typeof uploadCategoriesFile>>
+export type UploadDiscountPricesJsonMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadDiscountPricesJson>>
 >;
-export type UploadCategoriesFileMutationBody = UploadCategoriesFileBody;
-export type UploadCategoriesFileMutationError = unknown;
+export type UploadDiscountPricesJsonMutationBody = UploadDiscountPricesJsonBody;
+export type UploadDiscountPricesJsonMutationError = unknown;
 
-export const useUploadCategoriesFile = <
-  TData = Awaited<ReturnType<typeof uploadCategoriesFile>>,
+export const useUploadDiscountPricesJson = <
+  TData = Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadCategoriesFileBody },
+    { data: UploadDiscountPricesJsonBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: UploadCategoriesFileBody },
+  { data: UploadDiscountPricesJsonBody },
   TContext
 > => {
-  const mutationOptions = getUploadCategoriesFileMutationOptions(options);
+  const mutationOptions = getUploadDiscountPricesJsonMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
+export const addCategory = (
+  addCategoryRequest: AddCategoryRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/categories`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: addCategoryRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getAddCategoryMutationOptions = <
+  TData = Awaited<ReturnType<typeof addCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddCategoryRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['addCategory'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addCategory>>,
+    { data: AddCategoryRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return addCategory(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: AddCategoryRequest },
+    TContext
+  >;
+};
+
+export type AddCategoryMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addCategory>>
+>;
+export type AddCategoryMutationBody = AddCategoryRequest;
+export type AddCategoryMutationError = unknown;
+
+export const useAddCategory = <
+  TData = Awaited<ReturnType<typeof addCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddCategoryRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: AddCategoryRequest },
+  TContext
+> => {
+  const mutationOptions = getAddCategoryMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getCategoriesAdmin = (
+  params?: GetCategoriesAdminParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetCategoryAdminResponse>(
+    { url: `/admin/categories`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetCategoriesAdminQueryKey = (
+  params?: GetCategoriesAdminParams,
+) => {
+  return [`/admin/categories`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCategoriesAdminQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCategoriesAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCategoriesAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCategoriesAdminQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCategoriesAdmin>>
+  > = ({ signal }) => getCategoriesAdmin(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCategoriesAdmin>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetCategoriesAdminQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCategoriesAdmin>>
+>;
+export type GetCategoriesAdminQueryError = ProblemDetails;
+
+export function useGetCategoriesAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesAdmin>>,
+  TError = ProblemDetails,
+>(
+  params: undefined | GetCategoriesAdminParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesAdmin>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoriesAdmin>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoriesAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCategoriesAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesAdmin>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoriesAdmin>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoriesAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCategoriesAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetCategoriesAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesAdmin>>,
+  TError = ProblemDetails,
+>(
+  params?: GetCategoriesAdminParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoriesAdmin>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetCategoriesAdminQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const deleteCategory = (
+  categoryId: number,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/categories/${categoryId}`, method: 'DELETE' },
+    options,
+  );
+};
+
+export const getDeleteCategoryMutationOptions = <
+  TData = Awaited<ReturnType<typeof deleteCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['deleteCategory'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteCategory>>,
+    { categoryId: number }
+  > = (props) => {
+    const { categoryId } = props ?? {};
+
+    return deleteCategory(categoryId, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number },
+    TContext
+  >;
+};
+
+export type DeleteCategoryMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteCategory>>
+>;
+
+export type DeleteCategoryMutationError = unknown;
+
+export const useDeleteCategory = <
+  TData = Awaited<ReturnType<typeof deleteCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, { categoryId: number }, TContext> => {
+  const mutationOptions = getDeleteCategoryMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const patchCategory = (
+  categoryId: number,
+  patchCategoryRequest: PatchCategoryRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/categories/${categoryId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: patchCategoryRequest,
+    },
+    options,
+  );
+};
+
+export const getPatchCategoryMutationOptions = <
+  TData = Awaited<ReturnType<typeof patchCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number; data: PatchCategoryRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['patchCategory'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchCategory>>,
+    { categoryId: number; data: PatchCategoryRequest }
+  > = (props) => {
+    const { categoryId, data } = props ?? {};
+
+    return patchCategory(categoryId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number; data: PatchCategoryRequest },
+    TContext
+  >;
+};
+
+export type PatchCategoryMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchCategory>>
+>;
+export type PatchCategoryMutationBody = PatchCategoryRequest;
+export type PatchCategoryMutationError = unknown;
+
+export const usePatchCategory = <
+  TData = Awaited<ReturnType<typeof patchCategory>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { categoryId: number; data: PatchCategoryRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { categoryId: number; data: PatchCategoryRequest },
+  TContext
+> => {
+  const mutationOptions = getPatchCategoryMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getCategoriesManagementAdmin = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetCategoryManagementAdminResponse>(
+    { url: `/admin/categories-management`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetCategoriesManagementAdminQueryKey = () => {
+  return [`/admin/categories-management`] as const;
+};
+
+export const getGetCategoriesManagementAdminQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCategoriesManagementAdminQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCategoriesManagementAdmin>>
+  > = ({ signal }) => getCategoriesManagementAdmin(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetCategoriesManagementAdminQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCategoriesManagementAdmin>>
+>;
+export type GetCategoriesManagementAdminQueryError = ProblemDetails;
+
+export function useGetCategoriesManagementAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoriesManagementAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoriesManagementAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetCategoriesManagementAdmin<
+  TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetCategoriesManagementAdminQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}

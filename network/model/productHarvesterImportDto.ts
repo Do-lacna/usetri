@@ -5,7 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ProductImportDto {
+export interface ProductHarvesterImportDto {
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
@@ -18,4 +18,7 @@ export interface ProductImportDto {
   category_id?: number;
   /** @nullable */
   image_url?: string | null;
+  /** @nullable */
+  source_image?: string | null;
+  is_barcode_checked?: boolean;
 }

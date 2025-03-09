@@ -15,4 +15,6 @@ export interface PriceDto {
   change_confirmed?: string | null;
   /** @nullable */
   status?: string | null;
+  /** @nullable */
+  location?: string | null;
 }

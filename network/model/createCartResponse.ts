@@ -4,8 +4,8 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopCartModel } from './shopCartModel';
+import type { CartDto } from './cartDto';
 
 export interface CreateCartResponse {
-  cart?: ShopCartModel;
+  cart?: CartDto;
 }

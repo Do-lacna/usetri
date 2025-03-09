@@ -60,7 +60,7 @@ export const useCartActions = ({
     const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { ...category_ids, barcodes: [...barcodes, barcode] },
+      data: { category_ids, barcodes: [...barcodes, barcode] },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },

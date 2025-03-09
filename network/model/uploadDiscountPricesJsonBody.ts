@@ -4,8 +4,7 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CartDto } from './cartDto';
 
-export interface GetCartResponse {
-  cart?: CartDto;
-}
+export type UploadDiscountPricesJsonBody = {
+  jsonFile?: Blob;
+};

@@ -216,12 +216,13 @@ export default function Page() {
 
         <View className="flex-1 gap-2 mt-4">
           {cartCategories.map(
-            ({ category: { id, name = "Category" } = {} }) => (
+            ({ category: { id, name = "Category", image_url } = {} }) => (
               <ShoppingListItem
                 key={id}
                 id={id}
                 categoryId={id}
                 label={name}
+                imageUrl={image_url}
                 onDelete={(id) => handleRemoveItemFromCart("category", id)}
                 isExpanded={expandedOption === id}
                 onExpandChange={handleResetExpandedOption}
@@ -232,11 +233,9 @@ export default function Page() {
 
           {cartProducts.map(
             ({
-              detail: {
-                barcode,
-                name = "Specific product",
-                category: { id: categoryId } = {},
-              } = {},
+              barcode,
+              name = "Specific product",
+              category: { id: categoryId } = {},
             }) => (
               <ShoppingListItem
                 key={barcode}

@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ShopCart, ShopExtendedDto } from "../network/model";
+import { CartDto, ShopExtendedDto } from "../network/model";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -26,14 +26,14 @@ export function getShopById(shopId: number, shops: ShopExtendedDto[]) {
 }
 
 export const getSimplifiedCart = (
-  cart?: Pick<ShopCart, "categories" | "specific_products">
+  cart?: Pick<CartDto, "categories" | "specific_products">
 ) => {
   if (!cart) return { category_ids: [], barcodes: [] };
   const categoryIds = [...(cart?.categories ?? [])].map(
     ({ category: { id } = {} }) => Number(id)
   );
   const barcodes = cart?.specific_products?.map((product) =>
-    String(product?.detail?.barcode)
+    String(product?.barcode)
   );
 
   return {
@@ -43,7 +43,7 @@ export const getSimplifiedCart = (
 };
 
 export const getNumberOfCartItems = (
-  cart?: Pick<ShopCart, "categories" | "specific_products">
+  cart?: Pick<CartDto, "categories" | "specific_products">
 ) => {
   if (!cart) return 0;
 

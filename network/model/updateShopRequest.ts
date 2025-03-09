@@ -4,8 +4,8 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopExtendedDto } from './shopExtendedDto';
+import type { UpdateShopModel } from './updateShopModel';
 
 export interface UpdateShopRequest {
-  shop?: ShopExtendedDto;
+  shop?: UpdateShopModel;
 }

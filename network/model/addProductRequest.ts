@@ -4,12 +4,14 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ProductImportDto } from './productImportDto';
+import type { ProductHarvesterImportDto } from './productHarvesterImportDto';
 import type { DiscountPriceDto } from './discountPriceDto';
 
 export interface AddProductRequest {
-  product?: ProductImportDto;
+  product?: ProductHarvesterImportDto;
   shop_id?: number;
   price?: number;
   discount_price?: DiscountPriceDto;
+  /** @nullable */
+  location?: string | null;
 }

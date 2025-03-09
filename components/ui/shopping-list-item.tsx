@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -9,12 +10,14 @@ import {
 import { ChevronDown } from "~/lib/icons/ChevronDown";
 import { ChevronUp } from "~/lib/icons/ChevronUp";
 import { Trash2 } from "~/lib/icons/Trash";
+import { BASE_API_URL } from "../../lib/constants";
 import { useGetProducts } from "../../network/query/query";
 import ProductCardNew from "./product-card-new";
 
 interface IShoppingListItemProps {
   label: string | null;
   id?: number | string;
+  imageUrl?: string | null;
   categoryId?: number;
   isExpanded?: boolean;
   onProductSelect?: (barcode: string, categoryId: number) => void;
@@ -25,6 +28,7 @@ interface IShoppingListItemProps {
 const ShoppingListItem = ({
   label,
   id,
+  imageUrl,
   categoryId,
   isExpanded: externalIsExpanded,
   onProductSelect,
@@ -62,6 +66,14 @@ const ShoppingListItem = ({
         className="flex-row items-center justify-between p-4 border-b border-gray-200"
         onPress={handleToggle}
       >
+        {!!imageUrl && (
+          <Image
+            source={{ uri: `${BASE_API_URL}/${imageUrl}` }}
+            resizeMode="contain"
+            className="w-8 h-8 mr-4"
+            // style={{ width: 20, height: 20 }}
+          />
+        )}
         <Text className="text-base font-medium text-gray-800">{label}</Text>
 
         <View className="flex-row items-center">

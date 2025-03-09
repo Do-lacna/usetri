@@ -5,11 +5,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CategoryDto {
+export interface UpdateShopModel {
   /** @nullable */
   name?: string | null;
   /** @nullable */
   image_url?: string | null;
-  /** @nullable */
-  parent_id?: number | null;
 }

@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { ShopCart } from "../network/model";
+import { CartDto, ShopCart } from "../network/model";
 
 type CartState = ShopCart & {
-  mirrorCartState: (cart: ShopCart) => void;
+  mirrorCartState: (cart: CartDto) => void;
 };
 
 // Define the cart store
@@ -16,7 +16,7 @@ const useCartStore = create<CartState>((set) => ({
 
   // Actions
 
-  mirrorCartState: (cart: ShopCart) =>
+  mirrorCartState: (cart: CartDto) =>
     set((oldCart) => {
       // just return the new cart returned by BE for now
       return cart;

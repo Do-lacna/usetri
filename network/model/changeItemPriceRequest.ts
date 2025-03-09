@@ -4,8 +4,12 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { DiscountPriceDto } from './discountPriceDto';
 
 export interface ChangeItemPriceRequest {
-  price?: number;
-  shop_id?: number;
+  /** @nullable */
+  price?: number | null;
+  discount_price?: DiscountPriceDto;
+  /** @nullable */
+  location?: string | null;
 }

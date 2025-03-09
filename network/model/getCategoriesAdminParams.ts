@@ -4,8 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CartDto } from './cartDto';
 
-export interface GetCartResponse {
-  cart?: CartDto;
-}
+export type GetCategoriesAdminParams = {
+  category_name?: string;
+  Limit?: number;
+  Offset?: number;
+};
