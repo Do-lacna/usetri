@@ -41,3 +41,13 @@ export const getSimplifiedCart = (
     barcodes: barcodes,
   };
 };
+
+export const getNumberOfCartItems = (
+  cart?: Pick<ShopCart, "categories" | "specific_products">
+) => {
+  if (!cart) return 0;
+
+  return (
+    (cart.categories?.length ?? 0) + (cart?.specific_products?.length ?? 0)
+  );
+};

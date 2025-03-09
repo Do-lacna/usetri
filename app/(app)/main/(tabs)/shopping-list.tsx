@@ -1,7 +1,7 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useRef } from "react";
-import { Keyboard, Text, View } from "react-native";
+import { Image, Keyboard, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
@@ -14,6 +14,7 @@ import ShoppingListFilterContent, {
   ShoppingListFilter,
 } from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import useCartStore from "../../../../hooks/use-cart-store";
+import { BASE_API_URL } from "../../../../lib/constants";
 import { getSimplifiedCart, isArrayNotEmpty } from "../../../../lib/utils";
 import {
   getGetCartQueryKey,
@@ -225,7 +226,17 @@ export default function Page() {
               options={searchResults}
               onOptionSelect={handleAddToCart}
               renderOption={(item) => (
-                <Text className="text-gray-800 text-lg">{item?.name}</Text>
+                <View className="flex-row">
+                  {item?.image_url && (
+                    <Image
+                      source={{ uri: `${BASE_API_URL}/${item.image_url}` }}
+                      resizeMode="contain"
+                      className="w-8 h-8 mr-4"
+                      // style={{ width: 20, height: 20 }}
+                    />
+                  )}
+                  <Text className="text-gray-800 text-lg">{item?.name}</Text>
+                </View>
               )}
               keyExtractor={(item) => String(item.id)}
             />
