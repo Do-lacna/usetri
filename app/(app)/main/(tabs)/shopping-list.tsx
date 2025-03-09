@@ -13,9 +13,10 @@ import ShoppingListItem from "../../../../components/ui/shopping-list-item";
 import ShoppingListFilterContent, {
   ShoppingListFilter,
 } from "../../../../components/ui/shopping-list/shopping-list-filter-content";
+import { useCartActions } from "../../../../hooks/use-cart-actions";
 import useCartStore from "../../../../hooks/use-cart-store";
 import { BASE_API_URL } from "../../../../lib/constants";
-import { getSimplifiedCart, isArrayNotEmpty } from "../../../../lib/utils";
+import { isArrayNotEmpty } from "../../../../lib/utils";
 import {
   getGetCartQueryKey,
   useCreateCart,
@@ -40,7 +41,7 @@ const options: SearchOptions<CategoryExtendedWithPathDto> = {
   matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
-enum CartOperationsEnum {
+export enum CartOperationsEnum {
   ADD = "ADD",
   REMOVE = "REMOVE",
   UPDATE = "UPDATE",
@@ -64,6 +65,20 @@ export default function Page() {
     {},
     { query: { enabled: filter === ShoppingListFilter.CATEGORIES } }
   );
+
+  const {
+    handleAddCategoryToCart,
+    handleAddProductToCart,
+    handleRemoveItemFromCart,
+    handleChooseProductFromCategory,
+  } = useCartActions({
+    onSuccessfullCartUpdate: () => {
+      setSearchQuery("");
+    },
+    onSuccessWithExpandedOption: (categoryId) => {
+      setExpandedOption(Number(categoryId));
+    },
+  });
 
   const { data: { products: searchProducts = [] } = {} } = useGetProducts(
     {
@@ -124,37 +139,6 @@ export default function Page() {
     }
   }, [searchQuery]);
 
-  const handleAddProductToCart = ({
-    detail: { barcode } = {},
-  }: ShopItemDto) => {
-    if (!barcode) return;
-    setSearchQuery("");
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
-
-    sendUpdateCart({
-      data: { ...category_ids, barcodes: [...barcodes, barcode] },
-      additionalData: {
-        operation: CartOperationsEnum.ADD,
-      },
-      //here I want to pass more data for example to the context
-    });
-  };
-
-  const handleAddToCart = (option: CategoryExtendedWithPathDto) => {
-    if (!option?.id) return;
-
-    setSearchQuery("");
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
-
-    sendUpdateCart({
-      data: { barcodes, category_ids: [...category_ids, option?.id] },
-      additionalData: {
-        operation: CartOperationsEnum.ADD,
-      },
-      //here I want to pass more data for example to the context
-    });
-  };
-
   const handleResetExpandedOption = (isExpanded?: boolean) => {
     // Reset expanded option if the item is collapsed
     if (!!expandedOption && !isExpanded) setExpandedOption(null);
@@ -165,42 +149,6 @@ export default function Page() {
 
   const areAnyItemsInCart =
     cartCategories.length > 0 || cartProducts.length > 0;
-
-  const handleRemoveProductFromCard = (
-    type: "category" | "product",
-    id?: number | string
-  ) => {
-    const simplifiedCart = getSimplifiedCart(cart);
-    //TODO when BE adjusts DTO uncomment this
-    if (type === "category") {
-      simplifiedCart.category_ids = simplifiedCart.category_ids?.filter(
-        (categoryId) => categoryId !== id
-      );
-    } else {
-      simplifiedCart.barcodes = simplifiedCart.barcodes?.filter(
-        (barcode) => barcode !== id
-      );
-    }
-    sendUpdateCart({ data: simplifiedCart });
-  };
-
-  const handleProductSelect = (barcode: string, categoryId: number) => {
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
-
-    const updatedCategoryIds = category_ids.includes(categoryId)
-      ? category_ids.filter((id) => id !== categoryId)
-      : category_ids;
-
-    sendUpdateCart({
-      data: {
-        category_ids: updatedCategoryIds,
-        barcodes: [...barcodes, barcode],
-      },
-      additionalData: {
-        operation: CartOperationsEnum.ADD,
-      },
-    });
-  };
 
   const handleFilterChange = (filter: ShoppingListFilter) => {
     setFilter(filter);
@@ -224,7 +172,7 @@ export default function Page() {
               searchText={searchQuery}
               placeholder={"Vyhľadaj kategóriu produktu"}
               options={searchResults}
-              onOptionSelect={handleAddToCart}
+              onOptionSelect={handleAddCategoryToCart}
               renderOption={(item) => (
                 <View className="flex-row">
                   {item?.image_url && (
@@ -274,10 +222,10 @@ export default function Page() {
                 id={id}
                 categoryId={id}
                 label={name}
-                onDelete={(id) => handleRemoveProductFromCard("category", id)}
+                onDelete={(id) => handleRemoveItemFromCart("category", id)}
                 isExpanded={expandedOption === id}
                 onExpandChange={handleResetExpandedOption}
-                onProductSelect={handleProductSelect}
+                onProductSelect={handleChooseProductFromCategory}
               />
             )
           )}
@@ -295,7 +243,7 @@ export default function Page() {
                 id={String(barcode)}
                 label={name}
                 categoryId={categoryId}
-                onDelete={(id) => handleRemoveProductFromCard("product", id)}
+                onDelete={(id) => handleRemoveItemFromCart("product", id)}
                 // onExpandChange={handleResetExpandedOption}
               />
             )

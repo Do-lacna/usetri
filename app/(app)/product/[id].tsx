@@ -1,10 +1,13 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Button } from "../../../components/ui/button";
+import { useCartActions } from "../../../hooks/use-cart-actions";
 import { getShopById } from "../../../lib/utils";
 import {
   useGetProductsByBarcode,
   useGetShops,
 } from "../../../network/query/query";
+import { displaySuccessToastMessage } from "../../../utils/toast-utils";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -13,7 +16,7 @@ export default function ProductDetailScreen() {
   const { data: { shops = [] } = {} } = useGetShops();
 
   const { data: { products = [] } = {} } = useGetProductsByBarcode(
-    Number(id),
+    String(id),
     undefined
     // {
     //   query: {
@@ -21,6 +24,20 @@ export default function ProductDetailScreen() {
     //   },
     // }
   );
+
+  const {
+    handleAddCategoryToCart,
+    handleAddProductToCart,
+    handleRemoveItemFromCart,
+    handleChooseProductFromCategory,
+  } = useCartActions({
+    onSuccessfullCartUpdate: () => {
+      displaySuccessToastMessage("Produkt bol vložený do košíka");
+    },
+    // onSuccessWithExpandedOption: (categoryId) => {
+    //   setExpandedOption(Number(categoryId));
+    // },
+  });
 
   if (!products?.[0]) {
     //TODO create adequate error screen for not found product
@@ -32,7 +49,11 @@ export default function ProductDetailScreen() {
   }
 
   //TODO this EP should return only detail of the product in 1 object
-  const { detail: { image_url, brand, name, amount, unit } = {}, price } = {
+  const {
+    detail: { image_url, brand, name, amount, unit, barcode } = {},
+    price,
+    detail,
+  } = {
     ...products?.[0],
   };
 
@@ -58,6 +79,13 @@ export default function ProductDetailScreen() {
             resizeMode="contain"
           />
         </View>
+
+        <Button
+          className="w-[60%] self-center"
+          onPress={() => handleAddProductToCart(String(barcode))}
+        >
+          <Text>Pridať do košíka</Text>
+        </Button>
 
         {/* Product Info Section */}
         <View className="px-4 py-5 space-y-4">
