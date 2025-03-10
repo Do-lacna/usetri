@@ -33,6 +33,10 @@ module.exports = {
           DEFAULT: "hsl(var(--divider))",
           foreground: "hsl(var(--divider))",
         },
+        dividerDark: {
+          DEFAULT: "hsl(var(--divider-dark))",
+          foreground: "hsl(var(--divider-dark))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

@@ -7,16 +7,13 @@ import {
   Text,
   View,
 } from "react-native";
-import { ShoppingCart } from "~/lib/icons/Cart";
 import { UserIcon } from "~/lib/icons/User";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
-import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
 import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
-  const { signOut } = useSession();
   const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
 
   const renderShopCardCart = ({
@@ -58,9 +55,9 @@ export default function ProfileScreen() {
 
         <TotalSavedCard />
 
-        <View className="flex-row items-center gap-2 my-4">
-          <Text className="text-2xl font-bold">Uložené košíky</Text>
-          <ShoppingCart size={20} />
+        <View className="flex-row items-center gap-2 mt-4 mb-2">
+          <Text className="text-2xl font-bold">História zoznamov</Text>
+          {/* <ShoppingCart size={20} /> */}
         </View>
 
         <View className="space-y-3 gap-3">

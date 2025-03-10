@@ -26,10 +26,10 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   const shopName = getShopById(shopId, shops ?? [])?.name;
 
   return (
-    <Card className="w-full max-h-20">
+    <Card className="w-full max-h-20 bg-divider">
       <TouchableOpacity
         onPress={() => router.navigate(`/main/archived-cart/${id}`)}
-        className="h-full bg-white p-4 rounded-xl shadow-sm relative overflow-hidden"
+        className="h-full p-4 rounded-xl shadow-sm relative overflow-hidden"
       >
         <Image
           className="absolute h-16 w-16 -rotate-45 top-2 opacity-30 -left-2"
