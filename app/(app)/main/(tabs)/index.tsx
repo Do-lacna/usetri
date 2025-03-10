@@ -1,3 +1,4 @@
+import { BarcodeScanningResult } from "expo-camera";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, ScrollView, Text, View } from "react-native";
@@ -11,6 +12,7 @@ import ProductCardNew2 from "../../../../components/ui/product-card/product-card
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
+import { displaySuccessToastMessage } from "../../../../utils/toast-utils";
 
 const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
@@ -38,8 +40,14 @@ export default function Page() {
   const displaySearchResult =
     searchQuery?.length > 0 && outputProducts?.length > 0;
 
+  const handleBarcodeScanned = (data: BarcodeScanningResult) => {
+    router.navigate(`/product/${data?.data}`);
+    setIsCameraView(false);
+    displaySuccessToastMessage(`Barcode scanned - ${data?.data}`);
+  };
+
   return isCameraView ? (
-    <CameraView />
+    <CameraView onBarcodeScanned={handleBarcodeScanned} />
   ) : (
     <View className="flex justify-start px-2">
       <View className="flex-row items-center gap-4 mt-2 z-10">
@@ -56,10 +64,7 @@ export default function Page() {
           keyExtractor={(item) => String(item.barcode)}
         />
 
-        <IconButton
-          onPress={() => router.navigate(`/(app)/oauthredirect`)}
-          className="w-10"
-        >
+        <IconButton onPress={() => setIsCameraView(true)} className="w-10">
           <ScanBarcode size={24} className="text-primary mr-3" />
         </IconButton>
       </View>

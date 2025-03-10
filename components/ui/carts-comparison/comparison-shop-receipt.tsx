@@ -10,7 +10,7 @@ import {
   useCreateArchivedCart,
   useRemoveFromCart,
 } from "../../../network/customer/customer";
-import { ShopCart } from "../../../network/model";
+import { CartDto } from "../../../network/model";
 
 const ComparisonShopReceipt = ({
   shop: { name: shopName, image_url, id: shopId } = {},
@@ -18,7 +18,7 @@ const ComparisonShopReceipt = ({
   specific_products: groceries = [],
   total_price,
   actionsExecutable = true,
-}: ShopCart & { actionsExecutable?: boolean }) => {
+}: CartDto & { actionsExecutable?: boolean }) => {
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
   const queryClient = useQueryClient();
@@ -104,7 +104,8 @@ const ComparisonShopReceipt = ({
               </Text>
             </View>
           ))}
-          {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
+          {/* TODO wait for API BE to add this */}
+          {groceries?.map(({ price, name, barcode }) => (
             <View key={barcode} className="flex-row justify-between mb-2">
               <Text className="text-lg">{name}</Text>
               <Text className="text-lg font-semibold">

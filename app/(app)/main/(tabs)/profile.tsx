@@ -1,15 +1,36 @@
 import React from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import {
+  FlatList,
+  ListRenderItemInfo,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { ShoppingCart } from "~/lib/icons/Cart";
 import { UserIcon } from "~/lib/icons/User";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
 import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
+import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
   const { signOut } = useSession();
   const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
+
+  const renderShopCardCart = ({
+    item: { cart_id, created_at, total_price, selected_shop_id } = {},
+  }: ListRenderItemInfo<ShortArchivedCartDto>) => (
+    <View className="w-80">
+      <SavedCartCard
+        id={Number(cart_id)}
+        shopId={Number(selected_shop_id)}
+        totalPrice={Number(total_price)}
+        createdDate={String(created_at)}
+      />
+    </View>
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -44,17 +65,18 @@ export default function ProfileScreen() {
 
         <View className="space-y-3 gap-3">
           {(archived_carts ?? []).length > 0 ? (
-            archived_carts?.map(
-              ({ cart_id, created_at, total_price, selected_shop_id }) => (
-                <SavedCartCard
-                  key={cart_id}
-                  id={Number(cart_id)}
-                  shopId={Number(selected_shop_id)}
-                  totalPrice={Number(total_price)}
-                  createdDate={String(created_at)}
-                />
-              )
-            )
+            <FlatList
+              horizontal
+              data={archived_carts}
+              ItemSeparatorComponent={() => <View className="w-4" />}
+              renderItem={renderShopCardCart}
+              keyExtractor={(cart) => String(cart?.cart_id)}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={{
+                paddingHorizontal: 8,
+                paddingVertical: 8,
+              }}
+            />
           ) : (
             <Text className="my-2 text-center text-gray-600">
               Nemáte žiadne uložené košíky

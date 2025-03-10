@@ -23,14 +23,14 @@ const TotalSavedCard: React.FC<ProductCardProps> = ({
       <View className="flex-1 flex-row items-center justify-between">
         <View className="flex-1">
           <Text className="text-2xl font-bold text-center">
-            {total_price_spared_last_month}
+            {total_price_spared_last_month} €
           </Text>
           <Text className="text-center">Tento mesiac</Text>
         </View>
         <View className="h-[100%] w-0.5 bg-divider" />
         <View className="flex-1">
           <Text className="text-2xl font-bold text-center">
-            {total_price_spared}
+            {total_price_spared} €
           </Text>
           <Text className="text-center">Celkovo</Text>
         </View>

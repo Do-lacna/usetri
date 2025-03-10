@@ -1,4 +1,5 @@
 import {
+  BarcodeScanningResult,
   CameraType,
   CameraView as CameraViewExpo,
   useCameraPermissions,
@@ -6,11 +7,13 @@ import {
 import LottieView from "lottie-react-native";
 import { useRef, useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Toast from "react-native-toast-message";
-import checkAnimation from "~/assets/animations/check-transparent-animation.json";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 
-export default function CameraView() {
+export type CameraViewProps = {
+  onBarcodeScanned?: (data: BarcodeScanningResult) => void;
+};
+
+export default function CameraView({ onBarcodeScanned }: CameraViewProps) {
   const animation = useRef<LottieView>(null);
   // useEffect(() => {
   //   // You can control the ref programmatically, rather than using autoPlay
@@ -48,23 +51,20 @@ export default function CameraView() {
         barcodeScannerSettings={{
           barcodeTypes: ["qr", "code128", "ean13", "ean8"],
         }}
-        onBarcodeScanned={(data) => {
-          console.log(data?.data);
-          Toast.show({
-            type: "success",
-            text1: `Barcode scanned - ${data?.data}`,
-            position: "bottom",
-          });
-        }}
+        onBarcodeScanned={onBarcodeScanned}
       >
         <View style={styles.buttonContainer}>
-          <ScanBarcode
-            // size={250}
-            style={styles.barcodeIcon}
-            className="h-40 w-40"
-            // className="absolute inset-0 text-white w-40 h-40"
-          />
-          <LottieView
+          <View style={styles.barcodeIcon}>
+            <ScanBarcode
+              size={250}
+              color="white"
+              strokeWidth={2}
+              // style={styles.barcodeIcon}
+              // className="h-40 w-40"
+              // className="absolute inset-0 text-white w-40 h-40"
+            />
+          </View>
+          {/* <LottieView
             autoPlay
             ref={animation}
             style={{
@@ -74,7 +74,7 @@ export default function CameraView() {
             }}
             // Find more Lottie files at https://lottiefiles.com/featured
             source={checkAnimation}
-          />
+          /> */}
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
             <Text style={styles.text}>Flip Camera</Text>
             {/* <Text style={styles.text}>Barcode scanned</Text> */}
@@ -98,15 +98,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   barcodeIcon: {
-    color: "white",
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    height: 230,
-    transform: [
-      { translateX: "-50%" }, // React Native uses an array of transform objects
-      { translateY: "-60%" },
-    ],
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonContainer: {
     flex: 1,

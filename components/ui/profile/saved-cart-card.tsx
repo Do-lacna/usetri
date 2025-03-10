@@ -24,6 +24,7 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
 }) => {
   const { data: { shops = [] } = {} } = useGetShops();
   const shopName = getShopById(shopId, shops ?? [])?.name;
+
   return (
     <Card className="w-full max-h-20">
       <TouchableOpacity
@@ -31,27 +32,23 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
         className="h-full bg-white p-4 rounded-xl shadow-sm relative overflow-hidden"
       >
         <Image
+          className="absolute h-16 w-16 -rotate-45 top-2 opacity-30 -left-2"
           {...getShopLogo(shopId as any)}
-          style={{
-            height: "100%",
-            borderRadius: 50,
-            position: "absolute",
-            top: "30%",
-            left: "-20%",
-            opacity: 0.2,
-            transform: [{ rotate: "-25deg" }],
-          }}
         />
-        <View className="ml-20 flex-row items-center justify-between space-x-3">
-          <View>
-            <Text className="font-semibold text-2xl mb-1">
+        <View className="ml-12 flex-row items-center justify-between space-x-2">
+          <View className="flex-1">
+            <Text
+              className="font-semibold text-lg mb-1"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
               Nákup v {shopName}
             </Text>
-            <Text className="text-gray-600 text-md">
+            <Text className="text-gray-600 text-sm">
               {format(createdDate, DATE_FORMAT)}
             </Text>
           </View>
-          <Text className="text-xl font-bold">{totalPrice.toFixed(2)} €</Text>
+          <Text className="text-lg font-bold">{totalPrice.toFixed(2)} €</Text>
         </View>
       </TouchableOpacity>
     </Card>
