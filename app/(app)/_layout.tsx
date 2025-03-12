@@ -47,19 +47,19 @@ export default function AppLayout() {
         }}
       />
       {/* <Stack.Screen
-        name="sign-in"
-        options={{
-          title: "Porovnanie cien",
-          // headerStyle: {
-          //   backgroundColor: "#f4f4f4", // Optional: customize header background
-          // },
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          presentation: "modal",
-        }}
-      /> */}
+          name="main/(tabs)"
+          options={{
+            title: "Hladať",
+            // headerStyle: {
+            //   backgroundColor: "#f4f4f4", // Optional: customize header background
+            // },
+            headerShown: false,
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+            presentation: "modal",
+          }}
+        /> */}
     </Stack>
   );
 }

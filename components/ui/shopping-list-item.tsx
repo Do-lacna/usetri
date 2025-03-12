@@ -11,8 +11,9 @@ import { ChevronDown } from "~/lib/icons/ChevronDown";
 import { ChevronUp } from "~/lib/icons/ChevronUp";
 import { Trash2 } from "~/lib/icons/Trash";
 import { BASE_API_URL } from "../../lib/constants";
+import { useGetCart } from "../../network/customer/customer";
 import { useGetProducts } from "../../network/query/query";
-import ProductCardNew from "./product-card-new";
+import ProductCartDetailed from "./product-card-detailed";
 
 interface IShoppingListItemProps {
   label: string | null;
@@ -44,6 +45,8 @@ const ShoppingListItem = ({
       },
       { query: { enabled: !!categoryId && isExpanded } }
     );
+
+  const { data: { cart } = {} } = ({} = useGetCart());
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -104,25 +107,19 @@ const ShoppingListItem = ({
             showsHorizontalScrollIndicator={false}
           >
             <View className="flex-row align-center justify-center space-x-4 w-full h-45 gap-4">
-              {/* {products.map((product, index) => (
-              <View 
-                key={product.id || index}
-                className="mr-4 p-3 bg-gray-50 rounded-lg min-w-[150px]"
-              >
-                <Text className="font-medium text-gray-800">{product.name}</Text>
-                <Text className="text-gray-600">${product.price}</Text>
-              </View>
-            ))} */}
               {suggestedProducts?.map(
                 (
                   { barcode, products = [], available_shop_ids = [] },
                   index
                 ) => (
-                  <ProductCardNew
+                  <ProductCartDetailed
                     key={barcode || index}
                     product={products?.[0]}
                     availableShopIds={available_shop_ids}
                     onPress={onProductSelect}
+                    isSelected={cart?.specific_products?.some(
+                      ({ barcode: _barcode }) => _barcode === barcode
+                    )}
                   />
                 )
               )}
