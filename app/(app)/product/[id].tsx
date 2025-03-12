@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { Button } from "../../../components/ui/button";
+import { ListPlus } from "~/lib/icons/ListPlus";
+import IconButton from "../../../components/icon-button";
 import { useCartActions } from "../../../hooks/use-cart-actions";
 import { getShopById } from "../../../lib/utils";
 import {
@@ -75,27 +76,30 @@ export default function ProductDetailScreen() {
                 image_url ??
                 "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
             }}
-            className="w-full h-80"
+            className="w-full h-60"
             resizeMode="contain"
           />
         </View>
 
-        <Button
-          className="w-[60%] self-center"
-          onPress={() => handleAddProductToCart(String(barcode))}
-        >
-          <Text>Pridať do košíka</Text>
-        </Button>
+        <View className="px-4 py-2 flex-row bg-divider">
+          <Text className="text-lg">{`Nealko  >  Alko  >  Piva `}</Text>
+        </View>
 
         {/* Product Info Section */}
         <View className="px-4 py-5 space-y-4">
           {/* Product Details */}
           <View className="space-x-1 flex-row items-center justify-between">
-            <View>
-              <Text className="text-xl text-gray-600 font-medium">{brand}</Text>
+            <View className="gap-1">
+              <Text className="text-xl ">{brand}</Text>
               <Text className="text-xl font-bold">{name}</Text>
+              <Text className="text-md text-gray-500">{`${amount} ${unit}`}</Text>
             </View>
-            <Text className="text-xl text-gray-500">{`${amount} ${unit}`}</Text>
+            <IconButton
+              className="flex items-center justify-center bg-primary w-10 h-10 rounded-full p-6"
+              onPress={() => handleAddProductToCart(String(barcode))}
+            >
+              <ListPlus size={24} className="text-primary-foreground" />
+            </IconButton>
           </View>
           <View className="my-2 border-divider border-2" />
 

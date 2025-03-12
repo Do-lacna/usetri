@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import SearchPlaceholderImage from "~/assets/images/svg/search-placeholder.svg";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Label } from "../label";
 import { Text } from "../text";
@@ -59,24 +60,29 @@ const ShoppingListFilterContent: React.FC<ShoppingListFilterContentProps> = ({
     onFilterChange(valueConverted);
   };
   return (
-    <RadioGroup
-      value={filter}
-      onValueChange={handleFilterChange}
-      className="gap-5 w-full pb-10 pt-5"
-    >
-      <RadioGroupItemWithLabel
-        label="Hľadaj kategóriu produktov"
-        description="Vyhľadaj produkty v reťazcoch na základe kategórií"
-        value={ShoppingListFilter.CATEGORIES}
-        onLabelPress={() => handleFilterChange(ShoppingListFilter.CATEGORIES)}
-      />
-      <RadioGroupItemWithLabel
-        label="Hľadaj konkrétny produkt"
-        description="Toto vyhľadávanie môže obmedziť zoznam len na siete, ktoré majú produkt konkrétnej značky v ponuke"
-        value={ShoppingListFilter.PRODUCTS}
-        onLabelPress={() => handleFilterChange(ShoppingListFilter.PRODUCTS)}
-      />
-    </RadioGroup>
+    <Fragment>
+      <View className="w-[120px] h-[120px] my-4">
+        <SearchPlaceholderImage width={"100%"} height={"100%"} />
+      </View>
+      <RadioGroup
+        value={filter}
+        onValueChange={handleFilterChange}
+        className="gap-5 w-full pb-10 pt-5"
+      >
+        <RadioGroupItemWithLabel
+          label="Hľadaj kategóriu produktov"
+          description="Vyhľadaj produkty v reťazcoch na základe kategórií"
+          value={ShoppingListFilter.CATEGORIES}
+          onLabelPress={() => handleFilterChange(ShoppingListFilter.CATEGORIES)}
+        />
+        <RadioGroupItemWithLabel
+          label="Hľadaj konkrétny produkt"
+          description="Toto vyhľadávanie môže obmedziť zoznam len na siete, ktoré majú produkt konkrétnej značky v ponuke"
+          value={ShoppingListFilter.PRODUCTS}
+          onLabelPress={() => handleFilterChange(ShoppingListFilter.PRODUCTS)}
+        />
+      </RadioGroup>
+    </Fragment>
   );
 };
 

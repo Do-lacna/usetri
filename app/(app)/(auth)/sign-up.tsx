@@ -3,7 +3,7 @@ import auth from "@react-native-firebase/auth";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
 import { Button } from "~/components/ui/button";
@@ -63,6 +63,13 @@ export default function SignUp() {
 
   return (
     <View className="flex-1 items-center justify-center gap-2">
+      <Image
+        source={require("~/assets/images/usetri-large.png")}
+        style={{ width: 150 }}
+        resizeMode="contain"
+        // width={200}
+        // height={200}
+      />
       <Controller
         control={control}
         name="email"
