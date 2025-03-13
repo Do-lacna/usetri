@@ -15,8 +15,15 @@ import { useGetCart } from "../../network/customer/customer";
 import { useGetProducts } from "../../network/query/query";
 import ProductCartDetailed from "./product-card-detailed";
 
+export enum ShoppingListItemTypeEnum {
+  CATEGORY = "CATEGORY",
+  PRODUCT = "PRODUCT",
+}
+
 interface IShoppingListItemProps {
   label: string | null;
+  type?: ShoppingListItemTypeEnum;
+  description?: string;
   id?: number | string;
   imageUrl?: string | null;
   categoryId?: number;
@@ -28,6 +35,8 @@ interface IShoppingListItemProps {
 
 const ShoppingListItem = ({
   label,
+  type,
+  description,
   id,
   imageUrl,
   categoryId,
@@ -63,21 +72,32 @@ const ShoppingListItem = ({
   };
 
   return (
-    <View className="w-full bg-white rounded-lg shadow-sm mb-2">
-      {/* Header Row */}
+    <View className="w-full bg-white rounded-lg shadow-sm mb-2 relative">
+      <View className="w-4 h-4 bg-red absolute top-2 left-2" />
       <TouchableOpacity
-        className="flex-row items-center justify-between p-4 border-b border-gray-200"
+        className="flex-row items-center justify-between p-4 border-b border-gray-200 overflow-hidden"
         onPress={handleToggle}
       >
+        {/* Displaying "Badge" for products */}
+        {type === ShoppingListItemTypeEnum.PRODUCT && (
+          <View className="w-2 h-32 bg-terciary absolute top-1 left-2 -rotate-45" />
+        )}
+
         {!!imageUrl && (
           <Image
             source={{ uri: `${BASE_API_URL}/${imageUrl}` }}
             resizeMode="contain"
-            className="w-8 h-8 mr-4"
-            // style={{ width: 20, height: 20 }}
+            className="w-8 h-8 mr-4 rotate"
           />
         )}
-        <Text className="text-base font-medium text-gray-800">{label}</Text>
+        <View>
+          <Text className="text-base font-medium text-gray-800">{label}</Text>
+          {!!description && (
+            <Text className="text-sm font-medium text-gray-600">
+              {description}
+            </Text>
+          )}
+        </View>
 
         <View className="flex-row items-center">
           <TouchableOpacity onPress={() => onDelete(id)} className="mr-4 p-2">
@@ -94,7 +114,6 @@ const ShoppingListItem = ({
         </View>
       </TouchableOpacity>
 
-      {/* Expandable Content */}
       {isExpanded &&
         (isLoading ? (
           <View className="h-20 justify-center items-center">

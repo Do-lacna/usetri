@@ -9,14 +9,19 @@ import EmptyShoppingListPlaceholderScreen from "../../../../components/placehold
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
-import ShoppingListItem from "../../../../components/ui/shopping-list-item";
+import ShoppingListItem, {
+  ShoppingListItemTypeEnum,
+} from "../../../../components/ui/shopping-list-item";
 import ShoppingListFilterContent, {
   ShoppingListFilter,
 } from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
 import useCartStore from "../../../../hooks/use-cart-store";
 import { BASE_API_URL } from "../../../../lib/constants";
-import { isArrayNotEmpty } from "../../../../lib/utils";
+import {
+  generateShoppingListItemDescription,
+  isArrayNotEmpty,
+} from "../../../../lib/utils";
 import {
   getGetCartQueryKey,
   useCreateCart,
@@ -227,6 +232,7 @@ export default function Page() {
                 isExpanded={expandedOption === id}
                 onExpandChange={handleResetExpandedOption}
                 onProductSelect={handleChooseProductFromCategory}
+                type={ShoppingListItemTypeEnum.CATEGORY}
               />
             )
           )}
@@ -235,15 +241,24 @@ export default function Page() {
             ({
               barcode,
               name = "Specific product",
+              amount,
+              unit,
+              brand,
               category: { id: categoryId } = {},
             }) => (
               <ShoppingListItem
                 key={barcode}
                 id={String(barcode)}
                 label={name}
+                description={generateShoppingListItemDescription({
+                  amount,
+                  unit,
+                  brand,
+                })}
+                type={ShoppingListItemTypeEnum.PRODUCT}
                 categoryId={categoryId}
                 onDelete={(id) => handleRemoveItemFromCart("product", id)}
-                // onExpandChange={handleResetExpandedOption}
+                onProductSelect={handleChooseProductFromCategory}
               />
             )
           )}

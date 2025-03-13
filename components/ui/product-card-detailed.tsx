@@ -50,7 +50,6 @@ const ProductCardDetailed = ({
     <Pressable
       className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
-      // onPress={() => console.log("prudct")}
     >
       <View
         className={clsx(
@@ -71,7 +70,6 @@ const ProductCardDetailed = ({
               <View
                 key={retailer}
                 style={{ width: 20, height: 20, borderRadius: 50 }}
-                //   className="border-2"
               >
                 <Image
                   {...getShopLogo(retailer as any)}

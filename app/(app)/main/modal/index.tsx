@@ -89,6 +89,15 @@ const GroceryPriceComparisonScreen = () => {
     );
   }
 
+  if (carts.length === 1) {
+    const cartData = carts?.[0];
+    return (
+      <View className="flex flex-1 align-center justify-center py-8 px-2">
+        <ComparisonShopReceipt {...cartData} />
+      </View>
+    );
+  }
+
   return (
     <View className="flex flex-1 align-center justify-center">
       <Carousel

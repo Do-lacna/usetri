@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CartDto, ShopExtendedDto } from "../network/model";
+import { CartDto, ProductDto, ShopExtendedDto } from "../network/model";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -50,4 +50,12 @@ export const getNumberOfCartItems = (
   return (
     (cart.categories?.length ?? 0) + (cart?.specific_products?.length ?? 0)
   );
+};
+
+export const generateShoppingListItemDescription = ({
+  amount = 0,
+  unit = "[Unit]",
+  brand = "[Brand]",
+}: Pick<ProductDto, "unit" | "brand" | "amount">) => {
+  return `${brand} - ${amount} ${unit}`;
 };
