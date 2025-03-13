@@ -109,7 +109,7 @@ const ComparisonShopReceipt = ({
             <View key={barcode} className="flex-row justify-between mb-2">
               <Text className="text-lg">{name}</Text>
               <Text className="text-lg font-semibold">
-                {price?.toFixed(2)} €
+                {price?.toFixed(2) ?? 0} €
               </Text>
             </View>
           ))}
@@ -120,7 +120,7 @@ const ComparisonShopReceipt = ({
         <View className="flex-row justify-between items-center my-4">
           <Text className="text-2xl text-terciary">Celková suma</Text>
           <Text className="text-2xl font-bold text-terciary">
-            {total_price?.toFixed(2)} €
+            {total_price?.toFixed(2) ?? 0} €
           </Text>
         </View>
         {actionsExecutable && (

@@ -26,7 +26,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="search-screen"
         options={{
           title: "Hladat",
           tabBarIcon: ({ color }) => (

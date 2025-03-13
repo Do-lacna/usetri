@@ -1,7 +1,7 @@
 import { BarcodeScanningResult } from "expo-camera";
 import { router } from "expo-router";
 import React from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
@@ -20,7 +20,7 @@ const options: SearchOptions<ProductDto> = {
   matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
-export default function Page() {
+export default function SearchScreen() {
   const [isCameraView, setIsCameraView] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -46,9 +46,11 @@ export default function Page() {
     displaySuccessToastMessage(`Barcode scanned - ${data?.data}`);
   };
 
-  return isCameraView ? (
-    <CameraView onBarcodeScanned={handleBarcodeScanned} />
-  ) : (
+  if (isCameraView) {
+    return <CameraView onBarcodeScanned={handleBarcodeScanned} />;
+  }
+
+  return (
     <View className="flex justify-start px-2">
       <View className="flex-row items-center gap-4 mt-2 z-10">
         <SearchBar<ProductDto>
@@ -67,6 +69,15 @@ export default function Page() {
         <IconButton onPress={() => setIsCameraView(true)} className="w-10">
           <ScanBarcode size={24} className="text-primary mr-3" />
         </IconButton>
+      </View>
+
+      <View className="flex-row gap-1 mt-2">
+        <Text className="text-lg tracking-wide">Hľadaj v lokalite:</Text>
+        <Pressable>
+          <Text className="text-lg text-terciary font-bold tracking-wide">
+            Bratislava
+          </Text>
+        </Pressable>
       </View>
 
       {displaySearchResult ? (
