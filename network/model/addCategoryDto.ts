@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CategoryDto {
-  id?: number;
+export interface AddCategoryDto {
   /** @nullable */
   name?: string | null;
   /** @nullable */

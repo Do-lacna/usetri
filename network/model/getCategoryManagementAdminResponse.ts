@@ -4,13 +4,13 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryExtendedDto } from './categoryExtendedDto';
+import type { CategoryDto } from './categoryDto';
 import type { ProductDto } from './productDto';
 import type { ProductsGroupedByUnits } from './productsGroupedByUnits';
 
 export interface GetCategoryManagementAdminResponse {
   /** @nullable */
-  uncategorized_subtrees?: CategoryExtendedDto[] | null;
+  uncategorized_subtrees?: CategoryDto[] | null;
   /** @nullable */
   all_products_with_not_leaf_category?: ProductDto[][] | null;
   /** @nullable */

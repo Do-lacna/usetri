@@ -4,11 +4,11 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryExtendedDto } from './categoryExtendedDto';
+import type { CategoryDto } from './categoryDto';
 import type { ProductDto } from './productDto';
 
 export interface CartCategoryDto {
-  category?: CategoryExtendedDto;
+  category?: CategoryDto;
   cheapest?: ProductDto;
   price?: number;
   normalized_price?: number;

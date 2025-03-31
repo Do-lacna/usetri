@@ -24,9 +24,12 @@ import type {
   AddShopRequest,
   AddShopResponse,
   ChangeItemPriceRequest,
+  DiscountPriceImportBatchDto,
   GetCategoriesAdminParams,
   GetCategoryAdminResponse,
   GetCategoryManagementAdminResponse,
+  GetDiscountPriceImportsParams,
+  GetDiscountPriceImportsResponse,
   GetProductPricesResponse,
   GetProductsAdminParams,
   GetProductsAdminResponse,
@@ -36,6 +39,7 @@ import type {
   UpdateProductModel,
   UpdateShopRequest,
   UploadDiscountPricesJsonBody,
+  UploadDiscountPricesJsonParams,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -1038,8 +1042,166 @@ export function useGetProductPrices<
   return query;
 }
 
+export const getDiscountPriceImports = (
+  params?: GetDiscountPriceImportsParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetDiscountPriceImportsResponse>(
+    { url: `/admin/discount-price-imports`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetDiscountPriceImportsQueryKey = (
+  params?: GetDiscountPriceImportsParams,
+) => {
+  return [
+    `/admin/discount-price-imports`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetDiscountPriceImportsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
+  TError = unknown,
+>(
+  params?: GetDiscountPriceImportsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDiscountPriceImports>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetDiscountPriceImportsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getDiscountPriceImports>>
+  > = ({ signal }) => getDiscountPriceImports(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getDiscountPriceImports>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetDiscountPriceImportsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getDiscountPriceImports>>
+>;
+export type GetDiscountPriceImportsQueryError = unknown;
+
+export function useGetDiscountPriceImports<
+  TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
+  TError = unknown,
+>(
+  params: undefined | GetDiscountPriceImportsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDiscountPriceImports>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDiscountPriceImports>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDiscountPriceImports<
+  TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
+  TError = unknown,
+>(
+  params?: GetDiscountPriceImportsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDiscountPriceImports>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDiscountPriceImports>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDiscountPriceImports<
+  TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
+  TError = unknown,
+>(
+  params?: GetDiscountPriceImportsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDiscountPriceImports>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetDiscountPriceImports<
+  TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
+  TError = unknown,
+>(
+  params?: GetDiscountPriceImportsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDiscountPriceImports>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetDiscountPriceImportsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const uploadDiscountPricesJson = (
   uploadDiscountPricesJsonBody: UploadDiscountPricesJsonBody,
+  params?: UploadDiscountPricesJsonParams,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
@@ -1048,12 +1210,13 @@ export const uploadDiscountPricesJson = (
     formData.append('jsonFile', uploadDiscountPricesJsonBody.jsonFile);
   }
 
-  return orvalApiClient<void>(
+  return orvalApiClient<DiscountPriceImportBatchDto>(
     {
-      url: `/admin/discount-prices`,
+      url: `/admin/discount-price-imports`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,
+      params,
       signal,
     },
     options,
@@ -1068,7 +1231,10 @@ export const getUploadDiscountPricesJsonMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesJsonBody },
+    {
+      data: UploadDiscountPricesJsonBody;
+      params?: UploadDiscountPricesJsonParams;
+    },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -1084,17 +1250,23 @@ export const getUploadDiscountPricesJsonMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
-    { data: UploadDiscountPricesJsonBody }
+    {
+      data: UploadDiscountPricesJsonBody;
+      params?: UploadDiscountPricesJsonParams;
+    }
   > = (props) => {
-    const { data } = props ?? {};
+    const { data, params } = props ?? {};
 
-    return uploadDiscountPricesJson(data, requestOptions);
+    return uploadDiscountPricesJson(data, params, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesJsonBody },
+    {
+      data: UploadDiscountPricesJsonBody;
+      params?: UploadDiscountPricesJsonParams;
+    },
     TContext
   >;
 };
@@ -1113,14 +1285,20 @@ export const useUploadDiscountPricesJson = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesJsonBody },
+    {
+      data: UploadDiscountPricesJsonBody;
+      params?: UploadDiscountPricesJsonParams;
+    },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: UploadDiscountPricesJsonBody },
+  {
+    data: UploadDiscountPricesJsonBody;
+    params?: UploadDiscountPricesJsonParams;
+  },
   TContext
 > => {
   const mutationOptions = getUploadDiscountPricesJsonMutationOptions(options);

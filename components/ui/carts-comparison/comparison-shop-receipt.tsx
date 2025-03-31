@@ -10,15 +10,14 @@ import {
   useCreateArchivedCart,
   useRemoveFromCart,
 } from "../../../network/customer/customer";
-import { CartDto } from "../../../network/model";
+import { CartComparisonDto } from "../../../network/model";
 
 const ComparisonShopReceipt = ({
   shop: { name: shopName, image_url, id: shopId } = {},
-  categories = [],
   specific_products: groceries = [],
   total_price,
   actionsExecutable = true,
-}: CartDto & { actionsExecutable?: boolean }) => {
+}: CartComparisonDto & { actionsExecutable?: boolean }) => {
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
   const queryClient = useQueryClient();
@@ -96,16 +95,16 @@ const ComparisonShopReceipt = ({
         </View>
 
         <ScrollView className="h-96 px-2">
-          {categories?.map(({ category: { id, name } = {}, price }) => (
+          {/* {categories?.map(({ category: { id, name } = {}, price }) => (
             <View key={id} className="flex-row justify-between mb-2">
               <Text className="text-lg">{name}</Text>
               <Text className="text-lg font-semibold">
                 {price?.toFixed(2)} €
               </Text>
             </View>
-          ))}
+          ))} */}
           {/* TODO wait for API BE to add this */}
-          {groceries?.map(({ price, name, barcode }) => (
+          {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
             <View key={barcode} className="flex-row justify-between mb-2">
               <Text className="text-lg">{name}</Text>
               <Text className="text-lg font-semibold">

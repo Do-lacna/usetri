@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CartDto } from './cartDto';
+import type { CartComparisonDto } from './cartComparisonDto';
 
 export interface GetCartComparisonResponse {
   /** @nullable */
-  carts?: CartDto[] | null;
+  carts?: CartComparisonDto[] | null;
 }

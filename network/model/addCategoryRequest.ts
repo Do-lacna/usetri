@@ -4,8 +4,8 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryDto } from './categoryDto';
+import type { AddCategoryDto } from './addCategoryDto';
 
 export interface AddCategoryRequest {
-  category?: CategoryDto;
+  category?: AddCategoryDto;
 }

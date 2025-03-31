@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryExtendedWithPathDto } from './categoryExtendedWithPathDto';
+import type { AddCategoryExtendedWithPathDto } from './addCategoryExtendedWithPathDto';
 
 export interface GetCategoryResponse {
   count?: number;
   /** @nullable */
-  categories?: CategoryExtendedWithPathDto[] | null;
+  categories?: AddCategoryExtendedWithPathDto[] | null;
 }

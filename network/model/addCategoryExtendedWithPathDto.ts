@@ -5,7 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CategoryDto {
+export interface AddCategoryExtendedWithPathDto {
   id?: number;
   /** @nullable */
   name?: string | null;
@@ -13,4 +13,8 @@ export interface CategoryDto {
   image_url?: string | null;
   /** @nullable */
   parent_id?: number | null;
+  /** @nullable */
+  path_from_root?: string[] | null;
+  /** @nullable */
+  path_from_root_numeric?: number[] | null;
 }

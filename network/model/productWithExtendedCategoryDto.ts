@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryDto } from './categoryDto';
+import type { AddCategoryExtendedWithPathDto } from './addCategoryExtendedWithPathDto';
 
-export interface ProductDto {
+export interface ProductWithExtendedCategoryDto {
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
@@ -18,5 +18,5 @@ export interface ProductDto {
   unit?: string | null;
   /** @nullable */
   image_url?: string | null;
-  category?: CategoryDto;
+  category?: AddCategoryExtendedWithPathDto;
 }
