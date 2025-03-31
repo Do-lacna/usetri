@@ -19,6 +19,20 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="/main/scan/scan-screen"
+        options={{
+          // Optional: Add presentation style
+          title: "Sken produktov",
+          presentation: "card",
+          // Optional: Add animations
+          animation: "slide_from_right",
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+      <Stack.Screen
         name="main/modal/index"
         options={{
           title: "Porovnanie cien",

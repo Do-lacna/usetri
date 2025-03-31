@@ -6,46 +6,6 @@ import { getSimplifiedCart } from "../../../../lib/utils";
 import { useGetCart } from "../../../../network/customer/customer";
 import { useGetCartComparison } from "../../../../network/query/query";
 
-// Mock data for shops and groceries
-const mockShops = [
-  {
-    id: 1,
-    name: "Cheapest Market",
-    totalPrice: 45.5,
-    groceries: [
-      { id: 1, name: "Apples", quantity: 2, price: 3.99 },
-      { id: 2, name: "Milk", quantity: 1, price: 2.5 },
-      { id: 3, name: "Bread", quantity: 1, price: 4.2 },
-      { id: 4, name: "Eggs", quantity: 12, price: 5.99 },
-      { id: 5, name: "Chicken", quantity: 1, price: 7.8 },
-    ],
-  },
-  {
-    id: 2,
-    name: "Fresh Mart",
-    totalPrice: 48.75,
-    groceries: [
-      { id: 1, name: "Apples", quantity: 2, price: 4.5 },
-      { id: 2, name: "Milk", quantity: 1, price: 3.0 },
-      { id: 3, name: "Bread", quantity: 1, price: 4.5 },
-      { id: 4, name: "Eggs", quantity: 12, price: 6.5 },
-      { id: 5, name: "Chicken", quantity: 1, price: 8.25 },
-    ],
-  },
-  {
-    id: 3,
-    name: "Grocery World",
-    totalPrice: 47.2,
-    groceries: [
-      { id: 1, name: "Apples", quantity: 2, price: 4.2 },
-      { id: 2, name: "Milk", quantity: 1, price: 2.75 },
-      { id: 3, name: "Bread", quantity: 1, price: 4.35 },
-      { id: 4, name: "Eggs", quantity: 12, price: 6.2 },
-      { id: 5, name: "Chicken", quantity: 1, price: 8.0 },
-    ],
-  },
-];
-
 const GroceryPriceComparisonScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const width = Dimensions.get("window").width;
@@ -66,7 +26,7 @@ const GroceryPriceComparisonScreen = () => {
 
   const renderPaginationDots = () => (
     <View className="flex-row justify-center items-center mb-8">
-      {mockShops.map((_, index) => (
+      {carts?.map((_, index) => (
         <View
           key={index}
           className={`w-3 h-3 rounded-full mx-2 ${

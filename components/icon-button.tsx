@@ -6,7 +6,12 @@ interface IconButtonProps extends TouchableOpacityProps {
 }
 
 const IconButton = ({ children, style, ...props }: IconButtonProps) => (
-  <TouchableOpacity accessible={true} accessibilityRole="button" {...props}>
+  <TouchableOpacity
+    accessible={true}
+    accessibilityRole="button"
+    style={style}
+    {...props}
+  >
     {children}
   </TouchableOpacity>
 );

@@ -1,5 +1,5 @@
 import { BarcodeScanningResult } from "expo-camera";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import DiscountList from "~/components/ui/discount-list";
@@ -7,6 +7,7 @@ import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 import { type SearchOptions } from "~/utils/search-utils";
 import IconButton from "../../../../components/icon-button";
+import { Button } from "../../../../components/ui/button";
 import CameraView from "../../../../components/ui/camera-view/camera-view";
 import ProductCardNew2 from "../../../../components/ui/product-card/product-card";
 import type { ProductDto } from "../../../../network/model";
@@ -52,6 +53,11 @@ export default function SearchScreen() {
 
   return (
     <View className="flex justify-start px-2">
+      <Link href="/main/scan/scan-screen" asChild>
+        <Button>
+          <Text>Skenuj produkty</Text>
+        </Button>
+      </Link>
       <View className="flex-row items-center gap-4 mt-2 z-10">
         <SearchBar<ProductDto>
           onSearch={setSearchQuery}

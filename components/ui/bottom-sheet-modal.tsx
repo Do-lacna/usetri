@@ -8,12 +8,13 @@ import { StyleSheet } from "react-native";
 
 export type CustomBottomSheetModalProps = {
   children: ReactNode;
+  index?: number;
 };
 
 export const CustomBottomSheetModal = forwardRef<
   BottomSheetModal,
   CustomBottomSheetModalProps
->(({ children }: CustomBottomSheetModalProps, ref) => {
+>(({ children, index = 1 }: CustomBottomSheetModalProps, ref) => {
   const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -29,7 +30,7 @@ export const CustomBottomSheetModal = forwardRef<
     <BottomSheetModal
       ref={ref}
       backdropComponent={renderBackdrop}
-      index={1}
+      index={index}
       snapPoints={snapPoints}
     >
       <BottomSheetView style={styles.contentContainer}>

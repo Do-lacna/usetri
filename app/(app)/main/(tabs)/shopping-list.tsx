@@ -1,12 +1,13 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Image, Keyboard, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
+import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem, {
@@ -55,6 +56,8 @@ export enum CartOperationsEnum {
 export default function Page() {
   const queryClient = useQueryClient();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const pendingProductSheetRef = useRef<BottomSheetModal>(null);
+
   const [filter, setFilter] = React.useState<ShoppingListFilter>(
     ShoppingListFilter.CATEGORIES
   );
@@ -65,6 +68,9 @@ export default function Page() {
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
     null
   );
+  const [pendingProductBarcode, setPendingProductBarcode] = React.useState<
+    string | null
+  >(null);
 
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
     {},
@@ -79,6 +85,7 @@ export default function Page() {
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
       setSearchQuery("");
+      pendingProductSheetRef?.current?.dismiss();
     },
     onSuccessWithExpandedOption: (categoryId) => {
       setExpandedOption(Number(categoryId));
@@ -160,8 +167,26 @@ export default function Page() {
     bottomSheetRef?.current?.dismiss();
   };
 
+  const handleTriggerCartDrawer = React.useCallback((item: ShopItemDto) => {
+    const barcode = item?.detail?.barcode;
+    if (!barcode) return;
+    setPendingProductBarcode(barcode);
+  }, []);
+
+  useEffect(() => {
+    if (pendingProductBarcode) pendingProductSheetRef?.current?.present();
+  }, [pendingProductBarcode, pendingProductSheetRef]);
+
   return (
     <View className="flex-1 content-center">
+      <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
+        <PendingCartItemDrawerContent
+          barcode={pendingProductBarcode}
+          onConfirm={(barcode) => handleAddProductToCart(String(barcode))}
+          onDismiss={() => pendingProductSheetRef?.current?.dismiss()}
+        />
+      </CustomBottomSheetModal>
+
       <CustomBottomSheetModal ref={bottomSheetRef}>
         <ShoppingListFilterContent
           currentFilter={filter}
@@ -201,7 +226,7 @@ export default function Page() {
               searchText={searchQuery}
               placeholder={"Vyhľadaj konkrétny produkt"}
               options={productOptions ?? []}
-              onOptionSelect={handleAddProductToCart}
+              onOptionSelect={handleTriggerCartDrawer}
               renderOption={(item) => (
                 <Text className="text-gray-800 text-lg">
                   {item?.detail?.name}
