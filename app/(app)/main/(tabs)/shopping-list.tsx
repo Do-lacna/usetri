@@ -1,7 +1,13 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef } from "react";
-import { Image, Keyboard, Text, View } from "react-native";
+import {
+  Image,
+  Keyboard,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
@@ -53,6 +59,8 @@ export enum CartOperationsEnum {
   UPDATE = "UPDATE",
 }
 
+const MINIMUM_PRODUCT_SEARCH_LENGTH = 2;
+
 export default function Page() {
   const queryClient = useQueryClient();
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -99,7 +107,8 @@ export default function Page() {
     {
       query: {
         enabled:
-          filter === ShoppingListFilter.PRODUCTS && searchQuery?.length > 2,
+          filter === ShoppingListFilter.PRODUCTS &&
+          searchQuery?.length >= MINIMUM_PRODUCT_SEARCH_LENGTH,
       },
     }
   );
@@ -193,109 +202,118 @@ export default function Page() {
           onFilterChange={handleFilterChange}
         />
       </CustomBottomSheetModal>
-      <View className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}>
-        <View className="flex-row items-center gap-4 mt-2 z-10">
-          {filter === ShoppingListFilter.CATEGORIES ? (
-            <SearchBar<CategoryExtendedWithPathDto>
-              onSearch={setSearchQuery}
-              onClear={() => setSearchQuery("")}
-              searchText={searchQuery}
-              placeholder={"Vyhľadaj kategóriu produktu"}
-              options={searchResults}
-              onOptionSelect={handleAddCategoryToCart}
-              renderOption={(item) => (
-                <View className="flex-row">
-                  {item?.image_url && (
-                    <Image
-                      source={{ uri: `${BASE_API_URL}/${item.image_url}` }}
-                      resizeMode="contain"
-                      className="w-8 h-8 mr-4"
-                      // style={{ width: 20, height: 20 }}
-                    />
-                  )}
-                  <Text className="text-gray-800 text-lg">{item?.name}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => String(item.id)}
-            />
-          ) : (
-            //TODO simplify and generalize methods for both search bars and handler methods
-            <SearchBar<ShopItemDto>
-              onSearch={setSearchQuery}
-              onClear={() => setSearchQuery("")}
-              searchText={searchQuery}
-              placeholder={"Vyhľadaj konkrétny produkt"}
-              options={productOptions ?? []}
-              onOptionSelect={handleTriggerCartDrawer}
-              renderOption={(item) => (
-                <Text className="text-gray-800 text-lg">
-                  {item?.detail?.name}
-                </Text>
-              )}
-              keyExtractor={(item) => String(item?.detail?.barcode)}
-            />
-          )}
-
-          <IconButton
-            onPress={() => bottomSheetRef?.current?.present()}
-            className="w-10"
-          >
-            <ListFilter size={24} className="text-primary mr-3" />
-          </IconButton>
-        </View>
-
-        <View className="flex-1 gap-2 mt-4">
-          {cartCategories.map(
-            ({ category: { id, name = "Category", image_url } = {} }) => (
-              <ShoppingListItem
-                key={id}
-                id={id}
-                categoryId={id}
-                label={name}
-                imageUrl={image_url}
-                onDelete={(id) => handleRemoveItemFromCart("category", id)}
-                isExpanded={expandedOption === id}
-                onExpandChange={handleResetExpandedOption}
-                onProductSelect={handleChooseProductFromCategory}
-                type={ShoppingListItemTypeEnum.CATEGORY}
+      <TouchableWithoutFeedback
+        onPress={() => Keyboard.dismiss()}
+        className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}
+      >
+        <View className="flex-1">
+          <View className="flex-row items-center gap-4 mt-2 z-10">
+            {filter === ShoppingListFilter.CATEGORIES ? (
+              <SearchBar<CategoryExtendedWithPathDto>
+                onSearch={setSearchQuery}
+                onClear={() => setSearchQuery("")}
+                searchText={searchQuery}
+                placeholder={"Vyhľadaj kategóriu produktu"}
+                options={searchResults}
+                onOptionSelect={handleAddCategoryToCart}
+                renderOption={(item) => (
+                  <View className="flex-row">
+                    {item?.image_url && (
+                      <Image
+                        source={{ uri: `${BASE_API_URL}/${item.image_url}` }}
+                        resizeMode="contain"
+                        className="w-8 h-8 mr-4"
+                        // style={{ width: 20, height: 20 }}
+                      />
+                    )}
+                    <Text className="text-gray-800 text-lg">{item?.name}</Text>
+                  </View>
+                )}
+                keyExtractor={(item) => String(item.id)}
               />
-            )
-          )}
-
-          {cartProducts.map(
-            ({
-              barcode,
-              name = "Specific product",
-              amount,
-              unit,
-              brand,
-              category: { id: categoryId } = {},
-            }) => (
-              <ShoppingListItem
-                key={barcode}
-                id={String(barcode)}
-                label={name}
-                description={generateShoppingListItemDescription({
-                  amount,
-                  unit,
-                  brand,
-                })}
-                type={ShoppingListItemTypeEnum.PRODUCT}
-                categoryId={categoryId}
-                onDelete={(id) => handleRemoveItemFromCart("product", id)}
-                onProductSelect={handleChooseProductFromCategory}
+            ) : (
+              //TODO simplify and generalize methods for both search bars and handler methods
+              <SearchBar<ShopItemDto>
+                onSearch={setSearchQuery}
+                onClear={() => setSearchQuery("")}
+                searchText={searchQuery}
+                placeholder={"Vyhľadaj konkrétny produkt"}
+                options={productOptions ?? []}
+                onOptionSelect={handleTriggerCartDrawer}
+                renderOption={(item) => (
+                  <Text className="text-gray-800 text-lg">
+                    {item?.detail?.name}
+                  </Text>
+                )}
+                minimumSearchLength={MINIMUM_PRODUCT_SEARCH_LENGTH}
+                keyExtractor={(item) => String(item?.detail?.barcode)}
               />
-            )
+            )}
+
+            <IconButton
+              onPress={() => {
+                Keyboard.dismiss();
+                bottomSheetRef?.current?.present();
+              }}
+              className="w-10"
+            >
+              <ListFilter size={24} className="text-primary mr-3" />
+            </IconButton>
+          </View>
+
+          <View className="flex-1 gap-2 mt-4">
+            {cartCategories.map(
+              ({ category: { id, name = "Category", image_url } = {} }) => (
+                <ShoppingListItem
+                  key={id}
+                  id={id}
+                  categoryId={id}
+                  label={name}
+                  imageUrl={image_url}
+                  onDelete={(id) => handleRemoveItemFromCart("category", id)}
+                  isExpanded={expandedOption === id}
+                  onExpandChange={handleResetExpandedOption}
+                  onProductSelect={handleChooseProductFromCategory}
+                  type={ShoppingListItemTypeEnum.CATEGORY}
+                />
+              )
+            )}
+
+            {cartProducts.map(
+              ({
+                barcode,
+                name = "Specific product",
+                amount,
+                unit,
+                brand,
+                category: { id: categoryId } = {},
+              }) => (
+                <ShoppingListItem
+                  key={barcode}
+                  id={String(barcode)}
+                  label={name}
+                  description={generateShoppingListItemDescription({
+                    amount,
+                    unit,
+                    brand,
+                  })}
+                  type={ShoppingListItemTypeEnum.PRODUCT}
+                  categoryId={categoryId}
+                  onDelete={(id) => handleRemoveItemFromCart("product", id)}
+                  onProductSelect={handleChooseProductFromCategory}
+                />
+              )
+            )}
+          </View>
+          {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
+          {!!cart?.total_price && (
+            <PriceSummary
+              price={cart.total_price}
+              onPress={() => console.log("summary pressed")}
+            />
           )}
         </View>
-        {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
-        {!!cart?.total_price && (
-          <PriceSummary
-            price={cart.total_price}
-            onPress={() => console.log("summary pressed")}
-          />
-        )}
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 }

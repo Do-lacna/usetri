@@ -987,6 +987,47 @@
         }
       }
     },
+    "/admin/product-image": {
+      "post": {
+        "tags": ["Admin", "Imports"],
+        "operationId": "UploadProductImage",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/admin/discount-price-imports": {
       "get": {
         "tags": ["Admin", "Imports"],
@@ -2595,6 +2636,15 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
           }
         ],
         "requestBody": {
@@ -4047,6 +4097,24 @@
         "properties": {
           "shop": {
             "$ref": "#/components/schemas/UpdateShopModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UploadProductImageRequest": {
+        "type": "object",
+        "properties": {
+          "shop": {
+            "type": "string",
+            "nullable": true
+          },
+          "barcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "file_base64": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

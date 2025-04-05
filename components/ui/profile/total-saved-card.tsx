@@ -5,15 +5,9 @@ import { Card, CardTitle } from "../card";
 import { Skeleton } from "../skeleton";
 import { Text } from "../text";
 
-interface ProductCardProps {
-  totalSaved?: number;
-  monthlySaved?: number;
-}
+interface ProductCardProps {}
 
-const TotalSavedCard: React.FC<ProductCardProps> = ({
-  totalSaved = 0,
-  monthlySaved = 0,
-}) => {
+const TotalSavedCard: React.FC<ProductCardProps> = () => {
   const {
     isLoading,
     data: { total_price_spared = 0, total_price_spared_last_month = 0 } = {},

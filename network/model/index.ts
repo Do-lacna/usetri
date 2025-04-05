@@ -91,3 +91,4 @@ export * from './uploadCategoriesFileBody';
 export * from './uploadDiscountPricesJsonBody';
 export * from './uploadDiscountPricesJsonParams';
 export * from './uploadFileBody';
+export * from './uploadProductImageRequest';

@@ -40,6 +40,7 @@ import type {
   UpdateShopRequest,
   UploadDiscountPricesJsonBody,
   UploadDiscountPricesJsonParams,
+  UploadProductImageRequest,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -1042,6 +1043,90 @@ export function useGetProductPrices<
   return query;
 }
 
+export const uploadProductImage = (
+  uploadProductImageRequest: UploadProductImageRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/product-image`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: uploadProductImageRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getUploadProductImageMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadProductImage>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadProductImageRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['uploadProductImage'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadProductImage>>,
+    { data: UploadProductImageRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return uploadProductImage(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadProductImageRequest },
+    TContext
+  >;
+};
+
+export type UploadProductImageMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadProductImage>>
+>;
+export type UploadProductImageMutationBody = UploadProductImageRequest;
+export type UploadProductImageMutationError = unknown;
+
+export const useUploadProductImage = <
+  TData = Awaited<ReturnType<typeof uploadProductImage>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadProductImageRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: UploadProductImageRequest },
+  TContext
+> => {
+  const mutationOptions = getUploadProductImageMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const getDiscountPriceImports = (
   params?: GetDiscountPriceImportsParams,
   options?: SecondParameter<typeof orvalApiClient>,

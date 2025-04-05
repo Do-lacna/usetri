@@ -13,14 +13,21 @@ import { displayErrorToastMessage } from "../../../utils/toast-utils";
 import IconButton from "../../icon-button";
 import { Button } from "../button";
 
+export type PictureScannedProps = {
+  barcode: string | null;
+  file_base64: string;
+};
+
 export type CameraViewProps = {
   onBarcodeScanned?: (data: BarcodeScanningResult) => void;
   onCancelButtonPress?: () => void;
+  onPictureTaken?: ({ barcode, file_base64 }: PictureScannedProps) => void;
 };
 
 export default function CameraView({
   onBarcodeScanned,
   onCancelButtonPress,
+  onPictureTaken,
 }: CameraViewProps) {
   const animation = useRef<LottieView>(null);
   // useEffect(() => {
@@ -29,6 +36,7 @@ export default function CameraView({
   // }, []);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isBarcodeScanned, setIsBarcodeScanned] = useState(false);
+  const [barcode, setBarcode] = useState<string | null>(null);
 
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
@@ -59,6 +67,10 @@ export default function CameraView({
       try {
         const photo = await cameraRef.current.takePictureAsync({
           base64: true,
+        });
+        onPictureTaken?.({
+          barcode,
+          file_base64: photo.base64,
         });
         setCapturedImage(photo.base64);
       } catch (error) {
@@ -107,6 +119,7 @@ export default function CameraView({
         }}
         onBarcodeScanned={(data) => {
           onBarcodeScanned?.(data);
+          setBarcode(data?.data);
           setIsBarcodeScanned(true);
         }}
         onCameraReady={() => setIsCameraReady(true)}
