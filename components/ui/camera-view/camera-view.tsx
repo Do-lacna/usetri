@@ -160,7 +160,7 @@ export default function CameraView({
           <Button
             className="absolute bottom-4 w-full"
             onPress={takePicture}
-            disabled={!isCameraReady || !isBarcodeScanned}
+            // disabled={!isCameraReady || !isBarcodeScanned}
           >
             <Text className="text-xl">Naskenuj</Text>
             {/* <Text style={styles.text}>Barcode scanned</Text> */}
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     right: 20,
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
   barcodeIcon: {
     position: "absolute",

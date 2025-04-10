@@ -19,6 +19,7 @@ import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { getTheme, setTheme } from "~/persistence/theme-storage";
 import { SessionProvider } from "../context/authentication-context";
+import { RevenueCatProvider } from "../context/revenue-cat-provider";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -77,18 +78,22 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>
-        <GestureHandlerRootView>
-          <BottomSheetModalProvider>
-            <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-              <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-              <Slot />
-              <PortalHost />
-              <Toast />
-            </ThemeProvider>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
-      </SessionProvider>
+      <RevenueCatProvider>
+        <SessionProvider>
+          <GestureHandlerRootView>
+            <BottomSheetModalProvider>
+              <ThemeProvider
+                value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}
+              >
+                <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+                <Slot />
+                <PortalHost />
+                <Toast />
+              </ThemeProvider>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
+        </SessionProvider>
+      </RevenueCatProvider>
     </QueryClientProvider>
   );
 }
