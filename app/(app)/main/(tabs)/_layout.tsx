@@ -1,6 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-import { ThemeToggle } from "~/components/ThemeToggle";
 import { LogOut } from "~/lib/icons/Log-out";
 import IconButton from "../../../../components/icon-button";
 import { useSession } from "../../../../context/authentication-context";
@@ -32,7 +31,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="search" color={color} />
           ),
-          headerRight: () => <ThemeToggle />,
+          // headerRight: () => <ThemeToggle />,
         }}
       />
       <Tabs.Screen
