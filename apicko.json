@@ -3368,7 +3368,7 @@
       "DiscountPriceImportEntryDto": {
         "type": "object",
         "properties": {
-          "import_id": {
+          "discount_id": {
             "type": "integer",
             "format": "int64"
           },
@@ -4104,9 +4104,9 @@
       "UploadProductImageRequest": {
         "type": "object",
         "properties": {
-          "shop": {
-            "type": "string",
-            "nullable": true
+          "shop_id": {
+            "type": "integer",
+            "format": "int32"
           },
           "barcode": {
             "type": "string",

@@ -59,6 +59,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      {/* TODO condition this under admin rights */}
+      <Tabs.Screen
+        name="brigader"
+        options={{
+          title: "Nahravanie",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="upload" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

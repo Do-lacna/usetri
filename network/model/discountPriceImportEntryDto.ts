@@ -6,7 +6,7 @@
  */
 
 export interface DiscountPriceImportEntryDto {
-  import_id?: number;
+  discount_id?: number;
   /** @nullable */
   title?: string | null;
   new_discount_price?: number;

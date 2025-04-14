@@ -6,8 +6,7 @@
  */
 
 export interface UploadProductImageRequest {
-  /** @nullable */
-  shop?: string | null;
+  shop_id?: number;
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
