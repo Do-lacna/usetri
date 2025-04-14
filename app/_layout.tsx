@@ -82,10 +82,8 @@ export default function RootLayout() {
         <SessionProvider>
           <GestureHandlerRootView>
             <BottomSheetModalProvider>
-              <ThemeProvider
-                value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}
-              >
-                <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+              <ThemeProvider value={LIGHT_THEME}>
+                <StatusBar style={"light"} />
                 <Slot />
                 <PortalHost />
                 <Toast />

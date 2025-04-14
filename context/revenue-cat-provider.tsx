@@ -23,6 +23,7 @@ interface RevenueCatProps {
   purchasePackage?: (pack: PurchasesPackage) => Promise<void>;
   restorePermissions?: () => Promise<CustomerInfo>;
   user: UserState;
+  customerInfo: CustomerInfo | null;
   packages: PurchasesPackage[];
 }
 
@@ -45,6 +46,7 @@ export const RevenueCatProvider = ({ children }: any) => {
     items: [],
     pro: false,
   });
+  const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
   const [packages, setPackages] = useState<PurchasesPackage[]>([]);
   const [isReady, setIsReady] = useState(false);
 
@@ -82,6 +84,7 @@ export const RevenueCatProvider = ({ children }: any) => {
 
   // Update user state based on previous purchases
   const updateCustomerInformation = async (customerInfo: CustomerInfo) => {
+    setCustomerInfo(customerInfo);
     const newUser: UserState = { cookies: user.cookies, items: [], pro: false };
 
     if (customerInfo?.entitlements.active["Epic Wand"] !== undefined) {
@@ -130,6 +133,7 @@ export const RevenueCatProvider = ({ children }: any) => {
     user,
     packages,
     purchasePackage,
+    customerInfo,
   };
 
   // Return empty fragment if provider is not ready (Purchase not yet initialised)

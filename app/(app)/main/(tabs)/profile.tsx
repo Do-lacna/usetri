@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { UserIcon } from "~/lib/icons/User";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
+import { Subscriptions } from "../../../../components/ui/profile/subscriptions";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
 import { ShortArchivedCartDto } from "../../../../network/model";
@@ -55,6 +56,8 @@ export default function ProfileScreen() {
 
         <TotalSavedCard />
 
+        <Subscriptions />
+
         <View className="flex-row items-center gap-2 mt-4 mb-2">
           <Text className="text-2xl font-bold">História zoznamov</Text>
           {/* <ShoppingCart size={20} /> */}
@@ -80,10 +83,6 @@ export default function ProfileScreen() {
             </Text>
           )}
         </View>
-
-        {/* <Button onPress={performSignOut}>
-          <Text>Sign Out</Text>
-        </Button> */}
       </ScrollView>
     </SafeAreaView>
   );

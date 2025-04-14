@@ -13,7 +13,7 @@ export default function SearchScreen() {
   const suggestions = first10Products?.map((product) => product?.products?.[0]);
   return (
     <View className="flex justify-start px-2">
-      <Link href="/main/scan/scan-screen" asChild>
+      <Link href="/main/scan/brigader-scan-screen" asChild>
         <Button>
           <Text>Skenuj produkty</Text>
         </Button>
@@ -36,7 +36,7 @@ export default function SearchScreen() {
           />
         )}
         keyExtractor={(product) => String(product?.detail?.barcode)}
-        contentContainerClassName="gap-4 p-1"
+        contentContainerClassName="gap-4 px-1 pt-4 pb-10"
       />
     </View>
   );

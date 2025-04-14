@@ -1,9 +1,9 @@
 import {
-  BarcodeScanningResult,
   CameraType,
   CameraView as CameraViewExpo,
   useCameraPermissions,
 } from "expo-camera";
+import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { X } from "~/lib/icons/Cancel";
@@ -20,17 +20,9 @@ export type PictureScannedProps = {
   file_base64: string;
 };
 
-export type CameraViewProps = {
-  onBarcodeScanned?: (data: BarcodeScanningResult) => void;
-  onCancelButtonPress?: () => void;
-  onPictureTaken?: ({ barcode, file_base64 }: PictureScannedProps) => void;
-};
+export type CameraViewProps = {};
 
-export default function BrigaderCameraView({
-  onBarcodeScanned,
-  onCancelButtonPress,
-  onPictureTaken,
-}: CameraViewProps) {
+export default function BrigaderCameraView({}: CameraViewProps) {
   // const animation = useRef<LottieView>(null);
   // // useEffect(() => {
   // //   // You can control the ref programmatically, rather than using autoPlay
@@ -138,13 +130,12 @@ export default function BrigaderCameraView({
             barcodeTypes: ["qr", "code128", "ean13", "ean8"],
           }}
           onBarcodeScanned={(data) => {
-            onBarcodeScanned?.(data);
             setBarcode(data?.data);
             setIsBarcodeScanned(true);
           }}
           onCameraReady={() => setIsCameraReady(true)}
         >
-          <IconButton style={styles.cancelIcon} onPress={onCancelButtonPress}>
+          <IconButton style={styles.cancelIcon} onPress={() => router.back()}>
             <X size={25} color="white" strokeWidth={2} />
           </IconButton>
           <View style={styles.buttonContainer}>
