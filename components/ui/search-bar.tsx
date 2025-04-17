@@ -54,17 +54,19 @@ const SearchBar = <T,>({
 
       {/* {options.length > 0 && ( */}
       <View
-        className="absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20"
-        style={{
-          elevation: 5, // for Android shadow
-          shadowColor: "#000", // for iOS shadow
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-        }}
+        className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-${!!searchText ? 'lg' : 'sm'} max-h-60 border-t border-gray-100 z-20`}
+        // style={{
+        //   ...(!!searchText ? {
+        //     elevation: 5,
+        //     shadowColor: "#000", // TODO unify sha
+        //     shadowOffset: {
+        //       width: 0,
+        //       height: 2,
+        //     },
+        //     shadowOpacity: 0.25,
+        //     shadowRadius: 3.84,
+        //   } : {})     
+        // }}
       >
         <FlatList
           data={options}
@@ -83,6 +85,16 @@ const SearchBar = <T,>({
               <Text className="p-4 text-lg">Žiadne výsledky</Text>
             ) : null
           }
+          contentContainerStyle={{
+          elevation: 5, // for Android shadow
+          shadowColor: "#000", // for iOS shadow
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          }}
         />
       </View>
       {/* )} */}

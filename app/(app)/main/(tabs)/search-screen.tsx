@@ -13,6 +13,7 @@ import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
 import { displaySuccessToastMessage } from "../../../../utils/toast-utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
@@ -51,7 +52,7 @@ export default function SearchScreen() {
   }
 
   return (
-    <View className="flex justify-start px-2">
+    <SafeAreaView className="flex justify-start px-2">
       <View className="flex-row items-center gap-4 mt-2 z-10">
         <SearchBar<ProductDto>
           onSearch={setSearchQuery}
@@ -111,6 +112,6 @@ export default function SearchScreen() {
           />
         </ScrollView>
       )}
-    </View>
+    </SafeAreaView>
   );
 }

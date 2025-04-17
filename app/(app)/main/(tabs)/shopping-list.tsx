@@ -46,6 +46,7 @@ import {
   type SearchOptions,
   searchItems,
 } from "../../../../utils/search-utils";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const options: SearchOptions<CategoryExtendedWithPathDto> = {
   threshold: 0.7,
@@ -187,7 +188,7 @@ export default function Page() {
   }, [pendingProductBarcode, pendingProductSheetRef]);
 
   return (
-    <View className="flex-1 content-center">
+    <SafeAreaView className="flex-1 content-center px-2">
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
         <PendingCartItemDrawerContent
           barcode={pendingProductBarcode}
@@ -314,6 +315,6 @@ export default function Page() {
           )}
         </View>
       </TouchableWithoutFeedback>
-    </View>
+    </SafeAreaView>
   );
 }
