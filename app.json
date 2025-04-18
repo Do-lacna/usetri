@@ -2,7 +2,7 @@
   "expo": {
     "name": "Usetri",
     "slug": "usetri",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "usetri",
@@ -25,6 +25,7 @@
       }
     },
     "android": {
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json",
       "package": "com.dutosvarc.usetri",
       "adaptiveIcon": {

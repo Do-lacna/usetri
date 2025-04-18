@@ -52,33 +52,42 @@ export const RevenueCatProvider = ({ children }: any) => {
 
   useEffect(() => {
     const init = async () => {
-      if (Platform.OS === "android") {
-        await Purchases.configure({ apiKey: APIKeys.google });
-      } else {
-        await Purchases.configure({ apiKey: APIKeys.apple });
+      try {
+        if (Platform.OS === "android") {
+          await Purchases.configure({ apiKey: APIKeys.google });
+        } else {
+          await Purchases.configure({ apiKey: APIKeys.apple });
+        }
+        setIsReady(true);
+
+        // Use more logging during debug if want!
+        Purchases.setLogLevel(LOG_LEVEL.DEBUG);
+
+        // Listen for customer updates
+        Purchases.addCustomerInfoUpdateListener(async (info) => {
+          console.log(info);
+          updateCustomerInformation(info);
+        });
+
+        // Load all offerings and the user object with entitlements
+        await loadOfferings();
+      } catch (e) {
+        console.error("Error initializing RevenueCat: ", e);
       }
-      setIsReady(true);
-
-      // Use more logging during debug if want!
-      Purchases.setLogLevel(LOG_LEVEL.DEBUG);
-
-      // Listen for customer updates
-      Purchases.addCustomerInfoUpdateListener(async (info) => {
-        updateCustomerInformation(info);
-      });
-
-      // Load all offerings and the user object with entitlements
-      await loadOfferings();
     };
     init();
   }, []);
 
   // Load all offerings a user can (currently) purchase
   const loadOfferings = async () => {
-    const offerings = await Purchases.getOfferings();
-    console.log(offerings);
-    if (offerings.current) {
-      setPackages(offerings.current.availablePackages);
+    try {
+      const offerings = await Purchases.getOfferings();
+      console.log(offerings);
+      if (offerings.current) {
+        setPackages(offerings.current.availablePackages);
+      }
+    } catch (e) {
+      console.error("Error loading offerings: ", e);
     }
   };
 
