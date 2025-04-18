@@ -53,7 +53,21 @@ const SearchBar = <T,>({
       </View>
 
       <View
-        className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-${!!searchText ? 'lg' : 'sm'} max-h-60 border-t border-gray-100 z-20`}
+        className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20`}
+        style={{
+          ...(!!searchText
+            ? {
+                elevation: 5,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+              }
+            : {}),
+        }}
       >
         <FlatList
           data={options}
