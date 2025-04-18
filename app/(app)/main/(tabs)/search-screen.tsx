@@ -2,6 +2,7 @@ import { BarcodeScanningResult } from "expo-camera";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
@@ -13,7 +14,6 @@ import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 import { products } from "../../../../test/test-data";
 import { displaySuccessToastMessage } from "../../../../utils/toast-utils";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
@@ -55,6 +55,7 @@ export default function SearchScreen() {
     <SafeAreaView className="flex justify-start px-2">
       <View className="flex-row items-center gap-4 mt-2 z-10">
         <SearchBar<ProductDto>
+          displaySearchOptions={false}
           onSearch={setSearchQuery}
           onClear={() => setSearchQuery("")}
           searchText={searchQuery}
@@ -67,7 +68,12 @@ export default function SearchScreen() {
           keyExtractor={(item) => String(item.barcode)}
         />
 
-        <IconButton onPress={() => setIsCameraView(true)} className="w-10">
+        <IconButton
+          onPress={() =>
+            router.navigate("/main/barcode-search/barcode-search-screen")
+          }
+          className="w-10"
+        >
           <ScanBarcode size={24} className="text-primary mr-3" />
         </IconButton>
       </View>

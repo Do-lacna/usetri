@@ -20,6 +20,7 @@ export interface ISearchBarProps<T> {
   renderOption: (item: T) => React.ReactNode;
   keyExtractor: (item: T) => string;
   minimumSearchLength?: number;
+  displaySearchOptions?: boolean;
 }
 
 const SearchBar = <T,>({
@@ -32,6 +33,7 @@ const SearchBar = <T,>({
   renderOption,
   keyExtractor,
   minimumSearchLength = 2,
+  displaySearchOptions = true,
 }: ISearchBarProps<T>) => {
   return (
     <View className="relative z-10 w-full flex-shrink">
@@ -51,43 +53,44 @@ const SearchBar = <T,>({
           </Pressable>
         )}
       </View>
-
-      <View
-        className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20`}
-        style={{
-          ...(!!searchText
-            ? {
-                elevation: 5,
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-              }
-            : {}),
-        }}
-      >
-        <FlatList
-          data={options}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => onOptionSelect(item)}
-              className="px-4 py-4 border-b border-gray-200"
-            >
-              {renderOption(item)}
-            </TouchableOpacity>
-          )}
-          keyExtractor={keyExtractor}
-          keyboardShouldPersistTaps="handled"
-          ListEmptyComponent={
-            searchText?.length >= minimumSearchLength ? (
-              <Text className="p-4 text-lg">Žiadne výsledky</Text>
-            ) : null
-          }
-        />
-      </View>
+      {displaySearchOptions && (
+        <View
+          className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20`}
+          style={{
+            ...(!!searchText
+              ? {
+                  elevation: 5,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                }
+              : {}),
+          }}
+        >
+          <FlatList
+            data={options}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => onOptionSelect(item)}
+                className="px-4 py-4 border-b border-gray-200"
+              >
+                {renderOption(item)}
+              </TouchableOpacity>
+            )}
+            keyExtractor={keyExtractor}
+            keyboardShouldPersistTaps="handled"
+            ListEmptyComponent={
+              searchText?.length >= minimumSearchLength ? (
+                <Text className="p-4 text-lg">Žiadne výsledky</Text>
+              ) : null
+            }
+          />
+        </View>
+      )}
     </View>
   );
 };
