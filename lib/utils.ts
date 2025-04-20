@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { CartDto, ProductDto, ShopExtendedDto } from "../network/model";
+import { BASE_API_URL } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,4 +59,10 @@ export const generateShoppingListItemDescription = ({
   brand = "[Brand]",
 }: Pick<ProductDto, "unit" | "brand" | "amount">) => {
   return `${brand} - ${amount} ${unit}`;
+};
+
+export const generateImageUrl = (imageUrl: string | null) => {
+  if (!imageUrl) return null;
+  // const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  return `${BASE_API_URL}${imageUrl}`;
 };

@@ -3,11 +3,12 @@ import {
   CameraView as CameraViewExpo,
   useCameraPermissions,
 } from "expo-camera";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { X } from "~/lib/icons/Cancel";
 import { useUploadProductImage } from "../../../network/admin/admin";
+import { getShopLogo } from "../../../utils/logo-utils";
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
@@ -29,6 +30,9 @@ export default function BrigaderCameraView({}: CameraViewProps) {
   // //   // animation.current?.play();
   // // }, []);
 
+  const params = useLocalSearchParams();
+  const shopId = params?.["shop-id"];
+
   const { mutate: submitProductImage, isPending } = useUploadProductImage({
     mutation: {
       onSuccess: () => {
@@ -47,7 +51,7 @@ export default function BrigaderCameraView({}: CameraViewProps) {
       data: {
         barcode,
         file_base64: capturedImage,
-        shop_id: 1,
+        shop_id: Number(shopId),
       },
     });
   };
@@ -151,11 +155,16 @@ export default function BrigaderCameraView({}: CameraViewProps) {
             source={checkAnimation}
           /> */}
             <Button
-              className="absolute bottom-4 w-full"
+              className="absolute bottom-4 w-full flex-row gap-2 items-center justify-center"
               onPress={takePicture}
               disabled={!isCameraReady || !isBarcodeScanned}
             >
               <Text className="text-xl">Naskenuj</Text>
+              <Image
+                resizeMode="contain"
+                className="h-full w-12 rounded-full"
+                {...getShopLogo(shopId as any)}
+              />
             </Button>
           </View>
         </CameraViewExpo>
