@@ -1,10 +1,10 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
-import { View } from "react-native";
 import { useRevenueCat } from "../../../context/revenue-cat-provider";
 import { CustomBottomSheetModal } from "../bottom-sheet-modal";
 import { Button } from "../button";
 import { Text } from "../text";
+import SubscriptionPaywall from "../usetri-paywall/usetri-paywall";
 
 export interface SavedCartCardProps {}
 
@@ -18,7 +18,7 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   return (
     <>
       <CustomBottomSheetModal ref={subscriptionModalRef} index={2}>
-        <View className="w-full flex items-center justify-center p-4 bg-green-50">
+        {/* <View className="w-full flex items-center justify-center p-4 bg-green-50">
           <Text className="text-lg font-bold mb-4">Offerings</Text>
           {packages?.map((pack, index) => (
             <Text key={index} className="text-lg font-bold mb-4">
@@ -38,7 +38,11 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
               {k} - {v?.identifier}
             </Text>
           ))}
-        </View>
+        </View> */}
+
+        <SubscriptionPaywall
+          onClose={() => subscriptionModalRef?.current?.dismiss()}
+        />
       </CustomBottomSheetModal>
 
       <Button

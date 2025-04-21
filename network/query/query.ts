@@ -20,6 +20,8 @@ import type {
   GetCartComparisonResponse,
   GetCategoriesParams,
   GetCategoryResponse,
+  GetDiscountsParams,
+  GetDiscountsResponse,
   GetProductsByBarcodeParams,
   GetProductsByBarcodeResponse,
   GetProductsParams,
@@ -437,6 +439,137 @@ export function useGetCategories<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetCategoriesQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getDiscounts = (
+  params?: GetDiscountsParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetDiscountsResponse>(
+    { url: `/discounts`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetDiscountsQueryKey = (params?: GetDiscountsParams) => {
+  return [`/discounts`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetDiscountsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getDiscounts>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetDiscountsQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getDiscounts>>> = ({
+    signal,
+  }) => getDiscounts(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getDiscounts>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetDiscountsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getDiscounts>>
+>;
+export type GetDiscountsQueryError = ProblemDetails;
+
+export function useGetDiscounts<
+  TData = Awaited<ReturnType<typeof getDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params: undefined | GetDiscountsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getDiscounts>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDiscounts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDiscounts<
+  TData = Awaited<ReturnType<typeof getDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getDiscounts>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDiscounts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetDiscounts<
+  TData = Awaited<ReturnType<typeof getDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getDiscounts>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetDiscounts<
+  TData = Awaited<ReturnType<typeof getDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getDiscounts>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetDiscountsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

@@ -987,181 +987,6 @@
         }
       }
     },
-    "/admin/product-image": {
-      "post": {
-        "tags": ["Admin", "Imports"],
-        "operationId": "UploadProductImage",
-        "parameters": [
-          {
-            "name": "user-id",
-            "in": "header",
-            "description": "User who is requesting endpoint",
-            "schema": {
-              "type": "string"
-            },
-            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadProductImageRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadProductImageRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UploadProductImageRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/admin/discount-price-imports": {
-      "get": {
-        "tags": ["Admin", "Imports"],
-        "operationId": "GetDiscountPriceImports",
-        "parameters": [
-          {
-            "name": "resolved",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "shop_id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Limit",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Offset",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "user-id",
-            "in": "header",
-            "description": "User who is requesting endpoint",
-            "schema": {
-              "type": "string"
-            },
-            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["Admin", "Imports"],
-        "operationId": "UploadDiscountPricesJson",
-        "parameters": [
-          {
-            "name": "shopName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "user-id",
-            "in": "header",
-            "description": "User who is requesting endpoint",
-            "schema": {
-              "type": "string"
-            },
-            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "jsonFile": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "jsonFile": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/categories": {
       "post": {
         "tags": ["Admin"],
@@ -2612,6 +2437,181 @@
         }
       }
     },
+    "/admin/product-image": {
+      "post": {
+        "tags": ["Imports"],
+        "operationId": "UploadProductImage",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadProductImageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/discount-price-imports": {
+      "get": {
+        "tags": ["Imports"],
+        "operationId": "GetDiscountPriceImports",
+        "parameters": [
+          {
+            "name": "resolved",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "shop_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountPriceImportsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Imports"],
+        "operationId": "UploadDiscountPricesJson",
+        "parameters": [
+          {
+            "name": "shopName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "jsonFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/discount-price-imports/{batchId}/{discountId}": {
       "patch": {
         "tags": ["Imports"],
@@ -2835,6 +2835,80 @@
         }
       }
     },
+    "/discounts": {
+      "get": {
+        "tags": ["Query"],
+        "operationId": "GetDiscounts",
+        "parameters": [
+          {
+            "name": "shop_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountsResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountsResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDiscountsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products/{barcode}": {
       "get": {
         "tags": ["Query"],
@@ -2945,6 +3019,65 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/wolt-imports": {
+      "post": {
+        "tags": ["WoltImports"],
+        "operationId": "UploadDiscountPricesAdminJson",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "jsonFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "jsonFile": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiscountPriceImportBatchDto"
                 }
               }
             }
@@ -3536,6 +3669,23 @@
         },
         "additionalProperties": false
       },
+      "GetDiscountsResponse": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopItemDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetProductPricesResponse": {
         "type": "object",
         "properties": {
@@ -3821,9 +3971,6 @@
           "source_image": {
             "type": "string",
             "nullable": true
-          },
-          "is_barcode_checked": {
-            "type": "boolean"
           }
         },
         "additionalProperties": false

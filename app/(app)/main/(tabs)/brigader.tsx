@@ -63,6 +63,7 @@ export default function SearchScreen() {
         data={suggestions}
         renderItem={({
           item: {
+            price,
             detail: { name = "", brand = "", unit = "", amount = 0 } = {},
           } = {},
         }) => (
@@ -73,6 +74,7 @@ export default function SearchScreen() {
               unit,
               amount,
             })}
+            price={price}
           />
         )}
         keyExtractor={(product) => String(product?.detail?.barcode)}

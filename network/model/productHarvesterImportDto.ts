@@ -20,5 +20,4 @@ export interface ProductHarvesterImportDto {
   image_url?: string | null;
   /** @nullable */
   source_image?: string | null;
-  is_barcode_checked?: boolean;
 }

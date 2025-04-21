@@ -7,9 +7,14 @@ import IconButton from "../icon-button";
 interface IShoppingListItemProps {
   label: string | null;
   description?: string;
+  price?: number;
 }
 
-const BrigaderProductRow = ({ label, description }: IShoppingListItemProps) => {
+const BrigaderProductRow = ({
+  label,
+  description,
+  price = 0,
+}: IShoppingListItemProps) => {
   return (
     <View className="w-full bg-white rounded-lg shadow-sm mb-2 relative flex-row items-center justify-between p-4">
       {/* Text content container with flex-1 to take available space and shrink if needed */}
@@ -33,23 +38,26 @@ const BrigaderProductRow = ({ label, description }: IShoppingListItemProps) => {
       </View>
 
       {/* Buttons container with flex-shrink-0 to prevent shrinking */}
-      <View className="flex-row items-center gap-4 flex-shrink-0">
-        <IconButton
-          onPress={() => {
-            console.log("skenuj");
-          }}
-          className="bg-divider rounded-full w-10 h-10 flex items-center justify-center self-center"
-        >
-          <Camera size={24} />
-        </IconButton>
-        <IconButton
-          onPress={() => {
-            console.log("skenuj");
-          }}
-          className="bg-divider rounded-full w-10 h-10 flex items-center justify-center self-center"
-        >
-          <Check size={24} />
-        </IconButton>
+      <View className="flex items-center gap-2">
+        <Text className="font-bold">{price} €</Text>
+        <View className="flex-row items-center gap-4 flex-shrink-0">
+          <IconButton
+            onPress={() => {
+              console.log("skenuj");
+            }}
+            className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
+          >
+            <Camera size={20} />
+          </IconButton>
+          <IconButton
+            onPress={() => {
+              console.log("skenuj");
+            }}
+            className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
+          >
+            <Check size={20} />
+          </IconButton>
+        </View>
       </View>
     </View>
   );
