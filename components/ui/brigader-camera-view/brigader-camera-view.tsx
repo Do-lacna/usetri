@@ -7,7 +7,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { X } from "~/lib/icons/Cancel";
-import { useUploadProductImage } from "../../../network/admin/admin";
+import { useUploadProductImage } from "../../../network/imports/imports";
 import { getShopLogo } from "../../../utils/logo-utils";
 import {
   displayErrorToastMessage,
@@ -117,10 +117,14 @@ export default function BrigaderCameraView({}: CameraViewProps) {
             resizeMode="contain"
           />
           <View className="flex flex-row items-center justify-center w-full gap-8 mt-4">
-            <Button onPress={resetImageData} className="bg-red-200">
+            <Button
+              onPress={resetImageData}
+              className="bg-red-200"
+              disabled={isPending}
+            >
               <Text className="text-xl">Odfoť znova</Text>
             </Button>
-            <Button onPress={handleSubmitScannedPicture}>
+            <Button onPress={handleSubmitScannedPicture} disabled={isPending}>
               <Text className="text-xl">Odošli fotku</Text>
             </Button>
           </View>
@@ -157,7 +161,7 @@ export default function BrigaderCameraView({}: CameraViewProps) {
             <Button
               className="absolute bottom-4 w-full flex-row gap-2 items-center justify-center"
               onPress={takePicture}
-              disabled={!isCameraReady || !isBarcodeScanned}
+              disabled={!isCameraReady || !isBarcodeScanned || isPending}
             >
               <Text className="text-xl">Naskenuj</Text>
               <Image

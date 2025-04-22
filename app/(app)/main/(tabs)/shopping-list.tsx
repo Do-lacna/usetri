@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
@@ -30,11 +29,7 @@ import {
   generateShoppingListItemDescription,
   isArrayNotEmpty,
 } from "../../../../lib/utils";
-import {
-  getGetCartQueryKey,
-  useCreateCart,
-  useGetCart,
-} from "../../../../network/customer/customer";
+import { useGetCart } from "../../../../network/customer/customer";
 import type {
   CategoryExtendedWithPathDto,
   ShopItemDto,
@@ -118,31 +113,6 @@ export default function Page() {
     ({ products }) => products?.[0] as ShopItemDto
   );
 
-  const { mutate: sendUpdateCart, isIdle } = useCreateCart({
-    mutation: {
-      onError: () => {
-        Toast.show({
-          type: "error",
-          text1: "Failed to update cart",
-          position: "bottom",
-        });
-      },
-      // onMutate: ({ data }) => {},
-      onSuccess: ({ cart }, variables) => {
-        queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
-        });
-        const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
-        if (
-          lastAddedCategory &&
-          variables?.additionalData?.operation === CartOperationsEnum.ADD
-        ) {
-          setExpandedOption(lastAddedCategory);
-        }
-        Keyboard.dismiss();
-      },
-    },
-  });
   const { data: { cart } = {} } = ({} = useGetCart());
 
   const { mirrorCartState } = useCartStore();
