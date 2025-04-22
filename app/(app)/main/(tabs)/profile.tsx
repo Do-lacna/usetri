@@ -11,10 +11,12 @@ import { UserIcon } from "~/lib/icons/User";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
 import { Subscriptions } from "../../../../components/ui/profile/subscriptions";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
+import { useSession } from "../../../../context/authentication-context";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
 import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
+  const { user } = useSession();
   const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
 
   const renderShopCardCart = ({
@@ -46,7 +48,7 @@ export default function ProfileScreen() {
 
             {/* Email - positioned below profile photo */}
             <View className="mt-2 items-center bg-white w-full pb-4">
-              <Text className="text-gray-600 mt-4">thefaston@gmail.com</Text>
+              <Text className="text-gray-600 mt-4">{user?.email}</Text>
             </View>
           </View>
 

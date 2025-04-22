@@ -11,10 +11,7 @@ import IconButton from "../../../../components/icon-button";
 import BrigaderCameraView from "../../../../components/ui/brigader-camera-view/brigader-camera-view";
 import ProductCardNew2 from "../../../../components/ui/product-card/product-card";
 import type { ProductDto } from "../../../../network/model";
-import {
-  useGetDiscounts,
-  useGetProducts,
-} from "../../../../network/query/query";
+import { useGetProducts, useGetShops } from "../../../../network/query/query";
 import { displaySuccessToastMessage } from "../../../../utils/toast-utils";
 
 const options: SearchOptions<ProductDto> = {
@@ -27,7 +24,7 @@ export default function SearchScreen() {
   const [isCameraView, setIsCameraView] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const { data: { products } = {} } = useGetDiscounts({ shop_id: 2 });
+  const { data: { shops } = {} } = useGetShops();
 
   const { data: { products: searchProducts = [] } = {} } = useGetProducts(
     {
@@ -108,18 +105,9 @@ export default function SearchScreen() {
         />
       ) : (
         <ScrollView>
-          <DiscountList
-            products={products}
-            store={{ name: "Tescu", id: "12", image: "12" }}
-          />
-          {/* <DiscountList
-            products={products}
-            store={{ name: "Lidli", id: "12", image: "12" }}
-          />
-          <DiscountList
-            products={products}
-            store={{ name: "Bille", id: "12", image: "12" }}
-          /> */}
+          {shops?.map((shop) => (
+            <DiscountList key={shop?.id} shop={shop} />
+          ))}
         </ScrollView>
       )}
     </SafeAreaView>

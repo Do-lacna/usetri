@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
@@ -46,7 +47,6 @@ import {
   type SearchOptions,
   searchItems,
 } from "../../../../utils/search-utils";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const options: SearchOptions<CategoryExtendedWithPathDto> = {
   threshold: 0.7,
@@ -188,7 +188,10 @@ export default function Page() {
   }, [pendingProductBarcode, pendingProductSheetRef]);
 
   return (
-    <SafeAreaView className="flex-1 content-center px-2">
+    <SafeAreaView
+      edges={["left", "top", "right"]}
+      className="flex-1 content-center"
+    >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
         <PendingCartItemDrawerContent
           barcode={pendingProductBarcode}
@@ -208,7 +211,7 @@ export default function Page() {
         className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}
       >
         <View className="flex-1">
-          <View className="flex-row items-center gap-4 mt-2 z-10">
+          <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
             {filter === ShoppingListFilter.CATEGORIES ? (
               <SearchBar<CategoryExtendedWithPathDto>
                 onSearch={setSearchQuery}
@@ -262,7 +265,7 @@ export default function Page() {
             </IconButton>
           </View>
 
-          <View className="flex-1 gap-2 mt-4">
+          <View className="flex-1 gap-2 mt-4 px-2">
             {cartCategories.map(
               ({ category: { id, name = "Category", image_url } = {} }) => (
                 <ShoppingListItem
