@@ -53,7 +53,7 @@ export default function BarcodeSearchCameraView({
         <IconButton style={styles.cancelIcon} onPress={() => router.back()}>
           <X size={25} color="white" strokeWidth={2} />
         </IconButton>
-        <View style={styles.buttonContainer}>
+        <View className="flex-1 bg-transparent relative mb-16">
           {/* <LottieView
             autoPlay
             ref={animation}
@@ -72,6 +72,10 @@ export default function BarcodeSearchCameraView({
             >
               <Text className="text-xl">Naskenuj</Text>
             </Button> */}
+          <Text className="text-lg text-gray-600 font-bold absolute bottom-4 w-full text-center">
+            Naskenujte čiarový kód produktu a budete automaticky presmerovaný na
+            daný produkt
+          </Text>
         </View>
       </CameraViewExpo>
     </View>
@@ -97,6 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    zIndex: 100,
   },
   barcodeIcon: {
     position: "absolute",
@@ -111,7 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "transparent",
-    margin: 64,
     position: "relative",
   },
   button: {

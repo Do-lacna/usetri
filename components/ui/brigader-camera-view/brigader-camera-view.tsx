@@ -1,5 +1,4 @@
 import {
-  CameraType,
   CameraView as CameraViewExpo,
   useCameraPermissions,
 } from "expo-camera";
@@ -24,12 +23,6 @@ export type PictureScannedProps = {
 export type CameraViewProps = {};
 
 export default function BrigaderCameraView({}: CameraViewProps) {
-  // const animation = useRef<LottieView>(null);
-  // // useEffect(() => {
-  // //   // You can control the ref programmatically, rather than using autoPlay
-  // //   // animation.current?.play();
-  // // }, []);
-
   const params = useLocalSearchParams();
   const shopId = params?.["shop-id"];
 
@@ -57,21 +50,16 @@ export default function BrigaderCameraView({}: CameraViewProps) {
   };
 
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const [isBarcodeScanned, setIsBarcodeScanned] = useState(false);
   const [barcode, setBarcode] = useState<string | null>(null);
-
-  const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const cameraRef = useRef<any>(null);
 
   if (!permission) {
-    // Camera permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
         <Text style={styles.message}>
@@ -107,13 +95,13 @@ export default function BrigaderCameraView({}: CameraViewProps) {
   return (
     <View style={styles.container}>
       {capturedImage ? (
-        <View className="flex flex-1 items-center justify-center bg-muted-foreground">
+        <View className="flex flex-1 items-center justify-center bg-muted-foreground px-2">
           <IconButton style={styles.cancelIcon} onPress={resetImageData}>
             <X size={25} color="white" strokeWidth={2} />
           </IconButton>
           <Image
             source={{ uri: `data:image/jpeg;base64,${capturedImage}` }}
-            className="h-96 w-full shadow-md"
+            className="h-[80%] w-full shadow-md"
             resizeMode="contain"
           />
           <View className="flex flex-row items-center justify-center w-full gap-8 mt-4">
@@ -133,35 +121,26 @@ export default function BrigaderCameraView({}: CameraViewProps) {
         <CameraViewExpo
           ref={cameraRef}
           style={styles.camera}
-          facing={facing}
           barcodeScannerSettings={{
             barcodeTypes: ["qr", "code128", "ean13", "ean8"],
           }}
-          onBarcodeScanned={(data) => {
-            setBarcode(data?.data);
-            setIsBarcodeScanned(true);
-          }}
+          onBarcodeScanned={
+            !!barcode || !isCameraReady
+              ? undefined
+              : (data) => {
+                  setBarcode(data?.data);
+                }
+          }
           onCameraReady={() => setIsCameraReady(true)}
         >
           <IconButton style={styles.cancelIcon} onPress={() => router.back()}>
             <X size={25} color="white" strokeWidth={2} />
           </IconButton>
-          <View style={styles.buttonContainer}>
-            {/* <LottieView
-            autoPlay
-            ref={animation}
-            style={{
-              width: 200,
-              height: 200,
-              backgroundColor: "#eee",
-            }}
-            // Find more Lottie files at https://lottiefiles.com/featured
-            source={checkAnimation}
-          /> */}
+          <View className="flex-1 bg-transparent absolute bottom-16 gap-4 w-full px-4">
             <Button
-              className="absolute bottom-4 w-full flex-row gap-2 items-center justify-center"
+              className="flex-row gap-2 items-center justify-center"
               onPress={takePicture}
-              disabled={!isCameraReady || !isBarcodeScanned || isPending}
+              disabled={!isCameraReady || !barcode || isPending}
             >
               <Text className="text-xl">Naskenuj</Text>
               <Image
@@ -170,6 +149,10 @@ export default function BrigaderCameraView({}: CameraViewProps) {
                 {...getShopLogo(shopId as any)}
               />
             </Button>
+            <Text className="text-lg text-gray-600 font-bold w-full text-center">
+              Naskenujte štítok produktu (tlačítko sa sprístupní hneď ako bude
+              rozpoznaný čiarový kód)
+            </Text>
           </View>
         </CameraViewExpo>
       )}
@@ -196,6 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    zIndex: 100,
   },
   barcodeIcon: {
     position: "absolute",
@@ -205,13 +189,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    margin: 64,
-    position: "relative",
   },
   button: {
     flex: 1,

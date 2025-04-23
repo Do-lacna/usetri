@@ -11,6 +11,7 @@ import Purchases, {
   PurchasesPackage,
 } from "react-native-purchases";
 import { useRevenueCat } from "../../../context/revenue-cat-provider";
+import { displayErrorToastMessage } from "../../../utils/toast-utils";
 
 type SubscriptionPaywallProps = {
   onPurchaseComplete?: (customerInfo: CustomerInfo) => void;
@@ -27,6 +28,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
   const [selectedPackage, setSelectedPackage] =
     useState<PurchasesPackage | null>(null);
   const [isPurchasing, setIsPurchasing] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handlePurchase = async (): Promise<void> => {
     if (!selectedPackage) return;
@@ -43,7 +45,10 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       }
     } catch (error: any) {
       if (!error.userCancelled) {
-        setErrorMessage("Purchase failed. Please try again.");
+        displayErrorToastMessage(
+          "Nepodarilo sa spracovať platbu. Skúste to znova."
+        );
+        setErrorMessage("Nepodarilo sa spracovať platbu. Skúste to znova.");
         console.log("Purchase error:", error);
       }
     } finally {
@@ -98,8 +103,8 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           ) : (
             <Text className="text-white font-bold text-base">
               {selectedPackage
-                ? `Subscribe for ${selectedPackage.product.priceString}`
-                : "Select a plan"}
+                ? `Odoberať za ${selectedPackage.product.priceString}`
+                : "Zvoľte si predplatné"}
             </Text>
           )}
         </TouchableOpacity>

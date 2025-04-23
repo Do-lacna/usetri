@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { ShopExtendedDto } from "../../network/model";
 import { useGetDiscounts } from "../../network/query/query";
 import ProductCardNew2 from "./product-card/product-card";
@@ -11,7 +11,7 @@ export interface IDiscountListProps {
 
 const DiscountList = ({ shop }: IDiscountListProps) => {
   const { id, name } = shop;
-  const { data: { products } = {} } = useGetDiscounts(
+  const { data: { products } = {}, isPending } = useGetDiscounts(
     { shop_id: id },
     { query: { enabled: !!id } }
   );
@@ -23,9 +23,10 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
         <Text className="text-3xl font-semibold text-primary ml-1">{name}</Text>
       </View>
       <View className="flex-row px-4">
-        {products?.length === 0 ? (
+        {isPending && <ActivityIndicator />}
+        {products?.length === 0 && !isPending ? (
           <Text className="text-gray-500 text-base mt-2" numberOfLines={2}>
-            Tento obchod momentálne neponúuka žiadne zľavnené produkty
+            Tento obchod momentálne neponúka žiadne zľavnené produkty
           </Text>
         ) : (
           <ScrollView

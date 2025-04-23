@@ -3,7 +3,11 @@ import "~/global.css";
 
 export default function AppLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen
         name="product/[id]"
         options={{
@@ -60,6 +64,18 @@ export default function AppLayout() {
           presentation: "modal",
         }}
       />
+
+      <Stack.Screen
+        name="/main/menu-screen/menu-screen"
+        options={{
+          title: "Menu",
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      />
+
       {/* <Stack.Screen
           name="main/(tabs)"
           options={{

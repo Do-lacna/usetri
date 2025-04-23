@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import React from "react";
 import {
   FlatList,
@@ -7,15 +8,20 @@ import {
   Text,
   View,
 } from "react-native";
+import { Menu } from "~/lib/icons/Menu";
 import { UserIcon } from "~/lib/icons/User";
+import { Button } from "../../../../components/ui/button";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
 import { Subscriptions } from "../../../../components/ui/profile/subscriptions";
 import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
 import { useSession } from "../../../../context/authentication-context";
+import { useDrawerMenu } from "../../../../hooks/use-drawer-menu";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
 import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
+  const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
+    useDrawerMenu();
   const { user } = useSession();
   const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
 
@@ -57,6 +63,16 @@ export default function ProfileScreen() {
         </View>
 
         <TotalSavedCard />
+
+        <Link asChild href="/main/menu-screen/menu-screen">
+          <Button
+            onPress={openDrawer}
+            className="my-4 flex-row gap-2 p-2 mr-2 w-1/3 self-center"
+          >
+            <Text>Menu</Text>
+            <Menu className="w-6 h-6 text-gray-800" />
+          </Button>
+        </Link>
 
         <Subscriptions />
 
