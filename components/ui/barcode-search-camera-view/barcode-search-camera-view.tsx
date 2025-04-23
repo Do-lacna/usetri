@@ -4,7 +4,7 @@ import {
   useCameraPermissions,
 } from "expo-camera";
 import { router } from "expo-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { X } from "~/lib/icons/Cancel";
 import IconButton from "../../icon-button";
@@ -17,7 +17,10 @@ export type CameraViewProps = {
 export default function BarcodeSearchCameraView({
   onBarcodeScanned,
 }: CameraViewProps) {
+  const [barcode, setBarcode] = useState<string | null>(null);
   const [permission, requestPermission] = useCameraPermissions();
+  const [isCameraReady, setIsCameraReady] = useState(false);
+
   const cameraRef = useRef<any>(null);
 
   if (!permission) {
@@ -48,7 +51,15 @@ export default function BarcodeSearchCameraView({
         barcodeScannerSettings={{
           barcodeTypes: ["qr", "code128", "ean13", "ean8"],
         }}
-        onBarcodeScanned={onBarcodeScanned}
+        onBarcodeScanned={
+          !!barcode || !isCameraReady
+            ? undefined
+            : (data) => {
+                setBarcode(data?.data);
+                onBarcodeScanned?.(data);
+              }
+        }
+        onCameraReady={() => setIsCameraReady(true)}
       >
         <IconButton style={styles.cancelIcon} onPress={() => router.back()}>
           <X size={25} color="white" strokeWidth={2} />
