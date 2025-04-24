@@ -55,6 +55,16 @@ export enum CartOperationsEnum {
   UPDATE = "UPDATE",
 }
 
+export enum DrawerTypeEnum {
+  CATEGORY = "CATEGORY",
+  PRODUCT = "PRODUCT",
+}
+
+export type PendingCartDataType = {
+  identifier: string;
+  type: DrawerTypeEnum;
+};
+
 const MINIMUM_PRODUCT_SEARCH_LENGTH = 2;
 
 export default function Page() {
@@ -72,8 +82,8 @@ export default function Page() {
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
     null
   );
-  const [pendingProductBarcode, setPendingProductBarcode] = React.useState<
-    string | null
+  const [pendingCartData, setPendingCartData] = React.useState<PendingCartDataType
+     | null
   >(null);
 
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
@@ -147,15 +157,23 @@ export default function Page() {
     bottomSheetRef?.current?.dismiss();
   };
 
-  const handleTriggerCartDrawer = React.useCallback((item: ShopItemDto) => {
-    const barcode = item?.detail?.barcode;
-    if (!barcode) return;
-    setPendingProductBarcode(barcode);
+  const handleTriggerCartDrawer = React.useCallback((type: DrawerTypeEnum, identifier?: string) => {
+    if (!identifier) return;
+    Keyboard.dismiss();
+    setPendingCartData({ identifier, type});
   }, []);
 
   useEffect(() => {
-    if (pendingProductBarcode) pendingProductSheetRef?.current?.present();
-  }, [pendingProductBarcode, pendingProductSheetRef]);
+    if (pendingCartData) pendingProductSheetRef?.current?.present();
+  }, [pendingCartData, pendingProductSheetRef]);
+
+  const handleConfirmPendingCartItem = (pendingCartData: PendingCartDataType, quantity: number) => {
+    if (pendingCartData.type === DrawerTypeEnum.CATEGORY) {
+      handleAddCategoryToCart(Number(pendingCartData?.identifier));
+    } else if (pendingCartData.type === DrawerTypeEnum.PRODUCT) {
+      handleAddProductToCart(pendingCartData.identifier, quantity);
+    }
+  }
 
   return (
     <SafeAreaView
@@ -164,8 +182,8 @@ export default function Page() {
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
         <PendingCartItemDrawerContent
-          barcode={pendingProductBarcode}
-          onConfirm={(barcode) => handleAddProductToCart(String(barcode))}
+          pendingCartData={pendingCartData}
+          onConfirm={handleConfirmPendingCartItem}
           onDismiss={() => pendingProductSheetRef?.current?.dismiss()}
         />
       </CustomBottomSheetModal>
@@ -189,7 +207,7 @@ export default function Page() {
                 searchText={searchQuery}
                 placeholder={"Vyhľadaj kategóriu produktu"}
                 options={searchResults}
-                onOptionSelect={handleAddCategoryToCart}
+                onOptionSelect={(item) => handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, String(item?.id))}
                 renderOption={(item) => (
                   <View className="flex-row">
                     {item?.image_url && (
@@ -213,7 +231,8 @@ export default function Page() {
                 searchText={searchQuery}
                 placeholder={"Vyhľadaj konkrétny produkt"}
                 options={productOptions ?? []}
-                onOptionSelect={handleTriggerCartDrawer}
+                onOptionSelect={(item) => handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, String(item?.detail?.barcode))}
+                // onOptionSelect={handleAddProductToCart}
                 renderOption={(item) => (
                   <Text className="text-gray-800 text-lg">
                     {item?.detail?.name}

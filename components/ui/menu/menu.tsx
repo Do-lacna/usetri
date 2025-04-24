@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSettingsMenuItems } from "~/hooks/use-settings-menu-items";
 
 // Define types for menu items
 interface MenuItem {
@@ -17,69 +18,19 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-// Menu data structure
-const menuSections: MenuSection[] = [
-  {
-    id: "account",
-    title: "Account",
-    items: [
-      {
-        id: "profile",
-        label: "My Profile",
-        onPress: () => router.push("/profile"),
-      },
-      {
-        id: "password",
-        label: "Change Password",
-        onPress: () => router.push("/change-password"),
-      },
-      {
-        id: "logout",
-        label: "Log Out",
-        onPress: () => {
-          // Add confirmation if needed
-          router.replace("/login");
-        },
-      },
-    ],
-  },
-  {
-    id: "app",
-    title: "Application",
-    items: [
-      {
-        id: "settings",
-        label: "Settings",
-        onPress: () => router.push("/settings"),
-      },
-      {
-        id: "notifications",
-        label: "Notifications",
-        onPress: () => router.push("/notifications"),
-      },
-      {
-        id: "help",
-        label: "Help & Support",
-        onPress: () => router.push("/support"),
-      },
-    ],
-  },
-];
 
 export default function Menu() {
+  const { menuSections } = useSettingsMenuItems();
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Header */}
-      <View className="flex-row items-center px-4 py-3 border-b border-gray-200">
-        <Text className="text-xl font-bold">Menu</Text>
-      </View>
+    <View className="flex-1 bg-white px-2 mt-2">
+
 
       {/* Menu content */}
       <ScrollView className="flex-1">
         {menuSections.map((section) => (
           <View key={section.id} className="mb-6">
             {/* Section heading (non-clickable) */}
-            <Text className="px-6 py-2 text-sm font-bold text-gray-500 uppercase tracking-wider">
+            <Text className="px-2 py-2 text-sm font-bold text-gray-500 uppercase tracking-wider">
               {section.title}
             </Text>
 
@@ -96,6 +47,6 @@ export default function Menu() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

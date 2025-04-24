@@ -53,7 +53,7 @@ export const useCartActions = ({
     },
   });
 
-  const handleAddProductToCart = (barcode?: string) => {
+  const handleAddProductToCart = (barcode?: string, quantity = 1) => {
     if (!barcode) return;
     //TODO call on success
     //   setSearchQuery("");
@@ -68,14 +68,14 @@ export const useCartActions = ({
     });
   };
 
-  const handleAddCategoryToCart = (option: CategoryExtendedWithPathDto) => {
-    if (!option?.id) return;
+  const handleAddCategoryToCart = (categoryId: number, quantity = 1) => {
+    if (!categoryId) return;
 
     //   setSearchQuery("");
     const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { barcodes, category_ids: [...category_ids, option?.id] },
+      data: { barcodes, category_ids: [...category_ids, categoryId] },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },

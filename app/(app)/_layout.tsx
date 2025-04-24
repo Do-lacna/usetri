@@ -1,95 +1,95 @@
-import { Stack } from "expo-router";
-import "~/global.css";
+import { Stack } from 'expo-router';
+import '~/global.css';
 
 export default function AppLayout() {
   return (
     <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={
+        {
+          headerShown: false,
+        }
+      }
     >
       <Stack.Screen
         name="product/[id]"
         options={{
           // Optional: Add presentation style
-          title: "Detail produktu",
-          presentation: "card",
+          title: 'Detail produktu',
+          presentation: 'card',
           // Optional: Add animations
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
           },
         }}
       />
-      <Stack.Screen
-        name="/main/scan/scan-screen"
+      {/* <Stack.Screen
+        name="main/scan/scan-screen"
         options={{
           // Optional: Add presentation style
-          title: "Sken produktov",
-          presentation: "card",
+          title: 'Sken produktov',
+          presentation: 'card',
           // Optional: Add animations
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
       <Stack.Screen
         name="main/modal/index"
         options={{
-          title: "Porovnanie cien",
+          title: 'Porovnanie cien',
           // headerStyle: {
           //   backgroundColor: "#f4f4f4", // Optional: customize header background
           // },
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
           },
-          presentation: "modal",
+          presentation: 'modal',
         }}
       />
       <Stack.Screen
         name="main/archived-cart/[id]"
         options={{
-          title: "Detail košíka",
+          title: 'Detail košíka',
           // headerStyle: {
           //   backgroundColor: "#f4f4f4", // Optional: customize header background
           // },
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
           },
-          presentation: "modal",
+          presentation: 'modal',
         }}
       />
 
       <Stack.Screen
-        name="/main/menu-screen/menu-screen"
+        name="main/menu-screen/menu-screen"
         options={{
-          title: "Menu",
+          title: 'Nastavenia',
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
           },
         }}
       />
 
       {/* <Stack.Screen
-          name="main/(tabs)"
-          options={{
-            title: "Hladať",
-            // headerStyle: {
-            //   backgroundColor: "#f4f4f4", // Optional: customize header background
-            // },
-            headerShown: false,
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            presentation: "modal",
-          }}
-        /> */}
+        name="main/(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(auth)"
+        options={{
+          headerShown: false,
+        }}
+      /> */}
     </Stack>
   );
 }

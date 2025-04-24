@@ -21,7 +21,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "primary",
-        tabBarStyle: { height: NAVBAR_HEIGHT },
+        tabBarStyle: { height: NAVBAR_HEIGHT  },
         headerShown: false
       }}
     >

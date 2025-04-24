@@ -1,0 +1,93 @@
+// hooks/useDrawerMenu.ts
+import { router } from "expo-router";
+import { Alert } from "react-native";
+import { useSession } from "~/context/authentication-context";
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  onPress: () => void;
+}
+
+export interface MenuSection {
+  id: string;
+  title: string;
+  items: MenuItem[];
+}
+
+export const useSettingsMenuItems = () => {
+      const { signOut } = useSession();
+    
+
+
+  // Example menu sections with items
+  const menuSections: MenuSection[] = [
+    {
+      id: "ucet",
+      title: "Nastavenia účtu",
+      items: [
+        {
+          id: "email",
+          label: "Email a heslo",
+          onPress: () => router.push("/profile"),
+        },
+        {
+          id: "predplatne",
+          label: "Predplatné",
+          onPress: () => router.push("/change-password"),
+        },
+        {
+          id: "odhlasit",
+          label: "Odhlásiť sa",
+          onPress: signOut,
+        },
+        {
+            id: "zrusitucet",
+            label: "Zrušiť účet",
+            onPress: () => router.push("/change-password"),
+          },
+      ],
+    },
+    {
+      id: "aplikacia",
+      title: "Aplikácia",
+      items: [
+        {
+          id: "preferencie",
+          label: "Preferencie",
+          onPress: () => router.push("/settings"),
+        },
+        {
+          id: "jazyk",
+          label: "Jazyk",
+          onPress: () => router.push("/notifications"),
+        },
+      ],
+    },
+    {
+        id: "informacieapodpora",
+        title: "Informácie a podpora",
+        items: [
+          {
+            id: "pomoc",
+            label: "Pomoc",
+            onPress: () => router.push("/settings"),
+          },
+          {
+            id: "sukromie",
+            label: "Súkromie",
+            onPress: () => router.push("/notifications"),
+          },
+          {
+            id: "oaplikacii",
+            label: "O aplikácii",
+            onPress: () => router.push("/notifications"),
+          },
+        ],
+      },
+  ];
+
+  return {
+    menuSections,
+  };
+};
