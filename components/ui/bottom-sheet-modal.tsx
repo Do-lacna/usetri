@@ -11,6 +11,37 @@ export type CustomBottomSheetModalProps = {
   index?: number;
 };
 
+// const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
+//   // animated variables
+//   const containerAnimatedStyle = useAnimatedStyle(() => ({
+//     opacity: interpolate(
+//       animatedIndex.value,
+//       [0, 1],
+//       [0, 1],
+//       Extrapolate.CLAMP
+//     ),
+//   }));
+
+//   // styles
+//   const containerStyle = useMemo(
+//     () => [
+//       style,
+//       {
+//         flex: 1,
+//         backgroundColor: "#a8b5eb",
+//       },
+//       containerAnimatedStyle,
+//     ],
+//     [style, containerAnimatedStyle]
+//   );
+
+//   return (
+//     <Animated.View style={containerStyle}>
+//       <Toast />
+//     </Animated.View>
+//   );
+// };
+
 export const CustomBottomSheetModal = forwardRef<
   BottomSheetModal,
   CustomBottomSheetModalProps

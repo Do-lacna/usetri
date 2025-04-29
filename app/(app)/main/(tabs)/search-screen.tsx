@@ -1,4 +1,3 @@
-import { BarcodeScanningResult } from "expo-camera";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
@@ -8,11 +7,9 @@ import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 import { type SearchOptions } from "~/utils/search-utils";
 import IconButton from "../../../../components/icon-button";
-import BrigaderCameraView from "../../../../components/ui/brigader-camera-view/brigader-camera-view";
 import ProductCardNew2 from "../../../../components/ui/product-card/product-card";
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts, useGetShops } from "../../../../network/query/query";
-import { displaySuccessToastMessage } from "../../../../utils/toast-utils";
 
 const options: SearchOptions<ProductDto> = {
   threshold: 0.7,
@@ -21,7 +18,6 @@ const options: SearchOptions<ProductDto> = {
 };
 
 export default function SearchScreen() {
-  const [isCameraView, setIsCameraView] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const { data: { shops } = {} } = useGetShops();
@@ -41,16 +37,6 @@ export default function SearchScreen() {
 
   const displaySearchResult =
     searchQuery?.length > 0 && outputProducts?.length > 0;
-
-  const handleBarcodeScanned = (data: BarcodeScanningResult) => {
-    router.navigate(`/product/${data?.data}`);
-    setIsCameraView(false);
-    displaySuccessToastMessage(`Barcode scanned - ${data?.data}`);
-  };
-
-  if (isCameraView) {
-    return <BrigaderCameraView onBarcodeScanned={handleBarcodeScanned} />;
-  }
 
   return (
     <SafeAreaView className="flex justify-start px-2">

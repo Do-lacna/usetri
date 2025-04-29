@@ -20,6 +20,7 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { getTheme, setTheme } from "~/persistence/theme-storage";
 import { SessionProvider } from "../context/authentication-context";
 import { RevenueCatProvider } from "../context/revenue-cat-provider";
+import { toastConfig } from "../utils/toast-config";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -86,7 +87,7 @@ export default function RootLayout() {
                 <StatusBar style={"light"} />
                 <Slot />
                 <PortalHost />
-                <Toast />
+                <Toast config={toastConfig} />
               </ThemeProvider>
             </BottomSheetModalProvider>
           </GestureHandlerRootView>

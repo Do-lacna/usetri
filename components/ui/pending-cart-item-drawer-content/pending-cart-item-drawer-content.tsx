@@ -1,22 +1,23 @@
-import React from 'react';
-import { Image, View } from 'react-native';
-import {
-  useGetCategories,
-  useGetProductsByBarcode,
-} from '../../../network/query/query';
-import { Button } from '../button';
-import Counter from '../counter';
-import Divider from '../divider';
-import { Text } from '../text';
+import React from "react";
+import { Image, View } from "react-native";
 import {
   DrawerTypeEnum,
   PendingCartDataType,
-} from '~/app/(app)/main/(tabs)/shopping-list';
+} from "~/app/(app)/main/(tabs)/shopping-list";
+import {
+  useGetCategories,
+  useGetProductsByBarcode,
+} from "../../../network/query/query";
+import { Button } from "../button";
+import Counter from "../counter";
+import Divider from "../divider";
+import { Text } from "../text";
 
 interface ShoppingListFilterContentProps {
   pendingCartData?: PendingCartDataType | null;
   onDismiss: () => void;
   onConfirm: (pendingCartData?: PendingCartDataType, quantity?: number) => void;
+  isLoading?: boolean;
 }
 
 export type ItemDetailType = {
@@ -28,37 +29,40 @@ export type ItemDetailType = {
 
 const PendingCartItemDrawerContent: React.FC<
   ShoppingListFilterContentProps
-> = ({ pendingCartData, onDismiss, onConfirm }) => {
+> = ({ pendingCartData, onDismiss, onConfirm, isLoading = false }) => {
   const [productCount, setProductCount] = React.useState(1);
 
-  const { data, isLoading } = useGetProductsByBarcode(
+  const { data, isLoading: areProductsLoading } = useGetProductsByBarcode(
     String(pendingCartData?.identifier),
     {},
     {
       query: {
         enabled: pendingCartData?.type === DrawerTypeEnum.PRODUCT,
       },
-    },
+    }
   );
 
-  const { data: categoryData } = useGetCategories(
-    {},
-    {
-      query: {
-        select: (data) =>
-          data?.categories?.find((category) => {
-            return category?.id === Number(pendingCartData?.identifier)
-          }) ?? null,
-        enabled: pendingCartData?.type === DrawerTypeEnum.CATEGORY,
-      },
-    },
-  );
+  const { data: categoryData, isLoading: areCategoriesLoading } =
+    useGetCategories(
+      {},
+      {
+        query: {
+          select: (data) =>
+            data?.categories?.find((category) => {
+              return category?.id === Number(pendingCartData?.identifier);
+            }) ?? null,
+          enabled: pendingCartData?.type === DrawerTypeEnum.CATEGORY,
+        },
+      }
+    );
 
+  const isLoadingGlobal =
+    isLoading || areProductsLoading || areCategoriesLoading;
 
   if (!pendingCartData) return null;
 
   let itemDetail: ItemDetailType = {
-    title: '',
+    title: "",
     image_url: null,
     amount: null,
     price: null,
@@ -72,10 +76,8 @@ const PendingCartItemDrawerContent: React.FC<
       price: null,
     };
   } else {
-    const {
-      detail: { name, brand, image_url, amount, unit } = {},
-      price,
-    } = data?.products?.[0] || {};
+    const { detail: { name, brand, image_url, amount, unit } = {}, price } =
+      data?.products?.[0] || {};
     itemDetail = {
       title: `${brand} ${name}`,
       image_url,
@@ -90,7 +92,7 @@ const PendingCartItemDrawerContent: React.FC<
         source={{
           uri:
             itemDetail?.image_url ??
-            'https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540',
+            "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
         }}
         className="w-full h-52 rounded-lg"
         resizeMode="contain"
@@ -106,12 +108,18 @@ const PendingCartItemDrawerContent: React.FC<
         <Counter initialCount={productCount} onCountChange={setProductCount} />
       </View>
       <View className="w-full flex-row gap-4 items-center justify-center">
-        <Button onPress={onDismiss} variant="outline" className="w-1/3">
+        <Button
+          onPress={onDismiss}
+          variant="outline"
+          className="w-1/3"
+          disabled={isLoadingGlobal}
+        >
           <Text>Zrušiť</Text>
         </Button>
         <Button
           onPress={() => onConfirm(pendingCartData, productCount)}
           className="w-1/2"
+          disabled={isLoadingGlobal}
         >
           <Text>Pridať do zoznamu</Text>
         </Button>

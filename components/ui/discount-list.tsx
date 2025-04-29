@@ -1,9 +1,10 @@
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { ShopExtendedDto } from "../../network/model";
 import { useGetDiscounts } from "../../network/query/query";
 import ProductCardNew2 from "./product-card/product-card";
+import { Skeleton } from "./skeleton";
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
@@ -23,7 +24,13 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
         <Text className="text-3xl font-semibold text-primary ml-1">{name}</Text>
       </View>
       <View className="flex-row px-4">
-        {isPending && <ActivityIndicator />}
+        {isPending && (
+          <View className="mt-4 gap-4 flex-row items-center justify-between w-full">
+            {[1, 2, 3].map((_, index) => (
+              <Skeleton key={index} className="w-32 h-28 bg-divider p-4" />
+            ))}
+          </View>
+        )}
         {products?.length === 0 && !isPending ? (
           <Text className="text-gray-500 text-base mt-2" numberOfLines={2}>
             Tento obchod momentálne neponúka žiadne zľavnené produkty

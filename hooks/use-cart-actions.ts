@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Keyboard } from "react-native";
-import Toast from "react-native-toast-message";
 import { CartOperationsEnum } from "../app/(app)/main/(tabs)/shopping-list";
 import { getSimplifiedCart } from "../lib/utils";
 import {
@@ -8,7 +7,7 @@ import {
   useCreateCart,
   useGetCart,
 } from "../network/customer/customer";
-import { CategoryExtendedWithPathDto } from "../network/model";
+import { displayErrorToastMessage } from "../utils/toast-utils";
 
 export type UseCartActionsProps = {
   onSuccessWithExpandedOption?: (categoryId?: number) => void;
@@ -29,11 +28,12 @@ export const useCartActions = ({
   } = useCreateCart({
     mutation: {
       onError: () => {
-        Toast.show({
-          type: "error",
-          text1: "Failed to update cart",
-          position: "bottom",
-        });
+        displayErrorToastMessage("Nepodarilo sa aktualizovať nákupný zoznam");
+        // Toast.show({
+        //   type: "error",
+        //   text1: "Failed to update cart",
+        //   position: "bottom",
+        // });
       },
       // onMutate: ({ data }) => {},
       onSuccess: ({ cart }, variables) => {

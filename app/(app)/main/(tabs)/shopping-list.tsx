@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
@@ -42,6 +43,7 @@ import {
   type SearchOptions,
   searchItems,
 } from "../../../../utils/search-utils";
+import { toastConfig } from "../../../../utils/toast-config";
 
 const options: SearchOptions<CategoryExtendedWithPathDto> = {
   threshold: 0.7,
@@ -82,9 +84,8 @@ export default function Page() {
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
     null
   );
-  const [pendingCartData, setPendingCartData] = React.useState<PendingCartDataType
-     | null
-  >(null);
+  const [pendingCartData, setPendingCartData] =
+    React.useState<PendingCartDataType | null>(null);
 
   const { data: { categories = [] } = {}, isLoading } = useGetCategories(
     {},
@@ -96,6 +97,7 @@ export default function Page() {
     handleAddProductToCart,
     handleRemoveItemFromCart,
     handleChooseProductFromCategory,
+    isLoading: areCartActionsLoading,
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
       setSearchQuery("");
@@ -157,23 +159,29 @@ export default function Page() {
     bottomSheetRef?.current?.dismiss();
   };
 
-  const handleTriggerCartDrawer = React.useCallback((type: DrawerTypeEnum, identifier?: string) => {
-    if (!identifier) return;
-    Keyboard.dismiss();
-    setPendingCartData({ identifier, type});
-  }, []);
+  const handleTriggerCartDrawer = React.useCallback(
+    (type: DrawerTypeEnum, identifier?: string) => {
+      if (!identifier) return;
+      Keyboard.dismiss();
+      setPendingCartData({ identifier, type });
+    },
+    []
+  );
 
   useEffect(() => {
     if (pendingCartData) pendingProductSheetRef?.current?.present();
   }, [pendingCartData, pendingProductSheetRef]);
 
-  const handleConfirmPendingCartItem = (pendingCartData: PendingCartDataType, quantity: number) => {
-    if (pendingCartData.type === DrawerTypeEnum.CATEGORY) {
+  const handleConfirmPendingCartItem = (
+    pendingCartData?: PendingCartDataType,
+    quantity?: number
+  ) => {
+    if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
       handleAddCategoryToCart(Number(pendingCartData?.identifier));
-    } else if (pendingCartData.type === DrawerTypeEnum.PRODUCT) {
+    } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
       handleAddProductToCart(pendingCartData.identifier, quantity);
     }
-  }
+  };
 
   return (
     <SafeAreaView
@@ -181,10 +189,13 @@ export default function Page() {
       className="flex-1 content-center"
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
+        <Toast config={toastConfig} />
+
         <PendingCartItemDrawerContent
           pendingCartData={pendingCartData}
           onConfirm={handleConfirmPendingCartItem}
           onDismiss={() => pendingProductSheetRef?.current?.dismiss()}
+          isLoading={areCartActionsLoading}
         />
       </CustomBottomSheetModal>
 
@@ -207,7 +218,12 @@ export default function Page() {
                 searchText={searchQuery}
                 placeholder={"Vyhľadaj kategóriu produktu"}
                 options={searchResults}
-                onOptionSelect={(item) => handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, String(item?.id))}
+                onOptionSelect={(item) =>
+                  handleTriggerCartDrawer(
+                    DrawerTypeEnum.CATEGORY,
+                    String(item?.id)
+                  )
+                }
                 renderOption={(item) => (
                   <View className="flex-row">
                     {item?.image_url && (
@@ -231,7 +247,12 @@ export default function Page() {
                 searchText={searchQuery}
                 placeholder={"Vyhľadaj konkrétny produkt"}
                 options={productOptions ?? []}
-                onOptionSelect={(item) => handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, String(item?.detail?.barcode))}
+                onOptionSelect={(item) =>
+                  handleTriggerCartDrawer(
+                    DrawerTypeEnum.PRODUCT,
+                    String(item?.detail?.barcode)
+                  )
+                }
                 // onOptionSelect={handleAddProductToCart}
                 renderOption={(item) => (
                   <Text className="text-gray-800 text-lg">

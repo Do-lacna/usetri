@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { X } from "~/lib/icons/Cancel";
 import { Search } from "~/lib/icons/Search";
+import { useTailwindColors } from "../../hooks/use-tailwind-colors";
 import { Text } from "./text";
 
 export interface ISearchBarProps<T> {
@@ -35,6 +36,7 @@ const SearchBar = <T,>({
   minimumSearchLength = 2,
   displaySearchOptions = true,
 }: ISearchBarProps<T>) => {
+  const colors = useTailwindColors();
   return (
     <View className="relative z-10 w-full flex-shrink">
       <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
@@ -43,6 +45,7 @@ const SearchBar = <T,>({
           value={searchText}
           onChangeText={onSearch}
           placeholder={placeholder}
+          placeholderTextColor={colors.gray[500]} // Darker gray color
           className="flex-1 text-gray-800 text-xl"
           autoComplete="off"
           autoCorrect={false}
