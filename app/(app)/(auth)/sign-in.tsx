@@ -23,7 +23,6 @@ export default function SignIn() {
     resolver: zodResolver(signInSchema),
   });
 
-  console.log("is signin rendered");
   const performSignIn = async ({
     email,
     password,

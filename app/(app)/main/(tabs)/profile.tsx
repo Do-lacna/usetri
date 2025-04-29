@@ -1,29 +1,35 @@
-import { Link } from "expo-router";
-import React from "react";
+import { useQueryClient } from '@tanstack/react-query';
+import { Link } from 'expo-router';
+import React from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
   View,
-} from "react-native";
-import { Menu } from "~/lib/icons/Menu";
-import { UserIcon } from "~/lib/icons/User";
-import { Button } from "../../../../components/ui/button";
-import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
-import { Subscriptions } from "../../../../components/ui/profile/subscriptions";
-import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
-import { useSession } from "../../../../context/authentication-context";
-import { useDrawerMenu } from "../../../../hooks/use-drawer-menu";
-import { useGetArchivedCart } from "../../../../network/customer/customer";
-import { ShortArchivedCartDto } from "../../../../network/model";
+} from 'react-native';
+import { Menu } from '~/lib/icons/Menu';
+import { UserIcon } from '~/lib/icons/User';
+import { Button } from '../../../../components/ui/button';
+import { SavedCartCard } from '../../../../components/ui/profile/saved-cart-card';
+import { Subscriptions } from '../../../../components/ui/profile/subscriptions';
+import { TotalSavedCard } from '../../../../components/ui/profile/total-saved-card';
+import { useSession } from '../../../../context/authentication-context';
+import { useDrawerMenu } from '../../../../hooks/use-drawer-menu';
+import { useGetArchivedCart } from '../../../../network/customer/customer';
+import { ShortArchivedCartDto } from '../../../../network/model';
 
 export default function ProfileScreen() {
+  const queryClient = useQueryClient();
   const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
     useDrawerMenu();
   const { user } = useSession();
-  const { data: { archived_carts = [] } = {} } = useGetArchivedCart();
+  const {
+    data: { archived_carts = [] } = {},
+    isLoading: areArchivedCartsLoading,
+  } = useGetArchivedCart();
 
   const renderShopCardCart = ({
     item: { cart_id, created_at, total_price, selected_shop_id } = {},
@@ -38,9 +44,19 @@ export default function ProfileScreen() {
     </View>
   );
 
+  const isLoading = areArchivedCartsLoading;
+
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView className="px-6">
+      <ScrollView
+        className="px-6"
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => queryClient.invalidateQueries()}
+          />
+        }
+      >
         {/* Profile Section */}
         <View className="relative -mx-6">
           {/* Cover Photo Area */}

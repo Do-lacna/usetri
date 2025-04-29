@@ -1,6 +1,5 @@
 // hooks/useDrawerMenu.ts
 import { router } from "expo-router";
-import { Alert } from "react-native";
 import { useSession } from "~/context/authentication-context";
 
 export interface MenuItem {
@@ -16,7 +15,7 @@ export interface MenuSection {
 }
 
 export const useSettingsMenuItems = () => {
-      const { signOut } = useSession();
+      const { signOut, deleteUserAccount } = useSession();
     
 
 
@@ -42,9 +41,9 @@ export const useSettingsMenuItems = () => {
           onPress: signOut,
         },
         {
-            id: "zrusitucet",
-            label: "Zrušiť účet",
-            onPress: () => router.push("/change-password"),
+            id: "vymazatucet",
+            label: "Vymazať účet",
+            onPress: deleteUserAccount,
           },
       ],
     },

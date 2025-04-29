@@ -1,8 +1,14 @@
 import { Option } from '@rn-primitives/select';
+import { useQueryClient } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import React, { useMemo } from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, RefreshControl, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  getGetProductsForBrigaderQueryKey,
+  useCheckItemInReviewList,
+  useGetProductsForBrigader,
+} from '~/network/brigader/brigader';
 import BrigaderProductRow from '../../../../components/ui/brigader-product-row';
 import { Button } from '../../../../components/ui/button';
 import {
@@ -10,14 +16,7 @@ import {
   SelectOptionType,
 } from '../../../../components/ui/custom-select/custom-select';
 import { generateShoppingListItemDescription } from '../../../../lib/utils';
-import { useGetProductsAdmin } from '../../../../network/admin/admin';
 import { useGetShops } from '../../../../network/query/query';
-import {
-  getGetProductsForBrigaderQueryKey,
-  useCheckItemInReviewList,
-  useGetProductsForBrigader,
-} from '~/network/brigader/brigader';
-import { useQueryClient } from '@tanstack/react-query';
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
@@ -28,12 +27,12 @@ export default function SearchScreen() {
 
   const {
     data: { products_to_check = [] } = {},
-    isPending,
+    isLoading: areProductsLoading,
   } = useGetProductsForBrigader(
     { shop_id: Number(selectedShop?.value) },
     { query: { enabled: !!selectedShop?.value } },
   );
-  const { mutate: sendConfirmProductPrice, isPending: areProductsLoading } =
+  const { mutate: sendConfirmProductPrice, isPending: isConfirmingPrice } =
     useCheckItemInReviewList({
       mutation: {
         onSuccess: () => {
@@ -60,16 +59,17 @@ export default function SearchScreen() {
     [shops],
   ) as SelectOptionType[];
 
-  console.log(selectedShop?.label);
-
   React.useEffect(() => {
     if (mappedShops?.length > 0) {
       setSelectedShop(mappedShops?.[0]);
     }
   }, [mappedShops]);
 
+  const isLoading = areProductsLoading || areShopsLoading || isConfirmingPrice;
+
   return (
     <SafeAreaView className="flex justify-start px-2">
+
       <CustomSelect
         label="Dostupné obchody"
         options={mappedShops}
@@ -124,6 +124,12 @@ export default function SearchScreen() {
         )}
         keyExtractor={(product) => String(product?.detail?.barcode)}
         contentContainerClassName="gap-4 px-1 pt-4 pb-10"
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => queryClient.invalidateQueries()}
+          />
+        }
       />
     </SafeAreaView>
   );

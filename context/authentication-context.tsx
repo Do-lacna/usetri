@@ -1,15 +1,16 @@
-import auth, { type FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { deleteItemAsync, setItemAsync } from "expo-secure-store";
+import auth, { type FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { deleteItemAsync, setItemAsync } from 'expo-secure-store';
 import {
   type PropsWithChildren,
   createContext,
   useContext,
   useEffect,
   useState,
-} from "react";
-import { AUTH_TOKEN, USER_ID } from "../network/api-client";
-import { resetAndRedirect } from "../utils/navigation-utils";
-import { useStorageState } from "./useStorageState";
+} from 'react';
+import { displaySuccessToastMessage } from '~/utils/toast-utils';
+import { AUTH_TOKEN, USER_ID } from '../network/api-client';
+import { resetAndRedirect } from '../utils/navigation-utils';
+import { useStorageState } from './useStorageState';
 
 type User = FirebaseAuthTypes.User;
 
@@ -20,9 +21,11 @@ export const AuthContext = createContext<{
   setUser: (user: User) => void;
   session?: string | null;
   user?: User;
+  deleteUserAccount: () => void;
 }>({
   signIn: () => null,
   signOut: () => null,
+  deleteUserAccount: () => null,
   setUser: () => {},
   isLoading: false,
 });
@@ -30,9 +33,9 @@ export const AuthContext = createContext<{
 // This hook can be used to access the user info.
 export function useSession() {
   const value = useContext(AuthContext);
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     if (!value) {
-      throw new Error("useSession must be wrapped in a <SessionProvider />");
+      throw new Error('useSession must be wrapped in a <SessionProvider />');
     }
   }
 
@@ -40,7 +43,7 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState("session");
+  const [[isLoading, session], setSession] = useStorageState('session');
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<User>();
 
@@ -48,9 +51,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
     setInitializing(true);
     try {
       if (!user) {
-        resetAndRedirect("/");
+        resetAndRedirect('/');
       }
-      if (user && user?.emailVerified) {
+      if (user?.emailVerified) {
         const token = await user.getIdToken();
         await setItemAsync(USER_ID, user.uid);
         await setItemAsync(AUTH_TOKEN, token);
@@ -75,10 +78,22 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   const performSignOut = async () => {
     try {
-      await deleteItemAsync("authToken");
+      await deleteItemAsync('authToken');
       await auth().signOut();
       setUser(undefined);
     } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const deleteUserAccount = async () => {
+    try {
+      await user?.delete();
+      displaySuccessToastMessage('Účet bol úspešne zmazaný');
+      await performSignOut();
+      resetAndRedirect('/');
+    } catch (e) {
+      displaySuccessToastMessage('Účet sa nepodarilo zmazať');
       console.error(e);
     }
   };
@@ -88,13 +103,14 @@ export function SessionProvider({ children }: PropsWithChildren) {
       value={{
         signIn: () => {
           // Perform sign-in logic here
-          setSession("xxx");
+          setSession('xxx');
         },
         signOut: performSignOut,
         session,
         isLoading: isLoading || initializing,
         setUser,
         user,
+        deleteUserAccount,
       }}
     >
       {children}
