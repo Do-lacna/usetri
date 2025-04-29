@@ -12,20 +12,20 @@ import type {
 } from '@tanstack/react-query';
 import type {
   DiscountPriceImportBatchDto,
-  UploadDiscountPricesAdminJsonBody,
+  UploadWoltJsonBody,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const uploadDiscountPricesAdminJson = (
-  uploadDiscountPricesAdminJsonBody: UploadDiscountPricesAdminJsonBody,
+export const uploadWoltJson = (
+  uploadWoltJsonBody: UploadWoltJsonBody,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   const formData = new FormData();
-  if (uploadDiscountPricesAdminJsonBody.jsonFile !== undefined) {
-    formData.append('jsonFile', uploadDiscountPricesAdminJsonBody.jsonFile);
+  if (uploadWoltJsonBody.jsonFile !== undefined) {
+    formData.append('jsonFile', uploadWoltJsonBody.jsonFile);
   }
 
   return orvalApiClient<DiscountPriceImportBatchDto>(
@@ -40,20 +40,20 @@ export const uploadDiscountPricesAdminJson = (
   );
 };
 
-export const getUploadDiscountPricesAdminJsonMutationOptions = <
-  TData = Awaited<ReturnType<typeof uploadDiscountPricesAdminJson>>,
+export const getUploadWoltJsonMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadWoltJson>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesAdminJsonBody },
+    { data: UploadWoltJsonBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadDiscountPricesAdminJson'];
+  const mutationKey = ['uploadWoltJson'];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -63,49 +63,47 @@ export const getUploadDiscountPricesAdminJsonMutationOptions = <
     : { mutation: { mutationKey }, request: undefined };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadDiscountPricesAdminJson>>,
-    { data: UploadDiscountPricesAdminJsonBody }
+    Awaited<ReturnType<typeof uploadWoltJson>>,
+    { data: UploadWoltJsonBody }
   > = (props) => {
     const { data } = props ?? {};
 
-    return uploadDiscountPricesAdminJson(data, requestOptions);
+    return uploadWoltJson(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesAdminJsonBody },
+    { data: UploadWoltJsonBody },
     TContext
   >;
 };
 
-export type UploadDiscountPricesAdminJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof uploadDiscountPricesAdminJson>>
+export type UploadWoltJsonMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadWoltJson>>
 >;
-export type UploadDiscountPricesAdminJsonMutationBody =
-  UploadDiscountPricesAdminJsonBody;
-export type UploadDiscountPricesAdminJsonMutationError = unknown;
+export type UploadWoltJsonMutationBody = UploadWoltJsonBody;
+export type UploadWoltJsonMutationError = unknown;
 
-export const useUploadDiscountPricesAdminJson = <
-  TData = Awaited<ReturnType<typeof uploadDiscountPricesAdminJson>>,
+export const useUploadWoltJson = <
+  TData = Awaited<ReturnType<typeof uploadWoltJson>>,
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadDiscountPricesAdminJsonBody },
+    { data: UploadWoltJsonBody },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: UploadDiscountPricesAdminJsonBody },
+  { data: UploadWoltJsonBody },
   TContext
 > => {
-  const mutationOptions =
-    getUploadDiscountPricesAdminJsonMutationOptions(options);
+  const mutationOptions = getUploadWoltJsonMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
