@@ -1,11 +1,11 @@
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
-import { View } from "react-native";
-import { useRevenueCat } from "../../../context/revenue-cat-provider";
-import { CustomBottomSheetModal } from "../bottom-sheet-modal";
-import { Button } from "../button";
-import { Text } from "../text";
-import SubscriptionPaywall from "../usetri-paywall/usetri-paywall";
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { useRef } from 'react';
+import { displaySuccessToastMessage } from '~/utils/toast-utils';
+import { useRevenueCat } from '../../../context/revenue-cat-provider';
+import { CustomBottomSheetModal } from '../bottom-sheet-modal';
+import { Button } from '../button';
+import { Text } from '../text';
+import SubscriptionPaywall from '../usetri-paywall/usetri-paywall';
 
 export interface SavedCartCardProps {}
 
@@ -17,40 +17,28 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   const entitlements = customerInfo?.entitlements?.all || {};
   const activeEntitlements = customerInfo?.entitlements?.active || {};
 
+  console.log('Active subscriptions:', subscriptions);
+
+  const handlePurchaseComplete = (customerInfo: any) => {
+    console.log('Purchase completed:', customerInfo);
+    displaySuccessToastMessage(
+      'Predplatné bolo úspešne aktivované, najdete ho v profile',
+    );
+    subscriptionModalRef?.current?.dismiss();
+  };
 
   return (
     <>
       <CustomBottomSheetModal ref={subscriptionModalRef} index={2}>
         {/* <View className="w-full flex items-center justify-center p-4 bg-green-50">
-          <Text className="text-lg font-bold mb-4">Offerings</Text>
-          {packages?.map((pack, index) => (
-            <Text key={index} className="text-lg font-bold mb-4">
-              {pack?.identifier}
-            </Text>
-          ))}
-          <Text className="text-lg font-bold mb-4">Subscriptions</Text>
-          {subscriptions?.map((subscription, index) => (
-            <Text key={index} className="text-lg font-bold mb-4">
-              {subscription}
-            </Text>
-          ))}
-          <Text className="text-lg  font-bold mb-4">Entitlements</Text>
-
-          {Object.entries(entitlements)?.map(([k, v]) => (
-            <Text className="text-lg font-bold mb-4">
-              {k} - {v?.identifier}
-            </Text>
-          ))}
-        </View> */}
-
-        <View className="w-full flex items-center justify-center p-4 bg-green-50">
           <Text>All entitlements</Text>
           <Text>{Object.entries(entitlements)?.map(([k, v]) => `${k} : ${v}`)}</Text>
           <Text>Active entitlements</Text>
           <Text>{Object.entries(activeEntitlements)?.map(([k, v]) => `${k} : ${v}`)}</Text>
-        </View>
+        </View> */}
 
         <SubscriptionPaywall
+          onPurchaseComplete={handlePurchaseComplete}
           onClose={() => subscriptionModalRef?.current?.dismiss()}
         />
       </CustomBottomSheetModal>
@@ -65,6 +53,6 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   );
 };
 
-Subscriptions.displayName = "Subscriptions";
+Subscriptions.displayName = 'Subscriptions';
 
 export { Subscriptions };

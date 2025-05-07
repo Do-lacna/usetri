@@ -39,7 +39,8 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
 
       // Check if user has access to the entitlement
       const entitlementInfo = customerInfo.entitlements.active;
-      if (entitlementInfo["premium"] || entitlementInfo["pro"]) {
+      if (entitlementInfo["premium"] || entitlementInfo["pro"] || entitlementInfo["Pro"]) 
+       {
         // Purchase successful
         onPurchaseComplete?.(customerInfo);
       }

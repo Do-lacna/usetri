@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useRevenueCat } from '~/context/revenue-cat-provider';
 import { Menu } from '~/lib/icons/Menu';
 import { UserIcon } from '~/lib/icons/User';
 import { Button } from '../../../../components/ui/button';
@@ -30,6 +31,8 @@ export default function ProfileScreen() {
     data: { archived_carts = [] } = {},
     isLoading: areArchivedCartsLoading,
   } = useGetArchivedCart();
+  const { customerInfo, packages } = useRevenueCat();
+  const subscriptions = customerInfo?.activeSubscriptions;
 
   const renderShopCardCart = ({
     item: { cart_id, created_at, total_price, selected_shop_id } = {},
@@ -89,6 +92,14 @@ export default function ProfileScreen() {
             <Menu className="w-6 h-6 text-gray-800" />
           </Button>
         </Link>
+
+        <Text>
+          Active subscriptions{' '}
+          <View>{subscriptions?.map((sub) => (
+            <Text className='font-bold' key={sub}>{sub}</Text>
+          ))}
+          </View>
+        </Text>
 
         <Subscriptions />
 
