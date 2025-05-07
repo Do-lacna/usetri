@@ -1577,6 +1577,15 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
           }
         ],
         "responses": {
@@ -1625,6 +1634,17 @@
       "put": {
         "tags": ["Brigader"],
         "operationId": "CheckItemInReviewList",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "header",
+            "description": "User who is requesting endpoint",
+            "schema": {
+              "type": "string"
+            },
+            "example": "a3bxPQRGppT75h0OTwvXS5WRZ7H2"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3402,6 +3422,11 @@
             "nullable": true,
             "readOnly": true
           },
+          "resolved_by_user": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "is_checked": {
             "type": "boolean",
             "readOnly": true
@@ -3551,6 +3576,21 @@
           "barcode": {
             "type": "string",
             "nullable": true
+          },
+          "is_price_valid": {
+            "type": "boolean"
+          },
+          "location": {
+            "type": "string",
+            "nullable": true
+          },
+          "new_base_price": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "new_discount_price": {
+            "$ref": "#/components/schemas/DiscountPriceDto"
           }
         },
         "additionalProperties": false
@@ -3683,6 +3723,10 @@
             "format": "double"
           },
           "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "import_state": {
             "type": "string",
             "nullable": true
           }

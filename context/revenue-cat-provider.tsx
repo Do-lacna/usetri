@@ -1,6 +1,6 @@
 import {
-  createContext,
   Fragment,
+  createContext,
   useContext,
   useEffect,
   useState,
@@ -9,7 +9,8 @@ import { Platform } from "react-native";
 import Purchases, {
   CustomerInfo,
   LOG_LEVEL,
-  PurchasesPackage,
+  PurchasesEntitlementInfos,
+  PurchasesPackage
 } from "react-native-purchases";
 // Provide RevenueCat functions to our app
 
@@ -31,6 +32,7 @@ export interface UserState {
   cookies: number;
   items: string[];
   pro: boolean;
+  entitlements?: PurchasesEntitlementInfos
 }
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null);
@@ -94,23 +96,25 @@ export const RevenueCatProvider = ({ children }: any) => {
   // Update user state based on previous purchases
   const updateCustomerInformation = async (customerInfo: CustomerInfo) => {
     setCustomerInfo(customerInfo);
-    const newUser: UserState = { cookies: user.cookies, items: [], pro: false };
+    const newUser: UserState = { cookies: user.cookies, items: [], pro: false, entitlements: { } as PurchasesEntitlementInfos };
+    newUser.entitlements = customerInfo.entitlements;
 
-    if (customerInfo?.entitlements.active["Epic Wand"] !== undefined) {
-      newUser.items.push(
-        customerInfo?.entitlements.active["Epic Wand"].identifier
-      );
-    }
 
-    if (customerInfo?.entitlements.active["Magic Boots"] !== undefined) {
-      newUser.items.push(
-        customerInfo?.entitlements.active["Magic Boots"].identifier
-      );
-    }
+    // if (customerInfo?.entitlements.active["Epic Wand"] !== undefined) {
+    //   newUser.items.push(
+    //     customerInfo?.entitlements.active["Epic Wand"].identifier
+    //   );
+    // }
 
-    if (customerInfo?.entitlements.active["PRO Features"] !== undefined) {
-      newUser.pro = true;
-    }
+    // if (customerInfo?.entitlements.active["Magic Boots"] !== undefined) {
+    //   newUser.items.push(
+    //     customerInfo?.entitlements.active["Magic Boots"].identifier
+    //   );
+    // }
+
+    // if (customerInfo?.entitlements.active["PRO Features"] !== undefined) {
+    //   newUser.pro = true;
+    // }
 
     setUser(newUser);
   };

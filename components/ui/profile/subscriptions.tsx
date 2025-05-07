@@ -1,5 +1,6 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
+import { View } from "react-native";
 import { useRevenueCat } from "../../../context/revenue-cat-provider";
 import { CustomBottomSheetModal } from "../bottom-sheet-modal";
 import { Button } from "../button";
@@ -14,6 +15,8 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
 
   const subscriptions = customerInfo?.activeSubscriptions;
   const entitlements = customerInfo?.entitlements?.all || {};
+  const activeEntitlements = customerInfo?.entitlements?.active || {};
+
 
   return (
     <>
@@ -39,6 +42,13 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
             </Text>
           ))}
         </View> */}
+
+        <View className="w-full flex items-center justify-center p-4 bg-green-50">
+          <Text>All entitlements</Text>
+          <Text>{Object.entries(entitlements)?.map(([k, v]) => `${k} : ${v}`)}</Text>
+          <Text>Active entitlements</Text>
+          <Text>{Object.entries(activeEntitlements)?.map(([k, v]) => `${k} : ${v}`)}</Text>
+        </View>
 
         <SubscriptionPaywall
           onClose={() => subscriptionModalRef?.current?.dismiss()}

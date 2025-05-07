@@ -1,17 +1,21 @@
-import { Link } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
-import { Camera } from "~/lib/icons/Camera";
-import { Check } from "~/lib/icons/Check";
-import { generateShoppingListItemDescription } from "../../lib/utils";
-import { BrigaderReviewListItemDto } from "../../network/model";
-import IconButton from "../icon-button";
-import { Badge } from "./badge";
+import { useState } from 'react';
+import { Text, View } from 'react-native';
+import { X } from '~/lib/icons/Cancel';
+import { Check } from '~/lib/icons/Check';
+import { Pencil } from '~/lib/icons/Pencil';
+
+import { generateShoppingListItemDescription } from '~/lib/utils';
+import { BrigaderReviewListItemDto } from '~/network/model';
+import IconButton from '../icon-button';
+import { Badge } from './badge';
+import { Input } from './input';
 
 interface IShoppingListItemProps {
   product: BrigaderReviewListItemDto;
   price?: number;
   shopId?: number;
-  onConfirm?: () => void;
+  barcode?: string;
+  onConfirm?: (price: number, isOldPriceValid: boolean) => void;
 }
 
 const BrigaderProductRow = ({
@@ -19,6 +23,8 @@ const BrigaderProductRow = ({
   shopId,
   onConfirm,
 }: IShoppingListItemProps) => {
+  const [newPrice, setNewPrice] = useState<string | undefined>('');
+  const [edittingPrice, setEdittingPrice] = useState(false);
   const { brand, unit, amount, price, name, barcode, is_checked } = product;
   return (
     <View
@@ -54,35 +60,53 @@ const BrigaderProductRow = ({
           </Badge>
         </View>
       ) : (
-        <View className="flex items-center gap-2">
-          <Badge className="bg-divider">
-            <Text className="font-bold">{price?.toFixed(2)} €</Text>
-          </Badge>
-          <View className="flex-row items-center gap-4 flex-shrink-0">
-            <Link
-              href={{
-                pathname: "/main/brigader-scan-screen/[...slug]",
-                params: { slug: [String(shopId), String(barcode)] },
-              }}
-              asChild
-            >
-              <TouchableOpacity
-                disabled={is_checked}
+        <View>
+        {edittingPrice ? (
+          <View className="flex items-center gap-2">
+            <Input
+              placeholder="Zadajte novu cenu produktu"
+              placeholderClassName="text-sm"
+              // className="mt-4 w-[80%]"
+              onChangeText={(value) => setNewPrice(value)}
+              value={newPrice}
+            />
+            <View className="flex-row items-center gap-4 flex-shrink-0">
+              <IconButton
+                onPress={() => setEdittingPrice(false)}
+                className="bg-red-200 rounded-full w-8 h-8 flex items-center justify-center self-center"
+              >
+                <X size={18} />
+              </IconButton>
+              <IconButton
+                onPress={() => onConfirm?.(Number(newPrice), false)}
+                className="bg-primary rounded-full w-8 h-8 flex items-center justify-center self-center"
+              >
+                <Check size={20} />
+              </IconButton>
+            </View>
+          </View>
+        ) : (
+          <View className="flex items-center gap-2">
+            <Text className="font-bold">{price} €</Text>
+            <View className="flex-row items-center gap-4 flex-shrink-0">
+              <IconButton
+                onPress={() => setEdittingPrice(true)}
                 className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
               >
-                <Camera size={20} />
-              </TouchableOpacity>
-            </Link>
-            <IconButton
-              onPress={onConfirm}
-              className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
-              disabled={is_checked}
-            >
-              <Check size={20} />
-            </IconButton>
+                <Pencil size={18} />
+              </IconButton>
+              <IconButton
+                onPress={() => onConfirm?.(Number(price), true)}
+                className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
+              >
+                <Check size={20} />
+              </IconButton>
+            </View>
           </View>
-        </View>
+        )}
+      </View>
       )}
+     
     </View>
   );
 };

@@ -4,9 +4,16 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { DiscountPriceDto } from './discountPriceDto';
 
 export interface CheckReviewListRequest {
   shop_id?: number;
   /** @nullable */
   barcode?: string | null;
+  is_price_valid?: boolean;
+  /** @nullable */
+  location?: string | null;
+  /** @nullable */
+  new_base_price?: number | null;
+  new_discount_price?: DiscountPriceDto;
 }

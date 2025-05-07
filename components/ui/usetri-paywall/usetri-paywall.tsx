@@ -41,7 +41,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       const entitlementInfo = customerInfo.entitlements.active;
       if (entitlementInfo["premium"] || entitlementInfo["pro"]) {
         // Purchase successful
-        onPurchaseComplete && onPurchaseComplete(customerInfo);
+        onPurchaseComplete?.(customerInfo);
       }
     } catch (error: any) {
       if (!error.userCancelled) {
@@ -88,7 +88,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
         <Text className="text-lg font-bold">Zvoľte si predplatné</Text>
       </View>
 
-      {packages && packages.map(renderPackageOption)}
+      {packages?.map(renderPackageOption)}
 
       <View className="p-4 border-t border-gray-200">
         <TouchableOpacity

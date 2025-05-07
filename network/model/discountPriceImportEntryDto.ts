@@ -15,4 +15,6 @@ export interface DiscountPriceImportEntryDto {
   amount?: number;
   /** @nullable */
   unit?: string | null;
+  /** @nullable */
+  import_state?: string | null;
 }
