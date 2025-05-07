@@ -2,7 +2,7 @@
   "private": true,
   "name": "usetri",
   "main": "expo-router/entry",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "scripts": {
     "start": "expo start -c",
     "android": "expo run:android",

@@ -4,12 +4,12 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { BrigaderReviewListItem } from './brigaderReviewListItem';
+import type { BrigaderReviewListItemDto } from './brigaderReviewListItemDto';
 
 export interface GetBrigaderReviewListResponse {
   shop_id?: number;
   /** @nullable */
-  products_to_check?: BrigaderReviewListItem[] | null;
+  products_to_check?: BrigaderReviewListItemDto[] | null;
   created_at?: string;
   calendar_week?: number;
 }

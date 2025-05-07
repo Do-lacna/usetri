@@ -19,6 +19,7 @@ export * from './archivedCartModel';
 export * from './availableCategoriesForShopDto';
 export * from './availableProductsFromCategoryDto';
 export * from './brigaderReviewListItem';
+export * from './brigaderReviewListItemDto';
 export * from './cartCategory';
 export * from './cartCategoryDto';
 export * from './cartCategoryModel';

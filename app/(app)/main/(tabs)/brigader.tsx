@@ -1,36 +1,39 @@
-import { Option } from '@rn-primitives/select';
-import { useQueryClient } from '@tanstack/react-query';
-import { Link } from 'expo-router';
-import React, { useMemo } from 'react';
-import { FlatList, RefreshControl, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Option } from "@rn-primitives/select";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "expo-router";
+import React, { useMemo } from "react";
+import { FlatList, RefreshControl, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   getGetProductsForBrigaderQueryKey,
   useCheckItemInReviewList,
   useGetProductsForBrigader,
-} from '~/network/brigader/brigader';
-import BrigaderProductRow from '../../../../components/ui/brigader-product-row';
-import { Button } from '../../../../components/ui/button';
+} from "~/network/brigader/brigader";
+import BrigaderProductRow from "../../../../components/ui/brigader-product-row";
+import { Button } from "../../../../components/ui/button";
 import {
   CustomSelect,
   SelectOptionType,
-} from '../../../../components/ui/custom-select/custom-select';
-import { generateShoppingListItemDescription } from '../../../../lib/utils';
-import { useGetShops } from '../../../../network/query/query';
+} from "../../../../components/ui/custom-select/custom-select";
+import { useGetShops } from "../../../../network/query/query";
+import {
+  displayErrorToastMessage,
+  displaySuccessToastMessage,
+} from "../../../../utils/toast-utils";
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
   const [selectedShop, setSelectedShop] = React.useState<Option>({
-    value: '',
-    label: '',
+    value: "",
+    label: "",
   });
 
   const {
-    data: { products_to_check = [] } = {},
+    data: { products_to_check = [], calendar_week, created_at } = {},
     isLoading: areProductsLoading,
   } = useGetProductsForBrigader(
     { shop_id: Number(selectedShop?.value) },
-    { query: { enabled: !!selectedShop?.value } },
+    { query: { enabled: !!selectedShop?.value } }
   );
   const { mutate: sendConfirmProductPrice, isPending: isConfirmingPrice } =
     useCheckItemInReviewList({
@@ -39,15 +42,16 @@ export default function SearchScreen() {
           queryClient.invalidateQueries({
             queryKey: getGetProductsForBrigaderQueryKey(),
           });
-          console.log('Success');
+          displaySuccessToastMessage("Cena produktu bola úspešne potvrdená");
+        },
+        onError: () => {
+          console.log("Error");
+          displayErrorToastMessage("Nepodarilo sa potvrdiť cenu produktu");
         },
       },
     });
-  console.log(products_to_check);
-  const {
-    data: { shops = [] } = {},
-    isPending: areShopsLoading,
-  } = useGetShops();
+  const { data: { shops = [] } = {}, isPending: areShopsLoading } =
+    useGetShops();
 
   const mappedShops = useMemo(
     () =>
@@ -56,7 +60,7 @@ export default function SearchScreen() {
         value: String(shop?.id),
         icon: shop?.image_url,
       })),
-    [shops],
+    [shops]
   ) as SelectOptionType[];
 
   React.useEffect(() => {
@@ -69,7 +73,6 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView className="flex justify-start px-2">
-
       <CustomSelect
         label="Dostupné obchody"
         options={mappedShops}
@@ -77,53 +80,41 @@ export default function SearchScreen() {
         onChange={setSelectedShop}
         selectClassName="w-full my-4"
       />
-      <Link href={{
-        pathname: '/main/brigader-scan-screen/[...slug]',
-        params: { slug: [String(selectedShop?.value)] },
-      }} asChild>
+      <Link
+        href={{
+          pathname: "/main/brigader-scan-screen/[...slug]",
+          params: { slug: [String(selectedShop?.value)] },
+        }}
+        asChild
+      >
         <Button>
-          <Text>Skenuj produkty</Text>
+          <Text>Sken nových produktov</Text>
         </Button>
       </Link>
 
+      <Text className="font-bold text-center my-4 text-xl">
+        Kalendárny týždeň {calendar_week}, kontrola:
+      </Text>
+
       <FlatList
-        data={[
-          {
-            price: 12,
-            detail: {
-              name: 'test',
-              brand: 'test',
-              unit: 'ks',
-              amount: 0,
-              barcode: '123',
-            },
-          },
-        ]}
-        renderItem={({
-          item: {
-            price,
-            detail: { name = '', brand = '', unit = '', amount = 0, barcode } = {},
-          } = {},
-        }) => (
+        data={products_to_check}
+        renderItem={({ item }) => (
           <BrigaderProductRow
-            label={name}
-            description={generateShoppingListItemDescription({
-              brand,
-              unit,
-              amount,
-            })}
-            price={price}
+            product={item}
             onConfirm={() =>
               sendConfirmProductPrice({
-                data: { shop_id: Number(selectedShop?.value), barcode: 123 },
+                //TODO barcode here should be string
+                data: {
+                  shop_id: Number(selectedShop?.value),
+                  barcode: String(item?.barcode),
+                },
               })
             }
             shopId={Number(selectedShop?.value)}
-            barcode={barcode}
           />
         )}
-        keyExtractor={(product) => String(product?.detail?.barcode)}
-        contentContainerClassName="gap-4 px-1 pt-4 pb-10"
+        keyExtractor={(product) => String(product?.barcode)}
+        contentContainerClassName="gap-4 px-1 pt-4 pb-40 box-border"
         refreshControl={
           <RefreshControl
             refreshing={isLoading}

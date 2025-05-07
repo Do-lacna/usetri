@@ -7,5 +7,6 @@
 
 export interface CheckReviewListRequest {
   shop_id?: number;
-  barcode?: number;
+  /** @nullable */
+  barcode?: string | null;
 }

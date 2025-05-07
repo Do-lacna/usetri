@@ -8,11 +8,11 @@ export const toastConfig = {
   success: (props: any) => (
     <BaseToast
       {...props}
-      contentContainerStyle={{ paddingHorizontal: 15 }}
-      text1Style={{
-        fontSize: 15,
-        fontWeight: "400",
-      }}
+      // contentContainerStyle={{ paddingHorizontal: 15 }}
+      // text1Style={{
+      //   fontSize: 15,
+      //   fontWeight: "400",
+      // }}
     />
   ),
   /*
@@ -22,7 +22,7 @@ export const toastConfig = {
   error: (props: any) => (
     <ErrorToast
       {...props}
-      style={{ zIndex: 9999999999999, backgroundColor: "green" }}
+      // style={{ zIndex: 9999999999999, backgroundColor: "green" }}
     />
   ),
   // /*

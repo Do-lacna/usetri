@@ -4,10 +4,12 @@ import React, { useEffect, useRef } from "react";
 import {
   Image,
   Keyboard,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { RefreshControl } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
@@ -275,7 +277,15 @@ export default function Page() {
             </IconButton>
           </View>
 
-          <View className="flex-1 gap-2 mt-4 px-2">
+          <ScrollView
+            className="flex-1 gap-4 mt-4 px-2"
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={() => queryClient.invalidateQueries()}
+              />
+            }
+          >
             {cartCategories.map(
               ({ category: { id, name = "Category", image_url } = {} }) => (
                 <ShoppingListItem
@@ -318,7 +328,7 @@ export default function Page() {
                 />
               )
             )}
-          </View>
+          </ScrollView>
           {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
           {!!cart?.total_price && (
             <PriceSummary

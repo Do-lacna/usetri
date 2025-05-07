@@ -20,7 +20,6 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { getTheme, setTheme } from "~/persistence/theme-storage";
 import { SessionProvider } from "../context/authentication-context";
 import { RevenueCatProvider } from "../context/revenue-cat-provider";
-import { toastConfig } from "../utils/toast-config";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -38,7 +37,28 @@ export {
   ErrorBoundary,
 } from "expo-router";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // retry: (_, err: any) => {
+      //   if (err?.response?.status === 401) {
+      //     return true; // do not retry, trigger error
+      //   }
+      //   return false;
+      // },
+      retry: 2,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      refetchInterval: 1000 * 300, //5 minutes
+      refetchIntervalInBackground: false,
+      staleTime: 1000 * 300,
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+});
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
@@ -87,7 +107,7 @@ export default function RootLayout() {
                 <StatusBar style={"light"} />
                 <Slot />
                 <PortalHost />
-                <Toast config={toastConfig} />
+                <Toast />
               </ThemeProvider>
             </BottomSheetModalProvider>
           </GestureHandlerRootView>

@@ -7,9 +7,7 @@
   "paths": {
     "/admin/shops": {
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "AddShop",
         "parameters": [
           {
@@ -125,9 +123,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "AdminGetShops",
         "parameters": [
           {
@@ -186,9 +182,7 @@
     },
     "/admin/shops/{shopId}": {
       "delete": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "UpdateShop",
         "parameters": [
           {
@@ -277,9 +271,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "PatchShop",
         "parameters": [
           {
@@ -389,9 +381,7 @@
     },
     "/admin/products": {
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "AddProduct",
         "parameters": [
           {
@@ -490,9 +480,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "GetProductsAdmin",
         "parameters": [
           {
@@ -593,9 +581,7 @@
     },
     "/admin/products/{barcode}-{shopId}": {
       "delete": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "DeleteProductAdmin",
         "parameters": [
           {
@@ -692,9 +678,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "PatchProductAdmin",
         "parameters": [
           {
@@ -812,9 +796,7 @@
     },
     "/admin/products/{barcode}-{shopId}/prices": {
       "put": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "ChangePrice",
         "parameters": [
           {
@@ -930,9 +912,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "GetProductPrices",
         "parameters": [
           {
@@ -1009,9 +989,7 @@
     },
     "/admin/categories": {
       "post": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "AddCategory",
         "parameters": [
           {
@@ -1050,9 +1028,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "GetCategoriesAdmin",
         "parameters": [
           {
@@ -1134,9 +1110,7 @@
     },
     "/admin/categories/{categoryId}": {
       "delete": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "DeleteCategory",
         "parameters": [
           {
@@ -1165,9 +1139,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "PatchCategory",
         "parameters": [
           {
@@ -1217,9 +1189,7 @@
     },
     "/admin/categories-management": {
       "get": {
-        "tags": [
-          "Admin"
-        ],
+        "tags": ["Admin"],
         "operationId": "GetCategoriesManagementAdmin",
         "parameters": [
           {
@@ -1278,9 +1248,7 @@
     },
     "/adminMVC/categories": {
       "get": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "CategoryManagement",
         "parameters": [
           {
@@ -1309,9 +1277,7 @@
     },
     "/adminMVC/products": {
       "delete": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "DropAllProducts",
         "parameters": [
           {
@@ -1391,9 +1357,7 @@
         }
       },
       "get": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "ProductManagement",
         "parameters": [
           {
@@ -1415,9 +1379,7 @@
     },
     "/adminMVC/categories/export": {
       "get": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "Export",
         "parameters": [
           {
@@ -1439,9 +1401,7 @@
     },
     "/admin/products/import": {
       "post": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "ImportProducts",
         "parameters": [
           {
@@ -1543,9 +1503,7 @@
     },
     "/adminMVC/categories/import": {
       "post": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "UploadCategoriesFile",
         "parameters": [
           {
@@ -1587,9 +1545,7 @@
     },
     "/adminMVC": {
       "get": {
-        "tags": [
-          "AdminMVC"
-        ],
+        "tags": ["AdminMVC"],
         "operationId": "Index",
         "parameters": [
           {
@@ -1611,9 +1567,7 @@
     },
     "/brigader/review-list": {
       "get": {
-        "tags": [
-          "Brigader"
-        ],
+        "tags": ["Brigader"],
         "operationId": "GetProductsForBrigader",
         "parameters": [
           {
@@ -1669,9 +1623,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Brigader"
-        ],
+        "tags": ["Brigader"],
         "operationId": "CheckItemInReviewList",
         "requestBody": {
           "content": {
@@ -1721,9 +1673,7 @@
     },
     "/archived-carts": {
       "post": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "CreateArchivedCart",
         "parameters": [
           {
@@ -1822,9 +1772,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "GetArchivedCart",
         "parameters": [
           {
@@ -1943,9 +1891,7 @@
     },
     "/carts": {
       "put": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "CreateCart",
         "parameters": [
           {
@@ -2061,9 +2007,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "GetCart",
         "parameters": [
           {
@@ -2180,9 +2124,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "RemoveFromCart",
         "parameters": [
           {
@@ -2284,9 +2226,7 @@
     },
     "/archived-carts/{cartId}": {
       "get": {
-        "tags": [
-          "Customer"
-        ],
+        "tags": ["Customer"],
         "operationId": "GetArchivedCartById",
         "parameters": [
           {
@@ -2414,9 +2354,7 @@
     },
     "/products": {
       "post": {
-        "tags": [
-          "Harvester"
-        ],
+        "tags": ["Harvester"],
         "operationId": "AddProductHarvester",
         "parameters": [
           {
@@ -2515,9 +2453,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetProducts",
         "parameters": [
           {
@@ -2609,9 +2545,7 @@
     },
     "/admin/product-image": {
       "post": {
-        "tags": [
-          "Imports"
-        ],
+        "tags": ["Imports"],
         "operationId": "UploadProductImage",
         "parameters": [
           {
@@ -2652,9 +2586,7 @@
     },
     "/admin/discount-price-imports": {
       "get": {
-        "tags": [
-          "Imports"
-        ],
+        "tags": ["Imports"],
         "operationId": "GetDiscountPriceImports",
         "parameters": [
           {
@@ -2722,9 +2654,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Imports"
-        ],
+        "tags": ["Imports"],
         "operationId": "UploadDiscountPricesJson",
         "parameters": [
           {
@@ -2790,9 +2720,7 @@
     },
     "/admin/discount-price-imports/{batchId}/{discountId}": {
       "patch": {
-        "tags": [
-          "Imports"
-        ],
+        "tags": ["Imports"],
         "operationId": "PatchDiscountImportEntry",
         "parameters": [
           {
@@ -2870,9 +2798,7 @@
     },
     "/carts-comparison": {
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetCartComparison",
         "parameters": [
           {
@@ -2944,9 +2870,7 @@
     },
     "/categories": {
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetCategories",
         "parameters": [
           {
@@ -3019,9 +2943,7 @@
     },
     "/discounts": {
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetDiscounts",
         "parameters": [
           {
@@ -3095,9 +3017,7 @@
     },
     "/products/{barcode}": {
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetProductsByBarcode",
         "parameters": [
           {
@@ -3166,9 +3086,7 @@
     },
     "/shops": {
       "get": {
-        "tags": [
-          "Query"
-        ],
+        "tags": ["Query"],
         "operationId": "GetShops",
         "responses": {
           "200": {
@@ -3216,9 +3134,7 @@
     },
     "/admin/wolt-imports": {
       "post": {
-        "tags": [
-          "WoltImports"
-        ],
+        "tags": ["WoltImports"],
         "operationId": "UploadWoltJson",
         "parameters": [
           {
@@ -3453,15 +3369,42 @@
         },
         "additionalProperties": false
       },
-      "BrigaderReviewListItem": {
+      "BrigaderReviewListItemDto": {
         "type": "object",
         "properties": {
           "barcode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "brand": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "is_checked": {
-            "type": "boolean"
+            "type": "boolean",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -3606,8 +3549,8 @@
             "format": "int32"
           },
           "barcode": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3653,11 +3596,7 @@
         "additionalProperties": false
       },
       "DiscountImportActionEnum": {
-        "enum": [
-          "None",
-          "Reject",
-          "Accept"
-        ],
+        "enum": ["None", "Reject", "Accept"],
         "type": "string"
       },
       "DiscountPriceDto": {
@@ -3790,7 +3729,7 @@
           "products_to_check": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BrigaderReviewListItem"
+              "$ref": "#/components/schemas/BrigaderReviewListItemDto"
             },
             "nullable": true
           },
@@ -4148,7 +4087,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "ProductDto": {
         "type": "object",
@@ -4524,7 +4463,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }

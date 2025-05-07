@@ -21,8 +21,31 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "primary",
-        tabBarStyle: { height: NAVBAR_HEIGHT  },
-        headerShown: false
+        tabBarStyle: {
+          height: NAVBAR_HEIGHT, // Adjust this height as needed
+          paddingBottom: 5,
+          alignItems: "center", // Center items along the cross axis
+          justifyContent: "center", // Center items along the main axis
+        },
+        tabBarItemStyle: {
+          alignItems: "center",
+          flexDirection: "row",
+        },
+
+        // tabBarItemStyle: {
+        //   backgroundColor: "blue",
+        //   justifyContent: "center",
+        //   margin: 10,
+        // },
+        // tabBarIconStyle: {
+        //   height: "100%",
+        //   backgroundColor: "green",
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   alignContent: "center",
+        //   alignItems: "center",
+        // },
+        headerShown: false,
       }}
     >
       <Tabs.Screen

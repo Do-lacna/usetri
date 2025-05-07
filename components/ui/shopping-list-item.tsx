@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -72,7 +73,11 @@ const ShoppingListItem = ({
   };
 
   return (
-    <View className="w-full bg-white rounded-lg shadow-md mb-2 relative">
+    <View
+      className={`w-full bg-white rounded-lg shadow-${
+        Platform.OS === "android" ? "md" : "sm"
+      } mb-4 relative`}
+    >
       <View className="w-4 h-4 bg-red absolute top-2 left-2" />
       <TouchableOpacity
         className="flex-row items-center justify-between p-4 border-b border-gray-200 overflow-hidden"

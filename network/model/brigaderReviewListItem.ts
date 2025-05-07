@@ -7,5 +7,13 @@
 
 export interface BrigaderReviewListItem {
   barcode?: number;
+  /** @nullable */
+  name?: string | null;
+  /** @nullable */
+  unit?: string | null;
+  amount?: number;
+  price?: number;
+  /** @nullable */
+  brand?: string | null;
   is_checked?: boolean;
 }
