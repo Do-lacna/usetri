@@ -15,6 +15,7 @@ import {
   CustomSelect,
   SelectOptionType,
 } from "../../../../components/ui/custom-select/custom-select";
+import { generateShopLocationNameBasedOnId } from "../../../../lib/utils";
 import { useGetShops } from "../../../../network/query/query";
 import {
   displayErrorToastMessage,
@@ -108,7 +109,9 @@ export default function SearchScreen() {
                   barcode: item?.barcode,
                   is_price_valid,
                   new_base_price: !is_price_valid ? price : null,
-                  location: item?.location,
+                  location: generateShopLocationNameBasedOnId(
+                    Number(selectedShop?.value)
+                  ),
                 },
               })
             }

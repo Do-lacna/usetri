@@ -23,9 +23,12 @@ const BrigaderProductRow = ({
   shopId,
   onConfirm,
 }: IShoppingListItemProps) => {
-  const [newPrice, setNewPrice] = useState<string | undefined>("");
-  const [edittingPrice, setEdittingPrice] = useState(false);
   const { brand, unit, amount, price, name, barcode, is_checked } = product;
+
+  const [newPrice, setNewPrice] = useState<string | undefined>(
+    price ? price.toString() : ""
+  );
+  const [edittingPrice, setEdittingPrice] = useState(false);
   return (
     <View
       className={`w-full rounded-lg shadow-md mb-2 relative flex-row items-center justify-between p-4 ${

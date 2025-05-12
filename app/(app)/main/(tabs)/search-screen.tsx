@@ -1,7 +1,14 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
-import { FlatList, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  RefreshControl,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DiscountList from "~/components/ui/discount-list";
 import SearchBar from "~/components/ui/search-bar";
@@ -24,7 +31,10 @@ export default function SearchScreen() {
 
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
 
-  const { data: { products: searchProducts = [] } = {}, isLoading: areProductsLoading } = useGetProducts(
+  const {
+    data: { products: searchProducts = [] } = {},
+    isLoading: areProductsLoading,
+  } = useGetProducts(
     {
       search: searchQuery,
     },
@@ -40,14 +50,10 @@ export default function SearchScreen() {
   const displaySearchResult =
     searchQuery?.length > 0 && outputProducts?.length > 0;
 
-    const isLoading = areShopsLoading || areProductsLoading;
+  const isLoading = areShopsLoading || areProductsLoading;
 
   return (
     <SafeAreaView className="flex justify-start px-2">
-         <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={isLoading} onRefresh={() => queryClient.invalidateQueries()} />
-          }>
       <View className="flex-row items-center gap-4 mt-2 z-10">
         <SearchBar<ProductDto>
           displaySearchOptions={false}
@@ -96,6 +102,12 @@ export default function SearchScreen() {
           keyExtractor={(product) => String(product?.detail?.barcode)}
           contentContainerClassName="gap-4 p-1"
           columnWrapperClassName="gap-4"
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={() => queryClient.invalidateQueries()}
+            />
+          }
         />
       ) : (
         <ScrollView>
@@ -104,7 +116,6 @@ export default function SearchScreen() {
           ))}
         </ScrollView>
       )}
-      </ScrollView>
     </SafeAreaView>
   );
 }

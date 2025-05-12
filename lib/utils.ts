@@ -66,3 +66,18 @@ export const generateImageUrl = (imageUrl: string | null) => {
   // const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   return `${BASE_API_URL}${imageUrl}`;
 };
+
+export const generateShopLocationNameBasedOnId = (shopId?: number) => {
+  switch (shopId) {
+    case 1:
+      return "Tesco Kamenné námestie";
+    case 2:
+      return "Billa Muchovo námestie";
+    case 3:
+      return "Lidl Mamateyova";
+    case 4:
+      return "Kaufland Petržalka";
+    default:
+      return "Neznámy obchod";
+  }
+};
