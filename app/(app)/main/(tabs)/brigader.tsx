@@ -1,31 +1,31 @@
-import { Option } from '@rn-primitives/select';
-import { useQueryClient } from '@tanstack/react-query';
-import { Link } from 'expo-router';
-import React, { useMemo } from 'react';
-import { FlatList, RefreshControl, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Option } from "@rn-primitives/select";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "expo-router";
+import React, { useMemo } from "react";
+import { FlatList, RefreshControl, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   getGetProductsForBrigaderQueryKey,
   useCheckItemInReviewList,
   useGetProductsForBrigader,
-} from '~/network/brigader/brigader';
-import BrigaderProductRow from '../../../../components/ui/brigader-product-row';
-import { Button } from '../../../../components/ui/button';
+} from "~/network/brigader/brigader";
+import BrigaderProductRow from "../../../../components/ui/brigader-product-row";
+import { Button } from "../../../../components/ui/button";
 import {
   CustomSelect,
   SelectOptionType,
-} from '../../../../components/ui/custom-select/custom-select';
-import { useGetShops } from '../../../../network/query/query';
+} from "../../../../components/ui/custom-select/custom-select";
+import { useGetShops } from "../../../../network/query/query";
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
-} from '../../../../utils/toast-utils';
+} from "../../../../utils/toast-utils";
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
   const [selectedShop, setSelectedShop] = React.useState<Option>({
-    value: '',
-    label: '',
+    value: "",
+    label: "",
   });
 
   const {
@@ -33,7 +33,7 @@ export default function SearchScreen() {
     isLoading: areProductsLoading,
   } = useGetProductsForBrigader(
     { shop_id: Number(selectedShop?.value) },
-    { query: { enabled: !!selectedShop?.value } },
+    { query: { enabled: !!selectedShop?.value } }
   );
   const { mutate: sendConfirmProductPrice, isPending: isConfirmingPrice } =
     useCheckItemInReviewList({
@@ -42,18 +42,16 @@ export default function SearchScreen() {
           queryClient.invalidateQueries({
             queryKey: getGetProductsForBrigaderQueryKey(),
           });
-          displaySuccessToastMessage('Cena produktu bola úspešne potvrdená');
+          displaySuccessToastMessage("Cena produktu bola úspešne potvrdená");
         },
         onError: () => {
-          console.log('Error');
-          displayErrorToastMessage('Nepodarilo sa potvrdiť cenu produktu');
+          console.log("Error");
+          displayErrorToastMessage("Nepodarilo sa potvrdiť cenu produktu");
         },
       },
     });
-  const {
-    data: { shops = [] } = {},
-    isPending: areShopsLoading,
-  } = useGetShops();
+  const { data: { shops = [] } = {}, isPending: areShopsLoading } =
+    useGetShops();
 
   const mappedShops = useMemo(
     () =>
@@ -62,7 +60,7 @@ export default function SearchScreen() {
         value: String(shop?.id),
         icon: shop?.image_url,
       })),
-    [shops],
+    [shops]
   ) as SelectOptionType[];
 
   React.useEffect(() => {
@@ -84,7 +82,7 @@ export default function SearchScreen() {
       />
       <Link
         href={{
-          pathname: '/main/brigader-scan-screen/[...slug]',
+          pathname: "/main/brigader-scan-screen/[...slug]",
           params: { slug: [String(selectedShop?.value)] },
         }}
         asChild
@@ -110,6 +108,7 @@ export default function SearchScreen() {
                   barcode: item?.barcode,
                   is_price_valid,
                   new_base_price: !is_price_valid ? price : null,
+                  location: item?.location,
                 },
               })
             }

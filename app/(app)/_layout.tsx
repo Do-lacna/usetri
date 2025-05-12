@@ -1,26 +1,25 @@
-import { Stack } from 'expo-router';
-import '~/global.css';
+import { Stack } from "expo-router";
+import "~/global.css";
 
 export default function AppLayout() {
   return (
     <Stack
-      screenOptions={
-        {
-          headerShown: false,
-        }
-      }
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Stack.Screen
         name="product/[id]"
         options={{
           // Optional: Add presentation style
-          title: 'Detail produktu',
-          presentation: 'card',
+          title: "Detail produktu",
+          presentation: "card",
           // Optional: Add animations
-          animation: 'slide_from_right',
+          animation: "slide_from_right",
           headerShown: true,
+          headerBackTitleStyle: false,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
         }}
       />
@@ -41,39 +40,39 @@ export default function AppLayout() {
       <Stack.Screen
         name="main/modal/index"
         options={{
-          title: 'Porovnanie cien',
+          title: "Porovnanie cien",
           // headerStyle: {
           //   backgroundColor: "#f4f4f4", // Optional: customize header background
           // },
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
-          presentation: 'modal',
+          presentation: "modal",
         }}
       />
       <Stack.Screen
         name="main/archived-cart/[id]"
         options={{
-          title: 'Detail košíka',
+          title: "Detail košíka",
           // headerStyle: {
           //   backgroundColor: "#f4f4f4", // Optional: customize header background
           // },
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
-          presentation: 'modal',
+          presentation: "modal",
         }}
       />
 
       <Stack.Screen
         name="main/menu-screen/menu-screen"
         options={{
-          title: 'Nastavenia',
+          title: "Nastavenia",
           headerShown: true,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
         }}
       />
