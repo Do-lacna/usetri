@@ -2,7 +2,7 @@
   "expo": {
     "name": "Usetri",
     "slug": "usetri",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "usetri",
@@ -25,12 +25,12 @@
       }
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 7,
       "googleServicesFile": "./google-services.json",
       "package": "com.dutosvarc.usetri",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/adaptive-icon/foreground.png",
+        "backgroundImage": "./assets/images/adaptive-icon/background.png"
       },
       "permissions": [
         "android.permission.CAMERA",
