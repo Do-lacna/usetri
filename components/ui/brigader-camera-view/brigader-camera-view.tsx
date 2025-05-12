@@ -87,6 +87,7 @@ export default function BrigaderCameraView({
       try {
         const base64Photo = await cameraRef.current.takePictureAsync({
           base64: true,
+          quality: 0.5,
         });
 
         setCapturedImage(base64Photo.base64);
@@ -131,6 +132,7 @@ export default function BrigaderCameraView({
         <CameraViewExpo
           ref={cameraRef}
           style={styles.camera}
+          ratio="1:1"
           barcodeScannerSettings={{
             barcodeTypes: ["qr", "code128", "ean13", "ean8"],
           }}

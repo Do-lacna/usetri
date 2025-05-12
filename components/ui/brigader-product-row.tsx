@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { Text, View } from 'react-native';
-import { X } from '~/lib/icons/Cancel';
-import { Check } from '~/lib/icons/Check';
-import { Pencil } from '~/lib/icons/Pencil';
+import { useState } from "react";
+import { Text, View } from "react-native";
+import { X } from "~/lib/icons/Cancel";
+import { Check } from "~/lib/icons/Check";
+import { Pencil } from "~/lib/icons/Pencil";
 
-import { generateShoppingListItemDescription } from '~/lib/utils';
-import { BrigaderReviewListItemDto } from '~/network/model';
-import IconButton from '../icon-button';
-import { Badge } from './badge';
-import { Input } from './input';
+import { generateShoppingListItemDescription } from "~/lib/utils";
+import { BrigaderReviewListItemDto } from "~/network/model";
+import IconButton from "../icon-button";
+import { Badge } from "./badge";
+import { Input } from "./input";
 
 interface IShoppingListItemProps {
   product: BrigaderReviewListItemDto;
@@ -23,7 +23,7 @@ const BrigaderProductRow = ({
   shopId,
   onConfirm,
 }: IShoppingListItemProps) => {
-  const [newPrice, setNewPrice] = useState<string | undefined>('');
+  const [newPrice, setNewPrice] = useState<string | undefined>("");
   const [edittingPrice, setEdittingPrice] = useState(false);
   const { brand, unit, amount, price, name, barcode, is_checked } = product;
   return (
@@ -61,52 +61,52 @@ const BrigaderProductRow = ({
         </View>
       ) : (
         <View>
-        {edittingPrice ? (
-          <View className="flex items-center gap-2">
-            <Input
-              placeholder="Zadajte novu cenu produktu"
-              placeholderClassName="text-sm"
-              // className="mt-4 w-[80%]"
-              onChangeText={(value) => setNewPrice(value)}
-              value={newPrice}
-            />
-            <View className="flex-row items-center gap-4 flex-shrink-0">
-              <IconButton
-                onPress={() => setEdittingPrice(false)}
-                className="bg-red-200 rounded-full w-8 h-8 flex items-center justify-center self-center"
-              >
-                <X size={18} />
-              </IconButton>
-              <IconButton
-                onPress={() => onConfirm?.(Number(newPrice), false)}
-                className="bg-primary rounded-full w-8 h-8 flex items-center justify-center self-center"
-              >
-                <Check size={20} />
-              </IconButton>
+          {edittingPrice ? (
+            <View className="flex items-center gap-2">
+              <Input
+                placeholder="Cena"
+                placeholderClassName="text-sm"
+                className="w-[150px]"
+                onChangeText={(value) => setNewPrice(value)}
+                value={newPrice}
+                keyboardType="numeric"
+              />
+              <View className="flex-row items-center gap-4 flex-shrink-0">
+                <IconButton
+                  onPress={() => setEdittingPrice(false)}
+                  className="bg-red-200 rounded-full w-16 h-10 flex items-center justify-center self-center"
+                >
+                  <X size={18} />
+                </IconButton>
+                <IconButton
+                  onPress={() => onConfirm?.(Number(newPrice), false)}
+                  className="bg-primary rounded-full w-16 h-10 flex items-center justify-center self-center"
+                >
+                  <Check size={20} />
+                </IconButton>
+              </View>
             </View>
-          </View>
-        ) : (
-          <View className="flex items-center gap-2">
-            <Text className="font-bold">{price} €</Text>
-            <View className="flex-row items-center gap-4 flex-shrink-0">
-              <IconButton
-                onPress={() => setEdittingPrice(true)}
-                className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
-              >
-                <Pencil size={18} />
-              </IconButton>
-              <IconButton
-                onPress={() => onConfirm?.(Number(price), true)}
-                className="bg-divider rounded-full w-8 h-8 flex items-center justify-center self-center"
-              >
-                <Check size={20} />
-              </IconButton>
+          ) : (
+            <View className="flex items-center gap-2">
+              <Text className="font-bold">{price} €</Text>
+              <View className="flex-row items-center gap-4 flex-shrink-0">
+                <IconButton
+                  onPress={() => setEdittingPrice(true)}
+                  className="bg-divider rounded-full w-12 h-10 flex items-center justify-center self-center"
+                >
+                  <Pencil size={18} />
+                </IconButton>
+                <IconButton
+                  onPress={() => onConfirm?.(Number(price), true)}
+                  className="bg-divider rounded-full w-12 h-10 flex items-center justify-center self-center"
+                >
+                  <Check size={20} />
+                </IconButton>
+              </View>
             </View>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
       )}
-     
     </View>
   );
 };
