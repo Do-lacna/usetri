@@ -3,8 +3,10 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { forwardRef, ReactNode, useCallback, useMemo } from "react";
+import React, { forwardRef, ReactNode, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "../../utils/toast-config";
 
 export type CustomBottomSheetModalProps = {
   children: ReactNode;
@@ -49,11 +51,14 @@ export const CustomBottomSheetModal = forwardRef<
   const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
   const renderBackdrop = useCallback(
     (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        //   disappearsOnIndex={1}
-        //   appearsOnIndex={2}
-      />
+      <React.Fragment>
+        <BottomSheetBackdrop
+          {...props}
+          //   disappearsOnIndex={1}
+          //   appearsOnIndex={2}
+        />
+        <Toast position="top" config={toastConfig} />
+      </React.Fragment>
     ),
     []
   );

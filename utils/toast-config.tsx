@@ -1,4 +1,6 @@
+import { View } from "react-native";
 import { BaseToast, ErrorToast } from "react-native-toast-message";
+import { Text } from "../components/ui/text";
 
 export const toastConfig = {
   /*
@@ -22,8 +24,30 @@ export const toastConfig = {
   error: (props: any) => (
     <ErrorToast
       {...props}
-      // style={{ zIndex: 9999999999999, backgroundColor: "green" }}
+
+      // contentContainerStyle={{ zIndex: 99 }}
+      // style={{
+      //   zIndex: 99,
+      //   backgroundColor: "green",
+      //   // position: "absolute",
+      //   // bottom: 400,
+      // }}
     />
+  ),
+
+  customBottomSheet: ({ text1, props }: any) => (
+    <View
+      style={{
+        flex: 1,
+        height: 60,
+        width: "100%",
+        backgroundColor: "gray",
+        zIndex: 999,
+      }}
+    >
+      <Text>{text1}</Text>
+      <Text>{props.uuid}</Text>
+    </View>
   ),
   // /*
   //   Or create a completely new type - `tomatoToast`,

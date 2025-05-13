@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 import { ListFilter } from "~/lib/icons/Filter";
 import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
@@ -45,7 +44,6 @@ import {
   type SearchOptions,
   searchItems,
 } from "../../../../utils/search-utils";
-import { toastConfig } from "../../../../utils/toast-config";
 
 const options: SearchOptions<CategoryExtendedWithPathDto> = {
   threshold: 0.7,
@@ -191,7 +189,7 @@ export default function Page() {
       className="flex-1 content-center"
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
-        <Toast config={toastConfig} />
+        {/* <Toast config={toastConfig} /> */}
 
         <PendingCartItemDrawerContent
           pendingCartData={pendingCartData}

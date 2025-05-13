@@ -28,12 +28,10 @@ export const useCartActions = ({
   } = useCreateCart({
     mutation: {
       onError: () => {
-        displayErrorToastMessage("Nepodarilo sa aktualizovať nákupný zoznam");
-        // Toast.show({
-        //   type: "error",
-        //   text1: "Failed to update cart",
-        //   position: "bottom",
-        // });
+        displayErrorToastMessage(
+          "Nepodarilo sa aktualizovať nákupný zoznam",
+          "top"
+        );
       },
       // onMutate: ({ data }) => {},
       onSuccess: ({ cart }, variables) => {

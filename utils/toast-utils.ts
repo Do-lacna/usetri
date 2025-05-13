@@ -1,4 +1,4 @@
-import Toast from "react-native-toast-message";
+import Toast, { ToastPosition } from "react-native-toast-message";
 
 export const displaySuccessToastMessage = (message: string) => {
   Toast.show({
@@ -8,10 +8,13 @@ export const displaySuccessToastMessage = (message: string) => {
   });
 };
 
-export const displayErrorToastMessage = (message: string) => {
+export const displayErrorToastMessage = (
+  message: string,
+  position = "bottom" as ToastPosition
+) => {
   Toast.show({
     type: "error",
     text1: message,
-    position: "bottom",
+    position,
   });
 };
