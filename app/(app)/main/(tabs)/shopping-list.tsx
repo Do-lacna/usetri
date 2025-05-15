@@ -25,7 +25,6 @@ import ShoppingListFilterContent, {
   ShoppingListFilter,
 } from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
-import useCartStore from "../../../../hooks/use-cart-store";
 import { BASE_API_URL } from "../../../../lib/constants";
 import {
   generateShoppingListItemDescription,
@@ -127,13 +126,13 @@ export default function Page() {
 
   const { data: { cart } = {} } = ({} = useGetCart());
 
-  const { mirrorCartState } = useCartStore();
+  // const { mirrorCartState } = useCartStore();
 
-  React.useEffect(() => {
-    if (cart) {
-      mirrorCartState(cart);
-    }
-  }, [cart]);
+  // React.useEffect(() => {
+  //   if (cart) {
+  //     mirrorCartState(cart);
+  //   }
+  // }, [cart]);
 
   React.useEffect(() => {
     if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {

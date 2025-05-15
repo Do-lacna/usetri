@@ -27,7 +27,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="usetri"/>
-        <data android:scheme="com.dutosvarc.usetri"/>
         <data android:scheme="exp+usetri"/>
       </intent-filter>
     </activity>

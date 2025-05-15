@@ -133,9 +133,9 @@ export default function BrigaderCameraView({
           ref={cameraRef}
           style={styles.camera}
           ratio="1:1"
-          barcodeScannerSettings={{
-            barcodeTypes: ["qr", "code128", "ean13", "ean8"],
-          }}
+          // barcodeScannerSettings={{
+          //   barcodeTypes: ["qr", "code128", "ean13", "ean8"],
+          // }}
           onBarcodeScanned={
             !!barcode || !isCameraReady
               ? undefined

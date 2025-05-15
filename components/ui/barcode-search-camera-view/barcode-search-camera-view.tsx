@@ -48,9 +48,9 @@ export default function BarcodeSearchCameraView({
         ref={cameraRef}
         style={styles.camera}
         facing="back"
-        barcodeScannerSettings={{
-          barcodeTypes: ["qr", "code128", "ean13", "ean8"],
-        }}
+        // barcodeScannerSettings={{
+        //   barcodeTypes: ["qr", "code128", "ean13", "ean8"],
+        // }}
         onBarcodeScanned={
           !!barcode || !isCameraReady
             ? undefined

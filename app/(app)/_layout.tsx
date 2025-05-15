@@ -11,16 +11,11 @@ export default function AppLayout() {
       <Stack.Screen
         name="product/[id]"
         options={{
-          // Optional: Add presentation style
           title: "Detail produktu",
           presentation: "card",
-          // Optional: Add animations
           animation: "slide_from_right",
           headerShown: true,
-          headerBackTitleStyle: false,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
+          headerBackButtonDisplayMode: "minimal",
         }}
       />
       {/* <Stack.Screen

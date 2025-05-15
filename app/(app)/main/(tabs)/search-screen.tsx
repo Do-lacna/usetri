@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   RefreshControl,
@@ -15,6 +16,7 @@ import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 import { type SearchOptions } from "~/utils/search-utils";
 import IconButton from "../../../../components/icon-button";
+import { NoDataText } from "../../../../components/ui/no-data-text/no-data-text";
 import ProductCardNew2 from "../../../../components/ui/product-card/product-card";
 import type { ProductDto } from "../../../../network/model";
 import { useGetProducts, useGetShops } from "../../../../network/query/query";
@@ -107,6 +109,18 @@ export default function SearchScreen() {
               refreshing={isLoading}
               onRefresh={() => queryClient.invalidateQueries()}
             />
+          }
+          ListEmptyComponent={
+            !areProductsLoading ? (
+              <ActivityIndicator animating={true} className="mt-10" />
+            ) : (
+              <View className="flex-1 flex items-center justify-center">
+                {/* TODO add nicer no data screen with picture */}
+                <NoDataText className="text-xl my-4">
+                  Žiadne výsledky
+                </NoDataText>
+              </View>
+            )
           }
         />
       ) : (
