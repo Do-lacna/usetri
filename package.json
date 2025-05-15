@@ -78,5 +78,10 @@
     "@types/react": "~19.0.10",
     "orval": "7.4.1",
     "typescript": "~5.8.3"
+  },
+  "overrides": {
+    "lucide-react-native": {
+      "react": "19.0.0"
+    }
   }
 }
