@@ -48,7 +48,7 @@
     "expo-status-bar": "~2.2.3",
     "expo-system-ui": "~5.0.7",
     "lottie-react-native": "7.2.2",
-    "lucide-react-native": "0.471.0",
+    "lucide-react-native": "0.510.0",
     "metro-react-native-babel-transformer": "^0.77.0",
     "nativewind": "4.1.23",
     "qs": "^6.14.0",
