@@ -9,8 +9,9 @@ import {
 import { generateImageUrl, isArrayNotEmpty } from "../../../lib/utils";
 import { AddCategoryExtendedWithPathDto } from "../../../network/model";
 import { useGetCategories } from "../../../network/query/query";
-import { searchItems, SearchOptions } from "../../../utils/search-utils";
+import { SearchOptions, searchItems } from "../../../utils/search-utils";
 import { Card } from "../card";
+import Divider from "../divider";
 import { Text } from "../text";
 
 interface ShoppingListCategorySearchProps {
@@ -61,6 +62,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
   );
 
   return (
+    <View>
     <FlatList
       horizontal
       data={searchResults}
@@ -73,6 +75,10 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
         paddingVertical: 8,
       }}
     />
+    {
+      searchResults?.length > 0 && <Divider className="my-4" />
+    }
+    </View>
   );
 };
 

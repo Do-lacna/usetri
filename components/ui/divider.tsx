@@ -7,7 +7,7 @@ export interface DividerProps {
 }
 
 const Divider = ({ className }: DividerProps) => {
-  return <View className={cn("my-2 border-divider border-2", className)} />;
+  return <View className={cn("my-2 border-divider border-2 bg-divider", className)} />;
 };
 
 export default Divider;

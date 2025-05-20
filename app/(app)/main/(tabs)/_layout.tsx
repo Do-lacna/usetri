@@ -8,7 +8,7 @@ import { getNumberOfCartItems } from "../../../../lib/utils";
 import { useGetCart } from "../../../../network/customer/customer";
 
 export default function TabLayout() {
-  const { signOut } = useSession();
+  const { signOu, brigaderActive } = useSession();
 
   const { data: { cart } = {} } = ({} = useGetCart());
 
@@ -66,7 +66,18 @@ export default function TabLayout() {
             <FontAwesome size={28} name="shopping-cart" color={color} />
           ),
           tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
-          tabBarBadge: !!cartItemsNumber ? cartItemsNumber : undefined,
+          tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
+        }}
+      />
+            <Tabs.Screen
+        name="shopping-list-alternative"
+        options={{
+          title: "Nakupny zoznam alternativ",
+          tabBarIcon: ({ color }) => (
+          <FontAwesome size={26} name="shopping-basket" color={color} />
+          ),
+          tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
+          tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
         }}
       />
       <Tabs.Screen
@@ -84,7 +95,9 @@ export default function TabLayout() {
         }}
       />
       {/* TODO condition this under admin rights */}
-      <Tabs.Screen
+      {/* {
+        brigaderActive && ( */}
+          <Tabs.Screen
         name="brigader"
         options={{
           title: "Nahravanie",
@@ -92,7 +105,11 @@ export default function TabLayout() {
             <FontAwesome size={28} name="upload" color={color} />
           ),
         }}
+        redirect={!brigaderActive}
       />
+        {/* )
+      } */}
+
     </Tabs>
   );
 }

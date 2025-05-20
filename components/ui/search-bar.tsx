@@ -44,7 +44,7 @@ const SearchBar = <T,>({
   const colors = useTailwindColors();
   return (
     <View className="relative z-10 w-full flex-shrink">
-      <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
+      <View className="bg-white px-4 py-2 rounded-t-lg shadow-md flex-row items-center h-16">
         <Search size={20} className="text-primary mr-3" />
         <TextInput
           {...props}

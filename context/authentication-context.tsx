@@ -20,6 +20,8 @@ export const AuthContext = createContext<{
   isLoading: boolean;
   setUser: (user: User) => void;
   session?: string | null;
+  brigaderActive?: boolean;
+  setBrigaderActive?: (active: boolean) => void;
   user?: User;
   deleteUserAccount: () => void;
 }>({
@@ -46,6 +48,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("session");
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<User>();
+  const [brigaderActive, setBrigaderActive] = useState(false);
 
   const reactToChangedAuthState = async (user: User | null) => {
     setInitializing(true);
@@ -110,6 +113,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
         isLoading: isLoading || initializing,
         setUser,
         user,
+        brigaderActive,
+        setBrigaderActive,
         deleteUserAccount,
       }}
     >
