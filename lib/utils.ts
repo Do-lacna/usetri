@@ -61,7 +61,7 @@ export const generateShoppingListItemDescription = ({
   return `${brand} - ${amount} ${unit}`;
 };
 
-export const generateImageUrl = (imageUrl: string | null) => {
+export const generateImageUrl = (imageUrl?: string | null) => {
   if (!imageUrl) return null;
   // const baseUrl = process.env.NEXT_PUBLIC_API_URL;
   return `${BASE_API_URL}${imageUrl}`;

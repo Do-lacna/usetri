@@ -293,7 +293,7 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (13.3.1):
     - ExpoModulesCore
-  - ExpoHead (5.0.6):
+  - ExpoHead (5.0.7):
     - ExpoModulesCore
   - ExpoKeepAwake (14.1.4):
     - ExpoModulesCore
@@ -507,8 +507,8 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - PurchasesHybridCommon (13.26.1):
-    - RevenueCat (= 5.20.2)
+  - PurchasesHybridCommon (13.32.0):
+    - RevenueCat (= 5.24.0)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -2255,7 +2255,7 @@ PODS:
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
   - RecaptchaInterop (101.0.0)
-  - RevenueCat (5.20.2)
+  - RevenueCat (5.24.0)
   - RNFBAnalytics (22.2.0):
     - Firebase/Analytics (= 11.12.0)
     - React-Core
@@ -2272,7 +2272,7 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.24.0):
+  - RNGestureHandler (2.25.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2322,8 +2322,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNPurchases (8.9.3):
-    - PurchasesHybridCommon (= 13.26.1)
+  - RNPurchases (8.10.1):
+    - PurchasesHybridCommon (= 13.32.0)
     - React-Core
   - RNReanimated (3.17.5):
     - DoubleConversion
@@ -2935,7 +2935,7 @@ SPEC CHECKSUMS:
   ExpoCrypto: fc94a8865ce0e06c68c10c3993f9ac9a6424d0c2
   ExpoFileSystem: 3a98ca2a6f13674ecfd97327d1b44a8ace444cbd
   ExpoFont: 312c73403bbd4f98e1d6a5330641a56292583cd2
-  ExpoHead: 3b32700951877d5fb69603b0de452b510b1c8ced
+  ExpoHead: 5df88545652c2d3a3ea50bcd7f6be6ca935ac997
   ExpoKeepAwake: e8dedc115d9f6f24b153ccd2d1d8efcdfd68a527
   ExpoLinking: 5d151d4a497d7e375308602f0a89b4e8acf7b5f8
   ExpoModulesCore: 7d3df5142e9446b063d8ae8ace4b6e27a1aa2928
@@ -2972,7 +2972,7 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  PurchasesHybridCommon: aeebb5b2a956514f8f3ebde2a1574e07d2164ae8
+  PurchasesHybridCommon: 662aa1f4769ff4ef594e35adf1a5d0ad7b3d08b7
   RCT-Folly: 36fe2295e44b10d831836cc0d1daec5f8abcf809
   RCTDeprecation: 83ffb90c23ee5cea353bd32008a7bca100908f8c
   RCTRequired: eb7c0aba998009f47a540bec9e9d69a54f68136e
@@ -3038,14 +3038,14 @@ SPEC CHECKSUMS:
   ReactCodegen: aea17732a7f6a3169e3b2800c58dc12034f874f9
   ReactCommon: 35a5629d7159876dd048c63751eaeb3aa3a6a53b
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
-  RevenueCat: 9af6740f8629097fcacda9b3cb6b927319c53a26
+  RevenueCat: 2d3639d30b8a71cbfe3d99cef8243c602793e0ec
   RNFBAnalytics: d08502529331aa10068b0a8d67500782753b192b
   RNFBApp: fa5825b36d8362ce9b993cac8bf070d116848640
   RNFBAuth: bf22c2f78d993e990642f4ec32cd45147407d9df
   RNFBCrashlytics: 14dcfb073e7d9f41189400128e203d5314a8c606
-  RNGestureHandler: 85b0463dbfed54eaba4360e31c0aa1a0fe83a6a6
+  RNGestureHandler: b249b5be5a3659025aed8898aaaafd567dc2d660
   RNGoogleSignin: e71f2cb8b86d349532886487560914f0513bd3d0
-  RNPurchases: 286149883017e5c9628f7c8d8f2e7a0084efc85e
+  RNPurchases: 5633b8493fde5c2bcc5fe3edae46e8f141e419fc
   RNReanimated: 7b926938d4190114e5848b5b022d83dbc2c0fe2c
   RNScreens: 4ada1709be95c3a4bf1f885378262ceadd9cc939
   RNSVG: 257f59c952e296c9c36035a8f49b61fda48e398a

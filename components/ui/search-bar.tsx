@@ -18,6 +18,8 @@ export interface ISearchBarProps<T> {
   onClear: () => void;
   options: T[];
   onOptionSelect: (option: T) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
   renderOption: (item: T) => React.ReactNode;
   keyExtractor: (item: T) => string;
   minimumSearchLength?: number;
@@ -35,6 +37,9 @@ const SearchBar = <T,>({
   keyExtractor,
   minimumSearchLength = 2,
   displaySearchOptions = true,
+  onFocus,
+  onBlur,
+  ...props
 }: ISearchBarProps<T>) => {
   const colors = useTailwindColors();
   return (
@@ -42,7 +47,10 @@ const SearchBar = <T,>({
       <View className="bg-white px-4 py-2 rounded-t-lg shadow-sm flex-row items-center h-16">
         <Search size={20} className="text-primary mr-3" />
         <TextInput
+          {...props}
           value={searchText}
+          onFocus={onFocus}
+          onBlur={onBlur}
           onChangeText={onSearch}
           placeholder={placeholder}
           placeholderTextColor={colors.gray[500]} // Darker gray color

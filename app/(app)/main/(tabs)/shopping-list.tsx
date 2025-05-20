@@ -11,25 +11,22 @@ import {
 } from "react-native";
 import { RefreshControl } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ListFilter } from "~/lib/icons/Filter";
-import IconButton from "../../../../components/icon-button";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
+import { Button } from "../../../../components/ui/button";
 import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListItem, {
   ShoppingListItemTypeEnum,
 } from "../../../../components/ui/shopping-list-item";
+import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/shopping-list-category-search";
 import ShoppingListFilterContent, {
   ShoppingListFilter,
 } from "../../../../components/ui/shopping-list/shopping-list-filter-content";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
 import { BASE_API_URL } from "../../../../lib/constants";
-import {
-  generateShoppingListItemDescription,
-  isArrayNotEmpty,
-} from "../../../../lib/utils";
+import { generateShoppingListItemDescription } from "../../../../lib/utils";
 import { useGetCart } from "../../../../network/customer/customer";
 import type {
   CategoryExtendedWithPathDto,
@@ -39,16 +36,6 @@ import {
   useGetCategories,
   useGetProducts,
 } from "../../../../network/query/query";
-import {
-  type SearchOptions,
-  searchItems,
-} from "../../../../utils/search-utils";
-
-const options: SearchOptions<CategoryExtendedWithPathDto> = {
-  threshold: 0.7,
-  searchFields: ["name"],
-  matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
-};
 
 export enum CartOperationsEnum {
   ADD = "ADD",
@@ -76,6 +63,7 @@ export default function Page() {
   const [filter, setFilter] = React.useState<ShoppingListFilter>(
     ShoppingListFilter.CATEGORIES
   );
+  const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<
     CategoryExtendedWithPathDto[]
@@ -125,22 +113,6 @@ export default function Page() {
   );
 
   const { data: { cart } = {} } = ({} = useGetCart());
-
-  // const { mirrorCartState } = useCartStore();
-
-  // React.useEffect(() => {
-  //   if (cart) {
-  //     mirrorCartState(cart);
-  //   }
-  // }, [cart]);
-
-  React.useEffect(() => {
-    if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {
-      setSearchResults(searchItems(categories, searchQuery, options));
-    } else {
-      setSearchResults([]);
-    }
-  }, [searchQuery]);
 
   const handleResetExpandedOption = (isExpanded?: boolean) => {
     // Reset expanded option if the item is collapsed
@@ -237,6 +209,9 @@ export default function Page() {
                   </View>
                 )}
                 keyExtractor={(item) => String(item.id)}
+                onFocus={() => setIsTextInputFocused(true)}
+                // onBlur={() => setIsTextInputFocused(false)}
+                displaySearchOptions={false}
               />
             ) : (
               //TODO simplify and generalize methods for both search bars and handler methods
@@ -262,7 +237,7 @@ export default function Page() {
                 keyExtractor={(item) => String(item?.detail?.barcode)}
               />
             )}
-
+            {/* 
             <IconButton
               onPress={() => {
                 Keyboard.dismiss();
@@ -271,7 +246,12 @@ export default function Page() {
               className="w-10"
             >
               <ListFilter size={24} className="text-primary mr-3" />
-            </IconButton>
+            </IconButton> */}
+            {isTextInputFocused && (
+              <Button variant="ghost">
+                <Text className="text-terciary">Zruš</Text>
+              </Button>
+            )}
           </View>
 
           <ScrollView
@@ -283,20 +263,26 @@ export default function Page() {
               />
             }
           >
-            {cartCategories.map(
-              ({ category: { id, name = "Category", image_url } = {} }) => (
-                <ShoppingListItem
-                  key={id}
-                  id={id}
-                  categoryId={id}
-                  label={name}
-                  imageUrl={image_url}
-                  onDelete={(id) => handleRemoveItemFromCart("category", id)}
-                  isExpanded={expandedOption === id}
-                  onExpandChange={handleResetExpandedOption}
-                  onProductSelect={handleChooseProductFromCategory}
-                  type={ShoppingListItemTypeEnum.CATEGORY}
-                />
+            {isTextInputFocused ? (
+              <View>
+                <ShoppingListCategorySearch searchQuery={searchQuery} />
+              </View>
+            ) : (
+              cartCategories.map(
+                ({ category: { id, name = "Category", image_url } = {} }) => (
+                  <ShoppingListItem
+                    key={id}
+                    id={id}
+                    categoryId={id}
+                    label={name}
+                    imageUrl={image_url}
+                    onDelete={(id) => handleRemoveItemFromCart("category", id)}
+                    isExpanded={expandedOption === id}
+                    onExpandChange={handleResetExpandedOption}
+                    onProductSelect={handleChooseProductFromCategory}
+                    type={ShoppingListItemTypeEnum.CATEGORY}
+                  />
+                )
               )
             )}
 
