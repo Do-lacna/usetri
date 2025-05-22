@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 import React from 'react';
 import {
@@ -10,10 +11,11 @@ import {
   Text,
   View,
 } from 'react-native';
+import IconButton from '~/components/icon-button';
 import { useRevenueCat } from '~/context/revenue-cat-provider';
+import { PRIMARY_HEX } from '~/lib/constants';
 import { Menu } from '~/lib/icons/Menu';
 import { UserIcon } from '~/lib/icons/User';
-import { Button } from '../../../../components/ui/button';
 import { SavedCartCard } from '../../../../components/ui/profile/saved-cart-card';
 import { Subscriptions } from '../../../../components/ui/profile/subscriptions';
 import { TotalSavedCard } from '../../../../components/ui/profile/total-saved-card';
@@ -60,44 +62,41 @@ export default function ProfileScreen() {
           />
         }
       >
-        {/* Profile Section */}
         <View className="relative -mx-6">
-          {/* Cover Photo Area */}
-          <View className="w-full h-40 bg-green-100" />
-
-          {/* Profile Photo Container - positioned to overlap */}
+          <LinearGradient
+            colors={[PRIMARY_HEX,  'transparent']}            
+            style={{ height: 300 }}
+          >
           <View className="absolute left-0 right-0 top-20 items-center">
             <View className="w-32 h-32 bg-gray-200 rounded-full items-center justify-center border-4 border-white">
               <UserIcon size={64} color="#6B7280" />
-            </View>
-
-            {/* Email - positioned below profile photo */}
-            <View className="mt-2 items-center bg-white w-full pb-4">
-              <Text className="text-gray-600 mt-4">{user?.email}</Text>
+            </View>           
+            <View className="mt-2 items-center w-full pb-4">
+              <Text className="text-lg underline mt-4 shadow-lg">{user?.email}</Text>
             </View>
           </View>
+          </LinearGradient>
+                  <Link asChild href="/main/menu-screen/menu-screen" className='absolute top-12 right-6'>
+          <IconButton
+            onPress={openDrawer}
+          >
+            <Menu className="w-6 h-6 text-gray-800" />
+          </IconButton>
+        </Link>
 
-          {/* Spacer to push content below profile section */}
-          <View className="h-28" />
+
         </View>
 
         <TotalSavedCard />
 
-        <Link asChild href="/main/menu-screen/menu-screen">
-          <Button
-            onPress={openDrawer}
-            className="my-4 flex-row gap-2 p-2 mr-2 w-1/3 self-center"
-          >
-            <Text>Menu</Text>
-            <Menu className="w-6 h-6 text-gray-800" />
-          </Button>
-        </Link>
-
         <Text>
           Active subscriptions{' '}
-          <View>{subscriptions?.map((sub) => (
-            <Text className='font-bold' key={sub}>{sub}</Text>
-          ))}
+          <View>
+            {subscriptions?.map((sub) => (
+              <Text className="font-bold" key={sub}>
+                {sub}
+              </Text>
+            ))}
           </View>
         </Text>
 
@@ -105,7 +104,6 @@ export default function ProfileScreen() {
 
         <View className="flex-row items-center gap-2 mt-4 mb-2">
           <Text className="text-2xl font-bold">História zoznamov</Text>
-          {/* <ShoppingCart size={20} /> */}
         </View>
 
         <View className="space-y-3 gap-3">

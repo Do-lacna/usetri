@@ -1,8 +1,8 @@
 import React from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    View
+  ActivityIndicator,
+  FlatList,
+  View
 } from "react-native";
 import { useGetProducts } from "../../../network/query/query";
 import { NoDataText } from "../no-data-text/no-data-text";
@@ -68,7 +68,7 @@ if(!(searchQuery?.length > 0)) {
               <View className="flex items-center justify-center">
                 {/* TODO add nicer no data screen with picture */}
                 <NoDataText className="text-xl my-4">
-                  Žiadne výsledky
+                  Nenašli sa žiadne produkty
                 </NoDataText>
               </View>
             )

@@ -29,3 +29,6 @@ export const DATE_FORMAT = "dd.MM.yyyy";
 // export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";
 export const BASE_API_URL =
   "https://usetri-api.livelypond-189c8f13.polandcentral.azurecontainerapps.io/";
+
+
+  export const PLACEHOLDER_PRODUCT_IMAGE = "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540"

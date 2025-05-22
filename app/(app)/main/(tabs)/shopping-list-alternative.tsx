@@ -3,13 +3,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
 import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '~/components/ui/button';
+import ShoppingListProductSearch from '~/components/ui/shopping-list/shopping-list-product-search';
 import EmptyShoppingListPlaceholderScreen from '../../../../components/placeholders/empty-shopping-list-placeholder-screen';
 import { CustomBottomSheetModal } from '../../../../components/ui/bottom-sheet-modal';
 import PendingCartItemDrawerContent from '../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content';
 import PriceSummary from '../../../../components/ui/price-summary';
 import SearchBar from '../../../../components/ui/search-bar';
 import ShoppingListItem, {
-    ShoppingListItemTypeEnum,
+  ShoppingListItemTypeEnum,
 } from '../../../../components/ui/shopping-list-item';
 import { useCartActions } from '../../../../hooks/use-cart-actions';
 import { generateShoppingListItemDescription } from '../../../../lib/utils';
@@ -40,6 +42,7 @@ export default function ShoppingListAlternative() {
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
 
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
 
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
     null,
@@ -135,56 +138,75 @@ export default function ShoppingListAlternative() {
         className={`px-2 ${areAnyItemsInCart ? 'flex-1' : ''}`}
       >
         <View className="flex-1">
-          <SearchBar<ShopItemDto>
-            onSearch={setSearchQuery}
-            onClear={() => setSearchQuery('')}
-            searchText={searchQuery}
-            placeholder={'Vyhľadaj konkrétny produkt'}
-            options={productOptions ?? []}
-            onOptionSelect={(item) =>
-              handleTriggerCartDrawer(
-                DrawerTypeEnum.PRODUCT,
-                String(item?.detail?.barcode),
-              )
-            }
-            // onOptionSelect={handleAddProductToCart}
-            renderOption={(item) => (
-              <Text className="text-gray-800 text-lg">
-                {item?.detail?.name}
-              </Text>
-            )}
-            minimumSearchLength={MINIMUM_PRODUCT_SEARCH_LENGTH}
-            keyExtractor={(item) => String(item?.detail?.barcode)}
-          />
-
-          <View className="flex-1 gap-4 mt-4 px-2">
-            {cartProducts.map(
-              ({
-                barcode,
-                name = 'Specific product',
-                amount,
-                unit,
-                brand,
-                category: { id: categoryId } = {},
-              }) => (
-                <ShoppingListItem
-                  key={barcode}
-                  id={String(barcode)}
-                  label={name}
-                  description={generateShoppingListItemDescription({
-                    amount,
-                    unit,
-                    brand,
-                  })}
-                  type={ShoppingListItemTypeEnum.PRODUCT}
-                  categoryId={categoryId}
-                  onDelete={(id) => handleRemoveItemFromCart('product', id)}
-                  onProductSelect={handleChooseProductFromCategory}
-                />
-              ),
+          <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
+            <SearchBar<ShopItemDto>
+              onSearch={setSearchQuery}
+              onClear={() => setSearchQuery('')}
+              searchText={searchQuery}
+              placeholder={'Vyhľadaj konkrétny produkt'}
+              onOptionSelect={(item) =>
+                handleTriggerCartDrawer(
+                  DrawerTypeEnum.PRODUCT,
+                  String(item?.detail?.barcode),
+                )
+              }
+              minimumSearchLength={MINIMUM_PRODUCT_SEARCH_LENGTH}
+              keyExtractor={(item) => String(item?.detail?.barcode)}
+              onFocus={() => setIsTextInputFocused(true)}
+              displaySearchOptions={false}
+            />
+            {isTextInputFocused && (
+              <Button
+                variant="ghost"
+                onPress={() => setIsTextInputFocused(false)}
+              >
+                <Text className="text-terciary">Zruš</Text>
+              </Button>
             )}
           </View>
-          {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
+
+          <View className="flex-1 gap-4 mt-4 px-2">
+            {isTextInputFocused ? (
+              <View className="flex-1 mb-16">
+                <ShoppingListProductSearch
+                  searchQuery={searchQuery}
+                  onProductSelect={(barcode) =>
+                    handleTriggerCartDrawer(
+                      DrawerTypeEnum.PRODUCT,
+                      String(barcode),
+                    )
+                  }
+                />
+              </View>
+            ) : (
+              cartProducts.map(
+                ({
+                  barcode,
+                  name = 'Specific product',
+                  amount,
+                  unit,
+                  brand,
+                  category: { id: categoryId } = {},
+                }) => (
+                  <ShoppingListItem
+                    key={barcode}
+                    id={String(barcode)}
+                    label={name}
+                    description={generateShoppingListItemDescription({
+                      amount,
+                      unit,
+                      brand,
+                    })}
+                    type={ShoppingListItemTypeEnum.PRODUCT}
+                    categoryId={categoryId}
+                    onDelete={(id) => handleRemoveItemFromCart('product', id)}
+                    onProductSelect={handleChooseProductFromCategory}
+                  />
+                ),
+              )
+            )}
+          </View>
+          {!areAnyItemsInCart && !isTextInputFocused && <EmptyShoppingListPlaceholderScreen />}
           {!!cart?.total_price && (
             <PriceSummary
               price={cart.total_price}

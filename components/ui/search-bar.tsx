@@ -16,11 +16,11 @@ export interface ISearchBarProps<T> {
   searchText: string;
   placeholder?: string;
   onClear: () => void;
-  options: T[];
-  onOptionSelect: (option: T) => void;
+  options?: T[];
+  onOptionSelect?: (option: T) => void;
   onFocus?: () => void;
   onBlur?: () => void;
-  renderOption: (item: T) => React.ReactNode;
+  renderOption?: (item: T) => React.ReactNode;
   keyExtractor: (item: T) => string;
   minimumSearchLength?: number;
   displaySearchOptions?: boolean;
@@ -68,7 +68,7 @@ const SearchBar = <T,>({
         <View
           className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20`}
           style={{
-            ...(!!searchText
+            ...(searchText
               ? {
                   elevation: 5,
                   shadowColor: "#000",
@@ -86,10 +86,10 @@ const SearchBar = <T,>({
             data={options}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => onOptionSelect(item)}
+                onPress={() => onOptionSelect?.(item)}
                 className="px-4 py-4 border-b border-gray-200"
               >
-                {renderOption(item)}
+                {renderOption?.(item)}
               </TouchableOpacity>
             )}
             keyExtractor={keyExtractor}

@@ -1,12 +1,10 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
 import {
-  Image,
   Keyboard,
   Text,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ShoppingListProductSearch from '~/components/ui/shopping-list/shopping-list-product-search';
@@ -20,9 +18,7 @@ import ShoppingListItem, {
   ShoppingListItemTypeEnum,
 } from '../../../../components/ui/shopping-list-item';
 import ShoppingListCategorySearch from '../../../../components/ui/shopping-list/shopping-list-category-search';
-import { ShoppingListFilter } from '../../../../components/ui/shopping-list/shopping-list-filter-content';
 import { useCartActions } from '../../../../hooks/use-cart-actions';
-import { BASE_API_URL } from '../../../../lib/constants';
 import { generateShoppingListItemDescription } from '../../../../lib/utils';
 import { useGetCart } from '../../../../network/customer/customer';
 import type { CategoryExtendedWithPathDto } from '../../../../network/model';
@@ -43,16 +39,9 @@ export type PendingCartDataType = {
   type: DrawerTypeEnum;
 };
 
-const MINIMUM_PRODUCT_SEARCH_LENGTH = 2;
 
 export default function Page() {
-  const queryClient = useQueryClient();
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
-
-  const [filter, setFilter] = React.useState<ShoppingListFilter>(
-    ShoppingListFilter.CATEGORIES,
-  );
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<
@@ -94,11 +83,6 @@ export default function Page() {
 
   const areAnyItemsInCart =
     cartCategories.length > 0 || cartProducts.length > 0;
-
-  const handleFilterChange = (filter: ShoppingListFilter) => {
-    setFilter(filter);
-    bottomSheetRef?.current?.dismiss();
-  };
 
   const handleTriggerCartDrawer = React.useCallback(
     (type: DrawerTypeEnum, identifier?: string) => {
@@ -155,26 +139,6 @@ export default function Page() {
               onClear={() => setSearchQuery('')}
               searchText={searchQuery}
               placeholder={'Vyhľadaj kategóriu produktu'}
-              options={searchResults}
-              onOptionSelect={(item) =>
-                handleTriggerCartDrawer(
-                  DrawerTypeEnum.CATEGORY,
-                  String(item?.id),
-                )
-              }
-              renderOption={(item) => (
-                <View className="flex-row">
-                  {item?.image_url && (
-                    <Image
-                      source={{ uri: `${BASE_API_URL}/${item.image_url}` }}
-                      resizeMode="contain"
-                      className="w-8 h-8 mr-4"
-                      // style={{ width: 20, height: 20 }}
-                    />
-                  )}
-                  <Text className="text-gray-800 text-lg">{item?.name}</Text>
-                </View>
-              )}
               keyExtractor={(item) => String(item.id)}
               onFocus={() => setIsTextInputFocused(true)}
               // onBlur={() => setIsTextInputFocused(false)}
@@ -193,8 +157,8 @@ export default function Page() {
           <View className="flex-1 gap-4 mt-4 px-2">
             {isTextInputFocused ? (
               <View className="flex-1 mb-16">
-                <ShoppingListCategorySearch searchQuery={searchQuery} />
-                <ShoppingListProductSearch searchQuery={searchQuery} />
+                <ShoppingListCategorySearch searchQuery={searchQuery} onCategorySelect={(categoryId) => handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, String(categoryId))} />
+                <ShoppingListProductSearch searchQuery={searchQuery} onProductSelect={(barcode) => handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, String(barcode))} />
               </View>
             ) : (
               cartCategories.map(
@@ -241,7 +205,7 @@ export default function Page() {
               ),
             )}
           </View>
-          {!areAnyItemsInCart && <EmptyShoppingListPlaceholderScreen />}
+          {!areAnyItemsInCart && !isTextInputFocused && <EmptyShoppingListPlaceholderScreen />}
           {!!cart?.total_price && (
             <PriceSummary
               price={cart.total_price}
