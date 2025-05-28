@@ -5,13 +5,13 @@
  * OpenAPI spec version: 1.0
  */
 import type { ShopExtendedDto } from './shopExtendedDto';
-import type { ProductDto } from './productDto';
+import type { CartProductDto } from './cartProductDto';
 import type { CartCategoryDto } from './cartCategoryDto';
 
 export interface CartDto {
   shop?: ShopExtendedDto;
   /** @nullable */
-  specific_products?: ProductDto[] | null;
+  specific_products?: CartProductDto[] | null;
   /** @nullable */
   categories?: CartCategoryDto[] | null;
   total_price?: number;

@@ -1,19 +1,19 @@
-import React from 'react';
-import { Image, View } from 'react-native';
+import React from "react";
+import { Image, View } from "react-native";
 import {
   DrawerTypeEnum,
   PendingCartDataType,
-} from '~/app/(app)/main/(tabs)/shopping-list';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
-import { generateImageUrl } from '~/lib/utils';
+} from "~/app/(app)/main/(tabs)/shopping-list";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
+import { generateImageUrl } from "~/lib/utils";
 import {
   useGetCategories,
   useGetProductsByBarcode,
-} from '../../../network/query/query';
-import { Button } from '../button';
-import Counter from '../counter';
-import Divider from '../divider';
-import { Text } from '../text';
+} from "../../../network/query/query";
+import { Button } from "../button";
+import Counter from "../counter";
+import Divider from "../divider";
+import { Text } from "../text";
 
 interface ShoppingListFilterContentProps {
   pendingCartData?: PendingCartDataType | null;
@@ -41,7 +41,7 @@ const PendingCartItemDrawerContent: React.FC<
       query: {
         enabled: pendingCartData?.type === DrawerTypeEnum.PRODUCT,
       },
-    },
+    }
   );
 
   const { data: categoryData, isLoading: areCategoriesLoading } =
@@ -55,7 +55,7 @@ const PendingCartItemDrawerContent: React.FC<
             }) ?? null,
           enabled: pendingCartData?.type === DrawerTypeEnum.CATEGORY,
         },
-      },
+      }
     );
 
   const isLoadingGlobal =
@@ -64,7 +64,7 @@ const PendingCartItemDrawerContent: React.FC<
   if (!pendingCartData) return null;
 
   let itemDetail: ItemDetailType = {
-    title: '',
+    title: "",
     image_url: null,
     amount: null,
     price: null,
@@ -79,7 +79,7 @@ const PendingCartItemDrawerContent: React.FC<
     };
   } else {
     const {
-      detail: { name, brand, image_url, amount, unit } = {},
+      detail: { name = "", brand = "", image_url, amount, unit } = {},
       price,
     } = data?.products?.[0] || {};
     itemDetail = {

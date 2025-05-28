@@ -16,5 +16,7 @@ export interface BrigaderReviewListItemDto {
   readonly price?: number;
   /** @nullable */
   readonly brand?: string | null;
+  /** @nullable */
+  readonly resolved_by_user?: string | null;
   readonly is_checked?: boolean;
 }

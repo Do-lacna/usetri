@@ -1,6 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CartDto, ProductDto, ShopExtendedDto } from "../network/model";
+import {
+  CartDto,
+  ProductCartDto,
+  ProductDto,
+  ShopExtendedDto,
+} from "../network/model";
 import { BASE_API_URL } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
@@ -29,17 +34,34 @@ export function getShopById(shopId: number, shops: ShopExtendedDto[]) {
 export const getSimplifiedCart = (
   cart?: Pick<CartDto, "categories" | "specific_products">
 ) => {
-  if (!cart) return { category_ids: [], barcodes: [] };
-  const categoryIds = [...(cart?.categories ?? [])].map(
-    ({ category: { id } = {} }) => Number(id)
+  if (!cart) return { categories: [], products: [] };
+  const categories = [...(cart?.categories ?? [])].map(
+    ({ category: { id } = {}, quantity }) => ({
+      category_id: Number(id),
+      quantity,
+    })
   );
-  const barcodes = cart?.specific_products?.map((product) =>
-    String(product?.barcode)
-  );
+  const products = cart?.specific_products?.map(({ product, quantity }) => ({
+    barcode: product?.barcode,
+    quantity: quantity,
+  }));
 
   return {
-    category_ids: categoryIds,
-    barcodes: barcodes,
+    categories,
+    products,
+  };
+};
+
+export const getSimplifiedCartAlternative = (cart?: ProductCartDto) => {
+  if (!cart) return { items: [] };
+
+  const products = cart?.specific_products?.map(({ product, quantity }) => ({
+    barcode: product?.barcode,
+    quantity: quantity,
+  }));
+
+  return {
+    products,
   };
 };
 

@@ -7,7 +7,7 @@
 import type { CategoryItem } from './categoryItem';
 import type { ProductItem } from './productItem';
 
-export interface CreateCartRequest {
+export interface GetCartComparisonRequest {
   /** @nullable */
   categories?: CategoryItem[] | null;
   /** @nullable */

@@ -55,10 +55,10 @@ export const useCartActions = ({
     if (!barcode) return;
     //TODO call on success
     //   setSearchQuery("");
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { category_ids, barcodes: [...barcodes, barcode] },
+      data: { categories, products: [...products, { barcode, quantity }] },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },
@@ -70,10 +70,13 @@ export const useCartActions = ({
     if (!categoryId) return;
 
     //   setSearchQuery("");
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { barcodes, category_ids: [...category_ids, categoryId] },
+      data: {
+        products,
+        categories: [...categories, { category_id: categoryId, quantity }],
+      },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },
@@ -85,34 +88,98 @@ export const useCartActions = ({
     type: "category" | "product",
     id?: number | string
   ) => {
-    const simplifiedCart = getSimplifiedCart(cart);
+    const { products, categories } = getSimplifiedCart(cart);
+    let updatedCategories = categories;
+    let updatedProducts = products;
     //TODO when BE adjusts DTO uncomment this
     if (type === "category") {
-      simplifiedCart.category_ids = simplifiedCart.category_ids?.filter(
-        (categoryId) => categoryId !== id
+      updatedCategories = categories?.filter(
+        ({ category_id }) => category_id !== id
       );
     } else {
-      simplifiedCart.barcodes = simplifiedCart.barcodes?.filter(
-        (barcode) => barcode !== id
-      );
+      updatedProducts = products?.filter(({ barcode }) => barcode !== id);
     }
-    sendUpdateCart({ data: simplifiedCart });
+    sendUpdateCart({
+      data: { categories: updatedCategories, products: updatedProducts },
+    });
+  };
+
+  const handleUpdateProductQuantity = (barcode: string, quantity: number) => {
+    if (!barcode) return;
+    if (quantity < 1) {
+      handleRemoveItemFromCart("product", barcode);
+      return;
+    }
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const updatedProducts = products.map((product) =>
+      product.barcode === barcode ? { ...product, quantity } : product
+    );
+    sendUpdateCart({
+      data: { categories, products: updatedProducts },
+      additionalData: {
+        operation: CartOperationsEnum.UPDATE,
+      },
+    });
+  };
+
+  const handleUpdateCategoryQuantity = (
+    categoryId: number,
+    quantity: number
+  ) => {
+    if (!categoryId) return;
+    if (quantity < 1) {
+      handleRemoveItemFromCart("category", categoryId);
+      return;
+    }
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const updatedCategories = categories.map((category) =>
+      category?.category_id === categoryId
+        ? { ...category, quantity }
+        : category
+    );
+    sendUpdateCart({
+      data: { categories: updatedCategories, products },
+      additionalData: {
+        operation: CartOperationsEnum.UPDATE,
+      },
+    });
   };
 
   const handleChooseProductFromCategory = (
     barcode: string,
     categoryId: number
   ) => {
-    const { barcodes = [], category_ids = [] } = getSimplifiedCart(cart);
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
 
-    const updatedCategoryIds = category_ids.includes(categoryId)
-      ? category_ids.filter((id) => id !== categoryId)
-      : category_ids;
+    const updatedCategoryIds = categories.some(
+      (c) => c.category_id === categoryId
+    )
+      ? categories.filter(({ category_id }) => category_id !== categoryId)
+      : categories;
 
     sendUpdateCart({
       data: {
-        category_ids: updatedCategoryIds,
-        barcodes: [...barcodes, barcode],
+        categories: updatedCategoryIds,
+        //TODO fix this mirror quantity
+        products: [...products, { barcode, quantity: 1 }],
+      },
+      additionalData: {
+        operation: CartOperationsEnum.ADD,
+      },
+    });
+  };
+
+  const handleSwitchProduct = (originalBarcode: string, barcode: string) => {
+    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const updatedProducts = products?.filter(
+      ({ barcode: productBarcode }) => productBarcode !== originalBarcode
+    );
+
+    sendUpdateCart({
+      data: {
+        products: updatedProducts,
+        categories,
+        //TODO fix this mirror quantity
       },
       additionalData: {
         operation: CartOperationsEnum.ADD,
@@ -125,6 +192,9 @@ export const useCartActions = ({
     handleAddProductToCart,
     handleRemoveItemFromCart,
     handleChooseProductFromCategory,
+    handleUpdateProductQuantity,
+    handleUpdateCategoryQuantity,
+    handleSwitchProduct,
     isLoading: isPending,
   };
 };

@@ -33,7 +33,7 @@ export default function AppLayout() {
         }}
       /> */}
       <Stack.Screen
-        name="main/modal/index"
+        name="main/price-comparison-modal/price-comparison-modal-screen"
         options={{
           title: "Porovnanie cien",
           // headerStyle: {

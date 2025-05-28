@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import { SafeAreaView } from "react-native-safe-area-context";
 import ComparisonShopReceipt from "../../../../components/ui/carts-comparison/comparison-shop-receipt";
+import ReceiptScreen from "../../../../components/ui/carts-comparison/comparison-shop-receipt-alternative";
 import { getSimplifiedCart } from "../../../../lib/utils";
-import { useGetCart } from "../../../../network/customer/customer";
-import { useGetCartComparison } from "../../../../network/query/query";
+import {
+  useGetCart,
+  useGetUserCartComparison,
+} from "../../../../network/customer/customer";
 
-const GroceryPriceComparisonScreen = () => {
+const PriceComparisonModalScreen = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const width = Dimensions.get("window").width;
   const h = Dimensions.get("window").height;
@@ -19,10 +23,11 @@ const GroceryPriceComparisonScreen = () => {
     },
   });
 
-  //TODO send whole cart as parameter
-  const { data: { carts = [] } = {} } = useGetCartComparison(cartData, {
-    query: { enabled: Object.keys(cartData).length > 0 },
-  });
+  console.log(cartData);
+
+  const { data: { carts = [] } = {}, isLoading } = useGetUserCartComparison();
+
+  console.log(carts);
 
   const renderPaginationDots = () => (
     <View className="flex-row justify-center items-center mb-8">
@@ -53,13 +58,14 @@ const GroceryPriceComparisonScreen = () => {
     const cartData = carts?.[0];
     return (
       <View className="flex flex-1 align-center justify-center py-8 px-2">
-        <ComparisonShopReceipt {...cartData} />
+        {/* <ComparisonShopReceipt {...cartData} /> */}
+        <ReceiptScreen {...cartData} />
       </View>
     );
   }
 
   return (
-    <View className="flex flex-1 align-center justify-center">
+    <SafeAreaView className="flex flex-1 align-center justify-center">
       <Carousel
         loop
         width={width}
@@ -72,8 +78,8 @@ const GroceryPriceComparisonScreen = () => {
       />
 
       {renderPaginationDots()}
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default GroceryPriceComparisonScreen;
+export default PriceComparisonModalScreen;

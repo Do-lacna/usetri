@@ -1,28 +1,28 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
-import React from 'react';
+import { useQueryClient } from "@tanstack/react-query";
+import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
+import React from "react";
 import {
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   Text,
   View,
-} from 'react-native';
-import IconButton from '~/components/icon-button';
-import { useRevenueCat } from '~/context/revenue-cat-provider';
-import { PRIMARY_HEX } from '~/lib/constants';
-import { Menu } from '~/lib/icons/Menu';
-import { UserIcon } from '~/lib/icons/User';
-import { SavedCartCard } from '../../../../components/ui/profile/saved-cart-card';
-import { Subscriptions } from '../../../../components/ui/profile/subscriptions';
-import { TotalSavedCard } from '../../../../components/ui/profile/total-saved-card';
-import { useSession } from '../../../../context/authentication-context';
-import { useDrawerMenu } from '../../../../hooks/use-drawer-menu';
-import { useGetArchivedCart } from '../../../../network/customer/customer';
-import { ShortArchivedCartDto } from '../../../../network/model';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import IconButton from "~/components/icon-button";
+import { useRevenueCat } from "~/context/revenue-cat-provider";
+import { PRIMARY_HEX } from "~/lib/constants";
+import { Menu } from "~/lib/icons/Menu";
+import { UserIcon } from "~/lib/icons/User";
+import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
+import { Subscriptions } from "../../../../components/ui/profile/subscriptions";
+import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-card";
+import { useSession } from "../../../../context/authentication-context";
+import { useDrawerMenu } from "../../../../hooks/use-drawer-menu";
+import { useGetArchivedCart } from "../../../../network/customer/customer";
+import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
@@ -52,7 +52,10 @@ export default function ProfileScreen() {
   const isLoading = areArchivedCartsLoading;
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView
+      className="flex-1 bg-gray-50"
+      edges={["bottom", "left", "right"]}
+    >
       <ScrollView
         className="px-6"
         refreshControl={
@@ -64,33 +67,35 @@ export default function ProfileScreen() {
       >
         <View className="relative -mx-6">
           <LinearGradient
-            colors={[PRIMARY_HEX,  'transparent']}            
+            colors={[PRIMARY_HEX, "transparent"]}
             style={{ height: 300 }}
           >
-          <View className="absolute left-0 right-0 top-20 items-center">
-            <View className="w-32 h-32 bg-gray-200 rounded-full items-center justify-center border-4 border-white">
-              <UserIcon size={64} color="#6B7280" />
-            </View>           
-            <View className="mt-2 items-center w-full pb-4">
-              <Text className="text-lg underline mt-4 shadow-lg">{user?.email}</Text>
+            <View className="absolute left-0 right-0 top-20 items-center">
+              <View className="w-32 h-32 bg-gray-200 rounded-full items-center justify-center border-4 border-white">
+                <UserIcon size={64} color="#6B7280" />
+              </View>
+              <View className="mt-2 items-center w-full pb-4">
+                <Text className="text-lg underline mt-4 shadow-lg">
+                  {user?.email}
+                </Text>
+              </View>
             </View>
-          </View>
           </LinearGradient>
-                  <Link asChild href="/main/menu-screen/menu-screen" className='absolute top-12 right-6'>
-          <IconButton
-            onPress={openDrawer}
+          <Link
+            asChild
+            href="/main/menu-screen/menu-screen"
+            className="absolute top-12 right-6"
           >
-            <Menu className="w-6 h-6 text-gray-800" />
-          </IconButton>
-        </Link>
-
-
+            <IconButton onPress={openDrawer}>
+              <Menu className="w-6 h-6 text-gray-800" />
+            </IconButton>
+          </Link>
         </View>
 
         <TotalSavedCard />
 
-        <Text>
-          Active subscriptions{' '}
+        {/* <Text>
+          Active subscriptions{" "}
           <View>
             {subscriptions?.map((sub) => (
               <Text className="font-bold" key={sub}>
@@ -98,7 +103,7 @@ export default function ProfileScreen() {
               </Text>
             ))}
           </View>
-        </Text>
+        </Text> */}
 
         <Subscriptions />
 

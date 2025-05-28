@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Platform, Text, TouchableOpacity, View } from "react-native";
 import { ChevronDown } from "~/lib/icons/ChevronDown";
 import { ChevronUp } from "~/lib/icons/ChevronUp";
 import { Trash2 } from "~/lib/icons/Trash";
 import { BASE_API_URL } from "../../lib/constants";
 import { useGetCart } from "../../network/customer/customer";
 import { useGetProducts } from "../../network/query/query";
-import ProductCartDetailed from "./product-card-detailed";
 
 export enum ShoppingListItemTypeEnum {
   CATEGORY = "CATEGORY",
@@ -119,7 +110,7 @@ const ShoppingListItem = ({
         </View>
       </TouchableOpacity>
 
-      {isExpanded &&
+      {/* {isExpanded &&
         (isLoading ? (
           <View className="h-20 justify-center items-center">
             <ActivityIndicator color="#1F2937" />
@@ -149,7 +140,7 @@ const ShoppingListItem = ({
               )}
             </View>
           </ScrollView>
-        ))}
+        ))} */}
     </View>
   );
 };

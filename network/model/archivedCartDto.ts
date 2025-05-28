@@ -5,7 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { CartCategoryDto } from './cartCategoryDto';
-import type { ProductDto } from './productDto';
+import type { CartProductDto } from './cartProductDto';
 import type { ShopExtendedDto } from './shopExtendedDto';
 
 export interface ArchivedCartDto {
@@ -15,7 +15,7 @@ export interface ArchivedCartDto {
   /** @nullable */
   categories?: CartCategoryDto[] | null;
   /** @nullable */
-  barcodes?: ProductDto[] | null;
+  barcodes?: CartProductDto[] | null;
   created_at?: string;
   shop?: ShopExtendedDto;
   total_price?: number;

@@ -1,26 +1,76 @@
 import { Link } from "expo-router";
 import React from "react";
-import { Dimensions, Pressable, Text, View } from "react-native";
+import { Dimensions, Image, Pressable, Text, View } from "react-native";
+import { ArrowRight } from "../../lib/icons/ArrowRight";
+import { useGetCart } from "../../network/customer/customer";
+import { getShopLogo } from "../../utils/logo-utils";
+import IconButton from "../icon-button";
 
 export type PriceSummaryProps = {
-  price: number;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
-const PriceSummary = ({ price = 12.5, onPress }: PriceSummaryProps) => {
+const PriceSummary = ({ onPress }: PriceSummaryProps) => {
   const screenWidth = Dimensions.get("window").width;
+  const {
+    data: { cart: { total_price = 0, available_shop_ids = [] } = {} } = {},
+    isLoading: isCartLoading,
+  } = ({} = useGetCart());
+
   return (
-    <Link asChild href={"/main/modal"}>
+    <Link
+      asChild
+      href={"/main/price-comparison-modal/price-comparison-modal-screen"}
+    >
       <Pressable
         style={{ width: screenWidth }}
-        className="bg-primary absolute bottom-0 left-0 right-0 p-2"
+        className="bg-primary absolute bottom-0 left-0 right-0 p-2 rounded-t-xl"
         onPress={onPress}
       >
         <View className="p-2 shadow-sm shadow-foreground/10 flex-row justify-between items-center">
-          <Text className="text-foreground font-bold">Celková suma</Text>
-          <Text className="text-foreground font-bold">
-            {price.toFixed(2)} €
-          </Text>
+          <View>
+            <Text className="text-foreground font-bold text-xl">
+              Celková suma
+            </Text>
+            {[...(available_shop_ids ?? [])].length > 0 && (
+              <View className="relative flex-row  gap-x-2 mt-1">
+                {[2, 3, 4]?.map((retailer, index) => (
+                  <View
+                    key={retailer}
+                    style={{ width: 16, height: 16 }}
+                    //   className="border-2"
+                  >
+                    <Image
+                      {...getShopLogo(retailer as any)}
+                      key={index}
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 50,
+                        position: "absolute",
+                        right: index * 10,
+                        zIndex: index + 1,
+                        backgroundColor: "white",
+                        borderColor: "grey",
+                        borderWidth: 1,
+                        // borderColor: "grey",
+                        // borderWidth: 1,
+                        //TODO add here some elevation to visually differentiate the shop logos
+                      }}
+                    />
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+          <View className="flex-row items-center gap-4">
+            <Text className="text-foreground font-bold text-xl">
+              {total_price?.toFixed(2)} €
+            </Text>
+            <IconButton className="bg-secondary rounded-full p-2">
+              <ArrowRight size={20} />
+            </IconButton>
+          </View>
         </View>
       </Pressable>
     </Link>

@@ -48,7 +48,7 @@ const ProductCardDetailed = ({
 
   return (
     <Pressable
-      className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
+      className={clsx("w-32 mr-20 last:mr-0 flex-1", className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View
@@ -57,26 +57,26 @@ const ProductCardDetailed = ({
           isSelected ? "border-2 border-primary" : ""
         )}
       >
-        <View className="w-full h-36 rounded-lg relative">
+        <View className="w-full h-24 rounded-lg relative">
           <Image
             source={{
               uri: "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
             }}
-            className="w-full h-36 rounded-lg"
+            className="w-full h-24 rounded-lg"
             resizeMode="cover"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
             {availableShopIds?.map((retailer, index) => (
               <View
                 key={retailer}
-                style={{ width: 20, height: 20, borderRadius: 50 }}
+                style={{ width: 18, height: 18, borderRadius: 50 }}
               >
                 <Image
                   {...getShopLogo(retailer as any)}
                   key={index}
                   style={{
-                    width: 20,
-                    height: 20,
+                    width: 18,
+                    height: 18,
                     borderRadius: 50,
                     position: "absolute",
                     right: index * 15,

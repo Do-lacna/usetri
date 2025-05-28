@@ -1,22 +1,24 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-import { LogOut } from "~/lib/icons/Log-out";
-import IconButton from "../../../../components/icon-button";
 import { useSession } from "../../../../context/authentication-context";
 import { NAVBAR_HEIGHT, PRIMARY_HEX } from "../../../../lib/constants";
 import { getNumberOfCartItems } from "../../../../lib/utils";
 import { useGetCart } from "../../../../network/customer/customer";
+import { useGetProductCart } from "../../../../network/product-cart/product-cart";
 
 export default function TabLayout() {
-  const { signOu, brigaderActive } = useSession();
+  const { brigaderActive } = useSession();
 
   const { data: { cart } = {} } = ({} = useGetCart());
 
   const cartItemsNumber = getNumberOfCartItems(cart);
+  const {
+    data: { cart: { specific_products = [], total_price } = {} } = {},
+    isLoading: isCartLoading,
+  } = useGetProductCart();
 
-  const performSignOut = () => {
-    signOut();
-  };
+  const productsInCart = [...(specific_products ?? [])].length;
+
   return (
     <Tabs
       screenOptions={{
@@ -55,7 +57,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="search" color={color} />
           ),
-          // headerRight: () => <ThemeToggle />,
         }}
       />
       <Tabs.Screen
@@ -69,15 +70,15 @@ export default function TabLayout() {
           tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
         }}
       />
-            <Tabs.Screen
+      <Tabs.Screen
         name="shopping-list-alternative"
         options={{
           title: "Nakupny zoznam alternativ",
           tabBarIcon: ({ color }) => (
-          <FontAwesome size={26} name="shopping-basket" color={color} />
+            <FontAwesome size={26} name="shopping-basket" color={color} />
           ),
           tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
-          tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
+          tabBarBadge: productsInCart ? productsInCart : undefined,
         }}
       />
       <Tabs.Screen
@@ -87,17 +88,17 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="user" color={color} />
           ),
-          headerRight: () => (
-            <IconButton className="mx-3" onPress={performSignOut}>
-              <LogOut size={20} />
-            </IconButton>
-          ),
+          // headerRight: () => (
+          //   <IconButton className="mx-3" onPress={performSignOut}>
+          //     <LogOut size={20} />
+          //   </IconButton>
+          // ),
         }}
       />
       {/* TODO condition this under admin rights */}
       {/* {
         brigaderActive && ( */}
-          <Tabs.Screen
+      <Tabs.Screen
         name="brigader"
         options={{
           title: "Nahravanie",
@@ -107,9 +108,6 @@ export default function TabLayout() {
         }}
         redirect={!brigaderActive}
       />
-        {/* )
-      } */}
-
     </Tabs>
   );
 }
