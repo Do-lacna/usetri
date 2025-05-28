@@ -68,10 +68,8 @@ const ShoppingListItemAlternate: React.FC<{
 
   const totalPrice = (price * quantity).toFixed(2);
 
-  const isSelected = (barcode: string): boolean =>
-    cart?.specific_products?.some(
-      ({ product }) => product?.barcode === barcode
-    ) ?? false;
+  const isSelected = (suggestedProductBarcode: string): boolean =>
+    suggestedProductBarcode === barcode;
 
   return (
     <View
@@ -207,7 +205,7 @@ const ShoppingListItemAlternate: React.FC<{
                     index
                   ) => (
                     <ProductCardDetailed
-                      key={barcode || index}
+                      key={suggestedProductBarcode || index}
                       product={products?.[0]}
                       availableShopIds={available_shop_ids}
                       onPress={() =>

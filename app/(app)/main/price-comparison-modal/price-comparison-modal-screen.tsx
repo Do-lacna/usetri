@@ -57,7 +57,7 @@ const PriceComparisonModalScreen = () => {
   if (carts.length === 1) {
     const cartData = carts?.[0];
     return (
-      <View className="flex flex-1 align-center justify-center py-8 px-2">
+      <View className="flex flex-1 align-center justify-center py-4 px-2">
         {/* <ComparisonShopReceipt {...cartData} /> */}
         <ReceiptScreen {...cartData} />
       </View>

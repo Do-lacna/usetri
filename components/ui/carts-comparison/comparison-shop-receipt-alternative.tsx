@@ -12,6 +12,7 @@ import {
   useRemoveFromCart,
 } from "../../../network/customer/customer";
 import { CartComparisonDto } from "../../../network/model";
+import { Button } from "../button";
 
 // Types
 interface GroceryItem {
@@ -110,17 +111,8 @@ const ReceiptScreen: React.FC<
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="flex-1 px-4 pb-6">
-        {/* Header */}
-        {/* <View className="mb-6">
-          <Text className="text-sm text-gray-500 text-center">
-            Sumár produktov
-          </Text>
-        </View> */}
-
-        {/* Receipt Card */}
-        <Card className="bg-white shadow-lg mb-6">
+        <Card className="bg-white shadow-lg mb-4">
           <CardHeader className="pb-4">
-            {/* Store Information */}
             <View className="items-center border-b border-gray-200 pb-4">
               <Text className="text-xl font-bold text-gray-900 mb-1">
                 {shopName}
@@ -169,7 +161,7 @@ const ReceiptScreen: React.FC<
             <Separator className="bg-gray-300 mb-4" />
             <View className="flex-row justify-between items-center bg-gray-50 p-4 rounded-lg">
               <Text className="text-lg font-bold text-gray-900">
-                Total Amount
+                Celková suma
               </Text>
               <Text className="text-xl font-bold text-green-600">
                 {formatPrice(total_price)}
@@ -178,27 +170,25 @@ const ReceiptScreen: React.FC<
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
-        {/* <View className="space-y-3 mb-6">
-          <Button
-            onPress={onSaveReceipt}
-            className="bg-blue-600 hover:bg-blue-700 py-4"
-          >
-            <Text className="text-white font-semibold text-base">
-              Save Receipt
-            </Text>
-          </Button>
-
-          <Button
-            variant="outline"
-            onPress={onDiscardReceipt}
-            className="border-red-500 hover:bg-red-50 py-4"
-          >
-            <Text className="text-red-500 font-semibold text-base">
-              Discard Receipt
-            </Text>
-          </Button>
-        </View> */}
+        {actionsExecutable && (
+          <View className="flex-row justify-center items-center mb-4 p-4 gap-4">
+            <Button
+              // disabled={!isDirty || !isValid}
+              variant="outline"
+              onPress={() => sendDiscardCart()}
+              className="w-[40%] border-2 border-gray-600"
+            >
+              <Text className="font-bold">Zahodiť</Text>
+            </Button>
+            <Button
+              // disabled={!isDirty || !isValid}
+              onPress={handleSaveCart}
+              className="w-[60%]"
+            >
+              <Text className="font-bold">Uložiť košík</Text>
+            </Button>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

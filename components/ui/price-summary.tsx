@@ -24,7 +24,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
     >
       <Pressable
         style={{ width: screenWidth }}
-        className="bg-primary absolute bottom-0 left-0 right-0 p-2 rounded-t-xl"
+        className="bg-primary absolute bottom-0 left-0 right-0 p-2 rounded-t-xl h-20"
         onPress={onPress}
       >
         <View className="p-2 shadow-sm shadow-foreground/10 flex-row justify-between items-center">

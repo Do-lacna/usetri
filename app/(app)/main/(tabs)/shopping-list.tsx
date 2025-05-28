@@ -22,7 +22,10 @@ import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/sh
 import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/shopping-list-category-search";
 import ShoppingListItemAlternate from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
-import { useGetCart } from "../../../../network/customer/customer";
+import {
+  getGetUserCartComparisonQueryKey,
+  useGetCart,
+} from "../../../../network/customer/customer";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 
 export enum CartOperationsEnum {
@@ -67,6 +70,9 @@ export default function ShoppingList() {
       setSearchQuery("");
       pendingProductSheetRef?.current?.dismiss();
       setIsTextInputFocused(false);
+      queryClient.invalidateQueries({
+        queryKey: getGetUserCartComparisonQueryKey(),
+      });
     },
     onSuccessWithExpandedOption: (categoryId) => {
       setExpandedOption(Number(categoryId));
@@ -182,7 +188,7 @@ export default function ShoppingList() {
                     onRefresh={() => queryClient.invalidateQueries()}
                   />
                 }
-                className="px-1"
+                className="mb-24"
               >
                 {cartCategories.map((item) => (
                   <ShoppingListCategoryItem
@@ -201,13 +207,6 @@ export default function ShoppingList() {
                     key={item?.product?.barcode}
                     item={item}
                     isExpanded={expandedOption === item?.product?.barcode}
-                    // onAlternativeSelect={(barcode, categoryId) =>
-                    //   handleChooseProductFromCategory(
-                    //     String(barcode),
-                    //     Number(categoryId)
-                    //   )
-                    // }
-
                     onAlternativeSelect={(originalBarcode, barcode) =>
                       handleSwitchProduct(originalBarcode, barcode)
                     }
