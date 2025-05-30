@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { CirclePlus } from "~/lib/icons/CirclePlus";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { ShopItemDto } from "../../../network/model";
 import { useGetShops } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
@@ -34,7 +35,7 @@ const ProductCardNew2 = ({
 }: IProductCardProps) => {
   const {
     detail: {
-      // imageUrl = "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+      image_url,
       name,
       brand,
       amount,
@@ -59,11 +60,9 @@ const ProductCardNew2 = ({
     >
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
         <Image
-          source={{
-            uri: "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
-          }}
+          source={{ uri: image_url ? image_url : PLACEHOLDER_PRODUCT_IMAGE }}
           className="w-full h-32 rounded-lg"
-          resizeMode="cover"
+          resizeMode="contain"
         />
         <Badge className="absolute top-2 bg-terciary">
           <Text className="text-xs text-primary-foreground">{`${amount} ${unit}`}</Text>

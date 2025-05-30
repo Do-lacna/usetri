@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
 import { Card, CardContent, CardDescription, CardFooter } from "./card"; // Assuming Card component is in the same folder
 
 interface ProductCardProps {
@@ -22,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <View className="w-full h-1/2">
         <Image
           source={{
-            uri: "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+            uri: PLACEHOLDER_PRODUCT_IMAGE,
           }}
           className="w-full h-full"
           resizeMode="contain"

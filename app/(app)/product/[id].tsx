@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { ListPlus } from "~/lib/icons/ListPlus";
 import IconButton from "../../../components/icon-button";
 import { useCartActions } from "../../../hooks/use-cart-actions";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { getShopById } from "../../../lib/utils";
 import {
   useGetProductsByBarcode,
@@ -72,9 +73,7 @@ export default function ProductDetailScreen() {
         <View className="relative bg-white">
           <Image
             source={{
-              uri:
-                image_url ??
-                "https://digitalcontent.api.tesco.com/v2/media/ghs/e0a0e446-3cee-4281-84ea-ca80461b8551/342cec25-6528-44cf-9328-bdda502f88c7_1825618099.jpeg?h=540&w=540",
+              uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-60"
             resizeMode="contain"

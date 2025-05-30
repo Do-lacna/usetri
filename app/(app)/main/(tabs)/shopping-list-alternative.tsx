@@ -85,7 +85,7 @@ export default function ShoppingListAlternative() {
   return (
     <SafeAreaView
       edges={["left", "top", "right"]}
-      className="flex-1 content-center"
+      className="flex-1 content-center bg-gray-50"
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
         <PendingCartItemDrawerContent
