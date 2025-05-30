@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import IconButton from "~/components/icon-button";
 import { useRevenueCat } from "~/context/revenue-cat-provider";
-import { PRIMARY_HEX } from "~/lib/constants";
+import { TERCIARY_HEX } from "~/lib/constants";
 import { Menu } from "~/lib/icons/Menu";
 import { UserIcon } from "~/lib/icons/User";
 import { SavedCartCard } from "../../../../components/ui/profile/saved-cart-card";
@@ -39,7 +39,7 @@ export default function ProfileScreen() {
   const renderShopCardCart = ({
     item: { cart_id, created_at, total_price, selected_shop_id } = {},
   }: ListRenderItemInfo<ShortArchivedCartDto>) => (
-    <View className="w-80">
+    <View className="w-[320px]">
       <SavedCartCard
         id={Number(cart_id)}
         shopId={Number(selected_shop_id)}
@@ -67,7 +67,7 @@ export default function ProfileScreen() {
       >
         <View className="relative -mx-6">
           <LinearGradient
-            colors={[PRIMARY_HEX, "transparent"]}
+            colors={[TERCIARY_HEX, "transparent"]}
             style={{ height: 300 }}
           >
             <View className="absolute left-0 right-0 top-20 items-center">

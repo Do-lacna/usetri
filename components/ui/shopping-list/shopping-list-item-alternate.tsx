@@ -15,7 +15,7 @@ import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
 import ProductCardDetailed from "../product-card-detailed";
 
-const ShoppingListItemAlternate: React.FC<{
+const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
   onUpdateQuantity: (barcode: string, quantity: number) => void;
   onAlternativeSelect: (originalBarcode: string, barcode: string) => void;
@@ -225,4 +225,4 @@ const ShoppingListItemAlternate: React.FC<{
   );
 };
 
-export default ShoppingListItemAlternate;
+export default ShoppingListProductItem;

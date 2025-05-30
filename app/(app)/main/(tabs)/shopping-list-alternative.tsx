@@ -17,7 +17,7 @@ import { Button } from "../../../../components/ui/button";
 import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
-import ShoppingListItemAlternate from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
+import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
 import { useAlternativeCartActions } from "../../../../hooks/use-alternative-cart-actions";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 import { useGetProductCart } from "../../../../network/product-cart/product-cart";
@@ -151,7 +151,7 @@ export default function ShoppingListAlternative() {
                 className="px-1"
               >
                 {specific_products?.map((item) => (
-                  <ShoppingListItemAlternate
+                  <ShoppingListProductItem
                     key={item?.product?.barcode}
                     item={item}
                     isExpanded={expandedOption === item?.product?.barcode}

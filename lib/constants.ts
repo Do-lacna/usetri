@@ -21,6 +21,8 @@ export const PRIMARY_HEX = "#16a34a";
 
 export const TERCIARY_HEX = "#034F4A";
 
+export const DIVIDER_HEX = "#ccdbda";
+
 export const NAVBAR_HEIGHT = 80;
 
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";

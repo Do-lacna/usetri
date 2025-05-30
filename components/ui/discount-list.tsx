@@ -20,7 +20,6 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   );
 
   const { data: { products: prod } = {}, isLoading } = useGetProducts();
-  console.log(prod);
   const outputProducts = prod?.map(({ products }) => products?.[0]);
 
   return (

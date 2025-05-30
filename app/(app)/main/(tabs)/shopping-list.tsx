@@ -20,7 +20,7 @@ import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/shopping-list-category-item";
 import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/shopping-list-category-search";
-import ShoppingListItemAlternate from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
+import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
 import {
   getGetUserCartComparisonQueryKey,
@@ -203,7 +203,7 @@ export default function ShoppingList() {
                 <Divider className="mt-2 mb-4" />
 
                 {cartProducts.map((item) => (
-                  <ShoppingListItemAlternate
+                  <ShoppingListProductItem
                     key={item?.product?.barcode}
                     item={item}
                     isExpanded={expandedOption === item?.product?.barcode}

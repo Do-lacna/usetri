@@ -38,13 +38,13 @@ export const useCartActions = ({
         queryClient.invalidateQueries({
           queryKey: getGetCartQueryKey(),
         });
-        const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
-        if (
-          lastAddedCategory &&
-          variables?.additionalData?.operation === CartOperationsEnum.ADD
-        ) {
-          onSuccessWithExpandedOption?.(lastAddedCategory);
-        }
+        // const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
+        // if (
+        //   lastAddedCategory &&
+        //   variables?.additionalData?.operation === CartOperationsEnum.ADD
+        // ) {
+        //   onSuccessWithExpandedOption?.(lastAddedCategory);
+        // }
         Keyboard.dismiss();
         onSuccessfullCartUpdate?.();
       },
@@ -171,9 +171,11 @@ export const useCartActions = ({
 
   const handleSwitchProduct = (originalBarcode: string, barcode: string) => {
     const { products = [], categories = [] } = getSimplifiedCart(cart);
-    const updatedProducts = products?.filter(
-      ({ barcode: productBarcode }) => productBarcode !== originalBarcode
-    );
+    const updatedProducts = products
+      ?.filter(
+        ({ barcode: productBarcode }) => productBarcode !== originalBarcode
+      )
+      .concat({ barcode, quantity: 1 });
 
     sendUpdateCart({
       data: {
