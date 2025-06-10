@@ -1,25 +1,25 @@
-import "~/global.css";
+import '~/global.css';
 
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {
   DefaultTheme,
   type Theme,
   ThemeProvider,
-} from "@react-navigation/native";
-import { PortalHost } from "@rn-primitives/portal";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Slot, SplashScreen } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import { Platform } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
-import { NAV_THEME } from "~/lib/constants";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { getTheme, setTheme } from "~/persistence/theme-storage";
-import { SessionProvider } from "../context/authentication-context";
-import { RevenueCatProvider } from "../context/revenue-cat-provider";
+} from '@react-navigation/native';
+import { PortalHost } from '@rn-primitives/portal';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Slot, SplashScreen } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
+import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
+import { NAV_THEME } from '~/lib/constants';
+import { useColorScheme } from '~/lib/useColorScheme';
+import { getTheme, setTheme } from '~/persistence/theme-storage';
+import { SessionProvider } from '../context/authentication-context';
+import { RevenueCatProvider } from '../context/revenue-cat-provider';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -34,8 +34,8 @@ const DARK_THEME: Theme = {
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from "expo-router";
+  ErrorBoundary
+} from 'expo-router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,16 +70,16 @@ export default function RootLayout() {
   useEffect(() => {
     (async () => {
       const theme = getTheme();
-      if (Platform.OS === "web") {
+      if (Platform.OS === 'web') {
         // Adds the background color to the html element to prevent white background on overscroll.
-        document.documentElement.classList.add("bg-background");
+        document.documentElement.classList.add('bg-background');
       }
       if (!theme) {
         setTheme(colorScheme);
         setIsColorSchemeLoaded(true);
         return;
       }
-      const colorTheme = theme === "dark" ? "dark" : "light";
+      const colorTheme = theme === 'dark' ? 'dark' : 'light';
       if (colorTheme !== colorScheme) {
         setColorScheme(colorTheme);
         setAndroidNavigationBar(colorTheme);
@@ -104,8 +104,9 @@ export default function RootLayout() {
           <GestureHandlerRootView>
             <BottomSheetModalProvider>
               <ThemeProvider value={LIGHT_THEME}>
-                <StatusBar style={"light"} />
-                <Slot />
+                <SafeAreaProvider>
+                  <Slot />
+                </SafeAreaProvider>
                 <PortalHost />
                 <Toast />
               </ThemeProvider>

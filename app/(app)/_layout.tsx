@@ -1,24 +1,27 @@
-import { Stack } from "expo-router";
-import "~/global.css";
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import '~/global.css';
 
 export default function AppLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name="product/[id]"
-        options={{
-          title: "Detail produktu",
-          presentation: "card",
-          animation: "slide_from_right",
-          headerShown: true,
-          headerBackButtonDisplayMode: "minimal",
+    <>
+      <StatusBar />
+      <Stack
+        screenOptions={{
+          headerShown: false,
         }}
-      />
-      {/* <Stack.Screen
+      >
+        <Stack.Screen
+          name="product/[id]"
+          options={{
+            title: 'Detail produktu',
+            presentation: 'card',
+            animation: 'slide_from_right',
+            headerShown: true,
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        />
+        {/* <Stack.Screen
         name="main/scan/scan-screen"
         options={{
           // Optional: Add presentation style
@@ -32,58 +35,50 @@ export default function AppLayout() {
           },
         }}
       /> */}
-      <Stack.Screen
-        name="main/price-comparison-modal/price-comparison-modal-screen"
-        options={{
-          title: "Porovnanie cien",
-          // headerStyle: {
-          //   backgroundColor: "#f4f4f4", // Optional: customize header background
-          // },
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          presentation: "modal",
-        }}
-      />
-      <Stack.Screen
-        name="main/archived-cart/[id]"
-        options={{
-          title: "Detail košíka",
-          // headerStyle: {
-          //   backgroundColor: "#f4f4f4", // Optional: customize header background
-          // },
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-          presentation: "modal",
-        }}
-      />
+        <Stack.Screen
+          name="main/price-comparison-modal/price-comparison-modal-screen"
+          options={{
+            title: 'Porovnanie cien',
+            // headerStyle: {
+            //   backgroundColor: "#f4f4f4", // Optional: customize header background
+            // },
+            headerShown: true,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="main/archived-cart/[id]"
+          options={{
+            title: 'Detail košíka',
+            // headerStyle: {
+            //   backgroundColor: "#f4f4f4", // Optional: customize header background
+            // },
+            headerShown: true,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            presentation: 'modal',
+          }}
+        />
 
-      <Stack.Screen
-        name="main/menu-screen/menu-screen"
-        options={{
-          title: "Nastavenia",
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      />
-
-      {/* <Stack.Screen
-        name="main/(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="(auth)"
-        options={{
-          headerShown: false,
-        }}
-      /> */}
-    </Stack>
+        <Stack.Screen
+          name="main/menu-screen/menu-screen"
+          options={{
+            title: 'Nastavenia',
+            headerShown: true,
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              
+            },
+            // headerCo: {
+            //   paddingTop: 30,
+            // },
+          }}
+        />
+      </Stack>
+    </>
   );
 }

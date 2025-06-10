@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "usetri",
     "userInterfaceStyle": "automatic",
-    "enableEdgeToEdge": false,
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

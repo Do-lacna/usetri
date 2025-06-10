@@ -3,7 +3,8 @@ import auth from "@react-native-firebase/auth";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Image, Text, View } from "react-native";
+import { Image, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
 import { Button } from "~/components/ui/button";
@@ -26,10 +27,6 @@ export default function SignUp() {
     email,
     password,
   }: z.infer<typeof signUpSchema>) => {
-    // if (!email || !password) {
-    //   Alert.alert('Error', 'Please fill in all fields');
-    //   return;
-    // }
 
     try {
       setLoading(true);
@@ -49,7 +46,10 @@ export default function SignUp() {
         position: "bottom",
       });
 
-      router.back();
+      router.push({
+        pathname: "/sign-in",
+        params: { email: userCredential?.user?.email },
+      });
     } catch (error) {
       Toast.show({
         type: "error",
@@ -62,13 +62,11 @@ export default function SignUp() {
   };
 
   return (
-    <View className="flex-1 items-center justify-center gap-2">
+    <SafeAreaView className="flex-1 items-center justify-center gap-2">
       <Image
         source={require("~/assets/images/usetri-large.png")}
         style={{ width: 150 }}
         resizeMode="contain"
-        // width={200}
-        // height={200}
       />
       <Controller
         control={control}
@@ -134,12 +132,12 @@ export default function SignUp() {
         </Text>
       )}
       <Button
-        // disabled={!isDirty || !isValid}
+        disabled={loading}
         onPress={handleSubmit(handleRegister)}
         className="w-[80%] mt-4"
       >
         <Text>Registrovať</Text>
       </Button>
-    </View>
+    </SafeAreaView>
   );
 }

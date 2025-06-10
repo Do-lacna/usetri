@@ -1,5 +1,4 @@
 // screens/MenuScreen.tsx
-import { router } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,7 +21,7 @@ interface MenuSection {
 export default function Menu() {
   const { menuSections } = useSettingsMenuItems();
   return (
-    <View className="flex-1 bg-white px-2 mt-2">
+    <SafeAreaView className="flex-1 bg-white px-2 mt-2">
 
 
       {/* Menu content */}
@@ -47,6 +46,6 @@ export default function Menu() {
           </View>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

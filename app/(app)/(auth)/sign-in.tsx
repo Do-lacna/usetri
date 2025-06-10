@@ -1,25 +1,29 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import auth, { signInWithEmailAndPassword } from "@react-native-firebase/auth";
-import { Link } from "expo-router";
-import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
-import Toast from "react-native-toast-message";
-import type { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import { Link, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import type { z } from 'zod';
 
-import UsetriLogo from "~/assets/images/usetri-logo.svg";
-import { Button } from "~/components/ui/button";
-import { GoogleSignIn } from "~/components/ui/google-sign-in";
-import { Input } from "~/components/ui/input";
-import { signInSchema } from "~/schema/signin";
-import { resetAndRedirect } from "~/utils/navigation-utils";
+import UsetriLogo from '~/assets/images/usetri-logo.svg';
+import { Button } from '~/components/ui/button';
+import { GoogleSignIn } from '~/components/ui/google-sign-in';
+import { Input } from '~/components/ui/input';
+import { signInSchema } from '~/schema/signin';
+import { resetAndRedirect } from '~/utils/navigation-utils';
 
 export default function SignIn() {
+  const { email } = useLocalSearchParams<{ email?: string }>();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors, touchedFields, isValid, isDirty },
+    setValue,
   } = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
     resolver: zodResolver(signInSchema),
   });
 
@@ -27,28 +31,40 @@ export default function SignIn() {
     email,
     password,
   }: z.infer<typeof signInSchema>) => {
+    setIsLoading(true);
     signInWithEmailAndPassword(auth(), email, password)
       .then(async (data) => {
-        console.log(data);
+        setIsLoading(false);
         if (data?.user?.emailVerified) {
-          resetAndRedirect("/main");
+          resetAndRedirect('/main');
+        } else {
+          Toast.show({
+            type: 'error',
+            text1:
+              'Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku',
+            position: 'bottom',
+          });
         }
-        Toast.show({
-          type: "error",
-          text1:
-            "Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku",
-          position: "bottom",
-        });
       })
       .catch((error) => {
+        setIsLoading(false);
+
         console.error(error);
         Toast.show({
-          type: "error",
-          text1: "Nepodarilo sa prihlásiť",
-          position: "bottom",
+          type: 'error',
+          text1: 'Nepodarilo sa prihlásiť',
+          position: 'bottom',
         });
       });
   };
+
+  // Pre-fill email if it comes from signup
+  useEffect(() => {
+    if (email) {
+      setValue('email', email, { shouldValidate: true, shouldTouch: true });
+    }
+  }, [email, setValue]);
+  
   return (
     <View className="flex-1 items-center justify-center gap-2">
       {/* <SvgXml xml={LocalSvg} width={200} height={200} /> */}
@@ -60,7 +76,7 @@ export default function SignIn() {
         // height={200}
       /> */}
       <View className="w-[220px] h-[110px]">
-        <UsetriLogo width={"100%"} height={"100%"} />
+        <UsetriLogo width={'100%'} height={'100%'} />
       </View>
       {/* <SvgXml xml={svgLogo} width={200} height={200} /> */}
       <GoogleSignIn />
@@ -103,7 +119,7 @@ export default function SignIn() {
         <Text className="my-4 text-red-600">{errors.password.message}</Text>
       )}
       <Button
-        disabled={!isDirty || !isValid}
+        disabled={!isDirty || !isValid || isLoading}
         onPress={handleSubmit(performSignIn)}
         className="w-[80%] mt-4"
       >
@@ -112,18 +128,14 @@ export default function SignIn() {
 
       <View className="flex-row gap-2">
         <Text className="text-lg">Ešte nemáte účet?</Text>
-        <Link href="/sign-up">
+        <Link href="/sign-up" disabled={isLoading}>
           <Text className="text-lg font-bold text-terciary">Registrovať</Text>
         </Link>
       </View>
 
-      <Link href="/forgotten-password">
+      <Link href="/forgotten-password" disabled={isLoading}>
         <Text className="text-lg font-bold text-terciary">Zabudnuté heslo</Text>
       </Link>
-
-      {/* <Button onPress={() => router.push("/sign-up")} className="w-[60%] mt-4">
-        <Text>Registrovať</Text>
-      </Button> */}
     </View>
   );
 }

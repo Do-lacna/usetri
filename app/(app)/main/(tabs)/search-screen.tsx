@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import StoreLogo from "../../../../components/store-logo/store-logo";
 import DiscountList from "../../../../components/ui/discount-list";
 import { ShopExtendedDto } from "../../../../network/model";
