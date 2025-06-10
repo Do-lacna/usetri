@@ -5,7 +5,7 @@ import '~/global.css';
 export default function AppLayout() {
   return (
     <>
-      <StatusBar />
+      <StatusBar translucent={false}/>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -73,9 +73,6 @@ export default function AppLayout() {
               fontWeight: 'bold',
               
             },
-            // headerCo: {
-            //   paddingTop: 30,
-            // },
           }}
         />
       </Stack>
