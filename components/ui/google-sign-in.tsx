@@ -2,10 +2,9 @@ import auth, { signInWithCredential } from "@react-native-firebase/auth";
 import { useAuthRequest } from "expo-auth-session/providers/google";
 import { maybeCompleteAuthSession } from "expo-web-browser";
 import { useEffect } from "react";
-import { Text } from "react-native";
+import { Image, Text, TouchableOpacity } from "react-native";
 import { useSession } from "~/context/authentication-context";
 import { resetAndRedirect } from "~/utils/navigation-utils";
-import { Button } from "./button";
 
 maybeCompleteAuthSession();
 
@@ -58,8 +57,21 @@ export function GoogleSignIn() {
   };
 
   return (
-    <Button onPress={handleGoogleSignIn} className="w-[80%] mt-4">
-      <Text>Prihlásiť sa pomocou Google </Text>
-    </Button>
+    <TouchableOpacity
+      className="flex-row items-center justify-center bg-white border border-gray-300 rounded-md py-3 px-4 shadow-sm active:opacity-80 mb-2"
+      style={{ width: 250, height: 44 }}
+      onPress={handleGoogleSignIn}
+    >
+      <Image
+        source={require("~/assets/images/logos/google-logo.png")}
+        className="w-[18px] h-[18px] mr-2"
+      />
+      <Text
+        className="text-gray-700 text-lg text-center"
+        style={{ lineHeight: 18 }}
+      >
+        Sign in with Google
+      </Text>
+    </TouchableOpacity>
   );
 }
