@@ -26,9 +26,9 @@ export function getShopIcon(shopId: number, shops: ShopExtendedDto[]) {
   return shops.find((shop) => shop.id === shopId)?.image_url;
 }
 
-export function getShopById(shopId: number, shops: ShopExtendedDto[]) {
+export function getShopById(shopId: number | null, shops: ShopExtendedDto[] | null) {
   if (!shopId || shops?.length === 0) return null;
-  return shops.find((shop) => shop.id === shopId);
+  return shops?.find((shop) => shop.id === shopId);
 }
 
 export const getSimplifiedCart = (
