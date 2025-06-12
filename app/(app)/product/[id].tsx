@@ -45,19 +45,26 @@ interface Product {
   nutritionScore?: 'A' | 'B' | 'C' | 'D' | 'E';
 }
 
-interface ProductDetailScreenProps {
-  product: Product;
-  onAddToCart: (productId: string, quantity: number, shopId: string) => void;
-  onBack: () => void;
-}
-
-const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
-  product,
-  onAddToCart,
-  onBack,
-}) => {
+const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
+
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+
+  const {
+    handleAddCategoryToCart,
+    handleAddProductToCart,
+    handleRemoveItemFromCart,
+    handleChooseProductFromCategory,
+  } = useCartActions({
+    onSuccessfullCartUpdate: () => {
+      displaySuccessToastMessage('Produkt bol vložený do košíka');
+    },
+    // onSuccessWithExpandedOption: (categoryId) => {
+    //   setExpandedOption(Number(categoryId));
+    // },
+  });
 
   const incrementQuantity = () => {
     setCartQuantity((prev) => prev + 1);
@@ -69,122 +76,91 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
   const handleAddToCart = () => {
     if (cartQuantity > 0 && selectedShopId) {
-      onAddToCart(product.id, cartQuantity, selectedShopId);
-      // Optionally reset quantity or show success feedback
+      handleAddProductToCart(String(id), cartQuantity);
     }
   };
 
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
+  const { name: selectedShopName, image_url: shopImage } =
+    getShopById(selectedShopId, shops) || {};
 
-    const { id } = useLocalSearchParams();
-    const router = useRouter();
-  
-    const { data: { shops = [] } = {} } = useGetShops();
+  const {
+    data: { products = [] } = {},
+  } = useGetProductsByBarcode(String(id), undefined);
 
-  const { name: selectedShopName, image_url: shopImage, } =   getShopById(selectedShopId, shops)  || {}
-
-  
-    const { data: { products = [] } = {} } = useGetProductsByBarcode(
-      String(id),
-      undefined
-      // {
-      //   query: {
-      //     enabled: !!id,
-      //   },
-      // }
-    );
-  
-    const {
-      handleAddCategoryToCart,
-      handleAddProductToCart,
-      handleRemoveItemFromCart,
-      handleChooseProductFromCategory,
-    } = useCartActions({
-      onSuccessfullCartUpdate: () => {
-        displaySuccessToastMessage("Produkt bol vložený do košíka");
-      },
-      // onSuccessWithExpandedOption: (categoryId) => {
-      //   setExpandedOption(Number(categoryId));
-      // },
-    });
-
-    
-    useEffect(() => {
-      if (products?.length > 0) {
-        setSelectedShopId(Number(products[0].shop_id));
-      }
+  useEffect(() => {
+    if ([products ?? []].length > 0) {
+      setSelectedShopId(Number(products?.[0]?.shop_id));
     }
-    , [products]);
-  
-    if (!products?.[0]) {
-      //TODO create adequate error screen for not found product
-      return (
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-3xl">Product not found</Text>
-        </View>
-      );
-    }
-  
-    //TODO this EP should return only detail of the product in 1 object
-    const {
-      detail: { image_url, brand, name, amount, unit, barcode } = {},
-      price,
-      detail,
-    } = {
-      ...products?.[0],
-    };
-  
-    // Sort prices from lowest to highest
-    const sortedPrices = (products ?? []).sort(
-      (a, b) => (a.price ?? 0) - (b.price ?? 0)
+  }, [products]);
+
+  if (!products?.[0]) {
+    //TODO create adequate error screen for not found product
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text className="text-3xl">Product not found</Text>
+      </View>
     );
+  }
 
+  //TODO this EP should return only detail of the product in 1 object
+  const {
+    detail: { image_url, brand, name, amount, unit, barcode } = {},
+    price,
+    detail,
+  } = {
+    ...products?.[0],
+  };
 
-    const selectedShopPrice = products?.find(
-      (product) => product.shop_id === Number(selectedShopId)
-    )?.price ?? 0
+  // Sort prices from lowest to highest
+  const sortedPrices = (products ?? []).sort(
+    (a, b) => (a.price ?? 0) - (b.price ?? 0),
+  );
 
+  const selectedShopPrice =
+  products?.find((product) => product.shop_id === Number(selectedShopId))
+      ?.price ?? 0;
 
-
-
+  const productCategories = [
+    { id: '1', name: 'Dairy' },
+    { id: '2', name: 'Milk & Cream' },
+    { id: '3', name: 'Whole Milk' },
+  ];
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Product Image */}
         <View className="bg-gray-50 items-center justify-center py-2">
-          {/* <Image
-            source={{ uri: product.imageUrl }}
-            className="w-64 h-64 rounded-lg"
-            resizeMode="contain"
-          /> */}
           <Image
-           source={{
-                      uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
-                    }}
+            source={{
+              uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
+            }}
             className="w-full h-60"
             resizeMode="contain"
           />
         </View>
 
         {/* Category Hierarchy */}
-    
-          <View className="px-4 w-full flex-row">
-            {product.categories.map((category, index) => (
-              <View key={category.id} className="flex-row items-center mb-2">
-                <Text className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                  {category.name}
-                </Text>
-                {index < product.categories.length - 1 && (
-                  <Ionicons
-                    name="chevron-forward"
-                    size={12}
-                    color="#9CA3AF"
-                    className="mx-1"
-                  />
-                )}
-              </View>
-            ))}
-          </View>
+
+        <View className="px-4 w-full flex-row">
+          {productCategories.map((category, index) => (
+            <View key={category.id} className="flex-row items-center mb-2">
+              <Text className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                {category.name}
+              </Text>
+              {index < productCategories.length - 1 && (
+                <Ionicons
+                  name="chevron-forward"
+                  size={12}
+                  color="#9CA3AF"
+                  className="mx-1"
+                />
+              )}
+            </View>
+          ))}
+        </View>
 
         <View className="px-4">
           {/* Product Info */}
@@ -205,48 +181,45 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             </Text>
 
             {products?.map(({ shop_id, price }) => {
-                const { name: shopName,  } =   getShopById(Number(shop_id), shops)  || {} 
-              return(
-              <TouchableOpacity
-                key={shop_id}
-                onPress={() => setSelectedShopId(Number(shop_id))}
-                className={`p-4 rounded-lg border-2 mb-3 ${
-                  selectedShopId === shop_id
-                    ? 'border-green-500 bg-green-50'
-                    : 'border-gray-200 bg-white'
-                }`}
-              >
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-1">
-                    <View className="flex-row items-center mb-1 gap-4">
-                            <Image
-                              {...getShopLogo(shop_id as any)}
-                              className="w-8 h-8 rounded-full"
-                              resizeMode="contain"
-                             
-                            />
-                      <Text className="text-lg font-semibold text-gray-900 mr-2">
-                        {shopName}
-                      </Text>
-              
+              const { name: shopName } =
+                getShopById(Number(shop_id), shops) || {};
+              return (
+                <TouchableOpacity
+                  key={shop_id}
+                  onPress={() => setSelectedShopId(Number(shop_id))}
+                  className={`p-4 rounded-lg border-2 mb-3 ${
+                    selectedShopId === shop_id
+                      ? 'border-green-500 bg-green-50'
+                      : 'border-gray-200 bg-white'
+                  }`}
+                >
+                  <View className="flex-row items-center justify-between">
+                    <View className="flex-1">
+                      <View className="flex-row items-center mb-1 gap-4">
+                        <Image
+                          {...getShopLogo(shop_id as any)}
+                          className="w-8 h-8 rounded-full"
+                          resizeMode="contain"
+                        />
+                        <Text className="text-lg font-semibold text-gray-900 mr-2">
+                          {shopName}
+                        </Text>
+                      </View>
                     </View>
 
+                    <View className="items-end">
+                      <Text className="text-xl font-bold text-gray-900">
+                        {price?.toFixed(2)} €
+                      </Text>
+                      {selectedShopId === shop_id && (
+                        <View className="w-2 h-2 bg-green-500 rounded-full mt-1" />
+                      )}
+                    </View>
                   </View>
-
-                  <View className="items-end">
-                    <Text className="text-xl font-bold text-gray-900">
-                      {price?.toFixed(2)} €
-                    </Text>
-                    {selectedShopId === shop_id && (
-                      <View className="w-2 h-2 bg-green-500 rounded-full mt-1" />
-                    )}
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-            )} 
+                </TouchableOpacity>
+              );
+            })}
           </View>
-
         </View>
       </ScrollView>
 
@@ -260,7 +233,7 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
             <Text className="text-2xl font-bold text-gray-900">
               {/* {selectedShopId.currency}
               {selectedShopId.price.toFixed(2)} */}
-              {selectedShopPrice * cartQuantity} €
+              {(selectedShopPrice * cartQuantity).toFixed(2)} €
             </Text>
           </View>
 
@@ -294,35 +267,25 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
         {/* Add to Cart Button */}
         <Button
           onPress={handleAddToCart}
-          disabled={
-            cartQuantity === 0 
-          }
+          disabled={cartQuantity === 0}
           className={`py-4 rounded-lg items-center justify-center flex-row ${
-            cartQuantity === 0 
-              ? 'bg-gray-300'
-              : 'bg-primary'
+            cartQuantity === 0 ? 'bg-gray-300' : 'bg-primary'
           }`}
         >
           <Ionicons
             name="cart"
             size={20}
-            color={
-              cartQuantity === 0 
-                ? '#9CA3AF'
-                : 'white'
-            }
+            color={cartQuantity === 0 ? '#9CA3AF' : 'white'}
             className="mr-2"
           />
           <Text
             className={`text-lg font-semibold ${
-              cartQuantity === 0
-                ? 'text-gray-500'
-                : 'text-white'
+              cartQuantity === 0 ? 'text-gray-500' : 'text-white'
             }`}
           >
             {cartQuantity === 0
               ? 'Zvoľte množstvo'
-                : 'Pridať do nákupného zoznamu'}
+              : 'Pridať do nákupného zoznamu'}
           </Text>
         </Button>
 
@@ -336,75 +299,4 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
     </SafeAreaView>
   );
 };
-
-// Example usage with sample data
-const ExampleUsage: React.FC = () => {
-  const sampleProduct: Product = {
-    id: '1',
-    name: 'Organic Whole Milk',
-    brand: 'Farm Fresh',
-    amount: 1,
-    unit: 'L',
-    imageUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400',
-    description:
-      'Fresh organic whole milk from grass-fed cows. Rich in calcium and vitamins, perfect for drinking or cooking.',
-    nutritionScore: 'B',
-    categories: [
-      { id: '1', name: 'Dairy' },
-      { id: '2', name: 'Milk & Cream' },
-      { id: '3', name: 'Whole Milk' },
-    ],
-    shops: [
-      {
-        id: '1',
-        name: 'FreshMart',
-        price: 3.99,
-        currency: '$',
-        distance: '0.5 km',
-        availability: 'in-stock',
-      },
-      {
-        id: '2',
-        name: 'GreenGrocer',
-        price: 4.25,
-        currency: '$',
-        distance: '1.2 km',
-        availability: 'low-stock',
-      },
-      {
-        id: '3',
-        name: 'SuperSave',
-        price: 3.79,
-        currency: '$',
-        distance: '2.1 km',
-        availability: 'in-stock',
-      },
-    ],
-  };
-
-  const handleAddToCart = (
-    productId: string,
-    quantity: number,
-    shopId: string,
-  ) => {
-    console.log(
-      `Added ${quantity} of product ${productId} from shop ${shopId} to cart`,
-    );
-    // Implement your cart logic here
-  };
-
-  const handleBack = () => {
-    console.log('Navigate back');
-    // Implement navigation back logic here
-  };
-
-  return (
-    <ProductDetailScreen
-      product={sampleProduct}
-      onAddToCart={handleAddToCart}
-      onBack={handleBack}
-    />
-  );
-};
-
-export default ExampleUsage;
+export default ProductDetailScreen;
