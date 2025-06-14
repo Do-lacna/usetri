@@ -1,7 +1,6 @@
 // screens/MenuScreen.tsx
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useSettingsMenuItems } from "~/hooks/use-settings-menu-items";
 
 // Define types for menu items
@@ -17,13 +16,10 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-
 export default function Menu() {
   const { menuSections } = useSettingsMenuItems();
   return (
-    <SafeAreaView className="flex-1 bg-white px-2 mt-2">
-
-
+    <View className="flex-1 bg-white px-2">
       {/* Menu content */}
       <ScrollView className="flex-1">
         {menuSections.map((section) => (
@@ -46,6 +42,6 @@ export default function Menu() {
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
