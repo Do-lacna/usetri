@@ -30,6 +30,7 @@ import type {
   GetProductPricesResponse,
   GetProductsAdminParams,
   GetProductsAdminResponse,
+  GetProductsManagementAdminResponse,
   GetShopsAdminResponse,
   PatchCategoryRequest,
   ProblemDetails,
@@ -779,6 +780,142 @@ export const usePatchProductAdmin = <
 
   return useMutation(mutationOptions);
 };
+export const getProductsManagementAdmin = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetProductsManagementAdminResponse>(
+    { url: `/admin/products-management`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetProductsManagementAdminQueryKey = () => {
+  return [`/admin/products-management`] as const;
+};
+
+export const getGetProductsManagementAdminQueryOptions = <
+  TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetProductsManagementAdminQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getProductsManagementAdmin>>
+  > = ({ signal }) => getProductsManagementAdmin(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetProductsManagementAdminQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProductsManagementAdmin>>
+>;
+export type GetProductsManagementAdminQueryError = ProblemDetails;
+
+export function useGetProductsManagementAdmin<
+  TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetProductsManagementAdmin<
+  TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetProductsManagementAdmin<
+  TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetProductsManagementAdmin<
+  TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getProductsManagementAdmin>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetProductsManagementAdminQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const changePrice = (
   barcode: string,
   shopId: number,

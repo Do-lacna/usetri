@@ -1,8 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
@@ -16,6 +18,10 @@ import { getShopById } from "~/lib/utils";
 import { useGetProductsByBarcode, useGetShops } from "~/network/query/query";
 import { getShopLogo } from "~/utils/logo-utils";
 import { displaySuccessToastMessage } from "~/utils/toast-utils";
+import {
+  getGetUserCartComparisonQueryKey,
+  useGetCart,
+} from "../../../network/customer/customer";
 
 // TypeScript interfaces
 interface Shop {
@@ -48,6 +54,7 @@ interface Product {
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
 
   const { id } = useLocalSearchParams();
   const router = useRouter();
@@ -57,8 +64,12 @@ const ProductDetailScreen: React.FC = () => {
     handleAddProductToCart,
     handleRemoveItemFromCart,
     handleChooseProductFromCategory,
+    handleUpdateProductQuantity,
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
+      queryClient.invalidateQueries({
+        queryKey: getGetUserCartComparisonQueryKey(),
+      });
       displaySuccessToastMessage("Produkt bol vložený do košíka");
     },
   });
@@ -71,9 +82,23 @@ const ProductDetailScreen: React.FC = () => {
     setCartQuantity((prev) => Math.max(0, prev - 1));
   };
 
-  const handleAddToCart = () => {
+  const { data: { cart } = {}, isLoading: isCartLoading } = ({} = useGetCart());
+
+  const currentProductInCartQuantity =
+    cart?.specific_products?.find(
+      (item) => item.product?.barcode === String(id)
+    )?.quantity ?? 0;
+
+  const handleManageProductCartQuantity = () => {
     if (cartQuantity > 0 && selectedShopId) {
-      handleAddProductToCart(String(id), cartQuantity);
+      if (currentProductInCartQuantity === 0) {
+        handleAddProductToCart(String(id), cartQuantity);
+      } else {
+        handleUpdateProductQuantity(String(id), cartQuantity);
+      }
+    }
+    if (cartQuantity === 0 && selectedShopId) {
+      handleRemoveItemFromCart("product", String(id));
     }
   };
 
@@ -91,6 +116,12 @@ const ProductDetailScreen: React.FC = () => {
       setSelectedShopId(Number(products?.[0]?.shop_id));
     }
   }, [products]);
+
+  useEffect(() => {
+    if (currentProductInCartQuantity > 0) {
+      setCartQuantity(currentProductInCartQuantity);
+    }
+  }, [currentProductInCartQuantity]);
 
   //TODO add loading state and error state
 
@@ -125,7 +156,16 @@ const ProductDetailScreen: React.FC = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={() => queryClient.invalidateQueries()}
+          />
+        }
+      >
         <View className="bg-gray-50 items-center justify-center py-2">
           <Image
             source={{
@@ -262,25 +302,20 @@ const ProductDetailScreen: React.FC = () => {
 
         {/* Add to Cart Button */}
         <Button
-          onPress={handleAddToCart}
-          disabled={cartQuantity === 0}
+          onPress={handleManageProductCartQuantity}
           className={`py-4 rounded-lg items-center justify-center flex-row ${
-            cartQuantity === 0 ? "bg-gray-300" : "bg-primary"
+            cartQuantity === 0 ? "bg-red-400" : "bg-primary"
           }`}
         >
-          <Ionicons
-            name="cart"
-            size={20}
-            color={cartQuantity === 0 ? "#9CA3AF" : "white"}
-            className="mr-2"
-          />
-          <Text
-            className={`text-lg font-semibold ${
-              cartQuantity === 0 ? "text-gray-500" : "text-white"
-            }`}
-          >
+          <Ionicons name="cart" size={20} className="mr-2" />
+          <Text className="font-semibold">
+            {/* {TODO refactor this shit} */}
             {cartQuantity === 0
-              ? "Zvoľte množstvo"
+              ? currentProductInCartQuantity > 0
+                ? "Odobrať z košíka"
+                : "Zvoľte množstvo"
+              : currentProductInCartQuantity > 0
+              ? "Aktualizovať v košíku"
               : "Pridať do nákupného zoznamu"}
           </Text>
         </Button>

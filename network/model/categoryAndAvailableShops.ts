@@ -6,8 +6,8 @@
  */
 import type { CategoryDto } from './categoryDto';
 
-export interface GetCategoryResponse {
-  count?: number;
+export interface CategoryAndAvailableShops {
+  category?: CategoryDto;
   /** @nullable */
-  categories?: CategoryDto[] | null;
+  shop_ids?: number[] | null;
 }

@@ -5,8 +5,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GetDiscountsParams = {
-  q?: string;
-  Limit?: number;
-  Offset?: number;
+export type UploadWoltJsonParams = {
+  batchSize?: number;
 };

@@ -6,5 +6,5 @@
  */
 
 export type UploadDiscountPricesJsonParams = {
-  shopName?: string;
+  shopId?: number;
 };

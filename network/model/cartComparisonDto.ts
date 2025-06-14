@@ -5,12 +5,12 @@
  * OpenAPI spec version: 1.0
  */
 import type { ShopExtendedDto } from './shopExtendedDto';
-import type { ShopItemDto } from './shopItemDto';
+import type { CartComparisonProductDto } from './cartComparisonProductDto';
 
 export interface CartComparisonDto {
   shop?: ShopExtendedDto;
   /** @nullable */
-  specific_products?: ShopItemDto[] | null;
+  specific_products?: CartComparisonProductDto[] | null;
   total_price?: number;
   normalized_total_price?: number;
   /** @nullable */

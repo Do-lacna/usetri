@@ -13,4 +13,8 @@ export interface CategoryDto {
   image_url?: string | null;
   /** @nullable */
   parent_id?: number | null;
+  /** @nullable */
+  path_from_root?: string[] | null;
+  /** @nullable */
+  path_from_root_numeric?: number[] | null;
 }

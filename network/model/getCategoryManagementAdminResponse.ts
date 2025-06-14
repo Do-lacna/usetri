@@ -5,18 +5,16 @@
  * OpenAPI spec version: 1.0
  */
 import type { CategoryDto } from './categoryDto';
-import type { ProductDto } from './productDto';
-import type { ProductsGroupedByUnits } from './productsGroupedByUnits';
+import type { CategoryAndAvailableShops } from './categoryAndAvailableShops';
 
 export interface GetCategoryManagementAdminResponse {
   /** @nullable */
   uncategorized_subtrees?: CategoryDto[] | null;
   /** @nullable */
-  all_products_with_not_leaf_category?: ProductDto[][] | null;
-  /** @nullable */
-  products_with_not_set_category?: ProductDto[] | null;
-  /** @nullable */
-  products_in_same_category_with_different_units?:
-    | ProductsGroupedByUnits[]
-    | null;
+  categories_and_available_shops?: CategoryAndAvailableShops[] | null;
+  count_of_categories_with_products_in0_shops?: number;
+  count_of_categories_with_products_in1_shops?: number;
+  count_of_categories_with_products_in2_shops?: number;
+  count_of_categories_with_products_in3_shops?: number;
+  count_of_categories_with_products_in4_shops?: number;
 }

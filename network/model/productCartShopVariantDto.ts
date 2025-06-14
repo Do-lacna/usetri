@@ -5,15 +5,15 @@
  * OpenAPI spec version: 1.0
  */
 import type { ShopExtendedDto } from './shopExtendedDto';
-import type { ProductDto } from './productDto';
+import type { CartComparisonProductDto } from './cartComparisonProductDto';
 import type { MissingItemVariant } from './missingItemVariant';
 
 export interface ProductCartShopVariantDto {
   shop?: ShopExtendedDto;
   /** @nullable */
-  product_items?: ProductDto[] | null;
+  product_items?: CartComparisonProductDto[] | null;
   /** @nullable */
-  category_items?: ProductDto[] | null;
+  category_items?: CartComparisonProductDto[] | null;
   /** @nullable */
   missing_items?: MissingItemVariant[] | null;
   total_price?: number;

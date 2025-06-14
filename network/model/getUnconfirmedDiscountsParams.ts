@@ -5,7 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GetDiscountsParams = {
+export type GetUnconfirmedDiscountsParams = {
   q?: string;
   Limit?: number;
   Offset?: number;

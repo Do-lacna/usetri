@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopItemWithExtendedCategoryDto } from './shopItemWithExtendedCategoryDto';
+import type { ShopItemDto } from './shopItemDto';
 
 export interface GetProductsByBarcodeResponse {
   /** @nullable */
-  products?: ShopItemWithExtendedCategoryDto[] | null;
+  products?: ShopItemDto[] | null;
 }

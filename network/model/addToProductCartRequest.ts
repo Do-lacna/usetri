@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ProductCartItemDto } from './productCartItemDto';
+import type { ProductCartInputItemDto } from './productCartInputItemDto';
 
 export interface AddToProductCartRequest {
   /** @nullable */
-  items?: ProductCartItemDto[] | null;
+  items?: ProductCartInputItemDto[] | null;
 }

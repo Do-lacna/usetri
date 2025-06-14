@@ -13,6 +13,7 @@ import type {
 import type {
   DiscountPriceImportBatchDto,
   UploadWoltJsonBody,
+  UploadWoltJsonParams,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -20,6 +21,7 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const uploadWoltJson = (
   uploadWoltJsonBody: UploadWoltJsonBody,
+  params?: UploadWoltJsonParams,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
@@ -34,6 +36,7 @@ export const uploadWoltJson = (
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,
+      params,
       signal,
     },
     options,
@@ -48,7 +51,7 @@ export const getUploadWoltJsonMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadWoltJsonBody },
+    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -64,17 +67,17 @@ export const getUploadWoltJsonMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadWoltJson>>,
-    { data: UploadWoltJsonBody }
+    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams }
   > = (props) => {
-    const { data } = props ?? {};
+    const { data, params } = props ?? {};
 
-    return uploadWoltJson(data, requestOptions);
+    return uploadWoltJson(data, params, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: UploadWoltJsonBody },
+    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
     TContext
   >;
 };
@@ -93,14 +96,14 @@ export const useUploadWoltJson = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: UploadWoltJsonBody },
+    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: UploadWoltJsonBody },
+  { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
   TContext
 > => {
   const mutationOptions = getUploadWoltJsonMutationOptions(options);

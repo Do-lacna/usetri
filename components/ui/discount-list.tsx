@@ -1,7 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
-import { FlatList, RefreshControl, Text, View } from "react-native";
+import {
+  FlatList,
+  ListRenderItem,
+  RefreshControl,
+  Text,
+  View,
+} from "react-native";
 import { ShopExtendedDto } from "../../network/model";
 import { useGetDiscounts, useGetProducts } from "../../network/query/query";
 import ProductCardNew2 from "./product-card/product-card";
@@ -9,6 +15,10 @@ import { Skeleton } from "./skeleton";
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
+}
+
+interface SkeletonItem {
+  id: number;
 }
 
 const DiscountList = ({ shop }: IDiscountListProps) => {
@@ -22,21 +32,43 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   const { data: { products: prod } = {}, isLoading } = useGetProducts();
   const outputProducts = prod?.map(({ products }) => products?.[0]);
 
+  // Create skeleton data that matches FlatList structure
+  const skeletonData: SkeletonItem[] = Array.from(
+    { length: 4 },
+    (_, index) => ({ id: index })
+  );
+
+  const renderSkeletonItem: ListRenderItem<SkeletonItem> = ({
+    item,
+    index,
+  }) => (
+    <View className="flex-1 max-w-[50%]">
+      <Skeleton className="w-full aspect-[4/3] bg-divider rounded-lg" />
+    </View>
+  );
+
+  const renderProductItem: ListRenderItem<any> = ({ item }) => (
+    <ProductCardNew2
+      product={item}
+      onPress={(id: string | number) => router.navigate(`/product/${id}`)}
+      availableShopIds={item?.shop_id ? [item?.shop_id] : []}
+    />
+  );
+
   return (
     <View>
-      {/* <View className="flex-row mt-4">
-        <Text className="text-3xl">Zľavy v</Text>
-        <Text className="text-3xl font-semibold text-primary ml-1">{name}</Text>
-      </View> */}
       <View className="flex-row px-4">
-        {isPending && (
-          <View className="mt-4 gap-4 flex-row items-center justify-between w-full">
-            {[1, 2, 3].map((_, index) => (
-              <Skeleton key={index} className="w-32 h-28 bg-divider p-4" />
-            ))}
-          </View>
-        )}
-        {outputProducts?.length === 0 && !isPending ? (
+        {isPending ? (
+          <FlatList
+            data={skeletonData}
+            renderItem={renderSkeletonItem}
+            numColumns={2}
+            keyExtractor={(item) => String(item.id)}
+            contentContainerClassName="gap-4 p-1"
+            columnWrapperClassName="gap-4"
+            scrollEnabled={false}
+          />
+        ) : outputProducts?.length === 0 ? (
           <Text
             className="text-gray-500 text-base text-center mt-2"
             numberOfLines={2}
@@ -46,13 +78,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
         ) : (
           <FlatList
             data={outputProducts}
-            renderItem={({ item }) => (
-              <ProductCardNew2
-                product={item}
-                onPress={(id) => router.navigate(`/product/${id}`)}
-                availableShopIds={[1]}
-              />
-            )}
+            renderItem={renderProductItem}
             numColumns={2}
             keyExtractor={(product) => String(product?.detail?.barcode)}
             contentContainerClassName="gap-4 p-1"
@@ -64,25 +90,6 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
               />
             }
           />
-
-          // <ScrollView
-          //   horizontal
-          //   showsHorizontalScrollIndicator={false}
-          //   contentContainerStyle={{
-          //     gap: 12, // This adds 24 pixels of space between items
-          //     paddingVertical: 8,
-          //   }}
-          //   className="flex-row space-x-4"
-          // >
-          //   {outputProducts?.map((product, index) => (
-          //     <ProductCardNew2
-          //       key={index}
-          //       product={product}
-          //       onPress={(id) => router.navigate(`/product/${id}`)}
-          //       availableShopIds={[index + 1]}
-          //     />
-          //   ))}
-          // </ScrollView>
         )}
       </View>
     </View>

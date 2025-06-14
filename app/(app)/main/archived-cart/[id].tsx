@@ -13,6 +13,14 @@ export default function ArchivedCartScreen() {
 
   console.log(cart);
 
+  const mappedProducts = cart?.barcodes?.map(
+    ({ price, product, quantity }) => ({
+      price,
+      detail: product,
+      quantity,
+    })
+  );
+
   if (!cart) {
     return (
       <View>
@@ -36,7 +44,11 @@ export default function ArchivedCartScreen() {
     // </View>
     <View className="flex flex-1 align-center justify-center py-4 px-2">
       {/* <ComparisonShopReceipt {...cartData} /> */}
-      <ReceiptScreen {...cart} />
+      <ReceiptScreen
+        shop={cart?.shop}
+        specific_products={mappedProducts}
+        total_price={cart?.total_price}
+      />
     </View>
   );
 }

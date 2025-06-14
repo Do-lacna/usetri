@@ -30,6 +30,8 @@ import type {
   GetProductsParams,
   GetProductsResponse,
   GetShopsResponse,
+  GetUnconfirmedDiscountsParams,
+  GetUnconfirmedDiscountsResponse,
   ProblemDetails,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
@@ -789,6 +791,160 @@ export function useGetShops<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetShopsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getUnconfirmedDiscounts = (
+  params?: GetUnconfirmedDiscountsParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetUnconfirmedDiscountsResponse>(
+    { url: `/unconfirmed-discounts`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetUnconfirmedDiscountsQueryKey = (
+  params?: GetUnconfirmedDiscountsParams,
+) => {
+  return [`/unconfirmed-discounts`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetUnconfirmedDiscountsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetUnconfirmedDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetUnconfirmedDiscountsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getUnconfirmedDiscounts>>
+  > = ({ signal }) => getUnconfirmedDiscounts(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetUnconfirmedDiscountsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUnconfirmedDiscounts>>
+>;
+export type GetUnconfirmedDiscountsQueryError = ProblemDetails;
+
+export function useGetUnconfirmedDiscounts<
+  TData = Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params: undefined | GetUnconfirmedDiscountsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnconfirmedDiscounts<
+  TData = Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetUnconfirmedDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnconfirmedDiscounts<
+  TData = Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetUnconfirmedDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetUnconfirmedDiscounts<
+  TData = Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+  TError = ProblemDetails,
+>(
+  params?: GetUnconfirmedDiscountsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUnconfirmedDiscounts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUnconfirmedDiscountsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

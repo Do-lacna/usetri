@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ProductCartProductDto } from './productCartProductDto';
+import type { ProductCartDtoProductDto } from './productCartDtoProductDto';
 
 export interface ProductCartDto {
   /** @nullable */
-  specific_products?: ProductCartProductDto[] | null;
+  specific_products?: ProductCartDtoProductDto[] | null;
   total_price?: number;
 }

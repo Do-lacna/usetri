@@ -132,7 +132,14 @@ const ReceiptScreen: React.FC<
             {/* Items List */}
             <View className="mb-4">
               {groceries?.map(
-                ({ price, detail: { name, barcode, brand } = {} }, index) => (
+                (
+                  {
+                    price = 1,
+                    detail: { name, barcode, brand } = {},
+                    quantity = 1,
+                  },
+                  index
+                ) => (
                   <View key={barcode}>
                     <View className="flex-row justify-between items-start py-3">
                       <View className="flex-1 pr-4">
@@ -147,7 +154,7 @@ const ReceiptScreen: React.FC<
                         </Text>
                       </View>
                       <Text className="text-base font-semibold text-gray-900">
-                        {formatPrice(price)}
+                        {formatPrice(price * quantity)}
                       </Text>
                     </View>
                     {index < groceries?.length - 1 && (
