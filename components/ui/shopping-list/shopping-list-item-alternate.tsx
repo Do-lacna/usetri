@@ -35,6 +35,7 @@ const ShoppingListProductItem: React.FC<{
       unit,
       brand,
       category: { id: categoryId } = {},
+      image_url,
     } = {},
     quantity = 1,
     price = 0,
@@ -82,9 +83,9 @@ const ShoppingListProductItem: React.FC<{
       >
         <View className="flex-row items-center space-x-3">
           <View className="flex-1 flex-row items-center">
-            <View className="relative">
+            <View className="relative mr-2">
               <Image
-                source={{ uri: PLACEHOLDER_PRODUCT_IMAGE }}
+                source={{ uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE }}
                 className="w-16 h-16 rounded-lg bg-gray-100"
                 resizeMode="cover"
               />

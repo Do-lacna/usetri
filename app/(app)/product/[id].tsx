@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -8,14 +8,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { Button } from '~/components/ui/button';
-import { useCartActions } from '~/hooks/use-cart-actions';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
-import { getShopById } from '~/lib/utils';
-import { useGetProductsByBarcode, useGetShops } from '~/network/query/query';
-import { getShopLogo } from '~/utils/logo-utils';
-import { displaySuccessToastMessage } from '~/utils/toast-utils';
+} from "react-native";
+import { Button } from "~/components/ui/button";
+import { useCartActions } from "~/hooks/use-cart-actions";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
+import { getShopById } from "~/lib/utils";
+import { useGetProductsByBarcode, useGetShops } from "~/network/query/query";
+import { getShopLogo } from "~/utils/logo-utils";
+import { displaySuccessToastMessage } from "~/utils/toast-utils";
 
 // TypeScript interfaces
 interface Shop {
@@ -24,7 +24,7 @@ interface Shop {
   price: number;
   currency: string;
   distance?: string;
-  availability: 'in-stock' | 'low-stock' | 'out-of-stock';
+  availability: "in-stock" | "low-stock" | "out-of-stock";
 }
 
 interface Category {
@@ -42,7 +42,7 @@ interface Product {
   categories: Category[];
   shops: Shop[];
   description?: string;
-  nutritionScore?: 'A' | 'B' | 'C' | 'D' | 'E';
+  nutritionScore?: "A" | "B" | "C" | "D" | "E";
 }
 
 const ProductDetailScreen: React.FC = () => {
@@ -59,11 +59,8 @@ const ProductDetailScreen: React.FC = () => {
     handleChooseProductFromCategory,
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
-      displaySuccessToastMessage('Produkt bol vložený do košíka');
+      displaySuccessToastMessage("Produkt bol vložený do košíka");
     },
-    // onSuccessWithExpandedOption: (categoryId) => {
-    //   setExpandedOption(Number(categoryId));
-    // },
   });
 
   const incrementQuantity = () => {
@@ -80,15 +77,14 @@ const ProductDetailScreen: React.FC = () => {
     }
   };
 
-  const {
-    data: { shops = [] } = {},
-  } = useGetShops();
+  const { data: { shops = [] } = {} } = useGetShops();
   const { name: selectedShopName, image_url: shopImage } =
     getShopById(selectedShopId, shops) || {};
 
-  const {
-    data: { products = [] } = {},
-  } = useGetProductsByBarcode(String(id), undefined);
+  const { data: { products = [] } = {}, isLoading } = useGetProductsByBarcode(
+    String(id),
+    undefined
+  );
 
   useEffect(() => {
     if ([products ?? []].length > 0) {
@@ -96,7 +92,9 @@ const ProductDetailScreen: React.FC = () => {
     }
   }, [products]);
 
-  if (!products?.[0]) {
+  //TODO add loading state and error state
+
+  if (!products?.[0] && !isLoading) {
     //TODO create adequate error screen for not found product
     return (
       <View className="flex-1 items-center justify-center">
@@ -106,27 +104,23 @@ const ProductDetailScreen: React.FC = () => {
   }
 
   //TODO this EP should return only detail of the product in 1 object
-  const {
-    detail: { image_url, brand, name, amount, unit, barcode } = {},
-    price,
-    detail,
-  } = {
+  const { detail: { image_url, brand, name, amount, unit, barcode } = {} } = {
     ...products?.[0],
   };
 
   // Sort prices from lowest to highest
   const sortedPrices = (products ?? []).sort(
-    (a, b) => (a.price ?? 0) - (b.price ?? 0),
+    (a, b) => (a.price ?? 0) - (b.price ?? 0)
   );
 
   const selectedShopPrice =
-  products?.find((product) => product.shop_id === Number(selectedShopId))
+    products?.find((product) => product.shop_id === Number(selectedShopId))
       ?.price ?? 0;
 
   const productCategories = [
-    { id: '1', name: 'Dairy' },
-    { id: '2', name: 'Milk & Cream' },
-    { id: '3', name: 'Whole Milk' },
+    { id: "1", name: "Dairy" },
+    { id: "2", name: "Milk & Cream" },
+    { id: "3", name: "Whole Milk" },
   ];
 
   return (
@@ -168,10 +162,12 @@ const ProductDetailScreen: React.FC = () => {
             <Text className="text-2xl font-bold text-gray-900 mb-2">
               {name}
             </Text>
-            <Text className="text-lg text-gray-600 mb-1">{brand}</Text>
-            <Text className="text-base text-gray-500">
-              {amount} {unit}
-            </Text>
+            <View className="flex-row items-center mb-2 justify-between">
+              <Text className="text-lg text-gray-600 mb-1">{brand}</Text>
+              <Text className="text-sm bg-divider px-3 py-1 rounded-full">
+                {amount} {unit}
+              </Text>
+            </View>
           </View>
 
           {/* Shop Prices */}
@@ -189,8 +185,8 @@ const ProductDetailScreen: React.FC = () => {
                   onPress={() => setSelectedShopId(Number(shop_id))}
                   className={`p-4 rounded-lg border-2 mb-3 ${
                     selectedShopId === shop_id
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-gray-200 bg-white'
+                      ? "border-green-500 bg-green-50"
+                      : "border-gray-200 bg-white"
                   }`}
                 >
                   <View className="flex-row items-center justify-between">
@@ -243,7 +239,7 @@ const ProductDetailScreen: React.FC = () => {
               onPress={decrementQuantity}
               disabled={cartQuantity === 0}
               className={`w-12 h-12 items-center justify-center rounded-l-lg ${
-                cartQuantity === 0 ? 'opacity-50' : ''
+                cartQuantity === 0 ? "opacity-50" : ""
               }`}
             >
               <Ionicons name="remove" size={20} color="#374151" />
@@ -269,23 +265,23 @@ const ProductDetailScreen: React.FC = () => {
           onPress={handleAddToCart}
           disabled={cartQuantity === 0}
           className={`py-4 rounded-lg items-center justify-center flex-row ${
-            cartQuantity === 0 ? 'bg-gray-300' : 'bg-primary'
+            cartQuantity === 0 ? "bg-gray-300" : "bg-primary"
           }`}
         >
           <Ionicons
             name="cart"
             size={20}
-            color={cartQuantity === 0 ? '#9CA3AF' : 'white'}
+            color={cartQuantity === 0 ? "#9CA3AF" : "white"}
             className="mr-2"
           />
           <Text
             className={`text-lg font-semibold ${
-              cartQuantity === 0 ? 'text-gray-500' : 'text-white'
+              cartQuantity === 0 ? "text-gray-500" : "text-white"
             }`}
           >
             {cartQuantity === 0
-              ? 'Zvoľte množstvo'
-              : 'Pridať do nákupného zoznamu'}
+              ? "Zvoľte množstvo"
+              : "Pridať do nákupného zoznamu"}
           </Text>
         </Button>
 

@@ -74,7 +74,7 @@ const ProductCardNew2 = ({
         )}
         {/* TODO fix this bottom-16 absolute positioning - find out why bottom is starting from div not image */}
         <View className="absolute bottom-16 flex-row gap-x-2 mt-1">
-          {[2, 3]?.map((retailer, index) => (
+          {availableShopIds?.map((retailer, index) => (
             <View
               key={retailer}
               style={{ width: 20, height: 20, borderRadius: 50 }}

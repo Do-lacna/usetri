@@ -13,6 +13,7 @@ export interface SavedCartCardProps {
   id: number;
   shopId: number;
   totalPrice: number;
+  savedAmount: number;
   createdDate: string;
 }
 
@@ -20,19 +21,20 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   id,
   shopId,
   totalPrice,
+  savedAmount = 0,
   createdDate,
 }) => {
   const { data: { shops = [] } = {} } = useGetShops();
   const shopName = getShopById(shopId, shops ?? [])?.name;
 
   return (
-    <Card className="w-full max-h-20 bg-divider">
+    <Card className="w-full bg-divider mb-4">
       <TouchableOpacity
         onPress={() => router.navigate(`/main/archived-cart/${id}`)}
-        className="h-full p-4 rounded-xl shadow-sm relative overflow-hidden"
+        className="p-4 rounded-xl shadow-sm relative overflow-hidden"
       >
         <Image
-          className="absolute h-16 w-16 -rotate-45 top-2 opacity-30 -left-2"
+          className="absolute h-20 w-20 -rotate-45 top-1 opacity-30 -left-2"
           {...getShopLogo(shopId as any)}
         />
         <View className="ml-12 flex-row items-center justify-between space-x-2">
@@ -48,10 +50,47 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
               {format(createdDate, DATE_FORMAT)}
             </Text>
           </View>
-          <Text className="text-lg font-bold">{totalPrice.toFixed(2)} €</Text>
+          <View className="flex flex-col items-center">
+            <Text className="text-lg font-bold">{totalPrice.toFixed(2)} €</Text>
+            <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
+              <Text className="text-xs font-medium text-green-700">
+                Ušetrené {savedAmount.toFixed(2)} €
+              </Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     </Card>
+
+    // <View
+    //   key={id}
+    //   className="bg-white rounded-2xl p-4 mb-3 shadow-sm border border-gray-100 relative"
+    // >
+    //   <Image
+    //     className="absolute h-16 w-16 -rotate-45 top-2 opacity-30 -left-2"
+    //     {...getShopLogo(shopId as any)}
+    //   />
+    //   <View className="flex-row justify-between items-start">
+    //     <View className="flex-1">
+    //       <Text className="text-lg font-semibold text-gray-900">
+    //         {shopName}
+    //       </Text>
+    //       <Text className="text-sm text-gray-500 mt-1">
+    //         {format(createdDate, DATE_FORMAT)}
+    //       </Text>
+    //     </View>
+    //     <View className="items-end">
+    //       <Text className="text-lg font-bold text-gray-900">
+    //         {totalPrice.toFixed(2)}
+    //       </Text>
+    // <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
+    //   <Text className="text-xs font-medium text-green-700">
+    //     Saved {totalPrice.toFixed(2)}
+    //   </Text>
+    // </View>
+    //     </View>
+    //   </View>
+    // </View>
   );
 };
 

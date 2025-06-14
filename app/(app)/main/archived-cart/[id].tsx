@@ -1,8 +1,6 @@
-import { format } from "date-fns";
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
-import ComparisonShopReceipt from "../../../../components/ui/carts-comparison/comparison-shop-receipt";
-import { DATE_FORMAT } from "../../../../lib/constants";
+import ReceiptScreen from "../../../../components/ui/carts-comparison/comparison-shop-receipt-alternative";
 import { useGetArchivedCartById } from "../../../../network/customer/customer";
 
 export default function ArchivedCartScreen() {
@@ -12,6 +10,8 @@ export default function ArchivedCartScreen() {
       enabled: !!cartId,
     },
   });
+
+  console.log(cart);
 
   if (!cart) {
     return (
@@ -28,11 +28,15 @@ export default function ArchivedCartScreen() {
     //   specific_products={barcodes}
     //   shop={selected_shop_id}
     // />
-    <View className="flex-1 p-4">
-      <Text>Nákup z {format(String(cart?.created_at), DATE_FORMAT)}</Text>
-      <Text>Ušetrených {cart?.total_price?.toFixed(2)} eur</Text>
+    // <View className="flex-1 p-4">
+    //   <Text>Nákup z {format(String(cart?.created_at), DATE_FORMAT)}</Text>
+    //   <Text>Ušetrených {cart?.total_price?.toFixed(2)} eur</Text>
 
-      <ComparisonShopReceipt actionsExecutable={false} {...cart} />
+    //   <ComparisonShopReceiptAlt actionsExecutable={false} {...cart} />
+    // </View>
+    <View className="flex flex-1 align-center justify-center py-4 px-2">
+      {/* <ComparisonShopReceipt {...cartData} /> */}
+      <ReceiptScreen {...cart} />
     </View>
   );
 }

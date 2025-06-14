@@ -54,7 +54,7 @@ const GroceryDiscountsScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1" edges={["top", "left", "right"]}>
       {/* Header */}
       <View className="bg-white px-4 py-3 border-b border-gray-200">
         <Text className="text-2xl font-bold text-gray-800 text-center">

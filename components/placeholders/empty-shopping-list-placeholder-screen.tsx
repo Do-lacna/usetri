@@ -1,17 +1,19 @@
+import LogoSVG from "assets/images/empty-cart.svg";
 import React from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { Text } from "../ui/text";
 
 const EmptyShoppingListPlaceholderScreen = () => {
   return (
-    <View className="w-full justify-center items-center absolute top-60 -z-10">
-      <Image
-        source={require("../../assets/images/empty-cart.png")}
+    <View className="absolute w-full h-full justify-center items-center absolute top-12 -z-10 gap-4">
+      {/* <Svg
+        source={require("../../assets/images/empty-cart.svg")}
         className="w-60 h-60 mb-1"
         resizeMode="contain"
-      />
-      <Text className="text-3xl w-3/4 text-center text-primary-background">
-        Tvoj nákupný zoznam je prázdny.
+      /> */}
+      <LogoSVG width={"100%"} height={150} />
+      <Text className="text-2xl w-3/4 text-center text-primary-background">
+        Tvoj nákupný zoznam je prázdny
       </Text>
     </View>
   );

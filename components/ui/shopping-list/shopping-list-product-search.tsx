@@ -28,7 +28,11 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     }
   );
 
-  const outputProducts = searchProducts?.map(({ products }) => products?.[0]);
+  const outputProducts =
+    searchProducts?.map(({ products, available_shop_ids }) => ({
+      ...(products?.[0] ?? {}),
+      available_shop_ids,
+    })) ?? [];
 
   if (!(searchQuery?.length > 0)) {
     return (
@@ -45,7 +49,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
         <ProductCardNew2
           product={item}
           onPress={onProductSelect}
-          availableShopIds={[1]}
+          availableShopIds={item?.available_shop_ids || []}
         />
       )}
       numColumns={2}

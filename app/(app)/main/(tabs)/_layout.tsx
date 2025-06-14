@@ -1,5 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import { BadgePercent } from "~/lib/icons/BadgePercent";
+import { ClipboardList } from "~/lib/icons/ClipboardList";
+
 import { useSession } from "../../../../context/authentication-context";
 import { NAVBAR_HEIGHT, PRIMARY_HEX } from "../../../../lib/constants";
 import { getNumberOfCartItems } from "../../../../lib/utils";
@@ -34,43 +37,32 @@ export default function TabLayout() {
           flexDirection: "row",
         },
 
-        // tabBarItemStyle: {
-        //   backgroundColor: "blue",
-        //   justifyContent: "center",
-        //   margin: 10,
-        // },
-        // tabBarIconStyle: {
-        //   height: "100%",
-        //   backgroundColor: "green",
-        //   display: "flex",
-        //   justifyContent: "center",
-        //   alignContent: "center",
-        //   alignItems: "center",
-        // },
         headerShown: false,
       }}
     >
       <Tabs.Screen
-        name="search-screen"
+        name="discounts-screen"
         options={{
-          title: "Hladat",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="search" color={color} />
+          title: "Zľavy",
+          tabBarIcon: ({ color, focused }) => (
+            <BadgePercent size={28} color={focused ? "black" : color} />
+            // <FontAwesome size={28} name='percent' color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="shopping-list"
         options={{
-          title: "Nakupny zoznam",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="shopping-cart" color={color} />
+          title: "Zoznam",
+          tabBarIcon: ({ color, focused }) => (
+            <ClipboardList size={28} color={focused ? "black" : color} />
           ),
           tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
           tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
         }}
       />
-      <Tabs.Screen
+      {/* TODO allow this when A/B testing starts */}
+      {/* <Tabs.Screen
         name="shopping-list-alternative"
         options={{
           title: "Nakupny zoznam alternativ",
@@ -80,7 +72,7 @@ export default function TabLayout() {
           tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
           tabBarBadge: productsInCart ? productsInCart : undefined,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="profile"
         options={{
@@ -88,11 +80,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <FontAwesome size={28} name="user" color={color} />
           ),
-          // headerRight: () => (
-          //   <IconButton className="mx-3" onPress={performSignOut}>
-          //     <LogOut size={20} />
-          //   </IconButton>
-          // ),
         }}
       />
       {/* TODO condition this under admin rights */}

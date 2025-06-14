@@ -40,6 +40,7 @@ const ProductCardDetailed = ({
       barcode,
       unit,
       category: { id: categoryId } = {},
+      image_url,
     } = {},
     price = 0,
   } = { ...product };
@@ -60,7 +61,7 @@ const ProductCardDetailed = ({
         <View className="w-full h-24 rounded-lg relative">
           <Image
             source={{
-              uri: PLACEHOLDER_PRODUCT_IMAGE,
+              uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-24 rounded-lg"
             resizeMode="cover"

@@ -34,7 +34,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
             </Text>
             {[...(available_shop_ids ?? [])].length > 0 && (
               <View className="relative flex-row  gap-x-2 mt-1">
-                {[2, 3, 4]?.map((retailer, index) => (
+                {available_shop_ids?.map((retailer, index) => (
                   <View
                     key={retailer}
                     style={{ width: 16, height: 16 }}

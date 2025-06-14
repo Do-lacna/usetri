@@ -11,17 +11,20 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ShoppingListProductSearch from "~/components/ui/shopping-list/shopping-list-product-search";
-import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
-import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
-import { Button } from "../../../../components/ui/button";
-import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
-import PriceSummary from "../../../../components/ui/price-summary";
-import SearchBar from "../../../../components/ui/search-bar";
-import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
-import { useAlternativeCartActions } from "../../../../hooks/use-alternative-cart-actions";
-import type { CategoryExtendedWithPathDto } from "../../../../network/model";
-import { useGetProductCart } from "../../../../network/product-cart/product-cart";
-import { DrawerTypeEnum, PendingCartDataType } from "./shopping-list";
+import {
+  DrawerTypeEnum,
+  PendingCartDataType,
+} from "../../app/(app)/main/(tabs)/shopping-list";
+import { useAlternativeCartActions } from "../../hooks/use-alternative-cart-actions";
+import type { CategoryExtendedWithPathDto } from "../../network/model";
+import { useGetProductCart } from "../../network/product-cart/product-cart";
+import EmptyShoppingListPlaceholderScreen from "../placeholders/empty-shopping-list-placeholder-screen";
+import { CustomBottomSheetModal } from "../ui/bottom-sheet-modal";
+import { Button } from "../ui/button";
+import PendingCartItemDrawerContent from "../ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
+import PriceSummary from "../ui/price-summary";
+import SearchBar from "../ui/search-bar";
+import ShoppingListProductItem from "../ui/shopping-list/shopping-list-item-alternate";
 
 export enum CartOperationsEnum {
   ADD = "ADD",
