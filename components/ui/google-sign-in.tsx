@@ -63,7 +63,7 @@ export function GoogleSignIn() {
       onPress={handleGoogleSignIn}
     >
       <Image
-        source={require("~/assets/images/logos/google-logo.png")}
+        source={require("~/assets/images/logos/google_logo.png")}
         className="w-[18px] h-[18px] mr-2"
       />
       <Text
