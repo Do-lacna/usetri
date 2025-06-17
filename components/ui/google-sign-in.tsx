@@ -64,7 +64,7 @@ export function GoogleSignIn() {
     >
       <Image
         source={require("~/assets/images/logos/google_logo.png")}
-        className="w-[18px] h-[18px] mr-2"
+        className="w-[16px] h-[16px] mr-2"
       />
       <Text
         className="text-gray-700 text-lg text-center"
