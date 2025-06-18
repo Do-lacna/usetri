@@ -48,6 +48,7 @@ export default function ArchivedCartScreen() {
         shop={cart?.shop}
         specific_products={mappedProducts}
         total_price={cart?.total_price}
+        actionsExecutable={false}
       />
     </View>
   );

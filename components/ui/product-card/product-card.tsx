@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
-import { CirclePlus } from "~/lib/icons/CirclePlus";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { ShopItemDto } from "../../../network/model";
 import { useGetShops } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
-import IconButton from "../../icon-button";
 import { Badge } from "../badge";
 
 export interface IProduct {
@@ -16,6 +14,7 @@ export interface IProduct {
   brand?: string;
   amount?: string;
   price?: string;
+  discount_price?: string; // Added discount_price to interface
   retailer_ids?: number[];
   [key: string]: any; // Index signature
 }
@@ -47,16 +46,46 @@ const ProductCardNew2 = ({
     discount_price,
   } = { ...product };
 
-  const percentageDiscount = !!discount_price ? "23" : null;
+  // Calculate percentage discount
+  const calculateDiscountPercentage = () => {
+    if (!discount_price || !price) return null;
+    const originalPrice = parseFloat(String(price));
+    const discountedPrice = parseFloat(String(discount_price?.price));
+    if (originalPrice > 0 && discountedPrice < originalPrice) {
+      return Math.round(
+        ((originalPrice - discountedPrice) / originalPrice) * 100
+      );
+    }
+    return null;
+  };
+
+  const percentageDiscount = calculateDiscountPercentage();
+  const hasDiscount = !!discount_price && percentageDiscount;
 
   const { data: { shops = [] } = {} } = useGetShops();
 
+  const renderPricing = () => {
+    if (hasDiscount) {
+      return (
+        <View className="flex-row items-center space-x-1">
+          {/* Original price - crossed out */}
+          <Text className="text-xs text-gray-400 line-through">{price} €</Text>
+          {/* Discount price - highlighted */}
+          <Text className="text-sm font-bold text-red-600 ml-1">
+            {discount_price?.price} €
+          </Text>
+        </View>
+      );
+    }
+
+    // Regular price when no discount
+    return <Text className="text-sm font-bold">{price} €</Text>;
+  };
+
   return (
-    // <Link asChild href={`/product/${barcode}`}>
     <Pressable
       className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
-      // onPress={() => console.log("prudct")}
     >
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
         <Image
@@ -64,21 +93,27 @@ const ProductCardNew2 = ({
           className="w-full h-32 rounded-lg"
           resizeMode="contain"
         />
+
+        {/* Amount/Unit Badge */}
         <Badge className="absolute top-2 bg-terciary">
           <Text className="text-xs text-primary-foreground">{`${amount} ${unit}`}</Text>
         </Badge>
-        {percentageDiscount && (
-          <Badge className="absolute top-9 bg-primary">
-            <Text className="text-xs">{`${percentageDiscount} %`}</Text>
+
+        {/* Discount Badge - only show if there's a real discount */}
+        {hasDiscount && (
+          <Badge className="absolute top-9 bg-red-500">
+            <Text className="text-xs text-white font-semibold">
+              -{percentageDiscount}%
+            </Text>
           </Badge>
         )}
-        {/* TODO fix this bottom-16 absolute positioning - find out why bottom is starting from div not image */}
+
+        {/* Shop logos */}
         <View className="absolute bottom-16 flex-row gap-x-2 mt-1">
           {availableShopIds?.map((retailer, index) => (
             <View
               key={retailer}
               style={{ width: 20, height: 20, borderRadius: 50 }}
-              //   className="border-2"
             >
               <Image
                 {...getShopLogo(retailer as any)}
@@ -93,12 +128,13 @@ const ProductCardNew2 = ({
                   backgroundColor: "white",
                   borderColor: "grey",
                   borderWidth: 1,
-                  //TODO add here some elevation to visually differentiate the shop logos
                 }}
               />
             </View>
           ))}
         </View>
+
+        {/* Product Info */}
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
@@ -108,16 +144,12 @@ const ProductCardNew2 = ({
               <Text className="text-sm font-medium" numberOfLines={1}>
                 {name}
               </Text>
-              <Text className="text-sm font-bold">{price} €</Text>
+              {renderPricing()}
             </View>
-            <IconButton>
-              <CirclePlus size={20} className="text-sm" />
-            </IconButton>
           </View>
         </View>
       </View>
     </Pressable>
-    // </Link>
   );
 };
 

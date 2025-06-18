@@ -4,20 +4,164 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import type {
-  DiscountPriceImportBatchDto,
+  GetUnconfirmedWoltImportsResponse,
   UploadWoltJsonBody,
   UploadWoltJsonParams,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
+
+export const getUnconfirmedWoltImports = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetUnconfirmedWoltImportsResponse>(
+    { url: `/admin/wolt-imports`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetUnconfirmedWoltImportsQueryKey = () => {
+  return [`/admin/wolt-imports`] as const;
+};
+
+export const getGetUnconfirmedWoltImportsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetUnconfirmedWoltImportsQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getUnconfirmedWoltImports>>
+  > = ({ signal }) => getUnconfirmedWoltImports(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetUnconfirmedWoltImportsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUnconfirmedWoltImports>>
+>;
+export type GetUnconfirmedWoltImportsQueryError = unknown;
+
+export function useGetUnconfirmedWoltImports<
+  TData = Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnconfirmedWoltImports<
+  TData = Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnconfirmedWoltImports<
+  TData = Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetUnconfirmedWoltImports<
+  TData = Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUnconfirmedWoltImports>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUnconfirmedWoltImportsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
 
 export const uploadWoltJson = (
   uploadWoltJsonBody: UploadWoltJsonBody,
@@ -30,7 +174,7 @@ export const uploadWoltJson = (
     formData.append('jsonFile', uploadWoltJsonBody.jsonFile);
   }
 
-  return orvalApiClient<DiscountPriceImportBatchDto>(
+  return orvalApiClient<void>(
     {
       url: `/admin/wolt-imports`,
       method: 'POST',

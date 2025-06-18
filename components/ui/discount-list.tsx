@@ -25,7 +25,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   const queryClient = useQueryClient();
   const { id, name } = shop;
   const { data: { products } = {}, isPending } = useGetDiscounts(
-    { shop_id: id },
+    { restricted_shops: [Number(id)] },
     { query: { enabled: !!id } }
   );
 
@@ -46,6 +46,8 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
       <Skeleton className="w-full aspect-[4/3] bg-divider rounded-lg" />
     </View>
   );
+
+  console.log(products);
 
   const renderProductItem: ListRenderItem<any> = ({ item }) => (
     <ProductCardNew2
@@ -77,7 +79,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
           </Text>
         ) : (
           <FlatList
-            data={outputProducts}
+            data={products}
             renderItem={renderProductItem}
             numColumns={2}
             keyExtractor={(product) => String(product?.detail?.barcode)}
@@ -88,6 +90,11 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
                 refreshing={isLoading}
                 onRefresh={() => queryClient.invalidateQueries()}
               />
+            }
+            ListEmptyComponent={
+              <Text className="text-gray-500 text-base text-center mt-4">
+                Tento obchod momentálne neponúka žiadne zľavnené produkty
+              </Text>
             }
           />
         )}

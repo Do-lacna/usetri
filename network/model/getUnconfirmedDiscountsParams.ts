@@ -6,6 +6,7 @@
  */
 
 export type GetUnconfirmedDiscountsParams = {
+  restricted_shops?: number[];
   q?: string;
   Limit?: number;
   Offset?: number;

@@ -60,9 +60,6 @@ const GroceryDiscountsScreen: React.FC = () => {
         <Text className="text-2xl font-bold text-gray-800 text-center">
           Akciové ponuky
         </Text>
-        <Text className="text-sm text-gray-500 text-center mt-1">
-          Najlepšie zľavy v obchodoch
-        </Text>
       </View>
 
       {/* Store Tabs */}
