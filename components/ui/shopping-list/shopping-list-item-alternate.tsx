@@ -13,7 +13,7 @@ import { useGetCart } from "../../../network/customer/customer";
 import { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
-import ProductCardDetailed from "../product-card-detailed";
+import SuggestedProductCard from "../suggested-product-card";
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
@@ -205,7 +205,7 @@ const ShoppingListProductItem: React.FC<{
                     },
                     index
                   ) => (
-                    <ProductCardDetailed
+                    <SuggestedProductCard
                       key={suggestedProductBarcode || index}
                       product={products?.[0]}
                       availableShopIds={available_shop_ids}

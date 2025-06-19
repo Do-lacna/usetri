@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { ShopExtendedDto } from "../../network/model";
 import { useGetDiscounts } from "../../network/query/query";
-import ProductCardNew2 from "./product-card/product-card";
-import { Skeleton } from "./skeleton";
+import DiscountedProductCard from "../ui/product-card/discounted-product-card";
+import { Skeleton } from "../ui/skeleton";
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
@@ -45,7 +45,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   );
 
   const renderProductItem: ListRenderItem<any> = ({ item }) => (
-    <ProductCardNew2
+    <DiscountedProductCard
       product={item}
       onPress={(id: string | number) => router.navigate(`/product/${id}`)}
       availableShopIds={item?.shop_id ? [item?.shop_id] : []}

@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DiscountList from "~/components/ui/discount-list";
+import DiscountList from "~/components/discounts/discount-list";
 import SearchBar from "~/components/ui/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
 import { type SearchOptions } from "~/utils/search-utils";

@@ -6,9 +6,9 @@ import { Pencil } from "~/lib/icons/Pencil";
 
 import { generateShoppingListItemDescription } from "~/lib/utils";
 import { BrigaderReviewListItemDto } from "~/network/model";
-import IconButton from "../icon-button";
-import { Badge } from "./badge";
-import { Input } from "./input";
+import IconButton from "../../icon-button";
+import { Badge } from "../badge";
+import { Input } from "../input";
 
 interface IShoppingListItemProps {
   product: BrigaderReviewListItemDto;

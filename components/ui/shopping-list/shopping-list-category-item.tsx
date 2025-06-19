@@ -12,7 +12,7 @@ import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { useGetCart } from "../../../network/customer/customer";
 import { CartCategoryDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
-import ProductCardDetailed from "../product-card-detailed";
+import SuggestedProductCard from "../suggested-product-card";
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -161,7 +161,7 @@ const ShoppingListCategoryItem: React.FC<{
                     { barcode, products = [], available_shop_ids = [] },
                     index
                   ) => (
-                    <ProductCardDetailed
+                    <SuggestedProductCard
                       key={barcode || index}
                       product={products?.[0]}
                       availableShopIds={available_shop_ids}

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DiscountList from "../../../../components/discounts/discount-list";
+import DiscountMiniProductsList from "../../../../components/discounts/discount-mini-products-list";
 import StoreLogo from "../../../../components/store-logo/store-logo";
-import DiscountList from "../../../../components/ui/discount-list";
 import { ShopExtendedDto } from "../../../../network/model";
-import { useGetShops } from "../../../../network/query/query";
+import {
+  useGetDiscounts,
+  useGetDiscountsStatistics,
+  useGetShops,
+} from "../../../../network/query/query";
 
 const GroceryDiscountsScreen: React.FC = () => {
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
@@ -23,46 +28,53 @@ const GroceryDiscountsScreen: React.FC = () => {
     });
   };
 
+  const {
+    data: { products: mostSaleProducts = [] } = {},
+    isLoading: areProductsLoading,
+  } = useGetDiscounts();
+
+  const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
+    useGetDiscountsStatistics();
+
   React.useEffect(() => {
     if ([...(shops ?? [])].length > 0 && !activeStoreId) {
       setActiveStoreId(Number(shops?.[0].id));
     }
   }, [shops, activeStoreId]);
-  const renderStoreTab = (store: ShopExtendedDto) => (
-    <TouchableOpacity
-      key={store.id}
-      onPress={() => setActiveStoreId(Number(store?.id))}
-      className={`flex-1 items-center py-1 mx-1 rounded-xl bg-divider border-2 border-${
-        store?.id === activeStoreId ? "terciary" : "divider"
-      }`}
-    >
-      <StoreLogo storeId={store?.id} />
-      <Text
-        className={`text-xs font-medium 
-          ${store?.id === activeStoreId ? "text-black" : "text-gray-600"}`}
-      >
-        {store.name}
-      </Text>
-      <Text
-        className={`text-xs ${
-          store?.id === activeStoreId ? "text-black" : "text-gray-500"
+
+  const renderStoreTab = (store: ShopExtendedDto) => {
+    const discountsCount =
+      stats?.find((stat) => stat.shop_id === store.id)?.valid_discounts_count ||
+      0;
+    return (
+      <TouchableOpacity
+        key={store.id}
+        onPress={() => setActiveStoreId(Number(store?.id))}
+        className={`flex-1 items-center py-1 mx-1 rounded-xl bg-divider border-2 border-${
+          store?.id === activeStoreId ? "terciary" : "divider"
         }`}
       >
-        12 akcií
-      </Text>
-    </TouchableOpacity>
-  );
+        <StoreLogo storeId={store?.id} />
+        <Text
+          className={`text-xs font-medium 
+          ${store?.id === activeStoreId ? "text-black" : "text-gray-600"}`}
+        >
+          {store.name}
+        </Text>
+        <Text
+          className={`text-xs ${
+            store?.id === activeStoreId ? "text-black" : "text-gray-500"
+          }`}
+        >
+          {discountsCount} akcií
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1" edges={["top", "left", "right"]}>
-      {/* Header */}
-      <View className="bg-white px-4 py-3 border-b border-gray-200">
-        <Text className="text-2xl font-bold text-gray-800 text-center">
-          Akciové ponuky
-        </Text>
-      </View>
-
-      {/* Store Tabs */}
+      <DiscountMiniProductsList />
       <View className="bg-white px-3 py-4 border-b border-gray-200">
         <View className="flex-row space-x-2">
           {shops?.map((store, index) => renderStoreTab(store))}

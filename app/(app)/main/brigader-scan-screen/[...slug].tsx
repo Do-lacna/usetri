@@ -1,8 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
-import BrigaderCameraView from "../../../../components/ui/brigader-camera-view/brigader-camera-view";
+import BrigaderCameraView from "../../../../components/ui/brigader/brigader-camera-view";
 
 export default function BrigaderScanScreen() {
-
   const params = useLocalSearchParams<{ slug: string[] }>();
 
   // Extract the parameters from the slug array
@@ -18,5 +17,5 @@ export default function BrigaderScanScreen() {
     barcode = slug[1];
   }
   //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
-  return <BrigaderCameraView shopId={shopId} scannedProductBarcode={barcode}/>;
+  return <BrigaderCameraView shopId={shopId} scannedProductBarcode={barcode} />;
 }

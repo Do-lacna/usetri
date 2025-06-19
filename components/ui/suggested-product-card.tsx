@@ -25,7 +25,7 @@ export interface IProductCardProps {
   isSelected?: boolean;
 }
 
-const ProductCardDetailed = ({
+const SuggestedProductCard = ({
   product,
   availableShopIds = [],
   onPress,
@@ -114,4 +114,4 @@ const ProductCardDetailed = ({
   );
 };
 
-export default ProductCardDetailed;
+export default SuggestedProductCard;

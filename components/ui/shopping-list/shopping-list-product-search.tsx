@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { useGetProducts } from "../../../network/query/query";
 import { NoDataText } from "../no-data-text/no-data-text";
-import ProductCardNew2 from "../product-card/product-card";
+import DiscountedProductCard from "../product-card/discounted-product-card";
 import { Text } from "../text";
 
 interface ShoppingListProductSearchProps {
@@ -46,7 +46,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     <FlatList
       data={outputProducts}
       renderItem={({ item }) => (
-        <ProductCardNew2
+        <DiscountedProductCard
           product={item}
           onPress={onProductSelect}
           availableShopIds={item?.available_shop_ids || []}

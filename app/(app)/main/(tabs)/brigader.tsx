@@ -9,7 +9,7 @@ import {
   useCheckItemInReviewList,
   useGetProductsForBrigader,
 } from "~/network/brigader/brigader";
-import BrigaderProductRow from "../../../../components/ui/brigader-product-row";
+import BrigaderProductRow from "../../../../components/ui/brigader/brigader-product-row";
 import { Button } from "../../../../components/ui/button";
 import {
   CustomSelect,

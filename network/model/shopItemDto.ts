@@ -11,5 +11,6 @@ export interface ShopItemDto {
   detail?: ProductDto;
   shop_id?: number;
   price?: number;
+  actual_price?: number;
   discount_price?: DiscountPriceDto;
 }
