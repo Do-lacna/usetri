@@ -5,7 +5,6 @@ import {
   PendingCartDataType,
 } from "~/app/(app)/main/(tabs)/shopping-list";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
-import { generateImageUrl } from "~/lib/utils";
 import {
   useGetCategories,
   useGetProductsByBarcode,
@@ -96,9 +95,8 @@ const PendingCartItemDrawerContent: React.FC<
         <View className="w-full h-48 justify-center items-center">
           <Image
             source={{
-              uri: itemDetail?.image_url
-                ? (generateImageUrl(itemDetail?.image_url) as string)
-                : PLACEHOLDER_PRODUCT_IMAGE,
+              uri: itemDetail?.image_url ??
+                 PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-1/2 resize-contain"
             resizeMode="contain"

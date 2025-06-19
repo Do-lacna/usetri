@@ -111,7 +111,7 @@ const GroceryDiscountsScreen: React.FC = () => {
         }
       /> */}
       {!!activeStore && (
-        <View className="flex-1 px-4 py-2 bg-white">
+        <View className="flex-1 py-2 bg-white">
           <DiscountList shop={activeStore} />
         </View>
       )}

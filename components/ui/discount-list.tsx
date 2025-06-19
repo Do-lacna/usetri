@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { ShopExtendedDto } from "../../network/model";
-import { useGetDiscounts, useGetProducts } from "../../network/query/query";
+import { useGetDiscounts } from "../../network/query/query";
 import ProductCardNew2 from "./product-card/product-card";
 import { Skeleton } from "./skeleton";
 
@@ -28,9 +28,6 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     { restricted_shops: [Number(id)] },
     { query: { enabled: !!id } }
   );
-
-  const { data: { products: prod } = {}, isLoading } = useGetProducts();
-  const outputProducts = prod?.map(({ products }) => products?.[0]);
 
   // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
@@ -57,7 +54,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
 
   return (
     <View>
-      <View className="flex-row px-4">
+      <View className="flex-row">
         {isPending ? (
           <FlatList
             data={skeletonData}
@@ -68,7 +65,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             columnWrapperClassName="gap-4"
             scrollEnabled={false}
           />
-        ) : outputProducts?.length === 0 ? (
+        ) : products?.length === 0 ? (
           <Text
             className="text-gray-500 text-base text-center mt-2"
             numberOfLines={2}
@@ -81,11 +78,11 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             renderItem={renderProductItem}
             numColumns={2}
             keyExtractor={(product) => String(product?.detail?.barcode)}
-            contentContainerClassName="gap-4 p-1"
+            contentContainerClassName="gap-4 p-4"
             columnWrapperClassName="gap-4"
             refreshControl={
               <RefreshControl
-                refreshing={isLoading}
+                refreshing={isPending}
                 onRefresh={() => queryClient.invalidateQueries()}
               />
             }

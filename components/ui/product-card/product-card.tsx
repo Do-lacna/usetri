@@ -1,11 +1,12 @@
-import clsx from "clsx";
-import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { ShopItemDto } from "../../../network/model";
-import { useGetShops } from "../../../network/query/query";
-import { getShopLogo } from "../../../utils/logo-utils";
-import { Badge } from "../badge";
+import clsx from 'clsx';
+import React from 'react';
+import { Image, Pressable, Text, View } from 'react-native';
+import { calculateDiscountPercentage } from '~/lib/number-utils';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { ShopItemDto } from '../../../network/model';
+import { useGetShops } from '../../../network/query/query';
+import { getShopLogo } from '../../../utils/logo-utils';
+import { Badge } from '../badge';
 
 export interface IProduct {
   id: string;
@@ -46,34 +47,24 @@ const ProductCardNew2 = ({
     discount_price,
   } = { ...product };
 
-  // Calculate percentage discount
-  const calculateDiscountPercentage = () => {
-    if (!discount_price || !price) return null;
-    const originalPrice = parseFloat(String(price));
-    const discountedPrice = parseFloat(String(discount_price?.price));
-    if (originalPrice > 0 && discountedPrice < originalPrice) {
-      return Math.round(
-        ((originalPrice - discountedPrice) / originalPrice) * 100
-      );
-    }
-    return null;
-  };
-
-  const percentageDiscount = calculateDiscountPercentage();
+  const percentageDiscount = calculateDiscountPercentage(
+    price,
+    discount_price?.price,
+  );
   const hasDiscount = !!discount_price && percentageDiscount;
 
-  const { data: { shops = [] } = {} } = useGetShops();
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
 
   const renderPricing = () => {
     if (hasDiscount) {
       return (
         <View className="flex-row items-center space-x-1">
-          {/* Original price - crossed out */}
-          <Text className="text-xs text-gray-400 line-through">{price} €</Text>
-          {/* Discount price - highlighted */}
-          <Text className="text-sm font-bold text-red-600 ml-1">
+          <Text className="text-xs font-bold text-red-600 mr-1">
             {discount_price?.price} €
           </Text>
+          <Text className="text-xs text-gray-400 line-through">{price} €</Text>
         </View>
       );
     }
@@ -84,7 +75,7 @@ const ProductCardNew2 = ({
 
   return (
     <Pressable
-      className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
+      className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
@@ -108,11 +99,11 @@ const ProductCardNew2 = ({
                     width: 20,
                     height: 20,
                     borderRadius: 50,
-                    position: "absolute",
+                    position: 'absolute',
                     right: index * 15,
                     zIndex: index + 1,
-                    backgroundColor: "white",
-                    borderColor: "grey",
+                    backgroundColor: 'white',
+                    borderColor: 'grey',
                     borderWidth: 1,
                   }}
                 />

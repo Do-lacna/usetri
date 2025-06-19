@@ -103,3 +103,16 @@ export const generateShopLocationNameBasedOnId = (shopId?: number) => {
       return "Neznámy obchod";
   }
 };
+
+
+  const calculateDiscountPercentage = () => {
+    if (!discount_price || !price) return null;
+    const originalPrice = parseFloat(String(price));
+    const discountedPrice = parseFloat(String(discount_price?.price));
+    if (originalPrice > 0 && discountedPrice < originalPrice) {
+      return Math.round(
+        ((originalPrice - discountedPrice) / originalPrice) * 100
+      );
+    }
+    return null;
+  }

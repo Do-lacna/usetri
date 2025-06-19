@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export const NAV_THEME = {
   light: {
     background: "hsl(0 0% 100%)", // background
@@ -23,7 +25,8 @@ export const TERCIARY_HEX = "#034F4A";
 
 export const DIVIDER_HEX = "#ccdbda";
 
-export const NAVBAR_HEIGHT = 80;
+export const NAVBAR_HEIGHT = Platform.OS === "ios" ? 80 : 60;
+
 
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 export const DATE_FORMAT = "dd.MM.yyyy";

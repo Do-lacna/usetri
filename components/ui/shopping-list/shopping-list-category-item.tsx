@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { generateImageUrl } from "../../../lib/utils";
 import { useGetCart } from "../../../network/customer/customer";
 import { CartCategoryDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
@@ -80,7 +79,7 @@ const ShoppingListCategoryItem: React.FC<{
             <View className="relative mr-2">
               <Image
                 source={{
-                  uri: generateImageUrl(image_url) ?? PLACEHOLDER_PRODUCT_IMAGE,
+                  uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
                 }}
                 className="w-10 h-10 p-1 rounded-lg"
                 resizeMode="cover"

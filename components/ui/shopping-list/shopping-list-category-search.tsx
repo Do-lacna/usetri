@@ -6,7 +6,7 @@ import {
   Pressable,
   View,
 } from 'react-native';
-import { generateImageUrl, isArrayNotEmpty } from '../../../lib/utils';
+import { isArrayNotEmpty } from '../../../lib/utils';
 import { AddCategoryExtendedWithPathDto } from '../../../network/model';
 import { useGetCategories } from '../../../network/query/query';
 import { SearchOptions, searchItems } from '../../../utils/search-utils';
@@ -54,7 +54,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
       <Card className="flex flex-row items-center bg-divider p-2">
         {!!image_url && (
           <Image
-            source={{ uri: generateImageUrl(image_url) as string }}
+            source={{ uri: image_url as string }}
             resizeMode="contain"
             className="w-8 h-8 mr-4"
           />

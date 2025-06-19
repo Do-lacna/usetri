@@ -41,7 +41,7 @@ const TotalSavedCard: React.FC<ProductCardProps> = () => {
     <Card className="w-full px-4 py-2">
       <Text className="text-lg font-semibold text-gray-900">Vaše úspory</Text>
       <View className="flex-row space-x-4">
-        <View className="flex-1 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 shadow-lg">
+        <View className="flex-1 rounded-2xl p-4 shadow-lg">
           <View className="flex-row items-center mb-2">
             <Ionicons name="calendar-outline" size={20} />
             <Text className="text-sm font-medium ml-2">Tento mesiac</Text>
@@ -52,7 +52,7 @@ const TotalSavedCard: React.FC<ProductCardProps> = () => {
         </View>
 
         {/* Total Savings */}
-        <View className="flex-1 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 shadow-lg">
+        <View className="flex-1 rounded-2xl p-4 shadow-lg">
           <View className="flex-row items-center mb-2">
             <Ionicons name="trending-up-outline" size={20} />
             <Text className="text-sm font-medium ml-2">Celkovo</Text>
