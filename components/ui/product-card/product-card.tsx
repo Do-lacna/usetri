@@ -88,11 +88,38 @@ const ProductCardNew2 = ({
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
-        <Image
-          source={{ uri: image_url ? image_url : PLACEHOLDER_PRODUCT_IMAGE }}
-          className="w-full h-32 rounded-lg"
-          resizeMode="contain"
-        />
+        <View className="w-full h-32 rounded-lg relative">
+          <Image
+            source={{ uri: image_url ? image_url : PLACEHOLDER_PRODUCT_IMAGE }}
+            className="w-full h-32 rounded-lg"
+            resizeMode="contain"
+          />
+
+          <View className="absolute bottom-4 flex-row gap-x-2 mt-1">
+            {availableShopIds?.map((retailer, index) => (
+              <View
+                key={retailer}
+                style={{ width: 20, height: 20, borderRadius: 50 }}
+              >
+                <Image
+                  {...getShopLogo(retailer as any)}
+                  key={index}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 50,
+                    position: "absolute",
+                    right: index * 15,
+                    zIndex: index + 1,
+                    backgroundColor: "white",
+                    borderColor: "grey",
+                    borderWidth: 1,
+                  }}
+                />
+              </View>
+            ))}
+          </View>
+        </View>
 
         {/* Amount/Unit Badge */}
         <Badge className="absolute top-2 bg-terciary">
@@ -101,38 +128,12 @@ const ProductCardNew2 = ({
 
         {/* Discount Badge - only show if there's a real discount */}
         {hasDiscount && (
-          <Badge className="absolute top-9 bg-red-500">
+          <Badge className="absolute top-9 bg-red-400">
             <Text className="text-xs text-white font-semibold">
               -{percentageDiscount}%
             </Text>
           </Badge>
         )}
-
-        {/* Shop logos */}
-        <View className="absolute bottom-16 flex-row gap-x-2 mt-1">
-          {availableShopIds?.map((retailer, index) => (
-            <View
-              key={retailer}
-              style={{ width: 20, height: 20, borderRadius: 50 }}
-            >
-              <Image
-                {...getShopLogo(retailer as any)}
-                key={index}
-                style={{
-                  width: 20,
-                  height: 20,
-                  borderRadius: 50,
-                  position: "absolute",
-                  right: index * 15,
-                  zIndex: index + 1,
-                  backgroundColor: "white",
-                  borderColor: "grey",
-                  borderWidth: 1,
-                }}
-              />
-            </View>
-          ))}
-        </View>
 
         {/* Product Info */}
         <View className="mt-2 space-y-1">

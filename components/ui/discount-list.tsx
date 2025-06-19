@@ -47,8 +47,6 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     </View>
   );
 
-  console.log(products);
-
   const renderProductItem: ListRenderItem<any> = ({ item }) => (
     <ProductCardNew2
       product={item}
