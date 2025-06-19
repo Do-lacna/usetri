@@ -22,14 +22,14 @@ const DiscountMiniProductsList = () => {
       <FlatList
         data={mostSaleProducts}
         renderItem={({ item }) => <DiscountedMiniProductCard product={item} />}
-        keyExtractor={(item: any) => item.id}
+        keyExtractor={(item) => String(item?.detail?.barcode)}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ padding: 4 }}
         ListEmptyComponent={
           <View className="flex-row">
-            {[1, 2, 3, 4].map((_, index) => (
-              <View className="flex-1 max-w-32 mx-2">
+            {[1, 2, 3, 4].map((item, index) => (
+              <View className="flex-1 max-w-32 mx-2" key={item}>
                 <Skeleton className="w-full aspect-[4/3] bg-divider rounded-lg" />
               </View>
             ))}
