@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { FlatList, Text, View } from "react-native";
 import { useGetDiscounts } from "../../network/query/query";
@@ -21,7 +22,12 @@ const DiscountMiniProductsList = () => {
       </Text>
       <FlatList
         data={mostSaleProducts}
-        renderItem={({ item }) => <DiscountedMiniProductCard product={item} />}
+        renderItem={({ item }) => (
+          <DiscountedMiniProductCard
+            product={item}
+            onPress={(id: string) => router.navigate(`/product/${id}`)}
+          />
+        )}
         keyExtractor={(item) => String(item?.detail?.barcode)}
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -75,53 +75,16 @@ const GroceryDiscountsScreen: React.FC = () => {
   return (
     <SafeAreaView className="flex-1" edges={["top", "left", "right"]}>
       <DiscountMiniProductsList />
-      <View className="bg-white px-3 py-4 border-b border-gray-200">
+      <View className="bg-white px-3 py-4 ">
+        <Text className="text-xl font-bold text-gray-800 mb-4">
+          Zľavy v obchodoch
+        </Text>
+
         <View className="flex-row space-x-2">
           {shops?.map((store, index) => renderStoreTab(store))}
         </View>
       </View>
 
-      {/* <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm border border-gray-100">
-        <View className="flex-row items-center justify-between mb-2">
-          <View className="flex-row items-center">
-            <Text className="text-xl font-bold text-gray-800">
-              {activeStore?.name}
-            </Text>
-          </View>
-          <View className={`px-3 py-1 rounded-full ${activeStore.color}`}>
-            <Text className="text-white font-medium text-sm">
-              {activeStore.discounts.length} akcií
-            </Text>
-          </View>
-        </View> */}
-
-      {/* <View className="flex-row items-center">
-          <Text className="text-sm text-gray-600">
-            Platnosť: {formatDate(new Date ())} -{" "}
-            {formatDate(activeStore.validTo)}
-          </Text>
-          <View className="ml-2 bg-green-100 px-2 py-1 rounded">
-            <Text className="text-green-700 text-xs font-medium">Aktívne</Text>
-          </View>
-        </View> */}
-      {/* </View> */}
-
-      {/* Discounts List */}
-      {/* <FlatList
-        data={activeStore.discounts}
-        renderItem={({ item }) => (}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingVertical: 16 }}
-        ListEmptyComponent={
-          <View className="items-center justify-center py-12">
-            <Text className="text-gray-500 text-lg">Žiadne akcie</Text>
-            <Text className="text-gray-400 text-sm mt-1">
-              Momentálne nie sú dostupné žiadne zľavy
-            </Text>
-          </View>
-        }
-      /> */}
       {!!activeStore && (
         <View className="flex-1 py-2 bg-white">
           <DiscountList shop={activeStore} />

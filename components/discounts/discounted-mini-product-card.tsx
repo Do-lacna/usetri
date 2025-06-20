@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
 import { calculateDiscountPercentage } from "../../lib/number-utils";
 import { ShopItemDto } from "../../network/model";
@@ -24,17 +24,24 @@ interface Product {
 
 interface ProductCardProps {
   product: ShopItemDto;
+  onPress?: (barcode: string) => void;
 }
 
-const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onPress,
+}) => {
   const {
     price,
     discount_price: { price: discountedPrice } = {},
-    detail: { image_url, name } = {},
+    detail: { image_url, name, barcode } = {},
     shop_id,
   } = product;
   return (
-    <View className="bg-white rounded-lg p-2 mx-2 shadow-sm border border-gray-100 w-32">
+    <Pressable
+      className="bg-white rounded-lg p-2 mx-2 shadow-sm border border-gray-100 w-32"
+      onPress={() => onPress?.(String(barcode))}
+    >
       {/* Discount Badge */}
       <View className="absolute top-2 right-2 bg-red-500 rounded-full px-2 py-1 z-10">
         <Text className="text-white text-xs font-bold">
@@ -95,7 +102,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {discountedPrice?.toFixed(2)} €
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
