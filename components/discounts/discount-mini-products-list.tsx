@@ -15,6 +15,10 @@ const DiscountMiniProductsList = () => {
     isLoading: areProductsLoading,
   } = useGetDiscounts();
 
+  if (!areProductsLoading && mostSaleProducts?.length === 0) {
+    return null;
+  }
+
   return (
     <View className="bg-white px-4 py-3 border-b border-gray-200">
       <Text className="text-xl font-bold text-gray-800">

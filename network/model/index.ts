@@ -44,6 +44,7 @@ export * from './discountImportActionEnum';
 export * from './discountPriceDto';
 export * from './discountPriceImportBatchDto';
 export * from './discountPriceImportEntryDto';
+export * from './discountShopItemDto';
 export * from './discountStatsDto';
 export * from './getArchivedCartByIdResponse';
 export * from './getArchivedCartResponse';

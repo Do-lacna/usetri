@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ShopItemDto } from './shopItemDto';
+import type { DiscountShopItemDto } from './discountShopItemDto';
 
 export interface GetDiscountsResponse {
   count?: number;
   /** @nullable */
-  products?: ShopItemDto[] | null;
+  products?: DiscountShopItemDto[] | null;
 }

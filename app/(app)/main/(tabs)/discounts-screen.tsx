@@ -6,7 +6,6 @@ import DiscountMiniProductsList from "../../../../components/discounts/discount-
 import StoreLogo from "../../../../components/store-logo/store-logo";
 import { ShopExtendedDto } from "../../../../network/model";
 import {
-  useGetDiscounts,
   useGetDiscountsStatistics,
   useGetShops,
 } from "../../../../network/query/query";
@@ -19,19 +18,6 @@ const GroceryDiscountsScreen: React.FC = () => {
   const activeStore = shops?.find(
     (store: ShopExtendedDto) => store.id === activeStoreId
   ); // Fallback to first store if none is selected
-
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("sk-SK", {
-      day: "2-digit",
-      month: "2-digit",
-    });
-  };
-
-  const {
-    data: { products: mostSaleProducts = [] } = {},
-    isLoading: areProductsLoading,
-  } = useGetDiscounts();
 
   const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
     useGetDiscountsStatistics();

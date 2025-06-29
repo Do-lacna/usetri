@@ -31,19 +31,7 @@ export default function ArchivedCartScreen() {
 
   //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return (
-    // <ComparisonShopReceipt
-    //   categories={categories}
-    //   specific_products={barcodes}
-    //   shop={selected_shop_id}
-    // />
-    // <View className="flex-1 p-4">
-    //   <Text>Nákup z {format(String(cart?.created_at), DATE_FORMAT)}</Text>
-    //   <Text>Ušetrených {cart?.total_price?.toFixed(2)} eur</Text>
-
-    //   <ComparisonShopReceiptAlt actionsExecutable={false} {...cart} />
-    // </View>
     <View className="flex flex-1 align-center justify-center py-4 px-2">
-      {/* <ComparisonShopReceipt {...cartData} /> */}
       <ReceiptScreen
         shop={cart?.shop}
         specific_products={mappedProducts}
