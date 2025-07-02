@@ -130,10 +130,10 @@ export default function ProfileScreen() {
             <View className="bg-white rounded-2xl p-8 items-center shadow-sm border border-gray-100">
               <Ionicons name="receipt-outline" size={48} color="#D1D5DB" />
               <Text className="text-gray-500 text-center mt-4 text-base">
-                No shopping history yet
+                Žiadne nákupné zoznamy
               </Text>
               <Text className="text-gray-400 text-center mt-2 text-sm">
-                Start saving on your grocery trips to see them here
+                Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli koľko ušetríte
               </Text>
             </View>
           )}

@@ -1,3 +1,4 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "i18next.i18nPaths": "c:/Users/G703473/Projects/usetri/i18n,c:/Users/G703473/Projects/usetri/locales"
 }

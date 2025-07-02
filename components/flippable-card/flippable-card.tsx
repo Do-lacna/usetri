@@ -71,6 +71,7 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
       onPress={hasInitialFlipped ? onFlip : undefined}
       style={style}
       disabled={!hasInitialFlipped} // Disable touch during initial animation
+      className="h-18 py-1"
     >
       <View style={{ position: "relative" }}>
         <Animated.View

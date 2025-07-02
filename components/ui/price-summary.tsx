@@ -1,9 +1,8 @@
 import { Link } from "expo-router";
 import React from "react";
-import { Dimensions, Image, Pressable, Text, View } from "react-native";
+import { Dimensions, Pressable, Text, View } from "react-native";
 import { ArrowRight } from "../../lib/icons/ArrowRight";
 import { useGetCart } from "../../network/customer/customer";
-import { getShopLogo } from "../../utils/logo-utils";
 import IconButton from "../icon-button";
 
 export type PriceSummaryProps = {
@@ -24,15 +23,15 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
     >
       <Pressable
         style={{ width: screenWidth }}
-        className="bg-primary absolute bottom-0 left-0 right-0 p-2 rounded-t-xl h-20"
+        className="bg-primary absolute bottom-0 left-0 right-0 p-2 rounded-t-xl h-16"
         onPress={onPress}
       >
-        <View className="p-2 shadow-sm shadow-foreground/10 flex-row justify-between items-center">
+        <View className="p-2 shadow-sm shadow-foreground/10 flex flex-row justify-between items-center">
           <View>
             <Text className="text-foreground font-bold text-xl">
               Celková suma
             </Text>
-            {[...(available_shop_ids ?? [])].length > 0 && (
+            {/* {[...(available_shop_ids ?? [])].length > 0 && (
               <View className="relative flex-row  gap-x-2 mt-1">
                 {available_shop_ids?.map((retailer, index) => (
                   <View
@@ -61,14 +60,14 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
                   </View>
                 ))}
               </View>
-            )}
+            )} */}
           </View>
           <View className="flex-row items-center gap-4">
             <Text className="text-foreground font-bold text-xl">
               {total_price?.toFixed(2)} €
             </Text>
             <IconButton className="bg-secondary rounded-full p-2">
-              <ArrowRight size={20} />
+              <ArrowRight size={20} />  
             </IconButton>
           </View>
         </View>
