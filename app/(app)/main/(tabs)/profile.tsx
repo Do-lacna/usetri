@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useQueryClient } from "@tanstack/react-query";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRevenueCat } from "~/context/revenue-cat-provider";
@@ -16,6 +17,7 @@ import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
     useDrawerMenu();
   const { user } = useSession();
@@ -120,7 +122,7 @@ export default function ProfileScreen() {
               História nákupov
             </Text>
             <Text className="text-sm text-gray-500">
-              {(archived_carts ?? []).length} nákup
+              {t("nakup", { count: 1 })}
             </Text>
           </View>
 
@@ -133,7 +135,8 @@ export default function ProfileScreen() {
                 Žiadne nákupné zoznamy
               </Text>
               <Text className="text-gray-400 text-center mt-2 text-sm">
-                Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli koľko ušetríte
+                Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli
+                koľko ušetríte
               </Text>
             </View>
           )}
