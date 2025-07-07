@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,8 +14,7 @@ import {
   useCameraDevice,
   useCodeScanner,
 } from "react-native-vision-camera";
-import { useUploadBlobProductImage } from "../../../network/imports/imports";
-import { displaySuccessToastMessage } from "../../../utils/toast-utils";
+import { useUploadProductImage } from "../../../network/imports/imports";
 
 interface BarcodeData {
   value: string;
@@ -25,26 +24,6 @@ interface BarcodeData {
 export type CameraViewProps = {
   shopId?: string;
   scannedProductBarcode?: string;
-};
-
-const createDummyBlob = async (type = "image/jpeg") => {
-  // You can customize the content of your dummy blob.
-  // For a simple image, you might use a base64 encoded string of a very small image,
-  // or just a simple text string as a placeholder.
-  // For debugging network requests, the exact content might not matter as much
-  // as having a valid Blob object.
-
-  // Option 1: Create a Blob from a simple text string (not a real image, but a valid blob)
-  const dummyText = "This is a dummy image content for debugging purposes.";
-  const blob = new Blob([dummyText], { type: "text/plain" });
-
-  // Option 2: (More realistic for an image, but requires a base64 string)
-  // You can find very small base64 encoded images online (e.g., a 1x1 pixel white image)
-  // const base64Image = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="; // 1x1 white pixel PNG
-  // const response = await fetch(base64Image);
-  // const blob = await response.blob();
-
-  return blob;
 };
 
 const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
@@ -62,11 +41,23 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   const cameraRef = useRef<Camera>(null);
   const device = useCameraDevice("back");
 
+  // const {
+  //   data,
+  //   isPending,
+  //   mutateAsync: sendUploadCapturedImage,
+  // } = useUploadBlobProductImage({
+  //   mutation: {
+  //     onSuccess: () => {
+  //       resetScreen();
+  //     },
+  //   },
+  // });
+
   const {
     data,
     isPending,
     mutateAsync: sendUploadCapturedImage,
-  } = useUploadBlobProductImage({
+  } = useUploadProductImage({
     mutation: {
       onSuccess: () => {
         resetScreen();
@@ -122,18 +113,29 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
         flash: "off",
       });
 
-      displaySuccessToastMessage("Photo captured successfully!");
-
       if (photo) {
         setCapturedPhoto(photo.path);
-
-        displaySuccessToastMessage("Photo set to state successfully!");
       }
     } catch (error) {
       console.error("Error capturing photo:", error);
       Alert.alert("Error", "Failed to capture photo. Please try again.");
     }
   };
+
+  const blobToBase64 = useCallback((blob: Blob) => {
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      return new Promise((resolve) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+      });
+    } catch (err) {
+      console.error(`Error in converting blob to base64 - ${err}`);
+      throw err;
+    }
+  }, []);
 
   // Submit data to backend
   const submitData = async () => {
@@ -142,14 +144,11 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
 
     try {
       const result = await fetch(`file://${capturedPhoto}`);
-      // const data = await result.blob();
-
-      const data = await createDummyBlob("image/jpeg");
+      const data = await result.blob();
+      const base64 = (await blobToBase64(data)) as string;
       await sendUploadCapturedImage({
         data: {
-          file: data,
-        },
-        params: {
+          file_base64: base64,
           shop_id: Number(shopId),
           barcode: scannedBarcode.value,
         },
