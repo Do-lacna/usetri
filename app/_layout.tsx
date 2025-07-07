@@ -1,3 +1,13 @@
+if (typeof Blob !== "undefined") {
+  Blob.prototype[Symbol.toStringTag] = "Blob";
+}
+if (typeof File !== "undefined") {
+  File.prototype[Symbol.toStringTag] = "File";
+}
+if (typeof FormData !== "undefined") {
+  FormData.prototype[Symbol.toStringTag] = "FormData";
+}
+
 import "~/global.css";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
