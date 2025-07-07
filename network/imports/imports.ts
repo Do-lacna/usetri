@@ -23,6 +23,8 @@ import type {
   GetDiscountPriceImportsParams,
   GetDiscountPriceImportsResponse,
   PatchDiscountImportRequest,
+  UploadBlobProductImageBody,
+  UploadBlobProductImageParams,
   UploadDiscountPricesJsonBody,
   UploadDiscountPricesJsonParams,
   UploadProductImageRequest,
@@ -31,6 +33,97 @@ import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const uploadBlobProductImage = (
+  uploadBlobProductImageBody: UploadBlobProductImageBody,
+  params?: UploadBlobProductImageParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  const formData = new FormData();
+  if (uploadBlobProductImageBody.file !== undefined) {
+    formData.append('file', uploadBlobProductImageBody.file);
+  }
+
+  return orvalApiClient<void>(
+    {
+      url: `/admin/blob-product-image`,
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data' },
+      data: formData,
+      params,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getUploadBlobProductImageMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadBlobProductImage>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['uploadBlobProductImage'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadBlobProductImage>>,
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams }
+  > = (props) => {
+    const { data, params } = props ?? {};
+
+    return uploadBlobProductImage(data, params, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
+    TContext
+  >;
+};
+
+export type UploadBlobProductImageMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadBlobProductImage>>
+>;
+export type UploadBlobProductImageMutationBody = UploadBlobProductImageBody;
+export type UploadBlobProductImageMutationError = unknown;
+
+export const useUploadBlobProductImage = <
+  TData = Awaited<ReturnType<typeof uploadBlobProductImage>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
+  TContext
+> => {
+  const mutationOptions = getUploadBlobProductImageMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const uploadProductImage = (
   uploadProductImageRequest: UploadProductImageRequest,
   options?: SecondParameter<typeof orvalApiClient>,

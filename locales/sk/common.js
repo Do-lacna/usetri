@@ -6,6 +6,10 @@ export default {
   nakup_three: "{{count}} nákupy",
   nakup_few: "{{count}} nákupy",
 
+  discounts_one: "{{count}} akcia",
+  discounts_few: "{{count}} akcie",
+  discounts_other: "{{count}} akcií",
+
   // Other common plurals
   books: "{{count}} kniha_interval",
   books_zero: "{{count}} kníh",

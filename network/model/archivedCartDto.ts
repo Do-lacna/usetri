@@ -4,20 +4,16 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CartCategoryDto } from './cartCategoryDto';
-import type { CartProductDto } from './cartProductDto';
-import type { ShopExtendedDto } from './shopExtendedDto';
+import type { ArchivedHybridCartProduct } from './archivedHybridCartProduct';
 
 export interface ArchivedCartDto {
   cart_id?: number;
   /** @nullable */
   owner_id?: string | null;
   /** @nullable */
-  categories?: CartCategoryDto[] | null;
-  /** @nullable */
-  barcodes?: CartProductDto[] | null;
+  barcodes?: ArchivedHybridCartProduct[] | null;
   created_at?: string;
-  shop?: ShopExtendedDto;
+  shop_id?: number;
   total_price?: number;
   price_difference?: number;
 }

@@ -9,6 +9,7 @@ import {
 } from "react";
 import { displaySuccessToastMessage } from "~/utils/toast-utils";
 import { AUTH_TOKEN, USER_ID } from "../network/api-client";
+import { isBrigaderActive } from "../persistence/theme-storage";
 import { resetAndRedirect } from "../utils/navigation-utils";
 import { useStorageState } from "./useStorageState";
 
@@ -75,6 +76,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
     const subscriber = auth().onAuthStateChanged(reactToChangedAuthState);
     //TODO maybe use for token changes (refresh)
     // const sub2 = auth().onIdTokenChanged(reactToChangedAuthState);
+
+    const brigaderActive = isBrigaderActive() ?? false;
+    setBrigaderActive(brigaderActive);
+
     return () => {
       subscriber();
     }; // unsubscribe on unmount

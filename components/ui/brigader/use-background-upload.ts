@@ -34,16 +34,10 @@ export const useBackgroundUpload = () => {
   const { mutate: uploadImage } = useUploadProductImage({
     mutation: {
       onSuccess: (data, variables) => {
-        const itemId = variables.itemId as string;
-        updateItemStatus(itemId, "success");
-        activeUploadsRef.current--;
-        processNextInQueue();
+        // const itemId = variables.itemId as string;
       },
       onError: (error, variables) => {
-        const itemId = variables.itemId as string;
-        handleUploadError(itemId, error);
-        activeUploadsRef.current--;
-        processNextInQueue();
+        // const itemId = variables.itemId as string;
       },
     },
   });
@@ -143,7 +137,6 @@ export const useBackgroundUpload = () => {
             file_base64: item.file_base64,
             shop_id: item.shop_id,
           },
-          itemId: item.id, // Pass item ID for tracking
         });
       });
 

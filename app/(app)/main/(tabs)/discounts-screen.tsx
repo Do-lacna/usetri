@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DiscountList from "../../../../components/discounts/discount-list";
@@ -11,6 +12,7 @@ import {
 } from "../../../../network/query/query";
 
 const GroceryDiscountsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
 
   const [activeStoreId, setActiveStoreId] = useState(shops?.[0]?.id || 0); // Default to first store if available
@@ -52,7 +54,7 @@ const GroceryDiscountsScreen: React.FC = () => {
             store?.id === activeStoreId ? "text-black" : "text-gray-500"
           }`}
         >
-          {discountsCount} akcií
+          {t("discounts", { count: 2 })}
         </Text>
       </TouchableOpacity>
     );

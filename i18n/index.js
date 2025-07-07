@@ -16,8 +16,14 @@ const resources = {
   },
 };
 
+const slovakPluralRule = (count) => {
+  if (count === 1) return "one";
+  if (count >= 2 && count <= 4) return "few";
+  return "other";
+};
+
 const initI18n = async () => {
-  let savedLanguage = "sk"; // default to Slovak
+  let savedLanguage = "sk-SK"; // default to Slovak
 
   try {
     // Try to get saved language from AsyncStorage
@@ -40,59 +46,24 @@ const initI18n = async () => {
   }
 
   i18n.use(initReactI18next).init({
-    compatibilityJSON: "v3", // Important for React Native
+    compatibilityJSON: "v3",
     resources,
     lng: savedLanguage,
-    fallbackLng: "sk",
+    fallbackLng: "sk", // Change this to just "sk", not "sk-SK"
     defaultNS: "common",
 
-    // Pridané: Vypnutie keySeparator pre správnu pluralizáciu s podčiarkovníkom
-    keySeparator: false, // <-- TOTO JE DÔLEŽITÉ!
-    pluralSeparator: "_", // Toto už máš správne
-    contextSeparator: "_", // Toto už máš správne
+    keySeparator: false,
+    pluralSeparator: "_",
 
     interpolation: {
       escapeValue: false,
     },
 
-    pluralRules: {
-      // Príklad pre slovenčinu (len pre demonštráciu, normálne sú už pravidlá vstavané)
-      // Odporúčam toto robiť len vtedy, ak máš špecifické požiadavky,
-      // ktoré sa líšia od štandardných CLDR pravidiel.
-      sk: function (count) {
-        if (count === 1) {
-          console.log("Plural rule: one");
-
-          return "one";
-        }
-        // Pre čísla končiace na 2, 3, 4 (okrem 12, 13, 14)
-        const lastDigit = count % 10;
-        const lastTwoDigits = count % 100;
-
-        if (
-          lastDigit >= 2 &&
-          lastDigit <= 4 &&
-          (lastTwoDigits < 10 || lastTwoDigits >= 20)
-        ) {
-          console.log("Plural rule: few");
-          return "few";
-        }
-        // Pre 0, 5 a viac, a čísla končiace na 11, 12, 13, 14
-        return "other";
-      },
-
-      // Príklad pre angličtinu (pre demonštráciu)
-      // en: function(count) {
-      //   if (count === 1) {
-      //     return 'one';
-      //   }
-      //   return 'other';
-      // }
-    },
-
-    // React specific options
     react: {
       useSuspense: false,
+    },
+    pluralResolvers: {
+      sk: slovakPluralRule,
     },
   });
 
