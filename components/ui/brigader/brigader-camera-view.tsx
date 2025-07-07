@@ -27,6 +27,26 @@ export type CameraViewProps = {
   scannedProductBarcode?: string;
 };
 
+const createDummyBlob = async (type = "image/jpeg") => {
+  // You can customize the content of your dummy blob.
+  // For a simple image, you might use a base64 encoded string of a very small image,
+  // or just a simple text string as a placeholder.
+  // For debugging network requests, the exact content might not matter as much
+  // as having a valid Blob object.
+
+  // Option 1: Create a Blob from a simple text string (not a real image, but a valid blob)
+  const dummyText = "This is a dummy image content for debugging purposes.";
+  const blob = new Blob([dummyText], { type: "text/plain" });
+
+  // Option 2: (More realistic for an image, but requires a base64 string)
+  // You can find very small base64 encoded images online (e.g., a 1x1 pixel white image)
+  // const base64Image = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="; // 1x1 white pixel PNG
+  // const response = await fetch(base64Image);
+  // const blob = await response.blob();
+
+  return blob;
+};
+
 const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   shopId,
   scannedProductBarcode,
@@ -122,7 +142,9 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
 
     try {
       const result = await fetch(`file://${capturedPhoto}`);
-      const data = await result.blob();
+      // const data = await result.blob();
+
+      const data = await createDummyBlob("image/jpeg");
       await sendUploadCapturedImage({
         data: {
           file: data,
