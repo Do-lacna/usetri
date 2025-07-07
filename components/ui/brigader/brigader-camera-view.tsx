@@ -14,7 +14,7 @@ import {
   useCameraDevice,
   useCodeScanner,
 } from "react-native-vision-camera";
-import { useUploadProductImage } from "../../../network/imports/imports";
+import { useUploadBlobProductImage } from "../../../network/imports/imports";
 
 interface BarcodeData {
   value: string;
@@ -49,29 +49,29 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   const cameraRef = useRef<Camera>(null);
   const device = useCameraDevice("back");
 
-  // const {
-  //   data,
-  //   isPending,
-  //   mutateAsync: sendUploadCapturedImage,
-  // } = useUploadBlobProductImage({
-  //   mutation: {
-  //     onSuccess: () => {
-  //       resetScreen();
-  //     },
-  //   },
-  // });
-
   const {
     data,
     isPending,
     mutateAsync: sendUploadCapturedImage,
-  } = useUploadProductImage({
+  } = useUploadBlobProductImage({
     mutation: {
       onSuccess: () => {
         resetScreen();
       },
     },
   });
+
+  // const {
+  //   data,
+  //   isPending,
+  //   mutateAsync: sendUploadCapturedImage,
+  // } = useUploadProductImage({
+  //   mutation: {
+  //     onSuccess: () => {
+  //       resetScreen();
+  //     },
+  //   },
+  // });
 
   // Request camera permission
   useEffect(() => {
@@ -138,12 +138,12 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     try {
       const result = await fetch(`file://${capturedPhoto}`);
       const data = await result.blob();
-      const base64 = (await blobToBase64(data)) as string;
-      const base64Data = base64.split(",")[1];
+      // const base64 = (await blobToBase64(data)) as string;
+      // const base64Data = base64.split(",")[1];
 
       await sendUploadCapturedImage({
-        data: {
-          file_base64: base64Data,
+        data: data as any,
+        params: {
           shop_id: Number(shopId),
           barcode: scannedBarcode.value,
         },

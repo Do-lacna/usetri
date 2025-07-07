@@ -28,6 +28,121 @@ import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const _export = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    { url: `/adminMVC/categories/export`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getExportQueryKey = () => {
+  return [`/adminMVC/categories/export`] as const;
+};
+
+export const getExportQueryOptions = <
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getExportQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof _export>>> = ({
+    signal,
+  }) => _export(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof _export>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type _ExportQueryResult = NonNullable<
+  Awaited<ReturnType<typeof _export>>
+>;
+export type _ExportQueryError = unknown;
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof _export>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof _export>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getExportQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const categoryManagement = (
   params?: CategoryManagementParams,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -366,121 +481,6 @@ export function useProductManagement<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getProductManagementQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const _export = (
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<void>(
-    { url: `/adminMVC/categories/export`, method: 'GET', signal },
-    options,
-  );
-};
-
-export const getExportQueryKey = () => {
-  return [`/adminMVC/categories/export`] as const;
-};
-
-export const getExportQueryOptions = <
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getExportQueryKey();
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof _export>>> = ({
-    signal,
-  }) => _export(requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof _export>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type _ExportQueryResult = NonNullable<
-  Awaited<ReturnType<typeof _export>>
->;
-export type _ExportQueryError = unknown;
-
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof _export>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof _export>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useExport<
-  TData = Awaited<ReturnType<typeof _export>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getExportQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;
