@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -25,6 +25,14 @@ export type CameraViewProps = {
   shopId?: string;
   scannedProductBarcode?: string;
 };
+
+function blobToBase64(blob: Blob) {
+  return new Promise((resolve, _) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
 
 const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   shopId,
@@ -122,21 +130,6 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     }
   };
 
-  const blobToBase64 = useCallback((blob: Blob) => {
-    try {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      return new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-      });
-    } catch (err) {
-      console.error(`Error in converting blob to base64 - ${err}`);
-      throw err;
-    }
-  }, []);
-
   // Submit data to backend
   const submitData = async () => {
     if (!scannedBarcode || !capturedPhoto) return;
@@ -146,9 +139,11 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
       const result = await fetch(`file://${capturedPhoto}`);
       const data = await result.blob();
       const base64 = (await blobToBase64(data)) as string;
+      const base64Data = base64.split(",")[1];
+
       await sendUploadCapturedImage({
         data: {
-          file_base64: base64,
+          file_base64: base64Data,
           shop_id: Number(shopId),
           barcode: scannedBarcode.value,
         },
