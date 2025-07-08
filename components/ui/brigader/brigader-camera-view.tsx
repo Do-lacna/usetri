@@ -1,3 +1,4 @@
+import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,6 +17,7 @@ import {
   useCameraFormat,
   useCodeScanner,
 } from "react-native-vision-camera";
+import { USER_ID } from "~/network/api-client";
 import { BASE_API_URL } from "../../../lib/constants";
 import {
   useUploadBlobProductImage,
@@ -25,6 +27,7 @@ import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
 } from "../../../utils/toast-utils";
+
 
 interface BarcodeData {
   value: string;
@@ -50,7 +53,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
 }: CameraViewProps) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(
-    null
+    { value: '123132', type: 'ean-13'}
   );
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -157,11 +160,13 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
 
     try {
       const result = `file://${capturedPhoto}`;
+      const userId = await SecureStore.getItemAsync(USER_ID); // Get token from secure storage
       ReactNativeBlobUtil.fetch(
         "POST",
         `${BASE_API_URL}admin/blob-product-image?shop_id=${shopId}&barcode=${scannedBarcode.value}`,
         {
           "Content-Type": "multipart/form-data",
+          'user-id': userId || "",
         },
         [
           {

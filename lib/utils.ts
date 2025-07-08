@@ -35,20 +35,20 @@ export const getSimplifiedCart = (
   cart?: Pick<CartDto, "categories" | "specific_products">
 ) => {
   if (!cart) return { categories: [], products: [] };
-  const categories = [...(cart?.categories ?? [])].map(
+  const category_items = [...(cart?.categories ?? [])].map(
     ({ category: { id } = {}, quantity }) => ({
       category_id: Number(id),
       quantity,
     })
   );
-  const products = cart?.specific_products?.map(({ product, quantity }) => ({
+  const product_items = cart?.specific_products?.map(({ product, quantity }) => ({
     barcode: product?.barcode,
     quantity: quantity,
   }));
 
   return {
-    categories,
-    products,
+    category_items,
+     product_items,
   };
 };
 

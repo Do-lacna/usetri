@@ -3,25 +3,17 @@ import { Tabs } from "expo-router";
 import { BadgePercent } from "~/lib/icons/BadgePercent";
 import { ClipboardList } from "~/lib/icons/ClipboardList";
 
+import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import { useSession } from "../../../../context/authentication-context";
 import { NAVBAR_HEIGHT, PRIMARY_HEX } from "../../../../lib/constants";
 import { getNumberOfCartItems } from "../../../../lib/utils";
-import { useGetCart } from "../../../../network/customer/customer";
-import { useGetProductCart } from "../../../../network/product-cart/product-cart";
 
 export default function TabLayout() {
   const { brigaderActive } = useSession();
 
-  const { data: { cart } = {} } = ({} = useGetCart());
+  const { data: { cart } = {} } = ({} = useGetHybridCart());
 
   const cartItemsNumber = getNumberOfCartItems(cart);
-  const {
-    data: { cart: { specific_products = [], total_price } = {} } = {},
-    isLoading: isCartLoading,
-  } = useGetProductCart();
-
-  const productsInCart = [...(specific_products ?? [])].length;
-
   return (
     <Tabs
       screenOptions={{

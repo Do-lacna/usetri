@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ShoppingListProductSearch from "~/components/ui/shopping-list/shopping-list-product-search";
+import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
 import { Button } from "../../../../components/ui/button";
@@ -23,8 +24,7 @@ import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/
 import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
 import {
-  getGetUserCartComparisonQueryKey,
-  useGetCart,
+  getGetUserCartComparisonQueryKey
 } from "../../../../network/customer/customer";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 
@@ -79,11 +79,10 @@ export default function ShoppingList() {
     },
   });
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = ({} = useGetCart());
+  const { data: { cart } = {}, isLoading: isCartLoading } = ({} = useGetHybridCart());
 
   const cartCategories = cart?.categories ?? [];
   const cartProducts = cart?.specific_products ?? [];
-  const available_shop_ids = cart?.available_shop_ids ?? [];
 
   const areAnyItemsInCart =
     cartCategories.length > 0 || cartProducts.length > 0;

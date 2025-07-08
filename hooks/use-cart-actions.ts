@@ -1,11 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Keyboard } from "react-native";
+import { useAddToHybridCart, useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import { CartOperationsEnum } from "../app/(app)/main/(tabs)/shopping-list";
 import { getSimplifiedCart } from "../lib/utils";
 import {
-  getGetCartQueryKey,
-  useCreateCart,
-  useGetCart,
+  getGetCartQueryKey
 } from "../network/customer/customer";
 import { displayErrorToastMessage } from "../utils/toast-utils";
 
@@ -19,13 +18,13 @@ export const useCartActions = ({
   onSuccessfullCartUpdate,
 }: UseCartActionsProps) => {
   const queryClient = useQueryClient();
-  const { data: { cart } = {} } = ({} = useGetCart());
+  const { data: { cart } = {} } = ({} = useGetHybridCart());
 
   const {
     mutate: sendUpdateCart,
     isIdle,
     isPending,
-  } = useCreateCart({
+  } = useAddToHybridCart({
     mutation: {
       onError: () => {
         displayErrorToastMessage(
@@ -55,10 +54,10 @@ export const useCartActions = ({
     if (!barcode) return;
     //TODO call on success
     //   setSearchQuery("");
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { categories, products: [...products, { barcode, quantity }] },
+      data: { category_items, product_items: [...product_items, { barcode, quantity }] },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },
@@ -70,12 +69,12 @@ export const useCartActions = ({
     if (!categoryId) return;
 
     //   setSearchQuery("");
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const {  product_items = [], category_items = []} = getSimplifiedCart(cart);
 
     sendUpdateCart({
       data: {
-        products,
-        categories: [...categories, { category_id: categoryId, quantity }],
+        product_items,
+        category_items: [...category_items, { category_id: categoryId, quantity }],
       },
       additionalData: {
         operation: CartOperationsEnum.ADD,
@@ -88,19 +87,19 @@ export const useCartActions = ({
     type: "category" | "product",
     id?: number | string
   ) => {
-    const { products, categories } = getSimplifiedCart(cart);
-    let updatedCategories = categories;
-    let updatedProducts = products;
+    const {  product_items = [], category_items = [] } = getSimplifiedCart(cart);
+    let updatedCategories = category_items;
+    let updatedProducts = product_items;
     //TODO when BE adjusts DTO uncomment this
     if (type === "category") {
-      updatedCategories = categories?.filter(
+      updatedCategories = category_items?.filter(
         ({ category_id }) => category_id !== id
       );
     } else {
-      updatedProducts = products?.filter(({ barcode }) => barcode !== id);
+      updatedProducts = product_items?.filter(({ barcode }) => barcode !== id);
     }
     sendUpdateCart({
-      data: { categories: updatedCategories, products: updatedProducts },
+      data: { category_items: updatedCategories, product_items: updatedProducts },
     });
   };
 
@@ -110,12 +109,12 @@ export const useCartActions = ({
       handleRemoveItemFromCart("product", barcode);
       return;
     }
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
-    const updatedProducts = products.map((product) =>
+    const {product_items = [], category_items = []} = getSimplifiedCart(cart);
+    const updatedProducts = product_items.map((product) =>
       product.barcode === barcode ? { ...product, quantity } : product
     );
     sendUpdateCart({
-      data: { categories, products: updatedProducts },
+      data: { category_items, product_items: updatedProducts },
       additionalData: {
         operation: CartOperationsEnum.UPDATE,
       },
@@ -131,14 +130,14 @@ export const useCartActions = ({
       handleRemoveItemFromCart("category", categoryId);
       return;
     }
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
-    const updatedCategories = categories.map((category) =>
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
+    const updatedCategories = category_items.map((category) =>
       category?.category_id === categoryId
         ? { ...category, quantity }
         : category
     );
     sendUpdateCart({
-      data: { categories: updatedCategories, products },
+      data: { category_items: updatedCategories, product_items },
       additionalData: {
         operation: CartOperationsEnum.UPDATE,
       },
@@ -149,19 +148,19 @@ export const useCartActions = ({
     barcode: string,
     categoryId: number
   ) => {
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
-    const updatedCategoryIds = categories.some(
+    const updatedCategoryIds = category_items.some(
       (c) => c.category_id === categoryId
     )
-      ? categories.filter(({ category_id }) => category_id !== categoryId)
-      : categories;
+      ? category_items.filter(({ category_id }) => category_id !== categoryId)
+      : category_items;
 
     sendUpdateCart({
       data: {
-        categories: updatedCategoryIds,
+        category_items: updatedCategoryIds,
         //TODO fix this mirror quantity
-        products: [...products, { barcode, quantity: 1 }],
+        product_items: [...product_items, { barcode, quantity: 1 }],
       },
       additionalData: {
         operation: CartOperationsEnum.ADD,
@@ -170,8 +169,8 @@ export const useCartActions = ({
   };
 
   const handleSwitchProduct = (originalBarcode: string, barcode: string) => {
-    const { products = [], categories = [] } = getSimplifiedCart(cart);
-    const updatedProducts = products
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
+    const updatedProducts = product_items
       ?.filter(
         ({ barcode: productBarcode }) => productBarcode !== originalBarcode
       )
@@ -179,8 +178,8 @@ export const useCartActions = ({
 
     sendUpdateCart({
       data: {
-        products: updatedProducts,
-        categories,
+        product_items: updatedProducts,
+        category_items,
         //TODO fix this mirror quantity
       },
       additionalData: {
