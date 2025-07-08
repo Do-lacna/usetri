@@ -1,10 +1,13 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import FlippableCard from '~/components/flippable-card/flippable-card';
-import { CartComparisonProductDto } from '~/network/model';
+import {
+  HybridCartComparisonProductDto,
+  HybridCartComparisonProductType,
+} from '~/network/model';
 
 interface ProductListItemProps {
-  product: CartComparisonProductDto;
+  product: HybridCartComparisonProductDto;
   index: number;
   totalProducts: number;
   isFlipped: boolean;
@@ -29,17 +32,24 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     } = {},
     price = 0,
     quantity = 1,
+    type,
   } = product;
 
-  const borderClass = index < totalProducts - 1 ? "border-b border-gray-100" : "";
+  const borderClass =
+    index < totalProducts - 1 ? 'border-b border-gray-100' : '';
+
+  const displayFlippableCard =
+    type &&
+    ([
+      HybridCartComparisonProductType.CategoryReplacedWithProduct,
+      HybridCartComparisonProductType.ReplacedWithCategoryProduct,
+    ] as HybridCartComparisonProductType[]).includes(type);
 
   const frontContent = (
     <View className={`p-4 bg-white ${borderClass}`}>
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
-          <Text className="text-base font-medium text-gray-900">
-            {name}
-          </Text>
+          <Text className="text-base font-medium text-gray-900">{name}</Text>
           <Text className="text-sm text-gray-500">
             {amount} {unit}
           </Text>
@@ -59,7 +69,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     </View>
   );
 
-  const backContent = (
+  const backContent = displayFlippableCard ? (
     <View className={`p-4 bg-white ${borderClass}`}>
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center">
@@ -87,7 +97,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
         </View>
       </View>
     </View>
-  );
+  ) : null
 
   return (
     <FlippableCard
@@ -96,6 +106,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       backContent={backContent}
       isFlipped={isFlipped}
       onFlip={onFlip}
+      disableFlipping={!displayFlippableCard}
     />
   );
 };

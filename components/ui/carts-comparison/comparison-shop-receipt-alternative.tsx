@@ -6,11 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
+import { getGetHybridCartQueryKey } from "~/network/hybrid-cart/hybrid-cart";
 import {
   getGetArchivedCartQueryKey,
-  getGetCartQueryKey,
   useCreateArchivedCart,
-  useRemoveFromCart,
+  useRemoveFromCart
 } from "../../../network/customer/customer";
 import { CartComparisonDto } from "../../../network/model";
 import { Button } from "../button";
@@ -70,7 +70,7 @@ const ReceiptScreen: React.FC<
           position: "bottom",
         });
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         queryClient.invalidateQueries({
           queryKey: getGetArchivedCartQueryKey(),
@@ -96,7 +96,7 @@ const ReceiptScreen: React.FC<
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         router.back();
       },

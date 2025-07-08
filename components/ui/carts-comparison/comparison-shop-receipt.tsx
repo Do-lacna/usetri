@@ -4,12 +4,12 @@ import React from 'react';
 import { Dimensions, Image, ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Button } from '~/components/ui/button';
+import { getGetHybridCartQueryKey } from '~/network/hybrid-cart/hybrid-cart';
 import { getShopLogo } from '~/utils/logo-utils';
 import {
   getGetArchivedCartQueryKey,
-  getGetCartQueryKey,
   useCreateArchivedCart,
-  useRemoveFromCart,
+  useRemoveFromCart
 } from '../../../network/customer/customer';
 import { CartComparisonDto } from '../../../network/model';
 
@@ -40,7 +40,7 @@ const ComparisonShopReceipt = ({
           position: 'bottom',
         });
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         queryClient.invalidateQueries({
           queryKey: getGetArchivedCartQueryKey(),
@@ -66,7 +66,7 @@ const ComparisonShopReceipt = ({
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         router.back();
       },

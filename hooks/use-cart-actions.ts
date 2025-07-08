@@ -1,11 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Keyboard } from "react-native";
-import { useAddToHybridCart, useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
+import { getGetHybridCartQueryKey, useAddToHybridCart, useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import { CartOperationsEnum } from "../app/(app)/main/(tabs)/shopping-list";
 import { getSimplifiedCart } from "../lib/utils";
-import {
-  getGetCartQueryKey
-} from "../network/customer/customer";
+import { } from "../network/customer/customer";
 import { displayErrorToastMessage } from "../utils/toast-utils";
 
 export type UseCartActionsProps = {
@@ -35,7 +33,7 @@ export const useCartActions = ({
       // onMutate: ({ data }) => {},
       onSuccess: ({ cart }, variables) => {
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         // const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
         // if (

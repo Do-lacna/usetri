@@ -3,14 +3,15 @@ import { router } from "expo-router";
 import { useState } from 'react';
 import { displayErrorToastMessage, displaySuccessToastMessage } from "~/utils/toast-utils";
 
-import { getGetArchivedCartQueryKey, getGetCartQueryKey, useCreateArchivedCart, useGetUserCartComparison, useRemoveFromCart } from "~/network/customer/customer";
+import { getGetArchivedCartQueryKey, useCreateArchivedCart } from "~/network/customer/customer";
+import { getGetHybridCartQueryKey, useDeleteHybridCart, useGetHybridCartComparison } from "~/network/hybrid-cart/hybrid-cart";
 
 export const useShopComparison = () => {
   const queryClient = useQueryClient();
   const [currentCartIndex, setCurrentCartIndex] = useState<number>(0);
   const [flippedItems, setFlippedItems] = useState<Set<string>>(new Set());
   
-  const { data: { carts = [] } = {}, isLoading } = useGetUserCartComparison();
+  const { data: { carts = [] } = {}, isLoading } = useGetHybridCartComparison();
 
   const { mutate: sendCreateArchivedCart, isIdle } = useCreateArchivedCart({
     mutation: {
@@ -20,7 +21,7 @@ export const useShopComparison = () => {
       onSuccess: () => {
         displaySuccessToastMessage("Váš košík bol úspešne uložený vo vašom profile");    
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         queryClient.invalidateQueries({
           queryKey: getGetArchivedCartQueryKey(),
@@ -30,7 +31,7 @@ export const useShopComparison = () => {
     },
   });
 
-  const { mutate: sendDiscardCart } = useRemoveFromCart({
+  const { mutate: sendDiscardCart } = useDeleteHybridCart({
     mutation: {
       onError: () => {
         displayErrorToastMessage("Nepodarilo sa zahodiť košík");  
@@ -38,7 +39,7 @@ export const useShopComparison = () => {
       onSuccess: () => {
         displaySuccessToastMessage("Váš košík bol úspešne vymazaný");    
         queryClient.invalidateQueries({
-          queryKey: getGetCartQueryKey(),
+          queryKey: getGetHybridCartQueryKey(),
         });
         router.back();
       },

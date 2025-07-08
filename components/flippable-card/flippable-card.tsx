@@ -7,6 +7,7 @@ interface FlippableCardProps {
   isFlipped: boolean;
   onFlip: () => void;
   style?: ViewStyle;
+  disableFlipping?: boolean; // New prop to disable flipping
 }
 
 const FlippableCard: React.FC<FlippableCardProps> = ({
@@ -15,13 +16,14 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   isFlipped,
   onFlip,
   style = {},
+  disableFlipping = false, // Default to false to maintain existing behavior
 }) => {
-  const flipAnimation = useRef(new Animated.Value(180)).current; // Start from back (180deg)
-  const [hasInitialFlipped, setHasInitialFlipped] = useState(false);
+  const flipAnimation = useRef(new Animated.Value(disableFlipping ? 0 : 180)).current; // Start from front if flipping is disabled
+  const [hasInitialFlipped, setHasInitialFlipped] = useState(disableFlipping); // Skip initial flip if disabled
 
-  // Initial flip animation on mount
+  // Initial flip animation on mount (only if flipping is enabled)
   React.useEffect(() => {
-    if (!hasInitialFlipped) {
+    if (!disableFlipping && !hasInitialFlipped) {
       // Start from back, flip to front with a delay for staggered effect
       const delay = Math.random() * 500; // Random delay between 0-500ms for staggered effect
 
@@ -35,18 +37,18 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
         });
       }, delay);
     }
-  }, [hasInitialFlipped]);
+  }, [hasInitialFlipped, disableFlipping]);
 
-  // Handle user interactions after initial flip
+  // Handle user interactions after initial flip (only if flipping is enabled)
   React.useEffect(() => {
-    if (hasInitialFlipped) {
+    if (!disableFlipping && hasInitialFlipped) {
       Animated.timing(flipAnimation, {
         toValue: isFlipped ? 180 : 0,
         duration: 600,
         useNativeDriver: true,
       }).start();
     }
-  }, [isFlipped, hasInitialFlipped]);
+  }, [isFlipped, hasInitialFlipped, disableFlipping]);
 
   const frontInterpolate = flipAnimation.interpolate({
     inputRange: [0, 180],
@@ -65,6 +67,15 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   const backAnimatedStyle = {
     transform: [{ rotateY: backInterpolate }],
   };
+
+  // If flipping is disabled, render a simple view with just front content
+  if (disableFlipping) {
+    return (
+      <View style={style} className="h-18 py-1">
+        {frontContent}
+      </View>
+    );
+  }
 
   return (
     <TouchableOpacity
