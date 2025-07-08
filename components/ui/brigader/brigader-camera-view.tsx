@@ -159,7 +159,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
       const result = `file://${capturedPhoto}`;
       ReactNativeBlobUtil.fetch(
         "POST",
-        `${BASE_API_URL}admin/blob-product-image/shop_id=${shopId}&barcode=${scannedBarcode.value}`,
+        `${BASE_API_URL}admin/blob-product-image?shop_id=${shopId}&barcode=${scannedBarcode.value}`,
         {
           "Content-Type": "multipart/form-data",
         },
