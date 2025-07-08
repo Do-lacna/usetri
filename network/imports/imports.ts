@@ -4,7 +4,6 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -17,57 +16,64 @@ import type {
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
-} from '@tanstack/react-query';
+} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { orvalApiClient } from ".././api-client";
 import type {
   DiscountPriceImportBatchDto,
   GetDiscountPriceImportsParams,
   GetDiscountPriceImportsResponse,
   PatchDiscountImportRequest,
+  UploadBlobProductImageBody,
   UploadBlobProductImageParams,
   UploadDiscountPricesJsonBody,
   UploadDiscountPricesJsonParams,
   UploadProductImageRequest,
-} from '.././model';
-import { orvalApiClient } from '.././api-client';
+} from ".././model";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const uploadBlobProductImage = (
-  uploadBlobProductImageBody: string,
+  uploadBlobProductImageBody: UploadBlobProductImageBody,
   params?: UploadBlobProductImageParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
+  const formData = new FormData();
+  if (uploadBlobProductImageBody.file !== undefined) {
+    formData.append("file", uploadBlobProductImageBody.file);
+  }
+
   return orvalApiClient<void>(
     {
       url: `/admin/blob-product-image`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: uploadBlobProductImageBody,
+      method: "POST",
+      headers: { "Content-Type": "multipart/form-data" },
+      data: formData,
       params,
       signal,
     },
-    options,
+    options
   );
 };
 
 export const getUploadBlobProductImageMutationOptions = <
   TData = Awaited<ReturnType<typeof uploadBlobProductImage>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: string; params?: UploadBlobProductImageParams },
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadBlobProductImage'];
+  const mutationKey = ["uploadBlobProductImage"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      'mutationKey' in options.mutation &&
+      "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -75,7 +81,7 @@ export const getUploadBlobProductImageMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadBlobProductImage>>,
-    { data: string; params?: UploadBlobProductImageParams }
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams }
   > = (props) => {
     const { data, params } = props ?? {};
 
@@ -85,7 +91,7 @@ export const getUploadBlobProductImageMutationOptions = <
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { data: string; params?: UploadBlobProductImageParams },
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
     TContext
   >;
 };
@@ -93,25 +99,25 @@ export const getUploadBlobProductImageMutationOptions = <
 export type UploadBlobProductImageMutationResult = NonNullable<
   Awaited<ReturnType<typeof uploadBlobProductImage>>
 >;
-export type UploadBlobProductImageMutationBody = string;
+export type UploadBlobProductImageMutationBody = UploadBlobProductImageBody;
 export type UploadBlobProductImageMutationError = unknown;
 
 export const useUploadBlobProductImage = <
   TData = Awaited<ReturnType<typeof uploadBlobProductImage>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { data: string; params?: UploadBlobProductImageParams },
+    { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { data: string; params?: UploadBlobProductImageParams },
+  { data: UploadBlobProductImageBody; params?: UploadBlobProductImageParams },
   TContext
 > => {
   const mutationOptions = getUploadBlobProductImageMutationOptions(options);
@@ -121,24 +127,24 @@ export const useUploadBlobProductImage = <
 export const uploadProductImage = (
   uploadProductImageRequest: UploadProductImageRequest,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return orvalApiClient<void>(
     {
       url: `/admin/product-image`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       data: uploadProductImageRequest,
       signal,
     },
-    options,
+    options
   );
 };
 
 export const getUploadProductImageMutationOptions = <
   TData = Awaited<ReturnType<typeof uploadProductImage>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -148,10 +154,10 @@ export const getUploadProductImageMutationOptions = <
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadProductImage'];
+  const mutationKey = ["uploadProductImage"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      'mutationKey' in options.mutation &&
+      "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -183,7 +189,7 @@ export type UploadProductImageMutationError = unknown;
 export const useUploadProductImage = <
   TData = Awaited<ReturnType<typeof uploadProductImage>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -205,16 +211,16 @@ export const useUploadProductImage = <
 export const getDiscountPriceImports = (
   params?: GetDiscountPriceImportsParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   return orvalApiClient<GetDiscountPriceImportsResponse>(
-    { url: `/admin/discount-price-imports`, method: 'GET', params, signal },
-    options,
+    { url: `/admin/discount-price-imports`, method: "GET", params, signal },
+    options
   );
 };
 
 export const getGetDiscountPriceImportsQueryKey = (
-  params?: GetDiscountPriceImportsParams,
+  params?: GetDiscountPriceImportsParams
 ) => {
   return [
     `/admin/discount-price-imports`,
@@ -224,7 +230,7 @@ export const getGetDiscountPriceImportsQueryKey = (
 
 export const getGetDiscountPriceImportsQueryOptions = <
   TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
-  TError = unknown,
+  TError = unknown
 >(
   params?: GetDiscountPriceImportsParams,
   options?: {
@@ -236,7 +242,7 @@ export const getGetDiscountPriceImportsQueryOptions = <
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  },
+  }
 ) => {
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
@@ -261,7 +267,7 @@ export type GetDiscountPriceImportsQueryError = unknown;
 
 export function useGetDiscountPriceImports<
   TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
-  TError = unknown,
+  TError = unknown
 >(
   params: undefined | GetDiscountPriceImportsParams,
   options: {
@@ -278,16 +284,16 @@ export function useGetDiscountPriceImports<
           TError,
           TData
         >,
-        'initialData'
+        "initialData"
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  },
+  }
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetDiscountPriceImports<
   TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
-  TError = unknown,
+  TError = unknown
 >(
   params?: GetDiscountPriceImportsParams,
   options?: {
@@ -304,16 +310,16 @@ export function useGetDiscountPriceImports<
           TError,
           TData
         >,
-        'initialData'
+        "initialData"
       >;
     request?: SecondParameter<typeof orvalApiClient>;
-  },
+  }
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 export function useGetDiscountPriceImports<
   TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
-  TError = unknown,
+  TError = unknown
 >(
   params?: GetDiscountPriceImportsParams,
   options?: {
@@ -325,14 +331,14 @@ export function useGetDiscountPriceImports<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  },
+  }
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
 export function useGetDiscountPriceImports<
   TData = Awaited<ReturnType<typeof getDiscountPriceImports>>,
-  TError = unknown,
+  TError = unknown
 >(
   params?: GetDiscountPriceImportsParams,
   options?: {
@@ -344,7 +350,7 @@ export function useGetDiscountPriceImports<
       >
     >;
     request?: SecondParameter<typeof orvalApiClient>;
-  },
+  }
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -363,30 +369,30 @@ export const uploadDiscountPricesJson = (
   uploadDiscountPricesJsonBody: UploadDiscountPricesJsonBody,
   params?: UploadDiscountPricesJsonParams,
   options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ) => {
   const formData = new FormData();
   if (uploadDiscountPricesJsonBody.jsonFile !== undefined) {
-    formData.append('jsonFile', uploadDiscountPricesJsonBody.jsonFile);
+    formData.append("jsonFile", uploadDiscountPricesJsonBody.jsonFile);
   }
 
   return orvalApiClient<DiscountPriceImportBatchDto>(
     {
       url: `/admin/discount-price-imports`,
-      method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
+      method: "POST",
+      headers: { "Content-Type": "multipart/form-data" },
       data: formData,
       params,
       signal,
     },
-    options,
+    options
   );
 };
 
 export const getUploadDiscountPricesJsonMutationOptions = <
   TData = Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -399,10 +405,10 @@ export const getUploadDiscountPricesJsonMutationOptions = <
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['uploadDiscountPricesJson'];
+  const mutationKey = ["uploadDiscountPricesJson"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      'mutationKey' in options.mutation &&
+      "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -440,7 +446,7 @@ export type UploadDiscountPricesJsonMutationError = unknown;
 export const useUploadDiscountPricesJson = <
   TData = Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -469,23 +475,23 @@ export const patchDiscountImportEntry = (
   batchId: number,
   discountId: number,
   patchDiscountImportRequest: PatchDiscountImportRequest,
-  options?: SecondParameter<typeof orvalApiClient>,
+  options?: SecondParameter<typeof orvalApiClient>
 ) => {
   return orvalApiClient<GetDiscountPriceImportsResponse>(
     {
       url: `/admin/discount-price-imports/${batchId}/${discountId}`,
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
       data: patchDiscountImportRequest,
     },
-    options,
+    options
   );
 };
 
 export const getPatchDiscountImportEntryMutationOptions = <
   TData = Awaited<ReturnType<typeof patchDiscountImportEntry>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,
@@ -495,10 +501,10 @@ export const getPatchDiscountImportEntryMutationOptions = <
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['patchDiscountImportEntry'];
+  const mutationKey = ["patchDiscountImportEntry"];
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
-      'mutationKey' in options.mutation &&
+      "mutationKey" in options.mutation &&
       options.mutation.mutationKey
       ? options
       : { ...options, mutation: { ...options.mutation, mutationKey } }
@@ -530,7 +536,7 @@ export type PatchDiscountImportEntryMutationError = unknown;
 export const usePatchDiscountImportEntry = <
   TData = Awaited<ReturnType<typeof patchDiscountImportEntry>>,
   TError = unknown,
-  TContext = unknown,
+  TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
     TData,

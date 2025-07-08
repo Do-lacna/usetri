@@ -6,15 +6,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import ReactNativeBlobUtil from "react-native-blob-util";
 import { runOnJS } from "react-native-reanimated";
 import {
   Camera,
   CameraRuntimeError,
   PhotoFile,
   useCameraDevice,
+  useCameraFormat,
   useCodeScanner,
 } from "react-native-vision-camera";
-import { useUploadBlobProductImage } from "../../../network/imports/imports";
+import { BASE_API_URL } from "../../../lib/constants";
+import {
+  useUploadBlobProductImage,
+  useUploadProductImage,
+} from "../../../network/imports/imports";
+import {
+  displayErrorToastMessage,
+  displaySuccessToastMessage,
+} from "../../../utils/toast-utils";
 
 interface BarcodeData {
   value: string;
@@ -49,6 +59,16 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   const cameraRef = useRef<Camera>(null);
   const device = useCameraDevice("back");
 
+  const format = useCameraFormat(device, [
+    { photoResolution: { width: 1280, height: 720 } },
+  ]);
+
+  const resetScreen = () => {
+    setScannedBarcode(null);
+    setCapturedPhoto(null);
+    setIsCameraActive(true);
+  };
+
   const {
     data,
     isPending,
@@ -61,17 +81,17 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     },
   });
 
-  // const {
-  //   data,
-  //   isPending,
-  //   mutateAsync: sendUploadCapturedImage,
-  // } = useUploadProductImage({
-  //   mutation: {
-  //     onSuccess: () => {
-  //       resetScreen();
-  //     },
-  //   },
-  // });
+  const {
+    data: base64data,
+    isPending: isBase64pending,
+    mutateAsync: sendUploadCapturedImageBase64,
+  } = useUploadProductImage({
+    mutation: {
+      onSuccess: () => {
+        resetScreen();
+      },
+    },
+  });
 
   // Request camera permission
   useEffect(() => {
@@ -131,19 +151,56 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   };
 
   // Submit data to backend
-  const submitData = async () => {
+  const submitBlobData = async () => {
+    if (!scannedBarcode || !capturedPhoto) return;
+    setIsSubmitting(true);
+
+    try {
+      const result = `file://${capturedPhoto}`;
+      ReactNativeBlobUtil.fetch(
+        "POST",
+        `${BASE_API_URL}admin/blob-product-image/shop_id=${shopId}&barcode=${scannedBarcode.value}`,
+        {
+          "Content-Type": "multipart/form-data",
+        },
+        [
+          {
+            name: "file",
+            data: ReactNativeBlobUtil.wrap(result),
+          },
+        ]
+      )
+        .then((resp) => {
+          displaySuccessToastMessage("Fotka úspešne odoslaná");
+        })
+        .catch((err) => {
+          displayErrorToastMessage("Chyba pri odosielaní fotky");
+        });
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      Alert.alert(
+        "Submission Error",
+        "Failed to submit data. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+      resetScreen();
+    }
+  };
+
+  const submitBase64Data = async () => {
     if (!scannedBarcode || !capturedPhoto) return;
     setIsSubmitting(true);
 
     try {
       const result = await fetch(`file://${capturedPhoto}`);
       const data = await result.blob();
-      // const base64 = (await blobToBase64(data)) as string;
-      // const base64Data = base64.split(",")[1];
+      const base64 = (await blobToBase64(data)) as string;
+      const base64Data = base64.split(",")[1];
 
-      await sendUploadCapturedImage({
-        data: data as any,
-        params: {
+      await sendUploadCapturedImageBase64({
+        data: {
+          file_base64: base64Data,
           shop_id: Number(shopId),
           barcode: scannedBarcode.value,
         },
@@ -160,14 +217,6 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     }
   };
 
-  // Reset screen to initial state
-  const resetScreen = () => {
-    setScannedBarcode(null);
-    setCapturedPhoto(null);
-    setIsCameraActive(true);
-  };
-
-  // Loading state
   if (!hasPermission) {
     return (
       <View className="flex-1 justify-center items-center bg-black">
@@ -191,6 +240,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
       {/* Camera View */}
       <View className="flex-1 relative">
         <Camera
+          format={format}
           ref={cameraRef}
           style={{ flex: 1 }}
           device={device}
@@ -283,7 +333,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
 
           {scannedBarcode && capturedPhoto && (
             <TouchableOpacity
-              onPress={submitData}
+              onPress={submitBlobData}
               disabled={isSubmitting}
               className={`p-4 rounded-lg ${
                 isSubmitting ? "bg-gray-600" : "bg-green-600"
@@ -299,7 +349,31 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
                 </View>
               ) : (
                 <Text className="text-white text-center font-bold text-lg">
-                  🚀 Odoslať fotku
+                  🚀 Odoslať fotku blob
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
+
+          {scannedBarcode && capturedPhoto && (
+            <TouchableOpacity
+              onPress={submitBase64Data}
+              disabled={isSubmitting}
+              className={`p-4 rounded-lg ${
+                isSubmitting ? "bg-gray-600" : "bg-green-600"
+              }`}
+              activeOpacity={0.8}
+            >
+              {isSubmitting ? (
+                <View className="flex-row justify-center items-center">
+                  <ActivityIndicator size="small" color="white" />
+                  <Text className="text-white text-center font-bold text-lg ml-2">
+                    Odosielam...
+                  </Text>
+                </View>
+              ) : (
+                <Text className="text-white text-center font-bold text-lg">
+                  🚀 Odoslať fotku base 64
                 </Text>
               )}
             </TouchableOpacity>
