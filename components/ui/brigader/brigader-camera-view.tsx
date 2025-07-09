@@ -1,4 +1,3 @@
-import * as SecureStore from "expo-secure-store";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -7,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import ReactNativeBlobUtil from "react-native-blob-util";
 import { runOnJS } from "react-native-reanimated";
 import {
   Camera,
@@ -17,17 +15,10 @@ import {
   useCameraFormat,
   useCodeScanner,
 } from "react-native-vision-camera";
-import { USER_ID } from "~/network/api-client";
-import { BASE_API_URL } from "../../../lib/constants";
 import {
   useUploadBlobProductImage,
   useUploadProductImage,
 } from "../../../network/imports/imports";
-import {
-  displayErrorToastMessage,
-  displaySuccessToastMessage,
-} from "../../../utils/toast-utils";
-
 
 interface BarcodeData {
   value: string;
@@ -37,6 +28,7 @@ interface BarcodeData {
 export type CameraViewProps = {
   shopId?: string;
   scannedProductBarcode?: string;
+  onBack?: () => void; // Add onBack prop for navigation
 };
 
 function blobToBase64(blob: Blob) {
@@ -50,11 +42,13 @@ function blobToBase64(blob: Blob) {
 const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   shopId,
   scannedProductBarcode,
+  onBack, // Destructure onBack prop
 }: CameraViewProps) => {
   const [hasPermission, setHasPermission] = useState(false);
-  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(
-    { value: '123132', type: 'ean-13'}
-  );
+  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>({
+    value: "123132",
+    type: "ean-13",
+  });
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(true);
@@ -153,46 +147,6 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     }
   };
 
-  // Submit data to backend
-  const submitBlobData = async () => {
-    if (!scannedBarcode || !capturedPhoto) return;
-    setIsSubmitting(true);
-
-    try {
-      const result = `file://${capturedPhoto}`;
-      const userId = await SecureStore.getItemAsync(USER_ID); // Get token from secure storage
-      ReactNativeBlobUtil.fetch(
-        "POST",
-        `${BASE_API_URL}admin/blob-product-image?shop_id=${shopId}&barcode=${scannedBarcode.value}`,
-        {
-          "Content-Type": "multipart/form-data",
-          'user-id': userId || "",
-        },
-        [
-          {
-            name: "file",
-            data: ReactNativeBlobUtil.wrap(result),
-          },
-        ]
-      )
-        .then((resp) => {
-          displaySuccessToastMessage("Fotka úspešne odoslaná");
-        })
-        .catch((err) => {
-          displayErrorToastMessage("Chyba pri odosielaní fotky");
-        });
-    } catch (error) {
-      console.error("Error submitting data:", error);
-      Alert.alert(
-        "Submission Error",
-        "Failed to submit data. Please try again."
-      );
-    } finally {
-      setIsSubmitting(false);
-      resetScreen();
-    }
-  };
-
   const submitBase64Data = async () => {
     if (!scannedBarcode || !capturedPhoto) return;
     setIsSubmitting(true);
@@ -254,6 +208,17 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
           onError={onError}
           photo={true}
         />
+
+        {/* Back Button - positioned in upper left corner */}
+        <View className="absolute top-12 left-4 z-10">
+          <TouchableOpacity
+            onPress={onBack}
+            className="bg-black bg-opacity-60 p-3 rounded-full"
+            activeOpacity={0.8}
+          >
+            <Text className="text-white text-xl font-bold">←</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Scanning overlay */}
         {!scannedBarcode && (
@@ -333,30 +298,6 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
               <Text className="text-white text-center font-bold text-lg">
                 📸 Odfoťte štítok
               </Text>
-            </TouchableOpacity>
-          )}
-
-          {scannedBarcode && capturedPhoto && (
-            <TouchableOpacity
-              onPress={submitBlobData}
-              disabled={isSubmitting}
-              className={`p-4 rounded-lg ${
-                isSubmitting ? "bg-gray-600" : "bg-green-600"
-              }`}
-              activeOpacity={0.8}
-            >
-              {isSubmitting ? (
-                <View className="flex-row justify-center items-center">
-                  <ActivityIndicator size="small" color="white" />
-                  <Text className="text-white text-center font-bold text-lg ml-2">
-                    Odosielam...
-                  </Text>
-                </View>
-              ) : (
-                <Text className="text-white text-center font-bold text-lg">
-                  🚀 Odoslať fotku blob
-                </Text>
-              )}
             </TouchableOpacity>
           )}
 
