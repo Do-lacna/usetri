@@ -1,3 +1,5 @@
+import { router } from "expo-router";
+import { MoveLeft } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -45,10 +47,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   onBack, // Destructure onBack prop
 }: CameraViewProps) => {
   const [hasPermission, setHasPermission] = useState(false);
-  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>({
-    value: "123132",
-    type: "ean-13",
-  });
+  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(null);
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(true);
@@ -212,11 +211,14 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
         {/* Back Button - positioned in upper left corner */}
         <View className="absolute top-12 left-4 z-10">
           <TouchableOpacity
-            onPress={onBack}
-            className="bg-black bg-opacity-60 p-3 rounded-full"
+            onPress={() => {
+              onBack?.();
+              router.back();
+            }}
+            className="bg-black bg-opacity-60 p-1 h-12 w-12 rounded-full flex items-center justify-center"
             activeOpacity={0.8}
           >
-            <Text className="text-white text-xl font-bold">←</Text>
+            <MoveLeft color='white' size={14}/>
           </TouchableOpacity>
         </View>
 
