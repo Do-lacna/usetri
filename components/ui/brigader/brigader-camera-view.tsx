@@ -47,7 +47,9 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   onBack, // Destructure onBack prop
 }: CameraViewProps) => {
   const [hasPermission, setHasPermission] = useState(false);
-  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(null);
+  const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(
+    null
+  );
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(true);
@@ -110,6 +112,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
       "codabar",
       "upc-a",
       "upc-e",
+      "aztec",
     ],
     onCodeScanned: (codes) => {
       if (codes.length > 0 && !scannedBarcode) {
@@ -218,7 +221,7 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
             className="bg-black bg-opacity-60 p-1 h-12 w-12 rounded-full flex items-center justify-center"
             activeOpacity={0.8}
           >
-            <MoveLeft color='white' size={14}/>
+            <MoveLeft color="white" size={14} />
           </TouchableOpacity>
         </View>
 
