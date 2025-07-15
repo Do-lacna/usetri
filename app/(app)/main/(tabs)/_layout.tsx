@@ -1,6 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { BadgePercent } from "~/lib/icons/BadgePercent";
+import { Search } from "~/lib/icons/Search";
+
 import { ClipboardList } from "~/lib/icons/ClipboardList";
 
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
@@ -39,6 +41,15 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <BadgePercent size={28} color={focused ? "black" : color} />
             // <FontAwesome size={28} name='percent' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search-screen"
+        options={{
+          title: "Hĺadať",
+          tabBarIcon: ({ color, focused }) => (
+            <Search size={28} color={focused ? "black" : color} />
           ),
         }}
       />

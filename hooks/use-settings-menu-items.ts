@@ -45,6 +45,7 @@ export const useSettingsMenuItems = () => {
             if (brigaderActive) {
               deactivateBrigader();
               setBrigaderActive?.(false);
+              return;
             }
             activateBrigader();
             setBrigaderActive?.(true);
