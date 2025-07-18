@@ -42,7 +42,7 @@ const initI18n = async () => {
       );
     }
   } catch (error) {
-    console.error("Error loading saved language:", error);
+    console.log("Error loading saved language:", error);
   }
 
   i18n.use(initReactI18next).init({
