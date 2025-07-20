@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   FlatList,
   Image,
   ListRenderItemInfo,
   Pressable,
   View,
-} from 'react-native';
-import { Card } from '../ui/card';
-import { Text } from '../ui/text';
+} from "react-native";
+import { Card } from "../ui/card";
+import { Text } from "../ui/text";
 
 interface Category {
   id: number;
@@ -30,24 +30,28 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   // Sort categories to put the selected one first
   const sortedCategories = React.useMemo(() => {
     if (!selectedCategoryId) return categories;
-    
-    const selectedCategory = categories.find(cat => cat.id === selectedCategoryId);
-    const otherCategories = categories.filter(cat => cat.id !== selectedCategoryId);
-    
-    return selectedCategory ? [selectedCategory, ...otherCategories] : categories;
+
+    const selectedCategory = categories.find(
+      (cat) => cat.id === selectedCategoryId
+    );
+    const otherCategories = categories.filter(
+      (cat) => cat.id !== selectedCategoryId
+    );
+
+    return selectedCategory
+      ? [selectedCategory, ...otherCategories]
+      : categories;
   }, [categories, selectedCategoryId]);
 
-  const renderCategory = ({
-    item,
-  }: ListRenderItemInfo<Category>) => {
+  const renderCategory = ({ item }: ListRenderItemInfo<Category>) => {
     const { name, id, image_url } = item;
     const isSelected = selectedCategoryId === id;
-    
+
     return (
       <Pressable onPress={() => onCategorySelect(item)}>
-        <Card 
+        <Card
           className={`flex flex-row items-center p-2 ${
-            isSelected ? 'bg-primary/20 border-2 border-primary' : 'bg-divider'
+            isSelected ? "bg-primary/20 border-2 border-primary" : "bg-divider"
           }`}
         >
           {!!image_url && (
@@ -58,7 +62,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             />
           )}
 
-          <Text className={isSelected ? 'font-semibold text-primary' : ''}>
+          <Text className={isSelected ? "font-semibold text-primary" : ""}>
             {name}
           </Text>
         </Card>
