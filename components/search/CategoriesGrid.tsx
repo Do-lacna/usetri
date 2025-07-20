@@ -1,5 +1,5 @@
-import { FlatList, RefreshControl, Text, View } from 'react-native';
-import { CategoryCard } from './CategoryCard';
+import { FlatList, RefreshControl, Text, View } from "react-native";
+import { CategoryCard } from "./CategoryCard";
 
 interface CategoriesGridProps {
   categories: Array<{
@@ -24,18 +24,16 @@ export function CategoriesGrid({
   isLoading,
   onRefresh,
 }: CategoriesGridProps) {
-  console.log('CategoriesGrid rendering with', categories.length, 'categories');
+  console.log("CategoriesGrid rendering with", categories.length, "categories");
 
   return (
     <View>
       {/* Categories title */}
-      <View className="mb-4 px-2">
+      <View className="mt-6 mb-4 px-2">
         <Text className="text-2xl font-bold text-gray-800">
           Kategórie produktov
         </Text>
-  
       </View>
-
 
       {/* Categories grid */}
       <FlatList
@@ -49,7 +47,7 @@ export function CategoriesGrid({
         numColumns={3}
         keyExtractor={(category) => String(category?.id)}
         contentContainerStyle={{ gap: 8, padding: 8 }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
         }
