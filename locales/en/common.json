@@ -1,0 +1,31 @@
+{
+  "nakup_one": "{{count}} nákup",
+  "nakup_few": "{{count}} nákupy",
+  "nakup_other": "{{count}} nákupov",
+
+  "discounts_one": "{{count}} akcia",
+  "discounts_few": "{{count}} akcie",
+  "discounts_other": "{{count}} akcií",
+
+  "books": "{{count}} kniha_interval",
+  "books_zero": "{{count}} kníh",
+  "books_one": "{{count}} kniha",
+  "books_few": "{{count}} knihy",
+  "books_many": "{{count}} kníh",
+  "books_other": "{{count}} kníh",
+
+  "welcome": "Vitajte",
+  "hello": "Ahoj {{name}}",
+  "loading": "Načítava...",
+  "error": "Chyba",
+
+  "home": "Domov",
+  "profile": "Profil",
+  "settings": "Nastavenia",
+
+  "shopping_cart": "Nákupný košík",
+  "add_item": "Pridať položku",
+  "remove_item": "Odstrániť položku",
+  "total": "Celkom",
+  "checkout": "Pokračovať na platbu"
+}

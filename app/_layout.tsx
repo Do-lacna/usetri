@@ -1,13 +1,3 @@
-if (typeof Blob !== "undefined") {
-  Blob.prototype[Symbol.toStringTag] = "Blob";
-}
-if (typeof File !== "undefined") {
-  File.prototype[Symbol.toStringTag] = "File";
-}
-if (typeof FormData !== "undefined") {
-  FormData.prototype[Symbol.toStringTag] = "FormData";
-}
-
 import "~/global.css";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -20,20 +10,19 @@ import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, SplashScreen } from "expo-router";
 import { i18n } from "i18next";
+import 'intl-pluralrules';
 import { useEffect, useState } from "react";
-import { I18nextProvider } from "react-i18next";
-import { Platform, View } from "react-native";
+import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
-import { Text } from "~/components/ui/text";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { getTheme, setTheme } from "~/persistence/theme-storage";
 import { SessionProvider } from "../context/authentication-context";
 import { RevenueCatProvider } from "../context/revenue-cat-provider";
-import initI18n from "../i18n";
+import "../i18n";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -48,7 +37,7 @@ const DARK_THEME: Theme = {
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from "expo-router";
 
 const queryClient = new QueryClient({
@@ -104,17 +93,7 @@ export default function RootLayout() {
       }
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
-      const initializeI18n = async () => {
-        try {
-          const i18n = await initI18n();
-          setI18nInstance(i18n);
-        } catch (error) {
-          console.error("Failed to initialize i18n:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      initializeI18n();
+
     })().finally(() => {
       SplashScreen.hideAsync();
     });
@@ -124,17 +103,16 @@ export default function RootLayout() {
     return null;
   }
 
-  if (!i18nInstance) {
-    return (
-      <View className="flex-1">
-        <Text>Nenacitana localization</Text>
-      </View>
-    );
-  }
+  // if (!i18nInstance) {
+  //   return (
+  //     <View className="flex-1">
+  //       <Text>Nenacitana localization</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nextProvider i18n={i18nInstance}>
         <RevenueCatProvider>
           <SessionProvider>
             <GestureHandlerRootView>
@@ -150,7 +128,6 @@ export default function RootLayout() {
             </GestureHandlerRootView>
           </SessionProvider>
         </RevenueCatProvider>
-      </I18nextProvider>
     </QueryClientProvider>
   );
 }

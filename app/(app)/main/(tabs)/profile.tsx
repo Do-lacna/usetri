@@ -17,7 +17,9 @@ import { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+console.log(i18n?.languages?.[0])
   const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
     useDrawerMenu();
   const { user } = useSession();
@@ -122,7 +124,7 @@ export default function ProfileScreen() {
               História nákupov
             </Text>
             <Text className="text-sm text-gray-500">
-              {t("nakup", { count: 1 })}
+              {t("nakup", { count: 2 })}
             </Text>
           </View>
 
