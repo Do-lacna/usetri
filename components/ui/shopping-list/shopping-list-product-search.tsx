@@ -28,12 +28,6 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     }
   );
 
-  const outputProducts =
-    searchProducts?.map(({ products, available_shop_ids }) => ({
-      ...(products?.[0] ?? {}),
-      available_shop_ids,
-    })) ?? [];
-
   if (!(searchQuery?.length > 0)) {
     return (
       <Text className="flex-1 flex items-center justify-center text-center">
@@ -44,12 +38,12 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
 
   return (
     <FlatList
-      data={outputProducts}
+      data={searchProducts}
       renderItem={({ item }) => (
         <DiscountedProductCard
           product={item}
           onPress={onProductSelect}
-          availableShopIds={item?.available_shop_ids || []}
+          shopsPrices={item?.shops_prices}
         />
       )}
       numColumns={2}

@@ -3,7 +3,10 @@ import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { calculateDiscountPercentage } from "~/lib/number-utils";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { ShopItemDto } from "../../../network/model";
+import {
+  ItemListGroupedByBarcodeDto,
+  ShopItemDto,
+} from "../../../network/model";
 import { useGetShops } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
 import { Badge } from "../badge";
@@ -21,15 +24,15 @@ export interface IProduct {
 }
 
 export interface IProductCardProps {
-  product?: ShopItemDto;
-  availableShopIds: number[] | null;
+  product?: ItemListGroupedByBarcodeDto;
+  shopsPrices?: ShopItemDto[] | null; // List of prices from different shops
   onPress?: (barcode: string, categoryId: number) => void;
   className?: string;
 }
 
 const DiscountedProductCard = ({
   product,
-  availableShopIds = [],
+  shopsPrices = [],
   onPress,
   className,
 }: IProductCardProps) => {
@@ -43,12 +46,15 @@ const DiscountedProductCard = ({
       unit,
       category: { id: categoryId } = {},
     } = {},
-    price = 0,
-    discount_price,
   } = { ...product };
 
+  const availableShopIds =
+    shopsPrices?.map((shop) => Number(shop.shop_id)) || [];
+
+  const { discount_price, price } = shopsPrices?.[0] || {};
+
   const percentageDiscount = calculateDiscountPercentage(
-    price,
+    Number(price),
     discount_price?.price
   );
   const hasDiscount = !!discount_price && percentageDiscount;

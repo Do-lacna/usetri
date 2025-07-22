@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { useGetCart } from "../../../network/customer/customer";
+import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
 import { CartCategoryDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import SuggestedProductCard from "../suggested-product-card";
@@ -33,7 +33,7 @@ const ShoppingListCategoryItem: React.FC<{
     available_shop_ids = [],
   } = item;
 
-  const { data: { cart } = {} } = ({} = useGetCart());
+  const { data: { cart } = {} } = ({} = useGetHybridCart());
 
   const { data: { products: suggestedProducts = [] } = {}, isLoading } =
     useGetProducts(

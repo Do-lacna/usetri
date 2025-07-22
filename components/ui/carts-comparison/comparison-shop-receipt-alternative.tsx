@@ -6,11 +6,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
-import { getGetHybridCartQueryKey } from "~/network/hybrid-cart/hybrid-cart";
+import {
+  getGetHybridCartQueryKey,
+  useDeleteHybridCart,
+} from "~/network/hybrid-cart/hybrid-cart";
 import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
-  useRemoveFromCart
 } from "../../../network/customer/customer";
 import { CartComparisonDto } from "../../../network/model";
 import { Button } from "../button";
@@ -22,21 +24,6 @@ interface GroceryItem {
   brand: string;
   amount: string;
   price: number;
-}
-
-interface Store {
-  name: string;
-  address: string;
-  date: string;
-  time: string;
-}
-
-interface ReceiptScreenProps {
-  store: Store;
-  items: GroceryItem[];
-  totalPrice: number;
-  onSaveReceipt: () => void;
-  onDiscardReceipt: () => void;
 }
 
 const ReceiptScreen: React.FC<
@@ -80,7 +67,7 @@ const ReceiptScreen: React.FC<
     },
   });
 
-  const { mutate: sendDiscardCart } = useRemoveFromCart({
+  const { mutate: sendDiscardCart } = useDeleteHybridCart({
     mutation: {
       onError: () => {
         Toast.show({

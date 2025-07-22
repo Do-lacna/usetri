@@ -48,7 +48,8 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     <DiscountedProductCard
       product={item}
       onPress={(id: string | number) => router.navigate(`/product/${id}`)}
-      availableShopIds={item?.shop_id ? [item?.shop_id] : []}
+      //TODO here also add shop prices from BE response
+      shopsPrices={item?.shop_id ? [item?.shop_id] : []}
     />
   );
 

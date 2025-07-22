@@ -54,7 +54,7 @@ const GroceryDiscountsScreen: React.FC = () => {
             store?.id === activeStoreId ? "text-black" : "text-gray-500"
           }`}
         >
-          {t("discounts", { count: 2 })}
+          {t("discounts", { count: discountsCount })}
         </Text>
       </TouchableOpacity>
     );

@@ -16,7 +16,7 @@ import { CategoriesGrid } from "../../../../components/search/CategoriesGrid";
 import { CategoryDetailView } from "../../../../components/search/CategoryDetailView";
 import { NoDataText } from "../../../../components/ui/no-data-text/no-data-text";
 import DiscountedProductCard from "../../../../components/ui/product-card/discounted-product-card";
-import type { ProductDto, ShopItemDto } from "../../../../network/model";
+import type { ProductDto } from "../../../../network/model";
 import { useGetProducts } from "../../../../network/query/query";
 
 const MOCK_CATEGORIES = [
@@ -144,15 +144,12 @@ export default function SearchScreen() {
     },
     {
       query: {
-        enabled: searchQuery?.length > 2,
+        enabled: searchQuery?.length > 1,
       },
     }
   );
 
-  const outputProducts = searchProducts?.map(({ products }) => products?.[0]);
-
-  const displaySearchResult =
-    searchQuery?.length > 0 && (outputProducts?.length ?? 0) > 0;
+  const displaySearchResult = searchQuery?.length > 1;
 
   const isLoading = areProductsLoading;
 
@@ -179,42 +176,6 @@ export default function SearchScreen() {
   const handleRefresh = () => {
     queryClient.invalidateQueries();
   };
-
-  // Function to get products for a specific subcategory
-  const getProductsForSubcategory = (subcategoryId: number) => {
-    const {
-      data: { products: categoryProducts = [] } = {},
-      isLoading: areCategoryProductsLoading,
-    } = useGetProducts(
-      {
-        category_id: subcategoryId,
-      },
-      {
-        query: {
-          enabled: !!subcategoryId,
-        },
-      }
-    );
-
-    const outputCategoryProducts: ShopItemDto[] =
-      categoryProducts
-        ?.map(({ products }) => products?.[0])
-        .filter((product): product is ShopItemDto => Boolean(product)) || [];
-
-    return {
-      products: outputCategoryProducts,
-      isLoading: areCategoryProductsLoading,
-    };
-  };
-
-  console.log(
-    "SearchScreen render - searchQuery:",
-    searchQuery,
-    "displaySearchResult:",
-    displaySearchResult,
-    "selectedCategory:",
-    selectedCategory?.name
-  );
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
@@ -255,12 +216,12 @@ export default function SearchScreen() {
 
         {displaySearchResult ? (
           <FlatList
-            data={outputProducts}
+            data={searchProducts}
             renderItem={({ item }) => (
               <DiscountedProductCard
                 product={item}
                 onPress={handleProductPress}
-                availableShopIds={[1]}
+                shopsPrices={item?.shops_prices || []}
               />
             )}
             numColumns={3}
@@ -275,7 +236,7 @@ export default function SearchScreen() {
             }
             ListEmptyComponent={
               !areProductsLoading ? (
-                <ActivityIndicator animating={true} className="mt-10" />
+                <ActivityIndicator animating={true} className="mt-12" />
               ) : (
                 <View className="flex-1 flex items-center justify-center">
                   <NoDataText className="text-xl my-4">

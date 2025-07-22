@@ -1,9 +1,9 @@
-import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { CartComparisonDto } from '~/network/model';
+import React from "react";
+import { TouchableOpacity, View } from "react-native";
+import { HybridCartComparisonDto } from "~/network/model";
 
 interface ShopPaginationProps {
-  carts: CartComparisonDto[];
+  carts: HybridCartComparisonDto[] | null;
   currentCartIndex: number;
   onGoToShop: (index: number) => void;
   areMoreCartsAvailable: boolean;
@@ -30,4 +30,4 @@ export const ShopPagination: React.FC<ShopPaginationProps> = ({
       ))}
     </View>
   );
-}
+};

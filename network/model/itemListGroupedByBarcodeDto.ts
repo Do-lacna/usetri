@@ -4,13 +4,24 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { ProductDto } from './productDto';
+import type { ShopPriceDto } from './shopPriceDto';
 import type { ShopItemDto } from './shopItemDto';
 
 export interface ItemListGroupedByBarcodeDto {
   /** @nullable */
   barcode?: string | null;
+  detail?: ProductDto;
   /** @nullable */
+  shops_prices?: ShopPriceDto[] | null;
+  /**
+   * @deprecated
+   * @nullable
+   */
   products?: ShopItemDto[] | null;
-  /** @nullable */
+  /**
+   * @deprecated
+   * @nullable
+   */
   available_shop_ids?: number[] | null;
 }

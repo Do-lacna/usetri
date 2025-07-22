@@ -1,41 +1,42 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import { getShopById } from '~/lib/utils';
-import { ShopExtendedDto, ShopItemDto } from '~/network/model';
-import { ShopPriceItem } from './shop-price-item';
-
+import React from "react";
+import { Text, View } from "react-native";
+import { getShopById } from "~/lib/utils";
+import { ShopExtendedDto, ShopPriceDto } from "~/network/model";
+import { ShopPriceItem } from "./shop-price-item";
 
 interface ShopPricesListProps {
-  products: ShopItemDto[];
+  shopsPrices?: ShopPriceDto[] | null;
   shops: ShopExtendedDto[] | null;
   selectedShopId: number | null;
   onShopSelect: (shopId: number) => void;
 }
 
 export const ShopPricesList: React.FC<ShopPricesListProps> = ({
-  products,
+  shopsPrices,
   shops,
   selectedShopId,
   onShopSelect,
 }) => {
-  if (!products || products.length === 0) return null;
+  if (!shopsPrices || shopsPrices.length === 0) return null;
 
   return (
     <View className="mb-6">
       <Text className="text-lg font-semibold text-gray-900 mb-4">
-        Dostupné v {products.length} obchodoch
+        Dostupné v {shopsPrices.length} obchodoch
       </Text>
 
-      {products.map(({ shop_id, price, discount_price }) => {
+      {shopsPrices.map(({ shop_id, price, discount_price }) => {
         const { name: shopName } = getShopById(Number(shop_id), shops) || {};
-        
+
         return (
           <ShopPriceItem
             key={shop_id}
             shopId={Number(shop_id)}
-            shopName={shopName || 'Unknown Shop'}
+            shopName={shopName || "Unknown Shop"}
             price={Number(price)}
-            discountPrice={discount_price ? Number(discount_price?.price) : null}
+            discountPrice={
+              discount_price ? Number(discount_price?.price) : null
+            }
             isSelected={selectedShopId === shop_id}
             onSelect={onShopSelect}
           />

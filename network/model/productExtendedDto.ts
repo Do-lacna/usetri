@@ -4,19 +4,22 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { CategoryDto } from './categoryDto';
 
-export interface PriceDto {
-  price?: number;
+export interface ProductExtendedDto {
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
   scanned_barcode?: string | null;
-  shop_id?: number;
-  change_requested?: string;
   /** @nullable */
-  change_confirmed?: string | null;
+  name?: string | null;
+  amount?: number;
   /** @nullable */
-  status?: string | null;
+  brand?: string | null;
   /** @nullable */
-  location?: string | null;
+  unit?: string | null;
+  /** @nullable */
+  image_url?: string | null;
+  category?: CategoryDto;
+  id?: number;
 }

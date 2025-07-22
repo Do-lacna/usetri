@@ -1,12 +1,12 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { ActionButtons } from '~/components/shop-comparison/action-buttons';
-import { PriceSummaryCard } from '~/components/shop-comparison/price-summary-card';
-import { ProductsList } from '~/components/shop-comparison/products-list';
-import { ShopNavigationHeader } from '~/components/shop-comparison/shop-navigation-header';
-import { ShopPagination } from '~/components/shop-comparison/shop-pagination';
-import { Text } from '~/components/ui/text';
-import { useShopComparison } from '~/hooks/use-shop-comparison';
+import React from "react";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import { ActionButtons } from "~/components/shop-comparison/action-buttons";
+import { PriceSummaryCard } from "~/components/shop-comparison/price-summary-card";
+import { ProductsList } from "~/components/shop-comparison/products-list";
+import { ShopNavigationHeader } from "~/components/shop-comparison/shop-navigation-header";
+import { ShopPagination } from "~/components/shop-comparison/shop-pagination";
+import { Text } from "~/components/ui/text";
+import { useShopComparison } from "~/hooks/use-shop-comparison";
 
 const ShopComparisonScreen: React.FC = () => {
   const {
@@ -29,13 +29,15 @@ const ShopComparisonScreen: React.FC = () => {
     handleDiscardCart,
   } = useShopComparison();
 
-  if((!carts || carts?.length === 0) && !isLoading) {
+  if ((!carts || carts?.length === 0) && !isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-gray-50">
         <View className="flex-1 items-center justify-center">
-          <Text className="text-lg text-gray-600">Vami zvolené produkty sa nenachádzajú v žiadnom obchode</Text>
+          <Text className="text-lg text-gray-600">
+            Vami zvolené produkty sa nenachádzajú v žiadnom obchode
+          </Text>
         </View>
-        </SafeAreaView>
+      </SafeAreaView>
     );
   }
 
@@ -67,7 +69,6 @@ const ShopComparisonScreen: React.FC = () => {
             savingsVsMostExpensive={savingsVsMostExpensive}
           />
         </View>
-         
 
         <View className="px-4 pb-6">
           <ProductsList

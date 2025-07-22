@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import React from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
 import { ArrowRight } from "../../lib/icons/ArrowRight";
-import { useGetCart } from "../../network/customer/customer";
+import { useGetHybridCart } from "../../network/hybrid-cart/hybrid-cart";
 import IconButton from "../icon-button";
 
 export type PriceSummaryProps = {
@@ -12,9 +12,9 @@ export type PriceSummaryProps = {
 const PriceSummary = ({ onPress }: PriceSummaryProps) => {
   const screenWidth = Dimensions.get("window").width;
   const {
-    data: { cart: { total_price = 0, available_shop_ids = [] } = {} } = {},
+    data: { cart: { total_price = 0 } = {} } = {},
     isLoading: isCartLoading,
-  } = ({} = useGetCart());
+  } = ({} = useGetHybridCart());
 
   return (
     <Link
@@ -67,7 +67,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
               {total_price?.toFixed(2)} €
             </Text>
             <IconButton className="bg-secondary rounded-full p-2">
-              <ArrowRight size={20} />  
+              <ArrowRight size={20} />
             </IconButton>
           </View>
         </View>

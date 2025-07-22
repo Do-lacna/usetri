@@ -32,362 +32,6 @@ import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const createArchivedCart = (
-  createArchivedCartRequest: CreateArchivedCartRequest,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<void>(
-    {
-      url: `/archived-carts`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: createArchivedCartRequest,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getCreateArchivedCartMutationOptions = <
-  TData = Awaited<ReturnType<typeof createArchivedCart>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: CreateArchivedCartRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const mutationKey = ['createArchivedCart'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof createArchivedCart>>,
-    { data: CreateArchivedCartRequest }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return createArchivedCart(data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: CreateArchivedCartRequest },
-    TContext
-  >;
-};
-
-export type CreateArchivedCartMutationResult = NonNullable<
-  Awaited<ReturnType<typeof createArchivedCart>>
->;
-export type CreateArchivedCartMutationBody = CreateArchivedCartRequest;
-export type CreateArchivedCartMutationError = ProblemDetails;
-
-export const useCreateArchivedCart = <
-  TData = Awaited<ReturnType<typeof createArchivedCart>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: CreateArchivedCartRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<
-  TData,
-  TError,
-  { data: CreateArchivedCartRequest },
-  TContext
-> => {
-  const mutationOptions = getCreateArchivedCartMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-export const getArchivedCart = (
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetArchivedCartResponse>(
-    { url: `/archived-carts`, method: 'GET', signal },
-    options,
-  );
-};
-
-export const getGetArchivedCartQueryKey = () => {
-  return [`/archived-carts`] as const;
-};
-
-export const getGetArchivedCartQueryOptions = <
-  TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getGetArchivedCartQueryKey();
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchivedCart>>> = ({
-    signal,
-  }) => getArchivedCart(requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getArchivedCart>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetArchivedCartQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getArchivedCart>>
->;
-export type GetArchivedCartQueryError = ProblemDetails;
-
-export function useGetArchivedCart<
-  TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getArchivedCart>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetArchivedCart<
-  TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getArchivedCart>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetArchivedCart<
-  TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useGetArchivedCart<
-  TData = Awaited<ReturnType<typeof getArchivedCart>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetArchivedCartQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const getArchivedCartById = (
-  cartId: number,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetArchivedCartByIdResponse>(
-    { url: `/archived-carts/${cartId}`, method: 'GET', signal },
-    options,
-  );
-};
-
-export const getGetArchivedCartByIdQueryKey = (cartId: number) => {
-  return [`/archived-carts/${cartId}`] as const;
-};
-
-export const getGetArchivedCartByIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
-  TError = ProblemDetails,
->(
-  cartId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArchivedCartById>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetArchivedCartByIdQueryKey(cartId);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getArchivedCartById>>
-  > = ({ signal }) => getArchivedCartById(cartId, requestOptions, signal);
-
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!cartId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof getArchivedCartById>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetArchivedCartByIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getArchivedCartById>>
->;
-export type GetArchivedCartByIdQueryError = ProblemDetails;
-
-export function useGetArchivedCartById<
-  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
-  TError = ProblemDetails,
->(
-  cartId: number,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArchivedCartById>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getArchivedCartById>>,
-          TError,
-          TData
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetArchivedCartById<
-  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
-  TError = ProblemDetails,
->(
-  cartId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArchivedCartById>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getArchivedCartById>>,
-          TError,
-          TData
-        >,
-        'initialData'
-      >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetArchivedCartById<
-  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
-  TError = ProblemDetails,
->(
-  cartId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArchivedCartById>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useGetArchivedCartById<
-  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
-  TError = ProblemDetails,
->(
-  cartId: number,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getArchivedCartById>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof orvalApiClient>;
-  },
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetArchivedCartByIdQueryOptions(cartId, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
 export const addToHybridCart = (
   addToHybridCartRequest: AddToHybridCartRequest,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -770,6 +414,362 @@ export function useGetHybridCartComparison<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetHybridCartComparisonQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const createArchivedCart = (
+  createArchivedCartRequest: CreateArchivedCartRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/archived-carts`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: createArchivedCartRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getCreateArchivedCartMutationOptions = <
+  TData = Awaited<ReturnType<typeof createArchivedCart>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: CreateArchivedCartRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['createArchivedCart'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createArchivedCart>>,
+    { data: CreateArchivedCartRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createArchivedCart(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: CreateArchivedCartRequest },
+    TContext
+  >;
+};
+
+export type CreateArchivedCartMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createArchivedCart>>
+>;
+export type CreateArchivedCartMutationBody = CreateArchivedCartRequest;
+export type CreateArchivedCartMutationError = ProblemDetails;
+
+export const useCreateArchivedCart = <
+  TData = Awaited<ReturnType<typeof createArchivedCart>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: CreateArchivedCartRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: CreateArchivedCartRequest },
+  TContext
+> => {
+  const mutationOptions = getCreateArchivedCartMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getArchivedCart = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetArchivedCartResponse>(
+    { url: `/archived-carts`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetArchivedCartQueryKey = () => {
+  return [`/archived-carts`] as const;
+};
+
+export const getGetArchivedCartQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetArchivedCartQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getArchivedCart>>> = ({
+    signal,
+  }) => getArchivedCart(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getArchivedCart>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetArchivedCartQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArchivedCart>>
+>;
+export type GetArchivedCartQueryError = ProblemDetails;
+
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getArchivedCart>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getArchivedCart>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetArchivedCart<
+  TData = Awaited<ReturnType<typeof getArchivedCart>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getArchivedCart>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetArchivedCartQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getArchivedCartById = (
+  cartId: number,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetArchivedCartByIdResponse>(
+    { url: `/archived-carts/${cartId}`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetArchivedCartByIdQueryKey = (cartId: number) => {
+  return [`/archived-carts/${cartId}`] as const;
+};
+
+export const getGetArchivedCartByIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
+  TError = ProblemDetails,
+>(
+  cartId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getArchivedCartById>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetArchivedCartByIdQueryKey(cartId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getArchivedCartById>>
+  > = ({ signal }) => getArchivedCartById(cartId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!cartId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getArchivedCartById>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetArchivedCartByIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getArchivedCartById>>
+>;
+export type GetArchivedCartByIdQueryError = ProblemDetails;
+
+export function useGetArchivedCartById<
+  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
+  TError = ProblemDetails,
+>(
+  cartId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getArchivedCartById>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArchivedCartById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchivedCartById<
+  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
+  TError = ProblemDetails,
+>(
+  cartId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getArchivedCartById>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getArchivedCartById>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetArchivedCartById<
+  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
+  TError = ProblemDetails,
+>(
+  cartId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getArchivedCartById>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetArchivedCartById<
+  TData = Awaited<ReturnType<typeof getArchivedCartById>>,
+  TError = ProblemDetails,
+>(
+  cartId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getArchivedCartById>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetArchivedCartByIdQueryOptions(cartId, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

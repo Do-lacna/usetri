@@ -6,7 +6,7 @@
  */
 import type { ShopExtendedDto } from './shopExtendedDto';
 import type { HybridCartComparisonProductDto } from './hybridCartComparisonProductDto';
-import type { MissingCategoryVariant } from './missingCategoryVariant';
+import type { CategoryDto } from './categoryDto';
 
 export interface HybridCartComparisonDto {
   shop?: ShopExtendedDto;
@@ -15,6 +15,6 @@ export interface HybridCartComparisonDto {
   /** @nullable */
   missing_products?: HybridCartComparisonProductDto[] | null;
   /** @nullable */
-  missing_categories?: MissingCategoryVariant[] | null;
+  missing_categories?: CategoryDto[] | null;
   total_price?: number;
 }

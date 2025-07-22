@@ -4,30 +4,25 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
-  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
-  UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 import type {
-  GetCartComparisonRequest,
-  GetCartComparisonResponse,
   GetCategoriesParams,
   GetCategoryResponse,
   GetDiscountsParams,
   GetDiscountsResponse,
   GetDiscountsStatisticsResponse,
   GetProductsByBarcodeParams,
-  GetProductsByBarcodeResponse,
+  GetProductsByBarcodeQueryResponse,
   GetProductsParams,
   GetProductsResponse,
   GetShopsResponse,
@@ -39,90 +34,6 @@ import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-export const getCartComparison = (
-  getCartComparisonRequest: GetCartComparisonRequest,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetCartComparisonResponse>(
-    {
-      url: `/carts-comparison`,
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: getCartComparisonRequest,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getGetCartComparisonMutationOptions = <
-  TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: GetCartComparisonRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const mutationKey = ['getCartComparison'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof getCartComparison>>,
-    { data: GetCartComparisonRequest }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return getCartComparison(data, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: GetCartComparisonRequest },
-    TContext
-  >;
-};
-
-export type GetCartComparisonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof getCartComparison>>
->;
-export type GetCartComparisonMutationBody = GetCartComparisonRequest;
-export type GetCartComparisonMutationError = ProblemDetails;
-
-export const useGetCartComparison = <
-  TData = Awaited<ReturnType<typeof getCartComparison>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: GetCartComparisonRequest },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<
-  TData,
-  TError,
-  { data: GetCartComparisonRequest },
-  TContext
-> => {
-  const mutationOptions = getGetCartComparisonMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
 export const getProducts = (
   params?: GetProductsParams,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -658,7 +569,7 @@ export const getProductsByBarcode = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
-  return orvalApiClient<GetProductsByBarcodeResponse>(
+  return orvalApiClient<GetProductsByBarcodeQueryResponse>(
     { url: `/products/${barcode}`, method: 'GET', params, signal },
     options,
   );

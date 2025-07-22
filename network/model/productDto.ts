@@ -10,6 +10,8 @@ export interface ProductDto {
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
+  scanned_barcode?: string | null;
+  /** @nullable */
   name?: string | null;
   amount?: number;
   /** @nullable */

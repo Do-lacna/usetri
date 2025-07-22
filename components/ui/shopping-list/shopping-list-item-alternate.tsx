@@ -9,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { useGetCart } from "../../../network/customer/customer";
 import { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
@@ -41,8 +40,6 @@ const ShoppingListProductItem: React.FC<{
     price = 0,
     available_shop_ids = [],
   } = item;
-
-  const { data: { cart } = {} } = ({} = useGetCart());
 
   const { data: { products: suggestedProducts = [] } = {}, isLoading } =
     useGetProducts(

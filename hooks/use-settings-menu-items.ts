@@ -22,6 +22,8 @@ export const useSettingsMenuItems = () => {
   const { signOut, deleteUserAccount, setBrigaderActive, brigaderActive } =
     useSession();
 
+  console.log(brigaderActive);
+
   // Example menu sections with items
   const menuSections: MenuSection[] = [
     {
@@ -40,16 +42,16 @@ export const useSettingsMenuItems = () => {
         },
         {
           id: "brigader",
-          label: "Aktivuj profil brigadera",
+          label: `${brigaderActive ? "Dea" : "A"}ktivuj profil brigadera`,
           onPress: () => {
             if (brigaderActive) {
               deactivateBrigader();
               setBrigaderActive?.(false);
-              return;
+              return router.back();
             }
             activateBrigader();
             setBrigaderActive?.(true);
-            router.back();
+            return router.back();
           },
         },
         {
