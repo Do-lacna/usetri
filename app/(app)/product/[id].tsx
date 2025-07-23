@@ -87,7 +87,7 @@ const ProductDetailScreen: React.FC = () => {
         name,
         amount,
         unit,
-        category: { path_from_root } = {},
+        category: { path_from_root, image_url: categoryImageUrl } = {},
       } = {},
       shops_prices,
     } = {},
@@ -142,7 +142,7 @@ const ProductDetailScreen: React.FC = () => {
         }
       >
         <ProductImage
-          imageUrl={image_url}
+          imageUrl={image_url ?? categoryImageUrl}
           discountPercentage={percentageDiscount}
         />
 

@@ -7,13 +7,6 @@
   "discounts_few": "{{count}} akcie",
   "discounts_other": "{{count}} akcií",
 
-  "books": "{{count}} kniha_interval",
-  "books_zero": "{{count}} kníh",
-  "books_one": "{{count}} kniha",
-  "books_few": "{{count}} knihy",
-  "books_many": "{{count}} kníh",
-  "books_other": "{{count}} kníh",
-
   "welcome": "Vitajte",
   "hello": "Ahoj {{name}}",
   "loading": "Načítava...",

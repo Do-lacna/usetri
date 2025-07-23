@@ -5,7 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DiscountList from "../../../../components/discounts/discount-list";
 import DiscountMiniProductsList from "../../../../components/discounts/discount-mini-products-list";
 import StoreLogo from "../../../../components/store-logo/store-logo";
-import { ShopExtendedDto } from "../../../../network/model";
+import { isArrayNotEmpty } from "../../../../lib/utils";
+import { DiscountStatsDto, ShopExtendedDto } from "../../../../network/model";
 import {
   useGetDiscountsStatistics,
   useGetShops,
@@ -15,7 +16,7 @@ const GroceryDiscountsScreen: React.FC = () => {
   const { t } = useTranslation();
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
 
-  const [activeStoreId, setActiveStoreId] = useState(shops?.[0]?.id || 0); // Default to first store if available
+  const [activeStoreId, setActiveStoreId] = useState<number | null>(null); // Default to first store if available
 
   const activeStore = shops?.find(
     (store: ShopExtendedDto) => store.id === activeStoreId
@@ -24,16 +25,28 @@ const GroceryDiscountsScreen: React.FC = () => {
   const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
     useGetDiscountsStatistics();
 
+  const getStoreDiscountsCount = (
+    storeId: number,
+    stats: DiscountStatsDto[] | null
+  ) => {
+    return (
+      stats?.find((stat) => stat.shop_id === storeId)?.valid_discounts_count ||
+      0
+    );
+  };
+
   React.useEffect(() => {
-    if ([...(shops ?? [])].length > 0 && !activeStoreId) {
-      setActiveStoreId(Number(shops?.[0].id));
+    if (isArrayNotEmpty(stats) && isArrayNotEmpty(shops) && !activeStoreId) {
+      const sortedShops = shops?.sort(
+        ({ id: firstStoreId = 0 }, { id: secondStoreId = 0 }) =>
+          getStoreDiscountsCount(secondStoreId, stats) -
+          getStoreDiscountsCount(firstStoreId, stats)
+      );
+      setActiveStoreId(Number(sortedShops?.[0]?.id));
     }
-  }, [shops, activeStoreId]);
+  }, [shops, stats, activeStoreId]);
 
   const renderStoreTab = (store: ShopExtendedDto) => {
-    const discountsCount =
-      stats?.find((stat) => stat.shop_id === store.id)?.valid_discounts_count ||
-      0;
     return (
       <TouchableOpacity
         key={store.id}
@@ -54,7 +67,9 @@ const GroceryDiscountsScreen: React.FC = () => {
             store?.id === activeStoreId ? "text-black" : "text-gray-500"
           }`}
         >
-          {t("discounts", { count: discountsCount })}
+          {t("discounts", {
+            count: getStoreDiscountsCount(Number(store?.id), stats),
+          })}
         </Text>
       </TouchableOpacity>
     );
@@ -69,7 +84,13 @@ const GroceryDiscountsScreen: React.FC = () => {
         </Text>
 
         <View className="flex-row space-x-2">
-          {shops?.map((store, index) => renderStoreTab(store))}
+          {shops
+            ?.sort(
+              ({ id: firstStoreId = 0 }, { id: secondStoreId = 0 }) =>
+                getStoreDiscountsCount(secondStoreId, stats) -
+                getStoreDiscountsCount(firstStoreId, stats)
+            )
+            .map((store, index) => renderStoreTab(store))}
         </View>
       </View>
 

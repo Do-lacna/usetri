@@ -117,7 +117,7 @@ export default function SearchScreen() {
             )}
             numColumns={3}
             keyExtractor={(product) => String(product?.detail?.barcode)}
-            contentContainerClassName="gap-4 p-1"
+            contentContainerClassName="gap-4 py-12 px-2"
             columnWrapperClassName="gap-4"
             refreshControl={
               <RefreshControl

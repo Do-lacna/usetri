@@ -44,7 +44,7 @@ const DiscountedProductCard = ({
       amount,
       barcode,
       unit,
-      category: { id: categoryId } = {},
+      category: { id: categoryId, image_url: categoryImageUrl } = {},
     } = {},
   } = { ...product };
 
@@ -85,7 +85,11 @@ const DiscountedProductCard = ({
       <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
         <View className="w-full h-32 rounded-lg relative">
           <Image
-            source={{ uri: image_url ? image_url : PLACEHOLDER_PRODUCT_IMAGE }}
+            source={{
+              uri: image_url
+                ? image_url
+                : categoryImageUrl || PLACEHOLDER_PRODUCT_IMAGE,
+            }}
             className="w-full h-32 rounded-lg"
             resizeMode="contain"
           />

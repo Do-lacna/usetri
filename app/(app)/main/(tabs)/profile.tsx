@@ -19,7 +19,7 @@ export default function ProfileScreen() {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
 
-console.log(i18n?.languages?.[0])
+  console.log(i18n?.languages?.[0]);
   const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
     useDrawerMenu();
   const { user } = useSession();
@@ -124,7 +124,7 @@ console.log(i18n?.languages?.[0])
               História nákupov
             </Text>
             <Text className="text-sm text-gray-500">
-              {t("nakup", { count: 2 })}
+              {t("nakup", { count: archived_carts?.length ?? 0 })}
             </Text>
           </View>
 
