@@ -1,28 +1,21 @@
-import React from 'react';
-import { FlatList, Text, View } from 'react-native';
-import type { CategoryDto, ShopItemDto } from '../../network/model';
-import { useGetProducts } from '../../network/query/query';
-import { Skeleton } from '../ui/skeleton';
-import SuggestedProductCard from '../ui/suggested-product-card';
+import React from "react";
+import { FlatList, Text, View } from "react-native";
+import type { CategoryDto, ShopItemDto } from "../../network/model";
+import { useGetPopularCategoriesProducts } from "../../network/query/query";
+import { Skeleton } from "../ui/skeleton";
+import SuggestedProductCard from "../ui/suggested-product-card";
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
   onProductPress: (barcode: string, categoryId: number) => void;
 }
 
-export function SubcategorySection({ subcategory, onProductPress }: SubcategorySectionProps) {
-  const { data: { products: categoryProducts = [] } = {}, isLoading } = useGetProducts(
-    {
-      category_id: subcategory.id,
-    },
-    {
-      query: {
-        enabled: !!subcategory.id,
-      },
-    },
-  );
-
-  const products: ShopItemDto[] = categoryProducts?.map(({ products }: any) => products?.[0]).filter((product: any): product is ShopItemDto => Boolean(product)) || [];
+export function SubcategorySection({
+  subcategory,
+  onProductPress,
+}: SubcategorySectionProps) {
+  const { data: { products: categoryProducts = [] } = {}, isLoading } =
+    useGetPopularCategoriesProducts(Number(subcategory?.id));
 
   const renderProduct = ({ item }: { item: ShopItemDto }) => (
     <SuggestedProductCard
@@ -51,9 +44,9 @@ export function SubcategorySection({ subcategory, onProductPress }: SubcategoryS
         <View className="flex-row px-4">
           {Array.from({ length: 3 }, (_, index) => renderSkeleton({ index }))}
         </View>
-      ) : products.length > 0 ? (
+      ) : (categoryProducts ?? []).length > 0 ? (
         <FlatList
-          data={products}
+          data={categoryProducts}
           renderItem={renderProduct}
           keyExtractor={(item, index) => String(item.detail?.barcode || index)}
           horizontal

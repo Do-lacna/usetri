@@ -39,7 +39,7 @@ const SuggestedProductCard = ({
       amount,
       barcode,
       unit,
-      category: { id: categoryId } = {},
+      category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,
     } = {},
     price = 0,
@@ -61,7 +61,7 @@ const SuggestedProductCard = ({
         <View className="w-full h-24 rounded-lg relative">
           <Image
             source={{
-              uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
+              uri: image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-24 rounded-lg"
             resizeMode="cover"

@@ -1,10 +1,10 @@
 import React from "react";
 import {
-    FlatList,
-    Image,
-    ListRenderItemInfo,
-    Pressable,
-    View,
+  FlatList,
+  Image,
+  ListRenderItemInfo,
+  Pressable,
+  View,
 } from "react-native";
 import type { PopularCategoryDto } from "../../network/model";
 import { Card } from "../ui/card";
@@ -65,7 +65,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   };
 
   return (
-    <View>
+    <View className="my-4">
       <FlatList
         horizontal
         data={sortedCategories}

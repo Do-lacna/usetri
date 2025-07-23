@@ -1,7 +1,7 @@
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import type { PopularCategoryDto } from '../../network/model';
-import { CategorySelector } from './CategorySelector';
-import { SubcategorySection } from './SubcategorySection';
+import { ScrollView, Text, View } from "react-native";
+import type { PopularCategoryDto } from "../../network/model";
+import { CategorySelector } from "./CategorySelector";
+import { SubcategorySection } from "./SubcategorySection";
 
 interface CategoryDetailViewProps {
   selectedCategory: PopularCategoryDto;
@@ -20,24 +20,6 @@ export function CategoryDetailView({
 }: CategoryDetailViewProps) {
   return (
     <View>
-      {/* Back button and category title */}
-      <View className="flex-row items-center mb-4 px-4 py-2 bg-white shadow-sm">
-        <Pressable
-          onPress={onBack}
-          className="mr-3 p-2 bg-gray-100 rounded-full"
-          style={({ pressed }) => [
-            {
-              opacity: pressed ? 0.7 : 1,
-            },
-          ]}
-        >
-          <Text className="text-primary text-xl font-bold">←</Text>
-        </Pressable>
-        <Text className="text-2xl font-bold text-gray-800">
-          {selectedCategory?.category?.name}
-        </Text>
-      </View>
-
       {/* Category selector */}
       <CategorySelector
         categories={categories}
