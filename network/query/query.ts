@@ -21,6 +21,8 @@ import type {
   GetDiscountsParams,
   GetDiscountsResponse,
   GetDiscountsStatisticsResponse,
+  GetPopularCategoryProductsResponse,
+  GetPopularCategoryResponse,
   GetProductsByBarcodeParams,
   GetProductsByBarcodeQueryResponse,
   GetProductsParams,
@@ -553,6 +555,307 @@ export function useGetDiscountsStatistics<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetDiscountsStatisticsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getPopularCategoriesProducts = (
+  categoryId: number,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetPopularCategoryProductsResponse>(
+    {
+      url: `/popular-categories/${categoryId}/products`,
+      method: 'GET',
+      signal,
+    },
+    options,
+  );
+};
+
+export const getGetPopularCategoriesProductsQueryKey = (categoryId: number) => {
+  return [`/popular-categories/${categoryId}/products`] as const;
+};
+
+export const getGetPopularCategoriesProductsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetPopularCategoriesProductsQueryKey(categoryId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPopularCategoriesProducts>>
+  > = ({ signal }) =>
+    getPopularCategoriesProducts(categoryId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!categoryId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetPopularCategoriesProductsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPopularCategoriesProducts>>
+>;
+export type GetPopularCategoriesProductsQueryError = ProblemDetails;
+
+export function useGetPopularCategoriesProducts<
+  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetPopularCategoriesProducts<
+  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetPopularCategoriesProducts<
+  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetPopularCategoriesProducts<
+  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetPopularCategoriesProductsQueryOptions(
+    categoryId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getPopularCategories = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetPopularCategoryResponse>(
+    { url: `/popular-categories`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetPopularCategoriesQueryKey = () => {
+  return [`/popular-categories`] as const;
+};
+
+export const getGetPopularCategoriesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPopularCategories>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPopularCategories>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetPopularCategoriesQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPopularCategories>>
+  > = ({ signal }) => getPopularCategories(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPopularCategories>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetPopularCategoriesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPopularCategories>>
+>;
+export type GetPopularCategoriesQueryError = ProblemDetails;
+
+export function useGetPopularCategories<
+  TData = Awaited<ReturnType<typeof getPopularCategories>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPopularCategories>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getPopularCategories>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetPopularCategories<
+  TData = Awaited<ReturnType<typeof getPopularCategories>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPopularCategories>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getPopularCategories>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetPopularCategories<
+  TData = Awaited<ReturnType<typeof getPopularCategories>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPopularCategories>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetPopularCategories<
+  TData = Awaited<ReturnType<typeof getPopularCategories>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPopularCategories>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetPopularCategoriesQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

@@ -1,14 +1,10 @@
 import { Image, Pressable, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
+import type { PopularCategoryDto } from "../../network/model";
 import { Text } from "../ui/text";
 
 interface CategoryCardProps {
-  category: {
-    id: number;
-    name: string;
-    image_url?: string;
-    children?: { id: number; name: string }[];
-  };
+  category: PopularCategoryDto;
   onPress: () => void;
 }
 
@@ -19,7 +15,7 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
         <View className="w-full h-24 rounded-lg relative mb-3">
           <Image
             source={{
-              uri: category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
+              uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-24 rounded-lg"
             resizeMode="contain"
@@ -30,7 +26,7 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
           numberOfLines={1}
           ellipsizeMode="tail"
         >
-          {category.name}
+          {category?.category?.name}
         </Text>
       </View>
     </Pressable>

@@ -1,19 +1,10 @@
 import { FlatList, RefreshControl, Text, View } from "react-native";
+import type { PopularCategoryDto } from "../../network/model";
 import { CategoryCard } from "./CategoryCard";
 
 interface CategoriesGridProps {
-  categories: Array<{
-    id: number;
-    name: string;
-    image_url?: string;
-    children?: { id: number; name: string }[];
-  }>;
-  onCategorySelect: (category: {
-    id: number;
-    name: string;
-    image_url?: string;
-    children?: { id: number; name: string }[];
-  }) => void;
+  categories: PopularCategoryDto[];
+  onCategorySelect: (category: PopularCategoryDto) => void;
   isLoading: boolean;
   onRefresh: () => void;
 }
@@ -45,7 +36,7 @@ export function CategoriesGrid({
           />
         )}
         numColumns={3}
-        keyExtractor={(category) => String(category?.id)}
+        keyExtractor={(category) => String(category?.category?.id)}
         contentContainerStyle={{ gap: 8, padding: 8 }}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         refreshControl={

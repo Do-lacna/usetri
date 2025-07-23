@@ -1,15 +1,12 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
+import type { CategoryDto, ShopItemDto } from '../../network/model';
 import { useGetProducts } from '../../network/query/query';
-import type { ShopItemDto } from '../../network/model';
 import { Skeleton } from '../ui/skeleton';
 import SuggestedProductCard from '../ui/suggested-product-card';
 
 interface SubcategorySectionProps {
-  subcategory: {
-    id: number;
-    name: string;
-  };
+  subcategory: CategoryDto;
   onProductPress: (barcode: string, categoryId: number) => void;
 }
 

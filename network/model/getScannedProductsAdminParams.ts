@@ -6,6 +6,7 @@
  */
 
 export type GetScannedProductsAdminParams = {
+  q?: string;
   Limit?: number;
   Offset?: number;
 };

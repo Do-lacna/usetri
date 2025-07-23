@@ -17,4 +17,5 @@ export interface DiscountPriceImportEntryDto {
   unit?: string | null;
   /** @nullable */
   import_state?: string | null;
+  readonly is_resolved?: boolean;
 }

@@ -5,10 +5,12 @@
  * OpenAPI spec version: 1.0
  */
 import type { ProductDto } from './productDto';
+import type { ShopPriceDto } from './shopPriceDto';
 
-export interface GetProductsManagementAdminResponse {
+export interface ProductDtoWithShopsPrices {
   /** @nullable */
-  all_products_with_not_leaf_category?: ProductDto[][] | null;
+  barcode?: string | null;
+  detail?: ProductDto;
   /** @nullable */
-  products_with_not_set_category?: ProductDto[] | null;
+  shops_prices?: ShopPriceDto[] | null;
 }

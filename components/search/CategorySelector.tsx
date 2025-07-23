@@ -1,25 +1,19 @@
 import React from "react";
 import {
-  FlatList,
-  Image,
-  ListRenderItemInfo,
-  Pressable,
-  View,
+    FlatList,
+    Image,
+    ListRenderItemInfo,
+    Pressable,
+    View,
 } from "react-native";
+import type { PopularCategoryDto } from "../../network/model";
 import { Card } from "../ui/card";
 import { Text } from "../ui/text";
 
-interface Category {
-  id: number;
-  name: string;
-  image_url?: string;
-  children?: { id: number; name: string }[];
-}
-
 interface CategorySelectorProps {
-  categories: Category[];
+  categories: PopularCategoryDto[];
   selectedCategoryId?: number;
-  onCategorySelect: (category: Category) => void;
+  onCategorySelect: (category: PopularCategoryDto) => void;
 }
 
 export const CategorySelector: React.FC<CategorySelectorProps> = ({
@@ -32,10 +26,10 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
     if (!selectedCategoryId) return categories;
 
     const selectedCategory = categories.find(
-      (cat) => cat.id === selectedCategoryId
+      (cat) => cat.category?.id === selectedCategoryId
     );
     const otherCategories = categories.filter(
-      (cat) => cat.id !== selectedCategoryId
+      (cat) => cat.category?.id !== selectedCategoryId
     );
 
     return selectedCategory
@@ -43,8 +37,8 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
       : categories;
   }, [categories, selectedCategoryId]);
 
-  const renderCategory = ({ item }: ListRenderItemInfo<Category>) => {
-    const { name, id, image_url } = item;
+  const renderCategory = ({ item }: ListRenderItemInfo<PopularCategoryDto>) => {
+    const { name, id, image_url } = item.category || {};
     const isSelected = selectedCategoryId === id;
 
     return (
@@ -77,7 +71,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         data={sortedCategories}
         ItemSeparatorComponent={() => <View className="w-4" />}
         renderItem={renderCategory}
-        keyExtractor={(category) => String(category?.id)}
+        keyExtractor={(category) => String(category?.category?.id)}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 8,
