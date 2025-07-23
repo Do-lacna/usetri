@@ -195,17 +195,13 @@ const ShoppingListProductItem: React.FC<{
                 )
                 ?.map(
                   (
-                    {
-                      barcode: suggestedProductBarcode,
-                      products = [],
-                      available_shop_ids = [],
-                    },
+                    { barcode: suggestedProductBarcode, detail, shops_prices },
                     index
                   ) => (
                     <SuggestedProductCard
                       key={suggestedProductBarcode || index}
-                      product={products?.[0]}
-                      availableShopIds={available_shop_ids}
+                      product={{ detail }}
+                      shopsPrices={shops_prices}
                       onPress={() =>
                         onAlternativeSelect(
                           String(barcode),

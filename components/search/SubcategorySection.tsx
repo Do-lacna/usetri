@@ -1,6 +1,9 @@
 import React from "react";
 import { FlatList, Text, View } from "react-native";
-import type { CategoryDto, ShopItemDto } from "../../network/model";
+import type {
+  CategoryDto,
+  ProductDtoWithShopsPrices,
+} from "../../network/model";
 import { useGetPopularCategoriesProducts } from "../../network/query/query";
 import { Skeleton } from "../ui/skeleton";
 import SuggestedProductCard from "../ui/suggested-product-card";
@@ -17,10 +20,10 @@ export function SubcategorySection({
   const { data: { products: categoryProducts = [] } = {}, isLoading } =
     useGetPopularCategoriesProducts(Number(subcategory?.id));
 
-  const renderProduct = ({ item }: { item: ShopItemDto }) => (
+  const renderProduct = ({ item }: { item: ProductDtoWithShopsPrices }) => (
     <SuggestedProductCard
       product={item}
-      availableShopIds={item.shop_id ? [item.shop_id] : []}
+      shopsPrices={item?.shops_prices}
       onPress={(barcode, categoryId) => onProductPress(barcode, categoryId)}
       className="mr-3"
     />

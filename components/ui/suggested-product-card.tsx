@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
-import { ShopItemDto } from "../../network/model";
+import { ShopItemDto, ShopPriceDto } from "../../network/model";
 import { useGetShops } from "../../network/query/query";
 import { getShopLogo } from "../../utils/logo-utils";
 
@@ -19,7 +19,7 @@ export interface IProduct {
 
 export interface IProductCardProps {
   product?: ShopItemDto;
-  availableShopIds: number[] | null;
+  shopsPrices?: ShopPriceDto[] | null;
   onPress?: (barcode: string, categoryId: number) => void;
   className?: string;
   isSelected?: boolean;
@@ -27,7 +27,7 @@ export interface IProductCardProps {
 
 const SuggestedProductCard = ({
   product,
-  availableShopIds = [],
+  shopsPrices,
   onPress,
   className,
   isSelected,
@@ -42,10 +42,11 @@ const SuggestedProductCard = ({
       category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,
     } = {},
-    price = 0,
   } = { ...product };
 
   const { data: { shops = [] } = {} } = useGetShops();
+
+  const lowestPrice = shopsPrices?.[0]?.price ?? 0;
 
   return (
     <Pressable
@@ -67,13 +68,13 @@ const SuggestedProductCard = ({
             resizeMode="cover"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
-            {availableShopIds?.map((retailer, index) => (
+            {shopsPrices?.map((retailer, index) => (
               <View
-                key={retailer}
+                key={retailer?.shop_id}
                 style={{ width: 18, height: 18, borderRadius: 50 }}
               >
                 <Image
-                  {...getShopLogo(retailer as any)}
+                  {...getShopLogo(retailer?.shop_id as any)}
                   key={index}
                   style={{
                     width: 18,
@@ -106,7 +107,7 @@ const SuggestedProductCard = ({
                 {amount} {unit}
               </Text>
             </View>
-            <Text className="text-sm font-bold">{price} €</Text>
+            <Text className="text-sm font-bold">{lowestPrice} €</Text>
           </View>
         </View>
       </View>

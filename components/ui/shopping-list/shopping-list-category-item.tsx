@@ -156,20 +156,15 @@ const ShoppingListCategoryItem: React.FC<{
                     Number(isSelected(String(b.barcode))) -
                     Number(isSelected(String(a.barcode)))
                 )
-                ?.map(
-                  (
-                    { barcode, products = [], available_shop_ids = [] },
-                    index
-                  ) => (
-                    <SuggestedProductCard
-                      key={barcode || index}
-                      product={products?.[0]}
-                      availableShopIds={available_shop_ids}
-                      onPress={onAlternativeSelect}
-                      isSelected={isSelected(String(barcode))}
-                    />
-                  )
-                )}
+                ?.map(({ barcode, detail, shops_prices }, index) => (
+                  <SuggestedProductCard
+                    key={barcode || index}
+                    product={{ detail }}
+                    shopsPrices={shops_prices}
+                    onPress={onAlternativeSelect}
+                    isSelected={isSelected(String(barcode))}
+                  />
+                ))}
             </View>
           </ScrollView>
         ))}

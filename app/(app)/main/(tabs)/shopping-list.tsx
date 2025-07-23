@@ -23,9 +23,7 @@ import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/sh
 import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/shopping-list-category-search";
 import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
-import {
-  getGetUserCartComparisonQueryKey
-} from "../../../../network/customer/customer";
+import { getGetUserCartComparisonQueryKey } from "../../../../network/customer/customer";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 
 export enum CartOperationsEnum {
@@ -79,7 +77,8 @@ export default function ShoppingList() {
     },
   });
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = ({} = useGetHybridCart());
+  const { data: { cart } = {}, isLoading: isCartLoading } = ({} =
+    useGetHybridCart());
 
   const cartCategories = cart?.categories ?? [];
   const cartProducts = cart?.specific_products ?? [];
