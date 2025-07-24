@@ -45,6 +45,7 @@ export * from './checkReviewListRequest';
 export * from './createArchivedCartRequest';
 export * from './createCartRequest';
 export * from './createCartResponse';
+export * from './discountHistoryPriceDto';
 export * from './discountImportActionEnum';
 export * from './discountPriceDto';
 export * from './discountPriceImportBatchDto';

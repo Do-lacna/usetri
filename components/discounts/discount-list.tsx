@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { ShopExtendedDto } from "../../network/model";
+import { DiscountShopItemDto, ShopExtendedDto } from "../../network/model";
 import { useGetDiscounts } from "../../network/query/query";
 import DiscountedProductCard from "../ui/product-card/discounted-product-card";
 import { Skeleton } from "../ui/skeleton";
@@ -44,12 +44,11 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     </View>
   );
 
-  const renderProductItem: ListRenderItem<any> = ({ item }) => (
+  const renderProductItem: ListRenderItem<DiscountShopItemDto> = ({ item }) => (
     <DiscountedProductCard
       product={item}
       onPress={(id: string | number) => router.navigate(`/product/${id}`)}
-      //TODO here also add shop prices from BE response
-      shopsPrices={item?.shop_id ? [item?.shop_id] : []}
+      shopsPrices={item?.shops_prices}
     />
   );
 

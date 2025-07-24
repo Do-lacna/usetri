@@ -5,9 +5,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DiscountPriceDto {
+export interface DiscountHistoryPriceDto {
   price?: number;
-  percentage_discount?: number;
   valid_from?: string;
   valid_to?: string;
 }

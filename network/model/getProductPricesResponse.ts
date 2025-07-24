@@ -6,6 +6,7 @@
  */
 import type { PriceDto } from './priceDto';
 import type { DiscountPriceDto } from './discountPriceDto';
+import type { DiscountHistoryPriceDto } from './discountHistoryPriceDto';
 
 export interface GetProductPricesResponse {
   current_price?: PriceDto;
@@ -13,5 +14,5 @@ export interface GetProductPricesResponse {
   price_history?: PriceDto[] | null;
   current_discount?: DiscountPriceDto;
   /** @nullable */
-  discount_history?: DiscountPriceDto[] | null;
+  discount_history?: DiscountHistoryPriceDto[] | null;
 }

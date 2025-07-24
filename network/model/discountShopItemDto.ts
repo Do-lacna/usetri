@@ -5,10 +5,15 @@
  * OpenAPI spec version: 1.0
  */
 import type { ProductDto } from './productDto';
+import type { ShopPriceDto } from './shopPriceDto';
 import type { DiscountPriceDto } from './discountPriceDto';
 
 export interface DiscountShopItemDto {
   detail?: ProductDto;
+  /** @nullable */
+  barcode?: string | null;
+  /** @nullable */
+  shops_prices?: ShopPriceDto[] | null;
   shop_id?: number;
   price?: number;
   actual_price?: number;

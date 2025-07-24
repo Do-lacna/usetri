@@ -62,7 +62,7 @@ const GroceryDiscountsScreen: React.FC = () => {
         >
           {store.name}
         </Text>
-        <Text
+        {/* <Text
           className={`text-xs ${
             store?.id === activeStoreId ? "text-black" : "text-gray-500"
           }`}
@@ -70,7 +70,7 @@ const GroceryDiscountsScreen: React.FC = () => {
           {t("discounts", {
             count: getStoreDiscountsCount(Number(store?.id), stats),
           })}
-        </Text>
+        </Text> */}
       </TouchableOpacity>
     );
   };

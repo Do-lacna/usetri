@@ -18,7 +18,7 @@ const StoreLogo = ({
   return (
     <View
       className={clsx(
-        "w-12 h-12 justify-center items-center rounded-full shadow-sm shadow-foreground/10 ",
+        "w-10 h-10 justify-center items-center rounded-full shadow-sm shadow-foreground/10 ",
         containerClassname
       )}
     >
@@ -27,17 +27,6 @@ const StoreLogo = ({
           {...getShopLogo(storeId as any)}
           className="w-[80%] h-[80%] rounded-full"
           resizeMode="contain"
-          //   style={{
-          //     width: "100%",
-          //     height: "100%",
-          //     borderRadius: 50,
-          //     // backgroundColor: "white",
-          //     // borderColor: "grey",
-          //     // borderWidth: 1,
-          //     // borderColor: "grey",
-          //     // borderWidth: 1,
-          //     //TODO add here some elevation to visually differentiate the shop logos
-          //   }}
         />
       ) : (
         <Store size={24} />
