@@ -30,6 +30,7 @@ const DiscountMiniProductsList = () => {
           <DiscountedMiniProductCard
             product={item}
             onPress={(id: string) => router.navigate(`/product/${id}`)}
+            shopsPrices={item?.shops_prices}
           />
         )}
         keyExtractor={(item) => String(item?.detail?.barcode)}

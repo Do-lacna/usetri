@@ -44,8 +44,8 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
     return (
       <Pressable onPress={() => onCategorySelect(item)}>
         <Card
-          className={`flex flex-row items-center p-2 ${
-            isSelected ? "bg-primary/20 border-2 border-primary" : "bg-divider"
+          className={`flex flex-row items-center p-2 bg-divider ${
+            isSelected ? "border-2 border-terciary" : "bg-divider"
           }`}
         >
           {!!image_url && (
@@ -56,9 +56,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             />
           )}
 
-          <Text className={isSelected ? "font-semibold text-primary" : ""}>
-            {name}
-          </Text>
+          <Text>{name}</Text>
         </Card>
       </Pressable>
     );
