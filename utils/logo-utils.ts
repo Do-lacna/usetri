@@ -21,7 +21,7 @@ export const SHOP_LOGOS = {
   4: require("../assets/images/logos/tesco_logo.png"),
 
   // Add more shops as needed
-};
+} as const;
 
 /**
  * Gets the logo source for a specific shop

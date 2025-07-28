@@ -1,18 +1,20 @@
 import clsx from "clsx";
 import { Store } from "lucide-react-native";
 import React from "react";
-import { Image, View } from "react-native";
-import { getShopLogo } from "../../utils/logo-utils";
+import { Image, StyleProp, View, ViewStyle } from "react-native";
+import { SHOP_LOGOS } from "../../utils/logo-utils";
 
 export type PriceSummaryProps = {
   storeId?: number;
   containerClassname?: string;
   imageClassname?: string;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
 const StoreLogo = ({
   storeId,
   containerClassname,
+  containerStyle,
   imageClassname,
 }: PriceSummaryProps) => {
   return (
@@ -21,10 +23,11 @@ const StoreLogo = ({
         "w-10 h-10 justify-center items-center rounded-full shadow-sm shadow-foreground/10 ",
         containerClassname
       )}
+      style={containerStyle}
     >
       {storeId ? (
         <Image
-          {...getShopLogo(storeId as any)}
+          source={SHOP_LOGOS[storeId as keyof typeof SHOP_LOGOS]}
           className="w-[80%] h-[80%] rounded-full"
           resizeMode="contain"
         />

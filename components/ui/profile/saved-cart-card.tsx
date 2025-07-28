@@ -61,36 +61,6 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
         </View>
       </TouchableOpacity>
     </Card>
-
-    // <View
-    //   key={id}
-    //   className="bg-white rounded-2xl p-4 mb-3 shadow-sm border border-gray-100 relative"
-    // >
-    //   <Image
-    //     className="absolute h-16 w-16 -rotate-45 top-2 opacity-30 -left-2"
-    //     {...getShopLogo(shopId as any)}
-    //   />
-    //   <View className="flex-row justify-between items-start">
-    //     <View className="flex-1">
-    //       <Text className="text-lg font-semibold text-gray-900">
-    //         {shopName}
-    //       </Text>
-    //       <Text className="text-sm text-gray-500 mt-1">
-    //         {format(createdDate, DATE_FORMAT)}
-    //       </Text>
-    //     </View>
-    //     <View className="items-end">
-    //       <Text className="text-lg font-bold text-gray-900">
-    //         {totalPrice.toFixed(2)}
-    //       </Text>
-    // <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
-    //   <Text className="text-xs font-medium text-green-700">
-    //     Saved {totalPrice.toFixed(2)}
-    //   </Text>
-    // </View>
-    //     </View>
-    //   </View>
-    // </View>
   );
 };
 
