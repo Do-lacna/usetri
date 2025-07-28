@@ -27,7 +27,6 @@ export default function SignUp() {
     email,
     password,
   }: z.infer<typeof signUpSchema>) => {
-
     try {
       setLoading(true);
       // Create user with email and password
@@ -64,7 +63,7 @@ export default function SignUp() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-2">
       <Image
-        source={require("~/assets/images/usetri-large.png")}
+        source={require("~/assets/usetri_logo.png")}
         style={{ width: 150 }}
         resizeMode="contain"
       />

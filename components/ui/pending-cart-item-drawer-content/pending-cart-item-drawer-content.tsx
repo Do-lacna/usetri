@@ -5,10 +5,13 @@ import {
   PendingCartDataType,
 } from "~/app/(app)/main/(tabs)/shopping-list";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
+import { isArrayNotEmpty } from "../../../lib/utils";
+import { ShopPriceDto } from "../../../network/model";
 import {
   useGetCategories,
   useGetProductsByBarcode,
 } from "../../../network/query/query";
+import { getShopLogo } from "../../../utils/logo-utils";
 import { Button } from "../button";
 import Counter from "../counter";
 import Divider from "../divider";
@@ -26,6 +29,7 @@ export type ItemDetailType = {
   image_url?: string | null;
   amount?: string | null;
   price?: number | null;
+  shops_prices?: ShopPriceDto[];
 };
 
 const PendingCartItemDrawerContent: React.FC<
@@ -33,15 +37,16 @@ const PendingCartItemDrawerContent: React.FC<
 > = ({ pendingCartData, onDismiss, onConfirm, isLoading = false }) => {
   const [productCount, setProductCount] = React.useState(1);
 
-  const { data, isLoading: areProductsLoading } = useGetProductsByBarcode(
-    String(pendingCartData?.identifier),
-    {},
-    {
-      query: {
-        enabled: pendingCartData?.type === DrawerTypeEnum.PRODUCT,
-      },
-    }
-  );
+  const { data: productData, isLoading: areProductsLoading } =
+    useGetProductsByBarcode(
+      String(pendingCartData?.identifier),
+      {},
+      {
+        query: {
+          enabled: pendingCartData?.type === DrawerTypeEnum.PRODUCT,
+        },
+      }
+    );
 
   const { data: categoryData, isLoading: areCategoriesLoading } =
     useGetCategories(
@@ -67,7 +72,10 @@ const PendingCartItemDrawerContent: React.FC<
     image_url: null,
     amount: null,
     price: null,
+    shops_prices: [] as ShopPriceDto[],
   };
+
+  // Extract shops data for products
 
   if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
     itemDetail = {
@@ -79,13 +87,15 @@ const PendingCartItemDrawerContent: React.FC<
   } else {
     const {
       detail: { name = "", brand = "", image_url, amount, unit } = {},
-      price,
-    } = data?.products?.[0] || {};
+      shops_prices,
+    } = productData ?? {};
+
     itemDetail = {
       title: `${brand} ${name}`,
       image_url,
       amount: `${amount} ${unit}`,
-      price,
+      price: shops_prices?.[0]?.price ?? 0,
+      shops_prices: shops_prices ?? [],
     };
   }
 
@@ -95,8 +105,7 @@ const PendingCartItemDrawerContent: React.FC<
         <View className="w-full h-48 justify-center items-center">
           <Image
             source={{
-              uri: itemDetail?.image_url ??
-                 PLACEHOLDER_PRODUCT_IMAGE,
+              uri: itemDetail?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
             className="w-full h-1/2 resize-contain"
             resizeMode="contain"
@@ -107,6 +116,35 @@ const PendingCartItemDrawerContent: React.FC<
 
         <Text className="text-xl font-bold">{itemDetail?.title}</Text>
         <Text className="text-md text-gray-500">{itemDetail?.amount}</Text>
+
+        {/* Shop Availability Section - Only show for products */}
+        {pendingCartData?.type === DrawerTypeEnum.PRODUCT &&
+          isArrayNotEmpty(itemDetail?.shops_prices) && (
+            <View className="my-4">
+              <Text className="text-sm text-gray-600 mb-2">Dostupné v:</Text>
+              <View className="flex-row flex-wrap items-center gap-2">
+                {itemDetail?.shops_prices?.map(({ shop_id, price }) => (
+                  <View
+                    key={shop_id}
+                    className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
+                  >
+                    <Image
+                      {...getShopLogo(shop_id as any)}
+                      className="w-6 h-6 mr-1"
+                      resizeMode="contain"
+                    />
+                    {/* <Text className="text-xs text-gray-700">{shop.name}</Text> */}
+                    {price && (
+                      <Text className="text-xs text-gray-500 ml-1">
+                        {price}€
+                      </Text>
+                    )}
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
+
         <View className="flex-row items-center justify-between my-4 space-x-2">
           <Text className="text-2xl font-bold">
             {(itemDetail?.price ?? 0) * productCount} €

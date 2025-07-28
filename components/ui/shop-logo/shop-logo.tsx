@@ -127,6 +127,7 @@ const ShoppingListProductItem: React.FC<{
                     //   className="border-2"
                   >
                     <Image
+                      source={}
                       {...getShopLogo(retailer as any)}
                       key={index}
                       style={{

@@ -14,14 +14,14 @@ interface LogoProps {
 
 // Define all logo requires statically
 // This is necessary because React Native's require must be static
-const SHOP_LOGOS = {
+export const SHOP_LOGOS = {
   1: require("../assets/images/logos/lidl_logo.png"),
   2: require("../assets/images/logos/billa_logo.png"),
   3: require("../assets/images/logos/kaufland_logo.png"),
   4: require("../assets/images/logos/tesco_logo.png"),
 
   // Add more shops as needed
-} as const;
+};
 
 /**
  * Gets the logo source for a specific shop

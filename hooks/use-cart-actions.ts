@@ -1,9 +1,14 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Keyboard } from "react-native";
-import { getGetHybridCartQueryKey, useAddToHybridCart, useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
+import {
+  getGetHybridCartComparisonQueryKey,
+  getGetHybridCartQueryKey,
+  useAddToHybridCart,
+  useGetHybridCart,
+} from "~/network/hybrid-cart/hybrid-cart";
 import { CartOperationsEnum } from "../app/(app)/main/(tabs)/shopping-list";
 import { getSimplifiedCart } from "../lib/utils";
-import { } from "../network/customer/customer";
+import {} from "../network/customer/customer";
 import { displayErrorToastMessage } from "../utils/toast-utils";
 
 export type UseCartActionsProps = {
@@ -24,7 +29,7 @@ export const useCartActions = ({
     isPending,
   } = useAddToHybridCart({
     mutation: {
-      onError: () => {
+      onError: (e) => {
         displayErrorToastMessage(
           "Nepodarilo sa aktualizovať nákupný zoznam",
           "top"
@@ -35,13 +40,9 @@ export const useCartActions = ({
         queryClient.invalidateQueries({
           queryKey: getGetHybridCartQueryKey(),
         });
-        // const lastAddedCategory = cart?.categories?.slice(-1)[0]?.category?.id;
-        // if (
-        //   lastAddedCategory &&
-        //   variables?.additionalData?.operation === CartOperationsEnum.ADD
-        // ) {
-        //   onSuccessWithExpandedOption?.(lastAddedCategory);
-        // }
+        queryClient.invalidateQueries({
+          queryKey: getGetHybridCartComparisonQueryKey(),
+        });
         Keyboard.dismiss();
         onSuccessfullCartUpdate?.();
       },
@@ -55,7 +56,10 @@ export const useCartActions = ({
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
-      data: { category_items, product_items: [...product_items, { barcode, quantity }] },
+      data: {
+        category_items,
+        product_items: [...product_items, { barcode, quantity }],
+      },
       additionalData: {
         operation: CartOperationsEnum.ADD,
       },
@@ -67,12 +71,15 @@ export const useCartActions = ({
     if (!categoryId) return;
 
     //   setSearchQuery("");
-    const {  product_items = [], category_items = []} = getSimplifiedCart(cart);
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
       data: {
         product_items,
-        category_items: [...category_items, { category_id: categoryId, quantity }],
+        category_items: [
+          ...category_items,
+          { category_id: categoryId, quantity },
+        ],
       },
       additionalData: {
         operation: CartOperationsEnum.ADD,
@@ -85,7 +92,7 @@ export const useCartActions = ({
     type: "category" | "product",
     id?: number | string
   ) => {
-    const {  product_items = [], category_items = [] } = getSimplifiedCart(cart);
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     let updatedCategories = category_items;
     let updatedProducts = product_items;
     //TODO when BE adjusts DTO uncomment this
@@ -97,7 +104,10 @@ export const useCartActions = ({
       updatedProducts = product_items?.filter(({ barcode }) => barcode !== id);
     }
     sendUpdateCart({
-      data: { category_items: updatedCategories, product_items: updatedProducts },
+      data: {
+        category_items: updatedCategories,
+        product_items: updatedProducts,
+      },
     });
   };
 
@@ -107,7 +117,7 @@ export const useCartActions = ({
       handleRemoveItemFromCart("product", barcode);
       return;
     }
-    const {product_items = [], category_items = []} = getSimplifiedCart(cart);
+    const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     const updatedProducts = product_items.map((product) =>
       product.barcode === barcode ? { ...product, quantity } : product
     );

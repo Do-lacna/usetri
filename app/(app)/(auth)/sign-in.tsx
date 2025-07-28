@@ -7,7 +7,6 @@ import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
 
-import UsetriLogo from "~/assets/images/usetri-logo.svg";
 import { Button } from "~/components/ui/button";
 import { GoogleSignIn } from "~/components/ui/google-sign-in";
 import { Input } from "~/components/ui/input";
@@ -77,7 +76,7 @@ export default function SignIn() {
         // height={200}
       /> */}
       <View className="w-[220px] h-[110px]">
-        <UsetriLogo width={"100%"} height={"100%"} />
+        {/* <UsetriLogo width={"100%"} height={"100%"} /> */}
       </View>
       <GoogleSignIn />
       <AppleAuthentication />

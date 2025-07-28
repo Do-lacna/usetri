@@ -332,7 +332,7 @@ PODS:
     - Yoga
   - ExpoSecureStore (14.2.3):
     - ExpoModulesCore
-  - ExpoSplashScreen (0.30.8):
+  - ExpoSplashScreen (0.30.10):
     - ExpoModulesCore
   - ExpoSystemUI (5.0.7):
     - ExpoModulesCore
@@ -2994,7 +2994,7 @@ SPEC CHECKSUMS:
   ExpoLocalization: 677e45c2536bf918119962f78d7ffeeea317e07d
   ExpoModulesCore: 7d3df5142e9446b063d8ae8ace4b6e27a1aa2928
   ExpoSecureStore: 3148869ad24ab94f9e0c5777c7941d7a37d60399
-  ExpoSplashScreen: c39151354ff0fa6d0f5e7dde07a234abd5550e69
+  ExpoSplashScreen: 6f9213be0c60f2756a2f8220c36f4b90c55e3dbd
   ExpoSystemUI: 5ae7571742a69d0fc29145b6512f53879a3f42e5
   ExpoWebBrowser: 1051486eb45a2f4d1ee075712604f43f3009f90e
   EXUpdatesInterface: 64f35449b8ef89ce08cdd8952a4d119b5de6821d

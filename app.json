@@ -4,13 +4,13 @@
     "slug": "usetri",
     "version": "1.0.12",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/usetri_logo.png",
     "scheme": "usetri",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/usetri_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#26252c"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -30,8 +30,8 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.dutosvarc.usetri",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon/foreground.png",
-        "backgroundImage": "./assets/images/adaptive-icon/background.png"
+        "foregroundImage": "./assets/usetri_logo.png",
+        "backgroundColor": "#26252c"
       },
       "permissions": [
         "android.permission.CAMERA",
@@ -57,6 +57,14 @@
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#26252c",
+          "image": "./assets/usetri_splash.png",
+          "imageWidth": 200
         }
       ],
       [

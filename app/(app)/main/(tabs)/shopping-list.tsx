@@ -21,9 +21,8 @@ import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/shopping-list-category-item";
 import ShoppingListCategorySearch from "../../../../components/ui/shopping-list/shopping-list-category-search";
-import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-item-alternate";
+import ShoppingListProductItem from "../../../../components/ui/shopping-list/shopping-list-product-item";
 import { useCartActions } from "../../../../hooks/use-cart-actions";
-import { getGetUserCartComparisonQueryKey } from "../../../../network/customer/customer";
 import type { CategoryExtendedWithPathDto } from "../../../../network/model";
 
 export enum CartOperationsEnum {
@@ -68,9 +67,6 @@ export default function ShoppingList() {
       setSearchQuery("");
       pendingProductSheetRef?.current?.dismiss();
       setIsTextInputFocused(false);
-      queryClient.invalidateQueries({
-        queryKey: getGetUserCartComparisonQueryKey(),
-      });
     },
     onSuccessWithExpandedOption: (categoryId) => {
       setExpandedOption(Number(categoryId));
