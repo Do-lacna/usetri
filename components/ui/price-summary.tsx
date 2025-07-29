@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
+import { ArrowDown } from "lucide-react-native";
 import React from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
-import { ArrowRight } from "../../lib/icons/ArrowRight";
 import { useGetHybridCart } from "../../network/hybrid-cart/hybrid-cart";
 import IconButton from "../icon-button";
 
@@ -36,8 +36,8 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
             <Text className="text-foreground font-bold text-xl">
               {total_price?.toFixed(2)} €
             </Text>
-            <IconButton className="bg-secondary rounded-full p-2">
-              <ArrowRight size={20} />
+            <IconButton className="bg-secondary rounded-full p-2" onPress={onPress}>
+              <ArrowDown size={20} />
             </IconButton>
           </View>
         </View>

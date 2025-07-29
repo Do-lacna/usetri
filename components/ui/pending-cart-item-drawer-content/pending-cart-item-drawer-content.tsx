@@ -86,13 +86,13 @@ const PendingCartItemDrawerContent: React.FC<
     };
   } else {
     const {
-      detail: { name = "", brand = "", image_url, amount, unit } = {},
+      detail: { name = "", brand = "", image_url, amount, unit, category : { image_url: categoryImageUrl}= {} } = {},
       shops_prices,
     } = productData ?? {};
 
     itemDetail = {
       title: `${brand} ${name}`,
-      image_url,
+      image_url: image_url ?? categoryImageUrl,
       amount: `${amount} ${unit}`,
       price: shops_prices?.[0]?.price ?? 0,
       shops_prices: shops_prices ?? [],

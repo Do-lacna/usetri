@@ -60,14 +60,6 @@
         }
       ],
       [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#26252c",
-          "image": "./assets/usetri_splash.png",
-          "imageWidth": 200
-        }
-      ],
-      [
         "expo-secure-store",
         {
           "configureAndroidBackup": true,
