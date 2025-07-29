@@ -114,13 +114,21 @@ const PendingCartItemDrawerContent: React.FC<
 
         <Divider className="w-full my-4" />
 
-        <Text className="text-xl font-bold">{itemDetail?.title}</Text>
-        <Text className="text-md text-gray-500">{itemDetail?.amount}</Text>
+        <View className="flex-row items-start mb-4">
+          <Text className="text-xl font-bold flex-1 mr-3" numberOfLines={2}>
+            {itemDetail?.title}
+          </Text>
+          {itemDetail?.amount && (
+            <Text className="text-md text-gray-500 text-right min-w-fit">
+              {itemDetail?.amount}
+            </Text>
+          )}
+        </View>
 
         {/* Shop Availability Section - Only show for products */}
         {pendingCartData?.type === DrawerTypeEnum.PRODUCT &&
           isArrayNotEmpty(itemDetail?.shops_prices) && (
-            <View className="my-4">
+            <View className="mb-2">
               <Text className="text-sm text-gray-600 mb-2">Dostupné v:</Text>
               <View className="flex-row flex-wrap items-center gap-2">
                 {itemDetail?.shops_prices?.map(({ shop_id, price }) => (
@@ -136,7 +144,7 @@ const PendingCartItemDrawerContent: React.FC<
                     {/* <Text className="text-xs text-gray-700">{shop.name}</Text> */}
                     {price && (
                       <Text className="text-xs text-gray-500 ml-1">
-                        {price}€
+                        {price.toFixed(2)}€
                       </Text>
                     )}
                   </View>
@@ -147,7 +155,7 @@ const PendingCartItemDrawerContent: React.FC<
 
         <View className="flex-row items-center justify-between my-4 space-x-2">
           <Text className="text-2xl font-bold">
-            {(itemDetail?.price ?? 0) * productCount} €
+            {((itemDetail?.price ?? 0) * productCount)?.toFixed(2)} €
           </Text>
           <Counter
             initialCount={productCount}

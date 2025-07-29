@@ -145,7 +145,10 @@ export default function ShoppingList() {
             {isTextInputFocused && (
               <Button
                 variant="ghost"
-                onPress={() => setIsTextInputFocused(false)}
+                onPress={() => {
+                  setSearchQuery("");
+                  setIsTextInputFocused(false);
+                }}
               >
                 <Text className="text-terciary">Zruš</Text>
               </Button>

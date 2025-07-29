@@ -4,12 +4,11 @@ import React from 'react';
 import { Dimensions, Image, ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Button } from '~/components/ui/button';
-import { getGetHybridCartQueryKey } from '~/network/hybrid-cart/hybrid-cart';
+import { getGetHybridCartQueryKey, useDeleteHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import { getShopLogo } from '~/utils/logo-utils';
 import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
-  useRemoveFromCart
 } from '../../../network/customer/customer';
 import { CartComparisonDto } from '../../../network/model';
 
@@ -50,7 +49,7 @@ const ComparisonShopReceipt = ({
     },
   });
 
-  const { mutate: sendDiscardCart } = useRemoveFromCart({
+  const { mutate: sendDiscardCart } = useDeleteHybridCart({
     mutation: {
       onError: () => {
         Toast.show({
