@@ -17,10 +17,7 @@ import {
   useCameraFormat,
   useCodeScanner,
 } from "react-native-vision-camera";
-import {
-  useUploadBlobProductImage,
-  useUploadProductImage,
-} from "../../../network/imports/imports";
+import { useUploadProductImage } from "../../../network/imports/imports";
 
 interface BarcodeData {
   value: string;
@@ -66,18 +63,6 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     setCapturedPhoto(null);
     setIsCameraActive(true);
   };
-
-  const {
-    data,
-    isPending,
-    mutateAsync: sendUploadCapturedImage,
-  } = useUploadBlobProductImage({
-    mutation: {
-      onSuccess: () => {
-        resetScreen();
-      },
-    },
-  });
 
   const {
     data: base64data,
