@@ -105,13 +105,7 @@ const ReceiptScreen: React.FC<
               <Text className="text-xl font-bold text-gray-900 mb-1">
                 {shopName}
               </Text>
-              {/* <Text className="text-sm text-gray-600 text-center mb-2">
-                {store.address}
-              </Text> */}
-              <View className="flex-row justify-between w-full">
-                {/* <Text className="text-xs text-gray-500">{store.date}</Text>
-                <Text className="text-xs text-gray-500">{store.time}</Text> */}
-              </View>
+              <View className="flex-row justify-between w-full"></View>
             </View>
           </CardHeader>
 

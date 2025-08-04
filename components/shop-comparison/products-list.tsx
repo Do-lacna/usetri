@@ -1,8 +1,10 @@
-import React from 'react';
-import { Text, View } from 'react-native';
-import { HybridCartComparisonDto } from '~/network/model';
-import { MissingProductCard } from './missing-product-card';
-import { ProductListItem } from './product-list-item';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Text, View } from "react-native";
+import { HybridCartComparisonDto } from "~/network/model";
+import { MissingCategoryCard } from "./missing-category-card";
+import { MissingProductCard } from "./missing-product-card";
+import { ProductListItem } from "./product-list-item";
 
 interface ProductsListProps {
   selectedCart?: HybridCartComparisonDto;
@@ -15,10 +17,13 @@ export const ProductsList: React.FC<ProductsListProps> = ({
   flippedItems,
   onFlipItem,
 }) => {
+  const { t } = useTranslation();
   return (
     <View className="bg-white mt-4 rounded-xl border border-gray-200 overflow-hidden">
       <Text className="text-lg font-semibold text-gray-900 p-4 border-b border-gray-100">
-        Váš nákup ({selectedCart?.specific_products?.length ?? 0} kusov)
+        {t("product-list", {
+          count: selectedCart?.specific_products?.length ?? 0,
+        })}
       </Text>
 
       {selectedCart?.specific_products?.map((product, index) => (
@@ -38,12 +43,11 @@ export const ProductsList: React.FC<ProductsListProps> = ({
           key={product?.detail?.barcode}
           index={index}
           totalProducts={selectedCart?.missing_products?.length ?? 0}
-          // shopName="Target" // Optional
         />
       ))}
 
       {selectedCart?.missing_categories?.map((category, index) => (
-        <MissingProductCard
+        <MissingCategoryCard
           key={category?.id}
           category={category}
           index={index}

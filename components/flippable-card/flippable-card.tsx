@@ -18,7 +18,9 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   style = {},
   disableFlipping = false, // Default to false to maintain existing behavior
 }) => {
-  const flipAnimation = useRef(new Animated.Value(disableFlipping ? 0 : 180)).current; // Start from front if flipping is disabled
+  const flipAnimation = useRef(
+    new Animated.Value(disableFlipping ? 0 : 180)
+  ).current; // Start from front if flipping is disabled
   const [hasInitialFlipped, setHasInitialFlipped] = useState(disableFlipping); // Skip initial flip if disabled
 
   // Initial flip animation on mount (only if flipping is enabled)

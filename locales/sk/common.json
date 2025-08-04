@@ -7,6 +7,10 @@
   "discounts_few": "{{count}} akcie",
   "discounts_other": "{{count}} akcií",
 
+  "product-list_one": "Váš nákup ({{count}} kus)",
+  "product-list_few": "Váš nákup ({{count}} kusy)",
+  "product-list_other": "Váš nákup ({{count}} kusov)",
+
   "welcome": "Vitajte",
   "hello": "Ahoj {{name}}",
   "loading": "Načítava...",

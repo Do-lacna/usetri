@@ -82,6 +82,7 @@ const ShopComparisonScreen: React.FC = () => {
       <ActionButtons
         onSaveCart={handleSaveCart}
         onDiscardCart={handleDiscardCart}
+        savingsVsMostExpensive={savingsVsMostExpensive}
       />
     </SafeAreaView>
   );

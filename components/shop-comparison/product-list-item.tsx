@@ -1,10 +1,11 @@
-import React from 'react';
-import { Image, Text, View } from 'react-native';
-import FlippableCard from '~/components/flippable-card/flippable-card';
+import React from "react";
+import { Image, Text, View } from "react-native";
+import FlippableCard from "~/components/flippable-card/flippable-card";
+import { RefreshCw } from "~/lib/icons/RefreshCw";
 import {
   HybridCartComparisonProductDto,
   HybridCartComparisonProductType,
-} from '~/network/model';
+} from "~/network/model";
 
 interface ProductListItemProps {
   product: HybridCartComparisonProductDto;
@@ -36,14 +37,16 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   } = product;
 
   const borderClass =
-    index < totalProducts - 1 ? 'border-b border-gray-100' : '';
+    index < totalProducts - 1 ? "border-b border-gray-100" : "";
 
   const displayFlippableCard =
     type &&
-    ([
-      HybridCartComparisonProductType.CategoryReplacedWithProduct,
-      HybridCartComparisonProductType.ReplacedWithCategoryProduct,
-    ] as HybridCartComparisonProductType[]).includes(type);
+    (
+      [
+        HybridCartComparisonProductType.CategoryReplacedWithProduct,
+        HybridCartComparisonProductType.ReplacedWithCategoryProduct,
+      ] as HybridCartComparisonProductType[]
+    ).includes(type);
 
   const frontContent = (
     <View className={`p-4 bg-white ${borderClass}`}>
@@ -65,6 +68,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             </Text>
           )}
         </View>
+        <RefreshCw size={18} className="ml-4 mr-2 text-terciary" />
       </View>
     </View>
   );
@@ -85,19 +89,22 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
           </Text>
         </View>
 
-        <View className="items-end ml-4">
-          <Text className="text-base font-semibold text-gray-900">
-            {(price * quantity).toFixed(2)} €
-          </Text>
-          {quantity > 1 && (
-            <Text className="text-xs text-gray-500">
-              {quantity} x {price.toFixed(2)} €
+        <View className="flex-row items-center justify-between">
+          <View className="items-end ml-4">
+            <Text className="text-base font-semibold text-gray-900">
+              {(price * quantity).toFixed(2)} €
             </Text>
-          )}
+            {quantity > 1 && (
+              <Text className="text-xs text-gray-500">
+                {quantity} x {price.toFixed(2)} €
+              </Text>
+            )}
+          </View>
+          <RefreshCw size={18} className="ml-4 mr-2 text-terciary" />
         </View>
       </View>
     </View>
-  ) : null
+  ) : null;
 
   return (
     <FlippableCard
