@@ -26,7 +26,10 @@ export function getShopIcon(shopId: number, shops: ShopExtendedDto[]) {
   return shops.find((shop) => shop.id === shopId)?.image_url;
 }
 
-export function getShopById(shopId: number | null, shops: ShopExtendedDto[] | null) {
+export function getShopById(
+  shopId: number | null,
+  shops: ShopExtendedDto[] | null
+) {
   if (!shopId || shops?.length === 0) return null;
   return shops?.find((shop) => shop.id === shopId);
 }
@@ -41,14 +44,16 @@ export const getSimplifiedCart = (
       quantity,
     })
   );
-  const product_items = cart?.specific_products?.map(({ product, quantity }) => ({
-    barcode: product?.barcode,
-    quantity: quantity,
-  }));
+  const product_items = cart?.specific_products?.map(
+    ({ product, quantity }) => ({
+      barcode: product?.barcode,
+      quantity: quantity,
+    })
+  );
 
   return {
     category_items,
-     product_items,
+    product_items,
   };
 };
 
@@ -103,16 +108,3 @@ export const generateShopLocationNameBasedOnId = (shopId?: number) => {
       return "Neznámy obchod";
   }
 };
-
-
-  const calculateDiscountPercentage = () => {
-    if (!discount_price || !price) return null;
-    const originalPrice = parseFloat(String(price));
-    const discountedPrice = parseFloat(String(discount_price?.price));
-    if (originalPrice > 0 && discountedPrice < originalPrice) {
-      return Math.round(
-        ((originalPrice - discountedPrice) / originalPrice) * 100
-      );
-    }
-    return null;
-  }

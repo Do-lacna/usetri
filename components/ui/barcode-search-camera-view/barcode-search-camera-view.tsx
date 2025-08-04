@@ -33,10 +33,12 @@ export default function BarcodeSearchCameraView({
     return (
       <View style={styles.container}>
         <Text style={styles.message}>
-          We need your permission to show the camera
+          <Text>
+            To scan product barcodes, this app uses your device's camera
+          </Text>
         </Text>
         <Button onPress={requestPermission}>
-          <Text>Grant permission</Text>
+          <Text>Continue</Text>
         </Button>
       </View>
     );

@@ -2,8 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 // Import translations
-import enCommon from "../locales/en/common";
-import skCommon from "../locales/sk/common";
+import enCommon from "./locales/en/common";
+import skCommon from "./locales/sk/common";
 
 const resources = {
   "sk-SK": {

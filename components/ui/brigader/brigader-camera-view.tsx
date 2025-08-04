@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { MoveLeft } from "lucide-react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -18,6 +18,7 @@ import {
   useCodeScanner,
 } from "react-native-vision-camera";
 import { useUploadProductImage } from "../../../network/imports/imports";
+import { Button } from "../button";
 
 interface BarcodeData {
   value: string;
@@ -76,14 +77,10 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
     },
   });
 
-  // Request camera permission
-  useEffect(() => {
-    const requestCameraPermission = async () => {
-      const permission = await Camera.requestCameraPermission();
-      setHasPermission(permission === "granted");
-    };
-    requestCameraPermission();
-  }, []);
+  const requestCameraPermission = async () => {
+    const permission = await Camera.requestCameraPermission();
+    setHasPermission(permission === "granted");
+  };
 
   // Barcode scanner configuration
   const codeScanner = useCodeScanner({
@@ -164,11 +161,15 @@ const BarcodeScannerScreen: React.FC<CameraViewProps> = ({
   };
 
   if (!hasPermission) {
+    // Camera permissions are not granted yet.
     return (
       <View className="flex-1 justify-center items-center bg-black">
         <Text className="text-white text-lg">
-          Camera permission is required to use this feature.
+          To scan product barcodes, this app uses your device's camera
         </Text>
+        <Button onPress={requestCameraPermission}>
+          <Text>Continue</Text>
+        </Button>
       </View>
     );
   }
