@@ -1,36 +1,35 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import React from "react";
+import { View } from "react-native";
 import { BadgePercent } from "~/lib/icons/BadgePercent";
-import { Search } from "~/lib/icons/Search";
-
 import { ClipboardList } from "~/lib/icons/ClipboardList";
-
+import { Search } from "~/lib/icons/Search";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
+import { AnimatedCartBadge } from "../../../../components/ui/animated-cart-badge";
 import { useSession } from "../../../../context/authentication-context";
-import { NAVBAR_HEIGHT, PRIMARY_HEX } from "../../../../lib/constants";
+import { NAVBAR_HEIGHT } from "../../../../lib/constants";
 import { getNumberOfCartItems } from "../../../../lib/utils";
 
 export default function TabLayout() {
   const { brigaderActive } = useSession();
-
   const { data: { cart } = {} } = ({} = useGetHybridCart());
-
   const cartItemsNumber = getNumberOfCartItems(cart);
+  
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "primary",
         tabBarStyle: {
-          height: NAVBAR_HEIGHT, // Adjust this height as needed
+          height: NAVBAR_HEIGHT,
           paddingBottom: 5,
-          alignItems: "center", // Center items along the cross axis
-          justifyContent: "center", // Center items along the main axis
+          alignItems: "center",
+          justifyContent: "center",
         },
         tabBarItemStyle: {
           alignItems: "center",
           flexDirection: "row",
         },
-
         headerShown: false,
       }}
     >
@@ -40,7 +39,6 @@ export default function TabLayout() {
           title: "Zľavy",
           tabBarIcon: ({ color, focused }) => (
             <BadgePercent size={28} color={focused ? "black" : color} />
-            // <FontAwesome size={28} name='percent' color={color} />
           ),
         }}
       />
@@ -58,24 +56,13 @@ export default function TabLayout() {
         options={{
           title: "Zoznam",
           tabBarIcon: ({ color, focused }) => (
-            <ClipboardList size={28} color={focused ? "black" : color} />
+            <View style={{ position: 'relative' }}>
+              <ClipboardList size={28} color={focused ? "black" : color} />
+              <AnimatedCartBadge count={cartItemsNumber || 0} />
+            </View>
           ),
-          tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
-          tabBarBadge: cartItemsNumber ? cartItemsNumber : undefined,
         }}
       />
-      {/* TODO allow this when A/B testing starts */}
-      {/* <Tabs.Screen
-        name="shopping-list-alternative"
-        options={{
-          title: "Nakupny zoznam alternativ",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={26} name="shopping-basket" color={color} />
-          ),
-          tabBarBadgeStyle: { backgroundColor: PRIMARY_HEX },
-          tabBarBadge: productsInCart ? productsInCart : undefined,
-        }}
-      /> */}
       <Tabs.Screen
         name="profile"
         options={{
@@ -85,9 +72,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* TODO condition this under admin rights */}
-      {/* {
-        brigaderActive && ( */}
       <Tabs.Screen
         name="brigader"
         options={{
