@@ -16,7 +16,9 @@ import EmptyShoppingListPlaceholderScreen from "../../../../components/placehold
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
 import { Button } from "../../../../components/ui/button";
 import Divider from "../../../../components/ui/divider";
-import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
+import PendingCartItemDrawerContent, {
+  PendingCartItemActionEnum,
+} from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/shopping-list-category-item";
@@ -97,12 +99,24 @@ export default function ShoppingList() {
 
   const handleConfirmPendingCartItem = (
     pendingCartData?: PendingCartDataType,
-    quantity?: number
+    quantity?: number,
+    action?: PendingCartItemActionEnum
   ) => {
-    if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
-      handleAddCategoryToCart(Number(pendingCartData?.identifier));
-    } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
-      handleAddProductToCart(pendingCartData.identifier, quantity);
+    if (action === PendingCartItemActionEnum.ADD) {
+      if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
+        handleAddCategoryToCart(Number(pendingCartData?.identifier));
+      } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
+        handleAddProductToCart(pendingCartData.identifier, quantity);
+      }
+    } else if (action === PendingCartItemActionEnum.UPDATE) {
+      if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
+        handleUpdateCategoryQuantity(
+          Number(pendingCartData?.identifier),
+          quantity ?? 0
+        );
+      } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
+        handleUpdateProductQuantity(pendingCartData.identifier, quantity ?? 0);
+      }
     }
   };
 

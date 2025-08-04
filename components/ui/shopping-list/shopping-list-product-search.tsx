@@ -39,7 +39,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
   return (
     <>
       {(searchProducts ?? []).length > 0 && (
-        <Text className="text-lg font-bold mx-2">Produkty</Text>
+        <Text className="text-lg font-bold mx-2">Konkrétne produkty</Text>
       )}
       <FlatList
         data={searchProducts}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, View } from "react-native";
 import {
   DrawerTypeEnum,
@@ -6,6 +6,7 @@ import {
 } from "~/app/(app)/main/(tabs)/shopping-list";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
 import { isArrayNotEmpty } from "../../../lib/utils";
+import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
 import { ShopPriceDto } from "../../../network/model";
 import {
   useGetCategories,
@@ -17,10 +18,19 @@ import Counter from "../counter";
 import Divider from "../divider";
 import { Text } from "../text";
 
+export enum PendingCartItemActionEnum {
+  ADD = "ADD",
+  REMOVE = "REMOVE",
+  UPDATE = "UPDATE",
+}
 interface ShoppingListFilterContentProps {
   pendingCartData?: PendingCartDataType | null;
   onDismiss: () => void;
-  onConfirm: (pendingCartData?: PendingCartDataType, quantity?: number) => void;
+  onConfirm: (
+    pendingCartData?: PendingCartDataType,
+    quantity?: number,
+    action?: PendingCartItemActionEnum
+  ) => void;
   isLoading?: boolean;
 }
 
@@ -36,6 +46,9 @@ const PendingCartItemDrawerContent: React.FC<
   ShoppingListFilterContentProps
 > = ({ pendingCartData, onDismiss, onConfirm, isLoading = false }) => {
   const [productCount, setProductCount] = React.useState(1);
+
+  const { data: { cart } = {}, isLoading: isCartLoading } = ({} =
+    useGetHybridCart());
 
   const { data: productData, isLoading: areProductsLoading } =
     useGetProductsByBarcode(
@@ -65,6 +78,24 @@ const PendingCartItemDrawerContent: React.FC<
   const isLoadingGlobal =
     isLoading || areProductsLoading || areCategoriesLoading;
 
+  const itemInCartCount =
+    pendingCartData?.type === DrawerTypeEnum.PRODUCT
+      ? cart?.specific_products?.find(
+          ({ product: { barcode } = {} }) =>
+            barcode === pendingCartData?.identifier
+        )?.quantity ?? 0
+      : cart?.categories?.find(
+          ({ category }) => category?.id === Number(pendingCartData?.identifier)
+        )?.quantity ?? 0;
+
+  useEffect(() => {
+    if (itemInCartCount > 0) {
+      setProductCount(itemInCartCount);
+    } else {
+      setProductCount(1);
+    }
+  }, [itemInCartCount]);
+
   if (!pendingCartData) return null;
 
   let itemDetail: ItemDetailType = {
@@ -86,7 +117,14 @@ const PendingCartItemDrawerContent: React.FC<
     };
   } else {
     const {
-      detail: { name = "", brand = "", image_url, amount, unit, category : { image_url: categoryImageUrl}= {} } = {},
+      detail: {
+        name = "",
+        brand = "",
+        image_url,
+        amount,
+        unit,
+        category: { image_url: categoryImageUrl } = {},
+      } = {},
       shops_prices,
     } = productData ?? {};
 
@@ -98,6 +136,8 @@ const PendingCartItemDrawerContent: React.FC<
       shops_prices: shops_prices ?? [],
     };
   }
+
+  //TODO display better if item is already in cart and action is Updating its quantity not adding it
 
   return (
     <View className="flex flex-col justify-between w-full p-4">
@@ -128,8 +168,9 @@ const PendingCartItemDrawerContent: React.FC<
         {/* Category Info Message - Only show for categories */}
         {pendingCartData?.type === DrawerTypeEnum.CATEGORY && (
           <View className="mb-4 bg-green-50 border border-blue-200 rounded-lg p-3">
-            <Text className="text-sm text-blue-700 leading-relaxed">
-              Pridaním kategórie do košíka bude z každého obchodu vybraný najlacnejší produkt
+            <Text className="text-sm text-green-700 leading-relaxed">
+              Pridaním kategórie do košíka bude vo finálnom porovnaní z každého
+              obchodu vybraný najlacnejší produkt
             </Text>
           </View>
         )}
@@ -182,7 +223,15 @@ const PendingCartItemDrawerContent: React.FC<
           <Text>Zrušiť</Text>
         </Button>
         <Button
-          onPress={() => onConfirm(pendingCartData, productCount)}
+          onPress={() =>
+            onConfirm(
+              pendingCartData,
+              productCount,
+              itemInCartCount > 0
+                ? PendingCartItemActionEnum.UPDATE
+                : PendingCartItemActionEnum.ADD
+            )
+          }
           className="w-1/2"
           disabled={isLoadingGlobal}
         >
