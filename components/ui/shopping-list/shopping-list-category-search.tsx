@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 import {
   FlatList,
   Image,
   ListRenderItemInfo,
   Pressable,
   View,
-} from 'react-native';
-import { isArrayNotEmpty } from '../../../lib/utils';
-import { AddCategoryExtendedWithPathDto } from '../../../network/model';
-import { useGetCategories } from '../../../network/query/query';
-import { SearchOptions, searchItems } from '../../../utils/search-utils';
-import { Card } from '../card';
-import Divider from '../divider';
-import { NoDataText } from '../no-data-text/no-data-text';
-import { Text } from '../text';
+} from "react-native";
+import { isArrayNotEmpty } from "../../../lib/utils";
+import { AddCategoryExtendedWithPathDto } from "../../../network/model";
+import { useGetCategories } from "../../../network/query/query";
+import { SearchOptions, searchItems } from "../../../utils/search-utils";
+import { Card } from "../card";
+import Divider from "../divider";
+import { NoDataText } from "../no-data-text/no-data-text";
+import { Text } from "../text";
 
 interface ShoppingListCategorySearchProps {
   searchQuery: string;
@@ -22,8 +22,8 @@ interface ShoppingListCategorySearchProps {
 
 const options: SearchOptions<AddCategoryExtendedWithPathDto> = {
   threshold: 0.7,
-  searchFields: ['name'],
-  matchMode: 'all', // Use 'all' to require all words to match, 'any' for partial matches
+  searchFields: ["name"],
+  matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
 };
 
 const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
@@ -34,10 +34,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     AddCategoryExtendedWithPathDto[]
   >([]);
 
-  const {
-    data: { categories = [] } = {},
-    isLoading,
-  } = useGetCategories();
+  const { data: { categories = [] } = {}, isLoading } = useGetCategories();
 
   React.useEffect(() => {
     if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {
@@ -65,8 +62,17 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     </Pressable>
   );
 
+  if (!searchQuery || searchQuery.length < 2) {
+    return null;
+  }
+
   return (
     <View>
+      {searchResults.length > 0 && (
+        <Text className="text-lg font-bold mx-2">
+          Najlacnejšia varianta (kategória)
+        </Text>
+      )}
       <FlatList
         horizontal
         data={searchResults}
@@ -83,7 +89,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
             <NoDataText className="text-xl my-4">
               Nenašli sa žiadne kategórie
             </NoDataText>
-          </View> 
+          </View>
         }
       />
       {searchResults?.length > 0 && <Divider className="my-4" />}
