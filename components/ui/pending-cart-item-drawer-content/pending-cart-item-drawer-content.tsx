@@ -125,6 +125,15 @@ const PendingCartItemDrawerContent: React.FC<
           )}
         </View>
 
+        {/* Category Info Message - Only show for categories */}
+        {pendingCartData?.type === DrawerTypeEnum.CATEGORY && (
+          <View className="mb-4 bg-green-50 border border-blue-200 rounded-lg p-3">
+            <Text className="text-sm text-blue-700 leading-relaxed">
+              Pridaním kategórie do košíka bude z každého obchodu vybraný najlacnejší produkt
+            </Text>
+          </View>
+        )}
+
         {/* Shop Availability Section - Only show for products */}
         {pendingCartData?.type === DrawerTypeEnum.PRODUCT &&
           isArrayNotEmpty(itemDetail?.shops_prices) && (
