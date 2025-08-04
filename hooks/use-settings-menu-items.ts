@@ -1,6 +1,8 @@
 // hooks/useDrawerMenu.ts
 import { router } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
 import { useSession } from "~/context/authentication-context";
+import { WEBPAGE_LINKS } from "../lib/constants";
 import {
   activateBrigader,
   deactivateBrigader,
@@ -22,9 +24,6 @@ export const useSettingsMenuItems = () => {
   const { signOut, deleteUserAccount, setBrigaderActive, brigaderActive } =
     useSession();
 
-  console.log(brigaderActive);
-
-  // Example menu sections with items
   const menuSections: MenuSection[] = [
     {
       id: "ucet",
@@ -87,19 +86,39 @@ export const useSettingsMenuItems = () => {
       title: "Informácie a podpora",
       items: [
         {
-          id: "pomoc",
-          label: "Pomoc",
-          onPress: () => router.push("/settings"),
+          id: "akotofunguje",
+          label: "Ako to funguje",
+          onPress: async () => {
+            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.HOW_IT_WORKS);
+          },
         },
         {
-          id: "sukromie",
-          label: "Súkromie",
-          onPress: () => router.push("/notifications"),
+          id: "politikacookies",
+          label: "Cookies",
+          onPress: async () => {
+            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.COOKIES);
+          },
         },
         {
-          id: "oaplikacii",
-          label: "O aplikácii",
-          onPress: () => router.push("/notifications"),
+          id: "ochranaosobnychudajov",
+          label: "Ochrana osobných údajov",
+          onPress: async () => {
+            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.PRIVACTY_POLICY);
+          },
+        },
+        {
+          id: "podmienkypouzivania",
+          label: "Podmienky používania",
+          onPress: async () => {
+            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.TERMS_OF_SERVICE);
+          },
+        },
+        {
+          id: "kontakt",
+          label: "Kontakt",
+          onPress: async () => {
+            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.CONTACT);
+          },
         },
       ],
     },

@@ -27,7 +27,6 @@ export const DIVIDER_HEX = "#ccdbda";
 
 export const NAVBAR_HEIGHT = Platform.OS === "ios" ? 80 : 60;
 
-
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 export const DATE_FORMAT = "dd.MM.yyyy";
 
@@ -37,3 +36,11 @@ export const BASE_API_URL =
 
 export const PLACEHOLDER_PRODUCT_IMAGE =
   "https://digitalcontent.api.tesco.com/v2/media/ghs/05c09f6c-82d2-4f55-a86d-dfc44e764d15/5e80370b-b62c-4012-8ded-e66ccb9d68be_1813485765.jpeg?h=960&w=960";
+
+export const WEBPAGE_LINKS = {
+  PRIVACTY_POLICY: "https://usetrislovensko.sk/PrivacyPolicy",
+  HOW_IT_WORKS: "https://usetrislovensko.sk/HowItWorks",
+  CONTACT: "https://usetrislovensko.sk/Contact",
+  COOKIES: "https://usetrislovensko.sk/Cookies",
+  TERMS_OF_SERVICE: "https://usetrislovensko.sk/TermsOfService",
+};
