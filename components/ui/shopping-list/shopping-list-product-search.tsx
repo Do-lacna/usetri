@@ -23,12 +23,12 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     },
     {
       query: {
-        enabled: searchQuery?.length > 2,
+        enabled: searchQuery?.length >= 2,
       },
     }
   );
 
-  if (!(searchQuery?.length > 0)) {
+  if (!(searchQuery?.length >= 2)) {
     return (
       <Text className="mt-8 flex-1 flex items-center justify-center text-center text-gray-500 font-semibold w-[80%] mx-auto">
         Začni písať pre vyhľadanie kategórie alebo produktu

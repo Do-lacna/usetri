@@ -15,8 +15,6 @@ export function CategoriesGrid({
   isLoading,
   onRefresh,
 }: CategoriesGridProps) {
-  console.log("CategoriesGrid rendering with", categories.length, "categories");
-
   return (
     <View>
       {/* Categories title */}

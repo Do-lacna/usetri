@@ -17,12 +17,16 @@ import { CategoryDetailView } from "../../../../components/search/CategoryDetail
 import { NoDataText } from "../../../../components/ui/no-data-text/no-data-text";
 import DiscountedProductCard from "../../../../components/ui/product-card/discounted-product-card";
 import type { PopularCategoryDto, ProductDto } from "../../../../network/model";
-import { useGetPopularCategories, useGetProducts } from "../../../../network/query/query";
+import {
+  useGetPopularCategories,
+  useGetProducts,
+} from "../../../../network/query/query";
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [selectedCategory, setSelectedCategory] = React.useState<PopularCategoryDto | null>(null);
+  const [selectedCategory, setSelectedCategory] =
+    React.useState<PopularCategoryDto | null>(null);
 
   // Get popular categories from backend
   const {
@@ -39,7 +43,7 @@ export default function SearchScreen() {
     },
     {
       query: {
-        enabled: searchQuery?.length > 1,
+        enabled: searchQuery?.length >= 2,
       },
     }
   );
