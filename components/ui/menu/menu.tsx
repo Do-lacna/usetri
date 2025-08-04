@@ -1,20 +1,6 @@
-// screens/MenuScreen.tsx
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSettingsMenuItems } from "~/hooks/use-settings-menu-items";
-
-// Define types for menu items
-interface MenuItem {
-  id: string;
-  label: string;
-  onPress: () => void;
-}
-
-interface MenuSection {
-  id: string;
-  title: string;
-  items: MenuItem[];
-}
 
 export default function Menu() {
   const { menuSections } = useSettingsMenuItems();

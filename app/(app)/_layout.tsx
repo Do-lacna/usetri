@@ -72,7 +72,7 @@ export default function AppLayout() {
             headerTitleStyle: {
               fontWeight: "bold",
             },
-            headerBackTitleStyle: false,
+            headerBackButtonDisplayMode: "minimal",
           }}
         />
       </Stack>
