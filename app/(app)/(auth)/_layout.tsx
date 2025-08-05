@@ -15,17 +15,15 @@ export default function AuthLayout() {
           headerShown: true,
           headerTitle: "Registrácia",
           headerBackTitle: "Prihlásenie",
-          // This ensures the header appears only on sign-up
         }}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="forgotten-password"
         options={{
           headerShown: true,
           headerTitle: "Obnovenie hesla",
-                      headerBackButtonDisplayMode: "minimal",
+          headerBackButtonDisplayMode: "minimal",
 
-          // This ensures the header appears only on sign-up
         }}
       />
     </Stack>

@@ -10,15 +10,14 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { PendingCartItemActionEnum } from "~/components/ui/pending-cart-item-drawer-content";
 import ShoppingListProductSearch from "~/components/ui/shopping-list/shopping-list-product-search";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
 import { CustomBottomSheetModal } from "../../../../components/ui/bottom-sheet-modal";
 import { Button } from "../../../../components/ui/button";
 import Divider from "../../../../components/ui/divider";
-import PendingCartItemDrawerContent, {
-  PendingCartItemActionEnum,
-} from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
+import PendingCartItemDrawerContent from "../../../../components/ui/pending-cart-item-drawer-content/pending-cart-item-drawer-content";
 import PriceSummary from "../../../../components/ui/price-summary";
 import SearchBar from "../../../../components/ui/search-bar";
 import ShoppingListCategoryItem from "../../../../components/ui/shopping-list/shopping-list-category-item";

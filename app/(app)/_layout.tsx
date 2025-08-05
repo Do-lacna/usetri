@@ -5,7 +5,7 @@ import "~/global.css";
 export default function AppLayout() {
   return (
     <>
-      <StatusBar translucent={false} />
+      <StatusBar translucent={false} backgroundColor="white" />
       <Stack
         screenOptions={{
           headerShown: false,
@@ -21,27 +21,12 @@ export default function AppLayout() {
             headerBackButtonDisplayMode: "minimal",
           }}
         />
-        {/* <Stack.Screen
-        name="main/scan/scan-screen"
-        options={{
-          // Optional: Add presentation style
-          title: 'Sken produktov',
-          presentation: 'card',
-          // Optional: Add animations
-          animation: 'slide_from_right',
-          headerShown: true,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      /> */}
+
         <Stack.Screen
           name="main/price-comparison-modal/price-comparison-modal-screen"
           options={{
             title: "Porovnanie cien",
-            // headerStyle: {
-            //   backgroundColor: "#f4f4f4", // Optional: customize header background
-            // },
+
             headerShown: true,
             headerTitleStyle: {
               fontWeight: "bold",
@@ -53,9 +38,7 @@ export default function AppLayout() {
           name="main/archived-cart/[id]"
           options={{
             title: "Detail košíka",
-            // headerStyle: {
-            //   backgroundColor: "#f4f4f4", // Optional: customize header background
-            // },
+
             headerShown: true,
             headerTitleStyle: {
               fontWeight: "bold",
