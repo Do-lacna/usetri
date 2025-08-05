@@ -103,7 +103,7 @@ export default function ShoppingList() {
   ) => {
     if (action === PendingCartItemActionEnum.ADD) {
       if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
-        handleAddCategoryToCart(Number(pendingCartData?.identifier));
+        handleAddCategoryToCart(Number(pendingCartData?.identifier), quantity);
       } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
         handleAddProductToCart(pendingCartData.identifier, quantity);
       }
