@@ -165,7 +165,6 @@ const PendingCartItemDrawerContent: React.FC<
           )}
         </View>
 
-        {/* Category Info Message - Only show for categories */}
         {pendingCartData?.type === DrawerTypeEnum.CATEGORY && (
           <View className="mb-4 bg-green-50 border border-blue-200 rounded-lg p-3">
             <Text className="text-sm text-green-700 leading-relaxed">
@@ -175,7 +174,6 @@ const PendingCartItemDrawerContent: React.FC<
           </View>
         )}
 
-        {/* Shop Availability Section - Only show for products */}
         {pendingCartData?.type === DrawerTypeEnum.PRODUCT &&
           isArrayNotEmpty(itemDetail?.shops_prices) && (
             <View className="mb-2">
@@ -191,7 +189,6 @@ const PendingCartItemDrawerContent: React.FC<
                       className="w-6 h-6 mr-1"
                       resizeMode="contain"
                     />
-                    {/* <Text className="text-xs text-gray-700">{shop.name}</Text> */}
                     {price && (
                       <Text className="text-xs text-gray-500 ml-1">
                         {price.toFixed(2)}€

@@ -3,7 +3,7 @@ import auth, { signInWithEmailAndPassword } from "@react-native-firebase/auth";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
 
@@ -67,16 +67,13 @@ export default function SignIn() {
 
   return (
     <View className="flex-1 items-center justify-center gap-2">
-      {/* <SvgXml xml={LocalSvg} width={200} height={200} /> */}
-      {/* <Image
-        source={svgLogo}
-        style={{ width: 150 }}
-        resizeMode="contain"
-        // width={200}
-        // height={200}
-      /> */}
-      <View className="w-[220px] h-[110px]">
-        {/* <UsetriLogo width={"100%"} height={"100%"} /> */}
+
+      <View className="w-[220px] h-[110px] mb-8">
+           <Image
+                source={require("~/assets/images/usetri_inverted_logo.png")}
+                style={{ width: '100%', height: '100%' }}
+                resizeMode="contain"
+              />
       </View>
       <GoogleSignIn />
       <AppleAuthentication />

@@ -18,6 +18,16 @@ export default function AuthLayout() {
           // This ensures the header appears only on sign-up
         }}
       />
+            <Stack.Screen
+        name="forgotten-password"
+        options={{
+          headerShown: true,
+          headerTitle: "Obnovenie hesla",
+                      headerBackButtonDisplayMode: "minimal",
+
+          // This ensures the header appears only on sign-up
+        }}
+      />
     </Stack>
   );
 }

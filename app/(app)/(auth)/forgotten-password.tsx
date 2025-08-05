@@ -56,13 +56,13 @@ export default function ForgottenPassword() {
 
   return (
     <View className="flex-1 items-center justify-center gap-2">
-      <Image
-        source={require("~/assets/usetri_logo.png")}
-        style={{ width: 150 }}
-        resizeMode="contain"
-        // width={200}
-        // height={200}
-      />
+      <View className="w-[220px] h-[110px] mb-8">
+           <Image
+                source={require("~/assets/images/usetri_inverted_logo.png")}
+                style={{ width: '100%', height: '100%' }}
+                resizeMode="contain"
+              />
+      </View>
       <Controller
         control={control}
         name="email"

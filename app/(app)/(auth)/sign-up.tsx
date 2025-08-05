@@ -3,7 +3,7 @@ import auth from "@react-native-firebase/auth";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Image, Text } from "react-native";
+import { Image, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
@@ -62,11 +62,13 @@ export default function SignUp() {
 
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-2">
-      <Image
-        source={require("~/assets/usetri_logo.png")}
-        style={{ width: 150 }}
-        resizeMode="contain"
-      />
+      <View className="w-[220px] h-[110px] mb-8">
+           <Image
+                source={require("~/assets/images/usetri_inverted_logo.png")}
+                style={{ width: '100%', height: '100%' }}
+                resizeMode="contain"
+              />
+      </View>
       <Controller
         control={control}
         name="email"
@@ -75,7 +77,7 @@ export default function SignUp() {
             placeholder="Zadajte svoj e-mail"
             aria-labelledby="username"
             aria-errormessage="inputError"
-            className="mt-4 w-[80%]"
+            className="w-[80%]"
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
