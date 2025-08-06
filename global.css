@@ -2,7 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 7.0588%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 7.0588%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 7.0588%;
+  --primary: 141.1538 72.8972% 41.9608%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14.2857% 95.8824%;
+  --secondary-foreground: 215 27.907% 16.8627%;
+  --muted: 220 14.2857% 95.8824%;
+  --muted-foreground: 220 8.9362% 46.0784%;
+  --accent: 138.4615 76.4706% 96.6667%;
+  --accent-foreground: 142.4299 71.8121% 29.2157%;
+  --destructive: 0 84.2365% 60.1961%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13.0435% 90.9804%;
+  --input: 220 14.2857% 95.8824%;
+  --ring: 141.1538 72.8972% 41.9608%;
+  --chart-1: 141.1538 72.8972% 41.9608%;
+  --chart-2: 141.4054 75.5102% 48.0392%;
+  --chart-3: 130 62.2642% 58.4314%;
+  --chart-4: 132.5 60.7595% 69.0196%;
+  --chart-5: 135.7377 67.033% 82.1569%;
+  --sidebar: 210 20% 98.0392%;
+  --sidebar-foreground: 216.9231 19.1176% 26.6667%;
+  --sidebar-primary: 141.1538 72.8972% 41.9608%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 141.1538 72.8972% 41.9608%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 220 13.0435% 90.9804%;
+  --sidebar-ring: 141.1538 72.8972% 41.9608%;
+  --font-sans: Figtree, sans-serif;
+  --font-serif: Figtree, sans-serif;
+  --font-mono: Figtree, sans-serif;
+  --radius: 0.5rem;
+  --shadow-2xs: 0px 4px 8px 0px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 0px 4px 8px 0px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 0px 4px 8px 0px hsl(0 0% 0% / 0.05),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow: 0px 4px 8px 0px hsl(0 0% 0% / 0.05),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.05);
+  --shadow-md: 0px 4px 8px 0px hsl(0 0% 0% / 0.05),
+    0px 2px 4px -1px hsl(0 0% 0% / 0.05);
+  --shadow-lg: 0px 4px 8px 0px hsl(0 0% 0% / 0.05),
+    0px 4px 6px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xl: 0px 4px 8px 0px hsl(0 0% 0% / 0.05),
+    0px 8px 10px -1px hsl(0 0% 0% / 0.05);
+  --shadow-2xl: 0px 4px 8px 0px hsl(0 0% 0% / 0.13);
+  --tracking-normal: 0rem;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: 0 0% 7.0588%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 9.4118%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 9.4118%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 141.1538 72.8972% 41.9608%;
+  --primary-foreground: 0 0% 7.0588%;
+  --secondary: 0 0% 32.549%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 16.4706%;
+  --muted-foreground: 0 0% 65.4902%;
+  --accent: 0 0% 16.4706%;
+  --accent-foreground: 0 0% 94.1176%;
+  --destructive: 3.3503 100% 61.3725%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 16.4706%;
+  --input: 0 0% 16.4706%;
+  --ring: 141.1538 72.8972% 41.9608%;
+  --chart-1: 141.1538 72.8972% 41.9608%;
+  --chart-2: 141.4054 75.5102% 48.0392%;
+  --chart-3: 130 62.2642% 58.4314%;
+  --chart-4: 132.5 60.7595% 69.0196%;
+  --chart-5: 135.7377 67.033% 82.1569%;
+  --sidebar: 0 0% 1.5686%;
+  --sidebar-foreground: 0 0% 70.1961%;
+  --sidebar-primary: 141.1538 72.8972% 41.9608%;
+  --sidebar-primary-foreground: 0 0% 7.0588%;
+  --sidebar-accent: 141.1538 72.8972% 41.9608%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 0 0% 9.4118%;
+  --sidebar-ring: 141.1538 72.8972% 41.9608%;
+  --font-sans: Figtree, sans-serif;
+  --font-serif: Figtree, sans-serif;
+  --font-mono: Figtree, sans-serif;
+  --radius: 0.5rem;
+  --shadow-2xs: 0px 4px 8px 0px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0px 4px 8px 0px hsl(0 0% 0% / 0.05);
+  --shadow-sm: 0px 4px 8px 0px hsl(0 0% 0% / 0.1),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow: 0px 4px 8px 0px hsl(0 0% 0% / 0.1),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md: 0px 4px 8px 0px hsl(0 0% 0% / 0.1),
+    0px 2px 4px -1px hsl(0 0% 0% / 0.1);
+  --shadow-lg: 0px 4px 8px 0px hsl(0 0% 0% / 0.1),
+    0px 4px 6px -1px hsl(0 0% 0% / 0.1);
+  --shadow-xl: 0px 4px 8px 0px hsl(0 0% 0% / 0.1),
+    0px 8px 10px -1px hsl(0 0% 0% / 0.1);
+  --shadow-2xl: 0px 4px 8px 0px hsl(0 0% 0% / 0.25);
+}
+
+body {
+  letter-spacing: var(--tracking-normal);
+}
+
+/* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -62,4 +172,4 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
+} */

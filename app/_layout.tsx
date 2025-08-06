@@ -10,7 +10,7 @@ import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, SplashScreen } from "expo-router";
 import { i18n } from "i18next";
-import 'intl-pluralrules';
+import "intl-pluralrules";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -37,7 +37,7 @@ const DARK_THEME: Theme = {
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from "expo-router";
 
 const queryClient = new QueryClient({
@@ -93,7 +93,6 @@ export default function RootLayout() {
       }
       setAndroidNavigationBar(colorTheme);
       setIsColorSchemeLoaded(true);
-
     })().finally(() => {
       SplashScreen.hideAsync();
     });
@@ -113,21 +112,21 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-        <RevenueCatProvider>
-          <SessionProvider>
-            <GestureHandlerRootView>
-              <BottomSheetModalProvider>
-                <ThemeProvider value={LIGHT_THEME}>
-                  <SafeAreaProvider>
-                    <Slot />
-                  </SafeAreaProvider>
-                  <PortalHost />
-                  <Toast />
-                </ThemeProvider>
-              </BottomSheetModalProvider>
-            </GestureHandlerRootView>
-          </SessionProvider>
-        </RevenueCatProvider>
+      <RevenueCatProvider>
+        <SessionProvider>
+          <GestureHandlerRootView>
+            <BottomSheetModalProvider>
+              <ThemeProvider value={DARK_THEME}>
+                <SafeAreaProvider>
+                  <Slot />
+                </SafeAreaProvider>
+                <PortalHost />
+                <Toast />
+              </ThemeProvider>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
+        </SessionProvider>
+      </RevenueCatProvider>
     </QueryClientProvider>
   );
 }

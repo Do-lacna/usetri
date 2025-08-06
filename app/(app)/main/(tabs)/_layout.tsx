@@ -15,7 +15,7 @@ export default function TabLayout() {
   const { brigaderActive } = useSession();
   const { data: { cart } = {} } = ({} = useGetHybridCart());
   const cartItemsNumber = getNumberOfCartItems(cart);
-  
+
   return (
     <Tabs
       screenOptions={{
@@ -38,7 +38,11 @@ export default function TabLayout() {
         options={{
           title: "Zľavy",
           tabBarIcon: ({ color, focused }) => (
-            <BadgePercent size={28} color={focused ? "black" : color} />
+            <BadgePercent
+              size={28}
+              color={focused ? "black" : color}
+              className="text-primary-foreground"
+            />
           ),
         }}
       />
@@ -56,7 +60,7 @@ export default function TabLayout() {
         options={{
           title: "Zoznam",
           tabBarIcon: ({ color, focused }) => (
-            <View style={{ position: 'relative' }}>
+            <View style={{ position: "relative" }}>
               <ClipboardList size={28} color={focused ? "black" : color} />
               <AnimatedCartBadge count={cartItemsNumber || 0} />
             </View>

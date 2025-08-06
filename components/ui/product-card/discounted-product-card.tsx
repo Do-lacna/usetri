@@ -121,13 +121,13 @@ const DiscountedProductCard = ({
         </View>
 
         {/* Amount/Unit Badge */}
-        <Badge className="absolute top-2 bg-terciary">
-          <Text className="text-xs text-primary-foreground">{`${amount} ${unit}`}</Text>
+        <Badge className="absolute top-2 bg-accent">
+          <Text className="text-xs text-accent-foreground">{`${amount} ${unit}`}</Text>
         </Badge>
 
         {/* Discount Badge - only show if there's a real discount */}
         {hasDiscount && (
-          <Badge className="absolute top-2 right-2 bg-red-400">
+          <Badge className="absolute top-2 right-2 bg-secondary-foreground">
             <Text className="text-xs text-white font-semibold">
               -{percentageDiscount}%
             </Text>

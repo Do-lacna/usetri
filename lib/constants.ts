@@ -15,7 +15,7 @@ export const NAV_THEME = {
     card: "hsl(24 9.8% 10%)", // card
     notification: "hsl(0 62.8% 30.6%)", // destructive
     primary: "hsl(142.1 70.6% 45.3%)", // primary
-    text: "hsl(0 0% 95%)", // foreground
+    text: "hsl(0 0% 100%)", // foreground
   },
 };
 

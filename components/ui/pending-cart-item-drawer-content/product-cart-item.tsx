@@ -54,8 +54,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
 
   const itemInCartCount =
     cart?.specific_products?.find(
-      ({ product: { barcode } = {} }) =>
-        barcode === pendingCartData?.identifier
+      ({ product: { barcode } = {} }) => barcode === pendingCartData?.identifier
     )?.quantity ?? 0;
 
   useEffect(() => {
@@ -111,53 +110,43 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
           <View className="mb-2">
             <Text className="text-sm text-gray-600 mb-2">Dostupné v:</Text>
             <View className="flex-row flex-wrap items-center gap-2">
-              {itemDetail.shops_prices?.map(({ shop_id, price }: ShopPriceDto) => (
-                <View
-                  key={shop_id}
-                  className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
-                >
-                  <Image
-                    {...getShopLogo(shop_id as any)}
-                    className="w-6 h-6 mr-1"
-                    resizeMode="contain"
-                  />
-                  {price && (
-                    <Text className="text-xs text-gray-500 ml-1">
-                      {price.toFixed(2)}€
-                    </Text>
-                  )}
-                </View>
-              ))}
+              {itemDetail.shops_prices?.map(
+                ({ shop_id, price }: ShopPriceDto) => (
+                  <View
+                    key={shop_id}
+                    className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
+                  >
+                    <Image
+                      {...getShopLogo(shop_id as any)}
+                      className="w-6 h-6 mr-1"
+                      resizeMode="contain"
+                    />
+                    {price && (
+                      <Text className="text-xs text-gray-500 ml-1">
+                        {price.toFixed(2)}€
+                      </Text>
+                    )}
+                  </View>
+                )
+              )}
             </View>
           </View>
         )}
-
-        {/* Price Display */}
-        <View className="mb-6">
-          <Text className="text-2xl font-bold text-center">
-            {((itemDetail.price ?? 0) * productCount)?.toFixed(2)} €
-          </Text>
-          <Text className="text-sm text-gray-500 text-center mt-1">
-            {itemDetail.price?.toFixed(2)}€ × {productCount}
-          </Text>
-        </View>
       </View>
 
       {/* Actions Section - Wolt Style */}
-      <View className="w-full flex-row gap-4 items-center justify-between mt-6">
+      <View className="w-full flex-row gap-4 items-center justify-between my-6">
         {/* Counter on the left */}
-        <Counter
-          initialCount={productCount}
-          onCountChange={setProductCount}
-        />
-        
+        <Counter initialCount={productCount} onCountChange={setProductCount} />
+
         {/* Confirm button on the right */}
         <Button
           onPress={() => handleConfirm(productCount)}
-          className="flex-1 ml-4"
+          className="flex-1 flex-row ml-4 px-2 justify-between"
           disabled={isLoadingGlobal}
         >
           <Text>Pridať do košíka</Text>
+          <Text>{((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€</Text>
         </Button>
       </View>
     </View>

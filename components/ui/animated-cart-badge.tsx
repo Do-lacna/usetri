@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
 import { Text } from "react-native";
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSequence,
-    withSpring,
-    withTiming,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
-import { PRIMARY_HEX } from "../../lib/constants";
 
 interface AnimatedCartBadgeProps {
   count: number;
 }
 
-export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({ count }) => {
+export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
+  count,
+}) => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(count > 0 ? 1 : 0);
   const [displayCount, setDisplayCount] = React.useState(count);
@@ -22,7 +23,7 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({ count }) =
     if (count !== displayCount) {
       // Update display count
       setDisplayCount(count);
-      
+
       if (count > 0) {
         // Show badge with bounce animation
         opacity.value = withTiming(1, { duration: 200 });
@@ -48,15 +49,15 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({ count }) =
 
   return (
     <Animated.View
+      className="bg-accent-foreground"
       style={[
         {
-          backgroundColor: PRIMARY_HEX,
           minWidth: 20,
           height: 20,
           borderRadius: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
           top: -8,
           right: -10,
           paddingHorizontal: count > 9 ? 6 : 0,
@@ -64,8 +65,11 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({ count }) =
         animatedStyle,
       ]}
     >
-      <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
-        {count > 99 ? '99+' : count}
+      <Text
+        style={{ fontSize: 12, fontWeight: "bold" }}
+        className="text-accent"
+      >
+        {count > 99 ? "99+" : count}
       </Text>
     </Animated.View>
   );
