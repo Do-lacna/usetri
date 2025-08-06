@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { ArrowDown } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
@@ -7,7 +7,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import { useGetHybridCart } from "../../network/hybrid-cart/hybrid-cart";
 import IconButton from "../icon-button";
@@ -41,11 +41,11 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
     const startPrice = animatedPrice.value;
     const difference = Math.abs(newPrice - startPrice);
     const duration = Math.min(difference * 30, 800); // Max 800ms
-    
-    animatedPrice.value = withTiming(newPrice, { 
-      duration: duration > 200 ? duration : 300 
+
+    animatedPrice.value = withTiming(newPrice, {
+      duration: duration > 200 ? duration : 300,
     });
-    
+
     // Scale animation for visual feedback
     scale.value = withTiming(1.15, { duration: 100 }, () => {
       scale.value = withTiming(1, { duration: 200 });
@@ -54,7 +54,11 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
 
   // Update animated price when total_price changes
   useEffect(() => {
-    if (total_price !== undefined && total_price !== animatedPrice.value && animatedPrice.value !== 0) {
+    if (
+      total_price !== undefined &&
+      total_price !== animatedPrice.value &&
+      animatedPrice.value !== 0
+    ) {
       animateToPrice(total_price);
     }
   }, [total_price]);
@@ -91,7 +95,14 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
                 {displayPrice.toFixed(2)} €
               </Text>
             </Animated.View>
-            <IconButton className="bg-secondary rounded-full p-2" onPress={onPress}>
+            <IconButton
+              className="bg-secondary rounded-full p-2"
+              onPress={() =>
+                router.navigate(
+                  "/main/price-comparison-modal/price-comparison-modal-screen"
+                )
+              }
+            >
               <ArrowDown size={20} />
             </IconButton>
           </View>

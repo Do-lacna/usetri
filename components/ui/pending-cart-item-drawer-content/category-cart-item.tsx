@@ -24,8 +24,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
 }) => {
   const [categoryCount, setCategoryCount] = useState(1);
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = 
-    useGetHybridCart();
+  const { data: { cart } = {}, isLoading: isCartLoading } = useGetHybridCart();
 
   const { data: categoryData, isLoading: areCategoriesLoading } =
     useGetCategories(
@@ -88,12 +87,12 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           <Text className="text-sm font-semibold text-gray-700 mb-3">
             Odhadované ceny v obchodoch
           </Text>
-          <View className="bg-gray-50 rounded-xl p-4">
+          <View className="bg-gray-50 rounded-xl py-4 px-2">
             <View className="flex-row flex-wrap gap-3">
               {mockCategoryPrices.map(({ shop_id, price }) => (
                 <View
                   key={shop_id}
-                  className="flex-row items-center bg-white rounded-lg px-3 py-2 shadow-sm border border-gray-100"
+                  className="flex-row items-center bg-white rounded-lg px-2 py-2 shadow-sm border border-gray-100"
                 >
                   <Image
                     {...getShopLogo(shop_id as any)}
@@ -111,13 +110,13 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
       </View>
 
       {/* Actions Section - Wolt Style */}
-      <View className="w-full flex-row gap-4 items-center justify-between mt-6">
+      <View className="w-full flex-row gap-4 items-center justify-between mt-6 mb-6">
         {/* Counter on the left */}
         <Counter
           initialCount={categoryCount}
           onCountChange={setCategoryCount}
         />
-        
+
         {/* Confirm button on the right */}
         <Button
           onPress={() => onConfirm(categoryCount)}
