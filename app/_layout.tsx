@@ -116,7 +116,7 @@ export default function RootLayout() {
         <SessionProvider>
           <GestureHandlerRootView>
             <BottomSheetModalProvider>
-              <ThemeProvider value={DARK_THEME}>
+              <ThemeProvider value={LIGHT_THEME}>
                 <SafeAreaProvider>
                   <Slot />
                 </SafeAreaProvider>

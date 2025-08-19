@@ -73,34 +73,33 @@ export default function SearchScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
-      <View className="px-2">
-        <View className="flex-row items-center gap-4 mt-2 z-10">
-          <SearchBar<ProductDto>
-            displaySearchOptions={false}
-            onSearch={setSearchQuery}
-            onClear={() => setSearchQuery("")}
-            searchText={searchQuery}
-            placeholder="Hľadaj produkty"
-            options={[]}
-            onOptionSelect={(option) => console.log("Option selected:", option)}
-            renderOption={(item) => (
-              <Text className="text-gray-800 text-lg">{item?.name}</Text>
-            )}
-            keyExtractor={(item) => String(item.barcode)}
-          />
+    <SafeAreaView className="flex-1 bg-background px-2">
+      <View className="flex-row items-center gap-4 mt-2 z-10">
+        <SearchBar<ProductDto>
+          displaySearchOptions={false}
+          onSearch={setSearchQuery}
+          onClear={() => setSearchQuery("")}
+          searchText={searchQuery}
+          placeholder="Hľadaj produkty"
+          options={[]}
+          onOptionSelect={(option) => console.log("Option selected:", option)}
+          renderOption={(item) => (
+            <Text className="text-gray-800 text-lg">{item?.name}</Text>
+          )}
+          keyExtractor={(item) => String(item.barcode)}
+        />
 
-          <IconButton
-            onPress={() =>
-              router.navigate("/main/barcode-search/barcode-search-screen")
-            }
-            className="w-10"
-          >
-            <ScanBarcode size={24} className="text-primary mr-3" />
-          </IconButton>
-        </View>
+        <IconButton
+          onPress={() =>
+            router.navigate("/main/barcode-search/barcode-search-screen")
+          }
+          className="w-10"
+        >
+          <ScanBarcode size={24} className="text-primary mr-3" />
+        </IconButton>
+      </View>
 
-        {/* <View className="flex-row gap-1 mt-2 mb-4">
+      {/* <View className="flex-row gap-1 mt-2 mb-4">
           <Text className="text-lg tracking-wide">Hľadaj v lokalite:</Text>
           <Pressable>
             <Text className="text-lg text-terciary font-bold tracking-wide">
@@ -109,55 +108,54 @@ export default function SearchScreen() {
           </Pressable>
         </View> */}
 
-        {displaySearchResult ? (
-          <FlatList
-            data={searchProducts}
-            renderItem={({ item }) => (
-              <DiscountedProductCard
-                product={item}
-                onPress={handleProductPress}
-                shopsPrices={item?.shops_prices || []}
-              />
-            )}
-            numColumns={3}
-            keyExtractor={(product) => String(product?.detail?.barcode)}
-            contentContainerClassName="gap-4 py-12 px-2"
-            columnWrapperClassName="gap-4"
-            refreshControl={
-              <RefreshControl
-                refreshing={areProductsLoading}
-                onRefresh={handleRefresh}
-              />
-            }
-            ListEmptyComponent={
-              !areProductsLoading ? (
-                <ActivityIndicator animating={true} className="mt-12" />
-              ) : (
-                <View className="flex-1 flex items-center justify-center">
-                  <NoDataText className="text-xl my-4">
-                    Žiadne výsledky
-                  </NoDataText>
-                </View>
-              )
-            }
-          />
-        ) : selectedCategory ? (
-          <CategoryDetailView
-            selectedCategory={selectedCategory}
-            categories={popularCategories || []}
-            onBack={handleBack}
-            onProductPress={handleProductPress}
-            onCategorySelect={handleCategorySelect}
-          />
-        ) : (
-          <CategoriesGrid
-            categories={popularCategories || []}
-            onCategorySelect={handleCategorySelect}
-            isLoading={isLoading}
-            onRefresh={handleRefresh}
-          />
-        )}
-      </View>
+      {displaySearchResult ? (
+        <FlatList
+          data={searchProducts}
+          renderItem={({ item }) => (
+            <DiscountedProductCard
+              product={item}
+              onPress={handleProductPress}
+              shopsPrices={item?.shops_prices || []}
+            />
+          )}
+          numColumns={3}
+          keyExtractor={(product) => String(product?.detail?.barcode)}
+          contentContainerClassName="gap-4 py-12 px-2"
+          columnWrapperClassName="gap-4"
+          refreshControl={
+            <RefreshControl
+              refreshing={areProductsLoading}
+              onRefresh={handleRefresh}
+            />
+          }
+          ListEmptyComponent={
+            !areProductsLoading ? (
+              <ActivityIndicator animating={true} className="mt-12" />
+            ) : (
+              <View className="flex-1 flex items-center justify-center">
+                <NoDataText className="text-xl my-4">
+                  Žiadne výsledky
+                </NoDataText>
+              </View>
+            )
+          }
+        />
+      ) : selectedCategory ? (
+        <CategoryDetailView
+          selectedCategory={selectedCategory}
+          categories={popularCategories || []}
+          onBack={handleBack}
+          onProductPress={handleProductPress}
+          onCategorySelect={handleCategorySelect}
+        />
+      ) : (
+        <CategoriesGrid
+          categories={popularCategories || []}
+          onCategorySelect={handleCategorySelect}
+          isLoading={isLoading}
+          onRefresh={handleRefresh}
+        />
+      )}
     </SafeAreaView>
   );
 }

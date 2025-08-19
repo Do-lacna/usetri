@@ -7,6 +7,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { PRIMARY_HEX } from "../../lib/constants";
 
 interface AnimatedCartBadgeProps {
   count: number;
@@ -49,9 +50,9 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
 
   return (
     <Animated.View
-      className="bg-accent-foreground"
       style={[
         {
+          backgroundColor: PRIMARY_HEX,
           minWidth: 20,
           height: 20,
           borderRadius: 10,
@@ -65,10 +66,7 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
         animatedStyle,
       ]}
     >
-      <Text
-        style={{ fontSize: 12, fontWeight: "bold" }}
-        className="text-accent"
-      >
+      <Text style={{ color: "white", fontSize: 12, fontWeight: "bold" }}>
         {count > 99 ? "99+" : count}
       </Text>
     </Animated.View>

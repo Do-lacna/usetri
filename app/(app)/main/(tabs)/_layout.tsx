@@ -38,11 +38,7 @@ export default function TabLayout() {
         options={{
           title: "Zľavy",
           tabBarIcon: ({ color, focused }) => (
-            <BadgePercent
-              size={28}
-              color={focused ? "black" : color}
-              className="text-primary-foreground"
-            />
+            <BadgePercent size={28} color={focused ? "black" : color} />
           ),
         }}
       />

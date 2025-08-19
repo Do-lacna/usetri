@@ -1,7 +1,8 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
 import {
+  ActivityIndicator,
   FlatList,
   ListRenderItem,
   RefreshControl,
@@ -9,7 +10,10 @@ import {
   View,
 } from "react-native";
 import { DiscountShopItemDto, ShopExtendedDto } from "../../network/model";
-import { useGetDiscounts } from "../../network/query/query";
+import {
+  getDiscounts,
+  getGetDiscountsQueryKey,
+} from "../../network/query/query";
 import DiscountedProductCard from "../ui/product-card/discounted-product-card";
 import { Skeleton } from "../ui/skeleton";
 
@@ -24,10 +28,46 @@ interface SkeletonItem {
 const DiscountList = ({ shop }: IDiscountListProps) => {
   const queryClient = useQueryClient();
   const { id, name } = shop;
-  const { data: { products } = {}, isPending } = useGetDiscounts(
-    { restricted_shops: [Number(id)] },
-    { query: { enabled: !!id } }
-  );
+
+  const LIMIT = 20; // Number of items to fetch per page
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: getGetDiscountsQueryKey({ restricted_shops: [Number(id)] }),
+    queryFn: ({ pageParam = 0 }) =>
+      getDiscounts({
+        restricted_shops: [Number(id)],
+        Limit: LIMIT,
+        Offset: pageParam,
+      }),
+    getNextPageParam: (lastPage, allPages) => {
+      const totalLoaded = allPages.length * LIMIT;
+      return totalLoaded < (lastPage.count || 0) ? totalLoaded : undefined;
+    },
+    enabled: !!id,
+    initialPageParam: 0,
+  });
+
+  // Flatten all pages into a single array
+  const allProducts = React.useMemo(() => {
+    return data?.pages.flatMap((page) => page.products || []) || [];
+  }, [data]);
+
+  const loadMoreData = React.useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const handleRefresh = React.useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
@@ -52,6 +92,15 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     />
   );
 
+  const renderFooter = () => {
+    if (!isFetchingNextPage) return null;
+    return (
+      <View className="py-4">
+        <ActivityIndicator size="small" />
+      </View>
+    );
+  };
+
   return (
     <View>
       <View className="flex-row">
@@ -65,7 +114,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             columnWrapperClassName="gap-4"
             scrollEnabled={false}
           />
-        ) : products?.length === 0 ? (
+        ) : allProducts?.length === 0 ? (
           <Text
             className="text-gray-500 text-base text-center mt-2"
             numberOfLines={2}
@@ -74,7 +123,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
           </Text>
         ) : (
           <FlatList
-            data={products}
+            data={allProducts}
             renderItem={renderProductItem}
             numColumns={2}
             keyExtractor={(product) => String(product?.detail?.barcode)}
@@ -83,9 +132,12 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             refreshControl={
               <RefreshControl
                 refreshing={isPending}
-                onRefresh={() => queryClient.invalidateQueries()}
+                onRefresh={handleRefresh}
               />
             }
+            onEndReached={loadMoreData}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={renderFooter}
             ListEmptyComponent={
               <Text className="text-gray-500 text-base text-center mt-4">
                 Tento obchod momentálne neponúka žiadne zľavnené produkty
