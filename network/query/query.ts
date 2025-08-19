@@ -23,7 +23,6 @@ import type {
   GetDiscountsStatisticsResponse,
   GetPopularCategoryProductsResponse,
   GetPopularCategoryResponse,
-  GetProductsByBarcodeParams,
   GetProductsByBarcodeQueryResponse,
   GetProductsParams,
   GetProductsResponse,
@@ -868,21 +867,17 @@ export function useGetPopularCategories<
 
 export const getProductsByBarcode = (
   barcode: string,
-  params?: GetProductsByBarcodeParams,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductsByBarcodeQueryResponse>(
-    { url: `/products/${barcode}`, method: 'GET', params, signal },
+    { url: `/products/${barcode}`, method: 'GET', signal },
     options,
   );
 };
 
-export const getGetProductsByBarcodeQueryKey = (
-  barcode: string,
-  params?: GetProductsByBarcodeParams,
-) => {
-  return [`/products/${barcode}`, ...(params ? [params] : [])] as const;
+export const getGetProductsByBarcodeQueryKey = (barcode: string) => {
+  return [`/products/${barcode}`] as const;
 };
 
 export const getGetProductsByBarcodeQueryOptions = <
@@ -890,7 +885,6 @@ export const getGetProductsByBarcodeQueryOptions = <
   TError = ProblemDetails,
 >(
   barcode: string,
-  params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -905,12 +899,11 @@ export const getGetProductsByBarcodeQueryOptions = <
   const { query: queryOptions, request: requestOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetProductsByBarcodeQueryKey(barcode, params);
+    queryOptions?.queryKey ?? getGetProductsByBarcodeQueryKey(barcode);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getProductsByBarcode>>
-  > = ({ signal }) =>
-    getProductsByBarcode(barcode, params, requestOptions, signal);
+  > = ({ signal }) => getProductsByBarcode(barcode, requestOptions, signal);
 
   return {
     queryKey,
@@ -934,7 +927,6 @@ export function useGetProductsByBarcode<
   TError = ProblemDetails,
 >(
   barcode: string,
-  params: undefined | GetProductsByBarcodeParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -961,7 +953,6 @@ export function useGetProductsByBarcode<
   TError = ProblemDetails,
 >(
   barcode: string,
-  params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -988,7 +979,6 @@ export function useGetProductsByBarcode<
   TError = ProblemDetails,
 >(
   barcode: string,
-  params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1008,7 +998,6 @@ export function useGetProductsByBarcode<
   TError = ProblemDetails,
 >(
   barcode: string,
-  params?: GetProductsByBarcodeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1022,11 +1011,7 @@ export function useGetProductsByBarcode<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetProductsByBarcodeQueryOptions(
-    barcode,
-    params,
-    options,
-  );
+  const queryOptions = getGetProductsByBarcodeQueryOptions(barcode, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

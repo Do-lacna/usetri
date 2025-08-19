@@ -9,6 +9,9 @@ export type GetProductsParams = {
   category_id?: number;
   search?: string;
   restricted_shops?: number[];
+  has_image?: boolean;
+  is_barcode_checked?: boolean;
+  is_category_checked?: boolean;
   Limit?: number;
   Offset?: number;
 };

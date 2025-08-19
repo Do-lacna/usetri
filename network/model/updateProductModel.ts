@@ -11,11 +11,11 @@ export interface UpdateProductModel {
   /** @nullable */
   brand?: string | null;
   /** @nullable */
-  image_url?: string | null;
-  /** @nullable */
   amount?: number | null;
   /** @nullable */
   unit?: string | null;
   /** @nullable */
   category_id?: number | null;
+  /** @nullable */
+  new_barcode?: string | null;
 }

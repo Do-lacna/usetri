@@ -7,9 +7,6 @@
 
 export interface PriceDto {
   price?: number;
-  /** @nullable */
-  barcode?: string | null;
-  shop_id?: number;
   change_requested?: string;
   /** @nullable */
   change_confirmed?: string | null;

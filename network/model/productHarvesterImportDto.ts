@@ -17,7 +17,5 @@ export interface ProductHarvesterImportDto {
   unit?: string | null;
   category_id?: number;
   /** @nullable */
-  image_url?: string | null;
-  /** @nullable */
   source_image?: string | null;
 }

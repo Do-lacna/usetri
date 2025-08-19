@@ -7,6 +7,8 @@
 
 export type GetCategoriesAdminParams = {
   category_name?: string;
+  is_leaf?: boolean;
+  available_shops_count?: number;
   Limit?: number;
   Offset?: number;
 };

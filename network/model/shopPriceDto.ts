@@ -11,4 +11,6 @@ export interface ShopPriceDto {
   price?: number;
   actual_price?: number;
   discount_price?: DiscountPriceDto;
+  /** @nullable */
+  scanned_image_url?: string | null;
 }

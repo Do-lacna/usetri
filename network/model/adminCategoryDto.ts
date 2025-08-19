@@ -4,10 +4,12 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { CategoryDto } from './categoryDto';
 import type { ShopProductDto } from './shopProductDto';
 
-export interface GetDiscountsResponse {
-  count?: number;
+export interface AdminCategoryDto {
+  category?: CategoryDto;
   /** @nullable */
-  products?: ShopProductDto[] | null;
+  available_shops?: number[] | null;
+  cheapest_from_category?: ShopProductDto;
 }

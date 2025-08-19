@@ -4,9 +4,9 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ProductDtoWithShopsPrices } from './productDtoWithShopsPrices';
+import type { ShopProductDto } from './shopProductDto';
 
 export interface GetPopularCategoryProductsResponse {
   /** @nullable */
-  products?: ProductDtoWithShopsPrices[] | null;
+  products?: ShopProductDto[] | null;
 }

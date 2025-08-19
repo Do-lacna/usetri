@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CategoryDto } from './categoryDto';
+import type { AdminCategoryDto } from './adminCategoryDto';
 
 export interface GetCategoryAdminResponse {
   all_count?: number;
   /** @nullable */
-  all_categories?: CategoryDto[] | null;
+  all_categories?: AdminCategoryDto[] | null;
 }

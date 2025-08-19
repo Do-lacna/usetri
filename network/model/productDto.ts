@@ -4,19 +4,28 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { UnitDto } from './unitDto';
 import type { CategoryDto } from './categoryDto';
 
 export interface ProductDto {
+  id?: number;
   /** @nullable */
   barcode?: string | null;
   /** @nullable */
   name?: string | null;
+  /** @deprecated */
   amount?: number;
   /** @nullable */
   brand?: string | null;
-  /** @nullable */
+  /**
+   * @deprecated
+   * @nullable
+   */
   unit?: string | null;
+  unit_dto?: UnitDto;
   /** @nullable */
   image_url?: string | null;
   category?: CategoryDto;
+  is_barcode_checked?: boolean;
+  is_category_checked?: boolean;
 }

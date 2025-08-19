@@ -4,21 +4,18 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
-  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
-  UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { CategoryManagementParams, ProblemDetails } from '.././model';
+import type { CategoryManagementParams } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
@@ -292,65 +289,119 @@ export function useCategoryManagement<
   return query;
 }
 
-export const dropAllProducts = (
+export const index = (
   options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/adminMVC/products`, method: 'DELETE' },
+    { url: `/adminMVC`, method: 'GET', signal },
     options,
   );
 };
 
-export const getDropAllProductsMutationOptions = <
-  TData = Awaited<ReturnType<typeof dropAllProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
+export const getIndexQueryKey = () => {
+  return [`/adminMVC`] as const;
+};
+
+export const getIndexQueryOptions = <
+  TData = Awaited<ReturnType<typeof index>>,
+  TError = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>;
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
+  >;
   request?: SecondParameter<typeof orvalApiClient>;
 }) => {
-  const mutationKey = ['dropAllProducts'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof dropAllProducts>>,
-    void
-  > = () => {
-    return dropAllProducts(requestOptions);
+  const queryKey = queryOptions?.queryKey ?? getIndexQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof index>>> = ({
+    signal,
+  }) => index(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof index>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type IndexQueryResult = NonNullable<Awaited<ReturnType<typeof index>>>;
+export type IndexQueryError = unknown;
+
+export function useIndex<
+  TData = Awaited<ReturnType<typeof index>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof index>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useIndex<
+  TData = Awaited<ReturnType<typeof index>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof index>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useIndex<
+  TData = Awaited<ReturnType<typeof index>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useIndex<
+  TData = Awaited<ReturnType<typeof index>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getIndexQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
   };
 
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    void,
-    TContext
-  >;
-};
+  query.queryKey = queryOptions.queryKey;
 
-export type DropAllProductsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof dropAllProducts>>
->;
+  return query;
+}
 
-export type DropAllProductsMutationError = ProblemDetails;
-
-export const useDropAllProducts = <
-  TData = Awaited<ReturnType<typeof dropAllProducts>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<TData, TError, void, TContext>;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<TData, TError, void, TContext> => {
-  const mutationOptions = getDropAllProductsMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
 export const productManagement = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -476,119 +527,6 @@ export function useProductManagement<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getProductManagementQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
-export const index = (
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<void>(
-    { url: `/adminMVC`, method: 'GET', signal },
-    options,
-  );
-};
-
-export const getIndexQueryKey = () => {
-  return [`/adminMVC`] as const;
-};
-
-export const getIndexQueryOptions = <
-  TData = Awaited<ReturnType<typeof index>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey = queryOptions?.queryKey ?? getIndexQueryKey();
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof index>>> = ({
-    signal,
-  }) => index(requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof index>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type IndexQueryResult = NonNullable<Awaited<ReturnType<typeof index>>>;
-export type IndexQueryError = unknown;
-
-export function useIndex<
-  TData = Awaited<ReturnType<typeof index>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof index>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useIndex<
-  TData = Awaited<ReturnType<typeof index>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof index>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useIndex<
-  TData = Awaited<ReturnType<typeof index>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useIndex<
-  TData = Awaited<ReturnType<typeof index>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof index>>, TError, TData>
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getIndexQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

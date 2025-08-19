@@ -9,6 +9,8 @@ export interface BrigaderReviewListItemDto {
   /** @nullable */
   readonly barcode?: string | null;
   /** @nullable */
+  readonly scanned_barcode?: string | null;
+  /** @nullable */
   readonly name?: string | null;
   /** @nullable */
   readonly unit?: string | null;

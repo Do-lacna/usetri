@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './_exportParams';
 export * from './addCategoryDto';
 export * from './addCategoryExtendedWithPathDto';
 export * from './addCategoryRequest';
@@ -18,6 +19,7 @@ export * from './addToHybridCartRequest';
 export * from './addToHybridCartResponse';
 export * from './addToProductCartRequest';
 export * from './addToProductCartResponse';
+export * from './adminCategoryDto';
 export * from './archivedCartDto';
 export * from './archivedCartModel';
 export * from './archivedHybridCartDto';
@@ -27,6 +29,7 @@ export * from './availableCategoriesForShopDto';
 export * from './availableProductsFromCategoryDto';
 export * from './brigaderReviewListItem';
 export * from './brigaderReviewListItemDto';
+export * from './bulkUpdateRequest';
 export * from './cartCategory';
 export * from './cartCategoryDto';
 export * from './cartCategoryModel';
@@ -137,9 +140,11 @@ export * from './shopItemDto';
 export * from './shopItemListDto';
 export * from './shopItemWithExtendedCategoryDto';
 export * from './shopPriceDto';
+export * from './shopProductDto';
 export * from './shortArchivedCartDto';
 export * from './shortArchivedCartModel';
 export * from './shortArchivedHybridCartDto';
+export * from './unitDto';
 export * from './unitProducts';
 export * from './updateBarcodeRequest';
 export * from './updateCategoryModel';
