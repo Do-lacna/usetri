@@ -2,14 +2,14 @@ import React from "react";
 import {
   FlatList,
   Image,
-  ListRenderItemInfo,
+  type ListRenderItemInfo,
   Pressable,
   View,
 } from "react-native";
 import { isArrayNotEmpty } from "../../../lib/utils";
-import { AddCategoryExtendedWithPathDto } from "../../../network/model";
+import type { AddCategoryExtendedWithPathDto } from "../../../network/model";
 import { useGetCategories } from "../../../network/query/query";
-import { SearchOptions, searchItems } from "../../../utils/search-utils";
+import { type SearchOptions, searchItems } from "../../../utils/search-utils";
 import { Card } from "../card";
 import Divider from "../divider";
 import { NoDataText } from "../no-data-text/no-data-text";

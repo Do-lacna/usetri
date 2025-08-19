@@ -1,12 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import type React from "react";
 import { Platform, View } from "react-native";
 import { useGetArchivedCart } from "../../../network/customer/customer";
 import { Card } from "../card";
 import { Skeleton } from "../skeleton";
 import { Text } from "../text";
 
-interface ProductCardProps {}
+type ProductCardProps = {}
 
 const TotalSavedCard: React.FC<ProductCardProps> = () => {
   const {

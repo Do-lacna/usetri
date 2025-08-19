@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
 import Divider from "../divider";

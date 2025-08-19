@@ -1,5 +1,5 @@
 // shopLogoUtils.ts
-import { ImageResizeMode, ImageSourcePropType } from "react-native";
+import type { ImageResizeMode, ImageSourcePropType } from "react-native";
 
 // Type for the mapping of shop IDs to their respective require statements
 type ShopLogoMapping = {

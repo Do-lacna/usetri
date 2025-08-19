@@ -1,7 +1,7 @@
-import React from "react";
+import type React from "react";
 import {
   DrawerTypeEnum,
-  PendingCartDataType,
+  type PendingCartDataType,
 } from "~/app/(app)/main/(tabs)/shopping-list";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import { CategoryCartItem } from "./category-cart-item";

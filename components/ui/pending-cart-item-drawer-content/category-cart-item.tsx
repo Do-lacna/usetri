@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Image, View } from "react-native";
-import { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
+import type { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
 import { useGetCategories } from "~/network/query/query";
 import { getShopLogo } from "~/utils/logo-utils";

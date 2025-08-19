@@ -1,5 +1,6 @@
 import { Minus, Plus, Trash2 } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -9,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { CartProductDto } from "../../../network/model";
+import type { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
 import SuggestedProductCard from "../suggested-product-card";

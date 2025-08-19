@@ -4,12 +4,12 @@ import React from "react";
 import {
   ActivityIndicator,
   FlatList,
-  ListRenderItem,
+  type ListRenderItem,
   RefreshControl,
   Text,
   View,
 } from "react-native";
-import { DiscountShopItemDto, ShopExtendedDto } from "../../network/model";
+import type { DiscountShopItemDto, ShopExtendedDto } from "../../network/model";
 import {
   getDiscounts,
   getGetDiscountsQueryKey,

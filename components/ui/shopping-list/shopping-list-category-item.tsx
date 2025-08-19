@@ -1,5 +1,6 @@
 import { Minus, Plus, Trash2 } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -10,7 +11,7 @@ import {
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
-import { CartCategoryDto } from "../../../network/model";
+import type { CartCategoryDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import SuggestedProductCard from "../suggested-product-card";
 

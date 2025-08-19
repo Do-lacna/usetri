@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { useGetProducts } from "../../../network/query/query";
 import { NoDataText } from "../no-data-text/no-data-text";

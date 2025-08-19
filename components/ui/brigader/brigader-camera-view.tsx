@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { MoveLeft } from "lucide-react-native";
-import React, { useRef, useState } from "react";
+import type React from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -11,8 +12,8 @@ import {
 import { runOnJS } from "react-native-reanimated";
 import {
   Camera,
-  CameraRuntimeError,
-  PhotoFile,
+  type CameraRuntimeError,
+  type PhotoFile,
   useCameraDevice,
   useCameraFormat,
   useCodeScanner,

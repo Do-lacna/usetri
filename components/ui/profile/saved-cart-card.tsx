@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { router } from "expo-router";
-import React from "react";
+import type React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { DATE_FORMAT } from "../../../lib/constants";
 import { getShopById } from "../../../lib/utils";

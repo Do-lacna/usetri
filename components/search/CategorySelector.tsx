@@ -2,7 +2,7 @@ import React from "react";
 import {
   FlatList,
   Image,
-  ListRenderItemInfo,
+  type ListRenderItemInfo,
   Pressable,
   View,
 } from "react-native";

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { getShopLogo } from '~/utils/logo-utils';
 

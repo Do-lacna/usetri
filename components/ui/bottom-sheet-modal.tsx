@@ -3,7 +3,7 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import React, { forwardRef, ReactNode, useCallback, useMemo } from "react";
+import React, { forwardRef, type ReactNode, useCallback, useMemo } from "react";
 import { StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "../../utils/toast-config";

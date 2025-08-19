@@ -1,8 +1,7 @@
 import clsx from "clsx";
-import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
-import { ShopItemDto, ShopPriceDto } from "../../network/model";
+import type { ShopItemDto, ShopPriceDto } from "../../network/model";
 import { useGetShops } from "../../network/query/query";
 import { getShopLogo } from "../../utils/logo-utils";
 

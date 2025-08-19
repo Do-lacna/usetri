@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import type React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from '~/components/ui/button';
 import { QuantityCounter } from './quantity-counter';

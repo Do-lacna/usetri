@@ -9,7 +9,7 @@ import {
 import { PortalHost } from "@rn-primitives/portal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Slot, SplashScreen } from "expo-router";
-import { i18n } from "i18next";
+import type { i18n } from "i18next";
 import "intl-pluralrules";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";

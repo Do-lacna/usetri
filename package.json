@@ -10,8 +10,8 @@
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
     "generate-fetcher": "orval -c orval.config.js",
-    "format": "biome format src/ --write",
-    "lint": "biome lint src/ --apply"
+    "format": "biome format . --write",
+    "lint": "biome lint . --write"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.0.6",

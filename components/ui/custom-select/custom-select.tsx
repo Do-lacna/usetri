@@ -1,5 +1,5 @@
-import { Option } from "@rn-primitives/select";
-import React, { useState } from "react";
+import type { Option } from "@rn-primitives/select";
+import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { generateImageUrl } from "../../../lib/utils";
 import {

@@ -1,9 +1,9 @@
-import React from "react";
+import type React from "react";
 import { Image, Text, View } from "react-native";
 import FlippableCard from "~/components/flippable-card/flippable-card";
 import { RefreshCw } from "~/lib/icons/RefreshCw";
 import {
-  HybridCartComparisonProductDto,
+  type HybridCartComparisonProductDto,
   HybridCartComparisonProductType,
 } from "~/network/model";
 

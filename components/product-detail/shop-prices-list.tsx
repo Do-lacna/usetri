@@ -1,7 +1,7 @@
-import React from "react";
+import type React from "react";
 import { Text, View } from "react-native";
 import { getShopById } from "~/lib/utils";
-import { ShopExtendedDto, ShopPriceDto } from "~/network/model";
+import type { ShopExtendedDto, ShopPriceDto } from "~/network/model";
 import { ShopPriceItem } from "./shop-price-item";
 
 interface ShopPricesListProps {

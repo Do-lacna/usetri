@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { cn } from "../../lib/utils";
 import { Text } from "./text";

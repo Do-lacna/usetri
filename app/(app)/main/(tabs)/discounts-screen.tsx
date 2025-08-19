@@ -6,7 +6,7 @@ import DiscountList from "../../../../components/discounts/discount-list";
 import DiscountMiniProductsList from "../../../../components/discounts/discount-mini-products-list";
 import StoreLogo from "../../../../components/store-logo/store-logo";
 import { isArrayNotEmpty } from "../../../../lib/utils";
-import { DiscountStatsDto, ShopExtendedDto } from "../../../../network/model";
+import type { DiscountStatsDto, ShopExtendedDto } from "../../../../network/model";
 import {
   useGetDiscountsStatistics,
   useGetShops,

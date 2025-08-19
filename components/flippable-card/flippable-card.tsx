@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Animated, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Animated, TouchableOpacity, View, type ViewStyle } from "react-native";
 
 interface FlippableCardProps {
   frontContent: React.ReactNode;

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Image, View } from "react-native";
-import { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
+import type { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
 import { isArrayNotEmpty } from "~/lib/utils";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
-import { ShopPriceDto } from "~/network/model";
+import type { ShopPriceDto } from "~/network/model";
 import { useGetProductsByBarcode } from "~/network/query/query";
 import { getShopLogo } from "~/utils/logo-utils";
 import { Button } from "../button";

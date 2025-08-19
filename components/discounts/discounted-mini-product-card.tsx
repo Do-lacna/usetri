@@ -1,8 +1,8 @@
-import React from "react";
+import type React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
 import { calculateDiscountPercentage } from "../../lib/number-utils";
-import { ShopItemDto, ShopPriceDto } from "../../network/model";
+import type { ShopItemDto, ShopPriceDto } from "../../network/model";
 import StoreLogo from "../store-logo/store-logo";
 
 // Types

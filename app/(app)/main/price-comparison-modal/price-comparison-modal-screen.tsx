@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { ActionButtons } from "~/components/shop-comparison/action-buttons";
 import { PriceSummaryCard } from "~/components/shop-comparison/price-summary-card";

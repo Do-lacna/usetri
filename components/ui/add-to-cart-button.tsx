@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "./text";
 

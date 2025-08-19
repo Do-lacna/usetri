@@ -1,4 +1,4 @@
-import Toast, { ToastPosition } from "react-native-toast-message";
+import Toast, { type ToastPosition } from "react-native-toast-message";
 
 export const displaySuccessToastMessage = (message: string) => {
   Toast.show({

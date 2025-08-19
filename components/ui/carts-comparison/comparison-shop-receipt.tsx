@@ -1,6 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { Dimensions, Image, ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Button } from '~/components/ui/button';
@@ -10,7 +9,7 @@ import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
 } from '../../../network/customer/customer';
-import { CartComparisonDto } from '../../../network/model';
+import type { CartComparisonDto } from '../../../network/model';
 
 const ComparisonShopReceipt = ({
   shop: { name: shopName, image_url, id: shopId } = {},

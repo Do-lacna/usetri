@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import React from "react";
+import type React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -14,7 +14,7 @@ import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
 } from "../../../network/customer/customer";
-import { CartComparisonDto } from "../../../network/model";
+import type { CartComparisonDto } from "../../../network/model";
 import { Button } from "../button";
 
 // Types

@@ -1,6 +1,6 @@
-import React from "react";
+import type React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { HybridCartComparisonDto } from "~/network/model";
+import type { HybridCartComparisonDto } from "~/network/model";
 
 interface ShopPaginationProps {
   carts: HybridCartComparisonDto[] | null;

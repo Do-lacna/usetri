@@ -1,6 +1,6 @@
-import React from "react";
+import type React from "react";
 import { Image, Text, View } from "react-native";
-import { CategoryDto } from "../../network/model";
+import type { CategoryDto } from "../../network/model";
 
 interface MissingCategoryCardProps {
   category: CategoryDto;

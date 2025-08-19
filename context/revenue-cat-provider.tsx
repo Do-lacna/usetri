@@ -7,10 +7,10 @@ import {
 } from "react";
 import { Platform } from "react-native";
 import Purchases, {
-  CustomerInfo,
+  type CustomerInfo,
   LOG_LEVEL,
-  PurchasesEntitlementInfos,
-  PurchasesPackage
+  type PurchasesEntitlementInfos,
+  type PurchasesPackage
 } from "react-native-purchases";
 // Provide RevenueCat functions to our app
 

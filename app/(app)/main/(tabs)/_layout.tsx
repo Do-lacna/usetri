@@ -1,6 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-import React from "react";
 import { View } from "react-native";
 import { BadgePercent } from "~/lib/icons/BadgePercent";
 import { ClipboardList } from "~/lib/icons/ClipboardList";

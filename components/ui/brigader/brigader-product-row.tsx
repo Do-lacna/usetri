@@ -6,7 +6,7 @@ import { Pencil } from "~/lib/icons/Pencil";
 
 import Barcode from "@kichiyaki/react-native-barcode-generator";
 import { generateShoppingListItemDescription } from "~/lib/utils";
-import { BrigaderReviewListItemDto } from "~/network/model";
+import type { BrigaderReviewListItemDto } from "~/network/model";
 import IconButton from "../../icon-button";
 import { Badge } from "../badge";
 import { Input } from "../input";

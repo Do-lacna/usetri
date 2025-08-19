@@ -1,5 +1,5 @@
 import {
-  BarcodeScanningResult,
+  type BarcodeScanningResult,
   CameraView as CameraViewExpo,
   useCameraPermissions,
 } from "expo-camera";

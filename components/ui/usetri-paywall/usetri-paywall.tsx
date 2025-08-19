@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   ScrollView,
@@ -7,8 +8,8 @@ import {
   View,
 } from "react-native";
 import Purchases, {
-  CustomerInfo,
-  PurchasesPackage,
+  type CustomerInfo,
+  type PurchasesPackage,
 } from "react-native-purchases";
 import { useRevenueCat } from "../../../context/revenue-cat-provider";
 import { displayErrorToastMessage } from "../../../utils/toast-utils";

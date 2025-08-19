@@ -1,5 +1,4 @@
 import LogoSVG from "assets/images/empty-cart.svg";
-import React from "react";
 import { View } from "react-native";
 import { Text } from "../ui/text";
 

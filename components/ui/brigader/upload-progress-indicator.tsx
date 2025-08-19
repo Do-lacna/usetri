@@ -1,7 +1,7 @@
 // components/UploadProgressIndicator.tsx
-import React from "react";
+import type React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { UploadProgress } from "./use-background-upload";
+import type { UploadProgress } from "./use-background-upload";
 
 interface UploadProgressIndicatorProps {
   progress: UploadProgress;

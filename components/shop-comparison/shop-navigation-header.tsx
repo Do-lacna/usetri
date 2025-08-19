@@ -1,8 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
-import React from "react";
+import type React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { isArrayNotEmpty } from "~/lib/utils";
-import { HybridCartComparisonDto, ShopExtendedDto } from "~/network/model";
+import type { HybridCartComparisonDto, ShopExtendedDto } from "~/network/model";
 import { getShopLogo } from "~/utils/logo-utils";
 
 interface ShopNavigationHeaderProps {

@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import type { ReactElement } from "react";
+import { TouchableOpacity, type TouchableOpacityProps } from "react-native";
 
 interface IconButtonProps extends TouchableOpacityProps {
   children: ReactElement;

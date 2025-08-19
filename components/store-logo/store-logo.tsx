@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { Store } from "lucide-react-native";
-import React from "react";
-import { Image, StyleProp, View, ViewStyle } from "react-native";
+import { Image, type StyleProp, View, type ViewStyle } from "react-native";
 import { SHOP_LOGOS } from "../../utils/logo-utils";
 
 export type PriceSummaryProps = {

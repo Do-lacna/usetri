@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useSettingsMenuItems } from "~/hooks/use-settings-menu-items";
 

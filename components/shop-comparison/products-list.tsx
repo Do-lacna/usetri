@@ -1,7 +1,7 @@
-import React from "react";
+import type React from "react";
 import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
-import { HybridCartComparisonDto } from "~/network/model";
+import type { HybridCartComparisonDto } from "~/network/model";
 import { MissingCategoryCard } from "./missing-category-card";
 import { MissingProductCard } from "./missing-product-card";
 import { ProductListItem } from "./product-list-item";

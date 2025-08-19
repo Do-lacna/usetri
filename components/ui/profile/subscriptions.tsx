@@ -1,5 +1,6 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import React, { useRef } from 'react';
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import type React from 'react';
+import { useRef } from 'react';
 import { displaySuccessToastMessage } from '~/utils/toast-utils';
 import { useRevenueCat } from '../../../context/revenue-cat-provider';
 import { CustomBottomSheetModal } from '../bottom-sheet-modal';
@@ -7,7 +8,7 @@ import { Button } from '../button';
 import { Text } from '../text';
 import SubscriptionPaywall from '../usetri-paywall/usetri-paywall';
 
-export interface SavedCartCardProps {}
+export type SavedCartCardProps = {}
 
 const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   const subscriptionModalRef = useRef<BottomSheetModal>(null);

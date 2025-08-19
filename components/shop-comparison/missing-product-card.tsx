@@ -1,6 +1,6 @@
-import React from "react";
+import type React from "react";
 import { Image, Text, View } from "react-native";
-import { HybridCartComparisonProductDto } from "~/network/model";
+import type { HybridCartComparisonProductDto } from "~/network/model";
 
 interface MissingProductCardProps {
   product: HybridCartComparisonProductDto;

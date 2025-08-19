@@ -14,7 +14,7 @@ const resources = {
   },
 };
 
-let savedLanguage = "sk-SK"; // default to Slovak
+const savedLanguage = "sk-SK"; // default to Slovak
 
 // try {
 //   // Try to get saved language from AsyncStorage

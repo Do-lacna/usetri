@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import React from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { calculateDiscountPercentage } from "~/lib/number-utils";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import {
+import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
 } from "../../../network/model";

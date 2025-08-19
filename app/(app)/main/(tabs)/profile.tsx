@@ -1,7 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useQueryClient } from "@tanstack/react-query";
-
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,7 +11,7 @@ import { TotalSavedCard } from "../../../../components/ui/profile/total-saved-ca
 import { useSession } from "../../../../context/authentication-context";
 import { useDrawerMenu } from "../../../../hooks/use-drawer-menu";
 import { useGetArchivedCart } from "../../../../network/customer/customer";
-import { ShortArchivedCartDto } from "../../../../network/model";
+import type { ShortArchivedCartDto } from "../../../../network/model";
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();

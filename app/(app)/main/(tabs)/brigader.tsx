@@ -1,4 +1,4 @@
-import { Option } from "@rn-primitives/select";
+import type { Option } from "@rn-primitives/select";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import React, { useMemo } from "react";
@@ -13,7 +13,7 @@ import BrigaderProductRow from "../../../../components/ui/brigader/brigader-prod
 import { Button } from "../../../../components/ui/button";
 import {
   CustomSelect,
-  SelectOptionType,
+  type SelectOptionType,
 } from "../../../../components/ui/custom-select/custom-select";
 import { generateShopLocationNameBasedOnId } from "../../../../lib/utils";
 import { useGetShops } from "../../../../network/query/query";

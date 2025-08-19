@@ -1,7 +1,7 @@
 import { Award, TrendingUp } from "lucide-react-native";
-import React from "react";
+import type React from "react";
 import { Text, View } from "react-native";
-import { CartComparisonDto } from "~/network/model";
+import type { CartComparisonDto } from "~/network/model";
 
 interface PriceSummaryCardProps {
   selectedCart?: CartComparisonDto;
