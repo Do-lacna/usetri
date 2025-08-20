@@ -5,17 +5,6 @@ import type { ShopItemDto, ShopPriceDto } from "../../network/model";
 import { useGetShops } from "../../network/query/query";
 import { getShopLogo } from "../../utils/logo-utils";
 
-export interface IProduct {
-  id: string;
-  imageUrl?: string;
-  name?: string;
-  brand?: string;
-  amount?: string;
-  price?: string;
-  retailer_ids?: number[];
-  [key: string]: any; // Index signature
-}
-
 export interface IProductCardProps {
   product?: ShopItemDto;
   shopsPrices?: ShopPriceDto[] | null;
@@ -35,9 +24,11 @@ const SuggestedProductCard = ({
     detail: {
       name,
       brand,
-      amount,
       barcode,
-      unit,
+      unit_dto: {
+        normalized_amount: amount = "",
+        normalized_unit: unit = "",
+      } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,
     } = {},

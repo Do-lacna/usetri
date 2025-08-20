@@ -7,14 +7,14 @@ import { Text } from "../text";
 interface CartItemHeaderProps {
   image_url?: string | null;
   title?: string | null;
-  amount?: string | null;
+  amountUnit?: string | null;
   onDismiss?: () => void;
 }
 
 export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
   image_url,
   title,
-  amount,
+  amountUnit,
   onDismiss,
 }) => {
   return (
@@ -48,9 +48,9 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
         <Text className="text-xl font-bold flex-1 mr-3" numberOfLines={2}>
           {title || "Nezadaný názov"}
         </Text>
-        {amount && (
+        {amountUnit && (
           <Text className="text-md text-gray-500 text-right min-w-fit">
-            {amount}
+            {amountUnit}
           </Text>
         )}
       </View>

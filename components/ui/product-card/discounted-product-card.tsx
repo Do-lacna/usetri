@@ -6,21 +6,8 @@ import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
 } from "../../../network/model";
-import { useGetShops } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
 import { Badge } from "../badge";
-
-export interface IProduct {
-  id: string;
-  imageUrl?: string;
-  name?: string;
-  brand?: string;
-  amount?: string;
-  price?: string;
-  discount_price?: string; // Added discount_price to interface
-  retailer_ids?: number[];
-  [key: string]: any; // Index signature
-}
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
@@ -40,9 +27,11 @@ const DiscountedProductCard = ({
       image_url,
       name,
       brand,
-      amount,
       barcode,
-      unit,
+      unit_dto: {
+        normalized_amount: amount = "",
+        normalized_unit: unit = "",
+      } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
     } = {},
   } = { ...product };
@@ -57,8 +46,6 @@ const DiscountedProductCard = ({
     discount_price?.price
   );
   const hasDiscount = !!discount_price && percentageDiscount;
-
-  const { data: { shops = [] } = {} } = useGetShops();
 
   const renderPricing = () => {
     if (hasDiscount) {
@@ -119,12 +106,10 @@ const DiscountedProductCard = ({
           </View>
         </View>
 
-        {/* Amount/Unit Badge */}
         <Badge className="absolute top-2 bg-accent">
           <Text className="text-xs text-accent-foreground">{`${amount} ${unit}`}</Text>
         </Badge>
 
-        {/* Discount Badge - only show if there's a real discount */}
         {hasDiscount && (
           <Badge className="absolute top-2 right-2 bg-secondary-foreground">
             <Text className="text-xs text-white font-semibold">

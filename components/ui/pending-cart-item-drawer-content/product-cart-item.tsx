@@ -70,8 +70,10 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
       name = "",
       brand = "",
       image_url,
-      amount,
-      unit,
+      unit_dto: {
+        normalized_amount: amount = "",
+        normalized_unit: unit = "",
+      } = {},
       category: { image_url: categoryImageUrl } = {},
     } = {},
     shops_prices,
@@ -101,7 +103,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
         <CartItemHeader
           image_url={itemDetail.image_url}
           title={itemDetail.title}
-          amount={itemDetail.amount}
+          amountUnit={itemDetail.amount}
           onDismiss={onDismiss}
         />
 

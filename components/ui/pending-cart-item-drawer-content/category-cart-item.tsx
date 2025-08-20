@@ -71,7 +71,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
         <CartItemHeader
           image_url={categoryData?.image_url}
           title={categoryData?.name}
-          amount={null}
+          amountUnit={null}
           onDismiss={onDismiss}
         />
 

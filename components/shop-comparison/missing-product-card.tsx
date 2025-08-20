@@ -19,8 +19,7 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
     detail: {
       name,
       brand,
-      unit,
-      amount,
+      unit_dto: { normalized_amount: amount, normalized_unit: unit } = {},
       category: { id, image_url, name: categoryName } = {},
     } = {},
     price = 0,

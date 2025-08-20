@@ -17,15 +17,6 @@ import {
 import type { CartComparisonDto } from "../../../network/model";
 import { Button } from "../button";
 
-// Types
-interface GroceryItem {
-  id: string;
-  name: string;
-  brand: string;
-  amount: string;
-  price: number;
-}
-
 const ReceiptScreen: React.FC<
   CartComparisonDto & { actionsExecutable?: boolean }
 > = ({
