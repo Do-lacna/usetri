@@ -40,7 +40,7 @@ const SuggestedProductCard = ({
 
   return (
     <Pressable
-      className={clsx("w-32 mr-20 last:mr-0 flex-1", className)}
+      className={clsx("w-32 mr-4 flex-1", className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View

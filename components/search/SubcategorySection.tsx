@@ -24,7 +24,6 @@ export function SubcategorySection({
       product={item}
       shopsPrices={item?.shops_prices}
       onPress={(barcode, categoryId) => onProductPress(barcode, categoryId)}
-      className="mr-3"
     />
   );
 
