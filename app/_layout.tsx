@@ -78,6 +78,14 @@ export default function RootLayout() {
       if (Platform.OS === "web") {
         // Adds the background color to the html element to prevent white background on overscroll.
         document.documentElement.classList.add("bg-background");
+        // Apply dark class to html element for proper CSS variable switching
+        if (isDarkColorScheme) {
+          document.documentElement.classList.add("dark");
+          document.documentElement.classList.remove("light");
+        } else {
+          document.documentElement.classList.add("light");
+          document.documentElement.classList.remove("dark");
+        }
       }
       if (!theme) {
         setTheme(colorScheme);
@@ -116,7 +124,9 @@ export default function RootLayout() {
         <SessionProvider>
           <GestureHandlerRootView>
             <BottomSheetModalProvider>
-              <ThemeProvider value={LIGHT_THEME}>
+              <ThemeProvider
+                value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}
+              >
                 <SafeAreaProvider>
                   <Slot />
                 </SafeAreaProvider>

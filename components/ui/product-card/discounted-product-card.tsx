@@ -54,13 +54,15 @@ const DiscountedProductCard = ({
           <Text className="text-xs font-bold text-red-600 mr-1">
             {discount_price?.price} €
           </Text>
-          <Text className="text-xs text-gray-400 line-through">{price} €</Text>
+          <Text className="text-xs text-muted-foreground line-through">
+            {price} €
+          </Text>
         </View>
       );
     }
 
     // Regular price when no discount
-    return <Text className="text-sm font-bold">{price} €</Text>;
+    return <Text className="text-sm font-bold text-foreground">{price} €</Text>;
   };
 
   return (
@@ -68,7 +70,7 @@ const DiscountedProductCard = ({
       className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
-      <View className="bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10">
+      <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
         <View className="w-full h-32 rounded-lg relative">
           <Image
             source={{
@@ -122,10 +124,13 @@ const DiscountedProductCard = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs text-gray-600" numberOfLines={1}>
+              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
                 {brand}
               </Text>
-              <Text className="text-sm font-medium" numberOfLines={1}>
+              <Text
+                className="text-sm font-medium text-card-foreground"
+                numberOfLines={1}
+              >
                 {name}
               </Text>
               {renderPricing()}

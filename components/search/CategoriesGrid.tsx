@@ -19,7 +19,7 @@ export function CategoriesGrid({
     <View>
       {/* Categories title */}
       <View className="mt-6 mb-4 px-2">
-        <Text className="text-2xl font-bold text-gray-800">
+        <Text className="text-2xl font-bold text-foreground">
           Kategórie produktov
         </Text>
       </View>

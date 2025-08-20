@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { X } from "~/lib/icons/Cancel";
 import { Search } from "~/lib/icons/Search";
-import { useTailwindColors } from "../../hooks/use-tailwind-colors";
+import { useColorScheme } from "~/lib/useColorScheme";
 import { Text } from "./text";
 
 export interface ISearchBarProps<T> {
@@ -41,11 +41,15 @@ const SearchBar = <T,>({
   onBlur,
   ...props
 }: ISearchBarProps<T>) => {
-  const colors = useTailwindColors();
+  const { isDarkColorScheme } = useColorScheme();
+
+  // Theme-aware placeholder color
+  const placeholderColor = isDarkColorScheme ? "#9CA3AF" : "#6B7280";
+
   return (
     <View className="relative z-10 w-full flex-shrink">
-      <View className="bg-white px-4 py-2 rounded-t-lg shadow-md flex-row items-center justify-center h-16">
-        <Search size={20} className="text-gray-600 mr-3" />
+      <View className="bg-card px-4 py-2 rounded-t-lg shadow-md flex-row items-center justify-center h-16 border border-border">
+        <Search size={20} className="text-muted-foreground mr-3" />
         <TextInput
           {...props}
           value={searchText}
@@ -53,8 +57,8 @@ const SearchBar = <T,>({
           onBlur={onBlur}
           onChangeText={onSearch}
           placeholder={placeholder}
-          placeholderTextColor={colors.gray[500]} // Darker gray color
-          className="flex-1 text-gray-800 text-lg leading-normal"
+          placeholderTextColor={placeholderColor}
+          className="flex-1 text-foreground text-lg leading-normal"
           autoComplete="off"
           autoCorrect={false}
         />
@@ -66,7 +70,7 @@ const SearchBar = <T,>({
       </View>
       {displaySearchOptions && (
         <View
-          className={`absolute top-16 left-0 right-0 bg-white rounded-b-lg shadow-sm max-h-60 border-t border-gray-100 z-20`}
+          className={`absolute top-16 left-0 right-0 bg-card rounded-b-lg shadow-sm max-h-60 border-t border-border z-20`}
           style={{
             ...(searchText
               ? {
@@ -87,7 +91,7 @@ const SearchBar = <T,>({
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => onOptionSelect?.(item)}
-                className="px-4 py-4 border-b border-gray-200"
+                className="px-4 py-4 border-b border-border"
               >
                 {renderOption?.(item)}
               </TouchableOpacity>
@@ -96,7 +100,9 @@ const SearchBar = <T,>({
             keyboardShouldPersistTaps="handled"
             ListEmptyComponent={
               searchText?.length >= minimumSearchLength ? (
-                <Text className="p-4 text-lg">Žiadne výsledky</Text>
+                <Text className="p-4 text-lg text-muted-foreground">
+                  Žiadne výsledky
+                </Text>
               ) : null
             }
           />

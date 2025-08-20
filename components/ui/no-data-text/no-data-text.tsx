@@ -7,7 +7,7 @@ const NoDataText = React.forwardRef<TextRef, SlottableTextProps>(
   ({ className, ...props }, ref) => {
     return (
       <Text
-        className={cn("text-lg font-semibold text-gray-600", className)}
+        className={cn("text-lg font-semibold text-muted-foreground", className)}
         ref={ref}
         {...props}
       />

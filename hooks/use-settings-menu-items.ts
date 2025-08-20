@@ -12,6 +12,9 @@ export interface MenuItem {
   id: string;
   label: string;
   onPress: () => void;
+  icon?: React.ComponentType<any>;
+  iconRight?: React.ComponentType<any>;
+  isThemeToggle?: boolean;
 }
 
 export interface MenuSection {
@@ -69,6 +72,12 @@ export const useSettingsMenuItems = () => {
       id: "aplikacia",
       title: "Aplikácia",
       items: [
+        {
+          id: "tema",
+          label: "Téma",
+          onPress: () => {}, // Will be handled by the switch component
+          isThemeToggle: true,
+        },
         {
           id: "preferencie",
           label: "Preferencie",

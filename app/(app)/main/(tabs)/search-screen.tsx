@@ -84,7 +84,7 @@ export default function SearchScreen() {
           options={[]}
           onOptionSelect={(option) => console.log("Option selected:", option)}
           renderOption={(item) => (
-            <Text className="text-gray-800 text-lg">{item?.name}</Text>
+            <Text className="text-foreground text-lg">{item?.name}</Text>
           )}
           keyExtractor={(item) => String(item.barcode)}
         />
