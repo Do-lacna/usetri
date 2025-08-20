@@ -48,7 +48,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     item: { name, id, image_url } = {},
   }: ListRenderItemInfo<AddCategoryExtendedWithPathDto>) => (
     <Pressable onPress={() => onCategorySelect?.(Number(id))}>
-      <Card className="flex flex-row items-center bg-divider p-2">
+      <Card className="flex flex-row items-center bg-muted p-2">
         {!!image_url && (
           <Image
             source={{ uri: image_url as string }}
@@ -69,7 +69,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
   return (
     <View>
       {searchResults.length > 0 && (
-        <Text className="text-lg font-bold mx-2">
+        <Text className="text-lg font-bold mx-2 text-foreground">
           Najlacnejšia varianta (kategória)
         </Text>
       )}

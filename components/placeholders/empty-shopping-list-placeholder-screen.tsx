@@ -11,7 +11,7 @@ const EmptyShoppingListPlaceholderScreen = () => {
         resizeMode="contain"
       /> */}
       <LogoSVG width={"100%"} height={150} />
-      <Text className="text-2xl w-3/4 text-center text-primary-background">
+      <Text className="text-2xl w-3/4 text-center text-muted-foreground">
         Tvoj nákupný zoznam je prázdny
       </Text>
     </View>

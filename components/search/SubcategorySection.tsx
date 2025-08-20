@@ -1,4 +1,3 @@
-
 import { FlatList, Text, View } from "react-native";
 import type {
   CategoryDto,
@@ -31,14 +30,14 @@ export function SubcategorySection({
 
   const renderSkeleton = ({ index }: { index: number }) => (
     <View key={index} className="w-32 mr-3">
-      <Skeleton className="w-full h-32 bg-gray-200 rounded-lg" />
+      <Skeleton className="w-full h-32 bg-card rounded-lg" />
     </View>
   );
 
   return (
     <View className="mb-6">
       {/* Subcategory title */}
-      <Text className="text-lg font-semibold text-gray-800 mb-3 px-4">
+      <Text className="text-lg font-semibold text-foreground mb-3 px-4">
         {subcategory.name}
       </Text>
 
@@ -57,7 +56,7 @@ export function SubcategorySection({
           contentContainerStyle={{ paddingHorizontal: 16 }}
         />
       ) : (
-        <Text className="text-gray-500 text-center py-4 px-4">
+        <Text className="text-muted-foreground text-center py-4 px-4">
           Žiadne produkty v tejto kategórii
         </Text>
       )}

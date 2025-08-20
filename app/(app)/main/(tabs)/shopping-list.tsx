@@ -57,7 +57,6 @@ export default function ShoppingList() {
   const {
     handleAddCategoryToCart,
     handleAddProductToCart,
-    handleRemoveItemFromCart,
     handleChooseProductFromCategory,
     handleUpdateProductQuantity,
     handleUpdateCategoryQuantity,
@@ -122,7 +121,7 @@ export default function ShoppingList() {
   return (
     <SafeAreaView
       edges={["left", "top", "right"]}
-      className="flex-1 content-center bg-gray-50"
+      className="flex-1 content-center bg-background"
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
         <PendingCartItemDrawerContent
@@ -133,12 +132,6 @@ export default function ShoppingList() {
         />
       </CustomBottomSheetModal>
 
-      {/* <CustomBottomSheetModal ref={bottomSheetRef}>
-        <ShoppingListFilterContent
-          currentFilter={filter}
-          onFilterChange={handleFilterChange}
-        />
-      </CustomBottomSheetModal> */}
       <TouchableWithoutFeedback
         onPress={() => Keyboard.dismiss()}
         className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}
@@ -163,7 +156,7 @@ export default function ShoppingList() {
                   setIsTextInputFocused(false);
                 }}
               >
-                <Text className="text-terciary">Zruš</Text>
+                <Text className="text-primary">Zruš</Text>
               </Button>
             )}
           </View>

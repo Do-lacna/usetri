@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clickable Popularity Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #f4f7f9;
+      }
+      h1 {
+        color: #333;
+      }
+      #chartContainer {
+        width: 80%;
+        max-width: 700px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      #resultsContainer {
+        margin-top: 20px;
+        width: 80%;
+        max-width: 700px;
+      }
+      #results {
+        list-style-type: none;
+        padding: 0;
+      }
+      #results li {
+        background-color: #e9f5ff;
+        border: 1px solid #bde0ff;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+      }
+      /* Make the chart bars look clickable */
+      canvas {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Category Popularity</h1>
+    <div id="chartContainer">
+      <canvas id="popularityChart"></canvas>
+    </div>
+
+    <div id="resultsContainer">
+      <h2 id="resultsTitle">Click a bar to see categories...</h2>
+      <ul id="results"></ul>
+    </div>
+
+    <script>
+      // 1. Your raw data (Category and its Popularity)
+      const categoryData = [
+        { category: "Electronics", popularity: 5 },
+        { category: "Books", popularity: 4 },
+        { category: "Home Goods", popularity: 5 },
+        { category: "Apparel", popularity: 3 },
+        { category: "Sports", popularity: 4 },
+        { category: "Toys", popularity: 3 },
+        { category: "Groceries", popularity: 5 },
+        { category: "Automotive", popularity: 2 },
+        { category: "Music", popularity: 4 },
+        { category: "Garden", popularity: 2 },
+      ];
+
+      // 2. Process the data to count items per popularity level
+      const popularityCounts = categoryData.reduce((acc, item) => {
+        acc[item.popularity] = (acc[item.popularity] || 0) + 1;
+        return acc;
+      }, {});
+
+      const chartLabels = Object.keys(popularityCounts); // e.g., ['2', '3', '4', '5']
+      const chartData = Object.values(popularityCounts); // e.g., [2, 2, 3, 3]
+
+      // 3. Get the HTML elements
+      const ctx = document.getElementById("popularityChart").getContext("2d");
+      const resultsTitle = document.getElementById("resultsTitle");
+      const resultsList = document.getElementById("results");
+
+      // 4. Create the chart
+      const myChart = new Chart(ctx, {
+        type: "bar", // The type of chart
+        data: {
+          labels: chartLabels,
+          datasets: [
+            {
+              label: "# of Categories",
+              data: chartData,
+              backgroundColor: "rgba(54, 162, 235, 0.6)",
+              borderColor: "rgba(54, 162, 235, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1, // Ensure y-axis increments by whole numbers
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false, // Hide the legend as it's not needed
+            },
+            tooltip: {
+              enabled: true, // Show default tooltip on hover
+            },
+          },
+          // THIS IS THE IMPORTANT PART - THE CLICK EVENT
+          onClick: (event, elements) => {
+            if (elements.length === 0) return; // Exit if the click was not on a bar
+
+            const firstElement = elements[0];
+            const clickedPopularity = myChart.data.labels[firstElement.index];
+
+            // Filter the original data to find all categories with the clicked popularity
+            const matchingCategories = categoryData.filter(
+              (item) => item.popularity == clickedPopularity
+            );
+
+            // Update the title and list
+            resultsTitle.innerText = `Categories with Popularity ${clickedPopularity}:`;
+            resultsList.innerHTML = ""; // Clear previous results
+
+            matchingCategories.forEach((item) => {
+              const li = document.createElement("li");
+              li.textContent = item.category;
+              resultsList.appendChild(li);
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -28,7 +28,7 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   const shopName = getShopById(shopId, shops ?? [])?.name;
 
   return (
-    <Card className="w-full bg-divider mb-4">
+    <Card className="w-full bg-card mb-4 border border-border">
       <TouchableOpacity
         onPress={() => router.navigate(`/main/archived-cart/${id}`)}
         className="p-4 rounded-xl shadow-sm relative overflow-hidden"
@@ -40,18 +40,18 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
         <View className="ml-12 flex-row items-center justify-between space-x-2">
           <View className="flex-1">
             <Text
-              className="font-semibold text-lg mb-1"
+              className="font-semibold text-lg mb-1 text-card-foreground"
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               Nákup v {shopName}
             </Text>
-            <Text className="text-gray-600 text-sm">
+            <Text className="text-muted-foreground text-sm">
               {format(createdDate, DATE_FORMAT)}
             </Text>
           </View>
           <View className="flex flex-col items-center">
-            <Text className="text-lg font-bold">{totalPrice.toFixed(2)} €</Text>
+            <Text className="text-lg font-bold text-card-foreground">{totalPrice.toFixed(2)} €</Text>
             <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
               <Text className="text-xs font-medium text-green-700">
                 Ušetrené {savedAmount.toFixed(2)} €

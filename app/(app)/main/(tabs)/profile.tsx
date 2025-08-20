@@ -49,7 +49,7 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView
-      className="flex-1 bg-gray-50"
+      className="flex-1 bg-background"
       // edges={["bottom", "left", "right"]}
     >
       <ScrollView
@@ -118,10 +118,10 @@ export default function ProfileScreen() {
 
         <View className="mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-lg font-semibold text-gray-900">
+            <Text className="text-lg font-semibold text-foreground">
               História nákupov
             </Text>
-            <Text className="text-sm text-gray-500">
+            <Text className="text-sm text-muted-foreground">
               {t("nakup", { count: archived_carts?.length ?? 0 })}
             </Text>
           </View>
@@ -129,12 +129,12 @@ export default function ProfileScreen() {
           {(archived_carts ?? []).length > 0 ? (
             archived_carts?.map(renderShopCardCart)
           ) : (
-            <View className="bg-white rounded-2xl p-8 items-center shadow-sm border border-gray-100">
+            <View className="bg-card rounded-2xl p-8 items-center shadow-sm border border-border">
               <Ionicons name="receipt-outline" size={48} color="#D1D5DB" />
-              <Text className="text-gray-500 text-center mt-4 text-base">
+              <Text className="text-muted-foreground text-center mt-4 text-base">
                 Žiadne nákupné zoznamy
               </Text>
-              <Text className="text-gray-400 text-center mt-2 text-sm">
+              <Text className="text-muted-foreground text-center mt-2 text-sm opacity-75">
                 Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli
                 koľko ušetríte
               </Text>

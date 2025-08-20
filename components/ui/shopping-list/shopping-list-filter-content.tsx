@@ -40,7 +40,9 @@ function RadioGroupItemWithLabel({
         <Label nativeID={`label-for-${value}`} className="text-xl">
           {label}
         </Label>
-        {description && <Text className="text-gray-500">{description}</Text>}
+        {description && (
+          <Text className="text-muted-foreground">{description}</Text>
+        )}
       </View>
     </Pressable>
   );

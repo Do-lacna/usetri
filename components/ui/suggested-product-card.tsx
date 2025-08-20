@@ -45,7 +45,7 @@ const SuggestedProductCard = ({
     >
       <View
         className={clsx(
-          "bg-gray-50 rounded-xl p-2 shadow-sm shadow-foreground/10",
+          "bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 border border-border",
           isSelected ? "border-2 border-primary" : ""
         )}
       >
@@ -87,17 +87,22 @@ const SuggestedProductCard = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs text-gray-600" numberOfLines={1}>
+              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
                 {brand}
               </Text>
-              <Text className="text-sm font-medium" numberOfLines={1}>
+              <Text
+                className="text-sm font-medium text-card-foreground"
+                numberOfLines={1}
+              >
                 {name}
               </Text>
-              <Text className="text-xs text-gray-500">
+              <Text className="text-xs text-muted-foreground">
                 {amount} {unit}
               </Text>
             </View>
-            <Text className="text-sm font-bold">{lowestPrice} €</Text>
+            <Text className="text-sm font-bold text-card-foreground">
+              {lowestPrice} €
+            </Text>
           </View>
         </View>
       </View>

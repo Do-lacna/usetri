@@ -1,5 +1,4 @@
 import { Link, router } from "expo-router";
-import { ArrowDown } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Dimensions, Pressable, Text, View } from "react-native";
 import Animated, {
@@ -9,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { ArrowDown } from "~/lib/icons/ArrowDown";
 import { useGetHybridCart } from "../../network/hybrid-cart/hybrid-cart";
 import IconButton from "../icon-button";
 
@@ -103,7 +103,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
                 )
               }
             >
-              <ArrowDown size={20} />
+              <ArrowDown size={20} className="text-foreground" />
             </IconButton>
           </View>
         </View>

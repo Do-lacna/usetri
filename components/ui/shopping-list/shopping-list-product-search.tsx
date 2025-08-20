@@ -30,7 +30,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
 
   if (!(searchQuery?.length >= 2)) {
     return (
-      <Text className="mt-8 flex-1 flex items-center justify-center text-center text-gray-500 font-semibold w-[80%] mx-auto">
+      <Text className="mt-8 flex-1 flex items-center justify-center text-center text-muted-foreground font-semibold w-[80%] mx-auto">
         Začni písať pre vyhľadanie kategórie alebo produktu
       </Text>
     );
@@ -39,7 +39,9 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
   return (
     <>
       {(searchProducts ?? []).length > 0 && (
-        <Text className="text-lg font-bold mx-2">Konkrétne produkty</Text>
+        <Text className="text-lg font-bold mx-2 text-foreground">
+          Konkrétne produkty
+        </Text>
       )}
       <FlatList
         data={searchProducts}

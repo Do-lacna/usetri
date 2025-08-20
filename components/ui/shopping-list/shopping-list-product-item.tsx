@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
+import { useColorScheme } from "../../../lib/useColorScheme";
 import type { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
@@ -27,6 +28,12 @@ const ShoppingListProductItem: React.FC<{
   isExpanded: externalIsExpanded,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { isDarkColorScheme } = useColorScheme();
+
+  // Theme-aware colors
+  const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
+  const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
+
   const {
     product: {
       barcode,
@@ -75,7 +82,7 @@ const ShoppingListProductItem: React.FC<{
   return (
     <View
       //   style={{ transform: [{ scale: scaleAnim }] }}
-      className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100"
+      className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border"
     >
       <TouchableOpacity
         onPress={() => setIsExpanded((expanded) => !expanded)}
@@ -86,7 +93,7 @@ const ShoppingListProductItem: React.FC<{
             <View className="relative mr-2">
               <Image
                 source={{ uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE }}
-                className="w-16 h-16 rounded-lg bg-gray-100"
+                className="w-16 h-16 rounded-lg bg-muted"
                 resizeMode="cover"
               />
             </View>
@@ -94,12 +101,15 @@ const ShoppingListProductItem: React.FC<{
               <View className="flex-row items-start justify-between mb-1">
                 <View className="flex-1 pr-2">
                   <Text
-                    className="text-gray-900 font-semibold text-base"
+                    className="text-card-foreground font-semibold text-base"
                     numberOfLines={1}
                   >
                     {name}
                   </Text>
-                  <Text className="text-gray-600 text-sm" numberOfLines={1}>
+                  <Text
+                    className="text-muted-foreground text-sm"
+                    numberOfLines={1}
+                  >
                     {brand} • {amount} {unit}
                   </Text>
                 </View>
@@ -107,11 +117,11 @@ const ShoppingListProductItem: React.FC<{
 
               <View className="flex-row items-center justify-between">
                 <View className="flex-row gap-2 items-center">
-                  <Text className="text-gray-900 font-bold text-lg">
+                  <Text className="text-card-foreground font-bold text-lg">
                     {totalPrice}€
                   </Text>
                   {quantity > 1 && (
-                    <Text className="text-gray-500 text-xs">
+                    <Text className="text-muted-foreground text-xs">
                       ({price.toFixed(2)} € / kus)
                     </Text>
                   )}
@@ -151,7 +161,7 @@ const ShoppingListProductItem: React.FC<{
                 ))}
               </View>
             </View>
-            <View className="flex-row items-center bg-gray-50 rounded-full">
+            <View className="flex-row items-center bg-muted rounded-full">
               <TouchableOpacity
                 onPress={decrementQuantity}
                 className="p-2"
@@ -160,19 +170,16 @@ const ShoppingListProductItem: React.FC<{
                 {quantity <= 1 ? (
                   <Trash2 size={18} color="#ef4444" />
                 ) : (
-                  <Minus
-                    size={16}
-                    color={quantity <= 1 ? "#d1d5db" : "#374151"}
-                  />
+                  <Minus size={16} color={iconColor} />
                 )}
               </TouchableOpacity>
 
-              <Text className="px-3 py-1 text-gray-900 font-medium min-w-[32px] text-center">
+              <Text className="px-3 py-1 text-foreground font-medium min-w-[32px] text-center">
                 {item.quantity}
               </Text>
 
               <TouchableOpacity onPress={incrementQuantity} className="p-2">
-                <Plus size={16} color="#374151" />
+                <Plus size={16} color={iconColor} />
               </TouchableOpacity>
             </View>
           </View>
@@ -181,7 +188,7 @@ const ShoppingListProductItem: React.FC<{
       {isExpanded &&
         (isLoading ? (
           <View className="h-20 justify-center items-center">
-            <ActivityIndicator color="#1F2937" />
+            <ActivityIndicator color={activityIndicatorColor} />
           </View>
         ) : (
           <ScrollView

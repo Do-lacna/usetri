@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import type React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useColorScheme } from "../../../lib/useColorScheme";
 
 interface ProfileHeaderProps {
   userEmail?: string | null;
@@ -13,19 +14,27 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   userEmail = "user@example.com",
   userImage,
 }) => {
+  const { colorScheme } = useColorScheme();
+  const iconColor = colorScheme === "dark" ? "#9CA3AF" : "#6B7280";
+  const settingsIconColor = colorScheme === "dark" ? "#F3F4F6" : "#374151";
+
   return (
-    <View className="relative overflow-hidden bg-white">
+    <View className="relative overflow-hidden bg-background">
       {/* Subtle Gradient Background */}
       <LinearGradient
-        colors={["#f8fafc", "#e2e8f0"]}
+        colors={
+          colorScheme === "dark" 
+            ? ["#1f2937", "#374151"] 
+            : ["#f8fafc", "#e2e8f0"]
+        }
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         className="absolute inset-0"
       />
 
       {/* Decorative Elements */}
-      <View className="absolute -top-10 -right-10 w-32 h-32 bg-gray-100/50 rounded-full" />
-      <View className="absolute -bottom-5 -left-5 w-20 h-20 bg-gray-50/80 rounded-full" />
+      <View className="absolute -top-10 -right-10 w-32 h-32 bg-muted/20 rounded-full" />
+      <View className="absolute -bottom-5 -left-5 w-20 h-20 bg-muted/30 rounded-full" />
 
       {/* Content Container */}
       <View className="flex-row items-center justify-between px-6 py-8 pt-12">
@@ -33,7 +42,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         <View className="flex-row items-center flex-1">
           {/* Profile Image */}
           <View className="relative">
-            <View className="w-16 h-16 rounded-full bg-gray-100 border-2 border-gray-200 overflow-hidden">
+            <View className="w-16 h-16 rounded-full bg-muted border-2 border-border overflow-hidden">
               {userImage ? (
                 <Image
                   source={{ uri: userImage }}
@@ -41,22 +50,22 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   resizeMode="cover"
                 />
               ) : (
-                <View className="w-full h-full bg-gray-100 items-center justify-center">
-                  <Ionicons name="person" size={24} color="#6b7280" />
+                <View className="w-full h-full bg-muted items-center justify-center">
+                  <Ionicons name="person" size={24} color={iconColor} />
                 </View>
               )}
             </View>
             {/* Online Status Indicator */}
-            <View className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white" />
+            <View className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background" />
           </View>
 
           {/* User Info */}
           <View className="ml-4 flex-1">
-            <Text className="text-gray-500 text-sm font-medium mb-1">
+            <Text className="text-muted-foreground text-sm font-medium mb-1">
               Vítaj späť
             </Text>
             <Text
-              className="text-gray-900 text-lg font-semibold"
+              className="text-foreground text-lg font-semibold"
               numberOfLines={1}
             >
               {userEmail}
@@ -71,10 +80,10 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         >
           <TouchableOpacity
             //   onPress={onSettingsPress}
-            className="w-12 h-12 bg-gray-50 rounded-full items-center justify-center border border-gray-200"
+            className="w-12 h-12 bg-card rounded-full items-center justify-center border border-border"
             activeOpacity={0.7}
           >
-            <Ionicons name="settings-outline" size={22} color="#374151" />
+            <Ionicons name="settings-outline" size={22} color={settingsIconColor} />
           </TouchableOpacity>
         </Link>
       </View>

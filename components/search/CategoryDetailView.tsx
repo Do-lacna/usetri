@@ -28,7 +28,7 @@ export function CategoryDetailView({
       />
 
       {/* Subcategories with their products */}
-      <ScrollView className="bg-gray-50">
+      <ScrollView className="bg-background">
         {selectedCategory?.children && selectedCategory.children.length > 0 ? (
           selectedCategory.children.map((subcategory) => (
             <SubcategorySection
