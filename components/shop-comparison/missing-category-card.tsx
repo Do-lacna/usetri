@@ -17,15 +17,15 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
 }) => {
   const { id, image_url, name: categoryName } = category || {};
 
-  const borderClass = index < totalItems - 1 ? "border-b border-gray-100" : "";
+  const borderClass = index < totalItems - 1 ? "border-b border-border" : "";
 
   return (
-    <View className={`p-4 bg-orange-50 ${borderClass}`}>
+    <View className={`p-4 bg-amber-50 dark:bg-amber-950/20 ${borderClass}`}>
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <View className="flex-row items-center mb-1">
             {/* Missing indicator icon */}
-            <View className="w-3 h-3 bg-orange-500 rounded-full mr-2" />
+            <View className="w-3 h-3 bg-amber-500 rounded-full mr-2" />
 
             {/* Category image if available */}
             {!!image_url && (
@@ -36,29 +36,29 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
               />
             )}
 
-            <Text className="text-base font-medium text-gray-700 line-through">
+            <Text className="text-base font-medium text-muted-foreground line-through">
               {categoryName}
             </Text>
           </View>
 
-          <Text className="text-sm text-gray-500 ml-5">
+          <Text className="text-sm text-muted-foreground ml-5">
             Category not available
           </Text>
 
           {/* Shop name if provided */}
           {shopName && (
-            <Text className="text-xs text-orange-600 mt-1 ml-5">
+            <Text className="text-xs text-amber-600 mt-1 ml-5">
               Not available at {shopName}
             </Text>
           )}
         </View>
 
         <View className="items-end ml-4">
-          <View className="bg-orange-100 px-2 py-1 rounded">
-            <Text className="text-sm font-medium text-orange-700">Missing</Text>
+          <View className="bg-amber-100 dark:bg-amber-950/40 px-2 py-1 rounded">
+            <Text className="text-sm font-medium text-amber-700 dark:text-amber-400">Missing</Text>
           </View>
 
-          <Text className="text-xs text-gray-400 mt-1">Category</Text>
+          <Text className="text-xs text-muted-foreground mt-1">Category</Text>
         </View>
       </View>
     </View>

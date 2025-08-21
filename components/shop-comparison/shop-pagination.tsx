@@ -24,7 +24,7 @@ export const ShopPagination: React.FC<ShopPaginationProps> = ({
           key={shop?.id}
           onPress={() => onGoToShop(index)}
           className={`w-3 h-3 rounded-full mr-1 ${
-            index === currentCartIndex ? "bg-terciary" : "bg-gray-300"
+            index === currentCartIndex ? "bg-primary" : "bg-terciary"
           }`}
         />
       ))}

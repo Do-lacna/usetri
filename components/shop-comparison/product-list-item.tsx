@@ -36,7 +36,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   } = product;
 
   const borderClass =
-    index < totalProducts - 1 ? "border-b border-gray-100" : "";
+    index < totalProducts - 1 ? "border-b border-border" : "";
 
   const displayFlippableCard =
     type &&
@@ -48,34 +48,39 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     ).includes(type);
 
   const frontContent = (
-    <View className={`p-4 bg-white ${borderClass}`}>
-      <View className="flex-row items-center justify-between">
-        <View className="flex-1">
-          <Text className="text-base font-medium text-gray-900">{name}</Text>
-          <Text className="text-sm text-gray-500">
+    <View className={`p-4 bg-card ${borderClass}`}>
+      <View className="flex-row items-center justify-between min-h-[60px]">
+        <View className="flex-1 pr-4">
+          <Text 
+            className="text-base font-medium text-foreground leading-5"
+            numberOfLines={2}
+          >
+            {name}
+          </Text>
+          <Text className="text-sm text-muted-foreground mt-1">
             {amount} {unit}
           </Text>
         </View>
 
-        <View className="items-end ml-4">
-          <Text className="text-base font-semibold text-gray-900">
+        <View className="items-end flex-shrink-0">
+          <Text className="text-base font-semibold text-foreground">
             {(price * quantity).toFixed(2)} €
           </Text>
           {quantity > 1 && (
-            <Text className="text-xs text-gray-500">
+            <Text className="text-xs text-muted-foreground">
               {quantity} x {price.toFixed(2)} €
             </Text>
           )}
         </View>
-        <RefreshCw size={18} className="ml-4 mr-2 text-terciary" />
+        <RefreshCw size={18} className="ml-4 mr-2 text-terciary flex-shrink-0" />
       </View>
     </View>
   );
 
   const backContent = displayFlippableCard ? (
-    <View className={`p-4 bg-white ${borderClass}`}>
-      <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center">
+    <View className={`p-4 bg-card ${borderClass}`}>
+      <View className="flex-row items-center justify-between min-h-[60px]">
+        <View className="flex-row items-center flex-1 pr-4">
           {!!image_url && (
             <Image
               source={{ uri: image_url as string }}
@@ -83,24 +88,25 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
               className="w-8 h-8 mr-2"
             />
           )}
-          <Text className="text-base font-medium text-gray-900">
+          <Text 
+            className="text-base font-medium text-foreground flex-1 leading-5"
+            numberOfLines={2}
+          >
             {categoryName}
           </Text>
         </View>
 
-        <View className="flex-row items-center justify-between">
-          <View className="items-end ml-4">
-            <Text className="text-base font-semibold text-gray-900">
-              {(price * quantity).toFixed(2)} €
+        <View className="items-end flex-shrink-0">
+          <Text className="text-base font-semibold text-foreground">
+            {(price * quantity).toFixed(2)} €
+          </Text>
+          {quantity > 1 && (
+            <Text className="text-xs text-muted-foreground">
+              {quantity} x {price.toFixed(2)} €
             </Text>
-            {quantity > 1 && (
-              <Text className="text-xs text-gray-500">
-                {quantity} x {price.toFixed(2)} €
-              </Text>
-            )}
-          </View>
-          <RefreshCw size={18} className="ml-4 mr-2 text-terciary" />
+          )}
         </View>
+        <RefreshCw size={18} className="ml-4 mr-2 text-terciary flex-shrink-0" />
       </View>
     </View>
   ) : null;

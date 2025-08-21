@@ -31,9 +31,9 @@ const ShopComparisonScreen: React.FC = () => {
 
   if ((!carts || carts?.length === 0) && !isLoading) {
     return (
-      <SafeAreaView className="flex-1 bg-gray-50">
+      <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 items-center justify-center">
-          <Text className="text-lg text-gray-600">
+          <Text className="text-lg text-muted-foreground">
             Vami zvolené produkty sa nenachádzajú v žiadnom obchode
           </Text>
         </View>
@@ -42,9 +42,9 @@ const ShopComparisonScreen: React.FC = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <View className="bg-green-50 px-4 py-6 border-b border-gray-200">
+        <View className="bg-secondary px-4 py-6 border-b border-border">
           <ShopNavigationHeader
             currentShop={currentShop}
             carts={carts}

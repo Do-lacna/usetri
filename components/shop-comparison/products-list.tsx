@@ -19,8 +19,8 @@ export const ProductsList: React.FC<ProductsListProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <View className="bg-white mt-4 rounded-xl border border-gray-200 overflow-hidden">
-      <Text className="text-lg font-semibold text-gray-900 p-4 border-b border-gray-100">
+    <View className="bg-card mt-4 rounded-xl border border-border overflow-hidden">
+      <Text className="text-lg font-semibold text-foreground p-4 border-b border-border">
         {t("product-list", {
           count: selectedCart?.specific_products?.length ?? 0,
         })}

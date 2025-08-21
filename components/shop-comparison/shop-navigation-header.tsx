@@ -1,6 +1,7 @@
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import type React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
+import { ArrowLeft } from "~/lib/icons/ArrowLeft";
+import { ArrowRight } from "~/lib/icons/ArrowRight";
 import { isArrayNotEmpty } from "~/lib/utils";
 import type { HybridCartComparisonDto, ShopExtendedDto } from "~/network/model";
 import { getShopLogo } from "~/utils/logo-utils";
@@ -25,10 +26,10 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
       {areMoreCartsAvailable && (
         <TouchableOpacity
           onPress={onPrevShop}
-          className="p-2 rounded-full bg-white shadow-sm border border-gray-200"
+          className="p-2 rounded-full bg-card shadow-sm border border-border"
           disabled={!isArrayNotEmpty(carts)}
         >
-          <ChevronLeft size={20} color="#4B5563" />
+          <ArrowLeft size={20} className="text-foreground" />
         </TouchableOpacity>
       )}
 
@@ -43,10 +44,10 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
       {areMoreCartsAvailable && (
         <TouchableOpacity
           onPress={onNextShop}
-          className="p-2 rounded-full bg-white shadow-sm border border-gray-200"
+          className="p-2 rounded-full bg-card shadow-sm border border-border"
           disabled={!isArrayNotEmpty(carts)}
         >
-          <ChevronRight size={20} color="#4B5563" />
+          <ArrowRight size={20}  className="text-foreground"/>
         </TouchableOpacity>
       )}
     </View>

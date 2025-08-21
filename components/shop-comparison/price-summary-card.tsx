@@ -21,7 +21,7 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
   savingsVsMostExpensive,
 }) => {
   return (
-    <View className="bg-white rounded-xl p-4 border border-gray-200">
+    <View className="bg-card rounded-xl p-4 border border-border">
       <View className="flex-row items-center justify-between">
         <View>
           {isCurrentCheapest && (
@@ -52,8 +52,8 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
           )} */}
         </View>
         <View>
-          <Text className="text-sm text-gray-600 mb-1">Celková suma</Text>
-          <Text className="text-3xl font-bold text-gray-900">
+          <Text className="text-sm text-muted-foreground mb-1">Celková suma</Text>
+          <Text className="text-3xl font-bold text-foreground">
             {selectedCart?.total_price?.toFixed(2)} €
           </Text>
         </View>

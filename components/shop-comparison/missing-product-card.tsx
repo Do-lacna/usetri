@@ -27,21 +27,21 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
   } = product ?? {};
 
   const borderClass =
-    index < totalProducts - 1 ? "border-b border-gray-100" : "";
+    index < totalProducts - 1 ? "border-b border-border" : "";
 
   return (
-    <View className={`p-4 bg-red-50 ${borderClass}`}>
+    <View className={`p-4 bg-destructive/10 ${borderClass}`}>
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <View className="flex-row items-center mb-1">
             {/* Missing indicator icon */}
-            <View className="w-3 h-3 bg-red-500 rounded-full mr-2" />
-            <Text className="text-base font-medium text-gray-700 line-through">
+            <View className="w-3 h-3 bg-destructive rounded-full mr-2" />
+            <Text className="text-base font-medium text-muted-foreground line-through">
               {name}
             </Text>
           </View>
 
-          <Text className="text-sm text-gray-500 ml-5">
+          <Text className="text-sm text-muted-foreground ml-5">
             {amount} {unit}
           </Text>
 
@@ -55,7 +55,7 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
                   className="w-6 h-6 mr-2"
                 />
               )}
-              <Text className="text-sm text-terciary">
+              <Text className="text-sm text-primary">
                 Kategória : {categoryName}
               </Text>
             </View>
@@ -63,24 +63,24 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
 
           {/* Shop name if provided */}
           {shopName && (
-            <Text className="text-xs text-red-600 mt-1 ml-5">
+            <Text className="text-xs text-destructive mt-1 ml-5">
               Nedostupné v {shopName}
             </Text>
           )}
         </View>
 
         <View className="items-end ml-4">
-          <View className="bg-red-100 px-2 py-1 rounded">
-            <Text className="text-sm font-medium text-red-700">Nedostupné</Text>
+          <View className="bg-destructive/20 px-2 py-1 rounded">
+            <Text className="text-sm font-medium text-destructive">Nedostupné</Text>
           </View>
 
           {/* Original price for reference */}
-          <Text className="text-sm text-gray-400 line-through mt-1">
+          <Text className="text-sm text-muted-foreground line-through mt-1">
             {(price * quantity).toFixed(2)} €
           </Text>
 
           {quantity > 1 && (
-            <Text className="text-xs text-gray-400 line-through">
+            <Text className="text-xs text-muted-foreground line-through">
               {quantity} x {price.toFixed(2)} €
             </Text>
           )}

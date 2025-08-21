@@ -73,7 +73,7 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   // If flipping is disabled, render a simple view with just front content
   if (disableFlipping) {
     return (
-      <View style={style} className="h-18 py-1">
+      <View style={style} className="py-1">
         {frontContent}
       </View>
     );
@@ -84,15 +84,15 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
       onPress={hasInitialFlipped ? onFlip : undefined}
       style={style}
       disabled={!hasInitialFlipped} // Disable touch during initial animation
-      className="h-18 py-1"
+      className="py-1"
     >
-      <View style={{ position: "relative" }}>
+      <View style={{ position: "relative", minHeight: 'auto' }}>
         <Animated.View
           style={[
             frontAnimatedStyle,
             {
               backfaceVisibility: "hidden",
-              position: "absolute",
+              position: isFlipped ? "absolute" : "relative",
               top: 0,
               left: 0,
               right: 0,
@@ -107,6 +107,10 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
             backAnimatedStyle,
             {
               backfaceVisibility: "hidden",
+              position: isFlipped ? "relative" : "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
             },
           ]}
         >
