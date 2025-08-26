@@ -25,7 +25,7 @@ export const TERCIARY_HEX = "#034F4A";
 
 export const DIVIDER_HEX = "#ccdbda";
 
-export const NAVBAR_HEIGHT = Platform.OS === "ios" ? 80 : 60;
+export const NAVBAR_HEIGHT = Platform.OS === "ios" ? 80 : 70;
 
 export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 export const DATE_FORMAT = "dd.MM.yyyy";

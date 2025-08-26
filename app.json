@@ -73,13 +73,6 @@
         }
       ],
       [
-        "expo-camera",
-        {
-          "cameraPermission": "This app uses your camera to scan product barcodes and help you track your purchases",
-          "recordAudioAndroid": true
-        }
-      ],
-      [
         "react-native-vision-camera",
         {
           "cameraPermissionText": "This app uses your camera to scan product barcodes and help you track your purchases",

@@ -1,14 +1,22 @@
-import {
-  type BarcodeScanningResult,
-  CameraView as CameraViewExpo,
-  useCameraPermissions,
-} from "expo-camera";
 import { router } from "expo-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { runOnJS } from "react-native-reanimated";
+import {
+  Camera,
+  type CameraRuntimeError,
+  useCameraDevice,
+  useCameraFormat,
+  useCodeScanner,
+} from "react-native-vision-camera";
 import { X } from "~/lib/icons/Cancel";
 import IconButton from "../icon-button/icon-button";
 import { Button } from "../ui/button";
+
+export type BarcodeScanningResult = {
+  data: string;
+  type: string;
+};
 
 export type CameraViewProps = {
   onBarcodeScanned?: (data: BarcodeScanningResult) => void;
@@ -18,17 +26,61 @@ export default function BarcodeSearchCameraView({
   onBarcodeScanned,
 }: CameraViewProps) {
   const [barcode, setBarcode] = useState<string | null>(null);
-  const [permission, requestPermission] = useCameraPermissions();
+  const [hasPermission, setHasPermission] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
 
-  const cameraRef = useRef<any>(null);
+  const cameraRef = useRef<Camera>(null);
+  const device = useCameraDevice("back");
 
-  if (!permission) {
-    // Camera permissions are still loading.
-    return <View />;
-  }
+  const format = useCameraFormat(device, [
+    { photoResolution: { width: 1280, height: 720 } },
+  ]);
 
-  if (!permission.granted) {
+  // Request camera permission
+  useEffect(() => {
+    const requestCameraPermission = async () => {
+      const permission = await Camera.requestCameraPermission();
+      setHasPermission(permission === "granted");
+    };
+    
+    requestCameraPermission();
+  }, []);
+
+  // Barcode scanner configuration
+  const codeScanner = useCodeScanner({
+    codeTypes: [
+      "qr",
+      "ean-13",
+      "ean-8", 
+      "code-128",
+      "code-39",
+      "code-93",
+      "codabar",
+      "upc-a",
+      "upc-e",
+    ],
+    onCodeScanned: (codes) => {
+      if (codes.length > 0 && !barcode && isCameraReady) {
+        const code = codes[0];
+        const barcodeData = code.value || "";
+        
+        runOnJS(setBarcode)(barcodeData);
+        runOnJS(() => {
+          onBarcodeScanned?.({
+            data: barcodeData,
+            type: code.type || "unknown"
+          });
+        })();
+      }
+    },
+  });
+
+  // Handle camera errors
+  const onError = (error: CameraRuntimeError) => {
+    console.error("Camera error:", error);
+  };
+
+  if (!hasPermission) {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
@@ -37,60 +89,48 @@ export default function BarcodeSearchCameraView({
             To scan product barcodes, this app uses your device's camera
           </Text>
         </Text>
-        <Button onPress={requestPermission}>
+        <Button onPress={async () => {
+          const permission = await Camera.requestCameraPermission();
+          setHasPermission(permission === "granted");
+        }}>
           <Text>Continue</Text>
         </Button>
       </View>
     );
   }
 
+  if (!device) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>
+          No camera device found
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <CameraViewExpo
+      <Camera
         ref={cameraRef}
         style={styles.camera}
-        facing="back"
-        // barcodeScannerSettings={{
-        //   barcodeTypes: ["qr", "code128", "ean13", "ean8"],
-        // }}
-        onBarcodeScanned={
-          !!barcode || !isCameraReady
-            ? undefined
-            : (data) => {
-                setBarcode(data?.data);
-                onBarcodeScanned?.(data);
-              }
-        }
-        onCameraReady={() => setIsCameraReady(true)}
+        device={device}
+        format={format}
+        isActive={true}
+        codeScanner={!!barcode ? undefined : codeScanner}
+        onError={onError}
+        onInitialized={() => setIsCameraReady(true)}
       >
         <IconButton style={styles.cancelIcon} onPress={() => router.back()}>
           <X size={25} color="white" strokeWidth={2} />
         </IconButton>
         <View className="flex-1 bg-transparent relative mb-16">
-          {/* <LottieView
-            autoPlay
-            ref={animation}
-            style={{
-              width: 200,
-              height: 200,
-              backgroundColor: "#eee",
-            }}
-            // Find more Lottie files at https://lottiefiles.com/featured
-            source={checkAnimation}
-          /> */}
-          {/* <Button
-              className="absolute bottom-4 w-full"
-              onPress={takePicture}
-              disabled={!isCameraReady || !isBarcodeScanned}
-            >
-              <Text className="text-xl">Naskenuj</Text>
-            </Button> */}
           <Text className="text-lg text-gray-600 font-bold absolute bottom-4 w-full text-center">
             Naskenujte čiarový kód produktu a budete automaticky presmerovaný na
             daný produkt
           </Text>
         </View>
-      </CameraViewExpo>
+      </Camera>
     </View>
   );
 }

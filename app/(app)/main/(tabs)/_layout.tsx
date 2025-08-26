@@ -30,6 +30,7 @@ export default function TabLayout() {
         tabBarStyle: {
           height: NAVBAR_HEIGHT,
           paddingBottom: 5,
+          paddingTop: 5,
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: tabBarBackground,
