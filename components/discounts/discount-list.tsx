@@ -14,7 +14,7 @@ import {
   getDiscounts,
   getGetDiscountsQueryKey,
 } from "../../network/query/query";
-import DiscountedProductCard from "../ui/product-card/discounted-product-card";
+import DiscountedProductCard from "../product-card/discounted-product-card";
 import { Skeleton } from "../ui/skeleton";
 
 export interface IDiscountListProps {

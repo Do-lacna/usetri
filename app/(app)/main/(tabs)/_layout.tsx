@@ -5,7 +5,7 @@ import { BadgePercent } from "~/lib/icons/BadgePercent";
 import { ClipboardList } from "~/lib/icons/ClipboardList";
 import { Search } from "~/lib/icons/Search";
 import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
-import { AnimatedCartBadge } from "../../../../components/ui/animated-cart-badge";
+import { AnimatedCartBadge } from "../../../../components/layout/animated-cart-badge";
 import { useSession } from "../../../../context/authentication-context";
 import { NAVBAR_HEIGHT } from "../../../../lib/constants";
 import { useColorScheme } from "../../../../lib/useColorScheme";

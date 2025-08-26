@@ -9,12 +9,12 @@ import {
   useCheckItemInReviewList,
   useGetProductsForBrigader,
 } from "~/network/brigader/brigader";
-import BrigaderProductRow from "../../../../components/ui/brigader/brigader-product-row";
-import { Button } from "../../../../components/ui/button";
 import {
   CustomSelect,
   type SelectOptionType,
-} from "../../../../components/ui/custom-select/custom-select";
+} from "../../../../components/custom-select/custom-select";
+import BrigaderProductRow from "../../../../components/features/brigader/brigader-product-row";
+import { Button } from "../../../../components/ui/button";
 import { generateShopLocationNameBasedOnId } from "../../../../lib/utils";
 import { useGetShops } from "../../../../network/query/query";
 import {

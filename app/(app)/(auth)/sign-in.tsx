@@ -7,8 +7,8 @@ import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import type { z } from "zod";
 
+import { GoogleSignIn } from "~/components/google-authentication/google-sign-in";
 import { Button } from "~/components/ui/button";
-import { GoogleSignIn } from "~/components/ui/google-sign-in";
 import { Input } from "~/components/ui/input";
 import { signInSchema } from "~/schema/signin";
 import { resetAndRedirect } from "~/utils/navigation-utils";
@@ -67,13 +67,12 @@ export default function SignIn() {
 
   return (
     <View className="flex-1 items-center justify-center gap-2">
-
       <View className="w-[220px] h-[110px] mb-8">
-           <Image
-                source={require("~/assets/images/usetri_inverted_logo.png")}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="contain"
-              />
+        <Image
+          source={require("~/assets/images/usetri_inverted_logo.png")}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="contain"
+        />
       </View>
       <GoogleSignIn />
       <AppleAuthentication />

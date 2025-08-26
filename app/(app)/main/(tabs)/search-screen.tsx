@@ -9,13 +9,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SearchBar from "~/components/ui/search-bar";
+import SearchBar from "~/components/search-bar/search-bar";
 import { ScanBarcode } from "~/lib/icons/ScanBarcode";
-import IconButton from "../../../../components/icon-button";
-import { CategoriesGrid } from "../../../../components/search/CategoriesGrid";
-import { CategoryDetailView } from "../../../../components/search/CategoryDetailView";
-import { NoDataText } from "../../../../components/ui/no-data-text/no-data-text";
-import DiscountedProductCard from "../../../../components/ui/product-card/discounted-product-card";
+import { CategoriesGrid } from "../../../../components/features/search/CategoriesGrid";
+import { CategoryDetailView } from "../../../../components/features/search/CategoryDetailView";
+import IconButton from "../../../../components/icon-button/icon-button";
+import { NoDataText } from "../../../../components/no-data-text/no-data-text";
+import DiscountedProductCard from "../../../../components/product-card/discounted-product-card";
 import type { PopularCategoryDto, ProductDto } from "../../../../network/model";
 import {
   useGetPopularCategories,

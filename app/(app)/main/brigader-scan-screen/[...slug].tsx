@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
-import BrigaderCameraView from "../../../../components/ui/brigader/brigader-camera-view";
+import BrigaderCameraView from "../../../../components/features/brigader/brigader-camera-view";
 import { Text } from "../../../../components/ui/text";
 
 export default function BrigaderScanScreen() {
@@ -27,8 +27,6 @@ export default function BrigaderScanScreen() {
       </View>
     );
   }
-
-  console.log(shopId);
 
   //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return <BrigaderCameraView shopId={shopId} scannedProductBarcode={barcode} />;

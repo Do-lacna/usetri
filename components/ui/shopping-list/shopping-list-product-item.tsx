@@ -14,7 +14,7 @@ import { useColorScheme } from "../../../lib/useColorScheme";
 import type { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
 import { getShopLogo } from "../../../utils/logo-utils";
-import SuggestedProductCard from "../suggested-product-card";
+import SuggestedProductCard from "../../features/shopping-list/suggested-product-card";
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;

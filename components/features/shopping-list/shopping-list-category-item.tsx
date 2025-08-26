@@ -14,7 +14,7 @@ import { useColorScheme } from "../../../lib/useColorScheme";
 import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
 import type { CartCategoryDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
-import SuggestedProductCard from "../../features/shopping-list/suggested-product-card";
+import SuggestedProductCard from "./suggested-product-card";
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;

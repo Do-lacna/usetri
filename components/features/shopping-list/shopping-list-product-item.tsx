@@ -11,15 +11,15 @@ import {
 } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import { useColorScheme } from "../../../lib/useColorScheme";
-import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
-import type { CartCategoryDto } from "../../../network/model";
+import type { CartProductDto } from "../../../network/model";
 import { useGetProducts } from "../../../network/query/query";
-import SuggestedProductCard from "../../features/shopping-list/suggested-product-card";
+import { getShopLogo } from "../../../utils/logo-utils";
+import SuggestedProductCard from "./suggested-product-card";
 
-const ShoppingListCategoryItem: React.FC<{
-  item: CartCategoryDto;
-  onUpdateQuantity: (categoryId: number, quantity: number) => void;
-  onAlternativeSelect: (barcode: string, categoryId: number) => void;
+const ShoppingListProductItem: React.FC<{
+  item: CartProductDto;
+  onUpdateQuantity: (barcode: string, quantity: number) => void;
+  onAlternativeSelect: (originalBarcode: string, barcode: string) => void;
   isExpanded?: boolean;
 }> = ({
   item,
@@ -29,24 +29,34 @@ const ShoppingListCategoryItem: React.FC<{
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { isDarkColorScheme } = useColorScheme();
-  const {
-    category: { id, name, image_url } = {},
-    quantity = 1,
-    price = 0,
-  } = item;
-
-  const { data: { cart } = {} } = ({} = useGetHybridCart());
 
   // Theme-aware colors
   const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
   const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
 
+  const {
+    product: {
+      barcode,
+      name = "Specific product",
+      unit_dto: {
+        normalized_amount: amount = "",
+        normalized_unit: unit = "",
+      } = {},
+      brand,
+      category: { id: categoryId } = {},
+      image_url,
+    } = {},
+    quantity = 1,
+    price = 0,
+    available_shop_ids = [],
+  } = item;
+
   const { data: { products: suggestedProducts = [] } = {}, isLoading } =
     useGetProducts(
       {
-        category_id: id,
+        category_id: categoryId,
       },
-      { query: { enabled: !!id && isExpanded } }
+      { query: { enabled: !!categoryId && isExpanded } }
     );
 
   useEffect(() => {
@@ -56,20 +66,18 @@ const ShoppingListCategoryItem: React.FC<{
   }, [externalIsExpanded]);
 
   const incrementQuantity = () => {
-    onUpdateQuantity(Number(id), quantity + 1);
+    onUpdateQuantity(String(barcode), quantity + 1);
   };
 
   const decrementQuantity = () => {
     if (quantity <= 0) return;
-    onUpdateQuantity(Number(id), quantity - 1);
+    onUpdateQuantity(String(barcode), quantity - 1);
   };
 
   const totalPrice = (price * quantity).toFixed(2);
 
-  const isSelected = (barcode: string): boolean =>
-    cart?.specific_products?.some(
-      ({ product }) => product?.barcode === barcode
-    ) ?? false;
+  const isSelected = (suggestedProductBarcode: string): boolean =>
+    suggestedProductBarcode === barcode;
 
   return (
     <View
@@ -84,26 +92,32 @@ const ShoppingListCategoryItem: React.FC<{
           <View className="flex-1 flex-row items-center">
             <View className="relative mr-2">
               <Image
-                source={{
-                  uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
-                }}
-                className="w-10 h-10 p-1 rounded-lg"
+                source={{ uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE }}
+                className="w-16 h-16 rounded-lg bg-muted"
                 resizeMode="cover"
               />
             </View>
             <View className="flex-1">
-              <View className="flex-1 pr-2">
-                <Text
-                  className="text-card-foreground font-semibold text-base"
-                  numberOfLines={1}
-                >
-                  {name}
-                </Text>
+              <View className="flex-row items-start justify-between mb-1">
+                <View className="flex-1 pr-2">
+                  <Text
+                    className="text-card-foreground font-semibold text-base"
+                    numberOfLines={1}
+                  >
+                    {name}
+                  </Text>
+                  <Text
+                    className="text-muted-foreground text-sm"
+                    numberOfLines={1}
+                  >
+                    {brand} • {amount} {unit}
+                  </Text>
+                </View>
               </View>
 
               <View className="flex-row items-center justify-between">
                 <View className="flex-row gap-2 items-center">
-                  <Text className="text-card-foreground font-bold text-base">
+                  <Text className="text-card-foreground font-bold text-lg">
                     {totalPrice}€
                   </Text>
                   {quantity > 1 && (
@@ -117,6 +131,36 @@ const ShoppingListCategoryItem: React.FC<{
           </View>
 
           <View className="flex flex-col items-end">
+            <View className="flex-row items-end mb-2">
+              <View className="relative flex-row justify-end gap-x-2 mt-1">
+                {available_shop_ids?.map((retailer, index) => (
+                  <View
+                    key={retailer}
+                    style={{ width: 20, height: 20, borderRadius: 50 }}
+                    //   className="border-2"
+                  >
+                    <Image
+                      {...getShopLogo(retailer as any)}
+                      key={index}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 50,
+                        position: "absolute",
+                        right: index * 10,
+                        zIndex: index + 1,
+                        backgroundColor: "white",
+                        borderColor: "grey",
+                        borderWidth: 1,
+                        // borderColor: "grey",
+                        // borderWidth: 1,
+                        //TODO add here some elevation to visually differentiate the shop logos
+                      }}
+                    />
+                  </View>
+                ))}
+              </View>
+            </View>
             <View className="flex-row items-center bg-muted rounded-full">
               <TouchableOpacity
                 onPress={decrementQuantity}
@@ -159,15 +203,25 @@ const ShoppingListCategoryItem: React.FC<{
                     Number(isSelected(String(b.barcode))) -
                     Number(isSelected(String(a.barcode)))
                 )
-                ?.map(({ barcode, detail, shops_prices }, index) => (
-                  <SuggestedProductCard
-                    key={barcode || index}
-                    product={{ detail }}
-                    shopsPrices={shops_prices}
-                    onPress={onAlternativeSelect}
-                    isSelected={isSelected(String(barcode))}
-                  />
-                ))}
+                ?.map(
+                  (
+                    { barcode: suggestedProductBarcode, detail, shops_prices },
+                    index
+                  ) => (
+                    <SuggestedProductCard
+                      key={suggestedProductBarcode || index}
+                      product={{ detail }}
+                      shopsPrices={shops_prices}
+                      onPress={() =>
+                        onAlternativeSelect(
+                          String(barcode),
+                          String(suggestedProductBarcode)
+                        )
+                      }
+                      isSelected={isSelected(String(suggestedProductBarcode))}
+                    />
+                  )
+                )}
             </View>
           </ScrollView>
         ))}
@@ -175,4 +229,4 @@ const ShoppingListCategoryItem: React.FC<{
   );
 };
 
-export default ShoppingListCategoryItem;
+export default ShoppingListProductItem;
