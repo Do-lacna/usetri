@@ -1,24 +1,25 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
-import { Dimensions, Image, ScrollView, Text, View } from 'react-native';
-import Toast from 'react-native-toast-message';
-import { Button } from '~/components/ui/button';
-import { getGetHybridCartQueryKey, useDeleteHybridCart } from '~/network/hybrid-cart/hybrid-cart';
-import { getShopLogo } from '~/utils/logo-utils';
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import { Image, ScrollView, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+import { Button } from "~/components/ui/button";
+import {
+  getGetHybridCartQueryKey,
+  useDeleteHybridCart,
+} from "~/network/hybrid-cart/hybrid-cart";
+import { getShopLogo } from "~/utils/logo-utils";
 import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
-} from '../../../network/customer/customer';
-import type { CartComparisonDto } from '../../../network/model';
+} from "../../../../network/customer/customer";
+import type { CartComparisonDto } from "../../../../network/model";
 
-const ComparisonShopReceipt = ({
+const ComparisonShopReceiptView = ({
   shop: { name: shopName, image_url, id: shopId } = {},
   specific_products: groceries = [],
   total_price,
   actionsExecutable = true,
 }: CartComparisonDto & { actionsExecutable?: boolean }) => {
-  const width = Dimensions.get('window').width;
-  const h = Dimensions.get('window').height;
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -26,16 +27,16 @@ const ComparisonShopReceipt = ({
     mutation: {
       onError: () => {
         Toast.show({
-          type: 'error',
-          text1: 'Nepodarilo sa uložiť košík',
-          position: 'bottom',
+          type: "error",
+          text1: "Nepodarilo sa uložiť košík",
+          position: "bottom",
         });
       },
       onSuccess: () => {
         Toast.show({
-          type: 'success',
-          text1: 'Váš košík bol úspešne uložený vo vašom profile',
-          position: 'bottom',
+          type: "success",
+          text1: "Váš košík bol úspešne uložený vo vašom profile",
+          position: "bottom",
         });
         queryClient.invalidateQueries({
           queryKey: getGetHybridCartQueryKey(),
@@ -52,14 +53,14 @@ const ComparisonShopReceipt = ({
     mutation: {
       onError: () => {
         Toast.show({
-          type: 'success',
-          text1: 'Váš košík bol úspešne vymazaný',
-          position: 'bottom',
+          type: "success",
+          text1: "Váš košík bol úspešne vymazaný",
+          position: "bottom",
         });
         Toast.show({
-          type: 'error',
-          text1: 'Nepodarilo sa zahodiť košík',
-          position: 'bottom',
+          type: "error",
+          text1: "Nepodarilo sa zahodiť košík",
+          position: "bottom",
         });
       },
       onSuccess: () => {
@@ -80,21 +81,21 @@ const ComparisonShopReceipt = ({
     <View
       className={
         actionsExecutable
-          ? 'flex-1 p-4 bg-white rounded-lg shadow-md m-4 justify-between'
-          : ''
+          ? "flex-1 p-4 bg-white rounded-lg shadow-md m-4 justify-between"
+          : ""
       }
     >
       <View className="gap-4">
         <View className="flex items-center my-4 gap-4">
-          <View className='flex-row gap-4 items-center justify-center'>         
-             <Image
-            resizeMode="contain"
-            className="h-10 w-10"
-            {...getShopLogo(shopId as any)}
-          />
-          <Text className="text-4xl font-bold text-terciary">
-            {shopName?.toLocaleUpperCase()}
-          </Text>
+          <View className="flex-row gap-4 items-center justify-center">
+            <Image
+              resizeMode="contain"
+              className="h-10 w-10"
+              {...getShopLogo(shopId as any)}
+            />
+            <Text className="text-4xl font-bold text-terciary">
+              {shopName?.toLocaleUpperCase()}
+            </Text>
           </View>
 
           <Text className="text-2xl font-bold">Zoznam produktov</Text>
@@ -144,4 +145,4 @@ const ComparisonShopReceipt = ({
   );
 };
 
-export default ComparisonShopReceipt;
+export default ComparisonShopReceiptView;

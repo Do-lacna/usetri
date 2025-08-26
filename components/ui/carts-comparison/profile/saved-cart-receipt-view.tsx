@@ -1,90 +1,17 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
 import type React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
-import {
-  getGetHybridCartQueryKey,
-  useDeleteHybridCart,
-} from "~/network/hybrid-cart/hybrid-cart";
-import {
-  getGetArchivedCartQueryKey,
-  useCreateArchivedCart,
-} from "../../../network/customer/customer";
-import type { CartComparisonDto } from "../../../network/model";
-import { Button } from "../button";
+import type { CartComparisonDto } from "../../../../network/model";
 
-const ReceiptScreen: React.FC<
-  CartComparisonDto & { actionsExecutable?: boolean }
-> = ({
-  shop: { name: shopName, image_url, id: shopId } = {},
+const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
+  shop: { name: shopName } = {},
   specific_products: groceries = [],
   total_price,
-  actionsExecutable = true,
 }) => {
   const formatPrice = (price = 0): string => {
     return `${price.toFixed(2)} €`;
-  };
-
-  const queryClient = useQueryClient();
-  const router = useRouter();
-
-  const { mutate: sendCreateArchivedCart, isIdle } = useCreateArchivedCart({
-    mutation: {
-      onError: () => {
-        Toast.show({
-          type: "error",
-          text1: "Nepodarilo sa uložiť košík",
-          position: "bottom",
-        });
-      },
-      onSuccess: () => {
-        Toast.show({
-          type: "success",
-          text1: "Váš košík bol úspešne uložený vo vašom profile",
-          position: "bottom",
-        });
-        queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
-        });
-        queryClient.invalidateQueries({
-          queryKey: getGetArchivedCartQueryKey(),
-        });
-        router.back();
-      },
-    },
-  });
-
-  const { mutate: sendDiscardCart } = useDeleteHybridCart({
-    mutation: {
-      onError: () => {
-        Toast.show({
-          type: "success",
-          text1: "Váš košík bol úspešne vymazaný",
-          position: "bottom",
-        });
-        Toast.show({
-          type: "error",
-          text1: "Nepodarilo sa zahodiť košík",
-          position: "bottom",
-        });
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
-        });
-        router.back();
-      },
-    },
-  });
-
-  const handleSaveCart = () => {
-    sendCreateArchivedCart({
-      data: { selected_shop_id: shopId },
-    });
   };
 
   return (
@@ -101,7 +28,6 @@ const ReceiptScreen: React.FC<
           </CardHeader>
 
           <CardContent className="pt-0">
-            {/* Items List */}
             <View className="mb-4">
               {groceries?.map(
                 (
@@ -149,29 +75,9 @@ const ReceiptScreen: React.FC<
             </View>
           </CardContent>
         </Card>
-
-        {actionsExecutable && (
-          <View className="flex-row justify-center items-center mb-4 p-4 gap-4">
-            <Button
-              // disabled={!isDirty || !isValid}
-              variant="outline"
-              onPress={() => sendDiscardCart()}
-              className="w-[40%] border-2 border-border"
-            >
-              <Text className="font-bold">Zahodiť</Text>
-            </Button>
-            <Button
-              // disabled={!isDirty || !isValid}
-              onPress={handleSaveCart}
-              className="w-[60%]"
-            >
-              <Text className="font-bold">Uložiť košík</Text>
-            </Button>
-          </View>
-        )}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default ReceiptScreen;
+export default SavedCartReceiptView;

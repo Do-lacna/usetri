@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
-import ReceiptScreen from "../../../../components/ui/carts-comparison/comparison-shop-receipt-alternative";
+import SavedCartReceiptView from "../../../../components/ui/carts-comparison/profile/saved-cart-receipt-view";
 import { getShopById } from "../../../../lib/utils";
 import { useGetArchivedCartById } from "../../../../network/customer/customer";
 import { useGetShops } from "../../../../network/query/query";
@@ -35,7 +35,7 @@ export default function ArchivedCartScreen() {
   //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return (
     <View className="flex flex-1 align-center justify-center py-4 px-2">
-      <ReceiptScreen
+      <SavedCartReceiptView
         shop={shop}
         specific_products={mappedProducts}
         total_price={cart?.total_price}
