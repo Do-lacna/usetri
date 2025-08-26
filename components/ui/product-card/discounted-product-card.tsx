@@ -113,8 +113,8 @@ const DiscountedProductCard = ({
         </Badge>
 
         {hasDiscount && (
-          <Badge className="absolute top-2 right-2 bg-secondary-foreground">
-            <Text className="text-xs text-white font-semibold">
+          <Badge className="absolute top-2 right-2 bg-discount">
+            <Text className="text-xs text-discount-foreground font-semibold">
               -{percentageDiscount}%
             </Text>
           </Badge>

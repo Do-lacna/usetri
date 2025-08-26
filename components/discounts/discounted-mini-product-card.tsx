@@ -44,8 +44,8 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
       onPress={() => onPress?.(String(barcode))}
     >
       {/* Discount Badge */}
-      <View className="absolute top-2 right-2 bg-red-500 rounded-full px-2 py-1 z-10">
-        <Text className="text-white text-xs font-bold">
+      <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">
+        <Text className="text-discount-foreground text-xs font-bold">
           -
           {calculateDiscountPercentage(
             Number(lowestPrice),
@@ -102,7 +102,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
         <Text className="text-muted-foreground text-xs line-through">
           {lowestPrice?.toFixed(2)} €
         </Text>
-        <Text className="text-red-600 text-xs font-bold">
+        <Text className="text-discount text-xs font-bold">
           {lowestDiscountedPrice?.toFixed(2)} €
         </Text>
       </View>

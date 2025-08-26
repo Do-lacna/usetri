@@ -53,6 +53,12 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        discount: {
+          DEFAULT: "#ef4444", // red-500
+          foreground: "#ffffff", // white text on red background
+          light: "#fecaca", // red-200 for light backgrounds
+          dark: "#dc2626", // red-600 for darker variant
+        },
       },
       borderWidth: {
         hairline: hairlineWidth(),
