@@ -40,7 +40,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Pressable
-      className="bg-white rounded-lg p-2 mx-2 shadow-sm border border-gray-100 w-32"
+      className="bg-card rounded-lg p-2 mx-2 shadow-sm border border-border w-32"
       onPress={() => onPress?.(String(barcode))}
     >
       {/* Discount Badge */}
@@ -80,7 +80,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
                   right: index * 12,
                   zIndex: index + 1,
                   backgroundColor: "white",
-                  borderColor: "grey",
+                  borderColor: "#D1D5DB",
                   borderWidth: 1,
                 }}
               />
@@ -91,7 +91,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
       {/* Product Name */}
       <Text
-        className="text-gray-800 text-xs font-medium mb-1 leading-4"
+        className="text-card-foreground text-xs font-medium mb-1 leading-4"
         numberOfLines={1}
       >
         {name}
@@ -99,7 +99,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
       {/* Price Information */}
       <View className="flex-row items-center justify-between">
-        <Text className="text-gray-400 text-xs line-through">
+        <Text className="text-muted-foreground text-xs line-through">
           {lowestPrice?.toFixed(2)} €
         </Text>
         <Text className="text-red-600 text-xs font-bold">

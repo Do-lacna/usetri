@@ -23,8 +23,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       {/* Subtle Gradient Background */}
       <LinearGradient
         colors={
-          colorScheme === "dark" 
-            ? ["#1f2937", "#374151"] 
+          colorScheme === "dark"
+            ? ["#1f2937", "#374151"]
             : ["#f8fafc", "#e2e8f0"]
         }
         start={{ x: 0, y: 0 }}
@@ -55,8 +55,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 </View>
               )}
             </View>
-            {/* Online Status Indicator */}
-            <View className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background" />
           </View>
 
           {/* User Info */}
@@ -83,7 +81,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             className="w-12 h-12 bg-card rounded-full items-center justify-center border border-border"
             activeOpacity={0.7}
           >
-            <Ionicons name="settings-outline" size={22} color={settingsIconColor} />
+            <Ionicons
+              name="settings-outline"
+              size={22}
+              color={settingsIconColor}
+            />
           </TouchableOpacity>
         </Link>
       </View>

@@ -19,8 +19,8 @@ const DiscountMiniProductsList = () => {
   }
 
   return (
-    <View className="bg-white px-4 py-3 border-b border-gray-200">
-      <Text className="text-xl font-bold text-gray-800">
+    <View className="bg-card px-4 py-3 border-b border-border">
+      <Text className="text-xl font-bold text-foreground">
         Najväčšie zľavy tohto týždňa
       </Text>
       <FlatList
@@ -40,7 +40,7 @@ const DiscountMiniProductsList = () => {
           <View className="flex-row">
             {[1, 2, 3, 4].map((item, index) => (
               <View className="flex-1 max-w-32 mx-2" key={item}>
-                <Skeleton className="w-full aspect-[4/3] bg-divider rounded-lg" />
+                <Skeleton className="w-full aspect-[4/3] bg-muted rounded-lg" />
               </View>
             ))}
           </View>

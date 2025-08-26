@@ -61,60 +61,11 @@ export default function ProfileScreen() {
           />
         }
       >
-        {/* <View>
-          <View className="items-center">
-            <View className="w-28 h-28 bg-gray-200 rounded-full items-center justify-center border-4 border-white">
-              <UserIcon size={52} color="#6B7280" />
-            </View>
-            <View className="items-center w-full pb-4">
-              <Text className="text-lg underline mt-4 shadow-lg">
-                {user?.email}
-              </Text>
-            </View>
-          </View>
-          <Link
-            asChild
-            href="/main/menu-screen/menu-screen"
-            className="absolute top-12 right-6"
-          >
-            <IconButton onPress={openDrawer}>
-              <Menu className="w-6 h-6 text-gray-800" />
-            </IconButton>
-          </Link>
-        </View> */}
-
         <ProfileHeader userEmail={user?.email} />
-
-        {/* <Divider className="my-8" /> */}
 
         <TotalSavedCard />
 
         <Divider className="my-8" />
-
-        {/* <View className="flex-row items-center gap-2  mb-2">
-          <Text className="text-2xl font-bold">História nákupov</Text>
-        </View> */}
-
-        {/* <View className="space-y-3 gap-3">
-          {(archived_carts ?? []).length > 0 ? (
-            <FlatList
-              // horizontal
-              data={archived_carts}
-              ItemSeparatorComponent={() => <View className="w-4" />}
-              renderItem={renderShopCardCart}
-              keyExtractor={(cart) => String(cart?.cart_id)}
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={{
-                paddingHorizontal: 8,
-                paddingVertical: 8,
-              }}
-            />
-          ) : (
-            <Text className="my-2 text-center text-gray-600">
-              Nemáte žiadne uložené košíky
-            </Text>
-          )}
-        </View> */}
 
         <View className="mb-6">
           <View className="flex-row justify-between items-center mb-4">

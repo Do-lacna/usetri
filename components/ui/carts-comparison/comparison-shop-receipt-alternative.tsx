@@ -88,12 +88,12 @@ const ReceiptScreen: React.FC<
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="flex-1 px-4 pb-6">
-        <Card className="bg-white shadow-lg mb-4">
+        <Card className="bg-card shadow-lg mb-4 border border-border">
           <CardHeader className="pb-4">
-            <View className="items-center border-b border-gray-200 pb-4">
-              <Text className="text-xl font-bold text-gray-900 mb-1">
+            <View className="items-center border-b border-border pb-4">
+              <Text className="text-xl font-bold text-card-foreground mb-1">
                 {shopName}
               </Text>
               <View className="flex-row justify-between w-full"></View>
@@ -115,22 +115,22 @@ const ReceiptScreen: React.FC<
                   <View key={barcode}>
                     <View className="flex-row justify-between items-start py-3">
                       <View className="flex-1 pr-4">
-                        <Text className="text-base font-medium text-gray-900 mb-1">
+                        <Text className="text-base font-medium text-card-foreground mb-1">
                           {name}
                         </Text>
-                        <Text className="text-sm text-gray-600 mb-1">
+                        <Text className="text-sm text-muted-foreground mb-1">
                           {brand}
                         </Text>
-                        <Text className="text-xs text-gray-500">
+                        <Text className="text-xs text-muted-foreground opacity-75">
                           Počet: {2}
                         </Text>
                       </View>
-                      <Text className="text-base font-semibold text-gray-900">
+                      <Text className="text-base font-semibold text-card-foreground">
                         {formatPrice(price * quantity)}
                       </Text>
                     </View>
                     {index < groceries?.length - 1 && (
-                      <Separator className="bg-gray-100" />
+                      <Separator className="bg-border" />
                     )}
                   </View>
                 )
@@ -138,9 +138,9 @@ const ReceiptScreen: React.FC<
             </View>
 
             {/* Total Section */}
-            <Separator className="bg-gray-300 mb-4" />
-            <View className="flex-row justify-between items-center bg-gray-50 p-4 rounded-lg">
-              <Text className="text-lg font-bold text-gray-900">
+            <Separator className="bg-border mb-4" />
+            <View className="flex-row justify-between items-center bg-muted p-4 rounded-lg">
+              <Text className="text-lg font-bold text-card-foreground">
                 Celková suma
               </Text>
               <Text className="text-xl font-bold text-green-600">
@@ -156,7 +156,7 @@ const ReceiptScreen: React.FC<
               // disabled={!isDirty || !isValid}
               variant="outline"
               onPress={() => sendDiscardCart()}
-              className="w-[40%] border-2 border-gray-600"
+              className="w-[40%] border-2 border-border"
             >
               <Text className="font-bold">Zahodiť</Text>
             </Button>

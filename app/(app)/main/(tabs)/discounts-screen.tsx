@@ -6,7 +6,10 @@ import DiscountList from "../../../../components/discounts/discount-list";
 import DiscountMiniProductsList from "../../../../components/discounts/discount-mini-products-list";
 import StoreLogo from "../../../../components/store-logo/store-logo";
 import { isArrayNotEmpty } from "../../../../lib/utils";
-import type { DiscountStatsDto, ShopExtendedDto } from "../../../../network/model";
+import type {
+  DiscountStatsDto,
+  ShopExtendedDto,
+} from "../../../../network/model";
 import {
   useGetDiscountsStatistics,
   useGetShops,
@@ -47,24 +50,27 @@ const GroceryDiscountsScreen: React.FC = () => {
   }, [shops, stats, activeStoreId]);
 
   const renderStoreTab = (store: ShopExtendedDto) => {
+    const isActive = store?.id === activeStoreId;
+
     return (
       <TouchableOpacity
         key={store.id}
         onPress={() => setActiveStoreId(Number(store?.id))}
-        className={`flex-1 items-center py-1 mx-1 rounded-xl bg-divider border-2 border-${
-          store?.id === activeStoreId ? "terciary" : "divider"
+        className={`flex-1 items-center py-1 mx-1 rounded-xl bg-muted border-2 ${
+          isActive ? "border-primary" : "border-border"
         }`}
       >
         <StoreLogo storeId={store?.id} />
         <Text
-          className={`text-xs font-medium 
-          ${store?.id === activeStoreId ? "text-black" : "text-gray-600"}`}
+          className={`text-xs font-medium ${
+            isActive ? "text-foreground" : "text-muted-foreground"
+          }`}
         >
           {store.name}
         </Text>
         {/* <Text
           className={`text-xs ${
-            store?.id === activeStoreId ? "text-black" : "text-gray-500"
+            isActive ? "text-foreground" : "text-muted-foreground"
           }`}
         >
           {t("discounts", {
@@ -76,10 +82,13 @@ const GroceryDiscountsScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1" edges={["top", "left", "right"]}>
+    <SafeAreaView
+      className="flex-1 bg-background"
+      edges={["top", "left", "right"]}
+    >
       <DiscountMiniProductsList />
-      <View className="bg-white px-3 py-4 ">
-        <Text className="text-xl font-bold text-gray-800 mb-4">
+      <View className="bg-card px-3 py-4 ">
+        <Text className="text-xl font-bold text-foreground mb-4">
           Zľavy v obchodoch
         </Text>
 
@@ -95,14 +104,14 @@ const GroceryDiscountsScreen: React.FC = () => {
       </View>
 
       {!!activeStore && (
-        <View className="flex-1 py-2 bg-white">
+        <View className="flex-1 py-2 bg-background">
           <DiscountList shop={activeStore} />
         </View>
       )}
 
       {/* Footer */}
-      <View className="bg-white px-4 py-3 border-t border-gray-200">
-        <Text className="text-center text-xs text-gray-500">
+      <View className="bg-card px-4 py-3 border-t border-border">
+        <Text className="text-center text-xs text-muted-foreground">
           Ceny a dostupnosť sa môžu líšiť v jednotlivých predajniach
         </Text>
       </View>

@@ -80,7 +80,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     index,
   }) => (
     <View className="flex-1 max-w-[50%]">
-      <Skeleton className="w-full aspect-[4/3] bg-divider rounded-lg" />
+      <Skeleton className="w-full aspect-[4/3] bg-muted rounded-lg" />
     </View>
   );
 
@@ -116,7 +116,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
           />
         ) : allProducts?.length === 0 ? (
           <Text
-            className="text-gray-500 text-base text-center mt-2"
+            className="text-muted-foreground text-base text-center mt-2"
             numberOfLines={2}
           >
             Tento obchod momentálne neponúka žiadne zľavnené produkty
@@ -139,7 +139,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             onEndReachedThreshold={0.1}
             ListFooterComponent={renderFooter}
             ListEmptyComponent={
-              <Text className="text-gray-500 text-base text-center mt-4">
+              <Text className="text-muted-foreground text-base text-center mt-4">
                 Tento obchod momentálne neponúka žiadne zľavnené produkty
               </Text>
             }

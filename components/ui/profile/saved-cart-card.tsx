@@ -51,7 +51,9 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
             </Text>
           </View>
           <View className="flex flex-col items-center">
-            <Text className="text-lg font-bold text-card-foreground">{totalPrice.toFixed(2)} €</Text>
+            <Text className="text-lg font-bold text-card-foreground">
+              {totalPrice.toFixed(2)} €
+            </Text>
             <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
               <Text className="text-xs font-medium text-green-700">
                 Ušetrené {savedAmount.toFixed(2)} €

@@ -99,7 +99,7 @@ const DiscountedProductCard = ({
                     right: index * 15,
                     zIndex: index + 1,
                     backgroundColor: "white",
-                    borderColor: "grey",
+                    borderColor: "#D1D5DB",
                     borderWidth: 1,
                   }}
                 />
