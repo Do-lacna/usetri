@@ -66,18 +66,10 @@ const GroceryDiscountsScreen: React.FC = () => {
         key={store.id}
         onPress={() => setActiveStoreId(Number(store?.id))}
         className={`w-80 h-48 mx-2 rounded-xl overflow-hidden transition-all duration-300 ${
-          isActive ? 'opacity-100 scale-100' : 'opacity-60 scale-90'
+          isActive
+            ? 'opacity-100 scale-100 shadow-lg'
+            : 'opacity-60 scale-90 shadow-sm'
         }`}
-        style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: isActive ? 0.15 : 0.05,
-          shadowRadius: isActive ? 6 : 3,
-          elevation: isActive ? 5 : 2,
-        }}
       >
         <ImageBackground
           source={storeImage}
