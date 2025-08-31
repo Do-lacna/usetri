@@ -10,21 +10,29 @@ interface CategoryCardProps {
 
 export function CategoryCard({ category, onPress }: CategoryCardProps) {
   return (
-    <Pressable className="flex-1 mx-1 max-w-[115px]" onPress={onPress}>
-      <View className="flex bg-card rounded-xl p-2 shadow-sm border border-border mb-3 h-[130px] justify-center items-center">
-        <View className="w-full h-24 rounded-lg relative mb-3">
+    <Pressable
+      className="flex-1 mx-2"
+      onPress={onPress}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.8 : 1,
+        transform: [{ scale: pressed ? 0.95 : 1 }]
+      })}
+    >
+      <View className="bg-card rounded-2xl p-4 shadow-md border border-border h-[160px] justify-between">
+        {/* Icon container with gradient background */}
+        <View className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 justify-center items-center mb-3">
           <Image
             source={{
               uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
-            className="w-full h-24 rounded-lg"
+            className="w-12 h-12"
             resizeMode="contain"
           />
         </View>
+
         <Text
-          className="flex-1 text-center text-sm font-medium text-card-foreground leading-5"
-          numberOfLines={1}
-          ellipsizeMode="tail"
+          className="text-base font-semibold text-card-foreground leading-5"
+          numberOfLines={2}
         >
           {category?.category?.name}
         </Text>
