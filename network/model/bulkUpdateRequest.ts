@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { UpdateProductModel } from './updateProductModel';
+import type { PatchProductBulk } from './patchProductBulk';
 
 export interface BulkUpdateRequest {
   /** @nullable */
   barcodes?: string[] | null;
-  model?: UpdateProductModel;
+  model?: PatchProductBulk;
 }

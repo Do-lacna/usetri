@@ -12,4 +12,8 @@ export interface UpdateCategoryModel {
   parent_id?: number | null;
   /** @nullable */
   image_url?: string | null;
+  /** @nullable */
+  is_purchasable?: boolean | null;
+  /** @nullable */
+  popularity?: number | null;
 }

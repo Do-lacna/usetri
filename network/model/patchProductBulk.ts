@@ -5,13 +5,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface AddCategoryDto {
+export interface PatchProductBulk {
   /** @nullable */
-  name?: string | null;
+  brand?: string | null;
   /** @nullable */
-  image_url?: string | null;
+  amount?: number | null;
   /** @nullable */
-  parent_id?: number | null;
-  is_purchasable?: boolean;
-  popularity?: number;
+  unit?: string | null;
+  /** @nullable */
+  category_id?: number | null;
 }

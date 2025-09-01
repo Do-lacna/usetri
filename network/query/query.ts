@@ -4,14 +4,17 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
@@ -26,6 +29,8 @@ import type {
   GetProductsByBarcodeQueryResponse,
   GetProductsParams,
   GetProductsResponse,
+  GetProductsSemanticRequest,
+  GetProductsSemanticResponse,
   GetShopsResponse,
   GetUnconfirmedDiscountsParams,
   GetUnconfirmedDiscountsResponse,
@@ -1022,6 +1027,90 @@ export function useGetProductsByBarcode<
   return query;
 }
 
+export const getProductsSemantic = (
+  getProductsSemanticRequest: GetProductsSemanticRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetProductsSemanticResponse>(
+    {
+      url: `/semantic/products`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: getProductsSemanticRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getGetProductsSemanticMutationOptions = <
+  TData = Awaited<ReturnType<typeof getProductsSemantic>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: GetProductsSemanticRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['getProductsSemantic'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof getProductsSemantic>>,
+    { data: GetProductsSemanticRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return getProductsSemantic(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: GetProductsSemanticRequest },
+    TContext
+  >;
+};
+
+export type GetProductsSemanticMutationResult = NonNullable<
+  Awaited<ReturnType<typeof getProductsSemantic>>
+>;
+export type GetProductsSemanticMutationBody = GetProductsSemanticRequest;
+export type GetProductsSemanticMutationError = ProblemDetails;
+
+export const useGetProductsSemantic = <
+  TData = Awaited<ReturnType<typeof getProductsSemantic>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: GetProductsSemanticRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: GetProductsSemanticRequest },
+  TContext
+> => {
+  const mutationOptions = getGetProductsSemanticMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const getShops = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,

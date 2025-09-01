@@ -13,18 +13,13 @@ export interface ProductDto {
   barcode?: string | null;
   /** @nullable */
   name?: string | null;
-  /** @deprecated */
-  amount?: number;
   /** @nullable */
   brand?: string | null;
-  /**
-   * @deprecated
-   * @nullable
-   */
-  unit?: string | null;
-  unit_dto?: UnitDto;
+  unit?: UnitDto;
   /** @nullable */
   image_url?: string | null;
+  /** @nullable */
+  description?: string | null;
   category?: CategoryDto;
   is_barcode_checked?: boolean;
   is_category_checked?: boolean;

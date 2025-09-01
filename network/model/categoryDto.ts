@@ -13,6 +13,8 @@ export interface CategoryDto {
   image_url?: string | null;
   /** @nullable */
   parent_id?: number | null;
+  is_purchasable?: boolean;
+  popularity?: number;
   /** @nullable */
   path_from_root?: string[] | null;
   /** @nullable */

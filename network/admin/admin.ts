@@ -31,9 +31,11 @@ import type {
   GetProductsManagementAdminResponse,
   GetShopsAdminResponse,
   PatchCategoryRequest,
+  PatchProductDto,
+  PatchProductResponse,
   ProblemDetails,
-  UpdateProductModel,
   UpdateShopRequest,
+  _ExportParams,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -519,15 +521,15 @@ export const useDeleteProductAdmin = <
 };
 export const patchProductAdmin = (
   barcode: string,
-  updateProductModel: UpdateProductModel,
+  patchProductDto: PatchProductDto,
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
-  return orvalApiClient<void>(
+  return orvalApiClient<PatchProductResponse>(
     {
       url: `/admin/products/${barcode}`,
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      data: updateProductModel,
+      data: patchProductDto,
     },
     options,
   );
@@ -541,7 +543,7 @@ export const getPatchProductAdminMutationOptions = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: UpdateProductModel },
+    { barcode: string; data: PatchProductDto },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
@@ -557,7 +559,7 @@ export const getPatchProductAdminMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchProductAdmin>>,
-    { barcode: string; data: UpdateProductModel }
+    { barcode: string; data: PatchProductDto }
   > = (props) => {
     const { barcode, data } = props ?? {};
 
@@ -567,7 +569,7 @@ export const getPatchProductAdminMutationOptions = <
   return { mutationFn, ...mutationOptions } as UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: UpdateProductModel },
+    { barcode: string; data: PatchProductDto },
     TContext
   >;
 };
@@ -575,7 +577,7 @@ export const getPatchProductAdminMutationOptions = <
 export type PatchProductAdminMutationResult = NonNullable<
   Awaited<ReturnType<typeof patchProductAdmin>>
 >;
-export type PatchProductAdminMutationBody = UpdateProductModel;
+export type PatchProductAdminMutationBody = PatchProductDto;
 export type PatchProductAdminMutationError = ProblemDetails;
 
 export const usePatchProductAdmin = <
@@ -586,20 +588,151 @@ export const usePatchProductAdmin = <
   mutation?: UseMutationOptions<
     TData,
     TError,
-    { barcode: string; data: UpdateProductModel },
+    { barcode: string; data: PatchProductDto },
     TContext
   >;
   request?: SecondParameter<typeof orvalApiClient>;
 }): UseMutationResult<
   TData,
   TError,
-  { barcode: string; data: UpdateProductModel },
+  { barcode: string; data: PatchProductDto },
   TContext
 > => {
   const mutationOptions = getPatchProductAdminMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
+export const _export = (
+  params?: _ExportParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/products/export`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getExportQueryKey = (params?: _ExportParams) => {
+  return [`/admin/products/export`, ...(params ? [params] : [])] as const;
+};
+
+export const getExportQueryOptions = <
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(
+  params?: _ExportParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getExportQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof _export>>> = ({
+    signal,
+  }) => _export(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof _export>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type _ExportQueryResult = NonNullable<
+  Awaited<ReturnType<typeof _export>>
+>;
+export type _ExportQueryError = unknown;
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(
+  params: undefined | _ExportParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof _export>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(
+  params?: _ExportParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof _export>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(
+  params?: _ExportParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useExport<
+  TData = Awaited<ReturnType<typeof _export>>,
+  TError = unknown,
+>(
+  params?: _ExportParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof _export>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getExportQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const getProductsManagementAdmin = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -1387,6 +1520,121 @@ export const usePatchCategory = <
 
   return useMutation(mutationOptions);
 };
+export const exportCategories = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/categories/export`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getExportCategoriesQueryKey = () => {
+  return [`/admin/categories/export`] as const;
+};
+
+export const getExportCategoriesQueryOptions = <
+  TData = Awaited<ReturnType<typeof exportCategories>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof exportCategories>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getExportCategoriesQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof exportCategories>>
+  > = ({ signal }) => exportCategories(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof exportCategories>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type ExportCategoriesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof exportCategories>>
+>;
+export type ExportCategoriesQueryError = unknown;
+
+export function useExportCategories<
+  TData = Awaited<ReturnType<typeof exportCategories>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof exportCategories>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof exportCategories>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExportCategories<
+  TData = Awaited<ReturnType<typeof exportCategories>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof exportCategories>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof exportCategories>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useExportCategories<
+  TData = Awaited<ReturnType<typeof exportCategories>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof exportCategories>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useExportCategories<
+  TData = Awaited<ReturnType<typeof exportCategories>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof exportCategories>>, TError, TData>
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getExportCategoriesQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const getCategoriesManagementAdmin = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
