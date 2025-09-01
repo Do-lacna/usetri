@@ -19,15 +19,14 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
     detail: {
       name,
       brand,
-      unit_dto: { normalized_amount: amount, normalized_unit: unit } = {},
+      unit: { normalized_amount: amount, normalized_unit: unit } = {},
       category: { id, image_url, name: categoryName } = {},
     } = {},
     price = 0,
     quantity = 1,
   } = product ?? {};
 
-  const borderClass =
-    index < totalProducts - 1 ? "border-b border-border" : "";
+  const borderClass = index < totalProducts - 1 ? "border-b border-border" : "";
 
   return (
     <View className={`p-4 bg-destructive/10 ${borderClass}`}>
@@ -71,7 +70,9 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
 
         <View className="items-end ml-4">
           <View className="bg-destructive/20 px-2 py-1 rounded">
-            <Text className="text-sm font-medium text-destructive">Nedostupné</Text>
+            <Text className="text-sm font-medium text-destructive">
+              Nedostupné
+            </Text>
           </View>
 
           {/* Original price for reference */}

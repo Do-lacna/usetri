@@ -81,9 +81,9 @@ export const getNumberOfCartItems = (
 };
 
 export const generateShoppingListItemDescription = ({
-  unit_dto: { normalized_amount: amount = 0, normalized_unit: unit = "" } = {},
+  unit: { normalized_amount: amount = 0, normalized_unit: unit = "" } = {},
   brand = "[Brand]",
-}: Pick<ProductDto, "brand" | "unit_dto">) => {
+}: Pick<ProductDto, "brand" | "unit">) => {
   return `${brand} - ${amount} ${unit}`;
 };
 

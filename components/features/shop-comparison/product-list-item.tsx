@@ -27,7 +27,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       name,
       barcode,
       brand,
-      unit_dto: { normalized_amount: amount, normalized_unit: unit } = {},
+      unit: { normalized_amount: amount, normalized_unit: unit } = {},
       category: { id, image_url, name: categoryName } = {},
     } = {},
     price = 0,
@@ -35,8 +35,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     type,
   } = product;
 
-  const borderClass =
-    index < totalProducts - 1 ? "border-b border-border" : "";
+  const borderClass = index < totalProducts - 1 ? "border-b border-border" : "";
 
   const displayFlippableCard =
     type &&
@@ -51,7 +50,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     <View className={`p-4 bg-card ${borderClass}`}>
       <View className="flex-row items-center justify-between min-h-[60px]">
         <View className="flex-1 pr-4">
-          <Text 
+          <Text
             className="text-base font-medium text-foreground leading-5"
             numberOfLines={2}
           >
@@ -72,7 +71,10 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             </Text>
           )}
         </View>
-        <RefreshCw size={18} className="ml-4 mr-2 text-terciary flex-shrink-0" />
+        <RefreshCw
+          size={18}
+          className="ml-4 mr-2 text-terciary flex-shrink-0"
+        />
       </View>
     </View>
   );
@@ -88,7 +90,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
               className="w-8 h-8 mr-2"
             />
           )}
-          <Text 
+          <Text
             className="text-base font-medium text-foreground flex-1 leading-5"
             numberOfLines={2}
           >
@@ -106,7 +108,10 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             </Text>
           )}
         </View>
-        <RefreshCw size={18} className="ml-4 mr-2 text-terciary flex-shrink-0" />
+        <RefreshCw
+          size={18}
+          className="ml-4 mr-2 text-terciary flex-shrink-0"
+        />
       </View>
     </View>
   ) : null;

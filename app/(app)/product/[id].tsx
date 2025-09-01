@@ -86,7 +86,7 @@ const ProductDetailScreen: React.FC = () => {
         image_url,
         brand,
         name,
-        unit_dto: { normalized_amount: amount, normalized_unit: unit } = {},
+        unit: { normalized_amount: amount, normalized_unit: unit } = {},
         category: { path_from_root, image_url: categoryImageUrl } = {},
       } = {},
       shops_prices,

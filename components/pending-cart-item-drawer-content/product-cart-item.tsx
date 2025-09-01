@@ -70,10 +70,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
       name = "",
       brand = "",
       image_url,
-      unit_dto: {
-        normalized_amount: amount = "",
-        normalized_unit: unit = "",
-      } = {},
+      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
       category: { image_url: categoryImageUrl } = {},
     } = {},
     shops_prices,

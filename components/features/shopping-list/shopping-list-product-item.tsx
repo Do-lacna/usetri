@@ -38,10 +38,7 @@ const ShoppingListProductItem: React.FC<{
     product: {
       barcode,
       name = "Specific product",
-      unit_dto: {
-        normalized_amount: amount = "",
-        normalized_unit: unit = "",
-      } = {},
+      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
       brand,
       category: { id: categoryId } = {},
       image_url,
