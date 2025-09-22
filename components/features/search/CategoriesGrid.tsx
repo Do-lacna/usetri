@@ -18,7 +18,7 @@ export function CategoriesGrid({
 }: CategoriesGridProps) {
   // Filter out root category and create skeleton data
   const filteredCategories = categories.filter(
-    category => category?.category?.name?.toLowerCase() !== 'root'
+    (category) => category?.category?.name?.toLowerCase() !== "root"
   );
   const skeletonData = Array.from({ length: 8 }, (_, index) => ({ id: index }));
 
@@ -38,26 +38,45 @@ export function CategoriesGrid({
       {/* Categories grid or skeleton */}
       <FlatList
         data={isLoading ? skeletonData : filteredCategories}
-        renderItem={({ item }) =>
-          isLoading ? (
-            <SkeletonCategoryCard />
-          ) : (
-            <CategoryCard
-              category={item as PopularCategoryDto}
-              onPress={() => onCategorySelect(item as PopularCategoryDto)}
-            />
-          )
-        }
+        renderItem={({ item, index }) => {
+          const dataArray = isLoading ? skeletonData : filteredCategories;
+          return (
+            <View
+              style={{
+                flex:
+                  dataArray.length % 2 !== 0 && index === dataArray.length - 1
+                    ? 0
+                    : 1,
+                maxWidth: "48%",
+                minWidth: "48%",
+              }}
+            >
+              {isLoading ? (
+                <SkeletonCategoryCard />
+              ) : (
+                <CategoryCard
+                  category={item as PopularCategoryDto}
+                  onPress={() => onCategorySelect(item as PopularCategoryDto)}
+                />
+              )}
+            </View>
+          );
+        }}
         numColumns={2}
         keyExtractor={(item, index) =>
-          isLoading ? `skeleton-${index}` : String((item as PopularCategoryDto)?.category?.id)
+          isLoading
+            ? `skeleton-${index}`
+            : String((item as PopularCategoryDto)?.category?.id)
         }
         contentContainerStyle={{
           gap: 12,
           padding: 12,
-          paddingBottom: 40 // Add extra bottom padding for navigation
+          paddingBottom: 40, // Add extra bottom padding for navigation
         }}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
+        columnWrapperStyle={{
+          justifyContent: "flex-start",
+          gap: 12,
+        }}
         scrollEnabled={!isLoading}
         refreshControl={
           !isLoading ? (

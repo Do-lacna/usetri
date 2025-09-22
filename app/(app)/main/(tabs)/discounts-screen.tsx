@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TouchableOpacity, View, ImageBackground, Dimensions } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DiscountList from "../../../../components/discounts/discount-list";
-import DiscountMiniProductsList from "../../../../components/discounts/discount-mini-products-list";
-import StoreLogo from "../../../../components/store-logo/store-logo";
 import {
   Carousel,
+  CarouselIndicators,
   CarouselItem,
-  CarouselIndicators
 } from "../../../../components/ui/carousel";
 import { isArrayNotEmpty } from "../../../../lib/utils";
 import type {
@@ -19,8 +17,6 @@ import {
   useGetDiscountsStatistics,
   useGetShops,
 } from "../../../../network/query/query";
-
-const { width: screenWidth } = Dimensions.get('window');
 
 const GroceryDiscountsScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -67,8 +63,8 @@ const GroceryDiscountsScreen: React.FC = () => {
         onPress={() => setActiveStoreId(Number(store?.id))}
         className={`w-80 h-48 mx-2 rounded-xl overflow-hidden transition-all duration-300 ${
           isActive
-            ? 'opacity-100 scale-100 shadow-lg'
-            : 'opacity-60 scale-90 shadow-sm'
+            ? "opacity-100 scale-100 shadow-lg"
+            : "opacity-60 scale-90 shadow-sm"
         }`}
       >
         <ImageBackground
@@ -77,15 +73,27 @@ const GroceryDiscountsScreen: React.FC = () => {
           resizeMode="cover"
         >
           {/* Dark overlay - stronger for inactive cards */}
-          <View className={`absolute inset-0 ${isActive ? 'bg-black/30' : 'bg-black/50'}`} />
+          <View
+            className={`absolute inset-0 ${
+              isActive ? "bg-black/30" : "bg-black/50"
+            }`}
+          />
 
           {/* Store Name */}
           <View className="absolute bottom-3 left-4">
-            <Text className={`font-bold ${isActive ? 'text-white text-lg' : 'text-white/80 text-base'}`}>
+            <Text
+              className={`font-bold ${
+                isActive ? "text-white text-lg" : "text-white/80 text-base"
+              }`}
+            >
               {getStoreDisplayName(store.name)}
             </Text>
             {discountCount > 0 && (
-              <Text className={`mt-1 ${isActive ? 'text-white/90 text-sm' : 'text-white/70 text-xs'}`}>
+              <Text
+                className={`mt-1 ${
+                  isActive ? "text-white/90 text-sm" : "text-white/70 text-xs"
+                }`}
+              >
                 {discountCount} zliav
               </Text>
             )}
@@ -106,20 +114,24 @@ const GroceryDiscountsScreen: React.FC = () => {
   // Helper function to get store image sources
   const getStoreImage = (storeName: string) => {
     const name = storeName.toLowerCase();
-    if (name.includes('billa')) return require('../../../../assets/images/store-pictures/billa.png');
-    if (name.includes('kaufland')) return require('../../../../assets/images/store-pictures/kaufland.png');
-    if (name.includes('lidl')) return require('../../../../assets/images/store-pictures/lidl.png');
-    if (name.includes('tesco')) return require('../../../../assets/images/store-pictures/tesco.jpg');
-    return require('../../../../assets/images/store-pictures/billa.png'); // fallback
+    if (name.includes("billa"))
+      return require("../../../../assets/images/store-pictures/billa.png");
+    if (name.includes("kaufland"))
+      return require("../../../../assets/images/store-pictures/kaufland.png");
+    if (name.includes("lidl"))
+      return require("../../../../assets/images/store-pictures/lidl.png");
+    if (name.includes("tesco"))
+      return require("../../../../assets/images/store-pictures/tesco.jpg");
+    return require("../../../../assets/images/store-pictures/billa.png"); // fallback
   };
 
   // Helper function to get clean store display names
   const getStoreDisplayName = (storeName: string): string => {
     const name = storeName.toLowerCase();
-    if (name.includes('billa')) return 'Billa';
-    if (name.includes('kaufland')) return 'Kaufland';
-    if (name.includes('lidl')) return 'Lidl';
-    if (name.includes('tesco')) return 'Tesco';
+    if (name.includes("billa")) return "Billa";
+    if (name.includes("kaufland")) return "Kaufland";
+    if (name.includes("lidl")) return "Lidl";
+    if (name.includes("tesco")) return "Tesco";
     return storeName;
   };
 

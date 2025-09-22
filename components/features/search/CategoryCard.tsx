@@ -1,4 +1,4 @@
-import { Image, Pressable, View } from "react-native";
+import { Image, Platform, Pressable, View } from "react-native";
 import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
 import type { PopularCategoryDto } from "../../../network/model";
 import { Text } from "../../ui/text";
@@ -15,10 +15,14 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
       onPress={onPress}
       style={({ pressed }) => ({
         opacity: pressed ? 0.8 : 1,
-        transform: [{ scale: pressed ? 0.95 : 1 }]
+        transform: [{ scale: pressed ? 0.95 : 1 }],
       })}
     >
-      <View className="bg-card rounded-2xl p-4 shadow-md border border-border h-[160px] justify-between">
+      <View
+        className={`bg-card rounded-2xl p-4 shadow-${
+          Platform.OS === "ios" ? "sm" : "md"
+        } border border-border h-[160px] justify-between`}
+      >
         {/* Icon container with gradient background */}
         <View className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 justify-center items-center mb-3">
           <Image
