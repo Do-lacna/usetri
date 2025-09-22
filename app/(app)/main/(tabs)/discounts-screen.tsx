@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +21,7 @@ import {
 const GroceryDiscountsScreen: React.FC = () => {
   const { t } = useTranslation();
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
+  const carouselRef = useRef<any>(null);
 
   const [activeStoreId, setActiveStoreId] = useState<number | null>(null);
 
@@ -42,7 +43,7 @@ const GroceryDiscountsScreen: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (isArrayNotEmpty(stats) && isArrayNotEmpty(shops) && !activeStoreId) {
+    if (isArrayNotEmpty(shops) && !activeStoreId) {
       const sortedShops = shops?.sort(
         ({ id: firstStoreId = 0 }, { id: secondStoreId = 0 }) =>
           getStoreDiscountsCount(secondStoreId, stats) -
@@ -52,6 +53,16 @@ const GroceryDiscountsScreen: React.FC = () => {
     }
   }, [shops, stats, activeStoreId]);
 
+  const handleStoreSelect = (storeId: number, index: number) => {
+    setActiveStoreId(storeId);
+    // Center the selected card in the carousel
+    const itemWidth = 320; // Should match the itemWidth prop of Carousel
+    carouselRef.current?.scrollTo({
+      x: index * itemWidth,
+      animated: true,
+    });
+  };
+
   const renderStoreCard = (store: ShopExtendedDto, index: number) => {
     const isActive = store?.id === activeStoreId;
     const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
@@ -60,39 +71,45 @@ const GroceryDiscountsScreen: React.FC = () => {
     return (
       <TouchableOpacity
         key={store.id}
-        onPress={() => setActiveStoreId(Number(store?.id))}
-        className={`w-80 h-48 mx-2 rounded-xl overflow-hidden transition-all duration-300 ${
+        onPress={() => handleStoreSelect(Number(store?.id), index)}
+        className={
           isActive
-            ? "opacity-100 scale-100 shadow-lg"
-            : "opacity-60 scale-90 shadow-sm"
-        }`}
+            ? "w-80 h-48 mx-2 rounded-xl overflow-hidden opacity-100 scale-100 shadow-lg"
+            : "w-80 h-48 mx-2 rounded-xl overflow-hidden opacity-60 scale-95 shadow-sm"
+        }
       >
         <ImageBackground
           source={storeImage}
-          className="flex-1 relative"
+          className="flex-1"
           resizeMode="cover"
         >
           {/* Dark overlay - stronger for inactive cards */}
           <View
-            className={`absolute inset-0 ${
-              isActive ? "bg-black/30" : "bg-black/50"
-            }`}
+            className={
+              isActive
+                ? "absolute inset-0 bg-black/30"
+                : "absolute inset-0 bg-black/50"
+            }
           />
 
           {/* Store Name */}
           <View className="absolute bottom-3 left-4">
             <Text
-              className={`font-bold ${
-                isActive ? "text-white text-lg" : "text-white/80 text-base"
-              }`}
+              className={
+                isActive
+                  ? "font-bold text-white text-lg"
+                  : "font-bold text-white/80 text-base"
+              }
             >
               {getStoreDisplayName(store.name)}
             </Text>
             {discountCount > 0 && (
               <Text
-                className={`mt-1 ${
-                  isActive ? "text-white/90 text-sm" : "text-white/70 text-xs"
-                }`}
+                className={
+                  isActive
+                    ? "mt-1 text-white/90 text-sm"
+                    : "mt-1 text-white/70 text-xs"
+                }
               >
                 {discountCount} zliav
               </Text>
@@ -102,8 +119,8 @@ const GroceryDiscountsScreen: React.FC = () => {
           {/* Active State Indicator */}
           {isActive && (
             <>
-              <View className="absolute inset-0 border-4 border-green-500 rounded-xl" />
-              <View className="absolute top-3 right-3 w-4 h-4 bg-green-500 rounded-full shadow-lg" />
+              <View className="absolute inset-0 border-4 border-primary rounded-xl" />
+              <View className="absolute top-3 right-3 w-4 h-4 bg-primary rounded-full shadow-lg" />
             </>
           )}
         </ImageBackground>
@@ -112,7 +129,9 @@ const GroceryDiscountsScreen: React.FC = () => {
   };
 
   // Helper function to get store image sources
-  const getStoreImage = (storeName: string) => {
+  const getStoreImage = (storeName?: string | null) => {
+    if (!storeName)
+      return require("../../../../assets/images/store-pictures/billa.png");
     const name = storeName.toLowerCase();
     if (name.includes("billa"))
       return require("../../../../assets/images/store-pictures/billa.png");
@@ -126,7 +145,8 @@ const GroceryDiscountsScreen: React.FC = () => {
   };
 
   // Helper function to get clean store display names
-  const getStoreDisplayName = (storeName: string): string => {
+  const getStoreDisplayName = (storeName?: string | null): string => {
+    if (!storeName) return "Store";
     const name = storeName.toLowerCase();
     if (name.includes("billa")) return "Billa";
     if (name.includes("kaufland")) return "Kaufland";
@@ -149,6 +169,7 @@ const GroceryDiscountsScreen: React.FC = () => {
       {/* Store Carousel */}
       <View className="bg-background py-3">
         <Carousel
+          ref={carouselRef}
           height={240}
           itemWidth={320}
           onSnapToItem={(index) => {
@@ -163,7 +184,7 @@ const GroceryDiscountsScreen: React.FC = () => {
             <CarouselItem key={store.id}>
               {renderStoreCard(store, index)}
             </CarouselItem>
-          ))}
+          )) || []}
         </Carousel>
 
         <CarouselIndicators
