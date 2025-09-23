@@ -67,6 +67,8 @@ const ShopComparisonScreen: React.FC = () => {
             areMoreCartsAvailable={areMoreCartsAvailable}
             savingsVsCheapest={savingsVsCheapest}
             savingsVsMostExpensive={savingsVsMostExpensive}
+            currentCartIndex={currentCartIndex}
+            totalCarts={carts?.length || 0}
           />
         </View>
 
