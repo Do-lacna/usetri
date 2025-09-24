@@ -23,6 +23,13 @@ export const SHOP_LOGOS = {
   // Add more shops as needed
 } as const;
 
+export const SHOP_COVER_IMAGES = {
+  1: require("../assets/images/store-pictures/lidl.png"),
+  2: require("../assets/images/store-pictures/billa.png"),
+  3: require("../assets/images/store-pictures/kaufland.png"),
+  4: require("../assets/images/store-pictures/tesco.jpg"),
+};
+
 /**
  * Gets the logo source for a specific shop
  * @param shopId - The ID of the shop
@@ -46,6 +53,23 @@ export const getShopLogo = (
   } catch (error) {
     console.error(`Error loading logo for shop ${shopId}:`, error);
     return null;
+  }
+};
+
+export const getShopCoverImage = (shopId: number): ImageSourcePropType => {
+  try {
+    const logoSource =
+      SHOP_COVER_IMAGES[shopId as keyof typeof SHOP_COVER_IMAGES];
+
+    if (!logoSource) {
+      console.warn(`No cover image found for shop ID: ${shopId}`);
+      return require("../assets/images/store-pictures/default-store.jpeg");
+    }
+
+    return logoSource;
+  } catch (error) {
+    console.error(`Error loading cover image for shop ${shopId}:`, error);
+    return require("../assets/images/store-pictures/default-store.jpeg");
   }
 };
 
