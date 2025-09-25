@@ -15,6 +15,8 @@ export const DiscountsScreenContent: React.FC = () => {
   const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
     useGetDiscountsStatistics();
 
+  console.log(stats);
+
   const {
     activeStoreId,
     activeStore,

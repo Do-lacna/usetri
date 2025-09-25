@@ -8,9 +8,8 @@ import {
 import { Platform } from "react-native";
 import Purchases, {
   type CustomerInfo,
-  LOG_LEVEL,
   type PurchasesEntitlementInfos,
-  type PurchasesPackage
+  type PurchasesPackage,
 } from "react-native-purchases";
 // Provide RevenueCat functions to our app
 
@@ -32,7 +31,7 @@ export interface UserState {
   cookies: number;
   items: string[];
   pro: boolean;
-  entitlements?: PurchasesEntitlementInfos
+  entitlements?: PurchasesEntitlementInfos;
 }
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null);
@@ -63,11 +62,12 @@ export const RevenueCatProvider = ({ children }: any) => {
         setIsReady(true);
 
         // Use more logging during debug if want!
-        Purchases.setLogLevel(LOG_LEVEL.DEBUG);
+        //TODO enable this when setting up revenuecat
+        // Purchases.setLogLevel(LOG_LEVEL.DEBUG);
 
         // Listen for customer updates
         Purchases.addCustomerInfoUpdateListener(async (info) => {
-          console.log(info);
+          // console.log(info);
           updateCustomerInformation(info);
         });
 
@@ -96,9 +96,13 @@ export const RevenueCatProvider = ({ children }: any) => {
   // Update user state based on previous purchases
   const updateCustomerInformation = async (customerInfo: CustomerInfo) => {
     setCustomerInfo(customerInfo);
-    const newUser: UserState = { cookies: user.cookies, items: [], pro: false, entitlements: { } as PurchasesEntitlementInfos };
+    const newUser: UserState = {
+      cookies: user.cookies,
+      items: [],
+      pro: false,
+      entitlements: {} as PurchasesEntitlementInfos,
+    };
     newUser.entitlements = customerInfo.entitlements;
-
 
     // if (customerInfo?.entitlements.active["Epic Wand"] !== undefined) {
     //   newUser.items.push(

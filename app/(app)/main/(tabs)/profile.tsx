@@ -17,7 +17,6 @@ export default function ProfileScreen() {
   const queryClient = useQueryClient();
   const { t, i18n } = useTranslation();
 
-  console.log(i18n?.languages?.[0]);
   const { isDrawerOpen, openDrawer, closeDrawer, menuSections } =
     useDrawerMenu();
   const { user } = useSession();

@@ -18,10 +18,10 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   const entitlements = customerInfo?.entitlements?.all || {};
   const activeEntitlements = customerInfo?.entitlements?.active || {};
 
-  console.log("Active subscriptions:", subscriptions);
+  // console.log("Active subscriptions:", subscriptions);
 
   const handlePurchaseComplete = (customerInfo: any) => {
-    console.log("Purchase completed:", customerInfo);
+    // console.log("Purchase completed:", customerInfo);
     displaySuccessToastMessage(
       "Predplatné bolo úspešne aktivované, najdete ho v profile"
     );

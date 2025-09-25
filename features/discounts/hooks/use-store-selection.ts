@@ -13,11 +13,14 @@ export const useStoreSelection = (
     (store: ShopExtendedDto) => store.id === activeStoreId
   );
 
+  console.log("Stattts", stats);
+
   const sortedShops = shops ? sortShopsByDiscountCount(shops, stats) : [];
 
   useEffect(() => {
     if (isArrayNotEmpty(shops) && !activeStoreId) {
       const sorted = sortShopsByDiscountCount(shops, stats);
+      console.log("Stattts", stats);
       setActiveStoreId(Number(sorted?.[0]?.id));
     }
   }, [shops, stats, activeStoreId]);

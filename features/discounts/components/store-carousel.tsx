@@ -28,7 +28,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   const handleStoreSelect = (storeId: number, index: number) => {
     onStoreSelect(storeId, index);
     // Center the selected card in the carousel
-    const itemWidth = 320; // Should match the itemWidth prop of Carousel
+    const itemWidth = 300; // Should match the itemWidth prop of Carousel
     carouselRef.current?.scrollTo({
       x: index * itemWidth,
       animated: true,
