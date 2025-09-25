@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
 import { getShopCoverImage } from "../../../utils/logo-utils";
@@ -22,6 +23,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
   stats,
   onPress,
 }) => {
+  const { t } = useTranslation();
   const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
   const storeImage = getShopCoverImage(Number(store?.id));
 
@@ -60,7 +62,9 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                 isActive ? "text-white/90 text-sm" : "text-white/70 text-xs"
               }`}
             >
-              {discountCount} zliav
+              {t("discounts.discountsCount", {
+                count: discountCount,
+              })}
             </Text>
           )}
         </View>

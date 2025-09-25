@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   FlatList,
   Image,
@@ -21,21 +21,25 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   selectedCategoryId,
   onCategorySelect,
 }) => {
-  // Sort categories to put the selected one first
-  const sortedCategories = React.useMemo(() => {
-    if (!selectedCategoryId) return categories;
+  const flatListRef = useRef<FlatList<PopularCategoryDto>>(null);
 
-    const selectedCategory = categories.find(
-      (cat) => cat.category?.id === selectedCategoryId
-    );
-    const otherCategories = categories.filter(
-      (cat) => cat.category?.id !== selectedCategoryId
-    );
+  // Auto-scroll to selected category when selectedCategoryId changes
+  useEffect(() => {
+    if (selectedCategoryId && categories.length > 0) {
+      const selectedIndex = categories.findIndex(
+        (category) => category.category?.id === selectedCategoryId
+      );
 
-    return selectedCategory
-      ? [selectedCategory, ...otherCategories]
-      : categories;
-  }, [categories, selectedCategoryId]);
+      if (selectedIndex !== -1) {
+        // Try to scroll immediately, fallback handled by onScrollToIndexFailed
+        flatListRef.current?.scrollToIndex({
+          index: selectedIndex,
+          animated: true,
+          viewPosition: 0.5, // Center the item in the view
+        });
+      }
+    }
+  }, [selectedCategoryId, categories]);
 
   const renderCategory = ({ item }: ListRenderItemInfo<PopularCategoryDto>) => {
     const { name, id, image_url } = item.category || {};
@@ -65,8 +69,9 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   return (
     <View className="my-4">
       <FlatList
+        ref={flatListRef}
         horizontal
-        data={sortedCategories}
+        data={categories}
         ItemSeparatorComponent={() => <View className="w-4" />}
         renderItem={renderCategory}
         keyExtractor={(category) => String(category?.category?.id)}
@@ -74,6 +79,16 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         contentContainerStyle={{
           paddingHorizontal: 8,
           paddingVertical: 8,
+        }}
+        onScrollToIndexFailed={(info) => {
+          // Fallback: scroll to offset if scrollToIndex fails
+          const wait = new Promise((resolve) => setTimeout(resolve, 500));
+          wait.then(() => {
+            flatListRef.current?.scrollToOffset({
+              offset: info.averageItemLength * info.index,
+              animated: true,
+            });
+          });
         }}
       />
     </View>

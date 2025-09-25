@@ -99,15 +99,6 @@ export default function SearchScreen() {
         </IconButton>
       </View>
 
-      {/* <View className="flex-row gap-1 mt-2 mb-4">
-          <Text className="text-lg tracking-wide">Hľadaj v lokalite:</Text>
-          <Pressable>
-            <Text className="text-lg text-terciary font-bold tracking-wide">
-              Bratislava
-            </Text>
-          </Pressable>
-        </View> */}
-
       {displaySearchResult ? (
         <FlatList
           data={searchProducts}

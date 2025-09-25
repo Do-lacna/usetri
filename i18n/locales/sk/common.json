@@ -3,9 +3,11 @@
   "nakup_few": "{{count}} nákupy",
   "nakup_other": "{{count}} nákupov",
 
-  "discounts_one": "{{count}} akcia",
-  "discounts_few": "{{count}} akcie",
-  "discounts_other": "{{count}} akcií",
+  "discounts": {
+    "discountsCount_one": "{{count}} akcia",
+    "discountsCount_few": "{{count}} akcie",
+    "discountsCount_other": "{{count}} akcií"
+  },
 
   "product-list_one": "Váš nákup ({{count}} kus)",
   "product-list_few": "Váš nákup ({{count}} kusy)",
