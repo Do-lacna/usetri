@@ -76,7 +76,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
         />
 
         {/* Category Info Message */}
-        <View className="mb-4 bg-green-50 border border-blue-200 rounded-lg p-3">
+        <View className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
           <Text className="text-sm text-green-700 leading-relaxed">
             Pridaním kategórie do košíka bude vo finálnom porovnaní z každého
             obchodu vybraný najlacnejší produkt
