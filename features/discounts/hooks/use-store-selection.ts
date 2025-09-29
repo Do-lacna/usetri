@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
 import { isArrayNotEmpty } from "../../../lib/utils";
-import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
+import type { ShopExtendedDto } from "../../../network/model";
+import {
+  useGetDiscountsStatistics,
+  useGetShops,
+} from "../../../network/query/query";
 import { sortShopsByDiscountCount } from "../utils/store-utils";
 
-export const useStoreSelection = (
-  shops: ShopExtendedDto[] | undefined,
-  stats: DiscountStatsDto[]
-) => {
+export const useStoreSelection = () => {
+  const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
+  const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
+    useGetDiscountsStatistics();
   const [activeStoreId, setActiveStoreId] = useState<number | null>(null);
 
   const activeStore = shops?.find(
     (store: ShopExtendedDto) => store.id === activeStoreId
   );
 
-  console.log("Stattts", stats);
-
-  const sortedShops = shops ? sortShopsByDiscountCount(shops, stats) : [];
+  const sortedShops =
+    shops && stats ? sortShopsByDiscountCount(shops, stats) : [];
 
   useEffect(() => {
-    if (isArrayNotEmpty(shops) && !activeStoreId) {
+    if (isArrayNotEmpty(shops) && isArrayNotEmpty(stats) && !activeStoreId) {
       const sorted = sortShopsByDiscountCount(shops, stats);
-      console.log("Stattts", stats);
       setActiveStoreId(Number(sorted?.[0]?.id));
     }
   }, [shops, stats, activeStoreId]);

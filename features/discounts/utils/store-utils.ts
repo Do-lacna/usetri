@@ -1,4 +1,4 @@
-import type { DiscountStatsDto } from "../../../network/model";
+import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
 
 export const getStoreDiscountsCount = (
   storeId: number,
@@ -20,8 +20,8 @@ export const getStoreDisplayName = (storeName?: string | null): string => {
 };
 
 export const sortShopsByDiscountCount = (
-  shops: any[],
-  stats: DiscountStatsDto[]
+  shops: ShopExtendedDto[],
+  stats: DiscountStatsDto[] | null
 ) => {
   return shops?.sort(
     ({ id: firstStoreId = 0 }, { id: secondStoreId = 0 }) =>
