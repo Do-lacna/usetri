@@ -47,7 +47,7 @@ export const UploadProgressIndicator: React.FC<
 
   const getStatusColor = () => {
     if (progress.failed > 0) return "#ef4444"; // red
-    if (progress.uploading > 0) return "#3b82f6"; // blue
+    if (progress.uploading > 0) return "#10b981"; // green
     if (progress.completed === progress.total) return "#10b981"; // green
     return "#6b7280"; // gray
   };

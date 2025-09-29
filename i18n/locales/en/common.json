@@ -45,5 +45,6 @@
   "compared_to_cheapest": "oproti najlacnejšiemu obchodu",
   "ranking_position": "{{position}}. najlacnejší z {{total}} obchodov",
   "total_sum": "Celková suma",
-  "position": "Pozícia"
+  "position": "Pozícia",
+  "discount": "Akcia"
 }
