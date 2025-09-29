@@ -38,7 +38,16 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
 
   React.useEffect(() => {
     if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {
-      setSearchResults(searchItems(categories, searchQuery, options));
+      const searchedAndSortedResult = searchItems(
+        categories,
+        searchQuery,
+        options
+      ).sort(
+        ({ popularity: aPopularity = 0 }, { popularity: bPopularity = 0 }) => {
+          return bPopularity - aPopularity;
+        }
+      );
+      setSearchResults(searchedAndSortedResult);
     } else {
       setSearchResults([]);
     }
