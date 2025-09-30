@@ -6,6 +6,7 @@ import type {
 import { useGetPopularCategoriesProducts } from "../../../network/query/query";
 import { Skeleton } from "../../ui/skeleton";
 import SuggestedProductCard from "../shopping-list/suggested-product-card";
+import { useTranslation } from 'react-i18next';
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
@@ -18,6 +19,7 @@ export function SubcategorySection({
   onProductPress,
   isSubcategorySelected = false, // Default to false for backward compatibility
 }: SubcategorySectionProps) {
+  const { t } = useTranslation();
   const { data: { products: categoryProducts = [] } = {}, isLoading } =
     useGetPopularCategoriesProducts(Number(subcategory?.id));
 
@@ -72,7 +74,7 @@ export function SubcategorySection({
         />
       ) : (
         <Text className="text-muted-foreground text-center py-4 px-4">
-          Žiadne produkty v tejto kategórii
+          {t('no_products_in_category')}
         </Text>
       )}
     </View>
