@@ -46,5 +46,13 @@
   "ranking_position": "{{position}}. najlacnejší z {{total}} obchodov",
   "total_sum": "Celková suma",
   "position": "Pozícia",
-  "discount": "Akcia"
+  "discount": "Akcia",
+
+  "category_no_subcategories": "Táto kategória nemá podkategórie",
+  "back_to": "Späť na",
+  "all_categories": "Všetky kategórie",
+  "subcategories_label": "Podkategórie",
+  "categories_title": "Kategórie produktov",
+  "categories_count": "{{count}} kategórií",
+  "no_products_in_category": "Žiadne produkty v tejto kategórii"
 }

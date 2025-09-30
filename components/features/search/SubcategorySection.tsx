@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FlatList, Text, View } from 'react-native';
 import type {
   CategoryDto,
@@ -18,6 +19,7 @@ export function SubcategorySection({
   onProductPress,
   isSubcategorySelected = false, // Default to false for backward compatibility
 }: SubcategorySectionProps) {
+  const { t } = useTranslation();
   const {
     data: { products: categoryProducts = [] } = {},
     isLoading,
@@ -80,7 +82,7 @@ export function SubcategorySection({
         />
       ) : (
         <Text className="text-muted-foreground text-center py-4 px-4">
-          Žiadne produkty v tejto kategórii
+          {t('no_products_in_category')}
         </Text>
       )}
     </View>

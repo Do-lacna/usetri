@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Image,
@@ -23,6 +24,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   selectedSubcategoryId,
   onSubcategorySelect,
 }) => {
+  const { t } = useTranslation();
   // Get subcategories from the selected main category
   const subcategories = selectedCategory?.children || [];
 
@@ -47,30 +49,26 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
       >
         <View
           className={`
-            flex-row items-center px-4 py-3 rounded-full min-h-[48px]
-            ${
-              isSelected
-                ? 'bg-green-500 dark:bg-green-600 shadow-lg border-2 border-green-300 dark:border-green-400'
-                : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm'
-            }
-          `}
+             flex-row items-center px-4 py-3 rounded-full min-h-[48px]
+             ${
+               isSelected
+                 ? 'bg-primary border border-primary shadow-lg'
+                 : 'bg-card border border-border shadow-sm'
+             }
+           `}
         >
           {/* Icon container with improved styling */}
           {!!image_url && (
             <View
               className={`
-              w-8 h-8 rounded-full mr-3 justify-center items-center
-              ${
-                isSelected
-                  ? 'bg-white/20 dark:bg-white/10'
-                  : 'bg-gray-50 dark:bg-gray-700'
-              }
-            `}
+               w-8 h-8 rounded-full mr-3 justify-center items-center
+               ${isSelected ? 'bg-primary/20' : 'bg-card'}
+             `}
             >
               <Image
                 source={{ uri: image_url as string }}
                 resizeMode="contain"
-                className="w-8 h-8 rounded-full bg-white/50 dark:bg-gray-800"
+                className="w-8 h-8 rounded-full bg-card/50"
               />
             </View>
           )}
@@ -78,13 +76,9 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
           {/* Subcategory name with improved typography */}
           <Text
             className={`
-              font-medium text-sm
-              ${
-                isSelected
-                  ? 'text-white dark:text-white'
-                  : 'text-gray-700 dark:text-gray-200'
-              }
-            `}
+               font-medium text-sm
+               ${isSelected ? 'text-primary-foreground' : 'text-foreground'}
+             `}
             numberOfLines={1}
           >
             {name}
@@ -92,7 +86,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
 
           {/* Selected indicator dot */}
           {isSelected && (
-            <View className="w-2 h-2 bg-white rounded-full ml-2 opacity-80" />
+            <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
           )}
         </View>
       </Pressable>
@@ -105,11 +99,11 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   }
 
   return (
-    <View className="py-3 bg-gray-50/50 dark:bg-gray-900/50">
+    <View className="py-3 bg-background/50">
       {/* Section header showing main category name */}
       <View className="px-4 mb-3">
-        <Text className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
-          {selectedCategory?.category?.name} - Podkategórie
+        <Text className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+          {selectedCategory?.category?.name} - {t('subcategories_label')}
         </Text>
       </View>
 
