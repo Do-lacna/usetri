@@ -22,7 +22,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   onSubcategorySelect,
 }) => {
   const { t } = useTranslation();
-   // Get subcategories from the selected main category
    const subcategories = selectedCategory?.children || [];
 
    const renderSubcategory = ({ item }: ListRenderItemInfo<any>) => {
@@ -32,11 +31,10 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
      return (
        <Pressable
          onPress={() => {
-           // Toggle behavior: if already selected, deselect it, otherwise select it
            if (isSelected) {
-             onSubcategorySelect(undefined, ''); // Deselect
+             onSubcategorySelect(undefined, '');
            } else {
-             onSubcategorySelect(id, name); // Select
+             onSubcategorySelect(id, name);
            }
          }}
          style={({ pressed }) => ({
@@ -53,7 +51,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              }
            `}
          >
-           {/* Icon container with improved styling */}
            {!!image_url && (
              <View className={`
                w-8 h-8 rounded-full mr-3 justify-center items-center
@@ -70,7 +67,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              </View>
            )}
 
-           {/* Subcategory name with improved typography */}
            <Text
              className={`
                font-medium text-sm
@@ -84,7 +80,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              {name}
            </Text>
 
-           {/* Selected indicator dot */}
            {isSelected && (
              <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
            )}
@@ -93,21 +88,18 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
      );
    };
 
-   // Don't render if no subcategories
    if (!subcategories || subcategories.length === 0) {
      return null;
    }
 
    return (
     <View className="py-3 bg-background/50">
-      {/* Section header showing main category name */}
       <View className="px-4 mb-3">
         <Text className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
           {selectedCategory?.category?.name} - {t('subcategories_label')}
         </Text>
       </View>
 
-       {/* Horizontal subcategory list */}
        <FlatList
          horizontal
          data={subcategories}
