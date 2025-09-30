@@ -23,7 +23,7 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
 
   return (
     <View className="mb-6">
-      <Text className="text-lg font-semibold text-gray-900 mb-4">
+      <Text className="text-lg font-semibold text-foreground mb-4">
         {t("available_in", { count: shopsPrices.length })}
       </Text>
 

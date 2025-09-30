@@ -16,7 +16,7 @@ export const CategoryBreadcrumb: React.FC<CategoryBreadcrumbProps> = ({
       {categories.map((category, index) => (
         <View key={category} className="flex-row items-center mb-2">
           <Text 
-            className="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full"
+            className="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full"
             numberOfLines={1}
             ellipsizeMode="tail"
           >
@@ -26,7 +26,7 @@ export const CategoryBreadcrumb: React.FC<CategoryBreadcrumbProps> = ({
             <Ionicons
               name="chevron-forward"
               size={12}
-              color="#9CA3AF"
+              color="hsl(240, 3.8%, 46.1%)"
               className="mx-1"
             />
           )}

@@ -14,7 +14,7 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
   onDecrement,
 }) => {
   return (
-    <View className="flex-row items-center bg-gray-100 rounded-lg">
+    <View className="flex-row items-center bg-muted rounded-lg">
       <TouchableOpacity
         onPress={onDecrement}
         disabled={quantity === 0}
@@ -22,11 +22,11 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
           quantity === 0 ? 'opacity-50' : ''
         }`}
       >
-        <Ionicons name="remove" size={20} color="#374151" />
+        <Ionicons name="remove" size={20} color="hsl(240, 3.8%, 46.1%)" />
       </TouchableOpacity>
 
-      <View className="w-16 h-12 items-center justify-center bg-white">
-        <Text className="text-lg font-semibold text-gray-900">
+      <View className="w-16 h-12 items-center justify-center bg-background">
+        <Text className="text-lg font-semibold text-foreground">
           {quantity}
         </Text>
       </View>
@@ -35,7 +35,7 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
         onPress={onIncrement}
         className="w-12 h-12 items-center justify-center rounded-r-lg"
       >
-        <Ionicons name="add" size={20} color="#374151" />
+        <Ionicons name="add" size={20} color="hsl(240, 3.8%, 46.1%)" />
       </TouchableOpacity>
     </View>
   );

@@ -108,8 +108,8 @@ const ProductDetailScreen: React.FC = () => {
 
   if (!barcode && !isLoading) {
     return (
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-3xl">Product not found</Text>
+      <View className="flex-1 items-center justify-center bg-background">
+        <Text className="text-3xl text-foreground">Product not found</Text>
       </View>
     );
   }
@@ -130,7 +130,7 @@ const ProductDetailScreen: React.FC = () => {
     (selectedShopDiscountPrice ?? selectedShopPrice) * cartQuantity;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-background">
       <ScrollView
         className="flex-1"
         showsVerticalScrollIndicator={false}

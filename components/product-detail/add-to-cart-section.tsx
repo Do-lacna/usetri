@@ -31,13 +31,13 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
   };
 
   return (
-    <View className="bg-white border-t border-gray-200 px-4 py-4">
+    <View className="bg-card border-t border-border px-4 py-4">
       <View className="flex-row items-center justify-between mb-4">
         <View>
-          <Text className="text-sm text-gray-600">
+          <Text className="text-sm text-muted-foreground">
             Cena v {selectedShopName}
           </Text>
-          <Text className="text-2xl font-bold text-gray-900">
+          <Text className="text-2xl font-bold text-foreground">
             {totalPrice.toFixed(2)} €
           </Text>
         </View>
