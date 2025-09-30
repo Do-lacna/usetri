@@ -6,18 +6,20 @@ import type {
 import { useGetPopularCategoriesProducts } from "../../../network/query/query";
 import { Skeleton } from "../../ui/skeleton";
 import SuggestedProductCard from "../shopping-list/suggested-product-card";
+import { useTranslation } from 'react-i18next';
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
   onProductPress: (barcode: string, categoryId: number) => void;
-  isSubcategorySelected?: boolean; // New prop to indicate if this is a selected subcategory
+  isSubcategorySelected?: boolean;
 }
 
 export function SubcategorySection({
   subcategory,
   onProductPress,
-  isSubcategorySelected = false, // Default to false for backward compatibility
+  isSubcategorySelected = false,
 }: SubcategorySectionProps) {
+  const { t } = useTranslation();
   const { data: { products: categoryProducts = [] } = {}, isLoading } =
     useGetPopularCategoriesProducts(Number(subcategory?.id));
 
@@ -37,12 +39,10 @@ export function SubcategorySection({
 
   return (
     <View className="mb-6">
-      {/* Subcategory title */}
       <Text className="text-lg font-semibold text-foreground mb-3 px-4">
         {subcategory.name}
       </Text>
 
-      {/* Products list - horizontal or vertical based on selection */}
       {isLoading ? (
         <View className={isSubcategorySelected ? "px-4" : "flex-row px-4"}>
           {Array.from({ length: isSubcategorySelected ? 6 : 3 }, (_, index) => renderSkeleton({ index }))}
@@ -57,7 +57,7 @@ export function SubcategorySection({
           key={isSubcategorySelected ? 'vertical' : 'horizontal'} // Force re-render when layout changes
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={isSubcategorySelected}
-          scrollEnabled={isSubcategorySelected}
+          scrollEnabled={true}
           contentContainerStyle={
             isSubcategorySelected
               ? { paddingHorizontal: 16, paddingBottom: 16 }
@@ -72,7 +72,7 @@ export function SubcategorySection({
         />
       ) : (
         <Text className="text-muted-foreground text-center py-4 px-4">
-          Žiadne produkty v tejto kategórii
+          {t('no_products_in_category')}
         </Text>
       )}
     </View>
