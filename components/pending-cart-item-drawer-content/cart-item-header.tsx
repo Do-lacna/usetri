@@ -37,7 +37,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
           source={{
             uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
           }}
-          className="w-full h-1/2 resize-contain"
+          className="w-full h-full"
           resizeMode="contain"
         />
       </View>

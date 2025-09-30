@@ -9,6 +9,10 @@
     "discountsCount_other": "{{count}} akcií"
   },
 
+  "available_in_one": "Dostupné v {{count}} obchode",
+  "available_in_few": "Dostupné v {{count}} obchodoch",
+  "available_in_other": "Dostupné v {{count}} obchodoch",
+
   "product-list_one": "Váš nákup ({{count}} produkt)",
   "product-list_few": "Váš nákup ({{count}} produkty)",
   "product-list_other": "Váš nákup ({{count}} produktov)",

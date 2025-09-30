@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { getShopById } from "~/lib/utils";
 import type { ShopExtendedDto, ShopPriceDto } from "~/network/model";
 import { ShopPriceItem } from "./shop-price-item";
+import { useTranslation } from "react-i18next";
 
 interface ShopPricesListProps {
   shopsPrices?: ShopPriceDto[] | null;
@@ -17,12 +18,13 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
   selectedShopId,
   onShopSelect,
 }) => {
+  const { t } = useTranslation()
   if (!shopsPrices || shopsPrices.length === 0) return null;
 
   return (
     <View className="mb-6">
       <Text className="text-lg font-semibold text-gray-900 mb-4">
-        Dostupné v {shopsPrices.length} obchodoch
+        {t("available_in", { count: shopsPrices.length })}
       </Text>
 
       {shopsPrices.map(({ shop_id, price, discount_price }) => {
