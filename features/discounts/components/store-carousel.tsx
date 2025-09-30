@@ -7,6 +7,7 @@ import {
 } from "../../../components/ui/carousel";
 import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
 import { StoreCard } from "./store-card";
+import { Text } from "~/components/ui/text";
 
 interface StoreCarouselProps {
   shops: ShopExtendedDto[];

@@ -6,6 +6,7 @@ import {
   useGetShops,
 } from "../../../network/query/query";
 import { sortShopsByDiscountCount } from "../utils/store-utils";
+import { set } from "date-fns";
 
 export const useStoreSelection = () => {
   const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
@@ -21,10 +22,18 @@ export const useStoreSelection = () => {
     shops && stats ? sortShopsByDiscountCount(shops, stats) : [];
 
   useEffect(() => {
-    if (isArrayNotEmpty(shops) && isArrayNotEmpty(stats) && !activeStoreId) {
-      const sorted = sortShopsByDiscountCount(shops, stats);
-      setActiveStoreId(Number(sorted?.[0]?.id));
+    if (!activeStoreId) {
+      if (
+        isArrayNotEmpty(shops) && isArrayNotEmpty(stats)
+      ) {
+        const sorted = sortShopsByDiscountCount(shops, stats);
+        setActiveStoreId(Number(sorted?.[0]?.id));
+      }
+      else {
+        setActiveStoreId(Number(shops?.[0]?.id));
+      }
     }
+
   }, [shops, stats, activeStoreId]);
 
   const handleStoreSelect = (storeId: number) => {

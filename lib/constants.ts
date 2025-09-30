@@ -19,7 +19,7 @@ export const NAV_THEME = {
   },
 };
 
-export const PRIMARY_HEX = "#16a34a";
+export const PRIMARY_HEX = "#62E46D";
 
 export const TERCIARY_HEX = "#034F4A";
 

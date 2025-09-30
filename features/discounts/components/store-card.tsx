@@ -7,6 +7,7 @@ import {
   getStoreDiscountsCount,
   getStoreDisplayName,
 } from "../utils/store-utils";
+import { PRIMARY_HEX } from "~/lib/constants";
 
 interface StoreCardProps {
   store: ShopExtendedDto;
@@ -31,36 +32,67 @@ export const StoreCard: React.FC<StoreCardProps> = ({
     <TouchableOpacity
       key={store.id}
       onPress={() => onPress(Number(store?.id), index)}
-      className={`w-80 h-48 mx-2 rounded-xl overflow-hidden ${
-        isActive
-          ? "opacity-100 scale-100 shadow-lg"
-          : "opacity-60 scale-95 shadow-sm"
-      }`}
+      style={[
+        {
+          width: 320,
+          height: 192,
+          marginHorizontal: 8,
+          borderRadius: 12,
+          // Remove overflow: 'hidden' to prevent border clipping
+          transform: [{ scale: isActive ? 1 : 0.95 }],
+          opacity: isActive ? 1 : 0.6,
+        },
+        isActive && {
+          elevation: 8, // Android shadow
+          shadowColor: '#000', // iOS shadow
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+        },
+        !isActive && {
+          elevation: 2, // Android shadow
+          shadowColor: '#000', // iOS shadow
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        },
+      ]}
     >
       <ImageBackground
         source={storeImage}
-        className="flex-1"
+        style={{ flex: 1 }}
         resizeMode="cover"
+        imageStyle={{ borderRadius: 12 }}
       >
         <View
-          className={`absolute inset-0 ${
-            isActive ? "bg-black/30" : "bg-black/50"
-          }`}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: isActive ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.5)',
+            borderRadius: 12,
+          }}
         />
 
-        <View className="absolute bottom-3 left-4">
+        <View style={{ position: 'absolute', bottom: 12, left: 16 }}>
           <Text
-            className={`font-bold ${
-              isActive ? "text-white text-lg" : "text-white/80 text-base"
-            }`}
+            style={{
+              fontWeight: 'bold',
+              color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
+              fontSize: isActive ? 18 : 16,
+            }}
           >
             {getStoreDisplayName(store.name)}
           </Text>
           {discountCount > 0 && (
             <Text
-              className={`mt-1 ${
-                isActive ? "text-white/90 text-sm" : "text-white/70 text-xs"
-              }`}
+              style={{
+                marginTop: 4,
+                color: isActive ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.7)',
+                fontSize: isActive ? 14 : 12,
+              }}
             >
               {t("discounts.discountsCount", {
                 count: discountCount,
@@ -71,8 +103,35 @@ export const StoreCard: React.FC<StoreCardProps> = ({
 
         {isActive && (
           <>
-            <View className="absolute inset-0 border-4 border-primary rounded-xl" />
-            <View className="absolute top-3 right-3 w-4 h-4 bg-primary rounded-full shadow-lg" />
+            <View 
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                borderWidth: 4,
+                borderColor: PRIMARY_HEX, // primary color
+                borderRadius: 12,
+                pointerEvents: 'none', // Prevent touch interference
+              }}
+            />
+            <View 
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                width: 16,
+                height: 16,
+                backgroundColor: PRIMARY_HEX, // primary color
+                borderRadius: 8,
+                elevation: 4,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.3,
+                shadowRadius: 4,
+              }}
+            />
           </>
         )}
       </ImageBackground>
