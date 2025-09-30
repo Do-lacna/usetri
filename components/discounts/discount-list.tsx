@@ -116,7 +116,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
           />
         ) : allProducts?.length === 0 ? (
           <Text
-            className="text-muted-foreground text-base text-center mt-2"
+            className="text-muted-foreground text-base text-center mt-2 px-4"
             numberOfLines={2}
           >
             Tento obchod momentálne neponúka žiadne zľavnené produkty

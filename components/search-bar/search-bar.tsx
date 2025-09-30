@@ -1,6 +1,7 @@
 import type React from "react";
 import {
   FlatList,
+  Platform,
   Pressable,
   TextInput,
   TouchableOpacity,
@@ -119,8 +120,19 @@ const SearchBar = <T,>({
         className={`bg-card px-4 py-2 flex-row items-center justify-center min-h-[44px] transition-all duration-200 ${
           showDropdown ? 'rounded-t-xl border-b-0' : 'rounded-xl'
         } ${disabled ? 'opacity-60' : ''} ${
-          isFocused ? 'shadow-lg border-2 border-green-500' : 'shadow-sm border-2 border-border'
+          isFocused ? 'border-2 border-green-500' : 'border-2 border-border'
         }`}
+        style={{
+          // Platform-specific shadow
+          ...(Platform.OS === 'ios' ? {
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
+            shadowOpacity: isFocused ? 0.15 : 0.05,
+            shadowRadius: isFocused ? 8 : 2,
+          } : {
+            elevation: isFocused ? 8 : 2,
+          }),
+        }}
       >
         <View className="mr-3">
           <Search
@@ -188,8 +200,17 @@ const SearchBar = <T,>({
                 scaleY: dropdownAnimation,
               },
             ],
+            // Platform-specific shadow for dropdown
+            ...(Platform.OS === 'ios' ? {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 8,
+            } : {
+              elevation: 8,
+            }),
           }}
-          className="absolute top-[56px] left-0 right-0 bg-card rounded-b-xl shadow-lg max-h-60 border-2 border-t-0 z-20 overflow-hidden"
+          className="absolute top-[56px] left-0 right-0 bg-card rounded-b-xl max-h-60 border-2 border-t-0 z-20 overflow-hidden"
           pointerEvents={showDropdown ? 'auto' : 'none'}
         >
           <FlatList
