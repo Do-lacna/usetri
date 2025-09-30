@@ -19,27 +19,28 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
       })}
     >
       <View
-        className={`bg-card rounded-2xl p-4 shadow-${
+        className={`rounded-2xl overflow-hidden shadow-${
           Platform.OS === "ios" ? "sm" : "md"
-        } border border-border h-[160px] justify-between`}
+        } border border-border h-[180px] relative`}
       >
-        {/* Icon container with gradient background */}
-        <View className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 justify-center items-center mb-3">
-          <Image
-            source={{
-              uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
-            }}
-            className="w-12 h-12"
-            resizeMode="contain"
-          />
-        </View>
+        {/* Image container - fills entire card */}
+        <Image
+          source={{
+            uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
+          }}
+          className="w-full h-full absolute inset-0"
+          resizeMode="cover"
+        />
 
-        <Text
-          className="text-base font-semibold text-card-foreground leading-5"
-          numberOfLines={2}
-        >
-          {category?.category?.name}
-        </Text>
+        {/* Glassmorphism text overlay */}
+        <View className="absolute bottom-0 left-0 right-0 bg-white/75 backdrop-blur-sm px-2 py-3">
+          <Text
+            className="text-m font-semibold text-gray-800 text-center leading-tight"
+            numberOfLines={2}
+          >
+            {category?.category?.name}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );

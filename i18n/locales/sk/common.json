@@ -9,9 +9,9 @@
     "discountsCount_other": "{{count}} akcií"
   },
 
-  "product-list_one": "Váš nákup ({{count}} kus)",
-  "product-list_few": "Váš nákup ({{count}} kusy)",
-  "product-list_other": "Váš nákup ({{count}} kusov)",
+  "product-list_one": "Váš nákup ({{count}} produkt)",
+  "product-list_few": "Váš nákup ({{count}} produkty)",
+  "product-list_other": "Váš nákup ({{count}} produktov)",
 
   "welcome": "Vitajte",
   "hello": "Ahoj {{name}}",
@@ -26,5 +26,20 @@
   "add_item": "Pridať položku",
   "remove_item": "Odstrániť položku",
   "total": "Celkom",
-  "checkout": "Pokračovať na platbu"
+  "checkout": "Pokračovať na platbu",
+  "save_list": "Uložiť zoznam",
+  "discard_list": "Zahodiť",
+
+  "best_price": "Najlepšia cena",
+  "most_expensive": "Najdrahšie",
+  "cheapest_of_stores": "Najlacnejší z {{count}} obchodov",
+  "more_than_cheapest": "+{{amount}} € oproti najlacnejšiemu ({{percentage}}% viac)",
+  "you_save": "Ušetríte {{amount}} € ({{percentage}}%)",
+  "extra_cost": "+{{amount}} € ({{percentage}}% viac)",
+  "compared_to_most_expensive": "oproti najdrahšiemu obchodu",
+  "compared_to_cheapest": "oproti najlacnejšiemu obchodu",
+  "ranking_position": "{{position}}. najlacnejší z {{total}} obchodov",
+  "total_sum": "Celková suma",
+  "position": "Pozícia",
+  "discount": "Akcia"
 }

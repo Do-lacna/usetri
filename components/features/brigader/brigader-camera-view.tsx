@@ -284,7 +284,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
           {scannedBarcode && !capturedPhoto && (
             <TouchableOpacity
               onPress={capturePhoto}
-              className="bg-blue-600 p-4 rounded-lg"
+              className="bg-green-600 p-4 rounded-lg"
               activeOpacity={0.8}
             >
               <Text className="text-white text-center font-bold text-lg">
