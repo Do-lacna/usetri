@@ -23,7 +23,6 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
           Platform.OS === 'ios' ? 'sm' : 'md'
         } border border-border h-[180px] relative`}
       >
-        {/* Image container - fills entire card */}
         <Image
           source={{
             uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
@@ -32,7 +31,6 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
           resizeMode="cover"
         />
 
-        {/* Glassmorphism text overlay - use app palette tokens instead of hardcoded whites/grays */}
         <View className="absolute bottom-0 left-0 right-0 bg-card/75 backdrop-blur-sm px-2 py-3">
           <Text
             className="text-m font-semibold text-card-foreground text-center leading-tight"

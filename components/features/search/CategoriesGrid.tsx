@@ -18,7 +18,6 @@ export function CategoriesGrid({
   onRefresh,
 }: CategoriesGridProps) {
   const { t } = useTranslation();
-  // Filter out root category and create skeleton data
   const filteredCategories = categories.filter(
     category => category?.category?.name?.toLowerCase() !== 'root',
   );

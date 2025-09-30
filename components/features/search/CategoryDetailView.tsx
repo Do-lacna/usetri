@@ -30,10 +30,8 @@ export function CategoryDetailView({
     subcategoryName: string,
   ) => {
     setSelectedSubcategoryId(subcategoryId);
-    // Optionally scroll to the specific subcategory section
   };
 
-  // Filter subcategories to show based on selection
   const subcategoriesToShow = selectedSubcategoryId
     ? selectedCategory?.children?.filter(
         sub => sub.id === selectedSubcategoryId,

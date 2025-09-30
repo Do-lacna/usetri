@@ -11,13 +11,13 @@ import SuggestedProductCard from '../shopping-list/suggested-product-card';
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
   onProductPress: (barcode: string, categoryId: number) => void;
-  isSubcategorySelected?: boolean; // New prop to indicate if this is a selected subcategory
+  isSubcategorySelected?: boolean;
 }
 
 export function SubcategorySection({
   subcategory,
   onProductPress,
-  isSubcategorySelected = false, // Default to false for backward compatibility
+  isSubcategorySelected = false,
 }: SubcategorySectionProps) {
   const { t } = useTranslation();
   const {
@@ -43,12 +43,10 @@ export function SubcategorySection({
 
   return (
     <View className="mb-6">
-      {/* Subcategory title */}
       <Text className="text-lg font-semibold text-foreground mb-3 px-4">
         {subcategory.name}
       </Text>
 
-      {/* Products list - horizontal or vertical based on selection */}
       {isLoading ? (
         <View className={isSubcategorySelected ? 'px-4' : 'flex-row px-4'}>
           {Array.from({ length: isSubcategorySelected ? 6 : 3 }, (_, index) =>
