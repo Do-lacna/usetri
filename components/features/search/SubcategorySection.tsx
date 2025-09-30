@@ -63,7 +63,7 @@ export function SubcategorySection({
           key={isSubcategorySelected ? 'vertical' : 'horizontal'} // Force re-render when layout changes
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={isSubcategorySelected}
-          scrollEnabled={isSubcategorySelected}
+          scrollEnabled={true}
           contentContainerStyle={
             isSubcategorySelected
               ? { paddingHorizontal: 16, paddingBottom: 16 }

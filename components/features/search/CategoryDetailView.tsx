@@ -73,25 +73,48 @@ export function CategoryDetailView({
       />
 
       {/* Subcategories with their products */}
-      <ScrollView className="bg-background flex-1">
-        {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-          subcategoriesToShow.map(subcategory => (
-            <SubcategorySection
-              key={subcategory.id}
-              subcategory={subcategory}
-              onProductPress={onProductPress}
-              isSubcategorySelected={!!selectedSubcategoryId}
-            />
-          ))
-        ) : (
-          <View className="flex-1 justify-center items-center py-20">
-            <Text className="text-6xl mb-4">📂</Text>
-            <Text className="text-xl text-gray-600 text-center">
-              Táto kategória nemá podkategórie
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+      {selectedSubcategoryId ? (
+        <View className="bg-background flex-1">
+          {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
+            subcategoriesToShow.map(subcategory => (
+              <View key={subcategory.id} className="flex-1">
+                <SubcategorySection
+                  subcategory={subcategory}
+                  onProductPress={onProductPress}
+                  isSubcategorySelected={true}
+                />
+              </View>
+            ))
+          ) : (
+            <View className="flex-1 justify-center items-center py-20">
+              <Text className="text-6xl mb-4">📂</Text>
+              <Text className="text-xl text-gray-600 text-center">
+                Táto kategória nemá podkategórie
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <ScrollView className="bg-background flex-1">
+          {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
+            subcategoriesToShow.map(subcategory => (
+              <SubcategorySection
+                key={subcategory.id}
+                subcategory={subcategory}
+                onProductPress={onProductPress}
+                isSubcategorySelected={false}
+              />
+            ))
+          ) : (
+            <View className="flex-1 justify-center items-center py-20">
+              <Text className="text-6xl mb-4">📂</Text>
+              <Text className="text-xl text-gray-600 text-center">
+                Táto kategória nemá podkategórie
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 }
