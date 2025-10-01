@@ -25,7 +25,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   onSubcategorySelect,
 }) => {
   const { t } = useTranslation();
-  // Get subcategories from the selected main category
   const subcategories = selectedCategory?.children || [];
 
   const renderSubcategory = ({ item }: ListRenderItemInfo<any>) => {
@@ -35,11 +34,10 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
     return (
       <Pressable
         onPress={() => {
-          // Toggle behavior: if already selected, deselect it, otherwise select it
           if (isSelected) {
-            onSubcategorySelect(undefined, ''); // Deselect
+            onSubcategorySelect(undefined, '');
           } else {
-            onSubcategorySelect(id, name); // Select
+            onSubcategorySelect(id, name);
           }
         }}
         style={({ pressed }) => ({
@@ -52,12 +50,11 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              flex-row items-center px-4 py-3 rounded-full min-h-[48px]
              ${
                isSelected
-                 ? 'bg-primary border border-primary shadow-lg'
+                 ? 'border border-2 border-primary shadow-md'
                  : 'bg-card border border-border shadow-sm'
              }
            `}
         >
-          {/* Icon container with improved styling */}
           {!!image_url && (
             <View
               className={`
@@ -68,23 +65,20 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
               <Image
                 source={{ uri: image_url as string }}
                 resizeMode="contain"
-                className="w-8 h-8 rounded-full bg-card/50"
+                className="w-8 h-8 rounded-full"
               />
             </View>
           )}
 
-          {/* Subcategory name with improved typography */}
           <Text
             className={`
-               font-medium text-sm
-               ${isSelected ? 'text-primary-foreground' : 'text-foreground'}
+               font-medium text-sm text-foreground
              `}
             numberOfLines={1}
           >
             {name}
           </Text>
 
-          {/* Selected indicator dot */}
           {isSelected && (
             <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
           )}
@@ -93,7 +87,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
     );
   };
 
-  // Don't render if no subcategories
   if (!subcategories || subcategories.length === 0) {
     return null;
   }
@@ -107,7 +100,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         </Text>
       </View>
 
-      {/* Horizontal subcategory list */}
       <FlatList
         horizontal
         data={subcategories}

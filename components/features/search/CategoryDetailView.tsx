@@ -1,6 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  Text,
+  View,
+  type ListRenderItemInfo,
+} from 'react-native';
 import type { PopularCategoryDto } from '../../../network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';
@@ -37,6 +43,16 @@ export function CategoryDetailView({
         sub => sub.id === selectedSubcategoryId,
       ) || []
     : selectedCategory?.children || [];
+
+  const renderSubcategoryItem = ({
+    item: subcategory,
+  }: ListRenderItemInfo<any>) => (
+    <SubcategorySection
+      subcategory={subcategory}
+      onProductPress={onProductPress}
+      isSubcategorySelected={!!selectedSubcategoryId}
+    />
+  );
 
   return (
     <View className="flex-1">
@@ -95,16 +111,21 @@ export function CategoryDetailView({
           )}
         </View>
       ) : (
-        <ScrollView className="bg-background flex-1">
+        <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-            subcategoriesToShow.map(subcategory => (
-              <SubcategorySection
-                key={subcategory.id}
-                subcategory={subcategory}
-                onProductPress={onProductPress}
-                isSubcategorySelected={false}
-              />
-            ))
+            <FlatList
+              data={subcategoriesToShow}
+              renderItem={renderSubcategoryItem}
+              keyExtractor={subcategory =>
+                subcategory.id?.toString() || Math.random().toString()
+              }
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews={true}
+              maxToRenderPerBatch={3}
+              windowSize={5}
+              initialNumToRender={3}
+              contentContainerStyle={{ flexGrow: 1 }}
+            />
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
@@ -113,7 +134,7 @@ export function CategoryDetailView({
               </Text>
             </View>
           )}
-        </ScrollView>
+        </View>
       )}
     </View>
   );
