@@ -1,9 +1,15 @@
 import React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import {
+  FlatList,
+  Pressable,
+  Text,
+  View,
+  type ListRenderItemInfo,
+} from "react-native";
 import type { PopularCategoryDto } from "../../../network/model";
 import { CategorySelector } from "./CategorySelector";
 import { SubcategorySection } from "./SubcategorySection";
-import { useTranslation } from 'react-i18next';
 
 interface CategoryDetailViewProps {
   selectedCategory: PopularCategoryDto;
@@ -20,16 +26,33 @@ export function CategoryDetailView({
   onProductPress,
   onCategorySelect,
 }: CategoryDetailViewProps) {
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = React.useState<number | undefined>();
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = React.useState<
+    number | undefined
+  >();
   const { t } = useTranslation();
 
-  const handleSubcategorySelect = (subcategoryId: number | undefined, subcategoryName: string) => {
+  const handleSubcategorySelect = (
+    subcategoryId: number | undefined,
+    subcategoryName: string
+  ) => {
     setSelectedSubcategoryId(subcategoryId);
   };
 
   const subcategoriesToShow = selectedSubcategoryId
-    ? selectedCategory?.children?.filter((sub) => sub.id === selectedSubcategoryId) || []
+    ? selectedCategory?.children?.filter(
+        (sub) => sub.id === selectedSubcategoryId
+      ) || []
     : selectedCategory?.children || [];
+
+  const renderSubcategoryItem = ({
+    item: subcategory,
+  }: ListRenderItemInfo<any>) => (
+    <SubcategorySection
+      subcategory={subcategory}
+      onProductPress={onProductPress}
+      isSubcategorySelected={!!selectedSubcategoryId}
+    />
+  );
 
   return (
     <View className="flex-1">
@@ -43,11 +66,17 @@ export function CategoryDetailView({
           })}
         >
           <View className="w-8 h-8 rounded-full bg-card items-center justify-center mr-3">
-            <Text className="text-lg font-semibold text-muted-foreground">←</Text>
+            <Text className="text-lg font-semibold text-muted-foreground">
+              ←
+            </Text>
           </View>
           <View>
-            <Text className="text-sm text-muted-foreground">{t('back_to')}</Text>
-            <Text className="text-lg font-semibold text-foreground">{t('all_categories')}</Text>
+            <Text className="text-sm text-muted-foreground">
+              {t("back_to")}
+            </Text>
+            <Text className="text-lg font-semibold text-foreground">
+              {t("all_categories")}
+            </Text>
           </View>
         </Pressable>
       </View>
@@ -76,31 +105,36 @@ export function CategoryDetailView({
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
               <Text className="text-xl text-muted-foreground text-center">
-                {t('category_no_subcategories')}
+                {t("category_no_subcategories")}
               </Text>
             </View>
           )}
         </View>
       ) : (
-        <ScrollView className="bg-background flex-1">
+        <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-            subcategoriesToShow.map((subcategory) => (
-              <SubcategorySection
-                key={subcategory.id}
-                subcategory={subcategory}
-                onProductPress={onProductPress}
-                isSubcategorySelected={false}
-              />
-            ))
+            <FlatList
+              data={subcategoriesToShow}
+              renderItem={renderSubcategoryItem}
+              keyExtractor={(subcategory) =>
+                subcategory.id?.toString() || Math.random().toString()
+              }
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews={true}
+              maxToRenderPerBatch={3}
+              windowSize={5}
+              initialNumToRender={3}
+              contentContainerStyle={{ flexGrow: 1 }}
+            />
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
               <Text className="text-xl text-muted-foreground text-center">
-                {t('category_no_subcategories')}
+                {t("category_no_subcategories")}
               </Text>
             </View>
           )}
-        </ScrollView>
+        </View>
       )}
     </View>
   );
