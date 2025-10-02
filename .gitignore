@@ -1,4 +1,15 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# Environment variables - NEVER commit these!
+.env
+.env.*
+!.env.example
+
+# Sensitive Firebase/Google config files
+google-services.json
+GoogleService-Info.plist
+android/app/google-services.json
+
 # IDE
 .idea
 # dependencies

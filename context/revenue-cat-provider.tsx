@@ -15,8 +15,8 @@ import Purchases, {
 
 // Use your RevenueCat API keys
 const APIKeys = {
-  apple: "appl_fDaggXpWHKktWRRTrtIaKYSJFQT",
-  google: "goog_MfhxZabLgqWiOyplBAiWLWKAUQj",
+  apple: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY || "",
+  google: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY || "",
 };
 
 interface RevenueCatProps {

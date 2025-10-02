@@ -32,6 +32,7 @@ export const DATE_FORMAT = "dd.MM.yyyy";
 
 // export const BASE_API_URL = "https://dolacna-admin-api.default.offli.eu/";
 export const BASE_API_URL =
+  process.env.EXPO_PUBLIC_API_URL ||
   "https://usetri-api.livelypond-189c8f13.polandcentral.azurecontainerapps.io/";
 
 export const PLACEHOLDER_PRODUCT_IMAGE =

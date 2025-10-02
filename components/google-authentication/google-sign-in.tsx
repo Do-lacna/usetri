@@ -11,20 +11,15 @@ maybeCompleteAuthSession();
 export function GoogleSignIn() {
   const [_, response, promptAsync] = useAuthRequest(
     {
-      androidClientId:
-        "504961053140-o0ue7qneapk7ch614i13i14p1s28ud0h.apps.googleusercontent.com",
-      iosClientId:
-        "504961053140-oveffkqr0tkt5mbj0ksfkggv055n7i33.apps.googleusercontent.com",
-      webClientId:
-        "504961053140-5fb7kj7fg852n3nhuaadn0hopblh6djl.apps.googleusercontent.com",
+      androidClientId: process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID,
+      iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+      webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
     },
     {
       path: "/(app)/(auth)/sign-in",
       scheme: "usetri",
     }
   );
-
-  console.log(response);
 
   const { setUser } = useSession();
 
