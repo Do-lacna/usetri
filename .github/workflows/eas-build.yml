@@ -163,12 +163,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-ios, build-android]
     if: |
+      always() &&
       github.event_name == 'workflow_dispatch' && 
       github.event.inputs.profile == 'production' &&
-      success()
+      (needs.build-ios.result == 'success' || needs.build-android.result == 'success')
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
+
+      - name: 🏗 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: 📥 Install dependencies
+        run: npm ci
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -178,14 +188,14 @@ jobs:
 
       - name: 🚀 Submit to iOS App Store
         if: |
-          github.event.inputs.platform == 'ios' || 
-          github.event.inputs.platform == 'all'
+          (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all') &&
+          needs.build-ios.result == 'success'
         run: eas submit --platform ios --latest --non-interactive
         env:
           EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
 
       - name: 🚀 Submit to Google Play Store
         if: |
-          github.event.inputs.platform == 'android' || 
-          github.event.inputs.platform == 'all'
+          (github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all') &&
+          needs.build-android.result == 'success'
         run: eas submit --platform android --latest --non-interactive
