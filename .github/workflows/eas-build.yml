@@ -198,8 +198,6 @@ jobs:
           (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all') &&
           needs.build-ios.result == 'success'
         run: eas submit --platform ios --latest --non-interactive
-        env:
-          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
 
       - name: 🚀 Submit to Google Play Store
         if: |
