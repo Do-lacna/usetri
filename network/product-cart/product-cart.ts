@@ -18,6 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   AddToProductCartRequest,
   AddToProductCartResponse,
@@ -26,7 +27,6 @@ import type {
   GetProductCartResponse,
   ProblemDetails,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -36,7 +36,7 @@ export const addToProductCart = (
 ) => {
   return orvalApiClient<AddToProductCartResponse>(
     {
-      url: `/product-carts`,
+      url: '/product-carts',
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: addToProductCartRequest,
@@ -70,7 +70,7 @@ export const getAddToProductCartMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addToProductCart>>,
     { data: AddToProductCartRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return addToProductCart(data, requestOptions);
@@ -117,13 +117,13 @@ export const getProductCart = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductCartResponse>(
-    { url: `/product-carts`, method: 'GET', signal },
+    { url: '/product-carts', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetProductCartQueryKey = () => {
-  return [`/product-carts`] as const;
+  return ['/product-carts'] as const;
 };
 
 export const getGetProductCartQueryOptions = <
@@ -234,7 +234,7 @@ export const getProductCartComparison = (
 ) => {
   return orvalApiClient<GetProductCartComparisonResponse>(
     {
-      url: `/product-carts-comparison`,
+      url: '/product-carts-comparison',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: getProductCartComparisonRequest,
@@ -269,7 +269,7 @@ export const getGetProductCartComparisonMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof getProductCartComparison>>,
     { data: GetProductCartComparisonRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return getProductCartComparison(data, requestOptions);

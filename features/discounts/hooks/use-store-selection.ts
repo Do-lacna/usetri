@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
-import { isArrayNotEmpty } from "../../../lib/utils";
-import type { ShopExtendedDto } from "../../../network/model";
+import { useEffect, useState } from 'react';
+import { isArrayNotEmpty } from '../../../lib/utils';
+import type { ShopExtendedDto } from '../../../network/model';
 import {
   useGetDiscountsStatistics,
   useGetShops,
-} from "../../../network/query/query";
-import { sortShopsByDiscountCount } from "../utils/store-utils";
-import { set } from "date-fns";
+} from '../../../network/query/query';
+import { sortShopsByDiscountCount } from '../utils/store-utils';
 
 export const useStoreSelection = () => {
-  const { data: { shops } = {}, isLoading: areShopsLoading } = useGetShops();
-  const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
-    useGetDiscountsStatistics();
+  const {
+    data: { shops } = {},
+    isLoading: areShopsLoading,
+  } = useGetShops();
+  const {
+    data: { stats = [] } = {},
+    isLoading: areDiscountStatisticsLoading,
+  } = useGetDiscountsStatistics();
   const [activeStoreId, setActiveStoreId] = useState<number | null>(null);
 
   const activeStore = shops?.find(
-    (store: ShopExtendedDto) => store.id === activeStoreId
+    (store: ShopExtendedDto) => store.id === activeStoreId,
   );
 
   const sortedShops =
@@ -23,17 +27,13 @@ export const useStoreSelection = () => {
 
   useEffect(() => {
     if (!activeStoreId) {
-      if (
-        isArrayNotEmpty(shops) && isArrayNotEmpty(stats)
-      ) {
+      if (isArrayNotEmpty(shops) && isArrayNotEmpty(stats)) {
         const sorted = sortShopsByDiscountCount(shops, stats);
         setActiveStoreId(Number(sorted?.[0]?.id));
-      }
-      else {
+      } else {
         setActiveStoreId(Number(shops?.[0]?.id));
       }
     }
-
   }, [shops, stats, activeStoreId]);
 
   const handleStoreSelect = (storeId: number) => {

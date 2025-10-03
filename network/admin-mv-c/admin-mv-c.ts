@@ -15,8 +15,8 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { CategoryManagementParams } from '.././model';
 import { orvalApiClient } from '.././api-client';
+import type { CategoryManagementParams } from '.././model';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -25,13 +25,13 @@ export const _export = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/adminMVC/categories/export`, method: 'GET', signal },
+    { url: '/adminMVC/categories/export', method: 'GET', signal },
     options,
   );
 };
 
 export const getExportQueryKey = () => {
-  return [`/adminMVC/categories/export`] as const;
+  return ['/adminMVC/categories/export'] as const;
 };
 
 export const getExportQueryOptions = <
@@ -141,7 +141,7 @@ export const categoryManagement = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/adminMVC/categories`, method: 'GET', params, signal },
+    { url: '/adminMVC/categories', method: 'GET', params, signal },
     options,
   );
 };
@@ -149,7 +149,7 @@ export const categoryManagement = (
 export const getCategoryManagementQueryKey = (
   params?: CategoryManagementParams,
 ) => {
-  return [`/adminMVC/categories`, ...(params ? [params] : [])] as const;
+  return ['/adminMVC/categories', ...(params ? [params] : [])] as const;
 };
 
 export const getCategoryManagementQueryOptions = <
@@ -294,13 +294,13 @@ export const index = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/adminMVC`, method: 'GET', signal },
+    { url: '/adminMVC', method: 'GET', signal },
     options,
   );
 };
 
 export const getIndexQueryKey = () => {
-  return [`/adminMVC`] as const;
+  return ['/adminMVC'] as const;
 };
 
 export const getIndexQueryOptions = <
@@ -407,13 +407,13 @@ export const productManagement = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/adminMVC/products`, method: 'GET', signal },
+    { url: '/adminMVC/products', method: 'GET', signal },
     options,
   );
 };
 
 export const getProductManagementQueryKey = () => {
-  return [`/adminMVC/products`] as const;
+  return ['/adminMVC/products'] as const;
 };
 
 export const getProductManagementQueryOptions = <

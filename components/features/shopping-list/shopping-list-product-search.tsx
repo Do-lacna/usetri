@@ -1,9 +1,9 @@
-import type React from "react";
-import { ActivityIndicator, FlatList, View } from "react-native";
-import { useGetProducts } from "../../../network/query/query";
-import { NoDataText } from "../../no-data-text/no-data-text";
-import DiscountedProductCard from "../../product-card/discounted-product-card";
-import { Text } from "../../ui/text";
+import type React from 'react';
+import { ActivityIndicator, FlatList, View } from 'react-native';
+import { useGetProducts } from '../../../network/query/query';
+import { NoDataText } from '../../no-data-text/no-data-text';
+import DiscountedProductCard from '../../product-card/discounted-product-card';
+import { Text } from '../../ui/text';
 
 interface ShoppingListProductSearchProps {
   searchQuery: string;
@@ -25,7 +25,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
       query: {
         enabled: searchQuery?.length >= 2,
       },
-    }
+    },
   );
 
   if (!(searchQuery?.length >= 2)) {
@@ -53,7 +53,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
           />
         )}
         numColumns={2}
-        keyExtractor={(product) => String(product?.detail?.barcode)}
+        keyExtractor={product => String(product?.detail?.barcode)}
         contentContainerClassName="gap-4 p-1"
         columnWrapperClassName="gap-4"
         //   refreshControl={

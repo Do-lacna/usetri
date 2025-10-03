@@ -1,18 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import auth, { signInWithEmailAndPassword } from "@react-native-firebase/auth";
-import { Link, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Image, Text, View } from "react-native";
-import Toast from "react-native-toast-message";
-import type { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import { Link, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Image, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import type { z } from 'zod';
 
-import { GoogleSignIn } from "~/components/google-authentication/google-sign-in";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { signInSchema } from "~/schema/signin";
-import { resetAndRedirect } from "~/utils/navigation-utils";
-import AppleAuthentication from "../../../components/apple-authentication/apple-authentication";
+import { GoogleSignIn } from '~/components/google-authentication/google-sign-in';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { signInSchema } from '~/schema/signin';
+import { resetAndRedirect } from '~/utils/navigation-utils';
+import AppleAuthentication from '../../../components/apple-authentication/apple-authentication';
 
 export default function SignIn() {
   const { email } = useLocalSearchParams<{ email?: string }>();
@@ -23,7 +23,7 @@ export default function SignIn() {
     formState: { errors, touchedFields, isValid, isDirty },
     setValue,
   } = useForm({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: '', password: '' },
     resolver: zodResolver(signInSchema),
   });
 
@@ -33,27 +33,27 @@ export default function SignIn() {
   }: z.infer<typeof signInSchema>) => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth(), email, password)
-      .then(async (data) => {
+      .then(async data => {
         setIsLoading(false);
         if (data?.user?.emailVerified) {
-          resetAndRedirect("/main");
+          resetAndRedirect('/main');
         } else {
           Toast.show({
-            type: "error",
+            type: 'error',
             text1:
-              "Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku",
-            position: "bottom",
+              'Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku',
+            position: 'bottom',
           });
         }
       })
-      .catch((error) => {
+      .catch(error => {
         setIsLoading(false);
 
         console.error(error);
         Toast.show({
-          type: "error",
-          text1: "Nepodarilo sa prihlásiť",
-          position: "bottom",
+          type: 'error',
+          text1: 'Nepodarilo sa prihlásiť',
+          position: 'bottom',
         });
       });
   };
@@ -61,7 +61,7 @@ export default function SignIn() {
   // Pre-fill email if it comes from signup
   useEffect(() => {
     if (email) {
-      setValue("email", email, { shouldValidate: true, shouldTouch: true });
+      setValue('email', email, { shouldValidate: true, shouldTouch: true });
     }
   }, [email, setValue]);
 
@@ -69,8 +69,8 @@ export default function SignIn() {
     <View className="flex-1 items-center justify-center gap-2">
       <View className="w-[220px] h-[110px] mb-8">
         <Image
-          source={require("~/assets/images/usetri_inverted_logo.png")}
-          style={{ width: "100%", height: "100%" }}
+          source={require('~/assets/images/usetri_inverted_logo.png')}
+          style={{ width: '100%', height: '100%' }}
           resizeMode="contain"
         />
       </View>

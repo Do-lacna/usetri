@@ -1,12 +1,12 @@
-import type React from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
-import { ActionButtons } from "~/components/features/shop-comparison/action-buttons";
-import { PriceSummaryCard } from "~/components/features/shop-comparison/price-summary-card";
-import { ProductsList } from "~/components/features/shop-comparison/products-list";
-import { ShopNavigationHeader } from "~/components/features/shop-comparison/shop-navigation-header";
-import { ShopPagination } from "~/components/features/shop-comparison/shop-pagination";
-import { Text } from "~/components/ui/text";
-import { useShopComparison } from "~/hooks/use-shop-comparison";
+import type React from 'react';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { ActionButtons } from '~/components/features/shop-comparison/action-buttons';
+import { PriceSummaryCard } from '~/components/features/shop-comparison/price-summary-card';
+import { ProductsList } from '~/components/features/shop-comparison/products-list';
+import { ShopNavigationHeader } from '~/components/features/shop-comparison/shop-navigation-header';
+import { ShopPagination } from '~/components/features/shop-comparison/shop-pagination';
+import { Text } from '~/components/ui/text';
+import { useShopComparison } from '~/hooks/use-shop-comparison';
 
 const ShopComparisonScreen: React.FC = () => {
   const {

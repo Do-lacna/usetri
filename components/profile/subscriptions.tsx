@@ -1,16 +1,14 @@
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import type React from "react";
-import { useRef } from "react";
-import { displaySuccessToastMessage } from "~/utils/toast-utils";
-import { useRevenueCat } from "../../context/revenue-cat-provider";
-import { CustomBottomSheetModal } from "../layout/bottom-sheet-modal/bottom-sheet-modal";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
-import SubscriptionPaywall from "../usetri-paywall/usetri-paywall";
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import type React from 'react';
+import { useRef } from 'react';
+import { displaySuccessToastMessage } from '~/utils/toast-utils';
+import { useRevenueCat } from '../../context/revenue-cat-provider';
+import { CustomBottomSheetModal } from '../layout/bottom-sheet-modal/bottom-sheet-modal';
+import { Button } from '../ui/button';
+import { Text } from '../ui/text';
+import SubscriptionPaywall from '../usetri-paywall/usetri-paywall';
 
-export type SavedCartCardProps = {};
-
-const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
+const Subscriptions: React.FC = () => {
   const subscriptionModalRef = useRef<BottomSheetModal>(null);
   const { customerInfo, packages } = useRevenueCat();
 
@@ -23,7 +21,7 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   const handlePurchaseComplete = (customerInfo: any) => {
     // console.log("Purchase completed:", customerInfo);
     displaySuccessToastMessage(
-      "Predplatné bolo úspešne aktivované, najdete ho v profile"
+      'Predplatné bolo úspešne aktivované, najdete ho v profile',
     );
     subscriptionModalRef?.current?.dismiss();
   };
@@ -54,6 +52,6 @@ const Subscriptions: React.FC<SavedCartCardProps> = ({}) => {
   );
 };
 
-Subscriptions.displayName = "Subscriptions";
+Subscriptions.displayName = 'Subscriptions';
 
 export { Subscriptions };

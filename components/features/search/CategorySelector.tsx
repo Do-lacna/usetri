@@ -1,18 +1,21 @@
-import React from "react";
+import type React from 'react';
 import {
   FlatList,
   Image,
   type ListRenderItemInfo,
   Pressable,
   View,
-} from "react-native";
-import type { PopularCategoryDto } from "../../../network/model";
-import { Text } from "../../ui/text";
+} from 'react-native';
+import type { PopularCategoryDto } from '../../../network/model';
+import { Text } from '../../ui/text';
 
 interface CategorySelectorProps {
   selectedCategory: PopularCategoryDto;
   selectedSubcategoryId?: number;
-  onSubcategorySelect: (subcategoryId: number | undefined, subcategoryName: string) => void;
+  onSubcategorySelect: (
+    subcategoryId: number | undefined,
+    subcategoryName: string,
+  ) => void;
 }
 
 export const CategorySelector: React.FC<CategorySelectorProps> = ({
@@ -45,21 +48,25 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         <View
           className={`
             flex-row items-center px-4 py-3 rounded-full min-h-[48px]
-            ${isSelected
-              ? "bg-green-500 dark:bg-green-600 shadow-lg border-2 border-green-300 dark:border-green-400"
-              : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm"
+            ${
+              isSelected
+                ? 'bg-green-500 dark:bg-green-600 shadow-lg border-2 border-green-300 dark:border-green-400'
+                : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm'
             }
           `}
         >
           {/* Icon container with improved styling */}
           {!!image_url && (
-            <View className={`
+            <View
+              className={`
               w-8 h-8 rounded-full mr-3 justify-center items-center
-              ${isSelected
-                ? 'bg-white/20 dark:bg-white/10'
-                : 'bg-gray-50 dark:bg-gray-700'
+              ${
+                isSelected
+                  ? 'bg-white/20 dark:bg-white/10'
+                  : 'bg-gray-50 dark:bg-gray-700'
               }
-            `}>
+            `}
+            >
               <Image
                 source={{ uri: image_url as string }}
                 resizeMode="contain"
@@ -72,9 +79,10 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
           <Text
             className={`
               font-medium text-sm
-              ${isSelected
-                ? 'text-white dark:text-white'
-                : 'text-gray-700 dark:text-gray-200'
+              ${
+                isSelected
+                  ? 'text-white dark:text-white'
+                  : 'text-gray-700 dark:text-gray-200'
               }
             `}
             numberOfLines={1}
@@ -111,7 +119,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         data={subcategories}
         ItemSeparatorComponent={() => <View className="w-3" />}
         renderItem={renderSubcategory}
-        keyExtractor={(subcategory) => String(subcategory?.id)}
+        keyExtractor={subcategory => String(subcategory?.id)}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 16,

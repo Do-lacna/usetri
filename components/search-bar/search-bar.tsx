@@ -1,4 +1,4 @@
-import type React from "react";
+import type React from 'react';
 import {
   FlatList,
   Platform,
@@ -8,12 +8,12 @@ import {
   View,
   ActivityIndicator,
   Animated,
-} from "react-native";
-import { X } from "~/lib/icons/Cancel";
-import { Search } from "~/lib/icons/Search";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { Text } from "../ui/text";
-import { useState, useEffect, useRef } from "react";
+} from 'react-native';
+import { X } from '~/lib/icons/Cancel';
+import { Search } from '~/lib/icons/Search';
+import { useColorScheme } from '~/lib/useColorScheme';
+import { Text } from '../ui/text';
+import { useState, useEffect, useRef } from 'react';
 
 export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
@@ -36,8 +36,8 @@ export interface ISearchBarProps<T> {
 const SearchBar = <T,>({
   onSearch,
   onClear,
-  searchText = "",
-  placeholder = "Hľadať",
+  searchText = '',
+  placeholder = 'Hľadať',
   options = [],
   onOptionSelect,
   renderOption,
@@ -57,8 +57,12 @@ const SearchBar = <T,>({
   const inputRef = useRef<TextInput>(null);
 
   // Theme-aware colors
-  const placeholderColor = isDarkColorScheme ? "#9CA3AF" : "#6B7280";
-  const borderColor = error ? "#EF4444" : isFocused ? "hsl(var(--primary))" : "hsl(var(--border))";
+  const placeholderColor = isDarkColorScheme ? '#9CA3AF' : '#6B7280';
+  const borderColor = error
+    ? '#EF4444'
+    : isFocused
+      ? 'hsl(var(--primary))'
+      : 'hsl(var(--border))';
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -96,7 +100,11 @@ const SearchBar = <T,>({
 
   // Animate dropdown when options change
   useEffect(() => {
-    if (displaySearchOptions && isFocused && searchText.length >= minimumSearchLength) {
+    if (
+      displaySearchOptions &&
+      isFocused &&
+      searchText.length >= minimumSearchLength
+    ) {
       Animated.timing(dropdownAnimation, {
         toValue: 1,
         duration: 150,
@@ -109,9 +117,19 @@ const SearchBar = <T,>({
         useNativeDriver: false,
       }).start();
     }
-  }, [options, searchText, isFocused, displaySearchOptions, minimumSearchLength, dropdownAnimation]);
+  }, [
+    options,
+    searchText,
+    isFocused,
+    displaySearchOptions,
+    minimumSearchLength,
+    dropdownAnimation,
+  ]);
 
-  const showDropdown = displaySearchOptions && isFocused && searchText.length >= minimumSearchLength;
+  const showDropdown =
+    displaySearchOptions &&
+    isFocused &&
+    searchText.length >= minimumSearchLength;
 
   return (
     <View className="relative z-10 w-full flex-shrink">
@@ -124,14 +142,16 @@ const SearchBar = <T,>({
         }`}
         style={{
           // Platform-specific shadow
-          ...(Platform.OS === 'ios' ? {
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
-            shadowOpacity: isFocused ? 0.15 : 0.05,
-            shadowRadius: isFocused ? 8 : 2,
-          } : {
-            elevation: isFocused ? 8 : 2,
-          }),
+          ...(Platform.OS === 'ios'
+            ? {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
+                shadowOpacity: isFocused ? 0.15 : 0.05,
+                shadowRadius: isFocused ? 8 : 2,
+              }
+            : {
+                elevation: isFocused ? 8 : 2,
+              }),
         }}
       >
         <View className="mr-3">
@@ -165,7 +185,7 @@ const SearchBar = <T,>({
           {isLoading && (
             <ActivityIndicator
               size="small"
-              color={isDarkColorScheme ? "#3B82F6" : "#2563EB"}
+              color={isDarkColorScheme ? '#3B82F6' : '#2563EB'}
               className="mr-2"
             />
           )}
@@ -185,9 +205,7 @@ const SearchBar = <T,>({
 
       {/* Error Message */}
       {error && (
-        <Text className="text-destructive text-sm mt-2 px-4">
-          {error}
-        </Text>
+        <Text className="text-destructive text-sm mt-2 px-4">{error}</Text>
       )}
 
       {/* Animated Dropdown */}
@@ -201,14 +219,16 @@ const SearchBar = <T,>({
               },
             ],
             // Platform-specific shadow for dropdown
-            ...(Platform.OS === 'ios' ? {
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.15,
-              shadowRadius: 8,
-            } : {
-              elevation: 8,
-            }),
+            ...(Platform.OS === 'ios'
+              ? {
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.15,
+                  shadowRadius: 8,
+                }
+              : {
+                  elevation: 8,
+                }),
           }}
           className="absolute top-[56px] left-0 right-0 bg-card rounded-b-xl max-h-60 border-2 border-t-0 z-20 overflow-hidden"
           pointerEvents={showDropdown ? 'auto' : 'none'}
@@ -222,7 +242,9 @@ const SearchBar = <T,>({
                   handleBlur();
                 }}
                 className={`px-4 py-3 active:bg-muted/30 transition-colors duration-150 ${
-                  index !== options.length - 1 ? 'border-b border-border/30' : ''
+                  index !== options.length - 1
+                    ? 'border-b border-border/30'
+                    : ''
                 }`}
                 accessibilityRole="button"
               >

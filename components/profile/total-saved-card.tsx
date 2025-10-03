@@ -1,17 +1,15 @@
-import { Ionicons } from "@expo/vector-icons";
-import type React from "react";
-import { Platform, View } from "react-native";
-import { useColorScheme } from "../../lib/useColorScheme";
-import { useGetArchivedCart } from "../../network/customer/customer";
-import { Card } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
-import { Text } from "../ui/text";
+import { Ionicons } from '@expo/vector-icons';
+import type React from 'react';
+import { Platform, View } from 'react-native';
+import { useColorScheme } from '../../lib/useColorScheme';
+import { useGetArchivedCart } from '../../network/customer/customer';
+import { Card } from '../ui/card';
+import { Skeleton } from '../ui/skeleton';
+import { Text } from '../ui/text';
 
-type ProductCardProps = {};
-
-const TotalSavedCard: React.FC<ProductCardProps> = () => {
+const TotalSavedCard: React.FC = () => {
   const { colorScheme } = useColorScheme();
-  const iconColor = colorScheme === "dark" ? "#9CA3AF" : "#6B7280";
+  const iconColor = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280';
 
   const {
     isLoading,
@@ -30,7 +28,7 @@ const TotalSavedCard: React.FC<ProductCardProps> = () => {
       <View className="flex-row space-x-4">
         <View
           className={`flex-1 rounded-2xl p-4  ${
-            Platform.OS === "ios" ? "shadow-lg" : ""
+            Platform.OS === 'ios' ? 'shadow-lg' : ''
           }`}
         >
           <View className="flex-row items-center mb-2">
@@ -47,7 +45,7 @@ const TotalSavedCard: React.FC<ProductCardProps> = () => {
         {/* Total Savings */}
         <View
           className={`flex-1 rounded-2xl p-4  ${
-            Platform.OS === "ios" ? "shadow-lg" : ""
+            Platform.OS === 'ios' ? 'shadow-lg' : ''
           }`}
         >
           <View className="flex-row items-center mb-2">
@@ -65,6 +63,6 @@ const TotalSavedCard: React.FC<ProductCardProps> = () => {
   );
 };
 
-TotalSavedCard.displayName = "TotalSavedCard";
+TotalSavedCard.displayName = 'TotalSavedCard';
 
 export { TotalSavedCard };

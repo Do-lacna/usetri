@@ -1,13 +1,13 @@
-import type React from "react";
-import { Image, Text, View } from "react-native";
-import { useTranslation } from "react-i18next";
-import { Tag, Percent } from "lucide-react-native";
-import FlippableCard from "~/components/flippable-card/flippable-card";
-import { RefreshCw } from "~/lib/icons/RefreshCw";
+import type React from 'react';
+import { Image, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Tag, Percent } from 'lucide-react-native';
+import FlippableCard from '~/components/flippable-card/flippable-card';
+import { RefreshCw } from '~/lib/icons/RefreshCw';
 import {
   type HybridCartComparisonProductDto,
   HybridCartComparisonProductType,
-} from "~/network/model";
+} from '~/network/model';
 
 interface ProductListItemProps {
   product: HybridCartComparisonProductDto;
@@ -24,7 +24,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   isFlipped,
   onFlip,
 }) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
 
   const {
     detail: {
@@ -42,7 +42,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     is_on_discount = false, // Assuming this flag exists
   } = product;
 
-  const borderClass = index < totalProducts - 1 ? "border-b border-border" : "";
+  const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
 
   const displayFlippableCard =
     type &&
@@ -58,7 +58,10 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       {is_on_discount && original_price && (
         <View className="items-end mb-1">
           <Text className="text-xs text-muted-foreground line-through">
-            {showQuantity ? (original_price * quantity).toFixed(2) : original_price.toFixed(2)} €
+            {showQuantity
+              ? (original_price * quantity).toFixed(2)
+              : original_price.toFixed(2)}{' '}
+            €
           </Text>
           {discount_percentage && (
             <View className="flex-row items-center bg-red-100 px-2 py-1 rounded-md mt-1">
@@ -72,11 +75,14 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       )}
 
       <View className="flex-row items-center">
-        {is_on_discount && (
-          <Tag size={14} color="#DC2626" className="mr-1" />
-        )}
-        <Text className={`text-base font-semibold ${is_on_discount ? 'text-red-600' : 'text-foreground'}`}>
-          {showQuantity ? (currentPrice * quantity).toFixed(2) : currentPrice.toFixed(2)} €
+        {is_on_discount && <Tag size={14} color="#DC2626" className="mr-1" />}
+        <Text
+          className={`text-base font-semibold ${is_on_discount ? 'text-red-600' : 'text-foreground'}`}
+        >
+          {showQuantity
+            ? (currentPrice * quantity).toFixed(2)
+            : currentPrice.toFixed(2)}{' '}
+          €
         </Text>
       </View>
 
@@ -100,7 +106,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
         {is_on_discount && (
           <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
             <Text className="text-xs font-medium text-red-600">
-              {t("discount")}
+              {t('discount')}
             </Text>
           </View>
         )}
@@ -111,16 +117,16 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
           {amount} {unit}
         </Text>
         {showBrand && brand && (
-          <Text className="text-xs text-muted-foreground ml-2">
-            • {brand}
-          </Text>
+          <Text className="text-xs text-muted-foreground ml-2">• {brand}</Text>
         )}
       </View>
     </View>
   );
 
   const frontContent = (
-    <View className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}>
+    <View
+      className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}
+    >
       <View className="flex-row items-center justify-between min-h-[60px]">
         {renderProductInfo(name)}
         {renderPriceSection(price)}
@@ -133,7 +139,9 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   );
 
   const backContent = displayFlippableCard ? (
-    <View className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}>
+    <View
+      className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}
+    >
       <View className="flex-row items-center justify-between min-h-[60px]">
         <View className="flex-row items-center flex-1 pr-4">
           {!!image_url && (
@@ -154,7 +162,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
               {is_on_discount && (
                 <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
                   <Text className="text-xs font-medium text-red-600">
-                    {t("discount")}
+                    {t('discount')}
                   </Text>
                 </View>
               )}

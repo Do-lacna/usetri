@@ -18,8 +18,8 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type { UploadCategoriesFileBody } from '.././model';
 import { orvalApiClient } from '.././api-client';
+import type { UploadCategoriesFileBody } from '.././model';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -28,13 +28,13 @@ export const index = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/admin`, method: 'GET', signal },
+    { url: '/admin', method: 'GET', signal },
     options,
   );
 };
 
 export const getIndexQueryKey = () => {
-  return [`/admin`] as const;
+  return ['/admin'] as const;
 };
 
 export const getIndexQueryOptions = <
@@ -141,13 +141,13 @@ export const categoryManagement = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/admin/category`, method: 'GET', signal },
+    { url: '/admin/category', method: 'GET', signal },
     options,
   );
 };
 
 export const getCategoryManagementQueryKey = () => {
-  return [`/admin/category`] as const;
+  return ['/admin/category'] as const;
 };
 
 export const getCategoryManagementQueryOptions = <
@@ -276,13 +276,13 @@ export const productManagement = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/admin/product`, method: 'GET', signal },
+    { url: '/admin/product', method: 'GET', signal },
     options,
   );
 };
 
 export const getProductManagementQueryKey = () => {
-  return [`/admin/product`] as const;
+  return ['/admin/product'] as const;
 };
 
 export const getProductManagementQueryOptions = <
@@ -411,13 +411,13 @@ export const _export = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<void>(
-    { url: `/admin/export-categories`, method: 'GET', signal },
+    { url: '/admin/export-categories', method: 'GET', signal },
     options,
   );
 };
 
 export const getExportQueryKey = () => {
-  return [`/admin/export-categories`] as const;
+  return ['/admin/export-categories'] as const;
 };
 
 export const getExportQueryOptions = <
@@ -533,7 +533,7 @@ export const uploadCategoriesFile = (
 
   return orvalApiClient<void>(
     {
-      url: `/admin/upload-categories`,
+      url: '/admin/upload-categories',
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,
@@ -568,7 +568,7 @@ export const getUploadCategoriesFileMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof uploadCategoriesFile>>,
     { data: UploadCategoriesFileBody }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return uploadCategoriesFile(data, requestOptions);

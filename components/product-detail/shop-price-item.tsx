@@ -23,9 +23,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
     <TouchableOpacity
       onPress={() => onSelect(shopId)}
       className={`p-4 rounded-lg border-2 mb-3 ${
-        isSelected
-          ? 'border-primary bg-primary/10'
-          : 'border-border bg-card'
+        isSelected ? 'border-primary bg-primary/10' : 'border-border bg-card'
       }`}
     >
       <View className="flex-row items-center justify-between">

@@ -1,6 +1,6 @@
-import { View } from "react-native";
-import { BaseToast, ErrorToast } from "react-native-toast-message";
-import { Text } from "../components/ui/text";
+import { View } from 'react-native';
+import { BaseToast, ErrorToast } from 'react-native-toast-message';
+import { Text } from '../components/ui/text';
 
 export const toastConfig = {
   /*
@@ -40,8 +40,8 @@ export const toastConfig = {
       style={{
         flex: 1,
         height: 60,
-        width: "100%",
-        backgroundColor: "gray",
+        width: '100%',
+        backgroundColor: 'gray',
         zIndex: 999,
       }}
     >

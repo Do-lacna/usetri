@@ -1,13 +1,13 @@
-import clsx from "clsx";
-import { Image, Pressable, Text, View } from "react-native";
-import { calculateDiscountPercentage } from "~/lib/number-utils";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
+import clsx from 'clsx';
+import { Image, Pressable, Text, View } from 'react-native';
+import { calculateDiscountPercentage } from '~/lib/number-utils';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../lib/constants';
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
-} from "../../network/model";
-import { getShopLogo } from "../../utils/logo-utils";
-import { Badge } from "../ui/badge";
+} from '../../network/model';
+import { getShopLogo } from '../../utils/logo-utils';
+import { Badge } from '../ui/badge';
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
@@ -28,19 +28,18 @@ const DiscountedProductCard = ({
       name,
       brand,
       barcode,
-      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
+      unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
     } = {},
   } = { ...product };
 
-  const availableShopIds =
-    shopsPrices?.map((shop) => Number(shop.shop_id)) || [];
+  const availableShopIds = shopsPrices?.map(shop => Number(shop.shop_id)) || [];
 
   const { discount_price, price } = shopsPrices?.[0] || {};
 
   const percentageDiscount = calculateDiscountPercentage(
     Number(price),
-    discount_price?.price
+    discount_price?.price,
   );
   const hasDiscount = !!discount_price && percentageDiscount;
 
@@ -64,7 +63,7 @@ const DiscountedProductCard = ({
 
   return (
     <Pressable
-      className={clsx("w-40 mr-20 last:mr-0 flex-1", className)}
+      className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
@@ -87,16 +86,16 @@ const DiscountedProductCard = ({
               >
                 <Image
                   {...getShopLogo(retailer as any)}
-                  key={index}
+                  key={retailer}
                   style={{
                     width: 20,
                     height: 20,
                     borderRadius: 50,
-                    position: "absolute",
+                    position: 'absolute',
                     right: index * 15,
                     zIndex: index + 1,
-                    backgroundColor: "white",
-                    borderColor: "#D1D5DB",
+                    backgroundColor: 'white',
+                    borderColor: '#D1D5DB',
                     borderWidth: 1,
                   }}
                 />

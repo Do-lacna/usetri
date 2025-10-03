@@ -25,9 +25,13 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
 }) => {
   const getButtonText = () => {
     if (cartQuantity === 0) {
-      return currentProductInCartQuantity > 0 ? 'Odobrať z košíka' : 'Zvoľte množstvo';
+      return currentProductInCartQuantity > 0
+        ? 'Odobrať z košíka'
+        : 'Zvoľte množstvo';
     }
-    return currentProductInCartQuantity > 0 ? 'Aktualizovať v košíku' : 'Pridať do nákupného zoznamu';
+    return currentProductInCartQuantity > 0
+      ? 'Aktualizovať v košíku'
+      : 'Pridať do nákupného zoznamu';
   };
 
   return (
@@ -56,9 +60,7 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
         }`}
       >
         <Ionicons name="cart" size={20} className="mr-2" />
-        <Text className="font-semibold">
-          {getButtonText()}
-        </Text>
+        <Text className="font-semibold">{getButtonText()}</Text>
       </Button>
     </View>
   );

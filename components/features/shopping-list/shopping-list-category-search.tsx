@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import {
   FlatList,
   Image,
   type ListRenderItemInfo,
   Pressable,
   View,
-} from "react-native";
-import { isArrayNotEmpty } from "../../../lib/utils";
-import type { AddCategoryExtendedWithPathDto } from "../../../network/model";
-import { useGetCategories } from "../../../network/query/query";
-import { type SearchOptions, searchItems } from "../../../utils/search-utils";
-import { NoDataText } from "../../no-data-text/no-data-text";
-import { Card } from "../../ui/card";
-import Divider from "../../ui/divider";
-import { Text } from "../../ui/text";
+} from 'react-native';
+import { isArrayNotEmpty } from '../../../lib/utils';
+import type { AddCategoryExtendedWithPathDto } from '../../../network/model';
+import { useGetCategories } from '../../../network/query/query';
+import { type SearchOptions, searchItems } from '../../../utils/search-utils';
+import { NoDataText } from '../../no-data-text/no-data-text';
+import { Card } from '../../ui/card';
+import Divider from '../../ui/divider';
+import { Text } from '../../ui/text';
 
 interface ShoppingListCategorySearchProps {
   searchQuery: string;
@@ -22,8 +22,8 @@ interface ShoppingListCategorySearchProps {
 
 const options: SearchOptions<AddCategoryExtendedWithPathDto> = {
   threshold: 0.7,
-  searchFields: ["name"],
-  matchMode: "all", // Use 'all' to require all words to match, 'any' for partial matches
+  searchFields: ['name'],
+  matchMode: 'all', // Use 'all' to require all words to match, 'any' for partial matches
 };
 
 const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
@@ -34,18 +34,21 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     AddCategoryExtendedWithPathDto[]
   >([]);
 
-  const { data: { categories = [] } = {}, isLoading } = useGetCategories();
+  const {
+    data: { categories = [] } = {},
+    isLoading,
+  } = useGetCategories();
 
   React.useEffect(() => {
     if (searchQuery?.length > 0 && isArrayNotEmpty(categories)) {
       const searchedAndSortedResult = searchItems(
         categories,
         searchQuery,
-        options
+        options,
       ).sort(
         ({ popularity: aPopularity = 0 }, { popularity: bPopularity = 0 }) => {
           return bPopularity - aPopularity;
-        }
+        },
       );
       setSearchResults(searchedAndSortedResult);
     } else {
@@ -87,7 +90,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
         data={searchResults}
         ItemSeparatorComponent={() => <View className="w-4" />}
         renderItem={renderCategory}
-        keyExtractor={(category) => String(category?.id)}
+        keyExtractor={category => String(category?.id)}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           paddingHorizontal: 8,

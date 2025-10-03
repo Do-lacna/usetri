@@ -1,8 +1,8 @@
-import { router } from "expo-router";
-import { FlatList, Text, View } from "react-native";
-import { useGetDiscounts } from "../../network/query/query";
-import { Skeleton } from "../ui/skeleton";
-import DiscountedMiniProductCard from "./discounted-mini-product-card";
+import { router } from 'expo-router';
+import { FlatList, Text, View } from 'react-native';
+import { useGetDiscounts } from '../../network/query/query';
+import { Skeleton } from '../ui/skeleton';
+import DiscountedMiniProductCard from './discounted-mini-product-card';
 
 interface SkeletonItem {
   id: number;
@@ -32,7 +32,7 @@ const DiscountMiniProductsList = () => {
             shopsPrices={item?.shops_prices}
           />
         )}
-        keyExtractor={(item) => String(item?.detail?.barcode)}
+        keyExtractor={item => String(item?.detail?.barcode)}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ padding: 4 }}

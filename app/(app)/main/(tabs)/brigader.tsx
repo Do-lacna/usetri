@@ -1,32 +1,32 @@
-import type { Option } from "@rn-primitives/select";
-import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "expo-router";
-import React, { useMemo } from "react";
-import { FlatList, RefreshControl, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import type { Option } from '@rn-primitives/select';
+import { useQueryClient } from '@tanstack/react-query';
+import { Link } from 'expo-router';
+import React, { useMemo } from 'react';
+import { FlatList, RefreshControl, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   getGetProductsForBrigaderQueryKey,
   useCheckItemInReviewList,
   useGetProductsForBrigader,
-} from "~/network/brigader/brigader";
+} from '~/network/brigader/brigader';
 import {
   CustomSelect,
   type SelectOptionType,
-} from "../../../../components/custom-select/custom-select";
-import BrigaderProductRow from "../../../../components/features/brigader/brigader-product-row";
-import { Button } from "../../../../components/ui/button";
-import { generateShopLocationNameBasedOnId } from "../../../../lib/utils";
-import { useGetShops } from "../../../../network/query/query";
+} from '../../../../components/custom-select/custom-select';
+import BrigaderProductRow from '../../../../components/features/brigader/brigader-product-row';
+import { Button } from '../../../../components/ui/button';
+import { generateShopLocationNameBasedOnId } from '../../../../lib/utils';
+import { useGetShops } from '../../../../network/query/query';
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
-} from "../../../../utils/toast-utils";
+} from '../../../../utils/toast-utils';
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
   const [selectedShop, setSelectedShop] = React.useState<Option>({
-    value: "",
-    label: "",
+    value: '',
+    label: '',
   });
 
   const {
@@ -34,7 +34,7 @@ export default function SearchScreen() {
     isLoading: areProductsLoading,
   } = useGetProductsForBrigader(
     { shop_id: Number(selectedShop?.value) },
-    { query: { enabled: !!selectedShop?.value } }
+    { query: { enabled: !!selectedShop?.value } },
   );
   const { mutate: sendConfirmProductPrice, isPending: isConfirmingPrice } =
     useCheckItemInReviewList({
@@ -43,25 +43,27 @@ export default function SearchScreen() {
           queryClient.invalidateQueries({
             queryKey: getGetProductsForBrigaderQueryKey(),
           });
-          displaySuccessToastMessage("Cena produktu bola úspešne potvrdená");
+          displaySuccessToastMessage('Cena produktu bola úspešne potvrdená');
         },
         onError: () => {
-          console.log("Error");
-          displayErrorToastMessage("Nepodarilo sa potvrdiť cenu produktu");
+          console.log('Error');
+          displayErrorToastMessage('Nepodarilo sa potvrdiť cenu produktu');
         },
       },
     });
-  const { data: { shops = [] } = {}, isPending: areShopsLoading } =
-    useGetShops();
+  const {
+    data: { shops = [] } = {},
+    isPending: areShopsLoading,
+  } = useGetShops();
 
   const mappedShops = useMemo(
     () =>
-      shops?.map((shop) => ({
+      shops?.map(shop => ({
         label: shop?.name,
         value: String(shop?.id),
         icon: shop?.image_url,
       })),
-    [shops]
+    [shops],
   ) as SelectOptionType[];
 
   React.useEffect(() => {
@@ -83,7 +85,7 @@ export default function SearchScreen() {
       />
       <Link
         href={{
-          pathname: "/main/brigader-scan-screen/[...slug]",
+          pathname: '/main/brigader-scan-screen/[...slug]',
           params: { slug: [String(selectedShop?.value)] },
         }}
         asChild
@@ -110,7 +112,7 @@ export default function SearchScreen() {
                   is_price_valid,
                   new_base_price: !is_price_valid ? price : null,
                   location: generateShopLocationNameBasedOnId(
-                    Number(selectedShop?.value)
+                    Number(selectedShop?.value),
                   ),
                 },
               })
@@ -118,7 +120,7 @@ export default function SearchScreen() {
             shopId={Number(selectedShop?.value)}
           />
         )}
-        keyExtractor={(product) => String(product?.barcode)}
+        keyExtractor={product => String(product?.barcode)}
         contentContainerClassName="gap-4 px-1 pt-4 pb-40 box-border"
         refreshControl={
           <RefreshControl

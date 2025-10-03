@@ -18,6 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   AddCategoryRequest,
   AddShopRequest,
@@ -37,7 +38,6 @@ import type {
   UpdateShopRequest,
   _ExportParams,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -83,7 +83,7 @@ export const getAddShopMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addShop>>,
     { data: AddShopRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return addShop(data, requestOptions);
@@ -265,7 +265,7 @@ export const getUpdateShopMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateShop>>,
     { shopId: number }
-  > = (props) => {
+  > = props => {
     const { shopId } = props ?? {};
 
     return updateShop(shopId, requestOptions);
@@ -338,7 +338,7 @@ export const getPatchShopMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchShop>>,
     { shopId: number; data: UpdateShopRequest }
-  > = (props) => {
+  > = props => {
     const { shopId, data } = props ?? {};
 
     return patchShop(shopId, data, requestOptions);
@@ -420,7 +420,7 @@ export const getBulkPatchProductAdminMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof bulkPatchProductAdmin>>,
     { data: BulkUpdateRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return bulkPatchProductAdmin(data, requestOptions);
@@ -487,7 +487,7 @@ export const getDeleteProductAdminMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteProductAdmin>>,
     { barcode: string }
-  > = (props) => {
+  > = props => {
     const { barcode } = props ?? {};
 
     return deleteProductAdmin(barcode, requestOptions);
@@ -560,7 +560,7 @@ export const getPatchProductAdminMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchProductAdmin>>,
     { barcode: string; data: PatchProductDto }
-  > = (props) => {
+  > = props => {
     const { barcode, data } = props ?? {};
 
     return patchProductAdmin(barcode, data, requestOptions);
@@ -911,7 +911,7 @@ export const getChangePriceMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof changePrice>>,
     { barcode: string; shopId: number; data: ChangeItemPriceRequest }
-  > = (props) => {
+  > = props => {
     const { barcode, shopId, data } = props ?? {};
 
     return changePrice(barcode, shopId, data, requestOptions);
@@ -1169,7 +1169,7 @@ export const getAddCategoryMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addCategory>>,
     { data: AddCategoryRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return addCategory(data, requestOptions);
@@ -1400,7 +1400,7 @@ export const getDeleteCategoryMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteCategory>>,
     { categoryId: number }
-  > = (props) => {
+  > = props => {
     const { categoryId } = props ?? {};
 
     return deleteCategory(categoryId, requestOptions);
@@ -1478,7 +1478,7 @@ export const getPatchCategoryMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof patchCategory>>,
     { categoryId: number; data: PatchCategoryRequest }
-  > = (props) => {
+  > = props => {
     const { categoryId, data } = props ?? {};
 
     return patchCategory(categoryId, data, requestOptions);

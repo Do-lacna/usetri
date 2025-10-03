@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { Dimensions, Text, View } from "react-native";
-import { X } from "~/lib/icons/Cancel";
-import { Check } from "~/lib/icons/Check";
-import { Pencil } from "~/lib/icons/Pencil";
+import { useState } from 'react';
+import { Dimensions, Text, View } from 'react-native';
+import { X } from '~/lib/icons/Cancel';
+import { Check } from '~/lib/icons/Check';
+import { Pencil } from '~/lib/icons/Pencil';
 
-import Barcode from "@kichiyaki/react-native-barcode-generator";
-import { generateShoppingListItemDescription } from "~/lib/utils";
-import type { BrigaderReviewListItemDto } from "~/network/model";
-import IconButton from "../../icon-button/icon-button";
-import { Badge } from "../../ui/badge";
-import { Input } from "../../ui/input";
+import Barcode from '@kichiyaki/react-native-barcode-generator';
+import { generateShoppingListItemDescription } from '~/lib/utils';
+import type { BrigaderReviewListItemDto } from '~/network/model';
+import IconButton from '../../icon-button/icon-button';
+import { Badge } from '../../ui/badge';
+import { Input } from '../../ui/input';
 
 interface IShoppingListItemProps {
   product: BrigaderReviewListItemDto;
@@ -27,16 +27,16 @@ const BrigaderProductRow = ({
   const { brand, unit, amount, price, name, barcode, is_checked } = product;
 
   const [newPrice, setNewPrice] = useState<string | undefined>(
-    price ? price.toString() : ""
+    price ? price.toString() : '',
   );
   const [edittingPrice, setEdittingPrice] = useState(false);
   return (
     <View
       className={`w-full rounded-lg shadow-md mb-2 relative p-4 ${
-        is_checked ? "bg-green-100" : "bg-white"
+        is_checked ? 'bg-green-100' : 'bg-white'
       }`}
     >
-      <View className={`w-full relative flex-row items-center justify-between`}>
+      <View className={'w-full relative flex-row items-center justify-between'}>
         {/* Text content container with flex-1 to take available space and shrink if needed */}
         <View className="flex-1 mr-4">
           <Text
@@ -52,7 +52,10 @@ const BrigaderProductRow = ({
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {generateShoppingListItemDescription({ brand, unit, amount })}
+              {generateShoppingListItemDescription({
+                brand,
+                unit: { normalized_amount: amount, normalized_unit: unit },
+              })}
             </Text>
           )}
         </View>
@@ -72,7 +75,7 @@ const BrigaderProductRow = ({
                   placeholder="Cena"
                   placeholderClassName="text-sm"
                   className="w-[150px]"
-                  onChangeText={(value) => setNewPrice(value)}
+                  onChangeText={value => setNewPrice(value)}
                   value={newPrice}
                   keyboardType="numeric"
                 />
@@ -115,14 +118,14 @@ const BrigaderProductRow = ({
       </View>
       {barcode && shopId === 3 && (
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
           <Barcode
             format="EAN13"
             value={barcode}
             text={barcode}
             style={{ marginBottom: 10, marginTop: 10 }}
-            maxWidth={Dimensions.get("window").width / 2}
+            maxWidth={Dimensions.get('window').width / 2}
           />
         </View>
       )}

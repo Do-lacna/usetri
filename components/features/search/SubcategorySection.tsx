@@ -1,11 +1,11 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, View } from 'react-native';
 import type {
   CategoryDto,
   ProductDtoWithShopsPrices,
-} from "../../../network/model";
-import { useGetPopularCategoriesProducts } from "../../../network/query/query";
-import { Skeleton } from "../../ui/skeleton";
-import SuggestedProductCard from "../shopping-list/suggested-product-card";
+} from '../../../network/model';
+import { useGetPopularCategoriesProducts } from '../../../network/query/query';
+import { Skeleton } from '../../ui/skeleton';
+import SuggestedProductCard from '../shopping-list/suggested-product-card';
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
@@ -18,8 +18,10 @@ export function SubcategorySection({
   onProductPress,
   isSubcategorySelected = false, // Default to false for backward compatibility
 }: SubcategorySectionProps) {
-  const { data: { products: categoryProducts = [] } = {}, isLoading } =
-    useGetPopularCategoriesProducts(Number(subcategory?.id));
+  const {
+    data: { products: categoryProducts = [] } = {},
+    isLoading,
+  } = useGetPopularCategoriesProducts(Number(subcategory?.id));
 
   const renderProduct = ({ item }: { item: ProductDtoWithShopsPrices }) => (
     <SuggestedProductCard
@@ -30,8 +32,10 @@ export function SubcategorySection({
   );
 
   const renderSkeleton = ({ index }: { index: number }) => (
-    <View key={index} className={isSubcategorySelected ? "mb-3" : "w-32 mr-3"}>
-      <Skeleton className={`${isSubcategorySelected ? "w-full h-24" : "w-full h-32"} bg-card rounded-lg`} />
+    <View key={index} className={isSubcategorySelected ? 'mb-3' : 'w-32 mr-3'}>
+      <Skeleton
+        className={`${isSubcategorySelected ? 'w-full h-24' : 'w-full h-32'} bg-card rounded-lg`}
+      />
     </View>
   );
 
@@ -44,8 +48,10 @@ export function SubcategorySection({
 
       {/* Products list - horizontal or vertical based on selection */}
       {isLoading ? (
-        <View className={isSubcategorySelected ? "px-4" : "flex-row px-4"}>
-          {Array.from({ length: isSubcategorySelected ? 6 : 3 }, (_, index) => renderSkeleton({ index }))}
+        <View className={isSubcategorySelected ? 'px-4' : 'flex-row px-4'}>
+          {Array.from({ length: isSubcategorySelected ? 6 : 3 }, (_, index) =>
+            renderSkeleton({ index }),
+          )}
         </View>
       ) : (categoryProducts ?? []).length > 0 ? (
         <FlatList
@@ -63,11 +69,13 @@ export function SubcategorySection({
               ? { paddingHorizontal: 16, paddingBottom: 16 }
               : { paddingHorizontal: 16 }
           }
-          columnWrapperStyle={isSubcategorySelected ? { justifyContent: 'space-between' } : undefined}
-          ItemSeparatorComponent={
+          columnWrapperStyle={
             isSubcategorySelected
-              ? () => <View className="h-3" />
+              ? { justifyContent: 'space-between' }
               : undefined
+          }
+          ItemSeparatorComponent={
+            isSubcategorySelected ? () => <View className="h-3" /> : undefined
           }
         />
       ) : (

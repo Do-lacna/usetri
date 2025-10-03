@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { Image, View } from "react-native";
-import type { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
-import { isArrayNotEmpty } from "~/lib/utils";
-import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
-import type { ShopPriceDto } from "~/network/model";
-import { useGetProductsByBarcode } from "~/network/query/query";
-import { getShopLogo } from "~/utils/logo-utils";
-import { Button } from "../ui/button";
-import Counter from "../ui/counter";
-import { Text } from "../ui/text";
-import { CartItemHeader } from "./cart-item-header";
+import React, { useEffect } from 'react';
+import { Image, View } from 'react-native';
+import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
+import { isArrayNotEmpty } from '~/lib/utils';
+import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
+import type { ShopPriceDto } from '~/network/model';
+import { useGetProductsByBarcode } from '~/network/query/query';
+import { getShopLogo } from '~/utils/logo-utils';
+import { Button } from '../ui/button';
+import Counter from '../ui/counter';
+import { Text } from '../ui/text';
+import { CartItemHeader } from './cart-item-header';
 
 export enum PendingCartItemActionEnum {
-  ADD = "ADD",
-  REMOVE = "REMOVE",
-  UPDATE = "UPDATE",
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+  UPDATE = 'UPDATE',
 }
 
 interface ProductCartItemProps {
@@ -23,7 +23,7 @@ interface ProductCartItemProps {
   onConfirm: (
     pendingCartData?: PendingCartDataType,
     quantity?: number,
-    action?: PendingCartItemActionEnum
+    action?: PendingCartItemActionEnum,
   ) => void;
   isLoading?: boolean;
 }
@@ -36,25 +36,20 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
 }) => {
   const [productCount, setProductCount] = React.useState(1);
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = ({} =
-    useGetHybridCart());
+  const {
+    data: { cart } = {},
+    isLoading: isCartLoading,
+  } = useGetHybridCart();
 
   const { data: productData, isLoading: areProductsLoading } =
-    useGetProductsByBarcode(
-      String(pendingCartData?.identifier),
-      {},
-      {
-        query: {
-          enabled: true,
-        },
-      }
-    );
+    useGetProductsByBarcode(String(pendingCartData?.identifier));
 
   const isLoadingGlobal = isLoading || areProductsLoading;
 
   const itemInCartCount =
     cart?.specific_products?.find(
-      ({ product: { barcode } = {} }) => barcode === pendingCartData?.identifier
+      ({ product: { barcode } = {} }) =>
+        barcode === pendingCartData?.identifier,
     )?.quantity ?? 0;
 
   useEffect(() => {
@@ -67,10 +62,10 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
 
   const {
     detail: {
-      name = "",
-      brand = "",
+      name = '',
+      brand = '',
       image_url,
-      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
+      unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       category: { image_url: categoryImageUrl } = {},
     } = {},
     shops_prices,
@@ -90,7 +85,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
       count,
       itemInCartCount > 0
         ? PendingCartItemActionEnum.UPDATE
-        : PendingCartItemActionEnum.ADD
+        : PendingCartItemActionEnum.ADD,
     );
   };
 
@@ -126,7 +121,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
                       </Text>
                     )}
                   </View>
-                )
+                ),
               )}
             </View>
           </View>

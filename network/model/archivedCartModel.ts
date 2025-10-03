@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { CartCategoryModel } from './cartCategoryModel';
-import type { ShopItemDto } from './shopItemDto';
 import type { ShopExtendedDto } from './shopExtendedDto';
+import type { ShopItemDto } from './shopItemDto';
 
 export interface ArchivedCartModel {
   cart_id?: number;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import { cn } from '../../lib/utils';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -21,15 +21,18 @@ interface CarouselContextType {
 const CarouselContext = React.createContext<CarouselContextType | null>(null);
 
 const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
-  ({
-    children,
-    width = screenWidth,
-    height = 200,
-    onSnapToItem,
-    className,
-    itemWidth = 304, // Default card width (288) + margin (16)
-    ...props
-  }, ref) => {
+  (
+    {
+      children,
+      width = screenWidth,
+      height = 200,
+      onSnapToItem,
+      className,
+      itemWidth = 304, // Default card width (288) + margin (16)
+      ...props
+    },
+    ref,
+  ) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const totalItems = React.Children.count(children);
 
@@ -38,7 +41,9 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
       const containerWidth = event.nativeEvent.layoutMeasurement.width;
 
       // Calculate which card is most centered in the viewport
-      const newIndex = Math.round((scrollPosition + containerWidth / 2 - itemWidth / 2) / itemWidth);
+      const newIndex = Math.round(
+        (scrollPosition + containerWidth / 2 - itemWidth / 2) / itemWidth,
+      );
 
       if (newIndex >= 0 && newIndex < totalItems && newIndex !== currentIndex) {
         setCurrentIndex(newIndex);
@@ -73,17 +78,21 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
         </View>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 
 CarouselRoot.displayName = 'Carousel';
 
 const CarouselItem = React.forwardRef<View, React.ComponentProps<typeof View>>(
   ({ className, children, ...props }, ref) => (
-    <View ref={ref} className={cn('justify-center items-center', className)} {...props}>
+    <View
+      ref={ref}
+      className={cn('justify-center items-center', className)}
+      {...props}
+    >
       {children}
     </View>
-  )
+  ),
 );
 CarouselItem.displayName = 'CarouselItem';
 
@@ -93,31 +102,38 @@ const CarouselIndicators = React.forwardRef<
     indicatorClassName?: string;
     activeIndicatorClassName?: string;
   }
->(({ className, indicatorClassName, activeIndicatorClassName, ...props }, ref) => {
-  const context = React.useContext(CarouselContext);
+>(
+  (
+    { className, indicatorClassName, activeIndicatorClassName, ...props },
+    ref,
+  ) => {
+    const context = React.useContext(CarouselContext);
 
-  if (!context) return null;
+    if (!context) return null;
 
-  return (
-    <View
-      ref={ref}
-      className={cn('flex-row justify-center items-center mt-4', className)}
-      {...props}
-    >
-      {Array.from({ length: context.totalItems }).map((_, index) => (
-        <View
-          key={index}
-          className={cn(
-            'w-2 h-2 rounded-full mx-1 transition-all duration-300',
-            index === context.currentIndex
-              ? cn('bg-primary scale-125', activeIndicatorClassName)
-              : cn('bg-gray-300', indicatorClassName)
-          )}
-        />
-      ))}
-    </View>
-  );
-});
+    return (
+      <View
+        ref={ref}
+        className={cn('flex-row justify-center items-center mt-4', className)}
+        {...props}
+      >
+        {Array.from({ length: context.totalItems }, () => Math.random()).map(
+          (randomValue, index) => (
+            <View
+              key={randomValue}
+              className={cn(
+                'w-2 h-2 rounded-full mx-1 transition-all duration-300',
+                index === context.currentIndex
+                  ? cn('bg-primary scale-125', activeIndicatorClassName)
+                  : cn('bg-gray-300', indicatorClassName),
+              )}
+            />
+          ),
+        )}
+      </View>
+    );
+  },
+);
 CarouselIndicators.displayName = 'CarouselIndicators';
 
 const useCarousel = () => {
@@ -130,8 +146,8 @@ const useCarousel = () => {
 
 export {
   CarouselRoot as Carousel,
-  CarouselItem,
   CarouselIndicators,
+  CarouselItem,
   useCarousel,
   type CarouselProps,
 };

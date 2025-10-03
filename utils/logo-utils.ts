@@ -1,5 +1,5 @@
 // shopLogoUtils.ts
-import type { ImageResizeMode, ImageSourcePropType } from "react-native";
+import type { ImageResizeMode, ImageSourcePropType } from 'react-native';
 
 // Type for the mapping of shop IDs to their respective require statements
 type ShopLogoMapping = {
@@ -15,19 +15,19 @@ interface LogoProps {
 // Define all logo requires statically
 // This is necessary because React Native's require must be static
 export const SHOP_LOGOS = {
-  1: require("../assets/images/logos/lidl_logo.png"),
-  2: require("../assets/images/logos/billa_logo.png"),
-  3: require("../assets/images/logos/kaufland_logo.png"),
-  4: require("../assets/images/logos/tesco_logo.png"),
+  1: require('../assets/images/logos/lidl_logo.png'),
+  2: require('../assets/images/logos/billa_logo.png'),
+  3: require('../assets/images/logos/kaufland_logo.png'),
+  4: require('../assets/images/logos/tesco_logo.png'),
 
   // Add more shops as needed
 } as const;
 
 export const SHOP_COVER_IMAGES = {
-  1: require("../assets/images/store-pictures/lidl.png"),
-  2: require("../assets/images/store-pictures/billa.png"),
-  3: require("../assets/images/store-pictures/kaufland.png"),
-  4: require("../assets/images/store-pictures/tesco.jpg"),
+  1: require('../assets/images/store-pictures/lidl.png'),
+  2: require('../assets/images/store-pictures/billa.png'),
+  3: require('../assets/images/store-pictures/kaufland.png'),
+  4: require('../assets/images/store-pictures/tesco.jpg'),
 };
 
 /**
@@ -36,7 +36,7 @@ export const SHOP_COVER_IMAGES = {
  * @returns The logo props object or null if not found
  */
 export const getShopLogo = (
-  shopId: keyof typeof SHOP_LOGOS
+  shopId: keyof typeof SHOP_LOGOS,
 ): LogoProps | null => {
   try {
     const logoSource = SHOP_LOGOS[shopId];
@@ -48,7 +48,7 @@ export const getShopLogo = (
 
     return {
       source: logoSource,
-      resizeMode: "contain" as const,
+      resizeMode: 'contain' as const,
     };
   } catch (error) {
     console.error(`Error loading logo for shop ${shopId}:`, error);
@@ -63,13 +63,13 @@ export const getShopCoverImage = (shopId: number): ImageSourcePropType => {
 
     if (!logoSource) {
       console.warn(`No cover image found for shop ID: ${shopId}`);
-      return require("../assets/images/store-pictures/default-store.jpeg");
+      return require('../assets/images/store-pictures/default-store.jpeg');
     }
 
     return logoSource;
   } catch (error) {
     console.error(`Error loading cover image for shop ${shopId}:`, error);
-    return require("../assets/images/store-pictures/default-store.jpeg");
+    return require('../assets/images/store-pictures/default-store.jpeg');
   }
 };
 
@@ -79,7 +79,7 @@ export const getShopCoverImage = (shopId: number): ImageSourcePropType => {
  * @returns Whether the shop has a logo
  */
 export const hasShopLogo = (
-  shopId: string
+  shopId: string,
 ): shopId is keyof typeof SHOP_LOGOS => {
   return shopId in SHOP_LOGOS;
 };

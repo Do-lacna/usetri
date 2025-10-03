@@ -1,8 +1,8 @@
-import type React from "react";
-import { useState } from "react";
-import { TouchableOpacity, View } from "react-native";
-import { cn } from "../../lib/utils";
-import { Text } from "./text";
+import type React from 'react';
+import { useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { cn } from '../../lib/utils';
+import { Text } from './text';
 
 interface CounterProps {
   initialCount?: number;
@@ -18,7 +18,7 @@ const Counter: React.FC<CounterProps> = ({
   const [count, setCount] = useState<number>(initialCount);
 
   const incrementCount = () => {
-    setCount((prevCount) => prevCount + 1);
+    setCount(prevCount => prevCount + 1);
     if (onCountChange) {
       onCountChange(count + 1);
     }
@@ -26,7 +26,7 @@ const Counter: React.FC<CounterProps> = ({
 
   const decrementCount = () => {
     if (count > 0) {
-      setCount((prevCount) => prevCount - 1);
+      setCount(prevCount => prevCount - 1);
       if (onCountChange) {
         onCountChange(count - 1);
       }
@@ -34,7 +34,7 @@ const Counter: React.FC<CounterProps> = ({
   };
 
   return (
-    <View className={cn("flex-row items-center", className)}>
+    <View className={cn('flex-row items-center', className)}>
       <TouchableOpacity
         className="rounded-full w-10 h-10 justify-center items-center border-2 border-gray-200"
         onPress={decrementCount}

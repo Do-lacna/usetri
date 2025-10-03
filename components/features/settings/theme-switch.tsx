@@ -1,14 +1,14 @@
-import React from "react";
-import { Pressable, Text, View } from "react-native";
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-} from "react-native-reanimated";
-import { MoonStar } from "~/lib/icons/MoonStar";
-import { Sun } from "~/lib/icons/Sun";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { cn } from "~/lib/utils";
+} from 'react-native-reanimated';
+import { MoonStar } from '~/lib/icons/MoonStar';
+import { Sun } from '~/lib/icons/Sun';
+import { useColorScheme } from '~/lib/useColorScheme';
+import { cn } from '~/lib/utils';
 
 interface ThemeSwitchProps {
   className?: string;
@@ -35,7 +35,7 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
   };
 
   return (
-    <View className={cn("flex-row items-center justify-between", className)}>
+    <View className={cn('flex-row items-center justify-between', className)}>
       {showLabel && (
         <View className="flex-row items-center flex-1">
           <Text className="text-base text-foreground">Tmavý režim</Text>
@@ -45,10 +45,10 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
       <Pressable
         onPress={handlePress}
         className={cn(
-          "relative w-14 h-7 rounded-full border-2 justify-center",
+          'relative w-14 h-7 rounded-full border-2 justify-center',
           isDarkColorScheme
-            ? "bg-primary border-primary"
-            : "bg-muted border-border"
+            ? 'bg-primary border-primary'
+            : 'bg-muted border-border',
         )}
       >
         {/* Track icons */}
@@ -56,17 +56,17 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
           <Sun
             size={14}
             className={cn(
-              "transition-opacity",
-              isDarkColorScheme ? "text-primary-foreground/40" : "text-primary"
+              'transition-opacity',
+              isDarkColorScheme ? 'text-primary-foreground/40' : 'text-primary',
             )}
           />
           <MoonStar
             size={14}
             className={cn(
-              "transition-opacity",
+              'transition-opacity',
               isDarkColorScheme
-                ? "text-primary-foreground"
-                : "text-muted-foreground/40"
+                ? 'text-primary-foreground'
+                : 'text-muted-foreground/40',
             )}
           />
         </View>
@@ -75,8 +75,8 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
         <Animated.View
           style={[animatedThumbStyle]}
           className={cn(
-            "absolute w-5 h-5 rounded-full shadow-sm",
-            isDarkColorScheme ? "bg-background" : "bg-background"
+            'absolute w-5 h-5 rounded-full shadow-sm',
+            isDarkColorScheme ? 'bg-background' : 'bg-background',
           )}
         />
       </Pressable>

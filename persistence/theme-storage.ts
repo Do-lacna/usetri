@@ -1,7 +1,7 @@
-import { storage } from "~/persistence/MMKV";
+import { storage } from '~/persistence/MMKV';
 
-const THEME_KEY = "THEME_KEY";
-const LANGUAGE_KEY = "LANGUAGE_KEY";
+const THEME_KEY = 'THEME_KEY';
+const LANGUAGE_KEY = 'LANGUAGE_KEY';
 
 export const setTheme = (theme: string) => storage.set(THEME_KEY, theme);
 
@@ -13,14 +13,14 @@ export const setLanguage = (language: string) =>
 export const getLanguage = () => storage.getString(LANGUAGE_KEY);
 
 export const activateBrigader = () => {
-  storage.set("BRIGADER_ACTIVE", "true");
+  storage.set('BRIGADER_ACTIVE', 'true');
 };
 
 export const deactivateBrigader = () => {
-  storage.set("BRIGADER_ACTIVE", "false");
+  storage.set('BRIGADER_ACTIVE', 'false');
 };
 
 export const isBrigaderActive = () => {
-  const brigaderActive = storage.getString("BRIGADER_ACTIVE");
-  return brigaderActive === "true";
+  const brigaderActive = storage.getString('BRIGADER_ACTIVE');
+  return brigaderActive === 'true';
 };

@@ -18,13 +18,13 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   CreateArchivedCartRequest,
   GetArchivedCartByIdResponse,
   GetArchivedCartResponse,
   ProblemDetails,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -70,7 +70,7 @@ export const getCreateArchivedCartMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createArchivedCart>>,
     { data: CreateArchivedCartRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return createArchivedCart(data, requestOptions);

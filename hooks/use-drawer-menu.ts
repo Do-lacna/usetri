@@ -1,7 +1,7 @@
 // hooks/useDrawerMenu.ts
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
-import { Alert } from "react-native";
+import { router } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { Alert } from 'react-native';
 
 export interface MenuItem {
   id: string;
@@ -29,32 +29,32 @@ export const useDrawerMenu = () => {
   // Example menu sections with items
   const menuSections: MenuSection[] = [
     {
-      id: "account",
-      title: "Account",
+      id: 'account',
+      title: 'Account',
       items: [
         {
-          id: "profile",
-          label: "My Profile",
-          onPress: () => router.push("/profile"),
+          id: 'profile',
+          label: 'My Profile',
+          onPress: () => router.push('/profile'),
         },
         {
-          id: "password",
-          label: "Change Password",
-          onPress: () => router.push("/change-password"),
+          id: 'password',
+          label: 'Change Password',
+          onPress: () => router.push('/change-password'),
         },
         {
-          id: "logout",
-          label: "Log Out",
+          id: 'logout',
+          label: 'Log Out',
           onPress: () => {
-            Alert.alert("Log Out", "Are you sure you want to log out?", [
-              { text: "Cancel", style: "cancel" },
+            Alert.alert('Log Out', 'Are you sure you want to log out?', [
+              { text: 'Cancel', style: 'cancel' },
               {
-                text: "Log Out",
-                style: "destructive",
+                text: 'Log Out',
+                style: 'destructive',
                 onPress: () => {
                   // Implement your logout logic here
                   // For example: logout() and then redirect
-                  router.replace("/login");
+                  router.replace('/login');
                 },
               },
             ]);
@@ -63,23 +63,23 @@ export const useDrawerMenu = () => {
       ],
     },
     {
-      id: "app",
-      title: "Application",
+      id: 'app',
+      title: 'Application',
       items: [
         {
-          id: "settings",
-          label: "Settings",
-          onPress: () => router.push("/settings"),
+          id: 'settings',
+          label: 'Settings',
+          onPress: () => router.push('/settings'),
         },
         {
-          id: "notifications",
-          label: "Notifications",
-          onPress: () => router.push("/notifications"),
+          id: 'notifications',
+          label: 'Notifications',
+          onPress: () => router.push('/notifications'),
         },
         {
-          id: "help",
-          label: "Help & Support",
-          onPress: () => router.push("/support"),
+          id: 'help',
+          label: 'Help & Support',
+          onPress: () => router.push('/support'),
         },
       ],
     },

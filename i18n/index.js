@@ -1,20 +1,20 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
 // Import translations
-import enCommon from "./locales/en/common";
-import skCommon from "./locales/sk/common";
+import enCommon from './locales/en/common';
+import skCommon from './locales/sk/common';
 
 const resources = {
-  "sk-SK": {
+  'sk-SK': {
     common: skCommon,
   },
-  "ar-AR": {
+  'ar-AR': {
     common: enCommon,
   },
 };
 
-const savedLanguage = "sk-SK"; // default to Slovak
+const savedLanguage = 'sk-SK'; // default to Slovak
 
 // try {
 //   // Try to get saved language from AsyncStorage
@@ -38,8 +38,8 @@ const savedLanguage = "sk-SK"; // default to Slovak
 const instance = i18n.use(initReactI18next).init({
   resources,
   lng: savedLanguage,
-  fallbackLng: "sk-SK", // Change this to just "sk", not "sk-SK"
-  defaultNS: "common",
+  fallbackLng: 'sk-SK', // Change this to just "sk", not "sk-SK"
+  defaultNS: 'common',
   interpolation: {
     escapeValue: false, // React already does escaping
   },

@@ -1,29 +1,29 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useLocalSearchParams } from "expo-router";
-import type React from "react";
-import { useEffect, useState } from "react";
+import { useQueryClient } from '@tanstack/react-query';
+import { useLocalSearchParams } from 'expo-router';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
   View,
-} from "react-native";
-import { useCartActions } from "~/hooks/use-cart-actions";
-import { calculateDiscountPercentage } from "~/lib/number-utils";
-import { getShopById } from "~/lib/utils";
-import { useGetProductsByBarcode, useGetShops } from "~/network/query/query";
-import { displaySuccessToastMessage } from "~/utils/toast-utils";
+} from 'react-native';
+import { useCartActions } from '~/hooks/use-cart-actions';
+import { calculateDiscountPercentage } from '~/lib/number-utils';
+import { getShopById } from '~/lib/utils';
+import { useGetProductsByBarcode, useGetShops } from '~/network/query/query';
+import { displaySuccessToastMessage } from '~/utils/toast-utils';
 
-import { AddToCartSection } from "~/components/product-detail/add-to-cart-section";
-import { CategoryBreadcrumb } from "~/components/product-detail/category-breadcrumb";
-import { ProductImage } from "~/components/product-detail/product-image";
-import { ProductInfo } from "~/components/product-detail/product-info";
-import { ShopPricesList } from "~/components/product-detail/shop-prices-list";
+import { AddToCartSection } from '~/components/product-detail/add-to-cart-section';
+import { CategoryBreadcrumb } from '~/components/product-detail/category-breadcrumb';
+import { ProductImage } from '~/components/product-detail/product-image';
+import { ProductInfo } from '~/components/product-detail/product-info';
+import { ShopPricesList } from '~/components/product-detail/shop-prices-list';
 import {
   getGetHybridCartQueryKey,
   useGetHybridCart,
-} from "../../../network/hybrid-cart/hybrid-cart";
+} from '../../../network/hybrid-cart/hybrid-cart';
 
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
@@ -41,25 +41,26 @@ const ProductDetailScreen: React.FC = () => {
       queryClient.invalidateQueries({
         queryKey: getGetHybridCartQueryKey(),
       });
-      displaySuccessToastMessage("Produkt bol vložený do košíka");
+      displaySuccessToastMessage('Produkt bol vložený do košíka');
     },
   });
 
   const incrementQuantity = () => {
-    setCartQuantity((prev) => prev + 1);
+    setCartQuantity(prev => prev + 1);
   };
 
   const decrementQuantity = () => {
-    setCartQuantity((prev) => Math.max(0, prev - 1));
+    setCartQuantity(prev => Math.max(0, prev - 1));
   };
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = ({} =
-    useGetHybridCart());
+  const {
+    data: { cart } = {},
+    isLoading: isCartLoading,
+  } = useGetHybridCart();
 
   const currentProductInCartQuantity =
-    cart?.specific_products?.find(
-      (item) => item.product?.barcode === String(id)
-    )?.quantity ?? 0;
+    cart?.specific_products?.find(item => item.product?.barcode === String(id))
+      ?.quantity ?? 0;
 
   const handleManageProductCartQuantity = () => {
     if (cartQuantity > 0 && selectedShopId) {
@@ -70,11 +71,13 @@ const ProductDetailScreen: React.FC = () => {
       }
     }
     if (cartQuantity === 0 && selectedShopId) {
-      handleRemoveItemFromCart("product", String(id));
+      handleRemoveItemFromCart('product', String(id));
     }
   };
 
-  const { data: { shops = [] } = {} } = useGetShops();
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
 
   const { name: selectedShopName, image_url: shopImage } =
     getShopById(selectedShopId, shops) || {};
@@ -115,11 +118,11 @@ const ProductDetailScreen: React.FC = () => {
   }
 
   const selectedShopPrice =
-    shops_prices?.find((product) => product.shop_id === Number(selectedShopId))
+    shops_prices?.find(product => product.shop_id === Number(selectedShopId))
       ?.actual_price ?? 0;
 
   const selectedShopDiscountPrice = shops_prices?.find(
-    (product) => product.shop_id === Number(selectedShopId)
+    product => product.shop_id === Number(selectedShopId),
   )?.discount_price?.price;
 
   const percentageDiscount = selectedShopDiscountPrice
@@ -150,10 +153,10 @@ const ProductDetailScreen: React.FC = () => {
 
         <View className="px-4">
           <ProductInfo
-            name={name || ""}
-            brand={brand || ""}
+            name={name || ''}
+            brand={brand || ''}
             amount={amount || 0}
-            unit={unit || ""}
+            unit={unit || ''}
           />
 
           <ShopPricesList

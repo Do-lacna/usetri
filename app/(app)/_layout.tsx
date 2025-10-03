@@ -1,7 +1,7 @@
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "~/global.css";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import '~/global.css';
+import { useColorScheme } from '~/lib/useColorScheme';
 
 export default function AppLayout() {
   const { isDarkColorScheme } = useColorScheme();
@@ -9,8 +9,8 @@ export default function AppLayout() {
   return (
     <>
       <StatusBar
-        style={isDarkColorScheme ? "light" : "dark"}
-        backgroundColor={isDarkColorScheme ? "#181818" : "white"}
+        style={isDarkColorScheme ? 'light' : 'dark'}
+        backgroundColor={isDarkColorScheme ? '#181818' : 'white'}
         translucent={false}
       />
       <Stack
@@ -21,48 +21,48 @@ export default function AppLayout() {
         <Stack.Screen
           name="product/[id]"
           options={{
-            title: "Detail produktu",
-            presentation: "card",
-            animation: "slide_from_right",
+            title: 'Detail produktu',
+            presentation: 'card',
+            animation: 'slide_from_right',
             headerShown: true,
-            headerBackButtonDisplayMode: "minimal",
+            headerBackButtonDisplayMode: 'minimal',
           }}
         />
 
         <Stack.Screen
           name="main/price-comparison-modal/price-comparison-modal-screen"
           options={{
-            title: "Porovnanie cien",
+            title: 'Porovnanie cien',
 
             headerShown: true,
             headerTitleStyle: {
-              fontWeight: "bold",
+              fontWeight: 'bold',
             },
-            presentation: "modal",
+            presentation: 'modal',
           }}
         />
         <Stack.Screen
           name="main/archived-cart/[id]"
           options={{
-            title: "Detail košíka",
+            title: 'Detail košíka',
 
             headerShown: true,
             headerTitleStyle: {
-              fontWeight: "bold",
+              fontWeight: 'bold',
             },
-            presentation: "modal",
+            presentation: 'modal',
           }}
         />
 
         <Stack.Screen
           name="main/menu-screen/menu-screen"
           options={{
-            title: "Nastavenia",
+            title: 'Nastavenia',
             headerShown: true,
             headerTitleStyle: {
-              fontWeight: "bold",
+              fontWeight: 'bold',
             },
-            headerBackButtonDisplayMode: "minimal",
+            headerBackButtonDisplayMode: 'minimal',
           }}
         />
       </Stack>

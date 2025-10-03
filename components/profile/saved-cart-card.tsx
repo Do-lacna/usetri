@@ -1,13 +1,13 @@
-import { format } from "date-fns";
-import { router } from "expo-router";
-import type React from "react";
-import { Image, TouchableOpacity, View } from "react-native";
-import { DATE_FORMAT } from "../../lib/constants";
-import { getShopById } from "../../lib/utils";
-import { useGetShops } from "../../network/query/query";
-import { getShopLogo } from "../../utils/logo-utils";
-import { Card } from "../ui/card";
-import { Text } from "../ui/text";
+import { format } from 'date-fns';
+import { router } from 'expo-router';
+import type React from 'react';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { DATE_FORMAT } from '../../lib/constants';
+import { getShopById } from '../../lib/utils';
+import { useGetShops } from '../../network/query/query';
+import { getShopLogo } from '../../utils/logo-utils';
+import { Card } from '../ui/card';
+import { Text } from '../ui/text';
 
 export interface SavedCartCardProps {
   id: number;
@@ -24,7 +24,9 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   savedAmount = 0,
   createdDate,
 }) => {
-  const { data: { shops = [] } = {} } = useGetShops();
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
   const shopName = getShopById(shopId, shops ?? [])?.name;
 
   return (
@@ -66,6 +68,6 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   );
 };
 
-SavedCartCard.displayName = "SavedCartCard";
+SavedCartCard.displayName = 'SavedCartCard';
 
 export { SavedCartCard };

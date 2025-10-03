@@ -1,17 +1,17 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useRevenueCat } from "~/context/revenue-cat-provider";
-import ProfileHeader from "../../../../components/profile/profile-header";
-import { SavedCartCard } from "../../../../components/profile/saved-cart-card";
-import { TotalSavedCard } from "../../../../components/profile/total-saved-card";
-import Divider from "../../../../components/ui/divider";
-import { useSession } from "../../../../context/authentication-context";
-import { useDrawerMenu } from "../../../../hooks/use-drawer-menu";
-import { useGetArchivedCart } from "../../../../network/customer/customer";
-import type { ShortArchivedCartDto } from "../../../../network/model";
+import { Ionicons } from '@expo/vector-icons';
+import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRevenueCat } from '~/context/revenue-cat-provider';
+import ProfileHeader from '../../../../components/profile/profile-header';
+import { SavedCartCard } from '../../../../components/profile/saved-cart-card';
+import { TotalSavedCard } from '../../../../components/profile/total-saved-card';
+import Divider from '../../../../components/ui/divider';
+import { useSession } from '../../../../context/authentication-context';
+import { useDrawerMenu } from '../../../../hooks/use-drawer-menu';
+import { useGetArchivedCart } from '../../../../network/customer/customer';
+import type { ShortArchivedCartDto } from '../../../../network/model';
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();
@@ -72,7 +72,7 @@ export default function ProfileScreen() {
               História nákupov
             </Text>
             <Text className="text-sm text-muted-foreground">
-              {t("nakup", { count: archived_carts?.length ?? 0 })}
+              {t('nakup', { count: archived_carts?.length ?? 0 })}
             </Text>
           </View>
 

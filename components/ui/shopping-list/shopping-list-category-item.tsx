@@ -1,6 +1,6 @@
-import { Minus, Plus, Trash2 } from "lucide-react-native";
-import type React from "react";
-import { useEffect, useState } from "react";
+import { Minus, Plus, Trash2 } from 'lucide-react-native';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -8,13 +8,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { useColorScheme } from "../../../lib/useColorScheme";
-import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
-import type { CartCategoryDto } from "../../../network/model";
-import { useGetProducts } from "../../../network/query/query";
-import SuggestedProductCard from "../../features/shopping-list/suggested-product-card";
+} from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
+import { useGetHybridCart } from '../../../network/hybrid-cart/hybrid-cart';
+import type { CartCategoryDto } from '../../../network/model';
+import { useGetProducts } from '../../../network/query/query';
+import SuggestedProductCard from '../../features/shopping-list/suggested-product-card';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -35,19 +35,23 @@ const ShoppingListCategoryItem: React.FC<{
     price = 0,
   } = item;
 
-  const { data: { cart } = {} } = ({} = useGetHybridCart());
+  const {
+    data: { cart } = {},
+  } = useGetHybridCart();
 
   // Theme-aware colors
-  const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
-  const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
+  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
+  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
 
-  const { data: { products: suggestedProducts = [] } = {}, isLoading } =
-    useGetProducts(
-      {
-        category_id: id,
-      },
-      { query: { enabled: !!id && isExpanded } }
-    );
+  const {
+    data: { products: suggestedProducts = [] } = {},
+    isLoading,
+  } = useGetProducts(
+    {
+      category_id: id,
+    },
+    { query: { enabled: !!id && isExpanded } },
+  );
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -68,7 +72,7 @@ const ShoppingListCategoryItem: React.FC<{
 
   const isSelected = (barcode: string): boolean =>
     cart?.specific_products?.some(
-      ({ product }) => product?.barcode === barcode
+      ({ product }) => product?.barcode === barcode,
     ) ?? false;
 
   return (
@@ -77,7 +81,7 @@ const ShoppingListCategoryItem: React.FC<{
       className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border"
     >
       <TouchableOpacity
-        onPress={() => setIsExpanded((expanded) => !expanded)}
+        onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}
       >
         <View className="flex-row items-center space-x-3">
@@ -157,7 +161,7 @@ const ShoppingListCategoryItem: React.FC<{
                 ?.sort(
                   (a, b) =>
                     Number(isSelected(String(b.barcode))) -
-                    Number(isSelected(String(a.barcode)))
+                    Number(isSelected(String(a.barcode))),
                 )
                 ?.map(({ barcode, detail, shops_prices }, index) => (
                   <SuggestedProductCard

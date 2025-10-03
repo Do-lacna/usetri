@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import auth from "@react-native-firebase/auth";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Image, Text, View } from "react-native";
-import Toast from "react-native-toast-message";
-import type { z } from "zod";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { forgottenPasswordSchema } from "../../../schema/forgotten-password-schema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import auth from '@react-native-firebase/auth';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Image, Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import type { z } from 'zod';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { forgottenPasswordSchema } from '../../../schema/forgotten-password-schema';
 
 export default function ForgottenPassword() {
   const [loading, setLoading] = useState(false);
@@ -17,9 +17,9 @@ export default function ForgottenPassword() {
     handleSubmit,
     formState: { errors, touchedFields, isValid, isDirty },
   } = useForm({
-    defaultValues: { email: "" },
+    defaultValues: { email: '' },
     resolver: zodResolver(forgottenPasswordSchema),
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const handlePasswordReset = async ({
@@ -36,18 +36,18 @@ export default function ForgottenPassword() {
       const promiseResult = await auth().sendPasswordResetEmail(email);
 
       Toast.show({
-        type: "success",
+        type: 'success',
         text1:
-          "Na vami zadaný e-mail bol zaslaný link na resetovanie hesla. Skontrolujte svoju e-mailovú schránku",
-        position: "bottom",
+          'Na vami zadaný e-mail bol zaslaný link na resetovanie hesla. Skontrolujte svoju e-mailovú schránku',
+        position: 'bottom',
       });
 
       router.back();
     } catch (error) {
       Toast.show({
-        type: "error",
-        text1: "Nastala chyba pri resetovaní hesla",
-        position: "bottom",
+        type: 'error',
+        text1: 'Nastala chyba pri resetovaní hesla',
+        position: 'bottom',
       });
     } finally {
       setLoading(false);
@@ -57,11 +57,11 @@ export default function ForgottenPassword() {
   return (
     <View className="flex-1 items-center justify-center gap-2">
       <View className="w-[220px] h-[110px] mb-8">
-           <Image
-                source={require("~/assets/images/usetri_inverted_logo.png")}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="contain"
-              />
+        <Image
+          source={require('~/assets/images/usetri_inverted_logo.png')}
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="contain"
+        />
       </View>
       <Controller
         control={control}

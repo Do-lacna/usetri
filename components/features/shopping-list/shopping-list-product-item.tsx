@@ -1,6 +1,6 @@
-import { Minus, Plus, Trash2 } from "lucide-react-native";
-import type React from "react";
-import { useEffect, useState } from "react";
+import { Minus, Plus, Trash2 } from 'lucide-react-native';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -8,13 +8,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { useColorScheme } from "../../../lib/useColorScheme";
-import type { CartProductDto } from "../../../network/model";
-import { useGetProducts } from "../../../network/query/query";
-import { getShopLogo } from "../../../utils/logo-utils";
-import SuggestedProductCard from "./suggested-product-card";
+} from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
+import type { CartProductDto } from '../../../network/model';
+import { useGetProducts } from '../../../network/query/query';
+import { getShopLogo } from '../../../utils/logo-utils';
+import SuggestedProductCard from './suggested-product-card';
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
@@ -31,14 +31,14 @@ const ShoppingListProductItem: React.FC<{
   const { isDarkColorScheme } = useColorScheme();
 
   // Theme-aware colors
-  const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
-  const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
+  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
+  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
 
   const {
     product: {
       barcode,
-      name = "Specific product",
-      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
+      name = 'Specific product',
+      unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       brand,
       category: { id: categoryId } = {},
       image_url,
@@ -48,13 +48,15 @@ const ShoppingListProductItem: React.FC<{
     available_shop_ids = [],
   } = item;
 
-  const { data: { products: suggestedProducts = [] } = {}, isLoading } =
-    useGetProducts(
-      {
-        category_id: categoryId,
-      },
-      { query: { enabled: !!categoryId && isExpanded } }
-    );
+  const {
+    data: { products: suggestedProducts = [] } = {},
+    isLoading,
+  } = useGetProducts(
+    {
+      category_id: categoryId,
+    },
+    { query: { enabled: !!categoryId && isExpanded } },
+  );
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -82,7 +84,7 @@ const ShoppingListProductItem: React.FC<{
       className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border"
     >
       <TouchableOpacity
-        onPress={() => setIsExpanded((expanded) => !expanded)}
+        onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}
       >
         <View className="flex-row items-center space-x-3">
@@ -134,20 +136,19 @@ const ShoppingListProductItem: React.FC<{
                   <View
                     key={retailer}
                     style={{ width: 20, height: 20, borderRadius: 50 }}
-                    //   className="border-2"
                   >
                     <Image
                       {...getShopLogo(retailer as any)}
-                      key={index}
+                      key={retailer}
                       style={{
                         width: 20,
                         height: 20,
                         borderRadius: 50,
-                        position: "absolute",
+                        position: 'absolute',
                         right: index * 10,
                         zIndex: index + 1,
-                        backgroundColor: "white",
-                        borderColor: "grey",
+                        backgroundColor: 'white',
+                        borderColor: 'grey',
                         borderWidth: 1,
                         // borderColor: "grey",
                         // borderWidth: 1,
@@ -198,12 +199,12 @@ const ShoppingListProductItem: React.FC<{
                 ?.sort(
                   (a, b) =>
                     Number(isSelected(String(b.barcode))) -
-                    Number(isSelected(String(a.barcode)))
+                    Number(isSelected(String(a.barcode))),
                 )
                 ?.map(
                   (
                     { barcode: suggestedProductBarcode, detail, shops_prices },
-                    index
+                    index,
                   ) => (
                     <SuggestedProductCard
                       key={suggestedProductBarcode || index}
@@ -212,12 +213,12 @@ const ShoppingListProductItem: React.FC<{
                       onPress={() =>
                         onAlternativeSelect(
                           String(barcode),
-                          String(suggestedProductBarcode)
+                          String(suggestedProductBarcode),
                         )
                       }
                       isSelected={isSelected(String(suggestedProductBarcode))}
                     />
-                  )
+                  ),
                 )}
             </View>
           </ScrollView>

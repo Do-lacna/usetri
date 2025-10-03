@@ -1,7 +1,7 @@
-import LottieView from "lottie-react-native";
-import { View } from "react-native";
+import LottieView from 'lottie-react-native';
+import { View } from 'react-native';
 
-import loadingAnimation from "~/assets/animations/loading-animation.json";
+import loadingAnimation from '~/assets/animations/loading-animation.json';
 const OAuthRedirect = () => {
   return (
     <View className="flex-1 items-center justify-center">

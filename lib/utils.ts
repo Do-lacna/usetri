@@ -1,12 +1,12 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import type {
   CartDto,
   ProductCartDto,
   ProductDto,
   ShopExtendedDto,
-} from "../network/model";
-import { BASE_API_URL } from "./constants";
+} from '../network/model';
+import { BASE_API_URL } from './constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,32 +23,32 @@ export function isArrayNotEmpty<T>(arr: T[] | null | undefined): arr is T[] {
 
 export function getShopIcon(shopId: number, shops: ShopExtendedDto[]) {
   if (!shopId || shops?.length === 0) return null;
-  return shops.find((shop) => shop.id === shopId)?.image_url;
+  return shops.find(shop => shop.id === shopId)?.image_url;
 }
 
 export function getShopById(
   shopId: number | null,
-  shops: ShopExtendedDto[] | null
+  shops: ShopExtendedDto[] | null,
 ) {
   if (!shopId || shops?.length === 0) return null;
-  return shops?.find((shop) => shop.id === shopId);
+  return shops?.find(shop => shop.id === shopId);
 }
 
 export const getSimplifiedCart = (
-  cart?: Pick<CartDto, "categories" | "specific_products">
+  cart?: Pick<CartDto, 'categories' | 'specific_products'>,
 ) => {
   if (!cart) return { categories: [], products: [] };
   const category_items = [...(cart?.categories ?? [])].map(
     ({ category: { id } = {}, quantity }) => ({
       category_id: Number(id),
       quantity,
-    })
+    }),
   );
   const product_items = cart?.specific_products?.map(
     ({ product, quantity }) => ({
       barcode: product?.barcode,
       quantity: quantity,
-    })
+    }),
   );
 
   return {
@@ -71,7 +71,7 @@ export const getSimplifiedCartAlternative = (cart?: ProductCartDto) => {
 };
 
 export const getNumberOfCartItems = (
-  cart?: Pick<CartDto, "categories" | "specific_products">
+  cart?: Pick<CartDto, 'categories' | 'specific_products'>,
 ) => {
   if (!cart) return 0;
 
@@ -81,9 +81,9 @@ export const getNumberOfCartItems = (
 };
 
 export const generateShoppingListItemDescription = ({
-  unit: { normalized_amount: amount = 0, normalized_unit: unit = "" } = {},
-  brand = "[Brand]",
-}: Pick<ProductDto, "brand" | "unit">) => {
+  unit: { normalized_amount: amount = 0, normalized_unit: unit = '' } = {},
+  brand = '[Brand]',
+}: Pick<ProductDto, 'brand' | 'unit'>) => {
   return `${brand} - ${amount} ${unit}`;
 };
 
@@ -96,14 +96,14 @@ export const generateImageUrl = (imageUrl?: string | null) => {
 export const generateShopLocationNameBasedOnId = (shopId?: number) => {
   switch (shopId) {
     case 1:
-      return "Tesco Kamenné námestie";
+      return 'Tesco Kamenné námestie';
     case 2:
-      return "Billa Muchovo námestie";
+      return 'Billa Muchovo námestie';
     case 3:
-      return "Lidl Mamateyova";
+      return 'Lidl Mamateyova';
     case 4:
-      return "Kaufland Petržalka";
+      return 'Kaufland Petržalka';
     default:
-      return "Neznámy obchod";
+      return 'Neznámy obchod';
   }
 };

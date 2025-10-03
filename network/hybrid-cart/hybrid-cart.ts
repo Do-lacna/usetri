@@ -18,6 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   AddToHybridCartRequest,
   AddToHybridCartResponse,
@@ -28,7 +29,6 @@ import type {
   GetHybridCartResponse,
   ProblemDetails,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -38,7 +38,7 @@ export const addToHybridCart = (
 ) => {
   return orvalApiClient<AddToHybridCartResponse>(
     {
-      url: `/hybrid-carts`,
+      url: '/hybrid-carts',
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: addToHybridCartRequest,
@@ -72,7 +72,7 @@ export const getAddToHybridCartMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addToHybridCart>>,
     { data: AddToHybridCartRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return addToHybridCart(data, requestOptions);
@@ -118,7 +118,7 @@ export const deleteHybridCart = (
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<void>(
-    { url: `/hybrid-carts`, method: 'DELETE' },
+    { url: '/hybrid-carts', method: 'DELETE' },
     options,
   );
 };
@@ -178,13 +178,13 @@ export const getHybridCart = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetHybridCartResponse>(
-    { url: `/hybrid-carts`, method: 'GET', signal },
+    { url: '/hybrid-carts', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetHybridCartQueryKey = () => {
-  return [`/hybrid-carts`] as const;
+  return ['/hybrid-carts'] as const;
 };
 
 export const getGetHybridCartQueryOptions = <
@@ -293,13 +293,13 @@ export const getHybridCartComparison = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetHybridCartComparisonResponse>(
-    { url: `/hybrid-carts-comparison`, method: 'GET', signal },
+    { url: '/hybrid-carts-comparison', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetHybridCartComparisonQueryKey = () => {
-  return [`/hybrid-carts-comparison`] as const;
+  return ['/hybrid-carts-comparison'] as const;
 };
 
 export const getGetHybridCartComparisonQueryOptions = <
@@ -431,7 +431,7 @@ export const createArchivedCart = (
 ) => {
   return orvalApiClient<void>(
     {
-      url: `/archived-carts`,
+      url: '/archived-carts',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: createArchivedCartRequest,
@@ -466,7 +466,7 @@ export const getCreateArchivedCartMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createArchivedCart>>,
     { data: CreateArchivedCartRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return createArchivedCart(data, requestOptions);
@@ -513,13 +513,13 @@ export const getArchivedCart = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetArchivedCartResponse>(
-    { url: `/archived-carts`, method: 'GET', signal },
+    { url: '/archived-carts', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetArchivedCartQueryKey = () => {
-  return [`/archived-carts`] as const;
+  return ['/archived-carts'] as const;
 };
 
 export const getGetArchivedCartQueryOptions = <

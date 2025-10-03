@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
-import SearchPlaceholderImage from "~/assets/images/svg/search-placeholder.svg";
-import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
-import { Label } from "../../ui/label";
-import { Text } from "../../ui/text";
+import React, { Fragment } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import SearchPlaceholderImage from '~/assets/images/svg/search-placeholder.svg';
+import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
+import { Label } from '../../ui/label';
+import { Text } from '../../ui/text';
 
 interface ShoppingListFilterContentProps {
   currentFilter?: ShoppingListFilter;
@@ -11,8 +11,8 @@ interface ShoppingListFilterContentProps {
 }
 
 export enum ShoppingListFilter {
-  CATEGORIES = "CATEGORIES",
-  PRODUCTS = "PRODUCTS",
+  CATEGORIES = 'CATEGORIES',
+  PRODUCTS = 'PRODUCTS',
 }
 
 function RadioGroupItemWithLabel({
@@ -28,7 +28,7 @@ function RadioGroupItemWithLabel({
 }) {
   return (
     <Pressable
-      className={"flex-row gap-4 items-center px-6"}
+      className={'flex-row gap-4 items-center px-6'}
       onPress={onLabelPress}
     >
       <RadioGroupItem
@@ -53,7 +53,7 @@ const ShoppingListFilterContent: React.FC<ShoppingListFilterContentProps> = ({
   onFilterChange,
 }) => {
   const [filter, setFilter] = React.useState<ShoppingListFilter>(
-    currentFilter ?? ShoppingListFilter.CATEGORIES
+    currentFilter ?? ShoppingListFilter.CATEGORIES,
   );
 
   const handleFilterChange = (value: string) => {
@@ -64,7 +64,7 @@ const ShoppingListFilterContent: React.FC<ShoppingListFilterContentProps> = ({
   return (
     <Fragment>
       <View className="w-[120px] h-[120px] my-4">
-        <SearchPlaceholderImage width={"100%"} height={"100%"} />
+        <SearchPlaceholderImage width={'100%'} height={'100%'} />
       </View>
       <RadioGroup
         value={filter}
@@ -91,8 +91,8 @@ const ShoppingListFilterContent: React.FC<ShoppingListFilterContentProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

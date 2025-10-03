@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import { Image, Pressable, Text, View } from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import type { ShopItemDto, ShopPriceDto } from "../../../network/model";
-import { useGetShops } from "../../../network/query/query";
-import { getShopLogo } from "../../../utils/logo-utils";
+import clsx from 'clsx';
+import { Image, Pressable, Text, View } from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import type { ShopItemDto, ShopPriceDto } from '../../../network/model';
+import { useGetShops } from '../../../network/query/query';
+import { getShopLogo } from '../../../utils/logo-utils';
 
 export interface IProductCardProps {
   product?: ShopItemDto;
@@ -25,25 +25,27 @@ const SuggestedProductCard = ({
       name,
       brand,
       barcode,
-      unit: { normalized_amount: amount = "", normalized_unit: unit = "" } = {},
+      unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,
     } = {},
   } = { ...product };
 
-  const { data: { shops = [] } = {} } = useGetShops();
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
 
   const lowestPrice = shopsPrices?.[0]?.price ?? 0;
 
   return (
     <Pressable
-      className={clsx("w-32 mr-4 flex-1", className)}
+      className={clsx('w-32 mr-4 flex-1', className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View
         className={clsx(
-          "bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 border border-border",
-          isSelected ? "border-2 border-primary" : ""
+          'bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 border border-border',
+          isSelected ? 'border-2 border-primary' : '',
         )}
       >
         <View className="w-full h-24 rounded-lg relative">
@@ -55,23 +57,23 @@ const SuggestedProductCard = ({
             resizeMode="cover"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
-            {shopsPrices?.map((retailer, index) => (
+            {shopsPrices?.map(({ shop_id }, index) => (
               <View
-                key={retailer?.shop_id}
+                key={shop_id}
                 style={{ width: 18, height: 18, borderRadius: 50 }}
               >
                 <Image
-                  {...getShopLogo(retailer?.shop_id as any)}
-                  key={index}
+                  {...getShopLogo(shop_id as any)}
+                  key={shop_id}
                   style={{
                     width: 18,
                     height: 18,
                     borderRadius: 50,
-                    position: "absolute",
+                    position: 'absolute',
                     right: index * 15,
                     zIndex: index + 1,
-                    backgroundColor: "white",
-                    borderColor: "grey",
+                    backgroundColor: 'white',
+                    borderColor: 'grey',
                     borderWidth: 1,
                     //TODO add here some elevation to visually differentiate the shop logos
                   }}

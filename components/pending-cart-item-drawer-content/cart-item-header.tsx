@@ -1,8 +1,8 @@
-import type React from "react";
-import { Image, TouchableOpacity, View } from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
-import Divider from "../ui/divider";
-import { Text } from "../ui/text";
+import type React from 'react';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
+import Divider from '../ui/divider';
+import { Text } from '../ui/text';
 
 interface CartItemHeaderProps {
   image_url?: string | null;
@@ -46,7 +46,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
 
       <View className="flex-row items-start mb-4">
         <Text className="text-xl font-bold flex-1 mr-3" numberOfLines={2}>
-          {title || "Nezadaný názov"}
+          {title || 'Nezadaný názov'}
         </Text>
         {amountUnit && (
           <Text className="text-md text-gray-500 text-right min-w-fit">

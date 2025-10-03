@@ -1,9 +1,9 @@
-import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
-import type React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { useColorScheme } from "../../lib/useColorScheme";
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Link } from 'expo-router';
+import type React from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { useColorScheme } from '../../lib/useColorScheme';
 
 interface ProfileHeaderProps {
   userEmail?: string | null;
@@ -11,21 +11,21 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
-  userEmail = "user@example.com",
+  userEmail = 'user@example.com',
   userImage,
 }) => {
   const { colorScheme } = useColorScheme();
-  const iconColor = colorScheme === "dark" ? "#9CA3AF" : "#6B7280";
-  const settingsIconColor = colorScheme === "dark" ? "#F3F4F6" : "#374151";
+  const iconColor = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280';
+  const settingsIconColor = colorScheme === 'dark' ? '#F3F4F6' : '#374151';
 
   return (
     <View className="relative overflow-hidden bg-background">
       {/* Subtle Gradient Background */}
       <LinearGradient
         colors={
-          colorScheme === "dark"
-            ? ["#1f2937", "#374151"]
-            : ["#f8fafc", "#e2e8f0"]
+          colorScheme === 'dark'
+            ? ['#1f2937', '#374151']
+            : ['#f8fafc', '#e2e8f0']
         }
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

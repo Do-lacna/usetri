@@ -1,27 +1,29 @@
-import { Link, router } from "expo-router";
-import React, { useEffect } from "react";
-import { Dimensions, Pressable, Text, View } from "react-native";
+import { Link, router } from 'expo-router';
+import React, { useEffect } from 'react';
+import { Dimensions, Pressable, Text, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
-import { ArrowDown } from "~/lib/icons/ArrowDown";
-import { useGetHybridCart } from "../../../network/hybrid-cart/hybrid-cart";
-import IconButton from "../../icon-button/icon-button";
+} from 'react-native-reanimated';
+import { ArrowDown } from '~/lib/icons/ArrowDown';
+import { useGetHybridCart } from '../../../network/hybrid-cart/hybrid-cart';
+import IconButton from '../../icon-button/icon-button';
 
 export type PriceSummaryProps = {
   onPress?: () => void;
 };
 
 const PriceSummary = ({ onPress }: PriceSummaryProps) => {
-  const screenWidth = Dimensions.get("window").width;
+  const screenWidth = Dimensions.get('window').width;
   const {
-    data: { cart: { total_price = 0 } = {} } = {},
+    data: {
+      cart: { total_price = 0 } = {},
+    } = {},
     isLoading: isCartLoading,
-  } = ({} = useGetHybridCart());
+  } = useGetHybridCart();
 
   // Animated values
   const animatedPrice = useSharedValue(0);
@@ -76,7 +78,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
   return (
     <Link
       asChild
-      href={"/main/price-comparison-modal/price-comparison-modal-screen"}
+      href={'/main/price-comparison-modal/price-comparison-modal-screen'}
     >
       <Pressable
         style={{ width: screenWidth }}
@@ -99,7 +101,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
               className="bg-secondary rounded-full p-2"
               onPress={() =>
                 router.navigate(
-                  "/main/price-comparison-modal/price-comparison-modal-screen"
+                  '/main/price-comparison-modal/price-comparison-modal-screen',
                 )
               }
             >

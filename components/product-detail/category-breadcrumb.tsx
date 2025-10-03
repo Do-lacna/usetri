@@ -15,7 +15,7 @@ export const CategoryBreadcrumb: React.FC<CategoryBreadcrumbProps> = ({
     <View className="px-4 w-full flex-row flex-wrap">
       {categories.map((category, index) => (
         <View key={category} className="flex-row items-center mb-2">
-          <Text 
+          <Text
             className="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full"
             numberOfLines={1}
             ellipsizeMode="tail"

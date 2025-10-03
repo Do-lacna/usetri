@@ -1,15 +1,15 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { Keyboard } from "react-native";
+import { useQueryClient } from '@tanstack/react-query';
+import { Keyboard } from 'react-native';
 import {
   getGetHybridCartComparisonQueryKey,
   getGetHybridCartQueryKey,
   useAddToHybridCart,
   useGetHybridCart,
-} from "~/network/hybrid-cart/hybrid-cart";
-import { CartOperationsEnum } from "../app/(app)/main/(tabs)/shopping-list";
-import { getSimplifiedCart } from "../lib/utils";
-import {} from "../network/customer/customer";
-import { displayErrorToastMessage } from "../utils/toast-utils";
+} from '~/network/hybrid-cart/hybrid-cart';
+import { CartOperationsEnum } from '../app/(app)/main/(tabs)/shopping-list';
+import { getSimplifiedCart } from '../lib/utils';
+import {} from '../network/customer/customer';
+import { displayErrorToastMessage } from '../utils/toast-utils';
 
 export type UseCartActionsProps = {
   onSuccessWithExpandedOption?: (categoryId?: number) => void;
@@ -21,7 +21,9 @@ export const useCartActions = ({
   onSuccessfullCartUpdate,
 }: UseCartActionsProps) => {
   const queryClient = useQueryClient();
-  const { data: { cart } = {} } = ({} = useGetHybridCart());
+  const {
+    data: { cart } = {},
+  } = useGetHybridCart();
 
   const {
     mutate: sendUpdateCart,
@@ -29,10 +31,10 @@ export const useCartActions = ({
     isPending,
   } = useAddToHybridCart({
     mutation: {
-      onError: (e) => {
+      onError: e => {
         displayErrorToastMessage(
-          "Nepodarilo sa aktualizovať nákupný zoznam",
-          "top"
+          'Nepodarilo sa aktualizovať nákupný zoznam',
+          'top',
         );
       },
       // onMutate: ({ data }) => {},
@@ -89,16 +91,16 @@ export const useCartActions = ({
   };
 
   const handleRemoveItemFromCart = (
-    type: "category" | "product",
-    id?: number | string
+    type: 'category' | 'product',
+    id?: number | string,
   ) => {
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     let updatedCategories = category_items;
     let updatedProducts = product_items;
     //TODO when BE adjusts DTO uncomment this
-    if (type === "category") {
+    if (type === 'category') {
       updatedCategories = category_items?.filter(
-        ({ category_id }) => category_id !== id
+        ({ category_id }) => category_id !== id,
       );
     } else {
       updatedProducts = product_items?.filter(({ barcode }) => barcode !== id);
@@ -114,12 +116,12 @@ export const useCartActions = ({
   const handleUpdateProductQuantity = (barcode: string, quantity: number) => {
     if (!barcode) return;
     if (quantity < 1) {
-      handleRemoveItemFromCart("product", barcode);
+      handleRemoveItemFromCart('product', barcode);
       return;
     }
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
-    const updatedProducts = product_items.map((product) =>
-      product.barcode === barcode ? { ...product, quantity } : product
+    const updatedProducts = product_items.map(product =>
+      product.barcode === barcode ? { ...product, quantity } : product,
     );
     sendUpdateCart({
       data: { category_items, product_items: updatedProducts },
@@ -131,18 +133,18 @@ export const useCartActions = ({
 
   const handleUpdateCategoryQuantity = (
     categoryId: number,
-    quantity: number
+    quantity: number,
   ) => {
     if (!categoryId) return;
     if (quantity < 1) {
-      handleRemoveItemFromCart("category", categoryId);
+      handleRemoveItemFromCart('category', categoryId);
       return;
     }
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
-    const updatedCategories = category_items.map((category) =>
+    const updatedCategories = category_items.map(category =>
       category?.category_id === categoryId
         ? { ...category, quantity }
-        : category
+        : category,
     );
     sendUpdateCart({
       data: { category_items: updatedCategories, product_items },
@@ -154,12 +156,12 @@ export const useCartActions = ({
 
   const handleChooseProductFromCategory = (
     barcode: string,
-    categoryId: number
+    categoryId: number,
   ) => {
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     const updatedCategoryIds = category_items.some(
-      (c) => c.category_id === categoryId
+      c => c.category_id === categoryId,
     )
       ? category_items.filter(({ category_id }) => category_id !== categoryId)
       : category_items;
@@ -180,7 +182,7 @@ export const useCartActions = ({
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     const updatedProducts = product_items
       ?.filter(
-        ({ barcode: productBarcode }) => productBarcode !== originalBarcode
+        ({ barcode: productBarcode }) => productBarcode !== originalBarcode,
       )
       .concat({ barcode, quantity: 1 });
 

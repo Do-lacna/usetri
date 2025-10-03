@@ -1,7 +1,7 @@
 // components/UploadProgressIndicator.tsx
-import type React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import type { UploadProgress } from "./use-background-upload";
+import type React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import type { UploadProgress } from './use-background-upload';
 
 interface UploadProgressIndicatorProps {
   progress: UploadProgress;
@@ -40,16 +40,16 @@ export const UploadProgressIndicator: React.FC<
       return `${progress.failed} obrázkov zlyhalo`;
     }
     if (progress.completed === progress.total) {
-      return `Všetky obrázky boli nahrané!`;
+      return 'Všetky obrázky boli nahrané!';
     }
-    return "";
+    return '';
   };
 
   const getStatusColor = () => {
-    if (progress.failed > 0) return "#ef4444"; // red
-    if (progress.uploading > 0) return "#10b981"; // green
-    if (progress.completed === progress.total) return "#10b981"; // green
-    return "#6b7280"; // gray
+    if (progress.failed > 0) return '#ef4444'; // red
+    if (progress.uploading > 0) return '#10b981'; // green
+    if (progress.completed === progress.total) return '#10b981'; // green
+    return '#6b7280'; // gray
   };
 
   return (
@@ -97,14 +97,14 @@ export const UploadProgressIndicator: React.FC<
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 100,
     left: 16,
     right: 16,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 12,
     borderLeftWidth: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -118,60 +118,60 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 8,
   },
   statusText: {
     flex: 1,
     fontSize: 14,
-    fontWeight: "600",
-    color: "#374151",
+    fontWeight: '600',
+    color: '#374151',
   },
   progressText: {
     fontSize: 12,
-    fontWeight: "500",
-    color: "#6b7280",
+    fontWeight: '500',
+    color: '#6b7280',
   },
   progressBarContainer: {
     height: 4,
-    backgroundColor: "#e5e7eb",
+    backgroundColor: '#e5e7eb',
     borderRadius: 2,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   progressBar: {
-    height: "100%",
+    height: '100%',
     borderRadius: 2,
   },
   actionButtons: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderTopWidth: 1,
-    borderTopColor: "#e5e7eb",
+    borderTopColor: '#e5e7eb',
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
   retryButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: "#ef4444",
+    backgroundColor: '#ef4444',
     borderRadius: 6,
     marginRight: 8,
   },
   retryButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   clearButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: "#6b7280",
+    backgroundColor: '#6b7280',
     borderRadius: 6,
   },
   clearButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 12,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

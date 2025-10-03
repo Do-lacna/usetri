@@ -1,6 +1,6 @@
-import type React from "react";
-import { Image, Text, View } from "react-native";
-import type { CategoryDto } from "../../../network/model";
+import type React from 'react';
+import { Image, Text, View } from 'react-native';
+import type { CategoryDto } from '../../../network/model';
 
 interface MissingCategoryCardProps {
   category: CategoryDto;
@@ -17,7 +17,7 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
 }) => {
   const { id, image_url, name: categoryName } = category || {};
 
-  const borderClass = index < totalItems - 1 ? "border-b border-border" : "";
+  const borderClass = index < totalItems - 1 ? 'border-b border-border' : '';
 
   return (
     <View className={`p-4 bg-amber-50 dark:bg-amber-950/20 ${borderClass}`}>

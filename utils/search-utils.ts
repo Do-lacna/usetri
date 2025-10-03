@@ -26,8 +26,8 @@ export const normalizeText = (text: string): string => {
 export const normalizeAndSplitWords = (text: string): string[] => {
   return text
     .split(/\s+/)
-    .map((word) => normalizeText(word))
-    .filter((word) => word.length > 0);
+    .map(word => normalizeText(word))
+    .filter(word => word.length > 0);
 };
 
 /**
@@ -72,7 +72,7 @@ const wordMatchesTarget = (
   targetWords: string[],
   threshold: number,
 ): boolean => {
-  return targetWords.some((targetWord) => {
+  return targetWords.some(targetWord => {
     // Check for exact match after normalization
     if (targetWord.includes(searchWord)) {
       return true;
@@ -106,8 +106,8 @@ export const searchItems = <T>(
     return items;
   }
 
-  return items.filter((item) => {
-    return searchFields.some((field) => {
+  return items.filter(item => {
+    return searchFields.some(field => {
       const fieldValue = item[field];
 
       // Skip if field value is not a string
@@ -120,12 +120,12 @@ export const searchItems = <T>(
 
       if (matchMode === 'all') {
         // All search words must match at least one field word
-        return searchWords.every((searchWord) =>
+        return searchWords.every(searchWord =>
           wordMatchesTarget(searchWord, fieldWords, threshold),
         );
       }
       // At least one search word must match
-      return searchWords.some((searchWord) =>
+      return searchWords.some(searchWord =>
         wordMatchesTarget(searchWord, fieldWords, threshold),
       );
     });

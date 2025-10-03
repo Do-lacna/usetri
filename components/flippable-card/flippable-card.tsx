@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Animated, TouchableOpacity, View, type ViewStyle } from "react-native";
+import React, { useRef, useState } from 'react';
+import { Animated, TouchableOpacity, View, type ViewStyle } from 'react-native';
 
 interface FlippableCardProps {
   frontContent: React.ReactNode;
@@ -19,7 +19,7 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   disableFlipping = false, // Default to false to maintain existing behavior
 }) => {
   const flipAnimation = useRef(
-    new Animated.Value(disableFlipping ? 0 : 180)
+    new Animated.Value(disableFlipping ? 0 : 180),
   ).current; // Start from front if flipping is disabled
   const [hasInitialFlipped, setHasInitialFlipped] = useState(disableFlipping); // Skip initial flip if disabled
 
@@ -54,12 +54,12 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
 
   const frontInterpolate = flipAnimation.interpolate({
     inputRange: [0, 180],
-    outputRange: ["0deg", "180deg"],
+    outputRange: ['0deg', '180deg'],
   });
 
   const backInterpolate = flipAnimation.interpolate({
     inputRange: [0, 180],
-    outputRange: ["180deg", "360deg"],
+    outputRange: ['180deg', '360deg'],
   });
 
   const frontAnimatedStyle = {
@@ -86,13 +86,13 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
       disabled={!hasInitialFlipped} // Disable touch during initial animation
       className="py-1"
     >
-      <View style={{ position: "relative", minHeight: 'auto' }}>
+      <View style={{ position: 'relative', minHeight: 'auto' }}>
         <Animated.View
           style={[
             frontAnimatedStyle,
             {
-              backfaceVisibility: "hidden",
-              position: isFlipped ? "absolute" : "relative",
+              backfaceVisibility: 'hidden',
+              position: isFlipped ? 'absolute' : 'relative',
               top: 0,
               left: 0,
               right: 0,
@@ -106,8 +106,8 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
           style={[
             backAnimatedStyle,
             {
-              backfaceVisibility: "hidden",
-              position: isFlipped ? "relative" : "absolute",
+              backfaceVisibility: 'hidden',
+              position: isFlipped ? 'relative' : 'absolute',
               top: 0,
               left: 0,
               right: 0,

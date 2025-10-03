@@ -1,10 +1,10 @@
-import type React from "react";
-import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
-import type { HybridCartComparisonDto } from "~/network/model";
-import { MissingCategoryCard } from "./missing-category-card";
-import { MissingProductCard } from "./missing-product-card";
-import { ProductListItem } from "./product-list-item";
+import type React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
+import type { HybridCartComparisonDto } from '~/network/model';
+import { MissingCategoryCard } from './missing-category-card';
+import { MissingProductCard } from './missing-product-card';
+import { ProductListItem } from './product-list-item';
 
 interface ProductsListProps {
   selectedCart?: HybridCartComparisonDto;
@@ -21,7 +21,7 @@ export const ProductsList: React.FC<ProductsListProps> = ({
   return (
     <View className="bg-card mt-4 rounded-xl border border-border overflow-hidden">
       <Text className="text-lg font-semibold text-foreground p-4 border-b border-border">
-        {t("product-list", {
+        {t('product-list', {
           count: selectedCart?.specific_products?.length ?? 0,
         })}
       </Text>

@@ -1,14 +1,14 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-import { Image, View } from "react-native";
-import type { PendingCartDataType } from "~/app/(app)/main/(tabs)/shopping-list";
-import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
-import { useGetCategories } from "~/network/query/query";
-import { getShopLogo } from "~/utils/logo-utils";
-import { Button } from "../ui/button";
-import Counter from "../ui/counter";
-import { Text } from "../ui/text";
-import { CartItemHeader } from "./cart-item-header";
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { Image, View } from 'react-native';
+import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
+import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
+import { useGetCategories } from '~/network/query/query';
+import { getShopLogo } from '~/utils/logo-utils';
+import { Button } from '../ui/button';
+import Counter from '../ui/counter';
+import { Text } from '../ui/text';
+import { CartItemHeader } from './cart-item-header';
 
 interface CategoryCartItemProps {
   pendingCartData: PendingCartDataType;
@@ -25,25 +25,28 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
 }) => {
   const [categoryCount, setCategoryCount] = useState(1);
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = useGetHybridCart();
+  const {
+    data: { cart } = {},
+    isLoading: isCartLoading,
+  } = useGetHybridCart();
 
   const { data: categoryData, isLoading: areCategoriesLoading } =
     useGetCategories(
       {},
       {
         query: {
-          select: (data) =>
-            data?.categories?.find((category) => {
+          select: data =>
+            data?.categories?.find(category => {
               return category?.id === Number(pendingCartData?.identifier);
             }) ?? null,
           enabled: true,
         },
-      }
+      },
     );
 
   const itemInCartCount =
     cart?.categories?.find(
-      ({ category }) => category?.id === Number(pendingCartData?.identifier)
+      ({ category }) => category?.id === Number(pendingCartData?.identifier),
     )?.quantity ?? 0;
 
   useEffect(() => {

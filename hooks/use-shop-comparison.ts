@@ -1,25 +1,40 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { router } from "expo-router";
+import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { displayErrorToastMessage, displaySuccessToastMessage } from "~/utils/toast-utils";
+import {
+  displayErrorToastMessage,
+  displaySuccessToastMessage,
+} from '~/utils/toast-utils';
 
-import { getGetArchivedCartQueryKey, useCreateArchivedCart } from "~/network/customer/customer";
-import { getGetHybridCartQueryKey, useDeleteHybridCart, useGetHybridCartComparison } from "~/network/hybrid-cart/hybrid-cart";
+import {
+  getGetArchivedCartQueryKey,
+  useCreateArchivedCart,
+} from '~/network/customer/customer';
+import {
+  getGetHybridCartQueryKey,
+  useDeleteHybridCart,
+  useGetHybridCartComparison,
+} from '~/network/hybrid-cart/hybrid-cart';
 
 export const useShopComparison = () => {
   const queryClient = useQueryClient();
   const [currentCartIndex, setCurrentCartIndex] = useState<number>(0);
   const [flippedItems, setFlippedItems] = useState<Set<string>>(new Set());
-  
-  const { data: { carts = [] } = {}, isLoading } = useGetHybridCartComparison();
+
+  const {
+    data: { carts = [] } = {},
+    isLoading,
+  } = useGetHybridCartComparison();
 
   const { mutate: sendCreateArchivedCart, isIdle } = useCreateArchivedCart({
     mutation: {
       onError: () => {
-        displayErrorToastMessage("Nepodarilo sa uložiť košík");  
+        displayErrorToastMessage('Nepodarilo sa uložiť košík');
       },
       onSuccess: () => {
-        displaySuccessToastMessage("Váš košík bol úspešne uložený vo vašom profile");    
+        displaySuccessToastMessage(
+          'Váš košík bol úspešne uložený vo vašom profile',
+        );
         queryClient.invalidateQueries({
           queryKey: getGetHybridCartQueryKey(),
         });
@@ -34,10 +49,10 @@ export const useShopComparison = () => {
   const { mutate: sendDiscardCart } = useDeleteHybridCart({
     mutation: {
       onError: () => {
-        displayErrorToastMessage("Nepodarilo sa zahodiť košík");  
+        displayErrorToastMessage('Nepodarilo sa zahodiť košík');
       },
       onSuccess: () => {
-        displaySuccessToastMessage("Váš košík bol úspešne vymazaný");    
+        displaySuccessToastMessage('Váš košík bol úspešne vymazaný');
         queryClient.invalidateQueries({
           queryKey: getGetHybridCartQueryKey(),
         });
@@ -49,13 +64,13 @@ export const useShopComparison = () => {
   const resetFlippedItems = () => setFlippedItems(new Set());
 
   const nextShop = (): void => {
-    setCurrentCartIndex((prev) => (prev + 1) % (carts?.length ?? 0));
+    setCurrentCartIndex(prev => (prev + 1) % (carts?.length ?? 0));
     resetFlippedItems();
   };
 
   const prevShop = (): void => {
     setCurrentCartIndex(
-      (prev) => (prev - 1 + (carts?.length ?? 0)) % (carts?.length ?? 0)
+      prev => (prev - 1 + (carts?.length ?? 0)) % (carts?.length ?? 0),
     );
     resetFlippedItems();
   };
@@ -66,7 +81,7 @@ export const useShopComparison = () => {
   };
 
   const handleFlipItem = (barcode: string): void => {
-    setFlippedItems((prev) => {
+    setFlippedItems(prev => {
       const newSet = new Set(prev);
       if (newSet.has(barcode)) {
         newSet.delete(barcode);
@@ -108,7 +123,7 @@ export const useShopComparison = () => {
     carts,
     isLoading,
     isIdle,
-    
+
     // Computed values
     selectedCart,
     currentShop,
@@ -117,7 +132,7 @@ export const useShopComparison = () => {
     isCurrentMostExpensive,
     savingsVsCheapest,
     savingsVsMostExpensive,
-    
+
     // Actions
     nextShop,
     prevShop,

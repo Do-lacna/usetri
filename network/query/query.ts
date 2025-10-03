@@ -18,6 +18,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   GetCategoriesParams,
   GetCategoryResponse,
@@ -36,7 +37,6 @@ import type {
   GetUnconfirmedDiscountsResponse,
   ProblemDetails,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -46,13 +46,13 @@ export const getProducts = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductsResponse>(
-    { url: `/products`, method: 'GET', params, signal },
+    { url: '/products', method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetProductsQueryKey = (params?: GetProductsParams) => {
-  return [`/products`, ...(params ? [params] : [])] as const;
+  return ['/products', ...(params ? [params] : [])] as const;
 };
 
 export const getGetProductsQueryOptions = <
@@ -177,13 +177,13 @@ export const getCategories = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetCategoryResponse>(
-    { url: `/categories`, method: 'GET', params, signal },
+    { url: '/categories', method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetCategoriesQueryKey = (params?: GetCategoriesParams) => {
-  return [`/categories`, ...(params ? [params] : [])] as const;
+  return ['/categories', ...(params ? [params] : [])] as const;
 };
 
 export const getGetCategoriesQueryOptions = <
@@ -308,13 +308,13 @@ export const getDiscounts = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetDiscountsResponse>(
-    { url: `/discounts`, method: 'GET', params, signal },
+    { url: '/discounts', method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetDiscountsQueryKey = (params?: GetDiscountsParams) => {
-  return [`/discounts`, ...(params ? [params] : [])] as const;
+  return ['/discounts', ...(params ? [params] : [])] as const;
 };
 
 export const getGetDiscountsQueryOptions = <
@@ -438,13 +438,13 @@ export const getDiscountsStatistics = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetDiscountsStatisticsResponse>(
-    { url: `/discounts-statistics`, method: 'GET', signal },
+    { url: '/discounts-statistics', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetDiscountsStatisticsQueryKey = () => {
-  return [`/discounts-statistics`] as const;
+  return ['/discounts-statistics'] as const;
 };
 
 export const getGetDiscountsStatisticsQueryOptions = <
@@ -740,13 +740,13 @@ export const getPopularCategories = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetPopularCategoryResponse>(
-    { url: `/popular-categories`, method: 'GET', signal },
+    { url: '/popular-categories', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetPopularCategoriesQueryKey = () => {
-  return [`/popular-categories`] as const;
+  return ['/popular-categories'] as const;
 };
 
 export const getGetPopularCategoriesQueryOptions = <
@@ -1034,7 +1034,7 @@ export const getProductsSemantic = (
 ) => {
   return orvalApiClient<GetProductsSemanticResponse>(
     {
-      url: `/semantic/products`,
+      url: '/semantic/products',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: getProductsSemanticRequest,
@@ -1069,7 +1069,7 @@ export const getGetProductsSemanticMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof getProductsSemantic>>,
     { data: GetProductsSemanticRequest }
-  > = (props) => {
+  > = props => {
     const { data } = props ?? {};
 
     return getProductsSemantic(data, requestOptions);
@@ -1116,13 +1116,13 @@ export const getShops = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetShopsResponse>(
-    { url: `/shops`, method: 'GET', signal },
+    { url: '/shops', method: 'GET', signal },
     options,
   );
 };
 
 export const getGetShopsQueryKey = () => {
-  return [`/shops`] as const;
+  return ['/shops'] as const;
 };
 
 export const getGetShopsQueryOptions = <
@@ -1232,7 +1232,7 @@ export const getUnconfirmedDiscounts = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetUnconfirmedDiscountsResponse>(
-    { url: `/unconfirmed-discounts`, method: 'GET', params, signal },
+    { url: '/unconfirmed-discounts', method: 'GET', params, signal },
     options,
   );
 };
@@ -1240,7 +1240,7 @@ export const getUnconfirmedDiscounts = (
 export const getGetUnconfirmedDiscountsQueryKey = (
   params?: GetUnconfirmedDiscountsParams,
 ) => {
-  return [`/unconfirmed-discounts`, ...(params ? [params] : [])] as const;
+  return ['/unconfirmed-discounts', ...(params ? [params] : [])] as const;
 };
 
 export const getGetUnconfirmedDiscountsQueryOptions = <

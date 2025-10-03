@@ -1,7 +1,7 @@
-import type React from "react";
-import { View } from "react-native";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
+import type React from 'react';
+import { View } from 'react-native';
+import { Button } from '../ui/button';
+import { Text } from '../ui/text';
 
 interface CartItemActionsProps {
   onDismiss: () => void;
@@ -14,7 +14,7 @@ export const CartItemActions: React.FC<CartItemActionsProps> = ({
   onDismiss,
   onConfirm,
   isLoading = false,
-  confirmText = "Pridať do zoznamu",
+  confirmText = 'Pridať do zoznamu',
 }) => {
   return (
     <View className="w-full flex-row gap-4 items-center justify-center mt-8">

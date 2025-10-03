@@ -1,6 +1,6 @@
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { router } from "expo-router";
-import React from "react";
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,14 +8,14 @@ import {
   RefreshControl,
   Text,
   View,
-} from "react-native";
-import type { DiscountShopItemDto, ShopExtendedDto } from "../../network/model";
+} from 'react-native';
+import type { DiscountShopItemDto, ShopExtendedDto } from '../../network/model';
 import {
   getDiscounts,
   getGetDiscountsQueryKey,
-} from "../../network/query/query";
-import DiscountedProductCard from "../product-card/discounted-product-card";
-import { Skeleton } from "../ui/skeleton";
+} from '../../network/query/query';
+import DiscountedProductCard from '../product-card/discounted-product-card';
+import { Skeleton } from '../ui/skeleton';
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
@@ -56,7 +56,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
 
   // Flatten all pages into a single array
   const allProducts = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.products || []) || [];
+    return data?.pages.flatMap(page => page.products || []) || [];
   }, [data]);
 
   const loadMoreData = React.useCallback(() => {
@@ -72,7 +72,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
     { length: 4 },
-    (_, index) => ({ id: index })
+    (_, index) => ({ id: index }),
   );
 
   const renderSkeletonItem: ListRenderItem<SkeletonItem> = ({
@@ -109,7 +109,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             data={skeletonData}
             renderItem={renderSkeletonItem}
             numColumns={2}
-            keyExtractor={(item) => String(item.id)}
+            keyExtractor={item => String(item.id)}
             contentContainerClassName="gap-4 p-1"
             columnWrapperClassName="gap-4"
             scrollEnabled={false}
@@ -126,7 +126,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             data={allProducts}
             renderItem={renderProductItem}
             numColumns={2}
-            keyExtractor={(product) => String(product?.detail?.barcode)}
+            keyExtractor={product => String(product?.detail?.barcode)}
             contentContainerClassName="gap-4 p-4"
             columnWrapperClassName="gap-4"
             refreshControl={

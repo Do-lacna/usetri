@@ -1,7 +1,6 @@
-import type { Option } from "@rn-primitives/select";
-import { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { generateImageUrl } from "../../lib/utils";
+import type { Option } from '@rn-primitives/select';
+import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Select,
   SelectContent,
@@ -10,7 +9,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from '../ui/select';
 
 // Define our option types
 export type SelectOptionType = {
@@ -39,15 +38,15 @@ export const CustomSelect = ({
   options,
   value,
   onChange,
-  placeholder = "Select an option",
+  placeholder = 'Select an option',
   label,
   defaultValue,
   error,
   disabled = false,
-  className = "",
-  labelClassName = "",
-  selectClassName = "",
-  optionClassName = "",
+  className = '',
+  labelClassName = '',
+  selectClassName = '',
+  optionClassName = '',
   iconSize = 24,
 }: CustomSelectProps) => {
   const [open, setOpen] = useState(false);
@@ -76,11 +75,7 @@ export const CustomSelect = ({
       <SelectContent insets={contentInsets}>
         <SelectGroup>
           <SelectLabel>{label}</SelectLabel>
-          {options?.map((option) => {
-            const shopIcon = !!option.icon
-              ? generateImageUrl(option.icon)
-              : null;
-
+          {options?.map(option => {
             return (
               <SelectItem
                 key={option.value}

@@ -1,7 +1,7 @@
-import type React from "react";
-import { Image, Text, View } from "react-native";
-import { Badge } from "~/components/ui/badge";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "~/lib/constants";
+import type React from 'react';
+import { Image, Text, View } from 'react-native';
+import { Badge } from '~/components/ui/badge';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
 
 interface ProductImageProps {
   imageUrl?: string | null;

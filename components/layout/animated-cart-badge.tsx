@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { Text } from "react-native";
+import React, { useEffect } from 'react';
+import { Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSequence,
   withSpring,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 
 interface AnimatedCartBadgeProps {
   count: number;
@@ -29,7 +29,7 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
         opacity.value = withTiming(1, { duration: 200 });
         scale.value = withSequence(
           withSpring(1.3, { damping: 8, stiffness: 150 }),
-          withSpring(1, { damping: 8, stiffness: 150 })
+          withSpring(1, { damping: 8, stiffness: 150 }),
         );
       } else {
         // Hide badge with scale down
@@ -49,15 +49,15 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
 
   return (
     <Animated.View
-    className='bg-primary'
+      className="bg-primary"
       style={[
         {
           minWidth: 20,
           height: 20,
           borderRadius: 10,
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
           top: -8,
           right: -10,
           paddingHorizontal: count > 9 ? 6 : 0,
@@ -65,8 +65,8 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
         animatedStyle,
       ]}
     >
-      <Text style={{ color: "white", fontSize: 12, fontWeight: "bold" }}>
-        {count > 99 ? "99+" : count}
+      <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+        {count > 99 ? '99+' : count}
       </Text>
     </Animated.View>
   );

@@ -1,18 +1,18 @@
-import type React from "react";
-import { useState } from "react";
+import type React from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 import Purchases, {
   type CustomerInfo,
   type PurchasesPackage,
-} from "react-native-purchases";
-import { useRevenueCat } from "../../context/revenue-cat-provider";
-import { displayErrorToastMessage } from "../../utils/toast-utils";
+} from 'react-native-purchases';
+import { useRevenueCat } from '../../context/revenue-cat-provider';
+import { displayErrorToastMessage } from '../../utils/toast-utils';
 
 type SubscriptionPaywallProps = {
   onPurchaseComplete?: (customerInfo: CustomerInfo) => void;
@@ -41,9 +41,9 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       // Check if user has access to the entitlement
       const entitlementInfo = customerInfo.entitlements.active;
       if (
-        entitlementInfo["premium"] ||
-        entitlementInfo["pro"] ||
-        entitlementInfo["Pro"]
+        entitlementInfo.premium ||
+        entitlementInfo.pro ||
+        entitlementInfo.Pro
       ) {
         // Purchase successful
         onPurchaseComplete?.(customerInfo);
@@ -51,10 +51,10 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
     } catch (error: any) {
       if (!error.userCancelled) {
         displayErrorToastMessage(
-          "Nepodarilo sa spracovať platbu. Skúste to znova."
+          'Nepodarilo sa spracovať platbu. Skúste to znova.',
         );
-        setErrorMessage("Nepodarilo sa spracovať platbu. Skúste to znova.");
-        console.log("Purchase error:", error);
+        setErrorMessage('Nepodarilo sa spracovať platbu. Skúste to znova.');
+        console.log('Purchase error:', error);
       }
     } finally {
       setIsPurchasing(false);
@@ -69,7 +69,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       <TouchableOpacity
         key={pkg.identifier}
         className={`p-4 border rounded-lg mb-3 ${
-          isSelected ? "border-green-500 bg-green-50" : "border-gray-300"
+          isSelected ? 'border-green-500 bg-green-50' : 'border-gray-300'
         }`}
         onPress={() => setSelectedPackage(pkg)}
       >
@@ -98,7 +98,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       <View className="p-4 border-t border-gray-200">
         <TouchableOpacity
           className={`py-4 rounded-lg items-center justify-center mb-4 ${
-            !selectedPackage || isPurchasing ? "bg-gray-400" : "bg-primary"
+            !selectedPackage || isPurchasing ? 'bg-gray-400' : 'bg-primary'
           }`}
           onPress={handlePurchase}
           disabled={!selectedPackage || isPurchasing}
@@ -109,7 +109,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
             <Text className="text-white font-bold text-base">
               {selectedPackage
                 ? `Odoberať za ${selectedPackage.product.priceString}`
-                : "Zvoľte si predplatné"}
+                : 'Zvoľte si predplatné'}
             </Text>
           )}
         </TouchableOpacity>

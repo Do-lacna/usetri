@@ -1,5 +1,5 @@
 // components/ui/SkeletonCategoryCard.tsx
-import { View } from "react-native";
+import { View } from 'react-native';
 
 export function SkeletonCategoryCard() {
   return (

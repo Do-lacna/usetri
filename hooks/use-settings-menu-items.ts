@@ -1,12 +1,12 @@
 // hooks/useDrawerMenu.ts
-import { router } from "expo-router";
-import * as WebBrowser from "expo-web-browser";
-import { useSession } from "~/context/authentication-context";
-import { WEBPAGE_LINKS } from "../lib/constants";
+import { router } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
+import { useSession } from '~/context/authentication-context';
+import { WEBPAGE_LINKS } from '../lib/constants';
 import {
   activateBrigader,
   deactivateBrigader,
-} from "../persistence/theme-storage";
+} from '../persistence/theme-storage';
 
 export interface MenuItem {
   id: string;
@@ -29,22 +29,22 @@ export const useSettingsMenuItems = () => {
 
   const menuSections: MenuSection[] = [
     {
-      id: "ucet",
-      title: "Nastavenia účtu",
+      id: 'ucet',
+      title: 'Nastavenia účtu',
       items: [
         {
-          id: "email",
-          label: "Email a heslo",
-          onPress: () => router.push("/profile"),
+          id: 'email',
+          label: 'Email a heslo',
+          onPress: () => router.push('/profile'),
         },
         {
-          id: "predplatne",
-          label: "Predplatné",
-          onPress: () => router.push("/change-password"),
+          id: 'predplatne',
+          label: 'Predplatné',
+          onPress: () => router.push('/change-password'),
         },
         {
-          id: "brigader",
-          label: `${brigaderActive ? "Dea" : "A"}ktivuj profil brigadera`,
+          id: 'brigader',
+          label: `${brigaderActive ? 'Dea' : 'A'}ktivuj profil brigadera`,
           onPress: () => {
             if (brigaderActive) {
               deactivateBrigader();
@@ -57,74 +57,74 @@ export const useSettingsMenuItems = () => {
           },
         },
         {
-          id: "odhlasit",
-          label: "Odhlásiť sa",
+          id: 'odhlasit',
+          label: 'Odhlásiť sa',
           onPress: signOut,
         },
         {
-          id: "vymazatucet",
-          label: "Vymazať účet",
+          id: 'vymazatucet',
+          label: 'Vymazať účet',
           onPress: deleteUserAccount,
         },
       ],
     },
     {
-      id: "aplikacia",
-      title: "Aplikácia",
+      id: 'aplikacia',
+      title: 'Aplikácia',
       items: [
         {
-          id: "tema",
-          label: "Téma",
+          id: 'tema',
+          label: 'Téma',
           onPress: () => {}, // Will be handled by the switch component
           isThemeToggle: true,
         },
         {
-          id: "preferencie",
-          label: "Preferencie",
-          onPress: () => router.push("/settings"),
+          id: 'preferencie',
+          label: 'Preferencie',
+          onPress: () => router.push('/settings'),
         },
         {
-          id: "jazyk",
-          label: "Jazyk",
-          onPress: () => router.push("/notifications"),
+          id: 'jazyk',
+          label: 'Jazyk',
+          onPress: () => router.push('/notifications'),
         },
       ],
     },
     {
-      id: "informacieapodpora",
-      title: "Informácie a podpora",
+      id: 'informacieapodpora',
+      title: 'Informácie a podpora',
       items: [
         {
-          id: "akotofunguje",
-          label: "Ako to funguje",
+          id: 'akotofunguje',
+          label: 'Ako to funguje',
           onPress: async () => {
             await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.HOW_IT_WORKS);
           },
         },
         {
-          id: "politikacookies",
-          label: "Cookies",
+          id: 'politikacookies',
+          label: 'Cookies',
           onPress: async () => {
             await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.COOKIES);
           },
         },
         {
-          id: "ochranaosobnychudajov",
-          label: "Ochrana osobných údajov",
+          id: 'ochranaosobnychudajov',
+          label: 'Ochrana osobných údajov',
           onPress: async () => {
             await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.PRIVACTY_POLICY);
           },
         },
         {
-          id: "podmienkypouzivania",
-          label: "Podmienky používania",
+          id: 'podmienkypouzivania',
+          label: 'Podmienky používania',
           onPress: async () => {
             await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.TERMS_OF_SERVICE);
           },
         },
         {
-          id: "kontakt",
-          label: "Kontakt",
+          id: 'kontakt',
+          label: 'Kontakt',
           onPress: async () => {
             await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.CONTACT);
           },

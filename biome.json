@@ -14,7 +14,7 @@
     "indentStyle": "space"
   },
   "organizeImports": {
-    "enabled": true
+    "enabled": false
   },
   "linter": {
     "enabled": true,
@@ -24,6 +24,10 @@
         "noUnusedVariables": "off",
         "noUnusedImports": "error",
         "useExhaustiveDependencies": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noMisleadingCharacterClass": "off"
       }
     },
     "ignore": [
@@ -35,7 +39,8 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single"
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded"
     },
     "linter": {
       "enabled": true

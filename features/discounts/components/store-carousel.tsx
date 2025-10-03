@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
-import { View } from "react-native";
+import type React from 'react';
+import { useRef } from 'react';
+import { View } from 'react-native';
 import {
   Carousel,
   CarouselIndicators,
   CarouselItem,
-} from "../../../components/ui/carousel";
-import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
-import { StoreCard } from "./store-card";
-import { Text } from "~/components/ui/text";
+} from '../../../components/ui/carousel';
+import type { DiscountStatsDto, ShopExtendedDto } from '../../../network/model';
+import { StoreCard } from './store-card';
 
 interface StoreCarouselProps {
   shops: ShopExtendedDto[];

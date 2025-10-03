@@ -1,7 +1,7 @@
-import { FlatList, RefreshControl, Text, View } from "react-native";
-import type { PopularCategoryDto } from "../../../network/model";
-import { CategoryCard } from "./CategoryCard";
-import { SkeletonCategoryCard } from "./SkeletonCategoryCard";
+import { FlatList, RefreshControl, Text, View } from 'react-native';
+import type { PopularCategoryDto } from '../../../network/model';
+import { CategoryCard } from './CategoryCard';
+import { SkeletonCategoryCard } from './SkeletonCategoryCard';
 
 interface CategoriesGridProps {
   categories: PopularCategoryDto[];
@@ -18,7 +18,7 @@ export function CategoriesGrid({
 }: CategoriesGridProps) {
   // Filter out root category and create skeleton data
   const filteredCategories = categories.filter(
-    (category) => category?.category?.name?.toLowerCase() !== "root"
+    category => category?.category?.name?.toLowerCase() !== 'root',
   );
   const skeletonData = Array.from({ length: 8 }, (_, index) => ({ id: index }));
 
@@ -47,8 +47,8 @@ export function CategoriesGrid({
                   dataArray.length % 2 !== 0 && index === dataArray.length - 1
                     ? 0
                     : 1,
-                maxWidth: "48%",
-                minWidth: "48%",
+                maxWidth: '48%',
+                minWidth: '48%',
               }}
             >
               {isLoading ? (
@@ -74,7 +74,7 @@ export function CategoriesGrid({
           paddingBottom: 40, // Add extra bottom padding for navigation
         }}
         columnWrapperStyle={{
-          justifyContent: "flex-start",
+          justifyContent: 'flex-start',
           gap: 12,
         }}
         scrollEnabled={!isLoading}

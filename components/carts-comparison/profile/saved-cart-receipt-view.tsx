@@ -1,9 +1,9 @@
-import type React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { Separator } from "~/components/ui/separator";
-import type { CartComparisonDto } from "../../../network/model";
+import type React from 'react';
+import { ScrollView, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Card, CardContent, CardHeader } from '~/components/ui/card';
+import { Separator } from '~/components/ui/separator';
+import type { CartComparisonDto } from '../../../network/model';
 
 const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
   shop: { name: shopName } = {},
@@ -23,7 +23,7 @@ const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
               <Text className="text-xl font-bold text-card-foreground mb-1">
                 {shopName}
               </Text>
-              <View className="flex-row justify-between w-full"></View>
+              <View className="flex-row justify-between w-full" />
             </View>
           </CardHeader>
 
@@ -36,7 +36,7 @@ const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
                     detail: { name, barcode, brand } = {},
                     quantity = 1,
                   },
-                  index
+                  index,
                 ) => (
                   <View key={barcode}>
                     <View className="flex-row justify-between items-start py-3">
@@ -59,7 +59,7 @@ const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
                       <Separator className="bg-border" />
                     )}
                   </View>
-                )
+                ),
               )}
             </View>
 

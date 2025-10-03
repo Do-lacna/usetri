@@ -1,6 +1,6 @@
-import type React from "react";
-import { Image, Text, View } from "react-native";
-import type { HybridCartComparisonProductDto } from "~/network/model";
+import type React from 'react';
+import { Image, Text, View } from 'react-native';
+import type { HybridCartComparisonProductDto } from '~/network/model';
 
 interface MissingProductCardProps {
   product: HybridCartComparisonProductDto;
@@ -26,7 +26,7 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
     quantity = 1,
   } = product ?? {};
 
-  const borderClass = index < totalProducts - 1 ? "border-b border-border" : "";
+  const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
 
   return (
     <View className={`p-4 bg-destructive/10 ${borderClass}`}>

@@ -1,10 +1,10 @@
-import auth, { signInWithCredential } from "@react-native-firebase/auth";
-import { useAuthRequest } from "expo-auth-session/providers/google";
-import { maybeCompleteAuthSession } from "expo-web-browser";
-import { useEffect } from "react";
-import { Image, Text, TouchableOpacity } from "react-native";
-import { useSession } from "~/context/authentication-context";
-import { resetAndRedirect } from "~/utils/navigation-utils";
+import auth, { signInWithCredential } from '@react-native-firebase/auth';
+import { useAuthRequest } from 'expo-auth-session/providers/google';
+import { maybeCompleteAuthSession } from 'expo-web-browser';
+import { useEffect } from 'react';
+import { Image, Text, TouchableOpacity } from 'react-native';
+import { useSession } from '~/context/authentication-context';
+import { resetAndRedirect } from '~/utils/navigation-utils';
 
 maybeCompleteAuthSession();
 
@@ -16,32 +16,32 @@ export function GoogleSignIn() {
       webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
     },
     {
-      path: "/(app)/(auth)/sign-in",
-      scheme: "usetri",
-    }
+      path: '/(app)/(auth)/sign-in',
+      scheme: 'usetri',
+    },
   );
 
   const { setUser } = useSession();
 
   useEffect(() => {
-    if (response?.type === "success") {
+    if (response?.type === 'success') {
       const { authentication } = response;
       if (authentication?.idToken) {
         const credential = auth.GoogleAuthProvider.credential(
           authentication.idToken,
-          authentication.accessToken
+          authentication.accessToken,
         );
 
-        console.log("Signing with google");
+        console.log('Signing with google');
 
         signInWithCredential(auth(), credential)
           .then(({ user }) => {
-            console.log("Successfull sign in " + user);
+            console.log(`Successfull sign in ${user}`);
             setUser(user);
-            resetAndRedirect("/main");
+            resetAndRedirect('/main');
           })
-          .catch((error) => {
-            console.error("Google Sign-In Error", error);
+          .catch(error => {
+            console.error('Google Sign-In Error', error);
           });
       }
     }
@@ -58,7 +58,7 @@ export function GoogleSignIn() {
       onPress={handleGoogleSignIn}
     >
       <Image
-        source={require("~/assets/images/logos/google_logo.png")}
+        source={require('~/assets/images/logos/google_logo.png')}
         className="w-[16px] h-[16px] mr-2"
       />
       <Text

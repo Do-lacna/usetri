@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import auth from "@react-native-firebase/auth";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Image, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
-import type { z } from "zod";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { signUpSchema } from "~/schema/signup";
+import { zodResolver } from '@hookform/resolvers/zod';
+import auth from '@react-native-firebase/auth';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Image, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
+import type { z } from 'zod';
+import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
+import { signUpSchema } from '~/schema/signup';
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -18,9 +18,9 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors, touchedFields, isValid, isDirty },
   } = useForm({
-    defaultValues: { email: "", password: "", confirmPassword: "" },
+    defaultValues: { email: '', password: '', confirmPassword: '' },
     resolver: zodResolver(signUpSchema),
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const handleRegister = async ({
@@ -32,28 +32,28 @@ export default function SignUp() {
       // Create user with email and password
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
-        password
+        password,
       );
 
       // Send email verification
       await userCredential.user.sendEmailVerification();
 
       Toast.show({
-        type: "success",
+        type: 'success',
         text1:
-          "Verifikačný e-mail bol zaslaný na zadaný e-mail, overte svoj e-mail a môžte sa prihlásiť",
-        position: "bottom",
+          'Verifikačný e-mail bol zaslaný na zadaný e-mail, overte svoj e-mail a môžte sa prihlásiť',
+        position: 'bottom',
       });
 
       router.push({
-        pathname: "/sign-in",
+        pathname: '/sign-in',
         params: { email: userCredential?.user?.email },
       });
     } catch (error) {
       Toast.show({
-        type: "error",
-        text1: "Nastala chyba pri registrácii",
-        position: "bottom",
+        type: 'error',
+        text1: 'Nastala chyba pri registrácii',
+        position: 'bottom',
       });
     } finally {
       setLoading(false);
@@ -63,11 +63,11 @@ export default function SignUp() {
   return (
     <SafeAreaView className="flex-1 items-center justify-center gap-2">
       <View className="w-[220px] h-[110px] mb-8">
-           <Image
-                source={require("~/assets/images/usetri_inverted_logo.png")}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="contain"
-              />
+        <Image
+          source={require('~/assets/images/usetri_inverted_logo.png')}
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="contain"
+        />
       </View>
       <Controller
         control={control}

@@ -4,7 +4,6 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,13 +17,14 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   GetScannedProductsAdminParams,
   GetScannedProductsAdminResponse,
   ProblemDetails,
   UpdateBarcodeRequest,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -34,7 +34,7 @@ export const getScannedProductsAdmin = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetScannedProductsAdminResponse>(
-    { url: `/admin/scanned-products`, method: 'GET', params, signal },
+    { url: '/admin/scanned-products', method: 'GET', params, signal },
     options,
   );
 };
@@ -42,7 +42,7 @@ export const getScannedProductsAdmin = (
 export const getGetScannedProductsAdminQueryKey = (
   params?: GetScannedProductsAdminParams,
 ) => {
-  return [`/admin/scanned-products`, ...(params ? [params] : [])] as const;
+  return ['/admin/scanned-products', ...(params ? [params] : [])] as const;
 };
 
 export const getGetScannedProductsAdminQueryOptions = <
@@ -223,7 +223,7 @@ export const getUpdateScannedProductsAdminMutationOptions = <
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateScannedProductsAdmin>>,
     { productId: number; data: UpdateBarcodeRequest }
-  > = (props) => {
+  > = props => {
     const { productId, data } = props ?? {};
 
     return updateScannedProductsAdmin(productId, data, requestOptions);

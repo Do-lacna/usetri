@@ -1,15 +1,15 @@
-import { router } from "expo-router";
-import { MoveLeft } from "lucide-react-native";
-import type React from "react";
-import { useRef, useState } from "react";
+import { router } from 'expo-router';
+import { MoveLeft } from 'lucide-react-native';
+import type React from 'react';
+import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { runOnJS } from "react-native-reanimated";
+} from 'react-native';
+import { runOnJS } from 'react-native-reanimated';
 import {
   Camera,
   type CameraRuntimeError,
@@ -17,9 +17,9 @@ import {
   useCameraDevice,
   useCameraFormat,
   useCodeScanner,
-} from "react-native-vision-camera";
-import { useUploadProductImage } from "../../../network/imports/imports";
-import { Button } from "../../ui/button";
+} from 'react-native-vision-camera';
+import { useUploadProductImage } from '../../../network/imports/imports';
+import { Button } from '../../ui/button';
 
 interface BarcodeData {
   value: string;
@@ -47,14 +47,14 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
 }: CameraViewProps) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(
-    null
+    null,
   );
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(true);
 
   const cameraRef = useRef<Camera>(null);
-  const device = useCameraDevice("back");
+  const device = useCameraDevice('back');
 
   const format = useCameraFormat(device, [
     { photoResolution: { width: 1280, height: 720 } },
@@ -80,29 +80,29 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
 
   const requestCameraPermission = async () => {
     const permission = await Camera.requestCameraPermission();
-    setHasPermission(permission === "granted");
+    setHasPermission(permission === 'granted');
   };
 
   // Barcode scanner configuration
   const codeScanner = useCodeScanner({
     codeTypes: [
-      "qr",
-      "ean-13",
-      "ean-8",
-      "code-128",
-      "code-39",
-      "code-93",
-      "codabar",
-      "upc-a",
-      "upc-e",
-      "aztec",
+      'qr',
+      'ean-13',
+      'ean-8',
+      'code-128',
+      'code-39',
+      'code-93',
+      'codabar',
+      'upc-a',
+      'upc-e',
+      'aztec',
     ],
-    onCodeScanned: (codes) => {
+    onCodeScanned: codes => {
       if (codes.length > 0 && !scannedBarcode) {
         const code = codes[0];
         runOnJS(setScannedBarcode)({
-          value: code.value || "",
-          type: code.type || "unknown",
+          value: code.value || '',
+          type: code.type || 'unknown',
         });
       }
     },
@@ -110,8 +110,8 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
 
   // Handle camera errors
   const onError = (error: CameraRuntimeError) => {
-    console.error("Camera error:", error);
-    Alert.alert("Camera Error", "An error occurred while using the camera.");
+    console.error('Camera error:', error);
+    Alert.alert('Camera Error', 'An error occurred while using the camera.');
   };
 
   // Capture photo when user decides to take it
@@ -120,15 +120,15 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
 
     try {
       const photo: PhotoFile = await cameraRef.current.takePhoto({
-        flash: "off",
+        flash: 'off',
       });
 
       if (photo) {
         setCapturedPhoto(photo.path);
       }
     } catch (error) {
-      console.error("Error capturing photo:", error);
-      Alert.alert("Error", "Failed to capture photo. Please try again.");
+      console.error('Error capturing photo:', error);
+      Alert.alert('Error', 'Failed to capture photo. Please try again.');
     }
   };
 
@@ -140,7 +140,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
       const result = await fetch(`file://${capturedPhoto}`);
       const data = await result.blob();
       const base64 = (await blobToBase64(data)) as string;
-      const base64Data = base64.split(",")[1];
+      const base64Data = base64.split(',')[1];
 
       await sendUploadCapturedImageBase64({
         data: {
@@ -150,10 +150,10 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
         },
       });
     } catch (error) {
-      console.error("Error submitting data:", error);
+      console.error('Error submitting data:', error);
       Alert.alert(
-        "Submission Error",
-        "Failed to submit data. Please try again."
+        'Submission Error',
+        'Failed to submit data. Please try again.',
       );
     } finally {
       setIsSubmitting(false);
@@ -298,7 +298,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
               onPress={submitBase64Data}
               disabled={isSubmitting}
               className={`p-4 rounded-lg ${
-                isSubmitting ? "bg-gray-600" : "bg-green-600"
+                isSubmitting ? 'bg-gray-600' : 'bg-green-600'
               }`}
               activeOpacity={0.8}
             >

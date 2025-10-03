@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router';
 
 export default function AuthLayout() {
   return (
@@ -13,17 +13,16 @@ export default function AuthLayout() {
         name="sign-up"
         options={{
           headerShown: true,
-          headerTitle: "Registrácia",
-          headerBackTitle: "Prihlásenie",
+          headerTitle: 'Registrácia',
+          headerBackTitle: 'Prihlásenie',
         }}
       />
       <Stack.Screen
         name="forgotten-password"
         options={{
           headerShown: true,
-          headerTitle: "Obnovenie hesla",
-          headerBackButtonDisplayMode: "minimal",
-
+          headerTitle: 'Obnovenie hesla',
+          headerBackButtonDisplayMode: 'minimal',
         }}
       />
     </Stack>

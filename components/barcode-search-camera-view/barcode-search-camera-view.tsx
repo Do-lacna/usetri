@@ -1,17 +1,17 @@
-import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { runOnJS } from "react-native-reanimated";
+import { router } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { runOnJS } from 'react-native-reanimated';
 import {
   Camera,
   type CameraRuntimeError,
   useCameraDevice,
   useCameraFormat,
   useCodeScanner,
-} from "react-native-vision-camera";
-import { X } from "~/lib/icons/Cancel";
-import IconButton from "../icon-button/icon-button";
-import { Button } from "../ui/button";
+} from 'react-native-vision-camera';
+import { X } from '~/lib/icons/Cancel';
+import IconButton from '../icon-button/icon-button';
+import { Button } from '../ui/button';
 
 export type BarcodeScanningResult = {
   data: string;
@@ -30,7 +30,7 @@ export default function BarcodeSearchCameraView({
   const [isCameraReady, setIsCameraReady] = useState(false);
 
   const cameraRef = useRef<Camera>(null);
-  const device = useCameraDevice("back");
+  const device = useCameraDevice('back');
 
   const format = useCameraFormat(device, [
     { photoResolution: { width: 1280, height: 720 } },
@@ -40,35 +40,35 @@ export default function BarcodeSearchCameraView({
   useEffect(() => {
     const requestCameraPermission = async () => {
       const permission = await Camera.requestCameraPermission();
-      setHasPermission(permission === "granted");
+      setHasPermission(permission === 'granted');
     };
-    
+
     requestCameraPermission();
   }, []);
 
   // Barcode scanner configuration
   const codeScanner = useCodeScanner({
     codeTypes: [
-      "qr",
-      "ean-13",
-      "ean-8", 
-      "code-128",
-      "code-39",
-      "code-93",
-      "codabar",
-      "upc-a",
-      "upc-e",
+      'qr',
+      'ean-13',
+      'ean-8',
+      'code-128',
+      'code-39',
+      'code-93',
+      'codabar',
+      'upc-a',
+      'upc-e',
     ],
-    onCodeScanned: (codes) => {
+    onCodeScanned: codes => {
       if (codes.length > 0 && !barcode && isCameraReady) {
         const code = codes[0];
-        const barcodeData = code.value || "";
-        
+        const barcodeData = code.value || '';
+
         runOnJS(setBarcode)(barcodeData);
         runOnJS(() => {
           onBarcodeScanned?.({
             data: barcodeData,
-            type: code.type || "unknown"
+            type: code.type || 'unknown',
           });
         })();
       }
@@ -77,7 +77,7 @@ export default function BarcodeSearchCameraView({
 
   // Handle camera errors
   const onError = (error: CameraRuntimeError) => {
-    console.error("Camera error:", error);
+    console.error('Camera error:', error);
   };
 
   if (!hasPermission) {
@@ -89,10 +89,12 @@ export default function BarcodeSearchCameraView({
             To scan product barcodes, this app uses your device's camera
           </Text>
         </Text>
-        <Button onPress={async () => {
-          const permission = await Camera.requestCameraPermission();
-          setHasPermission(permission === "granted");
-        }}>
+        <Button
+          onPress={async () => {
+            const permission = await Camera.requestCameraPermission();
+            setHasPermission(permission === 'granted');
+          }}
+        >
           <Text>Continue</Text>
         </Button>
       </View>
@@ -102,9 +104,7 @@ export default function BarcodeSearchCameraView({
   if (!device) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>
-          No camera device found
-        </Text>
+        <Text style={styles.message}>No camera device found</Text>
       </View>
     );
   }
@@ -117,7 +117,7 @@ export default function BarcodeSearchCameraView({
         device={device}
         format={format}
         isActive={true}
-        codeScanner={!!barcode ? undefined : codeScanner}
+        codeScanner={barcode ? undefined : codeScanner}
         onError={onError}
         onInitialized={() => setIsCameraReady(true)}
       >
@@ -138,47 +138,47 @@ export default function BarcodeSearchCameraView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   message: {
-    textAlign: "center",
+    textAlign: 'center',
     paddingBottom: 10,
   },
   camera: {
     flex: 1,
   },
   cancelIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 40,
     right: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
     zIndex: 100,
   },
   barcodeIcon: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    position: "relative",
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    position: 'relative',
   },
   button: {
     flex: 1,
-    alignSelf: "flex-end",
-    alignItems: "center",
+    alignSelf: 'flex-end',
+    alignItems: 'center',
   },
   text: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
+    fontWeight: 'bold',
+    color: 'white',
   },
 });

@@ -1,6 +1,6 @@
-import type { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useRef } from "react";
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useRef } from 'react';
 import {
   Keyboard,
   RefreshControl,
@@ -8,34 +8,34 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ShoppingListProductSearch from "~/components/features/shopping-list/shopping-list-product-search";
-import { useGetHybridCart } from "~/network/hybrid-cart/hybrid-cart";
-import PriceSummary from "../../../../components/features/shopping-list/price-summary";
-import ShoppingListCategoryItem from "../../../../components/features/shopping-list/shopping-list-category-item";
-import ShoppingListCategorySearch from "../../../../components/features/shopping-list/shopping-list-category-search";
-import ShoppingListProductItem from "../../../../components/features/shopping-list/shopping-list-product-item";
-import { CustomBottomSheetModal } from "../../../../components/layout/bottom-sheet-modal/bottom-sheet-modal";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import ShoppingListProductSearch from '~/components/features/shopping-list/shopping-list-product-search';
+import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
+import PriceSummary from '../../../../components/features/shopping-list/price-summary';
+import ShoppingListCategoryItem from '../../../../components/features/shopping-list/shopping-list-category-item';
+import ShoppingListCategorySearch from '../../../../components/features/shopping-list/shopping-list-category-search';
+import ShoppingListProductItem from '../../../../components/features/shopping-list/shopping-list-product-item';
+import { CustomBottomSheetModal } from '../../../../components/layout/bottom-sheet-modal/bottom-sheet-modal';
 import PendingCartItemDrawerContent, {
   PendingCartItemActionEnum,
-} from "../../../../components/pending-cart-item-drawer-content";
-import EmptyShoppingListPlaceholderScreen from "../../../../components/placeholders/empty-shopping-list-placeholder-screen";
-import SearchBar from "../../../../components/search-bar/search-bar";
-import { Button } from "../../../../components/ui/button";
-import Divider from "../../../../components/ui/divider";
-import { useCartActions } from "../../../../hooks/use-cart-actions";
-import type { CategoryExtendedWithPathDto } from "../../../../network/model";
+} from '../../../../components/pending-cart-item-drawer-content';
+import EmptyShoppingListPlaceholderScreen from '../../../../components/placeholders/empty-shopping-list-placeholder-screen';
+import SearchBar from '../../../../components/search-bar/search-bar';
+import { Button } from '../../../../components/ui/button';
+import Divider from '../../../../components/ui/divider';
+import { useCartActions } from '../../../../hooks/use-cart-actions';
+import type { CategoryExtendedWithPathDto } from '../../../../network/model';
 
 export enum CartOperationsEnum {
-  ADD = "ADD",
-  REMOVE = "REMOVE",
-  UPDATE = "UPDATE",
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+  UPDATE = 'UPDATE',
 }
 
 export enum DrawerTypeEnum {
-  CATEGORY = "CATEGORY",
-  PRODUCT = "PRODUCT",
+  CATEGORY = 'CATEGORY',
+  PRODUCT = 'PRODUCT',
 }
 
 export type PendingCartDataType = {
@@ -46,11 +46,11 @@ export type PendingCartDataType = {
 export default function ShoppingList() {
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const queryClient = useQueryClient();
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
-    null
+    null,
   );
   const [pendingCartData, setPendingCartData] =
     React.useState<PendingCartDataType | null>(null);
@@ -65,17 +65,19 @@ export default function ShoppingList() {
     isLoading: areCartActionsLoading,
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
-      setSearchQuery("");
+      setSearchQuery('');
       pendingProductSheetRef?.current?.dismiss();
       setIsTextInputFocused(false);
     },
-    onSuccessWithExpandedOption: (categoryId) => {
+    onSuccessWithExpandedOption: categoryId => {
       setExpandedOption(Number(categoryId));
     },
   });
 
-  const { data: { cart } = {}, isLoading: isCartLoading } = ({} =
-    useGetHybridCart());
+  const {
+    data: { cart } = {},
+    isLoading: isCartLoading,
+  } = useGetHybridCart();
 
   const cartCategories = cart?.categories ?? [];
   const cartProducts = cart?.specific_products ?? [];
@@ -89,7 +91,7 @@ export default function ShoppingList() {
       Keyboard.dismiss();
       setPendingCartData({ identifier, type });
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -99,7 +101,7 @@ export default function ShoppingList() {
   const handleConfirmPendingCartItem = (
     pendingCartData?: PendingCartDataType,
     quantity?: number,
-    action?: PendingCartItemActionEnum
+    action?: PendingCartItemActionEnum,
   ) => {
     if (action === PendingCartItemActionEnum.ADD) {
       if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
@@ -111,7 +113,7 @@ export default function ShoppingList() {
       if (pendingCartData?.type === DrawerTypeEnum.CATEGORY) {
         handleUpdateCategoryQuantity(
           Number(pendingCartData?.identifier),
-          quantity ?? 0
+          quantity ?? 0,
         );
       } else if (pendingCartData?.type === DrawerTypeEnum.PRODUCT) {
         handleUpdateProductQuantity(pendingCartData.identifier, quantity ?? 0);
@@ -121,7 +123,7 @@ export default function ShoppingList() {
 
   return (
     <SafeAreaView
-      edges={["left", "top", "right"]}
+      edges={['left', 'top', 'right']}
       className="flex-1 content-center bg-background"
     >
       <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
@@ -135,16 +137,16 @@ export default function ShoppingList() {
 
       <TouchableWithoutFeedback
         onPress={() => Keyboard.dismiss()}
-        className={`px-2 ${areAnyItemsInCart ? "flex-1" : ""}`}
+        className={`px-2 ${areAnyItemsInCart ? 'flex-1' : ''}`}
       >
         <View className="flex-1">
           <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
             <SearchBar<CategoryExtendedWithPathDto>
               onSearch={setSearchQuery}
-              onClear={() => setSearchQuery("")}
+              onClear={() => setSearchQuery('')}
               searchText={searchQuery}
-              placeholder={"Vyhľadaj kategóriu alebo produkt"}
-              keyExtractor={(item) => String(item.id)}
+              placeholder={'Vyhľadaj kategóriu alebo produkt'}
+              keyExtractor={item => String(item.id)}
               onFocus={() => setIsTextInputFocused(true)}
               // onBlur={() => setIsTextInputFocused(false)}
               displaySearchOptions={false}
@@ -153,7 +155,7 @@ export default function ShoppingList() {
               <Button
                 variant="ghost"
                 onPress={() => {
-                  setSearchQuery("");
+                  setSearchQuery('');
                   setIsTextInputFocused(false);
                 }}
               >
@@ -167,19 +169,19 @@ export default function ShoppingList() {
               <View className="flex-1 mb-16">
                 <ShoppingListCategorySearch
                   searchQuery={searchQuery}
-                  onCategorySelect={(categoryId) =>
+                  onCategorySelect={categoryId =>
                     handleTriggerCartDrawer(
                       DrawerTypeEnum.CATEGORY,
-                      String(categoryId)
+                      String(categoryId),
                     )
                   }
                 />
                 <ShoppingListProductSearch
                   searchQuery={searchQuery}
-                  onProductSelect={(barcode) =>
+                  onProductSelect={barcode =>
                     handleTriggerCartDrawer(
                       DrawerTypeEnum.PRODUCT,
-                      String(barcode)
+                      String(barcode),
                     )
                   }
                 />
@@ -194,7 +196,7 @@ export default function ShoppingList() {
                 }
                 className="mb-24"
               >
-                {cartCategories.map((item) => (
+                {cartCategories.map(item => (
                   <ShoppingListCategoryItem
                     key={item?.category?.id}
                     item={item}
@@ -206,7 +208,7 @@ export default function ShoppingList() {
 
                 <Divider className="mt-2 mb-4" />
 
-                {cartProducts.map((item) => (
+                {cartProducts.map(item => (
                   <ShoppingListProductItem
                     key={item?.product?.barcode}
                     item={item}

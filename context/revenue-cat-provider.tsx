@@ -1,22 +1,16 @@
-import {
-  Fragment,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { Platform } from "react-native";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import Purchases, {
   type CustomerInfo,
   type PurchasesEntitlementInfos,
   type PurchasesPackage,
-} from "react-native-purchases";
+} from 'react-native-purchases';
 // Provide RevenueCat functions to our app
 
 // Use your RevenueCat API keys
 const APIKeys = {
-  apple: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY || "",
-  google: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY || "",
+  apple: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY || '',
+  google: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY || '',
 };
 
 interface RevenueCatProps {
@@ -54,7 +48,7 @@ export const RevenueCatProvider = ({ children }: any) => {
   useEffect(() => {
     const init = async () => {
       try {
-        if (Platform.OS === "android") {
+        if (Platform.OS === 'android') {
           await Purchases.configure({ apiKey: APIKeys.google });
         } else {
           await Purchases.configure({ apiKey: APIKeys.apple });
@@ -66,7 +60,7 @@ export const RevenueCatProvider = ({ children }: any) => {
         // Purchases.setLogLevel(LOG_LEVEL.DEBUG);
 
         // Listen for customer updates
-        Purchases.addCustomerInfoUpdateListener(async (info) => {
+        Purchases.addCustomerInfoUpdateListener(async info => {
           // console.log(info);
           updateCustomerInformation(info);
         });
@@ -74,7 +68,7 @@ export const RevenueCatProvider = ({ children }: any) => {
         // Load all offerings and the user object with entitlements
         await loadOfferings();
       } catch (e) {
-        console.error("Error initializing RevenueCat: ", e);
+        console.error('Error initializing RevenueCat: ', e);
       }
     };
     init();
@@ -89,7 +83,7 @@ export const RevenueCatProvider = ({ children }: any) => {
         setPackages(offerings.current.availablePackages);
       }
     } catch (e) {
-      console.error("Error loading offerings: ", e);
+      console.error('Error loading offerings: ', e);
     }
   };
 
@@ -128,10 +122,14 @@ export const RevenueCatProvider = ({ children }: any) => {
     try {
       await Purchases.purchasePackage(pack);
 
+      console.log('Purchase successful!');
+      // After a successful purchase, the customer info update listener will be called
+      // and the user state will be updated accordingly
+
       // Directly add our consumable product
-      if (pack.product.identifier === "rca_299_consume") {
-        setUser({ ...user, cookies: (user.cookies += 5) });
-      }
+      // if (pack.product.identifier === 'rca_299_consume') {
+      //   setUser({ ...user, cookies: (user.cookies += 5) });
+      // }
     } catch (e: any) {
       if (!e.userCancelled) {
         alert(e);
@@ -154,7 +152,7 @@ export const RevenueCatProvider = ({ children }: any) => {
   };
 
   // Return empty fragment if provider is not ready (Purchase not yet initialised)
-  if (!isReady) return <Fragment></Fragment>;
+  if (!isReady) return null;
 
   return (
     <RevenueCatContext.Provider value={value}>

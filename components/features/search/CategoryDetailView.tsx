@@ -1,8 +1,8 @@
-import React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
-import type { PopularCategoryDto } from "../../../network/model";
-import { CategorySelector } from "./CategorySelector";
-import { SubcategorySection } from "./SubcategorySection";
+import React from 'react';
+import { Pressable, ScrollView, Text, View } from 'react-native';
+import type { PopularCategoryDto } from '../../../network/model';
+import { CategorySelector } from './CategorySelector';
+import { SubcategorySection } from './SubcategorySection';
 
 interface CategoryDetailViewProps {
   selectedCategory: PopularCategoryDto;
@@ -19,16 +19,23 @@ export function CategoryDetailView({
   onProductPress,
   onCategorySelect,
 }: CategoryDetailViewProps) {
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = React.useState<number | undefined>();
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = React.useState<
+    number | undefined
+  >();
 
-  const handleSubcategorySelect = (subcategoryId: number | undefined, subcategoryName: string) => {
+  const handleSubcategorySelect = (
+    subcategoryId: number | undefined,
+    subcategoryName: string,
+  ) => {
     setSelectedSubcategoryId(subcategoryId);
     // Optionally scroll to the specific subcategory section
   };
 
   // Filter subcategories to show based on selection
   const subcategoriesToShow = selectedSubcategoryId
-    ? selectedCategory?.children?.filter((sub) => sub.id === selectedSubcategoryId) || []
+    ? selectedCategory?.children?.filter(
+        sub => sub.id === selectedSubcategoryId,
+      ) || []
     : selectedCategory?.children || [];
 
   return (
@@ -43,11 +50,17 @@ export function CategoryDetailView({
           })}
         >
           <View className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center mr-3">
-            <Text className="text-lg font-semibold text-gray-600 dark:text-gray-400">←</Text>
+            <Text className="text-lg font-semibold text-gray-600 dark:text-gray-400">
+              ←
+            </Text>
           </View>
           <View>
-            <Text className="text-sm text-gray-500 dark:text-gray-400">Späť na</Text>
-            <Text className="text-lg font-semibold text-gray-900 dark:text-white">Všetky kategórie</Text>
+            <Text className="text-sm text-gray-500 dark:text-gray-400">
+              Späť na
+            </Text>
+            <Text className="text-lg font-semibold text-gray-900 dark:text-white">
+              Všetky kategórie
+            </Text>
           </View>
         </Pressable>
       </View>
@@ -62,7 +75,7 @@ export function CategoryDetailView({
       {/* Subcategories with their products */}
       <ScrollView className="bg-background flex-1">
         {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-          subcategoriesToShow.map((subcategory) => (
+          subcategoriesToShow.map(subcategory => (
             <SubcategorySection
               key={subcategory.id}
               subcategory={subcategory}

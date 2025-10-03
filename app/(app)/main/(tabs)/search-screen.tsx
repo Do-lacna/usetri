@@ -1,30 +1,30 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { router } from "expo-router";
-import React from "react";
+import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
   Text,
   View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import SearchBar from "~/components/search-bar/search-bar";
-import { ScanBarcode } from "~/lib/icons/ScanBarcode";
-import { CategoriesGrid } from "../../../../components/features/search/CategoriesGrid";
-import { CategoryDetailView } from "../../../../components/features/search/CategoryDetailView";
-import IconButton from "../../../../components/icon-button/icon-button";
-import { NoDataText } from "../../../../components/no-data-text/no-data-text";
-import DiscountedProductCard from "../../../../components/product-card/discounted-product-card";
-import type { PopularCategoryDto, ProductDto } from "../../../../network/model";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SearchBar from '~/components/search-bar/search-bar';
+import { ScanBarcode } from '~/lib/icons/ScanBarcode';
+import { CategoriesGrid } from '../../../../components/features/search/CategoriesGrid';
+import { CategoryDetailView } from '../../../../components/features/search/CategoryDetailView';
+import IconButton from '../../../../components/icon-button/icon-button';
+import { NoDataText } from '../../../../components/no-data-text/no-data-text';
+import DiscountedProductCard from '../../../../components/product-card/discounted-product-card';
+import type { PopularCategoryDto, ProductDto } from '../../../../network/model';
 import {
   useGetPopularCategories,
   useGetProducts,
-} from "../../../../network/query/query";
+} from '../../../../network/query/query';
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCategory, setSelectedCategory] =
     React.useState<PopularCategoryDto | null>(null);
 
@@ -45,7 +45,7 @@ export default function SearchScreen() {
       query: {
         enabled: searchQuery?.length >= 2,
       },
-    }
+    },
   );
 
   const displaySearchResult = searchQuery?.length > 1;
@@ -78,20 +78,20 @@ export default function SearchScreen() {
         <SearchBar<ProductDto>
           displaySearchOptions={false}
           onSearch={setSearchQuery}
-          onClear={() => setSearchQuery("")}
+          onClear={() => setSearchQuery('')}
           searchText={searchQuery}
           placeholder="Hľadaj produkty"
           options={[]}
-          onOptionSelect={(option) => console.log("Option selected:", option)}
-          renderOption={(item) => (
+          onOptionSelect={option => console.log('Option selected:', option)}
+          renderOption={item => (
             <Text className="text-foreground text-lg">{item?.name}</Text>
           )}
-          keyExtractor={(item) => String(item.barcode)}
+          keyExtractor={item => String(item.barcode)}
         />
 
         <IconButton
           onPress={() =>
-            router.navigate("/main/barcode-search/barcode-search-screen")
+            router.navigate('/main/barcode-search/barcode-search-screen')
           }
           className="w-10"
         >
@@ -110,7 +110,7 @@ export default function SearchScreen() {
             />
           )}
           numColumns={3}
-          keyExtractor={(product) => String(product?.detail?.barcode)}
+          keyExtractor={product => String(product?.detail?.barcode)}
           contentContainerClassName="gap-4 py-12 px-2"
           columnWrapperClassName="gap-4"
           refreshControl={

@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0
  */
 import type { ProductDto } from './productDto';
-import type { ShopPriceDto } from './shopPriceDto';
 import type { ShopItemDto } from './shopItemDto';
+import type { ShopPriceDto } from './shopPriceDto';
 
 export interface ItemListGroupedByBarcodeDto {
   /** @nullable */

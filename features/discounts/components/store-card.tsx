@@ -1,13 +1,13 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
-import type { DiscountStatsDto, ShopExtendedDto } from "../../../network/model";
-import { getShopCoverImage } from "../../../utils/logo-utils";
+import type React from 'react';
+import { useTranslation } from 'react-i18next';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import type { DiscountStatsDto, ShopExtendedDto } from '../../../network/model';
+import { getShopCoverImage } from '../../../utils/logo-utils';
 import {
   getStoreDiscountsCount,
   getStoreDisplayName,
-} from "../utils/store-utils";
-import { PRIMARY_HEX } from "~/lib/constants";
+} from '../utils/store-utils';
+import { PRIMARY_HEX } from '~/lib/constants';
 
 interface StoreCardProps {
   store: ShopExtendedDto;
@@ -71,7 +71,9 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: isActive ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: isActive
+              ? 'rgba(0, 0, 0, 0.3)'
+              : 'rgba(0, 0, 0, 0.5)',
             borderRadius: 12,
           }}
         />
@@ -90,11 +92,13 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             <Text
               style={{
                 marginTop: 4,
-                color: isActive ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.7)',
+                color: isActive
+                  ? 'rgba(255, 255, 255, 0.9)'
+                  : 'rgba(255, 255, 255, 0.7)',
                 fontSize: isActive ? 14 : 12,
               }}
             >
-              {t("discounts.discountsCount", {
+              {t('discounts.discountsCount', {
                 count: discountCount,
               })}
             </Text>
@@ -103,7 +107,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
 
         {isActive && (
           <>
-            <View 
+            <View
               style={{
                 position: 'absolute',
                 top: 0,
@@ -116,7 +120,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                 pointerEvents: 'none', // Prevent touch interference
               }}
             />
-            <View 
+            <View
               style={{
                 position: 'absolute',
                 top: 12,

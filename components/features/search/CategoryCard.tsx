@@ -1,7 +1,7 @@
-import { Image, Platform, Pressable, View } from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import type { PopularCategoryDto } from "../../../network/model";
-import { Text } from "../../ui/text";
+import { Image, Platform, Pressable, View } from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import type { PopularCategoryDto } from '../../../network/model';
+import { Text } from '../../ui/text';
 
 interface CategoryCardProps {
   category: PopularCategoryDto;
@@ -20,7 +20,7 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
     >
       <View
         className={`rounded-2xl overflow-hidden shadow-${
-          Platform.OS === "ios" ? "sm" : "md"
+          Platform.OS === 'ios' ? 'sm' : 'md'
         } border border-border h-[180px] relative`}
       >
         {/* Image container - fills entire card */}

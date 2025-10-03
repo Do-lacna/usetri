@@ -1,9 +1,9 @@
-import type React from "react";
-import { Image, Pressable, Text, View } from "react-native";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../lib/constants";
-import { calculateDiscountPercentage } from "../../lib/number-utils";
-import type { ShopItemDto, ShopPriceDto } from "../../network/model";
-import StoreLogo from "../store-logo/store-logo";
+import type React from 'react';
+import { Image, Pressable, Text, View } from 'react-native';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../lib/constants';
+import { calculateDiscountPercentage } from '../../lib/number-utils';
+import type { ShopItemDto, ShopPriceDto } from '../../network/model';
+import StoreLogo from '../store-logo/store-logo';
 
 // Types
 interface Shop {
@@ -33,7 +33,11 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
   shopsPrices,
   onPress,
 }) => {
-  const { price, detail: { image_url, name, barcode } = {}, shop_id } = product;
+  const {
+    price,
+    detail: { image_url, name, barcode } = {},
+    shop_id,
+  } = product;
 
   const lowestPrice = shopsPrices?.[0]?.price ?? 0;
   const lowestDiscountedPrice = shopsPrices?.[0]?.discount_price?.price ?? 0;
@@ -49,7 +53,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
           -
           {calculateDiscountPercentage(
             Number(lowestPrice),
-            lowestDiscountedPrice
+            lowestDiscountedPrice,
           )}
           %
         </Text>
@@ -76,11 +80,11 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
                   width: 15,
                   height: 15,
                   borderRadius: 50,
-                  position: "absolute",
+                  position: 'absolute',
                   right: index * 12,
                   zIndex: index + 1,
-                  backgroundColor: "white",
-                  borderColor: "#D1D5DB",
+                  backgroundColor: 'white',
+                  borderColor: '#D1D5DB',
                   borderWidth: 1,
                 }}
               />

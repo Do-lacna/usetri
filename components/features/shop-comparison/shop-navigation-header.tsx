@@ -1,10 +1,10 @@
-import type React from "react";
-import { Image, TouchableOpacity, View } from "react-native";
-import { ArrowLeft } from "~/lib/icons/ArrowLeft";
-import { ArrowRight } from "~/lib/icons/ArrowRight";
-import { isArrayNotEmpty } from "~/lib/utils";
-import type { HybridCartComparisonDto, ShopExtendedDto } from "~/network/model";
-import { getShopLogo } from "~/utils/logo-utils";
+import type React from 'react';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { ArrowLeft } from '~/lib/icons/ArrowLeft';
+import { ArrowRight } from '~/lib/icons/ArrowRight';
+import { isArrayNotEmpty } from '~/lib/utils';
+import type { HybridCartComparisonDto, ShopExtendedDto } from '~/network/model';
+import { getShopLogo } from '~/utils/logo-utils';
 
 interface ShopNavigationHeaderProps {
   currentShop?: ShopExtendedDto;
@@ -47,7 +47,7 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
           className="p-2 rounded-full bg-card shadow-sm border border-border"
           disabled={!isArrayNotEmpty(carts)}
         >
-          <ArrowRight size={20}  className="text-foreground"/>
+          <ArrowRight size={20} className="text-foreground" />
         </TouchableOpacity>
       )}
     </View>
