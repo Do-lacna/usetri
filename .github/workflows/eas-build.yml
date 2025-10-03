@@ -79,27 +79,7 @@ jobs:
       - name: 📥 Install dependencies
         run: npm ci
 
-      - name: 🔐 Create .env file
-        run: |
-          cat << EOF > .env
-          EXPO_PUBLIC_API_URL=${{ secrets.EXPO_PUBLIC_API_URL }}
-          EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
-          EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }}
-          EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }}
-          EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-          EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
-          EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID=${{ secrets.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID }}
-          EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID=${{ secrets.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}
-          EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY=${{ secrets.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY }}
-          EXPO_PUBLIC_EAS_PROJECT_ID=${{ secrets.EXPO_PUBLIC_EAS_PROJECT_ID }}
-          EOF
-
-      - name: 🔐 Create GoogleService-Info.plist
-        run: |
-          echo "${{ secrets.IOS_GOOGLE_SERVICES_PLIST }}" | base64 -d > GoogleService-Info.plist
-
-      - name: 🚀 Build iOS app
+      - name:  Build iOS app
         run: |
           PROFILE=${{ github.event.inputs.profile || 'development' }}
           eas build --platform ios --profile $PROFILE --non-interactive --no-wait
@@ -131,28 +111,7 @@ jobs:
       - name: 📥 Install dependencies
         run: npm ci
 
-      - name: 🔐 Create .env file
-        run: |
-          cat << EOF > .env
-          EXPO_PUBLIC_API_URL=${{ secrets.EXPO_PUBLIC_API_URL }}
-          EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
-          EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }}
-          EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }}
-          EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-          EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
-          EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID=${{ secrets.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID }}
-          EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID=${{ secrets.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}
-          EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY=${{ secrets.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY }}
-          EXPO_PUBLIC_EAS_PROJECT_ID=${{ secrets.EXPO_PUBLIC_EAS_PROJECT_ID }}
-          EOF
-
-      - name: 🔐 Create google-services.json
-        run: |
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 -d > google-services.json
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 -d > android/app/google-services.json
-
-      - name: 🚀 Build Android app
+      - name:  Build Android app
         run: |
           PROFILE=${{ github.event.inputs.profile || 'development' }}
           eas build --platform android --profile $PROFILE --non-interactive --no-wait
