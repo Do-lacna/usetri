@@ -30,8 +30,8 @@
     "production": {
       "ios": {
         "appleId": "thefaston@gmail.com",
-        "ascAppId": "YOUR_APP_STORE_CONNECT_ID",
-        "appleTeamId": "YOUR_TEAM_ID"
+        "ascAppId": "6744099337",
+        "appleTeamId": "W7Q9YP35BN"
       },
       "android": {
         "serviceAccountKeyPath": "./service-account-key.json",

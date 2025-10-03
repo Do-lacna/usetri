@@ -186,6 +186,13 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: 🔐 Create Android service account key
+        if: |
+          (github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all') &&
+          needs.build-android.result == 'success'
+        run: |
+          echo '${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON }}' > service-account-key.json
+
       - name: 🚀 Submit to iOS App Store
         if: |
           (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all') &&
