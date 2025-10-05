@@ -10,28 +10,20 @@
       "distribution": "internal",
       "env": {
         "EAS_BUILD_DISABLE_NPM_CACHE": "1",
-        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1",
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON",
-        "GOOGLE_SERVICES_PLIST": "@GOOGLE_SERVICES_PLIST"
+        "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
       }
     },
     "preview": {
       "autoIncrement": true,
       "distribution": "internal",
-      "env": {
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON",
-        "GOOGLE_SERVICES_PLIST": "@GOOGLE_SERVICES_PLIST"
-      }
+      "env": {}
     },
     "production": {
       "autoIncrement": true,
       "android": {
         "buildType": "app-bundle"
       },
-      "env": {
-        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON",
-        "GOOGLE_SERVICES_PLIST": "@GOOGLE_SERVICES_PLIST"
-      }
+      "env": {}
     }
   },
   "submit": {
