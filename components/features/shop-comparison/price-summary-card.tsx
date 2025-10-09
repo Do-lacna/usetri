@@ -12,6 +12,7 @@ interface PriceSummaryCardProps {
   savingsVsCheapest: number;
   currentCartIndex?: number;
   totalCarts?: number;
+  allCarts?: HybridCartComparisonDto[]; // We need all carts to filter out missing products
 }
 
 export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
@@ -22,6 +23,7 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
   savingsVsCheapest,
   currentCartIndex = 0,
   totalCarts = 1,
+  allCarts = [], // We need all carts to filter out missing products
 }) => {
   const { t } = useTranslation('common');
 
@@ -32,12 +34,37 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
   const hasAllItems = totalMissingItems === 0;
 
   // Calculate percentage more expensive than cheapest
-  const percentageMore =
-    selectedCart?.total_price && savingsVsCheapest > 0
-      ? (savingsVsCheapest / (selectedCart.total_price - savingsVsCheapest)) * 100
-      : 0;
+  const percentageMore = () => {
+    if (!selectedCart?.total_price || savingsVsCheapest <= 0) {
+      return 0;
+    }
+
+    // Find the cheapest price among shops with all items
+    const cheapestPrice = selectedCart.total_price - savingsVsCheapest;
+
+    if (cheapestPrice <= 0) {
+      return 0;
+    }
+
+    // Calculate: (difference / cheapest_price) * 100
+    return (savingsVsCheapest / cheapestPrice) * 100;
+  };
 
   const rankPosition = currentCartIndex + 1;
+
+  // Filter out shops with missing products for comparison
+  const shopsWithAllItems = allCarts?.filter(cart => {
+    const missingProducts = cart?.missing_products?.length ?? 0;
+    const missingCategories = cart?.missing_categories?.length ?? 0;
+    return missingProducts + missingCategories === 0;
+  }) ?? [];
+
+  // Find current shop's position among shops with all items
+  const currentShopIndexInComplete = hasAllItems
+    ? shopsWithAllItems.findIndex(cart => cart?.shop?.id === selectedCart?.shop?.id)
+    : -1;
+
+  const totalCompleteShops = shopsWithAllItems.length;
 
   // Determine which info block to show
   const getShopInfoType = () => {
@@ -45,19 +72,34 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
       return 'missing_items' as const;
     }
 
-    if (!areMoreCartsAvailable) {
-      return null; // Don't show any info if there's only one shop
-    }
-
-    if (isCurrentCheapest) {
+    // Handle different scenarios based on number of complete shops
+    if (totalCompleteShops === 1) {
+      // Only one complete shop - show cheapest
       return 'cheapest' as const;
     }
 
-    if (isCurrentMostExpensive) {
-      return 'most_expensive' as const;
+    if (totalCompleteShops === 2) {
+      // Two complete shops - show cheapest and most expensive only
+      if (currentShopIndexInComplete === 0) {
+        return 'cheapest' as const;
+      }
+      if (currentShopIndexInComplete === 1) {
+        return 'most_expensive' as const;
+      }
     }
 
-    return 'more_expensive' as const;
+    if (totalCompleteShops > 2) {
+      // Three or more complete shops - show cheapest, middle (more expensive), and most expensive
+      if (currentShopIndexInComplete === 0) {
+        return 'cheapest' as const;
+      }
+      if (currentShopIndexInComplete === totalCompleteShops - 1) {
+        return 'most_expensive' as const;
+      }
+      return 'more_expensive' as const;
+    }
+
+    return null;
   };
 
   const infoType = getShopInfoType();
@@ -70,8 +112,8 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
           <ShopInfoBlock
             type={infoType}
             missingItemsCount={totalMissingItems}
-            percentageMore={percentageMore}
-            totalShops={totalCarts}
+            percentageMore={percentageMore()}
+            totalShops={totalCompleteShops}
           />
         )}
       </View>

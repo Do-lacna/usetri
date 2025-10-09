@@ -136,6 +136,7 @@ export const useShopComparison = () => {
     isCurrentMostExpensive,
     savingsVsCheapest,
     savingsVsMostExpensive,
+    allCarts: carts,
 
     // Actions
     nextShop,
