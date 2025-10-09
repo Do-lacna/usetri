@@ -18,7 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   DiscountPriceImportBatchDto,
   GetDiscountPriceImportsParams,
@@ -28,6 +27,7 @@ import type {
   UploadDiscountPricesJsonParams,
   UploadProductImageRequest,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -38,7 +38,7 @@ export const uploadProductImage = (
 ) => {
   return orvalApiClient<void>(
     {
-      url: '/admin/product-image',
+      url: `/admin/product-image`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: uploadProductImageRequest,
@@ -121,7 +121,7 @@ export const getDiscountPriceImports = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetDiscountPriceImportsResponse>(
-    { url: '/admin/discount-price-imports', method: 'GET', params, signal },
+    { url: `/admin/discount-price-imports`, method: 'GET', params, signal },
     options,
   );
 };
@@ -130,7 +130,7 @@ export const getGetDiscountPriceImportsQueryKey = (
   params?: GetDiscountPriceImportsParams,
 ) => {
   return [
-    '/admin/discount-price-imports',
+    `/admin/discount-price-imports`,
     ...(params ? [params] : []),
   ] as const;
 };
@@ -285,7 +285,7 @@ export const uploadDiscountPricesJson = (
 
   return orvalApiClient<DiscountPriceImportBatchDto>(
     {
-      url: '/admin/discount-price-imports',
+      url: `/admin/discount-price-imports`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,

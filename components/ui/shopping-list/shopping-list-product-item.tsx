@@ -13,8 +13,8 @@ import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import { useColorScheme } from '../../../lib/useColorScheme';
 import type { CartProductDto } from '../../../network/model';
 import { useGetProducts } from '../../../network/query/query';
-import { getShopLogo } from '../../../utils/logo-utils';
 import SuggestedProductCard from '../../features/shopping-list/suggested-product-card';
+import ShopLogoBadge from '../../shop-logo-badge';
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
@@ -132,32 +132,16 @@ const ShoppingListProductItem: React.FC<{
           <View className="flex flex-col items-end">
             <View className="flex-row items-end mb-2">
               <View className="relative flex-row justify-end gap-x-2 mt-1">
-                {available_shop_ids?.map((retailer, index) => (
-                  <View
-                    key={retailer}
-                    style={{ width: 20, height: 20, borderRadius: 50 }}
-                    //   className="border-2"
-                  >
-                    <Image
-                      {...getShopLogo(retailer as any)}
+                {available_shop_ids?.map((retailer, index) =>
+                  retailer ? (
+                    <ShopLogoBadge
                       key={retailer}
-                      style={{
-                        width: 20,
-                        height: 20,
-                        borderRadius: 50,
-                        position: 'absolute',
-                        right: index * 10,
-                        zIndex: index + 1,
-                        backgroundColor: 'white',
-                        borderColor: 'grey',
-                        borderWidth: 1,
-                        // borderColor: "grey",
-                        // borderWidth: 1,
-                        //TODO add here some elevation to visually differentiate the shop logos
-                      }}
+                      shopId={retailer}
+                      size={20}
+                      index={index}
                     />
-                  </View>
-                ))}
+                  ) : null,
+                )}
               </View>
             </View>
             <View className="flex-row items-center bg-muted rounded-full">

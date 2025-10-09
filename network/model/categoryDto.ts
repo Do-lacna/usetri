@@ -16,6 +16,10 @@ export interface CategoryDto {
   is_purchasable?: boolean;
   popularity?: number;
   /** @nullable */
+  default_amount?: number | null;
+  /** @nullable */
+  default_unit?: string | null;
+  /** @nullable */
   path_from_root?: string[] | null;
   /** @nullable */
   path_from_root_numeric?: number[] | null;

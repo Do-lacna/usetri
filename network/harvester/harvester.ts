@@ -10,8 +10,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type { AddProductRequest, ProblemDetails } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -22,7 +22,7 @@ export const addProductHarvester = (
 ) => {
   return orvalApiClient<void>(
     {
-      url: '/products',
+      url: `/products`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: addProductRequest,

@@ -18,9 +18,9 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   GetCategoriesParams,
+  GetCategoryPricesResponse,
   GetCategoryResponse,
   GetDiscountsParams,
   GetDiscountsResponse,
@@ -37,6 +37,7 @@ import type {
   GetUnconfirmedDiscountsResponse,
   ProblemDetails,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -46,13 +47,13 @@ export const getProducts = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetProductsResponse>(
-    { url: '/products', method: 'GET', params, signal },
+    { url: `/products`, method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetProductsQueryKey = (params?: GetProductsParams) => {
-  return ['/products', ...(params ? [params] : [])] as const;
+  return [`/products`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetProductsQueryOptions = <
@@ -177,13 +178,13 @@ export const getCategories = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetCategoryResponse>(
-    { url: '/categories', method: 'GET', params, signal },
+    { url: `/categories`, method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetCategoriesQueryKey = (params?: GetCategoriesParams) => {
-  return ['/categories', ...(params ? [params] : [])] as const;
+  return [`/categories`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetCategoriesQueryOptions = <
@@ -302,19 +303,176 @@ export function useGetCategories<
   return query;
 }
 
+export const getCategoryPrices = (
+  categoryId: number,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetCategoryPricesResponse>(
+    { url: `/categories/${categoryId}/prices`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetCategoryPricesQueryKey = (categoryId: number) => {
+  return [`/categories/${categoryId}/prices`] as const;
+};
+
+export const getGetCategoryPricesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCategoryPrices>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetCategoryPricesQueryKey(categoryId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCategoryPrices>>
+  > = ({ signal }) => getCategoryPrices(categoryId, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!categoryId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCategoryPrices>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetCategoryPricesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCategoryPrices>>
+>;
+export type GetCategoryPricesQueryError = ProblemDetails;
+
+export function useGetCategoryPrices<
+  TData = Awaited<ReturnType<typeof getCategoryPrices>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryPrices>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryPrices>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoryPrices<
+  TData = Awaited<ReturnType<typeof getCategoryPrices>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryPrices>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryPrices>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetCategoryPrices<
+  TData = Awaited<ReturnType<typeof getCategoryPrices>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetCategoryPrices<
+  TData = Awaited<ReturnType<typeof getCategoryPrices>>,
+  TError = ProblemDetails,
+>(
+  categoryId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryPrices>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetCategoryPricesQueryOptions(categoryId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const getDiscounts = (
   params?: GetDiscountsParams,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetDiscountsResponse>(
-    { url: '/discounts', method: 'GET', params, signal },
+    { url: `/discounts`, method: 'GET', params, signal },
     options,
   );
 };
 
 export const getGetDiscountsQueryKey = (params?: GetDiscountsParams) => {
-  return ['/discounts', ...(params ? [params] : [])] as const;
+  return [`/discounts`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetDiscountsQueryOptions = <
@@ -438,13 +596,13 @@ export const getDiscountsStatistics = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetDiscountsStatisticsResponse>(
-    { url: '/discounts-statistics', method: 'GET', signal },
+    { url: `/discounts-statistics`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetDiscountsStatisticsQueryKey = () => {
-  return ['/discounts-statistics'] as const;
+  return [`/discounts-statistics`] as const;
 };
 
 export const getGetDiscountsStatisticsQueryOptions = <
@@ -569,7 +727,7 @@ export function useGetDiscountsStatistics<
   return query;
 }
 
-export const getPopularCategoriesProducts = (
+export const getProductsOutOfAllSubCategories = (
   categoryId: number,
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -584,19 +742,21 @@ export const getPopularCategoriesProducts = (
   );
 };
 
-export const getGetPopularCategoriesProductsQueryKey = (categoryId: number) => {
+export const getGetProductsOutOfAllSubCategoriesQueryKey = (
+  categoryId: number,
+) => {
   return [`/popular-categories/${categoryId}/products`] as const;
 };
 
-export const getGetPopularCategoriesProductsQueryOptions = <
-  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+export const getGetProductsOutOfAllSubCategoriesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
   TError = ProblemDetails,
 >(
   categoryId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
         TError,
         TData
       >
@@ -608,12 +768,12 @@ export const getGetPopularCategoriesProductsQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetPopularCategoriesProductsQueryKey(categoryId);
+    getGetProductsOutOfAllSubCategoriesQueryKey(categoryId);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getPopularCategoriesProducts>>
+    Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>
   > = ({ signal }) =>
-    getPopularCategoriesProducts(categoryId, requestOptions, signal);
+    getProductsOutOfAllSubCategories(categoryId, requestOptions, signal);
 
   return {
     queryKey,
@@ -621,33 +781,33 @@ export const getGetPopularCategoriesProductsQueryOptions = <
     enabled: !!categoryId,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+    Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetPopularCategoriesProductsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getPopularCategoriesProducts>>
+export type GetProductsOutOfAllSubCategoriesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>
 >;
-export type GetPopularCategoriesProductsQueryError = ProblemDetails;
+export type GetProductsOutOfAllSubCategoriesQueryError = ProblemDetails;
 
-export function useGetPopularCategoriesProducts<
-  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+export function useGetProductsOutOfAllSubCategories<
+  TData = Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
   TError = ProblemDetails,
 >(
   categoryId: number,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+          Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
           TError,
           TData
         >,
@@ -658,22 +818,22 @@ export function useGetPopularCategoriesProducts<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetPopularCategoriesProducts<
-  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+export function useGetProductsOutOfAllSubCategories<
+  TData = Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
   TError = ProblemDetails,
 >(
   categoryId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+          Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
           TError,
           TData
         >,
@@ -684,15 +844,15 @@ export function useGetPopularCategoriesProducts<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetPopularCategoriesProducts<
-  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+export function useGetProductsOutOfAllSubCategories<
+  TData = Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
   TError = ProblemDetails,
 >(
   categoryId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
         TError,
         TData
       >
@@ -703,15 +863,15 @@ export function useGetPopularCategoriesProducts<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetPopularCategoriesProducts<
-  TData = Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+export function useGetProductsOutOfAllSubCategories<
+  TData = Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
   TError = ProblemDetails,
 >(
   categoryId: number,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getPopularCategoriesProducts>>,
+        Awaited<ReturnType<typeof getProductsOutOfAllSubCategories>>,
         TError,
         TData
       >
@@ -721,7 +881,7 @@ export function useGetPopularCategoriesProducts<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetPopularCategoriesProductsQueryOptions(
+  const queryOptions = getGetProductsOutOfAllSubCategoriesQueryOptions(
     categoryId,
     options,
   );
@@ -740,13 +900,13 @@ export const getPopularCategories = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetPopularCategoryResponse>(
-    { url: '/popular-categories', method: 'GET', signal },
+    { url: `/popular-categories`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetPopularCategoriesQueryKey = () => {
-  return ['/popular-categories'] as const;
+  return [`/popular-categories`] as const;
 };
 
 export const getGetPopularCategoriesQueryOptions = <
@@ -1034,7 +1194,7 @@ export const getProductsSemantic = (
 ) => {
   return orvalApiClient<GetProductsSemanticResponse>(
     {
-      url: '/semantic/products',
+      url: `/semantic/products`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: getProductsSemanticRequest,
@@ -1116,13 +1276,13 @@ export const getShops = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetShopsResponse>(
-    { url: '/shops', method: 'GET', signal },
+    { url: `/shops`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetShopsQueryKey = () => {
-  return ['/shops'] as const;
+  return [`/shops`] as const;
 };
 
 export const getGetShopsQueryOptions = <
@@ -1232,7 +1392,7 @@ export const getUnconfirmedDiscounts = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetUnconfirmedDiscountsResponse>(
-    { url: '/unconfirmed-discounts', method: 'GET', params, signal },
+    { url: `/unconfirmed-discounts`, method: 'GET', params, signal },
     options,
   );
 };
@@ -1240,7 +1400,7 @@ export const getUnconfirmedDiscounts = (
 export const getGetUnconfirmedDiscountsQueryKey = (
   params?: GetUnconfirmedDiscountsParams,
 ) => {
-  return ['/unconfirmed-discounts', ...(params ? [params] : [])] as const;
+  return [`/unconfirmed-discounts`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetUnconfirmedDiscountsQueryOptions = <

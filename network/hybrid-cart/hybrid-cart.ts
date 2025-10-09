@@ -18,7 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   AddToHybridCartRequest,
   AddToHybridCartResponse,
@@ -29,6 +28,7 @@ import type {
   GetHybridCartResponse,
   ProblemDetails,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -38,7 +38,7 @@ export const addToHybridCart = (
 ) => {
   return orvalApiClient<AddToHybridCartResponse>(
     {
-      url: '/hybrid-carts',
+      url: `/hybrid-carts`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: addToHybridCartRequest,
@@ -118,7 +118,7 @@ export const deleteHybridCart = (
   options?: SecondParameter<typeof orvalApiClient>,
 ) => {
   return orvalApiClient<void>(
-    { url: '/hybrid-carts', method: 'DELETE' },
+    { url: `/hybrid-carts`, method: 'DELETE' },
     options,
   );
 };
@@ -178,13 +178,13 @@ export const getHybridCart = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetHybridCartResponse>(
-    { url: '/hybrid-carts', method: 'GET', signal },
+    { url: `/hybrid-carts`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetHybridCartQueryKey = () => {
-  return ['/hybrid-carts'] as const;
+  return [`/hybrid-carts`] as const;
 };
 
 export const getGetHybridCartQueryOptions = <
@@ -288,142 +288,6 @@ export function useGetHybridCart<
   return query;
 }
 
-export const getHybridCartComparison = (
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  return orvalApiClient<GetHybridCartComparisonResponse>(
-    { url: '/hybrid-carts-comparison', method: 'GET', signal },
-    options,
-  );
-};
-
-export const getGetHybridCartComparisonQueryKey = () => {
-  return ['/hybrid-carts-comparison'] as const;
-};
-
-export const getGetHybridCartComparisonQueryOptions = <
-  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getHybridCartComparison>>,
-      TError,
-      TData
-    >
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getGetHybridCartComparisonQueryKey();
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getHybridCartComparison>>
-  > = ({ signal }) => getHybridCartComparison(requestOptions, signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getHybridCartComparison>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetHybridCartComparisonQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getHybridCartComparison>>
->;
-export type GetHybridCartComparisonQueryError = ProblemDetails;
-
-export function useGetHybridCartComparison<
-  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
-  TError = ProblemDetails,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getHybridCartComparison>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getHybridCartComparison>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetHybridCartComparison<
-  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getHybridCartComparison>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof getHybridCartComparison>>,
-        TError,
-        TData
-      >,
-      'initialData'
-    >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useGetHybridCartComparison<
-  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getHybridCartComparison>>,
-      TError,
-      TData
-    >
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-
-export function useGetHybridCartComparison<
-  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
-  TError = ProblemDetails,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getHybridCartComparison>>,
-      TError,
-      TData
-    >
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getGetHybridCartComparisonQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}
-
 export const createArchivedCart = (
   createArchivedCartRequest: CreateArchivedCartRequest,
   options?: SecondParameter<typeof orvalApiClient>,
@@ -431,7 +295,7 @@ export const createArchivedCart = (
 ) => {
   return orvalApiClient<void>(
     {
-      url: '/archived-carts',
+      url: `/archived-carts`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: createArchivedCartRequest,
@@ -513,13 +377,13 @@ export const getArchivedCart = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetArchivedCartResponse>(
-    { url: '/archived-carts', method: 'GET', signal },
+    { url: `/archived-carts`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetArchivedCartQueryKey = () => {
-  return ['/archived-carts'] as const;
+  return [`/archived-carts`] as const;
 };
 
 export const getGetArchivedCartQueryOptions = <
@@ -770,6 +634,142 @@ export function useGetArchivedCartById<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetArchivedCartByIdQueryOptions(cartId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const getHybridCartComparison = (
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetHybridCartComparisonResponse>(
+    { url: `/hybrid-carts-comparison`, method: 'GET', signal },
+    options,
+  );
+};
+
+export const getGetHybridCartComparisonQueryKey = () => {
+  return [`/hybrid-carts-comparison`] as const;
+};
+
+export const getGetHybridCartComparisonQueryOptions = <
+  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getHybridCartComparison>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetHybridCartComparisonQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getHybridCartComparison>>
+  > = ({ signal }) => getHybridCartComparison(requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getHybridCartComparison>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetHybridCartComparisonQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getHybridCartComparison>>
+>;
+export type GetHybridCartComparisonQueryError = ProblemDetails;
+
+export function useGetHybridCartComparison<
+  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
+  TError = ProblemDetails,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getHybridCartComparison>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getHybridCartComparison>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetHybridCartComparison<
+  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getHybridCartComparison>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getHybridCartComparison>>,
+        TError,
+        TData
+      >,
+      'initialData'
+    >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetHybridCartComparison<
+  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getHybridCartComparison>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetHybridCartComparison<
+  TData = Awaited<ReturnType<typeof getHybridCartComparison>>,
+  TError = ProblemDetails,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getHybridCartComparison>>,
+      TError,
+      TData
+    >
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetHybridCartComparisonQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData, TError>;

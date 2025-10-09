@@ -18,7 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   AddCategoryRequest,
   AddShopRequest,
@@ -31,6 +30,8 @@ import type {
   GetProductPricesResponse,
   GetProductsManagementAdminResponse,
   GetShopsAdminResponse,
+  GetShopsStatsParams,
+  GetShopsStatsResponse,
   PatchCategoryRequest,
   PatchProductDto,
   PatchProductResponse,
@@ -38,6 +39,7 @@ import type {
   UpdateShopRequest,
   _ExportParams,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -380,6 +382,155 @@ export const usePatchShop = <
 
   return useMutation(mutationOptions);
 };
+export const getShopsStats = (
+  shopId: number,
+  params?: GetShopsStatsParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<GetShopsStatsResponse>(
+    { url: `/admin/shops/${shopId}/categories`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetShopsStatsQueryKey = (
+  shopId: number,
+  params?: GetShopsStatsParams,
+) => {
+  return [
+    `/admin/shops/${shopId}/categories`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getGetShopsStatsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getShopsStats>>,
+  TError = ProblemDetails,
+>(
+  shopId: number,
+  params?: GetShopsStatsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getShopsStats>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetShopsStatsQueryKey(shopId, params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getShopsStats>>> = ({
+    signal,
+  }) => getShopsStats(shopId, params, requestOptions, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!shopId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getShopsStats>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetShopsStatsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getShopsStats>>
+>;
+export type GetShopsStatsQueryError = ProblemDetails;
+
+export function useGetShopsStats<
+  TData = Awaited<ReturnType<typeof getShopsStats>>,
+  TError = ProblemDetails,
+>(
+  shopId: number,
+  params: undefined | GetShopsStatsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getShopsStats>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getShopsStats>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetShopsStats<
+  TData = Awaited<ReturnType<typeof getShopsStats>>,
+  TError = ProblemDetails,
+>(
+  shopId: number,
+  params?: GetShopsStatsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getShopsStats>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getShopsStats>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetShopsStats<
+  TData = Awaited<ReturnType<typeof getShopsStats>>,
+  TError = ProblemDetails,
+>(
+  shopId: number,
+  params?: GetShopsStatsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getShopsStats>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetShopsStats<
+  TData = Awaited<ReturnType<typeof getShopsStats>>,
+  TError = ProblemDetails,
+>(
+  shopId: number,
+  params?: GetShopsStatsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getShopsStats>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetShopsStatsQueryOptions(shopId, params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const bulkPatchProductAdmin = (
   bulkUpdateRequest: BulkUpdateRequest,
   options?: SecondParameter<typeof orvalApiClient>,

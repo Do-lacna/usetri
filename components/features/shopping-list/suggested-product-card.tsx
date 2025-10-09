@@ -3,7 +3,7 @@ import { Image, Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import type { ShopItemDto, ShopPriceDto } from '../../../network/model';
 import { useGetShops } from '../../../network/query/query';
-import { getShopLogo } from '../../../utils/logo-utils';
+import ShopLogoBadge from '../../shop-logo-badge';
 
 export interface IProductCardProps {
   product?: ShopItemDto;
@@ -57,29 +57,16 @@ const SuggestedProductCard = ({
             resizeMode="cover"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
-            {shopsPrices?.map(({ shop_id }, index) => (
-              <View
-                key={shop_id}
-                style={{ width: 18, height: 18, borderRadius: 50 }}
-              >
-                <Image
-                  {...getShopLogo(shop_id as any)}
+            {shopsPrices?.map(({ shop_id }, index) =>
+              shop_id ? (
+                <ShopLogoBadge
                   key={shop_id}
-                  style={{
-                    width: 18,
-                    height: 18,
-                    borderRadius: 50,
-                    position: 'absolute',
-                    right: index * 15,
-                    zIndex: index + 1,
-                    backgroundColor: 'white',
-                    borderColor: 'grey',
-                    borderWidth: 1,
-                    //TODO add here some elevation to visually differentiate the shop logos
-                  }}
+                  shopId={shop_id}
+                  size={18}
+                  index={index}
                 />
-              </View>
-            ))}
+              ) : null,
+            )}
           </View>
         </View>
 

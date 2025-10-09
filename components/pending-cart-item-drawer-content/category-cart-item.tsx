@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Image, View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
-import { useGetCategories } from '~/network/query/query';
+import { useGetCategories, useGetCategoryPrices } from '~/network/query/query';
 import { getShopLogo } from '~/utils/logo-utils';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
@@ -59,14 +59,14 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
 
   const isLoadingGlobal = isLoading || areCategoriesLoading;
 
-  // Mock data for category prices in different supermarkets
-  // TODO: Replace with actual API data when available
-  const mockCategoryPrices = [
-    { shop_id: 1, price: 2.49 },
-    { shop_id: 2, price: 2.65 },
-    { shop_id: 3, price: 2.39 },
-    { shop_id: 4, price: 2.55 },
-  ];
+  const {
+    data: { shop_prices } = {},
+  } = useGetCategoryPrices(Number(pendingCartData?.identifier));
+
+  const categoryPrices = shop_prices?.map(({ shop_id, price }) => ({
+    shop_id,
+    price: price?.actual_price ?? 0,
+  }));
 
   return (
     <View className="flex flex-col justify-between w-full p-4">
@@ -93,7 +93,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           </Text>
           <View className="bg-gray-50 rounded-xl py-4 px-2">
             <View className="flex-row flex-wrap gap-3">
-              {mockCategoryPrices.map(({ shop_id, price }) => (
+              {categoryPrices?.map(({ shop_id, price }) => (
                 <View
                   key={shop_id}
                   className="flex-row items-center bg-white rounded-lg px-2 py-2 shadow-sm border border-gray-100"

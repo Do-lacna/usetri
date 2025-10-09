@@ -18,12 +18,12 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   GetUnconfirmedWoltImportsResponse,
   UploadWoltJsonBody,
   UploadWoltJsonParams,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -32,13 +32,13 @@ export const getUnconfirmedWoltImports = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetUnconfirmedWoltImportsResponse>(
-    { url: '/admin/wolt-imports', method: 'GET', signal },
+    { url: `/admin/wolt-imports`, method: 'GET', signal },
     options,
   );
 };
 
 export const getGetUnconfirmedWoltImportsQueryKey = () => {
-  return ['/admin/wolt-imports'] as const;
+  return [`/admin/wolt-imports`] as const;
 };
 
 export const getGetUnconfirmedWoltImportsQueryOptions = <
@@ -176,7 +176,7 @@ export const uploadWoltJson = (
 
   return orvalApiClient<void>(
     {
-      url: '/admin/wolt-imports',
+      url: `/admin/wolt-imports`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: formData,

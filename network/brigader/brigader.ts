@@ -18,13 +18,13 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { orvalApiClient } from '.././api-client';
 import type {
   CheckReviewListRequest,
   GetBrigaderReviewListResponse,
   GetProductsForBrigaderParams,
   ProblemDetails,
 } from '.././model';
+import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -34,7 +34,7 @@ export const getProductsForBrigader = (
   signal?: AbortSignal,
 ) => {
   return orvalApiClient<GetBrigaderReviewListResponse>(
-    { url: '/brigader/review-list', method: 'GET', params, signal },
+    { url: `/brigader/review-list`, method: 'GET', params, signal },
     options,
   );
 };
@@ -42,7 +42,7 @@ export const getProductsForBrigader = (
 export const getGetProductsForBrigaderQueryKey = (
   params?: GetProductsForBrigaderParams,
 ) => {
-  return ['/brigader/review-list', ...(params ? [params] : [])] as const;
+  return [`/brigader/review-list`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetProductsForBrigaderQueryOptions = <
@@ -188,7 +188,7 @@ export const checkItemInReviewList = (
 ) => {
   return orvalApiClient<void>(
     {
-      url: '/brigader/review-list',
+      url: `/brigader/review-list`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: checkReviewListRequest,

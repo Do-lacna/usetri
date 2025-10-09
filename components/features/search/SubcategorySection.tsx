@@ -3,7 +3,7 @@ import type {
   CategoryDto,
   ProductDtoWithShopsPrices,
 } from '../../../network/model';
-import { useGetPopularCategoriesProducts } from '../../../network/query/query';
+import { useGetProductsOutOfAllSubCategories } from '../../../network/query/query';
 import { Skeleton } from '../../ui/skeleton';
 import SuggestedProductCard from '../shopping-list/suggested-product-card';
 
@@ -21,7 +21,7 @@ export function SubcategorySection({
   const {
     data: { products: categoryProducts = [] } = {},
     isLoading,
-  } = useGetPopularCategoriesProducts(Number(subcategory?.id));
+  } = useGetProductsOutOfAllSubCategories(Number(subcategory?.id));
 
   const renderProduct = ({ item }: { item: ProductDtoWithShopsPrices }) => (
     <SuggestedProductCard
