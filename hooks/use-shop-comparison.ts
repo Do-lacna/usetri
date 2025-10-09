@@ -106,13 +106,17 @@ export const useShopComparison = () => {
   // Computed values
   const selectedCart = carts?.[currentCartIndex];
   const currentShop = selectedCart?.shop;
-  const cheapestTotal = carts?.[0]?.total_price ?? 0;
+
+  // Properly calculate cheapest and most expensive totals
+  const validTotals = carts?.map(cart => cart.total_price).filter(price => price != null) ?? [];
+  const cheapestTotal = validTotals.length > 0 ? Math.min(...validTotals) : 0;
+  const mostExpensiveTotal = validTotals.length > 0 ? Math.max(...validTotals) : 0;
+
   const currentTotal = selectedCart?.total_price ?? 0;
-  const mostExpensiveTotal = carts?.[carts.length - 1]?.total_price ?? 0;
   const areMoreCartsAvailable = carts.length > 1;
 
-  const isCurrentCheapest = currentTotal === cheapestTotal;
-  const isCurrentMostExpensive = currentTotal === mostExpensiveTotal;
+  const isCurrentCheapest = currentTotal === cheapestTotal && currentTotal > 0;
+  const isCurrentMostExpensive = currentTotal === mostExpensiveTotal && currentTotal > 0;
   const savingsVsCheapest = currentTotal - cheapestTotal;
   const savingsVsMostExpensive = mostExpensiveTotal - currentTotal;
 

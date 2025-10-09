@@ -48,6 +48,14 @@
   "position": "Pozícia",
   "discount": "Akcia",
 
+  "more_expensive_percentage": "{{percentage}}% drahšie",
+  "highest_price_option": "Najvyššia cena spomedzi obchodov",
+  "missing_items_count_one": "Chýba {{count}} položka",
+  "missing_items_count_few": "Chýbajú {{count}} položky",
+  "missing_items_count_other": "Chýba {{count}} položiek",
+  "price_for_available_items": "Cena za dostupné položky",
+  "partial_sum": "Čiastočná suma",
+
   "category_no_subcategories": "Táto kategória nemá podkategórie",
   "back_to": "Späť na",
   "all_categories": "Všetky kategórie",
