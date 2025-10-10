@@ -45,5 +45,21 @@
   "ranking_position": "{{position}}. najlacnejší z {{total}} obchodov",
   "total_sum": "Celková suma",
   "position": "Pozícia",
-  "discount": "Akcia"
+  "discount": "Akcia",
+
+  "more_expensive_percentage": "{{percentage}}% drahšie",
+  "highest_price_option": "Najvyššia cena spomedzi obchodov",
+  "missing_items_count_one": "Chýba {{count}} položka",
+  "missing_items_count_few": "Chýbajú {{count}} položky",
+  "missing_items_count_other": "Chýba {{count}} položiek",
+  "price_for_available_items": "Cena za dostupné položky",
+  "partial_sum": "Čiastočná suma",
+
+  "category_no_subcategories": "Táto kategória nemá podkategórie",
+  "back_to": "Späť na",
+  "all_categories": "Všetky kategórie",
+  "subcategories_label": "Podkategórie",
+  "categories_title": "Kategórie produktov",
+  "categories_count": "{{count}} kategórií",
+  "no_products_in_category": "Žiadne produkty v tejto kategórii"
 }

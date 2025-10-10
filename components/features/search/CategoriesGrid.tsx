@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { PopularCategoryDto } from '../../../network/model';
 import { CategoryCard } from './CategoryCard';
@@ -16,7 +17,7 @@ export function CategoriesGrid({
   isLoading,
   onRefresh,
 }: CategoriesGridProps) {
-  // Filter out root category and create skeleton data
+  const { t } = useTranslation();
   const filteredCategories = categories.filter(
     category => category?.category?.name?.toLowerCase() !== 'root',
   );
@@ -26,11 +27,11 @@ export function CategoriesGrid({
     <View className="flex-1">
       <View className="mt-6 mb-4 px-4 flex-row justify-between items-center">
         <Text className="text-2xl font-bold text-foreground">
-          Kategórie produktov
+          {t('categories_title')}
         </Text>
         {!isLoading && (
           <Text className="text-sm text-muted-foreground">
-            {filteredCategories.length} kategórií
+            {t('categories_count', { count: filteredCategories.length })}
           </Text>
         )}
       </View>
