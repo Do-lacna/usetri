@@ -21,7 +21,6 @@ const ShopLogoBadge = memo(
       <View style={{ width: size, height: size, borderRadius: size / 2 }}>
         <Image
           source={logoProps.source}
-          //   resizeMode={logoProps.resizeMode}
           style={[
             {
               width: size,
