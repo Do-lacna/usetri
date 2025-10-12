@@ -6,7 +6,7 @@ import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
 } from '../../network/model';
-import { getShopLogo } from '../../utils/logo-utils';
+import ShopLogoBadge from '../shop-logo-badge';
 import { Badge } from '../ui/badge';
 
 export interface IProductCardProps {
@@ -63,7 +63,7 @@ const DiscountedProductCard = ({
 
   return (
     <Pressable
-      className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
+      className={clsx('w-52 mr-2 last:mr-0 flex-1', className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
@@ -79,28 +79,16 @@ const DiscountedProductCard = ({
           />
 
           <View className="absolute bottom-4 flex-row gap-x-2 mt-1">
-            {availableShopIds?.map((retailer, index) => (
-              <View
-                key={retailer}
-                style={{ width: 20, height: 20, borderRadius: 50 }}
-              >
-                <Image
-                  {...getShopLogo(retailer as any)}
+            {availableShopIds?.map((retailer, index) =>
+              retailer ? (
+                <ShopLogoBadge
                   key={retailer}
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 50,
-                    position: 'absolute',
-                    right: index * 15,
-                    zIndex: index + 1,
-                    backgroundColor: 'white',
-                    borderColor: '#D1D5DB',
-                    borderWidth: 1,
-                  }}
+                  shopId={retailer}
+                  size={20}
+                  index={index}
                 />
-              </View>
-            ))}
+              ) : null,
+            )}
           </View>
         </View>
 

@@ -1,10 +1,10 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import { useGetCategories, useGetCategoryPrices } from '~/network/query/query';
-import { getShopLogo } from '~/utils/logo-utils';
+import ShopLogoBadge from '../shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
 import { Text } from '../ui/text';
@@ -93,21 +93,19 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           </Text>
           <View className="bg-gray-50 rounded-xl py-4 px-2">
             <View className="flex-row flex-wrap gap-3">
-              {categoryPrices?.map(({ shop_id, price }) => (
-                <View
-                  key={shop_id}
-                  className="flex-row items-center bg-white rounded-lg px-2 py-2 shadow-sm border border-gray-100"
-                >
-                  <Image
-                    {...getShopLogo(shop_id as any)}
-                    className="w-5 h-5 mr-2"
-                    resizeMode="contain"
-                  />
-                  <Text className="text-sm font-medium text-gray-800">
-                    {price.toFixed(2)}€
-                  </Text>
-                </View>
-              ))}
+              {categoryPrices?.map(({ shop_id, price }) =>
+                shop_id ? (
+                  <View
+                    key={shop_id}
+                    className="flex-row items-center bg-white rounded-lg px-2 py-2 shadow-sm border border-gray-100"
+                  >
+                    <ShopLogoBadge shopId={shop_id} size={20} />
+                    <Text className="text-sm font-medium text-gray-800 ml-2">
+                      {price.toFixed(2)}€
+                    </Text>
+                  </View>
+                ) : null,
+              )}
             </View>
           </View>
         </View>

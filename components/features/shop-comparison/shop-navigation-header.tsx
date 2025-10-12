@@ -1,10 +1,10 @@
 import type React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { ArrowLeft } from '~/lib/icons/ArrowLeft';
 import { ArrowRight } from '~/lib/icons/ArrowRight';
 import { isArrayNotEmpty } from '~/lib/utils';
 import type { HybridCartComparisonDto, ShopExtendedDto } from '~/network/model';
-import { getShopLogo } from '~/utils/logo-utils';
+import ShopLogoBadge from '../../shop-logo-badge';
 
 interface ShopNavigationHeaderProps {
   currentShop?: ShopExtendedDto;
@@ -34,11 +34,7 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
       )}
 
       <View className="flex-1 items-center">
-        <Image
-          {...getShopLogo(currentShop?.id as any)}
-          className="w-16 h-16 rounded-full"
-          resizeMode="contain"
-        />
+        {currentShop?.id && <ShopLogoBadge shopId={currentShop.id} size={64} />}
       </View>
 
       {areMoreCartsAvailable && (

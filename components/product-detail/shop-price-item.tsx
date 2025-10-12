@@ -1,6 +1,6 @@
 import type React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { getShopLogo } from '~/utils/logo-utils';
+import { Text, TouchableOpacity, View } from 'react-native';
+import ShopLogoBadge from '../shop-logo-badge';
 
 interface ShopPriceItemProps {
   shopId: number;
@@ -29,11 +29,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <View className="flex-row items-center mb-1 gap-4">
-            <Image
-              {...getShopLogo(shopId as any)}
-              className="w-8 h-8 rounded-full"
-              resizeMode="contain"
-            />
+            <ShopLogoBadge shopId={shopId} size={32} />
             <Text className="text-lg font-semibold text-foreground mr-2">
               {shopName}
             </Text>

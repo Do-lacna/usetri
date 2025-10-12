@@ -32,6 +32,7 @@ const ShopLogoBadge = memo(
               backgroundColor: 'white',
               borderColor: 'grey',
               borderWidth: 1,
+              resizeMode: 'contain',
             },
             style,
           ]}

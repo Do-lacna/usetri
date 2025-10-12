@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { isArrayNotEmpty } from '~/lib/utils';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import type { ShopPriceDto } from '~/network/model';
 import { useGetProductsByBarcode } from '~/network/query/query';
-import { getShopLogo } from '~/utils/logo-utils';
+import ShopLogoBadge from '../shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
 import { Text } from '../ui/text';
@@ -105,23 +105,20 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
             <Text className="text-sm text-gray-600 mb-2">Dostupné v:</Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
-                ({ shop_id, price }: ShopPriceDto) => (
-                  <View
-                    key={shop_id}
-                    className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
-                  >
-                    <Image
-                      {...getShopLogo(shop_id as any)}
-                      className="w-6 h-6 mr-1"
-                      resizeMode="contain"
-                    />
-                    {price && (
-                      <Text className="text-xs text-gray-500 ml-1">
-                        {price.toFixed(2)}€
-                      </Text>
-                    )}
-                  </View>
-                ),
+                ({ shop_id, price }: ShopPriceDto) =>
+                  shop_id ? (
+                    <View
+                      key={shop_id}
+                      className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
+                    >
+                      <ShopLogoBadge shopId={shop_id} size={24} />
+                      {price && (
+                        <Text className="text-xs text-gray-500 ml-1">
+                          {price.toFixed(2)}€
+                        </Text>
+                      )}
+                    </View>
+                  ) : null,
               )}
             </View>
           </View>

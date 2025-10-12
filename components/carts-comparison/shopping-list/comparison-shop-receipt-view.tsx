@@ -1,18 +1,18 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Button } from '~/components/ui/button';
 import {
   getGetHybridCartQueryKey,
   useDeleteHybridCart,
 } from '~/network/hybrid-cart/hybrid-cart';
-import { getShopLogo } from '~/utils/logo-utils';
 import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
 } from '../../../network/customer/customer';
 import type { CartComparisonDto } from '../../../network/model';
+import ShopLogoBadge from '../../shop-logo-badge';
 
 const ComparisonShopReceiptView = ({
   shop: { name: shopName, image_url, id: shopId } = {},
@@ -88,11 +88,7 @@ const ComparisonShopReceiptView = ({
       <View className="gap-4">
         <View className="flex items-center my-4 gap-4">
           <View className="flex-row gap-4 items-center justify-center">
-            <Image
-              resizeMode="contain"
-              className="h-10 w-10"
-              {...getShopLogo(shopId as any)}
-            />
+            {shopId && <ShopLogoBadge shopId={shopId} size={40} />}
             <Text className="text-4xl font-bold text-terciary">
               {shopName?.toLocaleUpperCase()}
             </Text>

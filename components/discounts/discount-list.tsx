@@ -1,15 +1,9 @@
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { FlashList, type ListRenderItem } from '@shopify/flash-list';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  type ListRenderItem,
-  RefreshControl,
-  Text,
-  View,
-} from 'react-native';
-import type { DiscountShopItemDto, ShopExtendedDto } from '../../network/model';
+import { ActivityIndicator, RefreshControl, Text, View } from 'react-native';
+import type { ShopExtendedDto, ShopProductDto } from '../../network/model';
 import {
   getDiscounts,
   getGetDiscountsQueryKey,
@@ -25,11 +19,10 @@ interface SkeletonItem {
   id: number;
 }
 
-const DiscountList = ({ shop }: IDiscountListProps) => {
-  const queryClient = useQueryClient();
-  const { id, name } = shop;
+const LIMIT = 20; // Number of items to fetch per page
 
-  const LIMIT = 20; // Number of items to fetch per page
+const DiscountList = ({ shop }: IDiscountListProps) => {
+  const { id } = shop;
 
   const {
     data,
@@ -46,9 +39,12 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
         Limit: LIMIT,
         Offset: pageParam,
       }),
+
     getNextPageParam: (lastPage, allPages) => {
-      const totalLoaded = allPages.length * LIMIT;
-      return totalLoaded < (lastPage.count || 0) ? totalLoaded : undefined;
+      if (lastPage?.count === LIMIT) {
+        return allPages?.length * LIMIT;
+      }
+      return undefined;
     },
     enabled: !!id,
     initialPageParam: 0,
@@ -75,20 +71,18 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     (_, index) => ({ id: index }),
   );
 
-  const renderSkeletonItem: ListRenderItem<SkeletonItem> = ({
-    item,
-    index,
-  }) => (
+  const renderSkeletonItem: ListRenderItem<SkeletonItem> = ({ item }) => (
     <View className="flex-1 max-w-[50%]">
       <Skeleton className="w-full aspect-[4/3] bg-muted rounded-lg" />
     </View>
   );
 
-  const renderProductItem: ListRenderItem<DiscountShopItemDto> = ({ item }) => (
+  const renderProductItem: ListRenderItem<ShopProductDto> = ({ item }) => (
     <DiscountedProductCard
       product={item}
       onPress={(id: string | number) => router.navigate(`/product/${id}`)}
       shopsPrices={item?.shops_prices}
+      className="mb-4"
     />
   );
 
@@ -105,13 +99,12 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
     <View>
       <View className="flex-row">
         {isPending ? (
-          <FlatList
+          <FlashList
             data={skeletonData}
             renderItem={renderSkeletonItem}
             numColumns={2}
             keyExtractor={item => String(item.id)}
             contentContainerClassName="gap-4 p-1"
-            columnWrapperClassName="gap-4"
             scrollEnabled={false}
           />
         ) : allProducts?.length === 0 ? (
@@ -122,13 +115,12 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             Tento obchod momentálne neponúka žiadne zľavnené produkty
           </Text>
         ) : (
-          <FlatList
+          <FlashList
             data={allProducts}
             renderItem={renderProductItem}
             numColumns={2}
             keyExtractor={product => String(product?.detail?.barcode)}
-            contentContainerClassName="gap-4 p-4"
-            columnWrapperClassName="gap-4"
+            contentContainerClassName="gap-2 p-4"
             refreshControl={
               <RefreshControl
                 refreshing={isPending}
@@ -136,7 +128,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
               />
             }
             onEndReached={loadMoreData}
-            onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.3}
             ListFooterComponent={renderFooter}
             ListEmptyComponent={
               <Text className="text-muted-foreground text-base text-center mt-4">

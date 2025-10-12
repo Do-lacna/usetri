@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 import { router } from 'expo-router';
 import type React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { DATE_FORMAT } from '../../lib/constants';
 import { getShopById } from '../../lib/utils';
 import { useGetShops } from '../../network/query/query';
-import { getShopLogo } from '../../utils/logo-utils';
+import ShopLogoBadge from '../shop-logo-badge';
 import { Card } from '../ui/card';
 import { Text } from '../ui/text';
 
@@ -35,10 +35,9 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
         onPress={() => router.navigate(`/main/archived-cart/${id}`)}
         className="p-4 rounded-xl shadow-sm relative overflow-hidden"
       >
-        <Image
-          className="absolute h-20 w-20 -rotate-45 top-1 opacity-30 -left-2"
-          {...getShopLogo(shopId as any)}
-        />
+        <View className="absolute h-20 w-20 -rotate-45 top-1 opacity-30 -left-2">
+          <ShopLogoBadge shopId={shopId} size={80} />
+        </View>
         <View className="ml-12 flex-row items-center justify-between space-x-2">
           <View className="flex-1">
             <Text
