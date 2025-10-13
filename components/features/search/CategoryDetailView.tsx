@@ -1,13 +1,8 @@
+import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  FlatList,
-  Pressable,
-  Text,
-  View,
-  type ListRenderItemInfo,
-} from 'react-native';
-import type { PopularCategoryDto } from '../../../network/model';
+import { Pressable, Text, View } from 'react-native';
+import type { CategoryDto, PopularCategoryDto } from '../../../network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';
 
@@ -44,9 +39,9 @@ export function CategoryDetailView({
       ) || []
     : selectedCategory?.children || [];
 
-  const renderSubcategoryItem = ({
+  const renderSubcategoryItem: ListRenderItem<CategoryDto> = ({
     item: subcategory,
-  }: ListRenderItemInfo<any>) => (
+  }) => (
     <SubcategorySection
       subcategory={subcategory}
       onProductPress={onProductPress}
@@ -113,7 +108,7 @@ export function CategoryDetailView({
       ) : (
         <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-            <FlatList
+            <FlashList
               data={subcategoriesToShow}
               renderItem={renderSubcategoryItem}
               keyExtractor={subcategory =>
@@ -121,9 +116,6 @@ export function CategoryDetailView({
               }
               showsVerticalScrollIndicator={false}
               removeClippedSubviews={true}
-              maxToRenderPerBatch={3}
-              windowSize={5}
-              initialNumToRender={3}
               contentContainerStyle={{ flexGrow: 1 }}
             />
           ) : (
