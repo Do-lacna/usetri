@@ -1,18 +1,18 @@
-import { Award, TrendingUp, TrendingDown, Info } from 'lucide-react-native';
 import type React from 'react';
 import { Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { CartComparisonDto } from '~/network/model';
+import type { HybridCartComparisonDto } from '~/network/model';
+import { ShopInfoBlock } from './shop-info-block';
 
 interface PriceSummaryCardProps {
-  selectedCart?: CartComparisonDto;
+  selectedCart?: HybridCartComparisonDto;
   isCurrentCheapest: boolean;
   isCurrentMostExpensive: boolean;
   areMoreCartsAvailable: boolean;
   savingsVsCheapest: number;
-  savingsVsMostExpensive: number;
   currentCartIndex?: number;
   totalCarts?: number;
+  allCarts?: HybridCartComparisonDto[]; // We need all carts to filter out missing products
 }
 
 export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
@@ -21,100 +21,100 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
   isCurrentMostExpensive,
   areMoreCartsAvailable,
   savingsVsCheapest,
-  savingsVsMostExpensive,
   currentCartIndex = 0,
   totalCarts = 1,
+  allCarts = [], // We need all carts to filter out missing products
 }) => {
   const { t } = useTranslation('common');
 
-  // Calculate percentage savings for better context
-  const percentageSavings =
-    savingsVsMostExpensive > 0 && selectedCart?.total_price
-      ? (savingsVsMostExpensive /
-          (selectedCart.total_price + savingsVsMostExpensive)) *
-        100
-      : 0;
+  // Check if the shop has all items or is missing some
+  const missingProductsCount = selectedCart?.missing_products?.length ?? 0;
+  const missingCategoriesCount = selectedCart?.missing_categories?.length ?? 0;
+  const totalMissingItems = missingProductsCount + missingCategoriesCount;
+  const hasAllItems = totalMissingItems === 0;
 
-  const percentageExtra =
-    savingsVsCheapest > 0 && selectedCart?.total_price
-      ? (savingsVsCheapest / selectedCart.total_price) * 100
-      : 0;
+  // Calculate percentage more expensive than cheapest
+  const percentageMore = () => {
+    if (!selectedCart?.total_price || savingsVsCheapest <= 0) {
+      return 0;
+    }
+
+    // Find the cheapest price among shops with all items
+    const cheapestPrice = selectedCart.total_price - savingsVsCheapest;
+
+    if (cheapestPrice <= 0) {
+      return 0;
+    }
+
+    // Calculate: (difference / cheapest_price) * 100
+    return (savingsVsCheapest / cheapestPrice) * 100;
+  };
 
   const rankPosition = currentCartIndex + 1;
 
+  // Filter out shops with missing products for comparison
+  const shopsWithAllItems = allCarts?.filter(cart => {
+    const missingProducts = cart?.missing_products?.length ?? 0;
+    const missingCategories = cart?.missing_categories?.length ?? 0;
+    return missingProducts + missingCategories === 0;
+  }) ?? [];
+
+  // Find current shop's position among shops with all items
+  const currentShopIndexInComplete = hasAllItems
+    ? shopsWithAllItems.findIndex(cart => cart?.shop?.id === selectedCart?.shop?.id)
+    : -1;
+
+  const totalCompleteShops = shopsWithAllItems.length;
+
+  // Determine which info block to show
+  const getShopInfoType = () => {
+    if (!hasAllItems) {
+      return 'missing_items' as const;
+    }
+
+    // Handle different scenarios based on number of complete shops
+    if (totalCompleteShops === 1) {
+      // Only one complete shop - show cheapest
+      return 'cheapest' as const;
+    }
+
+    if (totalCompleteShops === 2) {
+      // Two complete shops - show cheapest and most expensive only
+      if (currentShopIndexInComplete === 0) {
+        return 'cheapest' as const;
+      }
+      if (currentShopIndexInComplete === 1) {
+        return 'most_expensive' as const;
+      }
+    }
+
+    if (totalCompleteShops > 2) {
+      // Three or more complete shops - show cheapest, middle (more expensive), and most expensive
+      if (currentShopIndexInComplete === 0) {
+        return 'cheapest' as const;
+      }
+      if (currentShopIndexInComplete === totalCompleteShops - 1) {
+        return 'most_expensive' as const;
+      }
+      return 'more_expensive' as const;
+    }
+
+    return null;
+  };
+
+  const infoType = getShopInfoType();
+
   return (
     <View className="bg-card rounded-xl p-4 border border-border">
-      {/* Status and Savings Section */}
+      {/* Status Section */}
       <View className="mb-3">
-        {isCurrentCheapest && (
-          <View className="bg-green-50 px-3 py-2 rounded-lg mb-2">
-            <View className="flex-row items-center">
-              <Award size={18} color="#059669" />
-              <Text className="text-lg font-semibold text-green-700 ml-2">
-                {t('best_price')}
-              </Text>
-            </View>
-            <Text className="text-sm text-green-600 mt-1">
-              {t('cheapest_of_stores', { count: totalCarts })}
-            </Text>
-          </View>
-        )}
-
-        {isCurrentMostExpensive && areMoreCartsAvailable && (
-          <View className="bg-red-50 px-3 py-2 rounded-lg mb-2">
-            <View className="flex-row items-center">
-              <TrendingUp size={18} color="#DC2626" />
-              <Text className="text-lg font-semibold text-red-600 ml-2">
-                {t('most_expensive')}
-              </Text>
-            </View>
-            <Text className="text-sm text-red-600 mt-1">
-              {t('more_than_cheapest', {
-                amount: savingsVsCheapest.toFixed(2),
-                percentage: percentageExtra.toFixed(1),
-              })}
-            </Text>
-          </View>
-        )}
-
-        {!isCurrentCheapest && !isCurrentMostExpensive && (
-          <View>
-            {/* Show savings vs most expensive */}
-            {savingsVsMostExpensive > 0 && (
-              <View className="bg-green-50 px-3 py-2 rounded-lg mb-2">
-                <View className="flex-row items-center">
-                  <TrendingDown size={16} color="#059669" />
-                  <Text className="text-md font-semibold text-green-700 ml-2">
-                    {t('you_save', {
-                      amount: savingsVsMostExpensive.toFixed(2),
-                      percentage: percentageSavings.toFixed(1),
-                    })}
-                  </Text>
-                </View>
-                <Text className="text-sm text-green-600 mt-1">
-                  {t('compared_to_most_expensive')}
-                </Text>
-              </View>
-            )}
-
-            {/* Show extra cost vs cheapest */}
-            {savingsVsCheapest > 0 && (
-              <View className="bg-orange-50 px-3 py-2 rounded-lg mb-2">
-                <View className="flex-row items-center">
-                  <Info size={16} color="#EA580C" />
-                  <Text className="text-md font-semibold text-orange-700 ml-2">
-                    {t('extra_cost', {
-                      amount: savingsVsCheapest.toFixed(2),
-                      percentage: percentageExtra.toFixed(1),
-                    })}
-                  </Text>
-                </View>
-                <Text className="text-sm text-orange-600 mt-1">
-                  {t('compared_to_cheapest')}
-                </Text>
-              </View>
-            )}
-          </View>
+        {infoType && (
+          <ShopInfoBlock
+            type={infoType}
+            missingItemsCount={totalMissingItems}
+            percentageMore={percentageMore()}
+            totalShops={totalCompleteShops}
+          />
         )}
       </View>
 
@@ -122,11 +122,16 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <Text className="text-sm text-muted-foreground mb-1">
-            {t('total_sum')}
+            {hasAllItems ? t('total_sum') : t('partial_sum')}
           </Text>
           <Text className="text-3xl font-bold text-foreground">
             {selectedCart?.total_price?.toFixed(2)} €
           </Text>
+          {!hasAllItems && (
+            <Text className="text-xs text-muted-foreground mt-1">
+              {t('price_for_available_items')}
+            </Text>
+          )}
         </View>
 
         {/* Quick comparison indicator */}
