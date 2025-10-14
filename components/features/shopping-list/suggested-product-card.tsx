@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image } from 'expo-image';
+import { Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import type { ShopItemDto, ShopPriceDto } from '../../../network/model';
 import { useGetShops } from '../../../network/query/query';
@@ -53,8 +54,8 @@ const SuggestedProductCard = ({
             source={{
               uri: image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
+            style={{ resizeMode: 'cover', height: 96, width: '100%' }}
             className="w-full h-24 rounded-lg"
-            resizeMode="cover"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
             {shopsPrices?.map(({ shop_id }, index) =>

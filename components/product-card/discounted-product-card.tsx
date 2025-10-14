@@ -63,7 +63,7 @@ const DiscountedProductCard = ({
 
   return (
     <Pressable
-      className={clsx('w-52 mr-2 last:mr-0 flex-1', className)}
+      className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
       onPress={() => onPress?.(String(barcode), Number(categoryId))}
     >
       <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
