@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useRef } from 'react';
-import { View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import {
   Carousel,
   CarouselIndicators,
@@ -25,13 +25,19 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   onSnapToItem,
 }) => {
   const carouselRef = useRef<any>(null);
+  const { width: screenWidth } = Dimensions.get('window');
+  // Card takes 75% of screen width, leaving 12.5% visible on each side
+  const CARD_WIDTH_PERCENTAGE = 0.75;
+  const CARD_WIDTH = screenWidth * CARD_WIDTH_PERCENTAGE;
+  // Add margins to create spacing between cards
+  const CARD_MARGIN = 8;
+  const ITEM_WIDTH = CARD_WIDTH + CARD_MARGIN * 2;
 
   const handleStoreSelect = (storeId: number, index: number) => {
     onStoreSelect(storeId, index);
     // Center the selected card in the carousel
-    const itemWidth = 300; // Should match the itemWidth prop of Carousel
     carouselRef.current?.scrollTo({
-      x: index * itemWidth,
+      x: index * ITEM_WIDTH,
       animated: true,
     });
   };
@@ -41,7 +47,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
       <Carousel
         ref={carouselRef}
         height={240}
-        itemWidth={320}
+        itemWidth={ITEM_WIDTH}
         onSnapToItem={onSnapToItem}
         className="w-full"
       >
@@ -53,6 +59,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
               isActive={store?.id === activeStoreId}
               stats={stats}
               onPress={handleStoreSelect}
+              cardWidth={CARD_WIDTH}
             />
           </CarouselItem>
         )) || []}

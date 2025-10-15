@@ -1,13 +1,13 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { PRIMARY_HEX } from '~/lib/constants';
 import type { DiscountStatsDto, ShopExtendedDto } from '../../../network/model';
 import { getShopCoverImage } from '../../../utils/logo-utils';
 import {
   getStoreDiscountsCount,
   getStoreDisplayName,
 } from '../utils/store-utils';
-import { PRIMARY_HEX } from '~/lib/constants';
 
 interface StoreCardProps {
   store: ShopExtendedDto;
@@ -15,6 +15,7 @@ interface StoreCardProps {
   isActive: boolean;
   stats: DiscountStatsDto[];
   onPress: (storeId: number, index: number) => void;
+  cardWidth: number;
 }
 
 export const StoreCard: React.FC<StoreCardProps> = ({
@@ -23,6 +24,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
   isActive,
   stats,
   onPress,
+  cardWidth,
 }) => {
   const { t } = useTranslation();
   const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
@@ -34,13 +36,13 @@ export const StoreCard: React.FC<StoreCardProps> = ({
       onPress={() => onPress(Number(store?.id), index)}
       style={[
         {
-          width: 320,
+          width: cardWidth,
           height: 192,
           marginHorizontal: 8,
           borderRadius: 12,
           // Remove overflow: 'hidden' to prevent border clipping
-          transform: [{ scale: isActive ? 1 : 0.95 }],
-          opacity: isActive ? 1 : 0.6,
+          transform: [{ scale: isActive ? 1 : 0.92 }],
+          opacity: isActive ? 1 : 0.7,
         },
         isActive && {
           elevation: 8, // Android shadow

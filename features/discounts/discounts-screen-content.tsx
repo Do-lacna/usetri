@@ -2,19 +2,12 @@ import type React from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DiscountList from '../../components/discounts/discount-list';
-import {
-  useGetDiscountsStatistics,
-  useGetShops,
-} from '../../network/query/query';
+import { useGetDiscountsStatistics } from '../../network/query/query';
 import { StoreCarousel } from './components/store-carousel';
 import { useStoreSelection } from './hooks/use-store-selection';
 import { getStoreDisplayName } from './utils/store-utils';
 
 export const DiscountsScreenContent: React.FC = () => {
-  const {
-    data: { shops } = {},
-    isLoading: areShopsLoading,
-  } = useGetShops();
   const {
     data: { stats = [] } = {},
     isLoading: areDiscountStatisticsLoading,
