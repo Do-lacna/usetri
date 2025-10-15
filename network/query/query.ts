@@ -4,7 +4,6 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,6 +17,8 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { orvalApiClient } from '.././api-client';
 import type {
   GetCategoriesParams,
   GetCategoryPricesResponse,
@@ -37,7 +38,6 @@ import type {
   GetUnconfirmedDiscountsResponse,
   ProblemDetails,
 } from '.././model';
-import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
@@ -1400,7 +1400,7 @@ export const getUnconfirmedDiscounts = (
 export const getGetUnconfirmedDiscountsQueryKey = (
   params?: GetUnconfirmedDiscountsParams,
 ) => {
-  return [`/unconfirmed-discounts`, ...(params ? [params] : [])] as const;
+  return ['/unconfirmed-discounts', ...(params ? [params] : [])] as const;
 };
 
 export const getGetUnconfirmedDiscountsQueryOptions = <

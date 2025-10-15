@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": [
+      "android/app/build/**",
+      "android/build/**",
+      "ios/build/**",
+      "node_modules/**",
+      ".expo/**",
+      "dist/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -24,6 +31,9 @@
         "noUnusedVariables": "off",
         "noUnusedImports": "error",
         "useExhaustiveDependencies": "off"
+      },
+      "style": {
+        "noUnusedTemplateLiteral": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

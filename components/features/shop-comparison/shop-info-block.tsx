@@ -3,7 +3,11 @@ import type React from 'react';
 import { Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-type ShopInfoType = 'cheapest' | 'more_expensive' | 'most_expensive' | 'missing_items';
+type ShopInfoType =
+  | 'cheapest'
+  | 'more_expensive'
+  | 'most_expensive'
+  | 'missing_items';
 
 interface ShopInfoBlockProps {
   type: ShopInfoType;
@@ -38,7 +42,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
           textColor: 'text-gray-700',
           iconColor: '#6B7280',
           icon: Info,
-          title: t('more_expensive_percentage', { percentage: percentageMore.toFixed(1) }),
+          title: t('more_expensive_percentage', {
+            percentage: percentageMore.toFixed(1),
+          }),
           subtitle: t('compared_to_cheapest'),
         };
 
@@ -81,7 +87,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
           {config.title}
         </Text>
       </View>
-      <Text className={`text-sm ${config.textColor.replace('700', '600')} mt-1`}>
+      <Text
+        className={`text-sm ${config.textColor.replace('700', '600')} mt-1`}
+      >
         {config.subtitle}
       </Text>
     </View>

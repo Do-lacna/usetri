@@ -53,15 +53,18 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
   const rankPosition = currentCartIndex + 1;
 
   // Filter out shops with missing products for comparison
-  const shopsWithAllItems = allCarts?.filter(cart => {
-    const missingProducts = cart?.missing_products?.length ?? 0;
-    const missingCategories = cart?.missing_categories?.length ?? 0;
-    return missingProducts + missingCategories === 0;
-  }) ?? [];
+  const shopsWithAllItems =
+    allCarts?.filter(cart => {
+      const missingProducts = cart?.missing_products?.length ?? 0;
+      const missingCategories = cart?.missing_categories?.length ?? 0;
+      return missingProducts + missingCategories === 0;
+    }) ?? [];
 
   // Find current shop's position among shops with all items
   const currentShopIndexInComplete = hasAllItems
-    ? shopsWithAllItems.findIndex(cart => cart?.shop?.id === selectedCart?.shop?.id)
+    ? shopsWithAllItems.findIndex(
+        cart => cart?.shop?.id === selectedCart?.shop?.id,
+      )
     : -1;
 
   const totalCompleteShops = shopsWithAllItems.length;
