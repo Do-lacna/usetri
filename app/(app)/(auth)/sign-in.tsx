@@ -3,11 +3,12 @@ import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
 
 import { GoogleSignIn } from '~/components/google-authentication/google-sign-in';
+import { ThemedLogo } from '~/components/themed-logo';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { signInSchema } from '~/schema/signin';
@@ -67,13 +68,7 @@ export default function SignIn() {
 
   return (
     <View className="flex-1 items-center justify-center gap-2">
-      <View className="w-[220px] h-[110px] mb-8">
-        <Image
-          source={require('~/assets/images/usetri_inverted_logo.png')}
-          style={{ width: '100%', height: '100%' }}
-          resizeMode="contain"
-        />
-      </View>
+      <ThemedLogo width={220} height={110} className="mb-8" />
       <GoogleSignIn />
       <AppleAuthentication />
       <Controller
@@ -123,7 +118,7 @@ export default function SignIn() {
       </Button>
 
       <View className="flex-row gap-2">
-        <Text className="text-lg">Ešte nemáte účet?</Text>
+        <Text className="text-lg text-foreground">Ešte nemáte účet?</Text>
         <Link href="/sign-up" disabled={isLoading}>
           <Text className="text-lg font-bold text-terciary">Registrovať</Text>
         </Link>

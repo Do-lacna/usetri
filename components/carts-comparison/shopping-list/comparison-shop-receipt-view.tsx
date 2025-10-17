@@ -12,7 +12,7 @@ import {
   useCreateArchivedCart,
 } from '../../../network/customer/customer';
 import type { CartComparisonDto } from '../../../network/model';
-import ShopLogoBadge from '../../shop-logo-badge';
+import ShopLogoBadge from '../../shop-logo-badge/shop-logo-badge';
 
 const ComparisonShopReceiptView = ({
   shop: { name: shopName, image_url, id: shopId } = {},

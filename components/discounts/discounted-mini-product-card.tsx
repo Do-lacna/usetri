@@ -3,7 +3,7 @@ import { Image, Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../lib/constants';
 import { calculateDiscountPercentage } from '../../lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '../../network/model';
-import StoreLogo from '../store-logo/store-logo';
+import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 
 // Types
 interface Shop {
@@ -74,9 +74,9 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
               key={shop_id}
               style={{ width: 15, height: 15, borderRadius: 50 }}
             >
-              <StoreLogo
-                storeId={shop_id}
-                containerStyle={{
+              <ShopLogoBadge
+                shopId={Number(shop_id)}
+                style={{
                   width: 15,
                   height: 15,
                   borderRadius: 50,

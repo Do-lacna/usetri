@@ -4,7 +4,7 @@ import { ArrowLeft } from '~/lib/icons/ArrowLeft';
 import { ArrowRight } from '~/lib/icons/ArrowRight';
 import { isArrayNotEmpty } from '~/lib/utils';
 import type { HybridCartComparisonDto, ShopExtendedDto } from '~/network/model';
-import ShopLogoBadge from '../../shop-logo-badge';
+import ShopLogoBadge from '../../shop-logo-badge/shop-logo-badge';
 
 interface ShopNavigationHeaderProps {
   currentShop?: ShopExtendedDto;

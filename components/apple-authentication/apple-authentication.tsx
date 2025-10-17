@@ -1,11 +1,18 @@
 import * as AppleAuth from 'expo-apple-authentication';
 import { StyleSheet } from 'react-native';
+import { useColorScheme } from '../../lib/useColorScheme';
 
 export default function AppleAuthentication() {
+  const { isDarkColorScheme } = useColorScheme();
+
   return (
     <AppleAuth.AppleAuthenticationButton
       buttonType={AppleAuth.AppleAuthenticationButtonType.SIGN_IN}
-      buttonStyle={AppleAuth.AppleAuthenticationButtonStyle.BLACK}
+      buttonStyle={
+        isDarkColorScheme
+          ? AppleAuth.AppleAuthenticationButtonStyle.WHITE
+          : AppleAuth.AppleAuthenticationButtonStyle.BLACK
+      }
       cornerRadius={5}
       style={styles.button}
       onPress={async () => {

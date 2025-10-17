@@ -5,7 +5,7 @@ import { isArrayNotEmpty } from '~/lib/utils';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import type { ShopPriceDto } from '~/network/model';
 import { useGetProductsByBarcode } from '~/network/query/query';
-import ShopLogoBadge from '../shop-logo-badge';
+import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
 import { Text } from '../ui/text';

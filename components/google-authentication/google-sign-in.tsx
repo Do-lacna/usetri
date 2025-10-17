@@ -53,7 +53,7 @@ export function GoogleSignIn() {
 
   return (
     <TouchableOpacity
-      className="flex-row items-center justify-center bg-white border border-gray-300 rounded-md py-3 px-4 shadow-sm active:opacity-80 mb-2"
+      className="flex-row items-center justify-center bg-card border border-border rounded-md py-3 px-4 shadow-sm active:opacity-80 mb-2"
       style={{ width: 250, height: 44 }}
       onPress={handleGoogleSignIn}
     >
@@ -62,7 +62,7 @@ export function GoogleSignIn() {
         className="w-[16px] h-[16px] mr-2"
       />
       <Text
-        className="text-gray-700 text-lg text-center"
+        className="text-foreground text-lg text-center"
         style={{ lineHeight: 18 }}
       >
         Sign in with Google

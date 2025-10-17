@@ -13,7 +13,7 @@ import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import { useColorScheme } from '../../../lib/useColorScheme';
 import type { CartProductDto } from '../../../network/model';
 import { useGetProducts } from '../../../network/query/query';
-import ShopLogoBadge from '../../shop-logo-badge';
+import ShopLogoBadge from '../../shop-logo-badge/shop-logo-badge';
 import SuggestedProductCard from './suggested-product-card';
 
 const ShoppingListProductItem: React.FC<{

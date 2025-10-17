@@ -1,10 +1,13 @@
 import clsx from 'clsx';
 import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import type { ShopItemDto, ShopPriceDto } from '../../../network/model';
 import { useGetShops } from '../../../network/query/query';
-import ShopLogoBadge from '../../shop-logo-badge';
+import ShopLogoBadge from '../../shop-logo-badge/shop-logo-badge';
+
+cssInterop(Image, { className: 'style' });
 
 export interface IProductCardProps {
   product?: ShopItemDto;
@@ -54,7 +57,6 @@ const SuggestedProductCard = ({
             source={{
               uri: image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
             }}
-            style={{ resizeMode: 'cover', height: 96, width: '100%' }}
             className="w-full h-24 rounded-lg"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">

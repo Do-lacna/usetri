@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import { useGetCategories, useGetCategoryPrices } from '~/network/query/query';
-import ShopLogoBadge from '../shop-logo-badge';
+import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
 import { Text } from '../ui/text';

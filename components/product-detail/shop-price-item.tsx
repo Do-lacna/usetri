@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import ShopLogoBadge from '../shop-logo-badge';
+import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 
 interface ShopPriceItemProps {
   shopId: number;

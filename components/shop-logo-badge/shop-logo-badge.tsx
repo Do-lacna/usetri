@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { memo } from 'react';
 
 import { type ImageStyle, type StyleProp, View } from 'react-native';
-import { getShopLogo } from '../utils/logo-utils';
+import { getShopLogo } from '../../utils/logo-utils';
 
 interface ShopLogoBadgeProps {
   shopId: number;

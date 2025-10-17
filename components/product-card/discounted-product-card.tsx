@@ -6,7 +6,7 @@ import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
 } from '../../network/model';
-import ShopLogoBadge from '../shop-logo-badge';
+import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
 
 export interface IProductCardProps {
