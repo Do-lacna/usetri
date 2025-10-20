@@ -37,27 +37,50 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --background: 20 14.3% 4.1%;
-      --foreground: 0 0% 95%;
-      --card: 24 9.8% 10%;
-      --card-foreground: 0 0% 95%;
-      --popover: 0 0% 9%;
-      --popover-foreground: 0 0% 95%;
+      /* Main background - neutral gray like VS Code (#1e1e1e) */
+      --background: 0 0% 12%;
+      --foreground: 0 0% 88%;
+
+      /* Card - elevated surface, lighter than background for depth */
+      --card: 0 0% 16%;
+      --card-foreground: 0 0% 88%;
+
+      /* Popover - slightly elevated */
+      --popover: 0 0% 14%;
+      --popover-foreground: 0 0% 88%;
+
+      /* Primary stays the same (your brand color) */
       --primary: 142.1 70.6% 45.3%;
       --primary-foreground: 144.9 80.4% 10%;
-      --secondary: 240 3.7% 15.9%;
-      --secondary-foreground: 0 0% 98%;
-      --terciary: 176, 93%, 16%;
-      --muted: 0 0% 15%;
-      --divider: 240 3.7% 15.9%;
-      --muted-foreground: 240 5% 64.9%;
-      --accent: 12 6.5% 15.1%;
-      --accent-foreground: 0 0% 98%;
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 0 85.7% 97.3%;
-      --border: 240 3.7% 15.9%;
-      --input: 240 3.7% 15.9%;
-      --ring: 142.4 71.8% 29.2%;
+
+      /* Secondary - neutral gray */
+      --secondary: 0 0% 20%;
+      --secondary-foreground: 0 0% 88%;
+
+      /* Terciary - adjusted for better visibility */
+      --terciary: 176 93% 28%;
+
+      /* Muted - improved contrast */
+      --muted: 0 0% 20%;
+      --divider: 0 0% 25%;
+      --muted-foreground: 0 0% 64%;
+
+      /* Accent - subtle highlight */
+      --accent: 0 0% 20%;
+      --accent-foreground: 0 0% 88%;
+
+      /* Destructive - more visible */
+      --destructive: 0 63% 42%;
+      --destructive-foreground: 0 0% 88%;
+
+      /* Borders and inputs - softer, more visible */
+      --border: 0 0% 24%;
+      --input: 0 0% 24%;
+
+      /* Ring - matches primary but darker */
+      --ring: 142.4 71.8% 35%;
+
+      /* Charts remain the same */
       --chart-1: 220 70% 50%;
       --chart-2: 160 60% 45%;
       --chart-3: 30 80% 55%;

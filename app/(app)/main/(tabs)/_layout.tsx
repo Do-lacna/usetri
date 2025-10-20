@@ -19,10 +19,11 @@ export default function TabLayout() {
   const cartItemsNumber = getNumberOfCartItems(cart);
   const { colorScheme } = useColorScheme();
 
-  // Define theme-aware colors
-  const activeColor = colorScheme === 'dark' ? '#FFFFFF' : '#000000'; // primary color
-  const inactiveColor = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'; // muted-foreground
-  const tabBarBackground = colorScheme === 'dark' ? '#1F2937' : '#FFFFFF'; // card background
+  // Define theme-aware colors matching global.css
+  const activeColor = colorScheme === 'dark' ? '#7CCA94' : '#3FAA5E'; // primary color (your green)
+  const inactiveColor = colorScheme === 'dark' ? '#A3A3A3' : '#737373'; // muted-foreground (64% gray)
+  const tabBarBackground = colorScheme === 'dark' ? '#292929' : '#FFFFFF'; // card background (16% gray / white)
+  const borderColor = colorScheme === 'dark' ? '#3D3D3D' : '#E5E7EB'; // border (24% gray / light gray)
 
   return (
     <Tabs
@@ -35,7 +36,7 @@ export default function TabLayout() {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: tabBarBackground,
-          borderTopColor: colorScheme === 'dark' ? '#374151' : '#E5E7EB', // border color
+          borderTopColor: borderColor,
           borderTopWidth: 1,
         },
         tabBarItemStyle: {
