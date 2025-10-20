@@ -1,6 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { Minus } from '~/lib/icons/Minus';
+import { Plus } from '~/lib/icons/Plus';
 
 interface QuantityCounterProps {
   quantity: number;
@@ -22,7 +23,7 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
           quantity === 0 ? 'opacity-50' : ''
         }`}
       >
-        <Ionicons name="remove" size={20} color="hsl(240, 3.8%, 46.1%)" />
+        <Minus className="text-foreground" size={20} />
       </TouchableOpacity>
 
       <View className="w-16 h-12 items-center justify-center bg-background">
@@ -35,7 +36,7 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
         onPress={onIncrement}
         className="w-12 h-12 items-center justify-center rounded-r-lg"
       >
-        <Ionicons name="add" size={20} color="hsl(240, 3.8%, 46.1%)" />
+        <Plus className="text-foreground" size={20} />
       </TouchableOpacity>
     </View>
   );

@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { Text, View } from 'react-native';
+import { ChevronRight } from '~/lib/icons/ChevronRight';
 
 interface CategoryBreadcrumbProps {
   categories: string[];
@@ -16,19 +16,14 @@ export const CategoryBreadcrumb: React.FC<CategoryBreadcrumbProps> = ({
       {categories.map((category, index) => (
         <View key={category} className="flex-row items-center mb-2">
           <Text
-            className="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full"
+            className="text-xs text-foreground bg-muted px-3 py-1 rounded-full"
             numberOfLines={1}
             ellipsizeMode="tail"
           >
             {category}
           </Text>
           {index < categories.length - 1 && (
-            <Ionicons
-              name="chevron-forward"
-              size={12}
-              color="hsl(240, 3.8%, 46.1%)"
-              className="mx-1"
-            />
+            <ChevronRight className="mx-1 text-foreground" size={12} />
           )}
         </View>
       ))}

@@ -13,7 +13,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
   discountPercentage,
 }) => {
   return (
-    <View className="bg-muted items-center justify-center py-2 relative">
+    <View className="items-center justify-center py-2 relative">
       <Image
         source={{
           uri: imageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
