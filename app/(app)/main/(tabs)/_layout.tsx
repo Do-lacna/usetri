@@ -20,7 +20,7 @@ export default function TabLayout() {
   const { colorScheme } = useColorScheme();
 
   // Define theme-aware colors matching global.css
-  const activeColor = colorScheme === 'dark' ? '#7CCA94' : '#3FAA5E'; // primary color (your green)
+  const activeColor = colorScheme === 'dark' ? '#E0E0E0' : '#1E1E1E'; // foreground color (white/black)
   const inactiveColor = colorScheme === 'dark' ? '#A3A3A3' : '#737373'; // muted-foreground (64% gray)
   const tabBarBackground = colorScheme === 'dark' ? '#292929' : '#FFFFFF'; // card background (16% gray / white)
   const borderColor = colorScheme === 'dark' ? '#3D3D3D' : '#E5E7EB'; // border (24% gray / light gray)

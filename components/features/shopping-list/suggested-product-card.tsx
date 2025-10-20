@@ -4,7 +4,6 @@ import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 import type { ShopItemDto, ShopPriceDto } from '../../../network/model';
-import { useGetShops } from '../../../network/query/query';
 import ShopLogoBadge from '../../shop-logo-badge/shop-logo-badge';
 
 cssInterop(Image, { className: 'style' });
@@ -34,10 +33,6 @@ const SuggestedProductCard = ({
       image_url,
     } = {},
   } = { ...product };
-
-  const {
-    data: { shops = [] } = {},
-  } = useGetShops();
 
   const lowestPrice = shopsPrices?.[0]?.price ?? 0;
 

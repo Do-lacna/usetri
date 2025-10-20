@@ -90,6 +90,9 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
             <Text className="text-foreground font-bold text-xl">
               Celková suma
             </Text>
+            <Text className="text-foreground/80 text-xs">
+              Zobraziť porovnanie
+            </Text>
           </View>
           <View className="flex-row items-center gap-4">
             <Animated.View style={animatedStyle}>
