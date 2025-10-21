@@ -15,6 +15,7 @@ export interface MenuItem {
   icon?: React.ComponentType<any>;
   iconRight?: React.ComponentType<any>;
   isThemeToggle?: boolean;
+  isLanguageToggle?: boolean;
 }
 
 export interface MenuSection {
@@ -79,14 +80,15 @@ export const useSettingsMenuItems = () => {
           isThemeToggle: true,
         },
         {
+          id: 'language',
+          label: 'Jazyk',
+          onPress: () => {}, // Will be handled by the switch component
+          isLanguageToggle: true,
+        },
+        {
           id: 'preferencie',
           label: 'Preferencie',
           onPress: () => router.push('/settings'),
-        },
-        {
-          id: 'jazyk',
-          label: 'Jazyk',
-          onPress: () => router.push('/notifications'),
         },
       ],
     },

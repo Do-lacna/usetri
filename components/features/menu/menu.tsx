@@ -1,4 +1,5 @@
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { LanguageSwitch } from '~/components/features/settings/language-switch';
 import { ThemeSwitch } from '~/components/features/settings/theme-switch';
 import { useSettingsMenuItems } from '~/hooks/use-settings-menu-items';
 
@@ -25,6 +26,15 @@ export default function Menu() {
                     </Text>
                     <View className="ml-4">
                       <ThemeSwitch showLabel={false} />
+                    </View>
+                  </View>
+                ) : item.isLanguageToggle ? (
+                  <View className="flex-row items-center justify-between flex-1">
+                    <Text className="text-base text-foreground flex-1">
+                      {item.label}
+                    </Text>
+                    <View className="ml-4">
+                      <LanguageSwitch />
                     </View>
                   </View>
                 ) : (
