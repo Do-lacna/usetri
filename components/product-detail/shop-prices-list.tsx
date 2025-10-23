@@ -1,9 +1,9 @@
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { getShopById } from '~/lib/utils';
 import type { ShopExtendedDto, ShopPriceDto } from '~/network/model';
 import { ShopPriceItem } from './shop-price-item';
-import { useTranslation } from 'react-i18next';
 
 interface ShopPricesListProps {
   shopsPrices?: ShopPriceDto[] | null;
@@ -27,8 +27,12 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
         {t('available_in', { count: shopsPrices.length })}
       </Text>
 
-      {shopsPrices.map(({ shop_id, price, discount_price }) => {
+      {shopsPrices.map(({ shop_id, price, discount_price }, index) => {
         const { name: shopName } = getShopById(Number(shop_id), shops) || {};
+
+        // TODO: Replace with actual availability flag from BE when available
+        // For now, simulate: make every 3rd item unavailable for testing
+        const isAvailable = index % 3 !== 1;
 
         return (
           <ShopPriceItem
@@ -41,6 +45,7 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
             }
             isSelected={selectedShopId === shop_id}
             onSelect={onShopSelect}
+            isAvailable={isAvailable}
           />
         );
       })}

@@ -32,6 +32,7 @@
       --chart-3: 197 37% 24%;
       --chart-4: 43 74% 66%;
       --chart-5: 27 87% 67%;
+      --warning: 60 100% 90%;
     }
   }
 
@@ -76,6 +77,8 @@
       /* Borders and inputs - softer, more visible */
       --border: 0 0% 24%;
       --input: 0 0% 24%;
+
+      --warning: 60 100% 90%;
 
       /* Ring - matches primary but darker */
       --ring: 142.4 71.8% 35%;

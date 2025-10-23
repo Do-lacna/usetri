@@ -61,5 +61,9 @@
   "subcategories_label": "Podkategórie",
   "categories_title": "Kategórie produktov",
   "categories_count": "{{count}} kategórií",
-  "no_products_in_category": "Žiadne produkty v tejto kategórii"
+  "no_products_in_category": "Žiadne produkty v tejto kategórii",
+
+  "product": {
+    "may_not_be_available": "Môže byť nedostupný v niektorých predajniach"
+  }
 }
