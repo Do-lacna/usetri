@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -109,12 +109,28 @@ const ProductDetailScreen: React.FC = () => {
     }
   }, [currentProductInCartQuantity]);
 
-  if (!barcode && !isLoading) {
+  // Redirect to not-found if product doesn't exist
+  useEffect(() => {
+    if (!barcode && !isLoading && id) {
+      // Product not found, clear navigation stack and redirect
+      // Use dismissAll to clear modal stack, then replace current route
+      router.dismissAll();
+      router.replace('/+not-found');
+    }
+  }, [barcode, isLoading, id]);
+
+  // Show loading state while checking
+  if (!barcode && isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <Text className="text-3xl text-foreground">Product not found</Text>
+        <Text className="text-foreground">Načítavam...</Text>
       </View>
     );
+  }
+
+  // If no product and not loading, we're redirecting (show nothing)
+  if (!barcode && !isLoading) {
+    return null;
   }
 
   const selectedShopPrice =

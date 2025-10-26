@@ -88,5 +88,11 @@
     "privacy_policy": "Privacy Policy",
     "terms_of_service": "Terms of Service",
     "contact": "Contact"
+  },
+
+  "not_found": {
+    "title": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist or has been moved.",
+    "go_back": "Back to Home"
   }
 }

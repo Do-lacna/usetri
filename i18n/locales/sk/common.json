@@ -87,5 +87,11 @@
     "privacy_policy": "Ochrana osobných údajov",
     "terms_of_service": "Podmienky používania",
     "contact": "Kontakt"
+  },
+
+  "not_found": {
+    "title": "Stránka nebola nájdená",
+    "description": "Ospravedlňujeme sa, ale požadovaná stránka neexistuje alebo bola presunutá.",
+    "go_back": "Späť na hlavnú stránku"
   }
 }
