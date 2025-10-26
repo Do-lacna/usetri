@@ -11,7 +11,7 @@ import {
 export interface MenuItem {
   id: string;
   label: string;
-  onPress: () => void;
+  onPress?: () => void; // Optional since toggle items handle their own press
   icon?: React.ComponentType<any>;
   iconRight?: React.ComponentType<any>;
   isThemeToggle?: boolean;
@@ -76,13 +76,11 @@ export const useSettingsMenuItems = () => {
         {
           id: 'tema',
           label: 'Téma',
-          onPress: () => {}, // Will be handled by the switch component
           isThemeToggle: true,
         },
         {
           id: 'language',
           label: 'Jazyk',
-          onPress: () => {}, // Will be handled by the switch component
           isLanguageToggle: true,
         },
         {

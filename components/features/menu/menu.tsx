@@ -34,11 +34,11 @@ export default function Menu() {
                       {item.label}
                     </Text>
                     <View className="ml-4">
-                      <LanguageSwitch />
+                      <LanguageSwitch showLabel={false} />
                     </View>
                   </View>
                 ) : (
-                  <TouchableOpacity onPress={item.onPress}>
+                  <TouchableOpacity onPress={item.onPress ?? (() => {})}>
                     <Text className="text-base text-foreground">
                       {item.label}
                     </Text>
