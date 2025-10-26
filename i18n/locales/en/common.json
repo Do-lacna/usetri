@@ -66,5 +66,27 @@
 
   "product": {
     "may_not_be_available": "May not be available in some stores"
+  },
+
+  "menu": {
+    "account_settings": "Account Settings",
+    "email_password": "Email & Password",
+    "subscription": "Subscription",
+    "activate_brigader": "Activate brigader profile",
+    "deactivate_brigader": "Deactivate brigader profile",
+    "sign_out": "Sign Out",
+    "delete_account": "Delete Account",
+
+    "application": "Application",
+    "theme": "Theme",
+    "language": "Language",
+    "preferences": "Preferences",
+
+    "info_support": "Information & Support",
+    "how_it_works": "How It Works",
+    "cookies": "Cookies",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "contact": "Contact"
   }
 }

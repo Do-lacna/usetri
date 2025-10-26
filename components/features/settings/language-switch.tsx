@@ -1,11 +1,5 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
 import { cn } from '~/lib/utils';
 
 interface LanguageSwitchProps {
@@ -18,24 +12,23 @@ export function LanguageSwitch({
   showLabel = true,
 }: LanguageSwitchProps) {
   const { i18n } = useTranslation();
-  const isEnglish = i18n.language === 'en';
-  const translateX = useSharedValue(isEnglish ? 28 : 0);
+  const currentLanguage = i18n.language;
 
-  React.useEffect(() => {
-    translateX.value = withSpring(isEnglish ? 28 : 0, {
-      damping: 15,
-      stiffness: 150,
-    });
-  }, [isEnglish, translateX]);
+  const handleLanguageChange = (lang: string) => {
+    // Map to the actual language codes used in i18n config
+    const languageCode = lang === 'sk' ? 'sk-SK' : 'ar-AR';
 
-  const animatedThumbStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  const handlePress = () => {
-    const newLanguage = isEnglish ? 'sk' : 'en';
-    i18n.changeLanguage(newLanguage);
+    if (currentLanguage !== languageCode) {
+      i18n.changeLanguage(languageCode);
+    }
   };
+
+  // Normalize current language for comparison
+  const isSlovak = currentLanguage === 'sk' || currentLanguage === 'sk-SK';
+  const isEnglish =
+    currentLanguage === 'en' ||
+    currentLanguage === 'ar-AR' ||
+    currentLanguage === 'en-US';
 
   return (
     <View className={cn('flex-row items-center justify-between', className)}>
@@ -45,44 +38,44 @@ export function LanguageSwitch({
         </View>
       )}
 
-      <Pressable
-        onPress={handlePress}
-        className={cn(
-          'relative w-14 h-7 rounded-full border-2 justify-center',
-          isEnglish ? 'bg-primary border-primary' : 'bg-muted border-border',
-        )}
-      >
-        {/* Track labels */}
-        <View className="absolute inset-0 flex-row items-center justify-between px-1.5">
+      {/* Segmented Control */}
+      <View className="flex-row bg-muted rounded-lg p-0.5 border border-border">
+        {/* SK Button */}
+        <Pressable
+          onPress={() => handleLanguageChange('sk')}
+          className={cn(
+            'px-3 py-1 rounded-md',
+            isSlovak ? 'bg-background' : 'bg-transparent',
+          )}
+        >
           <Text
             className={cn(
-              'text-xs font-semibold',
-              !isEnglish ? 'text-primary' : 'text-primary-foreground/40',
+              'text-sm font-semibold',
+              isSlovak ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             SK
           </Text>
+        </Pressable>
+
+        {/* EN Button */}
+        <Pressable
+          onPress={() => handleLanguageChange('en')}
+          className={cn(
+            'px-3 py-1 rounded-md',
+            isEnglish ? 'bg-background' : 'bg-transparent',
+          )}
+        >
           <Text
             className={cn(
-              'text-xs font-semibold',
-              isEnglish
-                ? 'text-primary-foreground'
-                : 'text-muted-foreground/40',
+              'text-sm font-semibold',
+              isEnglish ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
             EN
           </Text>
-        </View>
-
-        {/* Animated thumb */}
-        <Animated.View
-          style={[animatedThumbStyle]}
-          className={cn(
-            'absolute w-5 h-5 rounded-full shadow-sm',
-            'bg-background',
-          )}
-        />
-      </Pressable>
+        </Pressable>
+      </View>
     </View>
   );
 }

@@ -65,5 +65,27 @@
 
   "product": {
     "may_not_be_available": "Môže byť nedostupný v niektorých predajniach"
+  },
+
+  "menu": {
+    "account_settings": "Nastavenia účtu",
+    "email_password": "Email a heslo",
+    "subscription": "Predplatné",
+    "activate_brigader": "Aktivuj profil brigadera",
+    "deactivate_brigader": "Deaktivuj profil brigadera",
+    "sign_out": "Odhlásiť sa",
+    "delete_account": "Vymazať účet",
+
+    "application": "Aplikácia",
+    "theme": "Téma",
+    "language": "Jazyk",
+    "preferences": "Preferencie",
+
+    "info_support": "Informácie a podpora",
+    "how_it_works": "Ako to funguje",
+    "cookies": "Cookies",
+    "privacy_policy": "Ochrana osobných údajov",
+    "terms_of_service": "Podmienky používania",
+    "contact": "Kontakt"
   }
 }

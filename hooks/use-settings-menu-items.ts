@@ -1,6 +1,8 @@
 // hooks/useDrawerMenu.ts
 import { router } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSession } from '~/context/authentication-context';
 import { WEBPAGE_LINKS } from '../lib/constants';
 import {
@@ -27,111 +29,117 @@ export interface MenuSection {
 export const useSettingsMenuItems = () => {
   const { signOut, deleteUserAccount, setBrigaderActive, brigaderActive } =
     useSession();
+  const { t } = useTranslation();
 
-  const menuSections: MenuSection[] = [
-    {
-      id: 'ucet',
-      title: 'Nastavenia účtu',
-      items: [
-        {
-          id: 'email',
-          label: 'Email a heslo',
-          onPress: () => router.push('/profile'),
-        },
-        {
-          id: 'predplatne',
-          label: 'Predplatné',
-          onPress: () => router.push('/change-password'),
-        },
-        {
-          id: 'brigader',
-          label: `${brigaderActive ? 'Dea' : 'A'}ktivuj profil brigadera`,
-          onPress: () => {
-            if (brigaderActive) {
-              deactivateBrigader();
-              setBrigaderActive?.(false);
+  const menuSections: MenuSection[] = useMemo(
+    () => [
+      {
+        id: 'ucet',
+        title: t('menu.account_settings'),
+        items: [
+          {
+            id: 'email',
+            label: t('menu.email_password'),
+            onPress: () => router.push('/profile'),
+          },
+          {
+            id: 'predplatne',
+            label: t('menu.subscription'),
+            onPress: () => router.push('/change-password'),
+          },
+          {
+            id: 'brigader',
+            label: brigaderActive
+              ? t('menu.deactivate_brigader')
+              : t('menu.activate_brigader'),
+            onPress: () => {
+              if (brigaderActive) {
+                deactivateBrigader();
+                setBrigaderActive?.(false);
+                return router.back();
+              }
+              activateBrigader();
+              setBrigaderActive?.(true);
               return router.back();
-            }
-            activateBrigader();
-            setBrigaderActive?.(true);
-            return router.back();
+            },
           },
-        },
-        {
-          id: 'odhlasit',
-          label: 'Odhlásiť sa',
-          onPress: signOut,
-        },
-        {
-          id: 'vymazatucet',
-          label: 'Vymazať účet',
-          onPress: deleteUserAccount,
-        },
-      ],
-    },
-    {
-      id: 'aplikacia',
-      title: 'Aplikácia',
-      items: [
-        {
-          id: 'tema',
-          label: 'Téma',
-          isThemeToggle: true,
-        },
-        {
-          id: 'language',
-          label: 'Jazyk',
-          isLanguageToggle: true,
-        },
-        {
-          id: 'preferencie',
-          label: 'Preferencie',
-          onPress: () => router.push('/settings'),
-        },
-      ],
-    },
-    {
-      id: 'informacieapodpora',
-      title: 'Informácie a podpora',
-      items: [
-        {
-          id: 'akotofunguje',
-          label: 'Ako to funguje',
-          onPress: async () => {
-            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.HOW_IT_WORKS);
+          {
+            id: 'odhlasit',
+            label: t('menu.sign_out'),
+            onPress: signOut,
           },
-        },
-        {
-          id: 'politikacookies',
-          label: 'Cookies',
-          onPress: async () => {
-            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.COOKIES);
+          {
+            id: 'vymazatucet',
+            label: t('menu.delete_account'),
+            onPress: deleteUserAccount,
           },
-        },
-        {
-          id: 'ochranaosobnychudajov',
-          label: 'Ochrana osobných údajov',
-          onPress: async () => {
-            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.PRIVACTY_POLICY);
+        ],
+      },
+      {
+        id: 'aplikacia',
+        title: t('menu.application'),
+        items: [
+          {
+            id: 'tema',
+            label: t('menu.theme'),
+            isThemeToggle: true,
           },
-        },
-        {
-          id: 'podmienkypouzivania',
-          label: 'Podmienky používania',
-          onPress: async () => {
-            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.TERMS_OF_SERVICE);
+          {
+            id: 'language',
+            label: t('menu.language'),
+            isLanguageToggle: true,
           },
-        },
-        {
-          id: 'kontakt',
-          label: 'Kontakt',
-          onPress: async () => {
-            await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.CONTACT);
+          {
+            id: 'preferencie',
+            label: t('menu.preferences'),
+            onPress: () => router.push('/settings'),
           },
-        },
-      ],
-    },
-  ];
+        ],
+      },
+      {
+        id: 'informacieapodpora',
+        title: t('menu.info_support'),
+        items: [
+          {
+            id: 'akotofunguje',
+            label: t('menu.how_it_works'),
+            onPress: async () => {
+              await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.HOW_IT_WORKS);
+            },
+          },
+          {
+            id: 'politikacookies',
+            label: t('menu.cookies'),
+            onPress: async () => {
+              await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.COOKIES);
+            },
+          },
+          {
+            id: 'ochranaosobnychudajov',
+            label: t('menu.privacy_policy'),
+            onPress: async () => {
+              await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.PRIVACTY_POLICY);
+            },
+          },
+          {
+            id: 'podmienkypouzivania',
+            label: t('menu.terms_of_service'),
+            onPress: async () => {
+              await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.TERMS_OF_SERVICE);
+            },
+          },
+          {
+            id: 'kontakt',
+            label: t('menu.contact'),
+            onPress: async () => {
+              await WebBrowser.openBrowserAsync(WEBPAGE_LINKS.CONTACT);
+            },
+          },
+        ],
+      },
+    ],
+    [brigaderActive, signOut, deleteUserAccount, setBrigaderActive, t],
+  );
 
   return {
     menuSections,
