@@ -1,3 +1,4 @@
+import { AlertCircle } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
@@ -90,7 +91,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
   };
 
   return (
-    <View className="flex flex-col justify-between w-full p-4">
+    <View className="flex flex-col justify-between w-full p-4 bg-background">
       <View>
         <CartItemHeader
           image_url={itemDetail.image_url}
@@ -102,25 +103,66 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
         {/* Shop Availability Section */}
         {isArrayNotEmpty(itemDetail.shops_prices) && (
           <View className="mb-2">
-            <Text className="text-sm text-gray-600 mb-2">Dostupné v:</Text>
+            <Text className="text-sm text-muted-foreground mb-2">
+              Dostupné v:
+            </Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
-                ({ shop_id, price }: ShopPriceDto) =>
-                  shop_id ? (
+                ({ shop_id, price }: ShopPriceDto, index: number) => {
+                  // TODO: Replace with actual availability flag from BE when available
+                  // For now, simulate: make every 3rd item unavailable for testing
+                  const isAvailable = index % 3 !== 1;
+
+                  return shop_id ? (
                     <View
                       key={shop_id}
-                      className="flex-row items-center bg-gray-100 rounded-lg px-2 py-1"
+                      className={`flex-row items-center rounded-lg px-2 py-1 ${
+                        isAvailable
+                          ? 'bg-muted border border-border'
+                          : 'bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-900/50'
+                      }`}
                     >
                       <ShopLogoBadge shopId={shop_id} size={24} />
                       {price && (
-                        <Text className="text-xs text-gray-500 ml-1">
+                        <Text
+                          className={`text-xs ml-1 font-medium ${
+                            isAvailable
+                              ? 'text-muted-foreground'
+                              : 'text-yellow-700 dark:text-yellow-500'
+                          }`}
+                        >
                           {price.toFixed(2)}€
                         </Text>
                       )}
+                      {!isAvailable && (
+                        <AlertCircle
+                          size={12}
+                          color="#EAB308"
+                          className="ml-1"
+                        />
+                      )}
                     </View>
-                  ) : null,
+                  ) : null;
+                },
               )}
             </View>
+
+            {/* Warning message if any shop has unavailable product */}
+            {itemDetail.shops_prices?.some(
+              (_, index) => index % 3 === 1, // TODO: Replace with actual availability check
+            ) && (
+              <View className="flex-row items-center mt-3 px-3 py-2 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-900/50 rounded-lg">
+                <AlertCircle
+                  size={16}
+                  color="#EAB308"
+                  className="mr-2 flex-shrink-0"
+                />
+                <Text className="text-xs font-medium text-yellow-700 dark:text-yellow-400 flex-1">
+                  Produkt môže byť nedostupný v niektorých označených
+                  predajniach
+                </Text>
+              </View>
+            )}
           </View>
         )}
       </View>

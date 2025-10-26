@@ -4,8 +4,9 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import React, { forwardRef, type ReactNode, useCallback, useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import Toast from 'react-native-toast-message';
+import { NAV_THEME } from '~/lib/constants';
 import { toastConfig } from '../../../utils/toast-config';
 
 export type CustomBottomSheetModalProps = {
@@ -13,42 +14,17 @@ export type CustomBottomSheetModalProps = {
   index?: number;
 };
 
-// const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
-//   // animated variables
-//   const containerAnimatedStyle = useAnimatedStyle(() => ({
-//     opacity: interpolate(
-//       animatedIndex.value,
-//       [0, 1],
-//       [0, 1],
-//       Extrapolate.CLAMP
-//     ),
-//   }));
-
-//   // styles
-//   const containerStyle = useMemo(
-//     () => [
-//       style,
-//       {
-//         flex: 1,
-//         backgroundColor: "#a8b5eb",
-//       },
-//       containerAnimatedStyle,
-//     ],
-//     [style, containerAnimatedStyle]
-//   );
-
-//   return (
-//     <Animated.View style={containerStyle}>
-//       <Toast />
-//     </Animated.View>
-//   );
-// };
-
 export const CustomBottomSheetModal = forwardRef<
   BottomSheetModal,
   CustomBottomSheetModalProps
 >(({ children, index = 1 }: CustomBottomSheetModalProps, ref) => {
   const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  // Use theme colors from NAV_THEME
+  const theme = isDark ? NAV_THEME.dark : NAV_THEME.light;
+
   const renderBackdrop = useCallback(
     (props: any) => (
       <React.Fragment>
@@ -62,12 +38,21 @@ export const CustomBottomSheetModal = forwardRef<
     ),
     [],
   );
+
   return (
     <BottomSheetModal
       ref={ref}
       backdropComponent={renderBackdrop}
       index={index}
       snapPoints={snapPoints}
+      backgroundStyle={{
+        backgroundColor: theme.card,
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: isDark ? theme.text : theme.border,
+        width: 40,
+        height: 4,
+      }}
     >
       <BottomSheetView style={styles.contentContainer}>
         {children}

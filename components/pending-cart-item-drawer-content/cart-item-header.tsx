@@ -24,10 +24,12 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
         <View className="absolute top-0 right-0 z-10">
           <TouchableOpacity
             onPress={onDismiss}
-            className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center"
+            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center"
             activeOpacity={0.7}
           >
-            <Text className="text-gray-600 font-bold text-lg">×</Text>
+            <Text className="text-gray-600 dark:text-gray-300 font-bold text-lg">
+              ×
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -49,7 +51,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
           {title || 'Nezadaný názov'}
         </Text>
         {amountUnit && (
-          <Text className="text-md text-gray-500 text-right min-w-fit">
+          <Text className="text-md text-muted-foreground text-right min-w-fit">
             {amountUnit}
           </Text>
         )}

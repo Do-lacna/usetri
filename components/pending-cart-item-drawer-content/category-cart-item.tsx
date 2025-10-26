@@ -69,7 +69,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
   }));
 
   return (
-    <View className="flex flex-col justify-between w-full p-4">
+    <View className="flex flex-col justify-between w-full p-4 bg-background">
       <View>
         <CartItemHeader
           image_url={categoryData?.image_url}
@@ -79,8 +79,8 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
         />
 
         {/* Category Info Message */}
-        <View className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
-          <Text className="text-sm text-green-700 leading-relaxed">
+        <View className="mb-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-lg p-3">
+          <Text className="text-sm text-green-700 dark:text-green-400 leading-relaxed">
             Pridaním kategórie do košíka bude vo finálnom porovnaní z každého
             obchodu vybraný najlacnejší produkt
           </Text>
@@ -88,19 +88,19 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
 
         {/* Category Prices in Different Supermarkets */}
         <View className="mb-6">
-          <Text className="text-sm font-semibold text-gray-700 mb-3">
+          <Text className="text-sm font-semibold text-foreground mb-3">
             Odhadované ceny v obchodoch
           </Text>
-          <View className="bg-gray-50 rounded-xl py-4 px-2">
+          <View className="bg-muted rounded-xl py-4 px-2 border border-border">
             <View className="flex-row flex-wrap gap-3">
               {categoryPrices?.map(({ shop_id, price }) =>
                 shop_id ? (
                   <View
                     key={shop_id}
-                    className="flex-row items-center bg-white rounded-lg px-2 py-2 shadow-sm border border-gray-100"
+                    className="flex-row items-center bg-background rounded-lg px-2 py-2 border border-border"
                   >
                     <ShopLogoBadge shopId={shop_id} size={20} />
-                    <Text className="text-sm font-medium text-gray-800 ml-2">
+                    <Text className="text-sm font-medium text-foreground ml-2">
                       {price.toFixed(2)}€
                     </Text>
                   </View>
