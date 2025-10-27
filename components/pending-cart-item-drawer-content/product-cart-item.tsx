@@ -1,5 +1,6 @@
 import { AlertCircle } from 'lucide-react-native';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { isArrayNotEmpty } from '~/lib/utils';
@@ -35,6 +36,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
   onConfirm,
   isLoading = false,
 }) => {
+  const { t } = useTranslation();
   const [productCount, setProductCount] = React.useState(1);
 
   const {
@@ -104,7 +106,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
         {isArrayNotEmpty(itemDetail.shops_prices) && (
           <View className="mb-2">
             <Text className="text-sm text-muted-foreground mb-2">
-              Dostupné v:
+              {t('cart_drawer.available_in')}
             </Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
@@ -158,8 +160,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
                   className="mr-2 flex-shrink-0"
                 />
                 <Text className="text-xs font-medium text-yellow-700 dark:text-yellow-400 flex-1">
-                  Produkt môže byť nedostupný v niektorých označených
-                  predajniach
+                  {t('product.may_not_be_available')}
                 </Text>
               </View>
             )}
@@ -178,7 +179,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
           className="flex-1 flex-row ml-4 px-2 justify-between"
           disabled={isLoadingGlobal}
         >
-          <Text>Pridať do košíka</Text>
+          <Text>{t('cart_drawer.add_to_cart')}</Text>
           <Text>{((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€</Text>
         </Button>
       </View>

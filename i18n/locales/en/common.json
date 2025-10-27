@@ -65,7 +65,27 @@
   "no_products_in_category": "Žiadne produkty v tejto kategórii",
 
   "product": {
-    "may_not_be_available": "Product may not be available in some stores"
+    "may_not_be_available": "Product may not be available in some marked stores"
+  },
+
+  "shopping_list": {
+    "search_placeholder": "Search category or product",
+    "cancel": "Cancel",
+    "empty_cart_message": "Your shopping list is empty"
+  },
+
+  "cart_drawer": {
+    "available_in": "Available in:",
+    "add_to_cart": "Add to cart",
+    "add_category": "Add category",
+    "no_title": "No title",
+    "category_info": "Adding a category to the cart will select the cheapest product from each store in the final comparison",
+    "estimated_prices": "Estimated prices in stores"
+  },
+
+  "price_summary": {
+    "total_sum": "Total sum",
+    "show_comparison": "Show comparison"
   },
 
   "menu": {

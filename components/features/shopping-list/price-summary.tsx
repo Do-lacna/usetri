@@ -1,6 +1,7 @@
 import { Link, router } from 'expo-router';
 import React, { useEffect } from 'react';
 import { Dimensions, Pressable, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -17,6 +18,7 @@ export type PriceSummaryProps = {
 };
 
 const PriceSummary = ({ onPress }: PriceSummaryProps) => {
+  const { t } = useTranslation();
   const screenWidth = Dimensions.get('window').width;
   const {
     data: {
@@ -88,10 +90,10 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
         <View className="p-2 shadow-sm shadow-foreground/10 flex flex-row justify-between items-center">
           <View>
             <Text className="text-foreground font-bold text-xl">
-              Celková suma
+              {t('price_summary.total_sum')}
             </Text>
             <Text className="text-foreground/80 text-xs">
-              Zobraziť porovnanie
+              {t('price_summary.show_comparison')}
             </Text>
           </View>
           <View className="flex-row items-center gap-4">

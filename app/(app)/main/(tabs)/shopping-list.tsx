@@ -1,6 +1,7 @@
 import type { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Keyboard,
   RefreshControl,
@@ -44,6 +45,7 @@ export type PendingCartDataType = {
 };
 
 export default function ShoppingList() {
+  const { t } = useTranslation();
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -145,7 +147,7 @@ export default function ShoppingList() {
               onSearch={setSearchQuery}
               onClear={() => setSearchQuery('')}
               searchText={searchQuery}
-              placeholder={'Vyhľadaj kategóriu alebo produkt'}
+              placeholder={t('shopping_list.search_placeholder')}
               keyExtractor={item => String(item.id)}
               onFocus={() => setIsTextInputFocused(true)}
               // onBlur={() => setIsTextInputFocused(false)}
@@ -159,7 +161,9 @@ export default function ShoppingList() {
                   setIsTextInputFocused(false);
                 }}
               >
-                <Text className="text-primary">Zruš</Text>
+                <Text className="text-primary">
+                  {t('shopping_list.cancel')}
+                </Text>
               </Button>
             )}
           </View>

@@ -64,7 +64,27 @@
   "no_products_in_category": "Žiadne produkty v tejto kategórii",
 
   "product": {
-    "may_not_be_available": "Produkt nemusí byť nedostupný v niektorých predajniach"
+    "may_not_be_available": "Produkt môže byť nedostupný v niektorých označených predajniach"
+  },
+
+  "shopping_list": {
+    "search_placeholder": "Vyhľadaj kategóriu alebo produkt",
+    "cancel": "Zruš",
+    "empty_cart_message": "Tvoj nákupný zoznam je prázdny"
+  },
+
+  "cart_drawer": {
+    "available_in": "Dostupné v:",
+    "add_to_cart": "Pridať do košíka",
+    "add_category": "Pridať kategóriu",
+    "no_title": "Nezadaný názov",
+    "category_info": "Pridaním kategórie do košíka bude vo finálnom porovnaní z každého obchodu vybraný najlacnejší produkt",
+    "estimated_prices": "Odhadované ceny v obchodoch"
+  },
+
+  "price_summary": {
+    "total_sum": "Celková suma",
+    "show_comparison": "Zobraziť porovnanie"
   },
 
   "menu": {

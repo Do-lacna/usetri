@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import { useGetCategories, useGetCategoryPrices } from '~/network/query/query';
@@ -23,6 +24,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
   onConfirm,
   isLoading = false,
 }) => {
+  const { t } = useTranslation();
   const [categoryCount, setCategoryCount] = useState(1);
 
   const {
@@ -81,15 +83,14 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
         {/* Category Info Message */}
         <View className="mb-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-lg p-3">
           <Text className="text-sm text-green-700 dark:text-green-400 leading-relaxed">
-            Pridaním kategórie do košíka bude vo finálnom porovnaní z každého
-            obchodu vybraný najlacnejší produkt
+            {t('cart_drawer.category_info')}
           </Text>
         </View>
 
         {/* Category Prices in Different Supermarkets */}
         <View className="mb-6">
           <Text className="text-sm font-semibold text-foreground mb-3">
-            Odhadované ceny v obchodoch
+            {t('cart_drawer.estimated_prices')}
           </Text>
           <View className="bg-muted rounded-xl py-4 px-2 border border-border">
             <View className="flex-row flex-wrap gap-3">
@@ -125,7 +126,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           className="flex-1 ml-4"
           disabled={isLoadingGlobal}
         >
-          <Text>Pridať kategóriu</Text>
+          <Text>{t('cart_drawer.add_category')}</Text>
         </Button>
       </View>
     </View>

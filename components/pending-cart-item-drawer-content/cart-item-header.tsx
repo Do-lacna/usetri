@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
 import Divider from '../ui/divider';
 import { Text } from '../ui/text';
@@ -17,6 +18,8 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
   amountUnit,
   onDismiss,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <View>
       {/* Close Button */}
@@ -48,7 +51,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
 
       <View className="flex-row items-start mb-4">
         <Text className="text-xl font-bold flex-1 mr-3" numberOfLines={2}>
-          {title || 'Nezadaný názov'}
+          {title || t('cart_drawer.no_title')}
         </Text>
         {amountUnit && (
           <Text className="text-md text-muted-foreground text-right min-w-fit">
