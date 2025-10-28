@@ -1,6 +1,6 @@
 import type React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '~/lib/constants';
 import Divider from '../ui/divider';
 import { Text } from '../ui/text';
@@ -19,7 +19,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
   onDismiss,
 }) => {
   const { t } = useTranslation();
-  
+
   return (
     <View>
       {/* Close Button */}

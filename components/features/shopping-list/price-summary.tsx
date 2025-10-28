@@ -1,7 +1,7 @@
 import { Link, router } from 'expo-router';
 import React, { useEffect } from 'react';
-import { Dimensions, Pressable, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { Dimensions, Pressable, Text, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,

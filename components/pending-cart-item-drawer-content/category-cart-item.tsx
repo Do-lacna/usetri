@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import { useGetCategories, useGetCategoryPrices } from '~/network/query/query';
