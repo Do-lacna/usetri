@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ItemListGroupedByBarcodeDto } from './itemListGroupedByBarcodeDto';
+import type { ShopProductDto } from './shopProductDto';
 
 export interface GetProductsAdminResponse {
   count?: number;
   /** @nullable */
-  products?: ItemListGroupedByBarcodeDto[] | null;
+  products?: ShopProductDto[] | null;
 }

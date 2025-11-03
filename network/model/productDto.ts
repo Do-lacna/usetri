@@ -23,4 +23,6 @@ export interface ProductDto {
   category?: CategoryDto;
   is_barcode_checked?: boolean;
   is_category_checked?: boolean;
+  /** @nullable */
+  master_product_id?: number | null;
 }

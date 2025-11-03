@@ -5,16 +5,14 @@
  * OpenAPI spec version: 1.0
  */
 import type { DiscountPriceDto } from './discountPriceDto';
+import type { ProductValidityModel } from './productValidityModel';
 
-export interface ShopPriceDto {
+export interface AddOrChangePriceRequest {
   shop_id?: number;
-  price?: number;
-  actual_price?: number;
+  /** @nullable */
+  price?: number | null;
   discount_price?: DiscountPriceDto;
+  validity?: ProductValidityModel;
   /** @nullable */
-  valid_from?: string | null;
-  /** @nullable */
-  valid_to?: string | null;
-  /** @nullable */
-  scanned_image_url?: string | null;
+  location?: string | null;
 }

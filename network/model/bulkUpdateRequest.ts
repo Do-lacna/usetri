@@ -8,6 +8,6 @@ import type { PatchProductBulk } from './patchProductBulk';
 
 export interface BulkUpdateRequest {
   /** @nullable */
-  barcodes?: string[] | null;
+  ids?: number[] | null;
   model?: PatchProductBulk;
 }

@@ -5,18 +5,18 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ProductHarvesterImportDto {
-  /** @nullable */
-  barcode?: string | null;
+export interface CreateProductModel {
   /** @nullable */
   name?: string | null;
   amount?: number;
   /** @nullable */
-  brand?: string | null;
-  /** @nullable */
   unit?: string | null;
   /** @nullable */
-  category_id?: number | null;
+  barcode?: string | null;
   /** @nullable */
-  source_image?: string | null;
+  scanned_barcode?: string | null;
+  /** @nullable */
+  brand?: string | null;
+  /** @nullable */
+  category_id?: number | null;
 }
