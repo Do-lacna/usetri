@@ -11,7 +11,7 @@ import { NoDataText } from '../../no-data-text/no-data-text';
 interface SearchResultsViewProps {
   products: ShopProductDto[];
   isLoading: boolean;
-  onProductPress: (barcode: string, categoryId?: number) => void;
+  onProductPress: (productId: number, categoryId?: number) => void;
   onRefresh: () => void;
 }
 

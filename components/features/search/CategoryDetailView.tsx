@@ -10,7 +10,7 @@ interface CategoryDetailViewProps {
   selectedCategory: PopularCategoryDto;
   categories: PopularCategoryDto[];
   onBack: () => void;
-  onProductPress: (barcode: string, categoryId: number) => void;
+  onProductPress: (productId: number, categoryId: number) => void;
   onCategorySelect: (category: PopularCategoryDto) => void;
 }
 

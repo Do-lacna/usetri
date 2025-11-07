@@ -11,7 +11,7 @@ cssInterop(Image, { className: 'style' });
 export interface IProductCardProps {
   product?: ShopItemDto;
   shopsPrices?: ShopPriceDto[] | null;
-  onPress?: (barcode: string, categoryId: number) => void;
+  onPress?: (productId: number, categoryId: number) => void;
   className?: string;
   isSelected?: boolean;
 }
@@ -25,6 +25,7 @@ const SuggestedProductCard = ({
 }: IProductCardProps) => {
   const {
     detail: {
+      id: productId,
       name,
       brand,
       barcode,
@@ -39,7 +40,7 @@ const SuggestedProductCard = ({
   return (
     <Pressable
       className={clsx('w-32 mr-4 flex-1', className)}
-      onPress={() => onPress?.(String(barcode), Number(categoryId))}
+      onPress={() => onPress?.(Number(productId), Number(categoryId))}
     >
       <View
         className={clsx(

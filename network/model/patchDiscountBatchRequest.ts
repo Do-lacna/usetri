@@ -6,10 +6,6 @@
  */
 import type { DiscountImportActionEnum } from './discountImportActionEnum';
 
-export interface PatchDiscountImportRequest {
+export interface PatchDiscountBatchRequest {
   action?: DiscountImportActionEnum;
-  /** @nullable */
-  product_id?: number | null;
-  /** @nullable */
-  shop_id?: number | null;
 }

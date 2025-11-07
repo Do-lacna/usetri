@@ -182,10 +182,10 @@ export default function ShoppingList() {
                 />
                 <ShoppingListProductSearch
                   searchQuery={searchQuery}
-                  onProductSelect={barcode =>
+                  onProductSelect={productId =>
                     handleTriggerCartDrawer(
                       DrawerTypeEnum.PRODUCT,
-                      String(barcode),
+                      String(productId),
                     )
                   }
                 />

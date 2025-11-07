@@ -12,7 +12,7 @@ import { Badge } from '../ui/badge';
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
   shopsPrices?: ShopItemDto[] | null; // List of prices from different shops
-  onPress?: (barcode: string, categoryId: number) => void;
+  onPress?: (productId: number, categoryId: number) => void;
   className?: string;
 }
 
@@ -24,6 +24,7 @@ const DiscountedProductCard = ({
 }: IProductCardProps) => {
   const {
     detail: {
+      id: productId,
       image_url,
       name,
       brand,
@@ -64,7 +65,7 @@ const DiscountedProductCard = ({
   return (
     <Pressable
       className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
-      onPress={() => onPress?.(String(barcode), Number(categoryId))}
+      onPress={() => onPress?.(Number(productId), Number(categoryId))}
     >
       <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
         <View className="w-full h-32 rounded-lg relative">

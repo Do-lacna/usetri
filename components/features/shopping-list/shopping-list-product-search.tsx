@@ -7,7 +7,7 @@ import { Text } from '../../ui/text';
 
 interface ShoppingListProductSearchProps {
   searchQuery: string;
-  onProductSelect?: (barcode: string) => void;
+  onProductSelect?: (productId: number) => void;
 }
 
 const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({

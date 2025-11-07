@@ -51,8 +51,8 @@ export default function SearchScreen() {
     setSelectedCategory(null);
   };
 
-  const handleProductPress = (barcode: string, categoryId?: number) => {
-    router.navigate(`/product/${barcode}`);
+  const handleProductPress = (productId: number, categoryId?: number) => {
+    router.navigate(`/product/${productId}`);
   };
 
   const handleRefresh = () => {

@@ -12,7 +12,7 @@ import {
 import { useCartActions } from '~/hooks/use-cart-actions';
 import { calculateDiscountPercentage } from '~/lib/number-utils';
 import { getShopById } from '~/lib/utils';
-import { useGetProductsByBarcode, useGetShops } from '~/network/query/query';
+import { useGetProductsById, useGetShops } from '~/network/query/query';
 import { displaySuccessToastMessage } from '~/utils/toast-utils';
 
 import { AddToCartSection } from '~/components/product-detail/add-to-cart-section';
@@ -30,7 +30,7 @@ const ProductDetailScreen: React.FC = () => {
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
   const queryClient = useQueryClient();
 
-  const { id } = useLocalSearchParams();
+  const { id: productId } = useLocalSearchParams();
 
   const {
     handleAddProductToCart,
@@ -59,19 +59,20 @@ const ProductDetailScreen: React.FC = () => {
   } = useGetHybridCart();
 
   const currentProductInCartQuantity =
-    cart?.specific_products?.find(item => item.product?.barcode === String(id))
-      ?.quantity ?? 0;
+    cart?.specific_products?.find(
+      item => item.product?.id === Number(productId),
+    )?.quantity ?? 0;
 
   const handleManageProductCartQuantity = () => {
     if (cartQuantity > 0 && selectedShopId) {
       if (currentProductInCartQuantity === 0) {
-        handleAddProductToCart(String(id), cartQuantity);
+        handleAddProductToCart(String(productId), cartQuantity);
       } else {
-        handleUpdateProductQuantity(String(id), cartQuantity);
+        handleUpdateProductQuantity(String(productId), cartQuantity);
       }
     }
     if (cartQuantity === 0 && selectedShopId) {
-      handleRemoveItemFromCart('product', String(id));
+      handleRemoveItemFromCart('product', String(productId));
     }
   };
 
@@ -85,6 +86,7 @@ const ProductDetailScreen: React.FC = () => {
   const {
     data: {
       detail: {
+        id,
         barcode,
         image_url,
         brand,
@@ -95,7 +97,7 @@ const ProductDetailScreen: React.FC = () => {
       shops_prices,
     } = {},
     isLoading,
-  } = useGetProductsByBarcode(String(id), undefined);
+  } = useGetProductsById(Number(productId), undefined);
 
   useEffect(() => {
     if ([shops_prices ?? []].length > 0) {
@@ -111,13 +113,11 @@ const ProductDetailScreen: React.FC = () => {
 
   // Redirect to not-found if product doesn't exist
   useEffect(() => {
-    if (!barcode && !isLoading && id) {
-      // Product not found, clear navigation stack and redirect
-      // Use dismissAll to clear modal stack, then replace current route
+    if (!id && !isLoading && productId) {
       router.dismissAll();
       router.replace('/+not-found');
     }
-  }, [barcode, isLoading, id]);
+  }, [id, isLoading, productId]);
 
   // Show loading state while checking
   if (!barcode && isLoading) {

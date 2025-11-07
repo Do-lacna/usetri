@@ -40,6 +40,7 @@ import type {
   PatchProductDto,
   PatchProductResponse,
   ProblemDetails,
+  ProductDto,
   UpdateMasterProductRequest,
   UpdateShopRequest,
   _ExportParams,
@@ -541,7 +542,7 @@ export const addProductAdmin = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
 ) => {
-  return orvalApiClient<void>(
+  return orvalApiClient<ProductDto>(
     {
       url: `/admin/products`,
       method: 'POST',

@@ -25,7 +25,7 @@ interface Product {
 interface ProductCardProps {
   product: ShopItemDto;
   shopsPrices?: ShopPriceDto[] | null;
-  onPress?: (barcode: string) => void;
+  onPress?: (productId: number) => void;
 }
 
 const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
@@ -35,7 +35,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const {
     price,
-    detail: { image_url, name, barcode } = {},
+    detail: { id: productId, image_url, name, barcode } = {},
     shop_id,
   } = product;
 
@@ -45,7 +45,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
   return (
     <Pressable
       className="bg-card rounded-lg p-2 mx-2 shadow-sm border border-border w-32"
-      onPress={() => onPress?.(String(barcode))}
+      onPress={() => onPress?.(Number(productId))}
     >
       {/* Discount Badge */}
       <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">

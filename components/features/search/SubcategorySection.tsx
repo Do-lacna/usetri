@@ -10,7 +10,7 @@ import SuggestedProductCard from '../shopping-list/suggested-product-card';
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
-  onProductPress: (barcode: string, categoryId: number) => void;
+  onProductPress: (productId: number, categoryId: number) => void;
   isSubcategorySelected?: boolean;
 }
 
@@ -29,7 +29,7 @@ export function SubcategorySection({
     <SuggestedProductCard
       product={item}
       shopsPrices={item?.shops_prices}
-      onPress={(barcode, categoryId) => onProductPress(barcode, categoryId)}
+      onPress={(productId, categoryId) => onProductPress(productId, categoryId)}
     />
   );
 

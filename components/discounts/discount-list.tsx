@@ -78,7 +78,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
   const renderProductItem: ListRenderItem<ShopProductDto> = ({ item }) => (
     <DiscountedProductCard
       product={item}
-      onPress={(id: string | number) => router.navigate(`/product/${id}`)}
+      onPress={(productId: number) => router.navigate(`/product/${productId}`)}
       shopsPrices={item?.shops_prices}
       className="mb-4"
     />

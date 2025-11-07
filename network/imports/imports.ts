@@ -22,6 +22,7 @@ import type {
   DiscountPriceImportBatchDto,
   GetDiscountPriceImportsParams,
   GetDiscountPriceImportsResponse,
+  PatchDiscountBatchRequest,
   PatchDiscountImportRequest,
   UploadDiscountPricesJsonBody,
   UploadDiscountPricesJsonParams,
@@ -272,6 +273,32 @@ export function useGetDiscountPriceImports<
   return query;
 }
 
+/**
+ * Example of contract: {
+    "shop": "billa",
+    "date_scraped": "2025-01-16",
+    "location": "Svinna BILLA",
+    "valid_from": "2025-01-16",
+    "valid_to": "3000-01-23",
+    "products": [
+        {
+            "product": "Giana tuniakový šalát rôzne druhy",
+            "price": "1,15 €",
+            "amount": "185",
+            "percentage_discount": "15",
+            "unit": "g"
+        },
+        {
+            "product": "Pomaranče",
+            "price": "1,39 €",
+            "amount": "1",
+            "percentage_discount": "8",
+            "unit": "kg"
+        }
+    ]
+}
+ * @summary Upload Discount Prices JSON File
+ */
 export const uploadDiscountPricesJson = (
   uploadDiscountPricesJsonBody: UploadDiscountPricesJsonBody,
   params?: UploadDiscountPricesJsonParams,
@@ -350,6 +377,9 @@ export type UploadDiscountPricesJsonMutationResult = NonNullable<
 export type UploadDiscountPricesJsonMutationBody = UploadDiscountPricesJsonBody;
 export type UploadDiscountPricesJsonMutationError = unknown;
 
+/**
+ * @summary Upload Discount Prices JSON File
+ */
 export const useUploadDiscountPricesJson = <
   TData = Awaited<ReturnType<typeof uploadDiscountPricesJson>>,
   TError = unknown,
@@ -375,6 +405,89 @@ export const useUploadDiscountPricesJson = <
   TContext
 > => {
   const mutationOptions = getUploadDiscountPricesJsonMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const patchDiscountImportBatch = (
+  batchId: number,
+  patchDiscountBatchRequest: PatchDiscountBatchRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<GetDiscountPriceImportsResponse>(
+    {
+      url: `/admin/discount-price-imports/${batchId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: patchDiscountBatchRequest,
+    },
+    options,
+  );
+};
+
+export const getPatchDiscountImportBatchMutationOptions = <
+  TData = Awaited<ReturnType<typeof patchDiscountImportBatch>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { batchId: number; data: PatchDiscountBatchRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['patchDiscountImportBatch'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchDiscountImportBatch>>,
+    { batchId: number; data: PatchDiscountBatchRequest }
+  > = props => {
+    const { batchId, data } = props ?? {};
+
+    return patchDiscountImportBatch(batchId, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { batchId: number; data: PatchDiscountBatchRequest },
+    TContext
+  >;
+};
+
+export type PatchDiscountImportBatchMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchDiscountImportBatch>>
+>;
+export type PatchDiscountImportBatchMutationBody = PatchDiscountBatchRequest;
+export type PatchDiscountImportBatchMutationError = unknown;
+
+export const usePatchDiscountImportBatch = <
+  TData = Awaited<ReturnType<typeof patchDiscountImportBatch>>,
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { batchId: number; data: PatchDiscountBatchRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { batchId: number; data: PatchDiscountBatchRequest },
+  TContext
+> => {
+  const mutationOptions = getPatchDiscountImportBatchMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

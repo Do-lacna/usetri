@@ -6,7 +6,7 @@ import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list'
 import { isArrayNotEmpty } from '~/lib/utils';
 import { useGetHybridCart } from '~/network/hybrid-cart/hybrid-cart';
 import type { ShopPriceDto } from '~/network/model';
-import { useGetProductsByBarcode } from '~/network/query/query';
+import { useGetProductsById } from '~/network/query/query';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
@@ -45,14 +45,13 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
   } = useGetHybridCart();
 
   const { data: productData, isLoading: areProductsLoading } =
-    useGetProductsByBarcode(String(pendingCartData?.identifier));
+    useGetProductsById(Number(pendingCartData?.identifier));
 
   const isLoadingGlobal = isLoading || areProductsLoading;
 
   const itemInCartCount =
     cart?.specific_products?.find(
-      ({ product: { barcode } = {} }) =>
-        barcode === pendingCartData?.identifier,
+      ({ product: { id } = {} }) => id === Number(pendingCartData?.identifier),
     )?.quantity ?? 0;
 
   useEffect(() => {

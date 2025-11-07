@@ -28,7 +28,7 @@ const DiscountMiniProductsList = () => {
         renderItem={({ item }) => (
           <DiscountedMiniProductCard
             product={item}
-            onPress={(id: string) => router.navigate(`/product/${id}`)}
+            onPress={(productId: number) => router.navigate(`/product/${productId}`)}
             shopsPrices={item?.shops_prices}
           />
         )}

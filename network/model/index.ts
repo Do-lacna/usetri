@@ -120,6 +120,7 @@ export * from './missingItemVariant';
 export * from './pagingDto';
 export * from './patchCategoryDto';
 export * from './patchCategoryRequest';
+export * from './patchDiscountBatchRequest';
 export * from './patchDiscountImportRequest';
 export * from './patchProductBulk';
 export * from './patchProductDto';
