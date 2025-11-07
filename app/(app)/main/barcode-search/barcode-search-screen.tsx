@@ -20,7 +20,5 @@ export default function BarcodeSearchScreen() {
     }
   };
 
-  return (
-    <BarcodeSearchCameraView onBarcodeScanned={handleBarcodeScanned} />
-  );
+  return <BarcodeSearchCameraView onBarcodeScanned={handleBarcodeScanned} />;
 }

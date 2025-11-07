@@ -80,7 +80,7 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
       product={item}
       onPress={(productId: number) => router.navigate(`/product/${productId}`)}
       shopsPrices={item?.shops_prices}
-      className="mb-4"
+      className="flex-1"
     />
   );
 
@@ -102,7 +102,8 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             renderItem={renderSkeletonItem}
             numColumns={2}
             keyExtractor={item => String(item.id)}
-            contentContainerClassName="gap-2 p-4"
+            contentContainerStyle={{ padding: 16 }}
+            estimatedItemSize={200}
             scrollEnabled={false}
           />
         ) : allProducts?.length === 0 ? (
@@ -117,8 +118,9 @@ const DiscountList = ({ shop }: IDiscountListProps) => {
             data={allProducts}
             renderItem={renderProductItem}
             numColumns={2}
-            keyExtractor={product => String(product?.detail?.barcode)}
-            contentContainerClassName="gap-2 p-4"
+            keyExtractor={product => String(product?.detail?.id)}
+            contentContainerStyle={{ padding: 16 }}
+            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
             refreshControl={
               <RefreshControl
                 refreshing={isPending}

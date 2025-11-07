@@ -28,7 +28,6 @@ const DiscountedProductCard = ({
       image_url,
       name,
       brand,
-      barcode,
       unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
     } = {},
@@ -64,10 +63,10 @@ const DiscountedProductCard = ({
 
   return (
     <Pressable
-      className={clsx('w-40 mr-20 last:mr-0 flex-1', className)}
+      className={clsx('flex-1', className)}
       onPress={() => onPress?.(Number(productId), Number(categoryId))}
     >
-      <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10">
+      <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 mx-1">
         <View className="w-full h-32 rounded-lg relative">
           <Image
             source={{
