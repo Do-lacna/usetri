@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 import IconButton from '~/components/icon-button/icon-button';
-import SearchBar from '~/components/search-bar/search-bar';
+import SearchBar from '~/components/features/search/Searchbar';
 import { ScanBarcode } from '~/lib/icons/ScanBarcode';
 import type { ProductDto } from '~/network/model';
 

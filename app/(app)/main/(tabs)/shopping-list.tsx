@@ -22,7 +22,7 @@ import PendingCartItemDrawerContent, {
   PendingCartItemActionEnum,
 } from '../../../../components/pending-cart-item-drawer-content';
 import EmptyShoppingListPlaceholderScreen from '../../../../components/placeholders/empty-shopping-list-placeholder-screen';
-import SearchBar from '../../../../components/search-bar/search-bar';
+import SearchBar from '~/components/features/search/Searchbar';
 import { Button } from '../../../../components/ui/button';
 import Divider from '../../../../components/ui/divider';
 import { useCartActions } from '../../../../hooks/use-cart-actions';

@@ -12,7 +12,7 @@ import {
 import { X } from '~/lib/icons/Cancel';
 import { Search } from '~/lib/icons/Search';
 import { useColorScheme } from '~/lib/useColorScheme';
-import { Text } from '../ui/text';
+import { Text } from '../../ui/text';
 import { useState, useEffect, useRef } from 'react';
 
 export interface ISearchBarProps<T> {
