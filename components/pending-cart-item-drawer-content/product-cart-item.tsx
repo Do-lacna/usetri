@@ -109,10 +109,12 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
             </Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
-                ({ shop_id, price }: ShopPriceDto, index: number) => {
+                ({ shop_id, price, valid_to }: ShopPriceDto, index: number) => {
                   // TODO: Replace with actual availability flag from BE when available
                   // For now, simulate: make every 3rd item unavailable for testing
-                  const isAvailable = index % 3 !== 1;
+                  const isAvailable = valid_to
+                    ? new Date(valid_to) > new Date()
+                    : true;
 
                   return shop_id ? (
                     <View

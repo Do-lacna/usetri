@@ -32,7 +32,7 @@ export const SearchResultsView = ({
         />
       )}
       numColumns={3}
-      keyExtractor={product => String(product?.detail?.barcode)}
+      keyExtractor={product => String(product?.detail?.id)}
       contentContainerClassName="gap-4 py-12 px-2"
       columnWrapperClassName="gap-4"
       refreshControl={

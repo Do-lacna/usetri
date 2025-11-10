@@ -120,7 +120,7 @@ const ProductDetailScreen: React.FC = () => {
   }, [id, isLoading, productId]);
 
   // Show loading state while checking
-  if (!barcode && isLoading) {
+  if (!id && isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
         <Text className="text-foreground">Načítavam...</Text>
@@ -129,7 +129,7 @@ const ProductDetailScreen: React.FC = () => {
   }
 
   // If no product and not loading, we're redirecting (show nothing)
-  if (!barcode && !isLoading) {
+  if (!id && !isLoading) {
     return null;
   }
 

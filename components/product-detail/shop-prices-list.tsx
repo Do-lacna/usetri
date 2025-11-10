@@ -27,28 +27,29 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
         {t('available_in', { count: shopsPrices.length })}
       </Text>
 
-      {shopsPrices.map(({ shop_id, price, discount_price }, index) => {
-        const { name: shopName } = getShopById(Number(shop_id), shops) || {};
+      {shopsPrices.map(
+        ({ shop_id, price, discount_price, valid_to }, index) => {
+          const { name: shopName } = getShopById(Number(shop_id), shops) || {};
 
-        // TODO: Replace with actual availability flag from BE when available
-        // For now, simulate: make every 3rd item unavailable for testing
-        const isAvailable = index % 3 !== 1;
+          // Check if valid_to date is in the past (product no longer available)
+          const isAvailable = valid_to ? new Date(valid_to) > new Date() : true;
 
-        return (
-          <ShopPriceItem
-            key={shop_id}
-            shopId={Number(shop_id)}
-            shopName={shopName || 'Unknown Shop'}
-            price={Number(price)}
-            discountPrice={
-              discount_price ? Number(discount_price?.price) : null
-            }
-            isSelected={selectedShopId === shop_id}
-            onSelect={onShopSelect}
-            isAvailable={isAvailable}
-          />
-        );
-      })}
+          return (
+            <ShopPriceItem
+              key={shop_id}
+              shopId={Number(shop_id)}
+              shopName={shopName || 'Unknown Shop'}
+              price={Number(price)}
+              discountPrice={
+                discount_price ? Number(discount_price?.price) : null
+              }
+              isSelected={selectedShopId === shop_id}
+              onSelect={onShopSelect}
+              isAvailable={isAvailable}
+            />
+          );
+        },
+      )}
     </View>
   );
 };

@@ -150,7 +150,6 @@ export default function ShoppingList() {
               placeholder={t('shopping_list.search_placeholder')}
               keyExtractor={item => String(item.id)}
               onFocus={() => setIsTextInputFocused(true)}
-              // onBlur={() => setIsTextInputFocused(false)}
               displaySearchOptions={false}
             />
             {isTextInputFocused && (
@@ -214,11 +213,11 @@ export default function ShoppingList() {
 
                 {cartProducts.map(item => (
                   <ShoppingListProductItem
-                    key={item?.product?.barcode}
+                    key={item?.product?.id}
                     item={item}
-                    isExpanded={expandedOption === item?.product?.barcode}
-                    onAlternativeSelect={(originalBarcode, barcode) =>
-                      handleSwitchProduct(originalBarcode, barcode)
+                    isExpanded={expandedOption === item?.product?.id}
+                    onAlternativeSelect={(originalId, id) =>
+                      handleSwitchProduct(originalId, id)
                     }
                     onUpdateQuantity={handleUpdateProductQuantity}
                   />
