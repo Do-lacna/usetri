@@ -56,13 +56,8 @@ const SearchBar = <T,>({
   const dropdownAnimation = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
 
-  // Theme-aware colors
-  const placeholderColor = isDarkColorScheme ? '#9CA3AF' : '#6B7280';
-  const borderColor = error
-    ? '#EF4444'
-    : isFocused
-      ? 'hsl(var(--primary))'
-      : 'hsl(var(--border))';
+  // Placeholder color using Tailwind variable (fallback to a static color for RN TextInput)
+  const placeholderColor = isFocused ? '#22c55e' : (isDarkColorScheme ? '#a1a1aa' : '#6b7280'); // green-500 or muted-foreground
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -135,13 +130,16 @@ const SearchBar = <T,>({
     <View className="relative z-10 w-full flex-shrink">
       {/* Main Search Input */}
       <View
-        className={`bg-card px-4 py-2 flex-row items-center justify-center min-h-[44px] transition-all duration-200 ${
+        className={`bg-card px-4 flex-row items-center justify-center h-[44px] transition-all duration-200 border-2 ${
           showDropdown ? 'rounded-t-xl border-b-0' : 'rounded-xl'
         } ${disabled ? 'opacity-60' : ''} ${
-          isFocused ? 'border-2 border-green-500' : 'border-2 border-border'
-        }`}
+          error
+            ? 'border-destructive'
+            : isFocused
+            ? 'border-primary'
+            : 'border-border'
+        } ${isFocused ? 'shadow-lg' : 'shadow-sm'}`}
         style={{
-          // Platform-specific shadow
           ...(Platform.OS === 'ios'
             ? {
                 shadowColor: '#000',
@@ -157,9 +155,7 @@ const SearchBar = <T,>({
         <View className="mr-3">
           <Search
             size={22}
-            className={`transition-colors duration-200 ${
-              isFocused ? 'text-green-500' : 'text-muted-foreground'
-            }`}
+            className={isFocused ? 'text-primary' : 'text-muted-foreground'}
           />
         </View>
 
@@ -172,12 +168,16 @@ const SearchBar = <T,>({
           onChangeText={onSearch}
           placeholder={placeholder}
           placeholderTextColor={placeholderColor}
-          className="flex-1 text-foreground text-base leading-normal"
+          className="flex-1 text-foreground text-base"
           autoComplete="off"
           autoCorrect={false}
           editable={!disabled}
           accessibilityLabel={placeholder}
           accessibilityRole="search"
+          style={{
+            textAlignVertical: 'center',
+            paddingVertical: 0,
+          }}
         />
 
         {/* Loading or Clear Button */}
@@ -185,7 +185,7 @@ const SearchBar = <T,>({
           {isLoading && (
             <ActivityIndicator
               size="small"
-              color={isDarkColorScheme ? '#3B82F6' : '#2563EB'}
+              color={isFocused ? '#22c55e' : (isDarkColorScheme ? '#a1a1aa' : '#6b7280')}
               className="mr-2"
             />
           )}
@@ -218,7 +218,6 @@ const SearchBar = <T,>({
                 scaleY: dropdownAnimation,
               },
             ],
-            // Platform-specific shadow for dropdown
             ...(Platform.OS === 'ios'
               ? {
                   shadowColor: '#000',
@@ -230,7 +229,7 @@ const SearchBar = <T,>({
                   elevation: 8,
                 }),
           }}
-          className="absolute top-[56px] left-0 right-0 bg-card rounded-b-xl max-h-60 border-2 border-t-0 z-20 overflow-hidden"
+          className="absolute top-[56px] left-0 right-0 rounded-b-xl max-h-60 border-t-0 z-20 overflow-hidden bg-card border-2 border-border"
           pointerEvents={showDropdown ? 'auto' : 'none'}
         >
           <FlatList
@@ -241,11 +240,13 @@ const SearchBar = <T,>({
                   onOptionSelect?.(item);
                   handleBlur();
                 }}
-                className={`px-4 py-3 active:bg-muted/30 transition-colors duration-150 ${
-                  index !== options.length - 1
-                    ? 'border-b border-border/30'
-                    : ''
-                }`}
+                style={{
+                  backgroundColor: 'transparent',
+                  borderBottomColor:
+                    index !== options.length - 1 ? undefined : 'transparent',
+                  borderBottomWidth: index !== options.length - 1 ? 1 : 0,
+                }}
+                className="px-4 py-3 active:bg-muted/30 transition-colors duration-150 border-b border-border"
                 accessibilityRole="button"
               >
                 {renderOption?.(item)}
