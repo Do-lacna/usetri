@@ -3,7 +3,10 @@ import { TouchableOpacity, View } from 'react-native';
 import { ArrowLeft } from '~/src/lib/icons/ArrowLeft';
 import { ArrowRight } from '~/src/lib/icons/ArrowRight';
 import { isArrayNotEmpty } from '~/src/lib/utils';
-import type { HybridCartComparisonDto, ShopExtendedDto } from '~/src/network/model';
+import type {
+  HybridCartComparisonDto,
+  ShopExtendedDto,
+} from '~/src/network/model';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 
 interface ShopNavigationHeaderProps {

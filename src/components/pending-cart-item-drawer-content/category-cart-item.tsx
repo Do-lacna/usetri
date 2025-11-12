@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
-import { useGetCategories, useGetCategoryPrices } from '~/src/network/query/query';
+import {
+  useGetCategories,
+  useGetCategoryPrices,
+} from '~/src/network/query/query';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
