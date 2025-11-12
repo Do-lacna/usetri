@@ -7,10 +7,10 @@ import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
-import { ThemedLogo } from '~/components/themed-logo';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { signUpSchema } from '~/schema/signup';
+import { ThemedLogo } from '~/src/components/themed-logo';
+import { Button } from '~/src/components/ui/button';
+import { Input } from '~/src/components/ui/input';
+import { signUpSchema } from '~/src/schema/signup';
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);

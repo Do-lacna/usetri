@@ -5,22 +5,22 @@ import React, { useMemo } from 'react';
 import { FlatList, RefreshControl, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
+  CustomSelect,
+  type SelectOptionType,
+} from '~/src/components/custom-select/custom-select';
+import { Button } from '~/src/components/ui/button';
+import { generateShopLocationNameBasedOnId } from '~/src/lib/utils';
+import {
   getGetProductsForBrigaderQueryKey,
   useCheckItemInReviewList,
   useGetProductsForBrigader,
-} from '~/network/brigader/brigader';
-import {
-  CustomSelect,
-  type SelectOptionType,
-} from '../../../../components/custom-select/custom-select';
-import BrigaderProductRow from '../../../../components/features/brigader/brigader-product-row';
-import { Button } from '../../../../components/ui/button';
-import { generateShopLocationNameBasedOnId } from '../../../../lib/utils';
-import { useGetShops } from '../../../../network/query/query';
+} from '~/src/network/brigader/brigader';
+import { useGetShops } from '~/src/network/query/query';
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
-} from '../../../../utils/toast-utils';
+} from '~/src/utils/toast-utils';
+import BrigaderProductRow from '../../../../src/features/brigader/components/brigader-product-row';
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();

@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 import { View } from 'react-native';
-import BrigaderCameraView from '../../../../components/features/brigader/brigader-camera-view';
-import { Text } from '../../../../components/ui/text';
+import { Text } from '~/src/components/ui/text';
+import BrigaderCameraView from '../../../../src/features/brigader/components/brigader-camera-view';
 
 export default function BrigaderScanScreen() {
   const params = useLocalSearchParams<{ slug: string[] }>();
