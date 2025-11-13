@@ -9,17 +9,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
-import { useColorScheme } from '../../../lib/useColorScheme';
 import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
   onUpdateQuantity: (categoryId: number, quantity: number) => void;
-  onAlternativeSelect: (barcode: string, categoryId: number) => void;
+  onAlternativeSelect: (productId: number, categoryId: number) => void;
   isExpanded?: boolean;
 }> = ({
   item,

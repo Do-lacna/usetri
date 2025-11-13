@@ -4,14 +4,14 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ArchivedHybridCartProduct } from './archivedHybridCartProduct';
+import type { ArchivedCartProduct } from './archivedCartProduct';
 
 export interface ArchivedCartDto {
   cart_id?: number;
   /** @nullable */
   owner_id?: string | null;
   /** @nullable */
-  barcodes?: ArchivedHybridCartProduct[] | null;
+  barcodes?: ArchivedCartProduct[] | null;
   created_at?: string;
   shop_id?: number;
   total_price?: number;

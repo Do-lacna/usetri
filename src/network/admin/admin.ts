@@ -21,6 +21,7 @@ import type {
 import type {
   AddCategoryRequest,
   AddMasterProductRequest,
+  AddOrChangePriceBulkRequest,
   AddOrChangePriceRequest,
   AddProductAdminRequest,
   AddShopRequest,
@@ -1128,6 +1129,9 @@ export function useExport<
   return query;
 }
 
+/**
+ * @deprecated
+ */
 export const getProductsManagementAdmin = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -1237,6 +1241,9 @@ export function useGetProductsManagementAdmin<
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
+/**
+ * @deprecated
+ */
 
 export function useGetProductsManagementAdmin<
   TData = Awaited<ReturnType<typeof getProductsManagementAdmin>>,
@@ -1264,6 +1271,88 @@ export function useGetProductsManagementAdmin<
   return query;
 }
 
+export const addOrChangePriceBulk = (
+  addOrChangePriceBulkRequest: AddOrChangePriceBulkRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/products/prices`,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      data: addOrChangePriceBulkRequest,
+    },
+    options,
+  );
+};
+
+export const getAddOrChangePriceBulkMutationOptions = <
+  TData = Awaited<ReturnType<typeof addOrChangePriceBulk>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddOrChangePriceBulkRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['addOrChangePriceBulk'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addOrChangePriceBulk>>,
+    { data: AddOrChangePriceBulkRequest }
+  > = props => {
+    const { data } = props ?? {};
+
+    return addOrChangePriceBulk(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: AddOrChangePriceBulkRequest },
+    TContext
+  >;
+};
+
+export type AddOrChangePriceBulkMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addOrChangePriceBulk>>
+>;
+export type AddOrChangePriceBulkMutationBody = AddOrChangePriceBulkRequest;
+export type AddOrChangePriceBulkMutationError = ProblemDetails;
+
+export const useAddOrChangePriceBulk = <
+  TData = Awaited<ReturnType<typeof addOrChangePriceBulk>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: AddOrChangePriceBulkRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<
+  TData,
+  TError,
+  { data: AddOrChangePriceBulkRequest },
+  TContext
+> => {
+  const mutationOptions = getAddOrChangePriceBulkMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const addOrChangePrice = (
   productId: number,
   addOrChangePriceRequest: AddOrChangePriceRequest,
@@ -2353,6 +2442,9 @@ export function useExportCategories<
   return query;
 }
 
+/**
+ * @deprecated
+ */
 export const getCategoriesManagementAdmin = (
   options?: SecondParameter<typeof orvalApiClient>,
   signal?: AbortSignal,
@@ -2462,6 +2554,9 @@ export function useGetCategoriesManagementAdmin<
 }): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
+/**
+ * @deprecated
+ */
 
 export function useGetCategoriesManagementAdmin<
   TData = Awaited<ReturnType<typeof getCategoriesManagementAdmin>>,

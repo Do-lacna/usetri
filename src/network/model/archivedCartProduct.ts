@@ -4,16 +4,14 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { ProductDto } from './productDto';
+import type { ArchivedCartProductDetail } from './archivedCartProductDetail';
 import type { CartComparisonProductType } from './cartComparisonProductType';
-import type { DiscountPriceDto } from './discountPriceDto';
 
-export interface CartComparisonProductDto {
-  detail?: ProductDto;
+export interface ArchivedCartProduct {
+  detail?: ArchivedCartProductDetail;
   type?: CartComparisonProductType;
   shop_id?: number;
   quantity?: number;
   price?: number;
   total_price?: number;
-  discount_price?: DiscountPriceDto;
 }

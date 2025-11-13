@@ -283,16 +283,16 @@ export function useGetDiscountPriceImports<
     "products": [
         {
             "product": "Giana tuniakový šalát rôzne druhy",
-            "price": "1,15 €",
-            "amount": "185",
-            "percentage_discount": "15",
+            "price": 1.15,
+            "amount": 185,
+            "percentage_discount": 15,
             "unit": "g"
         },
         {
             "product": "Pomaranče",
-            "price": "1,39 €",
-            "amount": "1",
-            "percentage_discount": "8",
+            "price": 1.39, 
+            "amount": 1,
+            "percentage_discount": 8,
             "unit": "kg"
         }
     ]

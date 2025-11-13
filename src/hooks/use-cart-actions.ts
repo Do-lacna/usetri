@@ -62,10 +62,6 @@ export const useCartActions = ({
         category_items,
         product_items: [...product_items, { barcode, quantity }],
       },
-      additionalData: {
-        operation: CartOperationsEnum.ADD,
-      },
-      //here I want to pass more data for example to the context
     });
   };
 
@@ -83,10 +79,6 @@ export const useCartActions = ({
           { category_id: categoryId, quantity },
         ],
       },
-      additionalData: {
-        operation: CartOperationsEnum.ADD,
-      },
-      //here I want to pass more data for example to the context
     });
   };
 
@@ -113,21 +105,18 @@ export const useCartActions = ({
     });
   };
 
-  const handleUpdateProductQuantity = (barcode: string, quantity: number) => {
-    if (!barcode) return;
+  const handleUpdateProductQuantity = (productId: string, quantity: number) => {
+    if (!productId) return;
     if (quantity < 1) {
-      handleRemoveItemFromCart('product', barcode);
+      handleRemoveItemFromCart('product', productId);
       return;
     }
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     const updatedProducts = product_items.map(product =>
-      product.barcode === barcode ? { ...product, quantity } : product,
+      product.productId === productId ? { ...product, quantity } : product,
     );
     sendUpdateCart({
       data: { category_items, product_items: updatedProducts },
-      additionalData: {
-        operation: CartOperationsEnum.UPDATE,
-      },
     });
   };
 
@@ -148,14 +137,11 @@ export const useCartActions = ({
     );
     sendUpdateCart({
       data: { category_items: updatedCategories, product_items },
-      additionalData: {
-        operation: CartOperationsEnum.UPDATE,
-      },
     });
   };
 
   const handleChooseProductFromCategory = (
-    barcode: string,
+    productId: number,
     categoryId: number,
   ) => {
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
@@ -170,7 +156,7 @@ export const useCartActions = ({
       data: {
         category_items: updatedCategoryIds,
         //TODO fix this mirror quantity
-        product_items: [...product_items, { barcode, quantity: 1 }],
+        product_items: [...product_items, { productId, quantity: 1 }],
       },
       additionalData: {
         operation: CartOperationsEnum.ADD,
