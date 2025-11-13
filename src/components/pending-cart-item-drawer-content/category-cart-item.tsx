@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
+import { useGetCart } from '~/src/network/cart/cart';
 import {
   useGetCategories,
   useGetCategoryPrices,
@@ -33,7 +33,7 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   const { data: categoryData, isLoading: areCategoriesLoading } =
     useGetCategories(

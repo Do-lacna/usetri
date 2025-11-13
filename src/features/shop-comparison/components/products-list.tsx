@@ -1,13 +1,13 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import type { HybridCartComparisonDto } from '~/src/network/model';
+import type { CartComparisonDto } from '~/src/network/model';
 import { MissingCategoryCard } from './missing-category-card';
 import { MissingProductCard } from './missing-product-card';
 import { ProductListItem } from './product-list-item';
 
 interface ProductsListProps {
-  selectedCart?: HybridCartComparisonDto;
+  selectedCart?: CartComparisonDto;
   flippedItems: Set<string>;
   onFlipItem: (barcode: string) => void;
 }

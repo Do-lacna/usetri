@@ -1,17 +1,14 @@
 import type React from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { ArrowLeft } from '~/src/lib/icons/ArrowLeft';
 import { ArrowRight } from '~/src/lib/icons/ArrowRight';
 import { isArrayNotEmpty } from '~/src/lib/utils';
-import type {
-  HybridCartComparisonDto,
-  ShopExtendedDto,
-} from '~/src/network/model';
-import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import type { CartComparisonDto, ShopExtendedDto } from '~/src/network/model';
 
 interface ShopNavigationHeaderProps {
   currentShop?: ShopExtendedDto;
-  carts: HybridCartComparisonDto[] | null;
+  carts: CartComparisonDto[] | null;
   onPrevShop: () => void;
   onNextShop: () => void;
   areMoreCartsAvailable: boolean;

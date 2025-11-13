@@ -2,20 +2,20 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { View } from 'react-native';
 import { AnimatedCartBadge } from '~/src/components/layout/animated-cart-badge';
+import { useSession } from '~/src/context/authentication-context';
+import { NAVBAR_HEIGHT } from '~/src/lib/constants';
 import { BadgePercent } from '~/src/lib/icons/BadgePercent';
 import { ClipboardList } from '~/src/lib/icons/ClipboardList';
 import { Search } from '~/src/lib/icons/Search';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
-import { useSession } from '~/src/context/authentication-context';
-import { NAVBAR_HEIGHT } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { getNumberOfCartItems } from '~/src/lib/utils';
+import { useGetCart } from '~/src/network/cart/cart';
 
 export default function TabLayout() {
   const { brigaderActive } = useSession();
   const {
     data: { cart } = {},
-  } = useGetHybridCart();
+  } = useGetCart();
   const cartItemsNumber = getNumberOfCartItems(cart);
   const { colorScheme } = useColorScheme();
 

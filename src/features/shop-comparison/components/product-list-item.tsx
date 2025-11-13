@@ -1,16 +1,16 @@
+import { Percent, Tag } from 'lucide-react-native';
 import type React from 'react';
-import { Image, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Tag, Percent } from 'lucide-react-native';
+import { Image, Text, View } from 'react-native';
 import FlippableCard from '~/src/components/flippable-card/flippable-card';
 import { RefreshCw } from '~/src/lib/icons/RefreshCw';
 import {
-  type HybridCartComparisonProductDto,
-  HybridCartComparisonProductType,
+  type CartComparisonProductDto,
+  CartComparisonProductType,
 } from '~/src/network/model';
 
 interface ProductListItemProps {
-  product: HybridCartComparisonProductDto;
+  product: CartComparisonProductDto;
   index: number;
   totalProducts: number;
   isFlipped: boolean;
@@ -48,9 +48,9 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     type &&
     (
       [
-        HybridCartComparisonProductType.CategoryReplacedWithProduct,
-        HybridCartComparisonProductType.ReplacedWithCategoryProduct,
-      ] as HybridCartComparisonProductType[]
+        CartComparisonProductType.CategoryReplacedWithProduct,
+        CartComparisonProductType.ReplacedWithCategoryProduct,
+      ] as CartComparisonProductType[]
     ).includes(type);
 
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (

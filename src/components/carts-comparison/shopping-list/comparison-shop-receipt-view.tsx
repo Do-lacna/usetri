@@ -3,10 +3,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Button } from '~/src/components/ui/button';
-import {
-  getGetHybridCartQueryKey,
-  useDeleteHybridCart,
-} from '~/src/network/hybrid-cart/hybrid-cart';
+import { getGetCartQueryKey, useDeleteCart } from '~/src/network/cart/cart';
 import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
@@ -39,7 +36,7 @@ const ComparisonShopReceiptView = ({
           position: 'bottom',
         });
         queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
+          queryKey: getGetCartQueryKey(),
         });
         queryClient.invalidateQueries({
           queryKey: getGetArchivedCartQueryKey(),
@@ -49,7 +46,7 @@ const ComparisonShopReceiptView = ({
     },
   });
 
-  const { mutate: sendDiscardCart } = useDeleteHybridCart({
+  const { mutate: sendDiscardCart } = useDeleteCart({
     mutation: {
       onError: () => {
         Toast.show({
@@ -65,7 +62,7 @@ const ComparisonShopReceiptView = ({
       },
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
+          queryKey: getGetCartQueryKey(),
         });
         router.back();
       },

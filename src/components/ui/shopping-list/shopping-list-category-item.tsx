@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
-import { useColorScheme } from '../../../lib/useColorScheme';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
+import SuggestedProductCard from '~/src/features/shopping-list/components/suggested-product-card';
+import { useGetCart } from '~/src/network/cart/cart';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import SuggestedProductCard from '~/src/features/shopping-list/components/suggested-product-card';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -37,7 +37,7 @@ const ShoppingListCategoryItem: React.FC<{
 
   const {
     data: { cart } = {},
-  } = useGetHybridCart();
+  } = useGetCart();
 
   // Theme-aware colors
   const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';

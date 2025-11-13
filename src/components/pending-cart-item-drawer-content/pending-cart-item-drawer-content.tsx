@@ -3,7 +3,7 @@ import {
   DrawerTypeEnum,
   type PendingCartDataType,
 } from '~/app/(app)/main/(tabs)/shopping-list';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
+import { useGetCart } from '~/src/network/cart/cart';
 import { CategoryCartItem } from './category-cart-item';
 import {
   PendingCartItemActionEnum,
@@ -27,7 +27,7 @@ const PendingCartItemDrawerContent: React.FC<
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   if (!pendingCartData) return null;
 

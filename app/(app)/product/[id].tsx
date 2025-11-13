@@ -20,10 +20,7 @@ import { CategoryBreadcrumb } from '~/src/components/product-detail/category-bre
 import { ProductImage } from '~/src/components/product-detail/product-image';
 import { ProductInfo } from '~/src/components/product-detail/product-info';
 import { ShopPricesList } from '~/src/components/product-detail/shop-prices-list';
-import {
-  getGetHybridCartQueryKey,
-  useGetHybridCart,
-} from '~/src/network/hybrid-cart/hybrid-cart';
+import { getGetCartQueryKey, useGetCart } from '~/src/network/cart/cart';
 
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
@@ -39,7 +36,7 @@ const ProductDetailScreen: React.FC = () => {
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
       queryClient.invalidateQueries({
-        queryKey: getGetHybridCartQueryKey(),
+        queryKey: getGetCartQueryKey(),
       });
       displaySuccessToastMessage('Produkt bol vložený do košíka');
     },
@@ -56,7 +53,7 @@ const ProductDetailScreen: React.FC = () => {
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   const currentProductInCartQuantity =
     cart?.specific_products?.find(

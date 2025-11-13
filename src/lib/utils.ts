@@ -1,11 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import type {
-  CartDto,
-  ProductCartDto,
-  ProductDto,
-  ShopExtendedDto,
-} from '../network/model';
+import type { CartDto, ProductDto, ShopExtendedDto } from '../network/model';
 import { BASE_API_URL } from './constants';
 
 export function cn(...inputs: ClassValue[]) {
@@ -46,7 +41,7 @@ export const getSimplifiedCart = (
   );
   const product_items = cart?.specific_products?.map(
     ({ product, quantity }) => ({
-      barcode: product?.barcode,
+      product_id: product?.id,
       quantity: quantity,
     }),
   );
@@ -54,19 +49,6 @@ export const getSimplifiedCart = (
   return {
     category_items,
     product_items,
-  };
-};
-
-export const getSimplifiedCartAlternative = (cart?: ProductCartDto) => {
-  if (!cart) return { items: [] };
-
-  const products = cart?.specific_products?.map(({ product, quantity }) => ({
-    barcode: product?.barcode,
-    quantity: quantity,
-  }));
-
-  return {
-    products,
   };
 };
 

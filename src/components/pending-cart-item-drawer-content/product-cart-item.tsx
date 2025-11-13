@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
 import { isArrayNotEmpty } from '~/src/lib/utils';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
+import { useGetCart } from '~/src/network/cart/cart';
 import type { ShopPriceDto } from '~/src/network/model';
 import { useGetProductsById } from '~/src/network/query/query';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
@@ -42,7 +42,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   const { data: productData, isLoading: areProductsLoading } =
     useGetProductsById(Number(pendingCartData?.identifier));

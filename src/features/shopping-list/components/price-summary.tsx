@@ -9,9 +9,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { ArrowDown } from '~/src/lib/icons/ArrowDown';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
 import IconButton from '~/src/components/icon-button/icon-button';
+import { ArrowDown } from '~/src/lib/icons/ArrowDown';
+import { useGetCart } from '~/src/network/cart/cart';
 
 export type PriceSummaryProps = {
   onPress?: () => void;
@@ -25,7 +25,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
       cart: { total_price = 0 } = {},
     } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   // Animated values
   const animatedPrice = useSharedValue(0);

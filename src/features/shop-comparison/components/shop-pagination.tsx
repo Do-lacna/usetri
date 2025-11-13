@@ -1,9 +1,9 @@
 import type React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import type { HybridCartComparisonDto } from '~/src/network/model';
+import type { CartComparisonDto } from '~/src/network/model';
 
 interface ShopPaginationProps {
-  carts: HybridCartComparisonDto[] | null;
+  carts: CartComparisonDto[] | null;
   currentCartIndex: number;
   onGoToShop: (index: number) => void;
   areMoreCartsAvailable: boolean;

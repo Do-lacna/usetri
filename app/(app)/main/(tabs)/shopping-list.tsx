@@ -21,7 +21,7 @@ import { Button } from '~/src/components/ui/button';
 import Divider from '~/src/components/ui/divider';
 import ShoppingListProductSearch from '~/src/features/shopping-list/components/shopping-list-product-search';
 import { useCartActions } from '~/src/hooks/use-cart-actions';
-import { useGetHybridCart } from '~/src/network/hybrid-cart/hybrid-cart';
+import { useGetCart } from '~/src/network/cart/cart';
 import type { CategoryExtendedWithPathDto } from '~/src/network/model';
 import PriceSummary from '../../../../src/features/shopping-list/components/price-summary';
 import ShoppingListCategoryItem from '../../../../src/features/shopping-list/components/shopping-list-category-item';
@@ -40,7 +40,7 @@ export enum DrawerTypeEnum {
 }
 
 export type PendingCartDataType = {
-  identifier: string;
+  identifier: number;
   type: DrawerTypeEnum;
 };
 
@@ -79,7 +79,7 @@ export default function ShoppingList() {
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   const cartCategories = cart?.categories ?? [];
   const cartProducts = cart?.specific_products ?? [];
@@ -88,7 +88,7 @@ export default function ShoppingList() {
     cartCategories.length > 0 || cartProducts.length > 0;
 
   const handleTriggerCartDrawer = React.useCallback(
-    (type: DrawerTypeEnum, identifier?: string) => {
+    (type: DrawerTypeEnum, identifier?: number) => {
       if (!identifier) return;
       Keyboard.dismiss();
       setPendingCartData({ identifier, type });
@@ -173,19 +173,13 @@ export default function ShoppingList() {
                 <ShoppingListCategorySearch
                   searchQuery={searchQuery}
                   onCategorySelect={categoryId =>
-                    handleTriggerCartDrawer(
-                      DrawerTypeEnum.CATEGORY,
-                      String(categoryId),
-                    )
+                    handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
                   }
                 />
                 <ShoppingListProductSearch
                   searchQuery={searchQuery}
                   onProductSelect={productId =>
-                    handleTriggerCartDrawer(
-                      DrawerTypeEnum.PRODUCT,
-                      String(productId),
-                    )
+                    handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
                   }
                 />
               </View>

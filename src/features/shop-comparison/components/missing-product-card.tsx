@@ -1,9 +1,9 @@
 import type React from 'react';
 import { Image, Text, View } from 'react-native';
-import type { HybridCartComparisonProductDto } from '~/src/network/model';
+import type { CartComparisonProductDto } from '~/src/network/model';
 
 interface MissingProductCardProps {
-  product: HybridCartComparisonProductDto;
+  product: CartComparisonProductDto;
   index: number;
   totalProducts: number;
   shopName?: string; // Optional shop name to display which shop is missing the product

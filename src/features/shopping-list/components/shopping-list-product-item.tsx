@@ -9,17 +9,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
-import { useColorScheme } from '../../../lib/useColorScheme';
+import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
-  onUpdateQuantity: (barcode: string, quantity: number) => void;
-  onAlternativeSelect: (originalBarcode: string, barcode: string) => void;
+  onUpdateQuantity: (productId: number, quantity: number) => void;
+  onAlternativeSelect: (originalProductId: number, productId: number) => void;
   isExpanded?: boolean;
 }> = ({
   item,
@@ -30,17 +30,16 @@ const ShoppingListProductItem: React.FC<{
   const [isExpanded, setIsExpanded] = useState(false);
   const { isDarkColorScheme } = useColorScheme();
 
-  // Theme-aware colors
   const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
   const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
 
   const {
     product: {
-      barcode,
+      id,
       name = 'Specific product',
       unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       brand,
-      category: { id: categoryId } = {},
+      category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,
     } = {},
     quantity = 1,
@@ -65,24 +64,21 @@ const ShoppingListProductItem: React.FC<{
   }, [externalIsExpanded]);
 
   const incrementQuantity = () => {
-    onUpdateQuantity(String(barcode), quantity + 1);
+    onUpdateQuantity(Number(id), quantity + 1);
   };
 
   const decrementQuantity = () => {
     if (quantity <= 0) return;
-    onUpdateQuantity(String(barcode), quantity - 1);
+    onUpdateQuantity(Number(id), quantity - 1);
   };
 
   const totalPrice = (price * quantity).toFixed(2);
 
-  const isSelected = (suggestedProductBarcode: string): boolean =>
-    suggestedProductBarcode === barcode;
+  const isSelected = (suggestedProductId: number): boolean =>
+    suggestedProductId === id;
 
   return (
-    <View
-      //   style={{ transform: [{ scale: scaleAnim }] }}
-      className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border"
-    >
+    <View className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border">
       <TouchableOpacity
         onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}
@@ -91,9 +87,12 @@ const ShoppingListProductItem: React.FC<{
           <View className="flex-1 flex-row items-center">
             <View className="relative mr-2">
               <Image
-                source={{ uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE }}
-                className="w-16 h-16 rounded-lg bg-muted"
-                resizeMode="cover"
+                source={{
+                  uri:
+                    image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
+                }}
+                className="w-16 h-16 rounded-lg"
+                resizeMode="contain"
               />
             </View>
             <View className="flex-1">
@@ -183,25 +182,29 @@ const ShoppingListProductItem: React.FC<{
               {suggestedProducts
                 ?.sort(
                   (a, b) =>
-                    Number(isSelected(String(b.barcode))) -
-                    Number(isSelected(String(a.barcode))),
+                    Number(isSelected(Number(b.detail?.id))) -
+                    Number(isSelected(Number(a.detail?.id))),
                 )
                 ?.map(
                   (
-                    { barcode: suggestedProductBarcode, detail, shops_prices },
+                    {
+                      detail: { id: suggestedProductId } = {},
+                      detail,
+                      shops_prices,
+                    },
                     index,
                   ) => (
                     <SuggestedProductCard
-                      key={suggestedProductBarcode || index}
+                      key={suggestedProductId || index}
                       product={{ detail }}
                       shopsPrices={shops_prices}
                       onPress={() =>
                         onAlternativeSelect(
-                          String(barcode),
-                          String(suggestedProductBarcode),
+                          Number(id),
+                          Number(suggestedProductId),
                         )
                       }
-                      isSelected={isSelected(String(suggestedProductBarcode))}
+                      isSelected={isSelected(Number(suggestedProductId))}
                     />
                   ),
                 )}

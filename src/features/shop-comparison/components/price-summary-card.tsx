@@ -1,18 +1,18 @@
 import type React from 'react';
-import { Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { HybridCartComparisonDto } from '~/src/network/model';
+import { Text, View } from 'react-native';
+import type { CartComparisonDto } from '~/src/network/model';
 import { ShopInfoBlock } from './shop-info-block';
 
 interface PriceSummaryCardProps {
-  selectedCart?: HybridCartComparisonDto;
+  selectedCart?: CartComparisonDto;
   isCurrentCheapest: boolean;
   isCurrentMostExpensive: boolean;
   areMoreCartsAvailable: boolean;
   savingsVsCheapest: number;
   currentCartIndex?: number;
   totalCarts?: number;
-  allCarts?: HybridCartComparisonDto[]; // We need all carts to filter out missing products
+  allCarts?: CartComparisonDto[]; // We need all carts to filter out missing products
 }
 
 export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({

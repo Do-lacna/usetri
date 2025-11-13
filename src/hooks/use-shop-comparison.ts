@@ -7,14 +7,14 @@ import {
 } from '~/src/utils/toast-utils';
 
 import {
+  getGetCartQueryKey,
+  useDeleteCart,
+  useGetCartComparison,
+} from '~/src/network/cart/cart';
+import {
   getGetArchivedCartQueryKey,
   useCreateArchivedCart,
 } from '~/src/network/customer/customer';
-import {
-  getGetHybridCartQueryKey,
-  useDeleteHybridCart,
-  useGetHybridCartComparison,
-} from '~/src/network/hybrid-cart/hybrid-cart';
 
 export const useShopComparison = () => {
   const queryClient = useQueryClient();
@@ -24,7 +24,7 @@ export const useShopComparison = () => {
   const {
     data: { carts = [] } = {},
     isLoading,
-  } = useGetHybridCartComparison();
+  } = useGetCartComparison();
 
   const { mutate: sendCreateArchivedCart, isIdle } = useCreateArchivedCart({
     mutation: {
@@ -36,7 +36,7 @@ export const useShopComparison = () => {
           'Váš košík bol úspešne uložený vo vašom profile',
         );
         queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
+          queryKey: getGetCartQueryKey(),
         });
         queryClient.invalidateQueries({
           queryKey: getGetArchivedCartQueryKey(),
@@ -46,7 +46,7 @@ export const useShopComparison = () => {
     },
   });
 
-  const { mutate: sendDiscardCart } = useDeleteHybridCart({
+  const { mutate: sendDiscardCart } = useDeleteCart({
     mutation: {
       onError: () => {
         displayErrorToastMessage('Nepodarilo sa zahodiť košík');
@@ -54,7 +54,7 @@ export const useShopComparison = () => {
       onSuccess: () => {
         displaySuccessToastMessage('Váš košík bol úspešne vymazaný');
         queryClient.invalidateQueries({
-          queryKey: getGetHybridCartQueryKey(),
+          queryKey: getGetCartQueryKey(),
         });
         router.back();
       },
