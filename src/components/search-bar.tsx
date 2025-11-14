@@ -1,19 +1,25 @@
-import type React from 'react';
+import type React from "react";
 import {
   FlatList,
   Platform,
   Pressable,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
   ActivityIndicator,
   Animated,
-} from 'react-native';
-import { X } from '~/src/lib/icons/Cancel';
-import { Search } from '~/src/lib/icons/Search';
-import { useColorScheme } from '~/src/lib/useColorScheme';
-import { Text } from '../ui/text';
-import { useState, useEffect, useRef } from 'react';
+} from "react-native";
+
+import {
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { useColorScheme } from "~/src/lib/useColorScheme";
+import { Search, X } from "lucide-react-native";
 
 export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
@@ -33,42 +39,52 @@ export interface ISearchBarProps<T> {
   error?: string;
 }
 
-const SearchBar = <T,>({
-  onSearch,
-  onClear,
-  searchText = '',
-  placeholder = 'Hľadať',
-  options = [],
-  onOptionSelect,
-  renderOption,
-  keyExtractor,
-  minimumSearchLength = 2,
-  displaySearchOptions = true,
-  isLoading = false,
-  disabled = false,
-  error,
-  onFocus,
-  onBlur,
-  ...props
-}: ISearchBarProps<T>) => {
+export interface ISearchBarHandle {
+  blur: () => void;
+  focus: () => void;
+}
+
+const SearchBarComponent = <T,>(
+  {
+    onSearch,
+    onClear,
+    searchText = "",
+    placeholder = "Hľadať",
+    options = [],
+    onOptionSelect,
+    renderOption,
+    keyExtractor,
+    minimumSearchLength = 2,
+    displaySearchOptions = true,
+    isLoading = false,
+    disabled = false,
+    error,
+    onFocus,
+    onBlur,
+    ...props
+  }: ISearchBarProps<T>,
+  ref: React.Ref<ISearchBarHandle>
+) => {
   const { isDarkColorScheme } = useColorScheme();
   const [isFocused, setIsFocused] = useState(false);
   const dropdownAnimation = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
 
-  // Theme-aware colors
-  const placeholderColor = isDarkColorScheme ? '#9CA3AF' : '#6B7280';
-  const borderColor = error
-    ? '#EF4444'
-    : isFocused
-      ? 'hsl(var(--primary))'
-      : 'hsl(var(--border))';
+  useImperativeHandle(ref, () => ({
+    blur: () => inputRef.current?.blur(),
+    focus: () => inputRef.current?.focus(),
+  }));
+
+  const placeholderColor = isFocused
+    ? "#22c55e"
+    : isDarkColorScheme
+    ? "#a1a1aa"
+    : "#6b7280";
 
   const handleFocus = () => {
     setIsFocused(true);
     onFocus?.();
 
-    // Animate dropdown appearance
     if (displaySearchOptions && searchText.length >= minimumSearchLength) {
       Animated.timing(dropdownAnimation, {
         toValue: 1,
@@ -79,12 +95,10 @@ const SearchBar = <T,>({
   };
 
   const handleBlur = () => {
-    // Add a small delay to ensure blur is processed correctly
     setTimeout(() => {
       setIsFocused(false);
       onBlur?.();
 
-      // Animate dropdown disappearance
       Animated.timing(dropdownAnimation, {
         toValue: 0,
         duration: 150,
@@ -95,10 +109,9 @@ const SearchBar = <T,>({
 
   const handleClear = () => {
     onClear();
-    inputRef.current?.focus();
+    inputRef.current?.blur();
   };
 
-  // Animate dropdown when options change
   useEffect(() => {
     if (
       displaySearchOptions &&
@@ -133,18 +146,20 @@ const SearchBar = <T,>({
 
   return (
     <View className="relative z-10 w-full flex-shrink">
-      {/* Main Search Input */}
       <View
-        className={`bg-card px-4 py-2 flex-row items-center justify-center min-h-[44px] transition-all duration-200 ${
-          showDropdown ? 'rounded-t-xl border-b-0' : 'rounded-xl'
-        } ${disabled ? 'opacity-60' : ''} ${
-          isFocused ? 'border-2 border-green-500' : 'border-2 border-border'
-        }`}
+        className={`bg-card px-4 flex-row items-center justify-center h-[44px] transition-all duration-200 border-2 ${
+          showDropdown ? "rounded-t-xl border-b-0" : "rounded-xl"
+        } ${disabled ? "opacity-60" : ""} ${
+          error
+            ? "border-destructive"
+            : isFocused
+            ? "border-primary"
+            : "border-border"
+        } ${isFocused ? "shadow-lg" : "shadow-sm"}`}
         style={{
-          // Platform-specific shadow
-          ...(Platform.OS === 'ios'
+          ...(Platform.OS === "ios"
             ? {
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
                 shadowOpacity: isFocused ? 0.15 : 0.05,
                 shadowRadius: isFocused ? 8 : 2,
@@ -157,9 +172,7 @@ const SearchBar = <T,>({
         <View className="mr-3">
           <Search
             size={22}
-            className={`transition-colors duration-200 ${
-              isFocused ? 'text-green-500' : 'text-muted-foreground'
-            }`}
+            className={isFocused ? "text-primary" : "text-muted-foreground"}
           />
         </View>
 
@@ -172,12 +185,16 @@ const SearchBar = <T,>({
           onChangeText={onSearch}
           placeholder={placeholder}
           placeholderTextColor={placeholderColor}
-          className="flex-1 text-foreground text-base leading-normal"
+          className="flex-1 text-foreground text-base"
           autoComplete="off"
           autoCorrect={false}
           editable={!disabled}
           accessibilityLabel={placeholder}
           accessibilityRole="search"
+          style={{
+            textAlignVertical: "center",
+            paddingVertical: 0,
+          }}
         />
 
         {/* Loading or Clear Button */}
@@ -185,7 +202,13 @@ const SearchBar = <T,>({
           {isLoading && (
             <ActivityIndicator
               size="small"
-              color={isDarkColorScheme ? '#3B82F6' : '#2563EB'}
+              color={
+                isFocused
+                  ? "#22c55e"
+                  : isDarkColorScheme
+                  ? "#a1a1aa"
+                  : "#6b7280"
+              }
               className="mr-2"
             />
           )}
@@ -218,10 +241,9 @@ const SearchBar = <T,>({
                 scaleY: dropdownAnimation,
               },
             ],
-            // Platform-specific shadow for dropdown
-            ...(Platform.OS === 'ios'
+            ...(Platform.OS === "ios"
               ? {
-                  shadowColor: '#000',
+                  shadowColor: "#000",
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.15,
                   shadowRadius: 8,
@@ -230,8 +252,8 @@ const SearchBar = <T,>({
                   elevation: 8,
                 }),
           }}
-          className="absolute top-[56px] left-0 right-0 bg-card rounded-b-xl max-h-60 border-2 border-t-0 z-20 overflow-hidden"
-          pointerEvents={showDropdown ? 'auto' : 'none'}
+          className="absolute top-[56px] left-0 right-0 rounded-b-xl max-h-60 border-t-0 z-20 overflow-hidden bg-card border-2 border-border"
+          pointerEvents={showDropdown ? "auto" : "none"}
         >
           <FlatList
             data={options}
@@ -241,11 +263,13 @@ const SearchBar = <T,>({
                   onOptionSelect?.(item);
                   handleBlur();
                 }}
-                className={`px-4 py-3 active:bg-muted/30 transition-colors duration-150 ${
-                  index !== options.length - 1
-                    ? 'border-b border-border/30'
-                    : ''
-                }`}
+                style={{
+                  backgroundColor: "transparent",
+                  borderBottomColor:
+                    index !== options.length - 1 ? undefined : "transparent",
+                  borderBottomWidth: index !== options.length - 1 ? 1 : 0,
+                }}
+                className="px-4 py-3 active:bg-muted/30 transition-colors duration-150 border-b border-border"
                 accessibilityRole="button"
               >
                 {renderOption?.(item)}
@@ -272,5 +296,9 @@ const SearchBar = <T,>({
     </View>
   );
 };
+
+const SearchBar = forwardRef(SearchBarComponent) as <T>(
+  props: ISearchBarProps<T> & { ref?: React.Ref<ISearchBarHandle> }
+) => React.ReactElement;
 
 export default SearchBar;
