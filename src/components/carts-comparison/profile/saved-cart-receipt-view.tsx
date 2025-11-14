@@ -3,9 +3,16 @@ import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Card, CardContent, CardHeader } from '~/src/components/ui/card';
 import { Separator } from '~/src/components/ui/separator';
-import type { CartComparisonDto } from '~/src/network/model';
+import type { ArchivedCartProduct, ShopExtendedDto } from '~/src/network/model';
 
-const SavedCartReceiptView: React.FC<CartComparisonDto> = ({
+interface SavedCartReceiptViewProps {
+  shop?: ShopExtendedDto;
+  specific_products?: ArchivedCartProduct[];
+  total_price?: number;
+  actionsExecutable?: boolean;
+}
+
+const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
   shop: { name: shopName } = {},
   specific_products: groceries = [],
   total_price,

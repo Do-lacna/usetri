@@ -38,7 +38,7 @@ export function GoogleSignIn() {
           .then(({ user }) => {
             console.log(`Successfull sign in ${user}`);
             setUser(user);
-            resetAndRedirect('/main');
+            resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
           })
           .catch(error => {
             console.error('Google Sign-In Error', error);

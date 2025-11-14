@@ -115,7 +115,7 @@ export const useShopComparison = () => {
     validTotals.length > 0 ? Math.max(...validTotals) : 0;
 
   const currentTotal = selectedCart?.total_price ?? 0;
-  const areMoreCartsAvailable = carts.length > 1;
+  const areMoreCartsAvailable = (carts?.length ?? 0) > 1;
 
   const isCurrentCheapest = currentTotal === cheapestTotal && currentTotal > 0;
   const isCurrentMostExpensive =

@@ -11,6 +11,11 @@ interface CategoriesGridProps {
   onRefresh: () => void;
 }
 
+// Define a union type for the list items
+type SkeletonItem = { id: string; isSkeleton: true };
+type CategoryItem = { data: PopularCategoryDto; isSkeleton: false };
+type ListItem = SkeletonItem | CategoryItem;
+
 export function CategoriesGrid({
   categories,
   onCategorySelect,
@@ -21,7 +26,17 @@ export function CategoriesGrid({
   const filteredCategories = categories.filter(
     category => category?.category?.name?.toLowerCase() !== 'root',
   );
-  const skeletonData = Array.from({ length: 8 }, (_, index) => ({ id: index }));
+
+  // Create properly typed data array
+  const listData: ListItem[] = isLoading
+    ? Array.from({ length: 8 }, (_, index) => ({
+        id: `skeleton-${index}`,
+        isSkeleton: true as const,
+      }))
+    : filteredCategories.map(category => ({
+        data: category,
+        isSkeleton: false as const,
+      }));
 
   return (
     <View className="flex-1">
@@ -38,36 +53,33 @@ export function CategoriesGrid({
 
       {/* Categories grid or skeleton */}
       <FlatList
-        data={isLoading ? skeletonData : filteredCategories}
+        data={listData}
         renderItem={({ item, index }) => {
-          const dataArray = isLoading ? skeletonData : filteredCategories;
           return (
             <View
               style={{
                 flex:
-                  dataArray.length % 2 !== 0 && index === dataArray.length - 1
+                  listData.length % 2 !== 0 && index === listData.length - 1
                     ? 0
                     : 1,
                 maxWidth: '48%',
                 minWidth: '48%',
               }}
             >
-              {isLoading ? (
+              {item.isSkeleton ? (
                 <SkeletonCategoryCard />
               ) : (
                 <CategoryCard
-                  category={item as PopularCategoryDto}
-                  onPress={() => onCategorySelect(item as PopularCategoryDto)}
+                  category={item.data}
+                  onPress={() => onCategorySelect(item.data)}
                 />
               )}
             </View>
           );
         }}
         numColumns={2}
-        keyExtractor={(item, index) =>
-          isLoading
-            ? `skeleton-${index}`
-            : String((item as PopularCategoryDto)?.category?.id)
+        keyExtractor={item =>
+          item.isSkeleton ? item.id : String(item.data.category?.id)
         }
         contentContainerStyle={{
           gap: 12,

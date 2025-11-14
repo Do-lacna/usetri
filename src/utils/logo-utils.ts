@@ -79,7 +79,7 @@ export const getShopCoverImage = (shopId: number): ImageSourcePropType => {
  * @returns Whether the shop has a logo
  */
 export const hasShopLogo = (
-  shopId: string,
+  shopId: number,
 ): shopId is keyof typeof SHOP_LOGOS => {
   return shopId in SHOP_LOGOS;
 };
@@ -88,8 +88,8 @@ export const hasShopLogo = (
  * Gets all available shop IDs
  * @returns Array of all available shop IDs
  */
-export const getAllShopIds = (): Array<keyof typeof SHOP_LOGOS> => {
-  return Object.keys(SHOP_LOGOS) as Array<keyof typeof SHOP_LOGOS>;
+export const getAllShopIds = (): Array<number> => {
+  return Object.keys(SHOP_LOGOS).map(Number);
 };
 
 // Type for component props that use the shop logo

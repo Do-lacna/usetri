@@ -40,12 +40,12 @@ export const useSettingsMenuItems = () => {
           {
             id: 'email',
             label: t('menu.email_password'),
-            onPress: () => router.push('/profile'),
+            onPress: () => console.log('Email password'),
           },
           {
             id: 'predplatne',
             label: t('menu.subscription'),
-            onPress: () => router.push('/change-password'),
+            onPress: () => console.log('Subscription'),
           },
           {
             id: 'brigader',
@@ -92,7 +92,7 @@ export const useSettingsMenuItems = () => {
           {
             id: 'preferencie',
             label: t('menu.preferences'),
-            onPress: () => router.push('/settings'),
+            onPress: () => console.log('Preferences'),
           },
         ],
       },

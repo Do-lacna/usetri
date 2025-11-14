@@ -37,7 +37,7 @@ export default function SignIn() {
       .then(async data => {
         setIsLoading(false);
         if (data?.user?.emailVerified) {
-          resetAndRedirect('/main');
+          resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
         } else {
           Toast.show({
             type: 'error',

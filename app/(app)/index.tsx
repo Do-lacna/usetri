@@ -20,7 +20,7 @@ const AppIndex = () => {
 
   console.log('redirecting');
 
-  return <Redirect href="/main" />;
+  return <Redirect href="/(app)/main/(tabs)/discounts-screen" />;
 };
 
 export default AppIndex;

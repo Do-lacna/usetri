@@ -13,7 +13,9 @@ const EmptyShoppingListPlaceholderScreen = () => {
         className="w-60 h-60 mb-1"
         resizeMode="contain"
       /> */}
-      <LogoSVG width={'100%'} height={150} />
+      <View className="w-60 h-60 mb-1">
+        <LogoSVG />
+      </View>
       <Text className="text-2xl w-3/4 text-center text-muted-foreground">
         {t('shopping_list.empty_cart_message')}
       </Text>

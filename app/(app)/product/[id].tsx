@@ -63,13 +63,13 @@ const ProductDetailScreen: React.FC = () => {
   const handleManageProductCartQuantity = () => {
     if (cartQuantity > 0 && selectedShopId) {
       if (currentProductInCartQuantity === 0) {
-        handleAddProductToCart(String(productId), cartQuantity);
+        handleAddProductToCart(Number(productId), cartQuantity);
       } else {
-        handleUpdateProductQuantity(String(productId), cartQuantity);
+        handleUpdateProductQuantity(Number(productId), cartQuantity);
       }
     }
     if (cartQuantity === 0 && selectedShopId) {
-      handleRemoveItemFromCart('product', String(productId));
+      handleRemoveItemFromCart('product', Number(productId));
     }
   };
 
