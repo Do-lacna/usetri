@@ -35,11 +35,9 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       category: { id, image_url, name: categoryName } = {},
     } = {},
     price = 0,
-    original_price, // Assuming this exists for discount calculation
-    discount_percentage, // Assuming this exists
+    discount_price: { percentage_discount, price: discountPrice } = {},
     quantity = 1,
     type,
-    is_on_discount = false, // Assuming this flag exists
   } = product;
 
   const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
@@ -55,19 +53,16 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
-      {is_on_discount && original_price && (
+      {percentage_discount && price && (
         <View className="items-end mb-1">
           <Text className="text-xs text-muted-foreground line-through">
-            {showQuantity
-              ? (original_price * quantity).toFixed(2)
-              : original_price.toFixed(2)}{' '}
-            €
+            {showQuantity ? (price * quantity).toFixed(2) : price.toFixed(2)} €
           </Text>
-          {discount_percentage && (
+          {percentage_discount && (
             <View className="flex-row items-center bg-red-100 px-2 py-1 rounded-md mt-1">
               <Percent size={12} color="#DC2626" />
               <Text className="text-xs font-medium text-red-600 ml-1">
-                -{discount_percentage}%
+                -{percentage_discount}%
               </Text>
             </View>
           )}
@@ -75,9 +70,11 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       )}
 
       <View className="flex-row items-center">
-        {is_on_discount && <Tag size={14} color="#DC2626" className="mr-1" />}
+        {percentage_discount && (
+          <Tag size={14} color="#DC2626" className="mr-1" />
+        )}
         <Text
-          className={`text-base font-semibold ${is_on_discount ? 'text-red-600' : 'text-foreground'}`}
+          className={`text-base font-semibold ${percentage_discount ? 'text-red-600' : 'text-foreground'}`}
         >
           {showQuantity
             ? (currentPrice * quantity).toFixed(2)
@@ -94,7 +91,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     </View>
   );
 
-  const renderProductInfo = (productName: string, showBrand = true) => (
+  const renderProductInfo = (productName?: string | null, showBrand = true) => (
     <View className="flex-1 pr-4">
       <View className="flex-row items-start justify-between">
         <Text
@@ -103,7 +100,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
         >
           {productName}
         </Text>
-        {is_on_discount && (
+        {percentage_discount && (
           <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
             <Text className="text-xs font-medium text-red-600">
               {t('discount')}
@@ -125,22 +122,24 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   const frontContent = (
     <View
-      className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}
+      className={`p-4 bg-card ${borderClass} ${percentage_discount ? 'bg-red-50/30' : ''}`}
     >
       <View className="flex-row items-center justify-between min-h-[60px]">
         {renderProductInfo(name)}
         {renderPriceSection(price)}
-        <RefreshCw
-          size={18}
-          className="ml-4 mr-2 text-terciary flex-shrink-0"
-        />
+        {displayFlippableCard && (
+          <RefreshCw
+            size={18}
+            className="ml-4 mr-2 text-terciary flex-shrink-0"
+          />
+        )}
       </View>
     </View>
   );
 
   const backContent = displayFlippableCard ? (
     <View
-      className={`p-4 bg-card ${borderClass} ${is_on_discount ? 'bg-red-50/30' : ''}`}
+      className={`p-4 bg-card ${borderClass} ${percentage_discount ? 'bg-red-50/30' : ''}`}
     >
       <View className="flex-row items-center justify-between min-h-[60px]">
         <View className="flex-row items-center flex-1 pr-4">
@@ -159,7 +158,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
               >
                 {categoryName}
               </Text>
-              {is_on_discount && (
+              {percentage_discount && (
                 <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
                   <Text className="text-xs font-medium text-red-600">
                     {t('discount')}
