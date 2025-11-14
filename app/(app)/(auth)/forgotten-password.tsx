@@ -6,10 +6,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
-import { ThemedLogo } from '~/components/themed-logo';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { forgottenPasswordSchema } from '../../../schema/forgotten-password-schema';
+import { ThemedLogo } from '~/src/components/themed-logo';
+import { Button } from '~/src/components/ui/button';
+import { Input } from '~/src/components/ui/input';
+import { forgottenPasswordSchema } from '~/src/schema/forgotten-password-schema';
 
 export default function ForgottenPassword() {
   const [loading, setLoading] = useState(false);

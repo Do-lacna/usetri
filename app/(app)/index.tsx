@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 import { Text } from 'react-native';
-import { useSession } from '~/context/authentication-context';
+import { useSession } from '~/src/context/authentication-context';
 const AppIndex = () => {
   const { user, isLoading } = useSession();
 

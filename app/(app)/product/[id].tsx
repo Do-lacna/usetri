@@ -9,21 +9,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useCartActions } from '~/hooks/use-cart-actions';
-import { calculateDiscountPercentage } from '~/lib/number-utils';
-import { getShopById } from '~/lib/utils';
-import { useGetProductsById, useGetShops } from '~/network/query/query';
-import { displaySuccessToastMessage } from '~/utils/toast-utils';
+import { useCartActions } from '~/src/hooks/use-cart-actions';
+import { calculateDiscountPercentage } from '~/src/lib/number-utils';
+import { getShopById } from '~/src/lib/utils';
+import { useGetProductsById, useGetShops } from '~/src/network/query/query';
+import { displaySuccessToastMessage } from '~/src/utils/toast-utils';
 
-import { AddToCartSection } from '~/components/product-detail/add-to-cart-section';
-import { CategoryBreadcrumb } from '~/components/product-detail/category-breadcrumb';
-import { ProductImage } from '~/components/product-detail/product-image';
-import { ProductInfo } from '~/components/product-detail/product-info';
-import { ShopPricesList } from '~/components/product-detail/shop-prices-list';
-import {
-  getGetHybridCartQueryKey,
-  useGetHybridCart,
-} from '../../../network/hybrid-cart/hybrid-cart';
+import { AddToCartSection } from '~/src/components/product-detail/add-to-cart-section';
+import { CategoryBreadcrumb } from '~/src/components/product-detail/category-breadcrumb';
+import { ProductImage } from '~/src/components/product-detail/product-image';
+import { ProductInfo } from '~/src/components/product-detail/product-info';
+import { ShopPricesList } from '~/src/components/product-detail/shop-prices-list';
+import { getGetCartQueryKey, useGetCart } from '~/src/network/cart/cart';
 
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
@@ -39,7 +36,7 @@ const ProductDetailScreen: React.FC = () => {
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
       queryClient.invalidateQueries({
-        queryKey: getGetHybridCartQueryKey(),
+        queryKey: getGetCartQueryKey(),
       });
       displaySuccessToastMessage('Produkt bol vložený do košíka');
     },
@@ -56,7 +53,7 @@ const ProductDetailScreen: React.FC = () => {
   const {
     data: { cart } = {},
     isLoading: isCartLoading,
-  } = useGetHybridCart();
+  } = useGetCart();
 
   const currentProductInCartQuantity =
     cart?.specific_products?.find(

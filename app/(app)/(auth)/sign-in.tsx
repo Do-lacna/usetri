@@ -7,13 +7,13 @@ import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
 
-import { GoogleSignIn } from '~/components/google-authentication/google-sign-in';
-import { ThemedLogo } from '~/components/themed-logo';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { signInSchema } from '~/schema/signin';
-import { resetAndRedirect } from '~/utils/navigation-utils';
-import AppleAuthentication from '../../../components/apple-authentication/apple-authentication';
+import AppleAuthentication from '~/src/components/apple-authentication/apple-authentication';
+import { GoogleSignIn } from '~/src/components/google-authentication/google-sign-in';
+import { ThemedLogo } from '~/src/components/themed-logo';
+import { Button } from '~/src/components/ui/button';
+import { Input } from '~/src/components/ui/input';
+import { signInSchema } from '~/src/schema/signin';
+import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 export default function SignIn() {
   const { email } = useLocalSearchParams<{ email?: string }>();
