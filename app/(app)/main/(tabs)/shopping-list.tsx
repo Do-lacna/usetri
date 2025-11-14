@@ -16,7 +16,7 @@ import PendingCartItemDrawerContent, {
   PendingCartItemActionEnum,
 } from "~/src/components/pending-cart-item-drawer-content";
 import EmptyShoppingListPlaceholderScreen from "~/src/components/placeholders/empty-shopping-list-placeholder-screen";
-import SearchBar from "~/src/components/search-bar/search-bar";
+import SearchBar, { type ISearchBarHandle } from "~/src/components/search-bar";
 import { Button } from "~/src/components/ui/button";
 import Divider from "~/src/components/ui/divider";
 import ShoppingListProductSearch from "~/src/features/shopping-list/components/shopping-list-product-search";
@@ -44,9 +44,16 @@ export type PendingCartDataType = {
   type: DrawerTypeEnum;
 };
 
+interface SearchHeaderProps {
+  searchQuery: string;
+  onSearch: (query: string) => void;
+  onClear: () => void;
+}
+
 export default function ShoppingList() {
   const { t } = useTranslation();
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
+  const searchBarRef = useRef<ISearchBarHandle>(null);
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
@@ -141,20 +148,22 @@ export default function ShoppingList() {
         <View className="flex-1">
           <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
             <SearchBar<CategoryExtendedWithPathDto>
+              ref={searchBarRef}
               onSearch={setSearchQuery}
               onClear={() => setSearchQuery("")}
               searchText={searchQuery}
               placeholder={t("shopping_list.search_placeholder")}
               keyExtractor={(item) => String(item.id)}
               onFocus={() => setIsTextInputFocused(true)}
+              onBlur={() => setIsTextInputFocused(false)}
               displaySearchOptions={false}
             />
             {isTextInputFocused && (
               <Button
                 variant="ghost"
                 onPress={() => {
+                  searchBarRef.current?.blur();
                   setSearchQuery("");
-                  setIsTextInputFocused(false);
                 }}
               >
                 <Text className="text-primary">
