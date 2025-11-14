@@ -4,13 +4,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProfileHeader from '../../../../components/profile/profile-header';
-import { SavedCartCard } from '../../../../components/profile/saved-cart-card';
-import { TotalSavedCard } from '../../../../components/profile/total-saved-card';
-import Divider from '../../../../components/ui/divider';
-import { useSession } from '../../../../context/authentication-context';
-import { useGetArchivedCart } from '../../../../network/customer/customer';
-import type { ShortArchivedCartDto } from '../../../../network/model';
+import ProfileHeader from '~/src/components/profile/profile-header';
+import { SavedCartCard } from '~/src/components/profile/saved-cart-card';
+import { TotalSavedCard } from '~/src/components/profile/total-saved-card';
+import Divider from '~/src/components/ui/divider';
+import { useSession } from '~/src/context/authentication-context';
+import { useGetArchivedCart } from '~/src/network/customer/customer';
+import type { ShortArchivedCartDto } from '~/src/network/model';
 
 export default function ProfileScreen() {
   const queryClient = useQueryClient();

@@ -16,13 +16,13 @@ import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
-import { NAV_THEME } from '~/lib/constants';
-import { useColorScheme } from '~/lib/useColorScheme';
-import { getTheme, setTheme } from '~/persistence/theme-storage';
-import { SessionProvider } from '../context/authentication-context';
-import { RevenueCatProvider } from '../context/revenue-cat-provider';
-import '../i18n';
+import { SessionProvider } from '~/src/context/authentication-context';
+import { RevenueCatProvider } from '~/src/context/revenue-cat-provider';
+import '~/src/i18n';
+import { setAndroidNavigationBar } from '~/src/lib/android-navigation-bar';
+import { NAV_THEME } from '~/src/lib/constants';
+import { useColorScheme } from '~/src/lib/useColorScheme';
+import { getTheme, setTheme } from '~/src/persistence/theme-storage';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,

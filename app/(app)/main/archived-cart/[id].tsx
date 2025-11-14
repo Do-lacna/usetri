@@ -1,9 +1,9 @@
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
-import SavedCartReceiptView from '../../../../components/carts-comparison/profile/saved-cart-receipt-view';
-import { getShopById } from '../../../../lib/utils';
-import { useGetArchivedCartById } from '../../../../network/customer/customer';
-import { useGetShops } from '../../../../network/query/query';
+import SavedCartReceiptView from '~/src/components/carts-comparison/profile/saved-cart-receipt-view';
+import { getShopById } from '~/src/lib/utils';
+import { useGetArchivedCartById } from '~/src/network/customer/customer';
+import { useGetShops } from '~/src/network/query/query';
 
 export default function ArchivedCartScreen() {
   const { id: cartId } = useLocalSearchParams();

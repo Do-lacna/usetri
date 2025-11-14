@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import '~/global.css';
-import { useColorScheme } from '~/lib/useColorScheme';
+import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export default function AppLayout() {
   const { isDarkColorScheme } = useColorScheme();

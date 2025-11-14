@@ -2,12 +2,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CategoriesGrid } from '~/components/features/search/CategoriesGrid';
-import { CategoryDetailView } from '~/components/features/search/CategoryDetailView';
-import { SearchHeader } from '~/components/features/search/SearchHeader';
-import { SearchResultsView } from '~/components/features/search/SearchResultsView';
-import type { PopularCategoryDto } from '~/network/model';
-import { useGetPopularCategories, useGetProducts } from '~/network/query/query';
+import { CategoriesGrid } from '~/src/features/search/components/CategoriesGrid';
+import { CategoryDetailView } from '~/src/features/search/components/CategoryDetailView';
+import { SearchHeader } from '~/src/features/search/components/SearchHeader';
+import { SearchResultsView } from '~/src/features/search/components/SearchResultsView';
+import type { PopularCategoryDto } from '~/src/network/model';
+import {
+  useGetPopularCategories,
+  useGetProducts,
+} from '~/src/network/query/query';
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();

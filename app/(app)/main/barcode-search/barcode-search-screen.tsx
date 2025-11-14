@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
-import { getProductByBarcode } from '~/network/query/query';
-import BarcodeSearchCameraView from '../../../../components/barcode-search-camera-view/barcode-search-camera-view';
+import { getProductByBarcode } from '~/src/network/query/query';
+import BarcodeSearchCameraView from '~/src/components/barcode-search-camera-view/barcode-search-camera-view';
 
 export default function BarcodeSearchScreen() {
   const handleBarcodeScanned = async (data: { data: string }) => {
