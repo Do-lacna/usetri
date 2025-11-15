@@ -1,20 +1,21 @@
-import { Minus, Plus, Trash2 } from 'lucide-react-native';
-import type React from 'react';
-import { useEffect, useState } from 'react';
+import { Minus, Plus, Trash2 } from "lucide-react-native";
+import type React from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Image,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { useGetCart } from '~/src/network/cart/cart';
-import type { CartCategoryDto } from '~/src/network/model';
-import { useGetProducts } from '~/src/network/query/query';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
-import { useColorScheme } from '../../../lib/useColorScheme';
-import SuggestedProductCard from './suggested-product-card';
+} from "react-native";
+import { useGetCart } from "~/src/network/cart/cart";
+import type { CartCategoryDto } from "~/src/network/model";
+import { useGetProducts } from "~/src/network/query/query";
+import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
+import { useColorScheme } from "../../../lib/useColorScheme";
+import SuggestedProductCard from "./suggested-product-card";
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -35,23 +36,19 @@ const ShoppingListCategoryItem: React.FC<{
     price = 0,
   } = item;
 
-  const {
-    data: { cart } = {},
-  } = useGetCart();
+  const { data: { cart } = {} } = useGetCart();
 
   // Theme-aware colors
-  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
-  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
+  const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
+  const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
 
-  const {
-    data: { products: suggestedProducts = [] } = {},
-    isLoading,
-  } = useGetProducts(
-    {
-      category_id: id,
-    },
-    { query: { enabled: !!id && isExpanded } },
-  );
+  const { data: { products: suggestedProducts = [] } = {}, isLoading } =
+    useGetProducts(
+      {
+        category_id: id,
+      },
+      { query: { enabled: !!id && isExpanded } }
+    );
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -72,79 +69,92 @@ const ShoppingListCategoryItem: React.FC<{
 
   const isSelected = (barcode: string): boolean =>
     cart?.specific_products?.some(
-      ({ product }) => product?.barcode === barcode,
+      ({ product }) => product?.barcode === barcode
     ) ?? false;
 
   return (
-    <View
-      //   style={{ transform: [{ scale: scaleAnim }] }}
-      className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border"
-    >
-      <TouchableOpacity
-        onPress={() => setIsExpanded(expanded => !expanded)}
-        activeOpacity={0.7}
+    <View className="mb-3">
+      <Pressable
+        onPress={() => setIsExpanded((expanded) => !expanded)}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.8 : 1,
+          transform: [{ scale: pressed ? 0.96 : 1 }],
+        })}
       >
-        <View className="flex-row items-center space-x-3">
-          <View className="flex-1 flex-row items-center">
-            <View className="relative mr-2">
+        <View
+          className={`
+            flex-row items-center px-4 py-3 rounded-full min-h-[48px]
+            ${
+              isExpanded
+                ? "border border-2 border-primary shadow-md"
+                : "bg-card border border-border shadow-sm"
+            }
+          `}
+        >
+          {!!image_url && (
+            <View
+              className={`
+                w-8 h-8 rounded-full mr-3 justify-center items-center
+                ${isExpanded ? "bg-primary/20" : "bg-card"}
+              `}
+            >
               <Image
                 source={{
                   uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
                 }}
-                className="w-10 h-10 p-1 rounded-lg"
-                resizeMode="cover"
+                className="w-8 h-8 rounded-full"
+                resizeMode="contain"
               />
             </View>
-            <View className="flex-1">
-              <View className="flex-1 pr-2">
-                <Text
-                  className="text-card-foreground font-semibold text-base"
-                  numberOfLines={1}
-                >
-                  {name}
-                </Text>
-              </View>
+          )}
 
-              <View className="flex-row items-center justify-between">
-                <View className="flex-row gap-2 items-center">
-                  <Text className="text-card-foreground font-bold text-base">
-                    {totalPrice}€
-                  </Text>
-                  {quantity > 1 && (
-                    <Text className="text-muted-foreground text-xs">
-                      ({price.toFixed(2)} € / kus)
-                    </Text>
-                  )}
-                </View>
-              </View>
-            </View>
+          <View className="flex-1">
+            <Text
+              className="font-medium text-sm text-foreground"
+              numberOfLines={1}
+            >
+              {name}
+            </Text>
           </View>
 
-          <View className="flex flex-col items-end">
-            <View className="flex-row items-center bg-muted rounded-full">
-              <TouchableOpacity
-                onPress={decrementQuantity}
-                className="p-2"
-                disabled={quantity <= 0}
-              >
-                {quantity <= 1 ? (
-                  <Trash2 size={18} color="#ef4444" />
-                ) : (
-                  <Minus size={16} color={iconColor} />
-                )}
-              </TouchableOpacity>
-
-              <Text className="px-3 py-1 text-foreground font-medium min-w-[32px] text-center">
-                {item.quantity}
+          <View className="flex-row items-center ml-2">
+            <Text className="text-foreground font-bold text-sm mr-2">
+              {totalPrice}€
+            </Text>
+            {quantity > 1 && (
+              <Text className="text-muted-foreground text-xs mr-2">
+                ({price.toFixed(2)} €)
               </Text>
-
-              <TouchableOpacity onPress={incrementQuantity} className="p-2">
-                <Plus size={16} color={iconColor} />
-              </TouchableOpacity>
-            </View>
+            )}
           </View>
+
+          <View className="flex-row items-center bg-muted rounded-full ml-2">
+            <TouchableOpacity
+              onPress={decrementQuantity}
+              className="p-2"
+              disabled={quantity <= 0}
+            >
+              {quantity <= 1 ? (
+                <Trash2 size={16} color="#ef4444" />
+              ) : (
+                <Minus size={14} color={iconColor} />
+              )}
+            </TouchableOpacity>
+
+            <Text className="px-2 text-foreground font-medium min-w-[24px] text-center text-sm">
+              {item.quantity}
+            </Text>
+
+            <TouchableOpacity onPress={incrementQuantity} className="p-2">
+              <Plus size={14} color={iconColor} />
+            </TouchableOpacity>
+          </View>
+
+          {isExpanded && (
+            <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
+          )}
         </View>
-      </TouchableOpacity>
+      </Pressable>
       {isExpanded &&
         (isLoading ? (
           <View className="h-20 justify-center items-center">
@@ -161,7 +171,7 @@ const ShoppingListCategoryItem: React.FC<{
                 ?.sort(
                   (a, b) =>
                     Number(isSelected(String(b.barcode))) -
-                    Number(isSelected(String(a.barcode))),
+                    Number(isSelected(String(a.barcode)))
                 )
                 ?.map(({ barcode, detail, shops_prices }, index) => (
                   <SuggestedProductCard
