@@ -1,5 +1,7 @@
-import type React from "react";
+import type React from 'react';
 import {
+  ActivityIndicator,
+  Animated,
   FlatList,
   Platform,
   Pressable,
@@ -7,19 +9,17 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ActivityIndicator,
-  Animated,
-} from "react-native";
+} from 'react-native';
 
+import { Search, X } from 'lucide-react-native';
 import {
-  useState,
-  useEffect,
-  useRef,
   forwardRef,
+  useEffect,
   useImperativeHandle,
-} from "react";
-import { useColorScheme } from "~/src/lib/useColorScheme";
-import { Search, X } from "lucide-react-native";
+  useRef,
+  useState,
+} from 'react';
+import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
@@ -48,8 +48,8 @@ const SearchBarComponent = <T,>(
   {
     onSearch,
     onClear,
-    searchText = "",
-    placeholder = "Hľadať",
+    searchText = '',
+    placeholder = 'Hľadať',
     options = [],
     onOptionSelect,
     renderOption,
@@ -63,7 +63,7 @@ const SearchBarComponent = <T,>(
     onBlur,
     ...props
   }: ISearchBarProps<T>,
-  ref: React.Ref<ISearchBarHandle>
+  ref: React.Ref<ISearchBarHandle>,
 ) => {
   const { isDarkColorScheme } = useColorScheme();
   const [isFocused, setIsFocused] = useState(false);
@@ -76,10 +76,10 @@ const SearchBarComponent = <T,>(
   }));
 
   const placeholderColor = isFocused
-    ? "#22c55e"
+    ? '#22c55e'
     : isDarkColorScheme
-    ? "#a1a1aa"
-    : "#6b7280";
+      ? '#a1a1aa'
+      : '#6b7280';
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -147,19 +147,20 @@ const SearchBarComponent = <T,>(
   return (
     <View className="relative z-10 w-full flex-shrink">
       <View
-        className={`bg-card px-4 flex-row items-center justify-center h-[44px] transition-all duration-200 border-2 ${
-          showDropdown ? "rounded-t-xl border-b-0" : "rounded-xl"
-        } ${disabled ? "opacity-60" : ""} ${
+        className={`bg-card px-4 flex-row items-center justify-center transition-all duration-200 border-2 ${
+          showDropdown ? 'rounded-t-xl border-b-0' : 'rounded-xl'
+        } ${disabled ? 'opacity-60' : ''} ${
           error
-            ? "border-destructive"
+            ? 'border-destructive'
             : isFocused
-            ? "border-primary"
-            : "border-border"
-        } ${isFocused ? "shadow-lg" : "shadow-sm"}`}
+              ? 'border-primary'
+              : 'border-border'
+        } ${isFocused ? 'shadow-lg' : 'shadow-sm'}`}
         style={{
-          ...(Platform.OS === "ios"
+          height: Platform.OS === 'ios' ? 48 : 44,
+          ...(Platform.OS === 'ios'
             ? {
-                shadowColor: "#000",
+                shadowColor: '#000',
                 shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
                 shadowOpacity: isFocused ? 0.15 : 0.05,
                 shadowRadius: isFocused ? 8 : 2,
@@ -172,7 +173,7 @@ const SearchBarComponent = <T,>(
         <View className="mr-3">
           <Search
             size={22}
-            className={isFocused ? "text-primary" : "text-muted-foreground"}
+            className={isFocused ? 'text-primary' : 'text-muted-foreground'}
           />
         </View>
 
@@ -192,8 +193,13 @@ const SearchBarComponent = <T,>(
           accessibilityLabel={placeholder}
           accessibilityRole="search"
           style={{
-            textAlignVertical: "center",
+            textAlignVertical: 'center',
             paddingVertical: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            lineHeight: Platform.OS === 'ios' ? 20 : undefined,
+            includeFontPadding: false,
+            height: '100%',
           }}
         />
 
@@ -204,10 +210,10 @@ const SearchBarComponent = <T,>(
               size="small"
               color={
                 isFocused
-                  ? "#22c55e"
+                  ? '#22c55e'
                   : isDarkColorScheme
-                  ? "#a1a1aa"
-                  : "#6b7280"
+                    ? '#a1a1aa'
+                    : '#6b7280'
               }
               className="mr-2"
             />
@@ -241,9 +247,9 @@ const SearchBarComponent = <T,>(
                 scaleY: dropdownAnimation,
               },
             ],
-            ...(Platform.OS === "ios"
+            ...(Platform.OS === 'ios'
               ? {
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.15,
                   shadowRadius: 8,
@@ -253,7 +259,7 @@ const SearchBarComponent = <T,>(
                 }),
           }}
           className="absolute top-[56px] left-0 right-0 rounded-b-xl max-h-60 border-t-0 z-20 overflow-hidden bg-card border-2 border-border"
-          pointerEvents={showDropdown ? "auto" : "none"}
+          pointerEvents={showDropdown ? 'auto' : 'none'}
         >
           <FlatList
             data={options}
@@ -264,9 +270,9 @@ const SearchBarComponent = <T,>(
                   handleBlur();
                 }}
                 style={{
-                  backgroundColor: "transparent",
+                  backgroundColor: 'transparent',
                   borderBottomColor:
-                    index !== options.length - 1 ? undefined : "transparent",
+                    index !== options.length - 1 ? undefined : 'transparent',
                   borderBottomWidth: index !== options.length - 1 ? 1 : 0,
                 }}
                 className="px-4 py-3 active:bg-muted/30 transition-colors duration-150 border-b border-border"
@@ -298,7 +304,7 @@ const SearchBarComponent = <T,>(
 };
 
 const SearchBar = forwardRef(SearchBarComponent) as <T>(
-  props: ISearchBarProps<T> & { ref?: React.Ref<ISearchBarHandle> }
+  props: ISearchBarProps<T> & { ref?: React.Ref<ISearchBarHandle> },
 ) => React.ReactElement;
 
 export default SearchBar;
