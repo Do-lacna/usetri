@@ -80,7 +80,8 @@
     "add_category": "Add category",
     "no_title": "No title",
     "category_info": "Adding a category to the cart will select the cheapest product from each store in the final comparison",
-    "estimated_prices": "Estimated prices in stores"
+    "estimated_prices": "Estimated prices in stores",
+    "estimated_prices_other_shops": "Estimated prices in other shops for category {{category}}"
   },
 
   "price_summary": {

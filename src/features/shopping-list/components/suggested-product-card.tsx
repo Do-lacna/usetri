@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import { Image } from 'expo-image';
 import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
-import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
 
 cssInterop(Image, { className: 'style' });
 
@@ -38,8 +38,11 @@ const SuggestedProductCard = ({
 
   const lowestPrice = shopsPrices?.[0]?.price ?? 0;
   const lowestDiscountedPrice = shopsPrices?.[0]?.discount_price?.price ?? 0;
-  const hasDiscount = lowestDiscountedPrice > 0 && lowestDiscountedPrice < lowestPrice;
-  const displayPrice = hasDiscount ? lowestDiscountedPrice : (shopsPrices?.[0]?.actual_price ?? 0);
+  const hasDiscount =
+    lowestDiscountedPrice > 0 && lowestDiscountedPrice < lowestPrice;
+  const displayPrice = hasDiscount
+    ? lowestDiscountedPrice
+    : (shopsPrices?.[0]?.actual_price ?? 0);
 
   return (
     <Pressable
@@ -56,11 +59,7 @@ const SuggestedProductCard = ({
         {hasDiscount && (
           <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">
             <Text className="text-discount-foreground text-xs font-bold">
-              -
-              {calculateDiscountPercentage(
-                lowestPrice,
-                lowestDiscountedPrice,
-              )}
+              -{calculateDiscountPercentage(lowestPrice, lowestDiscountedPrice)}
               %
             </Text>
           </View>
