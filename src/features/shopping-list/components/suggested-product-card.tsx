@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 
@@ -36,6 +37,9 @@ const SuggestedProductCard = ({
   } = { ...product };
 
   const lowestPrice = shopsPrices?.[0]?.price ?? 0;
+  const lowestDiscountedPrice = shopsPrices?.[0]?.discount_price?.price ?? 0;
+  const hasDiscount = lowestDiscountedPrice > 0 && lowestDiscountedPrice < lowestPrice;
+  const displayPrice = hasDiscount ? lowestDiscountedPrice : (shopsPrices?.[0]?.actual_price ?? 0);
 
   return (
     <Pressable
@@ -48,6 +52,20 @@ const SuggestedProductCard = ({
           isSelected ? 'border-2 border-primary' : '',
         )}
       >
+        {/* Discount Badge */}
+        {hasDiscount && (
+          <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">
+            <Text className="text-discount-foreground text-xs font-bold">
+              -
+              {calculateDiscountPercentage(
+                lowestPrice,
+                lowestDiscountedPrice,
+              )}
+              %
+            </Text>
+          </View>
+        )}
+
         <View className="w-full h-24 rounded-lg relative">
           <Image
             source={{
@@ -85,9 +103,20 @@ const SuggestedProductCard = ({
                 {amount} {unit}
               </Text>
             </View>
-            <Text className="text-sm font-bold text-card-foreground">
-              {lowestPrice} €
-            </Text>
+            {hasDiscount ? (
+              <View className="flex-col items-end">
+                <Text className="text-xs text-muted-foreground line-through">
+                  {lowestPrice.toFixed(2)} €
+                </Text>
+                <Text className="text-sm font-bold text-discount">
+                  {displayPrice.toFixed(2)} €
+                </Text>
+              </View>
+            ) : (
+              <Text className="text-sm font-bold text-card-foreground">
+                {displayPrice} €
+              </Text>
+            )}
           </View>
         </View>
       </View>

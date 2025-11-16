@@ -11,19 +11,22 @@
       "env": {
         "EAS_BUILD_DISABLE_NPM_CACHE": "1",
         "EAS_BUILD_DISABLE_COCOAPODS_CACHE": "1"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
       "autoIncrement": true,
       "distribution": "internal",
-      "env": {}
+      "env": {},
+      "channel": "preview"
     },
     "production": {
       "autoIncrement": true,
       "android": {
         "buildType": "app-bundle"
       },
-      "env": {}
+      "env": {},
+      "channel": "production"
     }
   },
   "submit": {
