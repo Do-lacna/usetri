@@ -80,7 +80,8 @@
     "no_title": "Nezadaný názov",
     "category_info": "Pridaním kategórie do košíka bude vo finálnom porovnaní z každého obchodu vybraný najlacnejší produkt",
     "estimated_prices": "Odhadované ceny v obchodoch",
-    "estimated_prices_other_shops": "Odhadované ceny v ostatných obchodoch pre kategóriu {{category}}"
+    "estimated_prices_other_shops": "Odhadované ceny v ostatných obchodoch pre kategóriu {{category}}",
+    "price_for_amount": "Cena za {{amount}} {{unit}}"
   },
 
   "price_summary": {

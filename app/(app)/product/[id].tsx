@@ -96,7 +96,14 @@ const ProductDetailScreen: React.FC = () => {
         brand,
         name,
         unit: { normalized_amount: amount, normalized_unit: unit } = {},
-        category: { id: categoryId, name: categoryName, path_from_root, image_url: categoryImageUrl } = {},
+        category: {
+          id: categoryId,
+          name: categoryName,
+          default_amount: categoryDefaultAmount,
+          default_unit: categoryDefaultUnit,
+          path_from_root,
+          image_url: categoryImageUrl,
+        } = {},
       } = {},
       shops_prices,
     } = {},
@@ -116,9 +123,7 @@ const ProductDetailScreen: React.FC = () => {
   const missingShopsPrices = useMemo(() => {
     if (!categoryShopPrices || !shops_prices) return [];
 
-    const productShopIds = new Set(
-      shops_prices.map(sp => Number(sp.shop_id)),
-    );
+    const productShopIds = new Set(shops_prices.map(sp => Number(sp.shop_id)));
 
     return categoryShopPrices
       .filter(({ shop_id }) => !productShopIds.has(Number(shop_id)))
@@ -218,6 +223,8 @@ const ProductDetailScreen: React.FC = () => {
               title={t('cart_drawer.estimated_prices_other_shops', {
                 category: categoryName || '',
               })}
+              categoryAmount={categoryDefaultAmount}
+              categoryUnit={categoryDefaultUnit}
               className="mb-6"
             />
           )}

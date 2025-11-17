@@ -14,6 +14,8 @@ interface CategoryPricesGridProps {
   title?: string;
   showTitle?: boolean;
   className?: string;
+  categoryAmount?: number | null;
+  categoryUnit?: string | null;
 }
 
 export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
@@ -21,6 +23,8 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
   title,
   showTitle = true,
   className,
+  categoryAmount,
+  categoryUnit,
 }) => {
   const { t } = useTranslation();
 
@@ -33,6 +37,14 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
       {showTitle && (
         <Text className="text-sm font-semibold text-foreground mb-3">
           {title ?? t('cart_drawer.estimated_prices')}
+        </Text>
+      )}
+      {categoryAmount && categoryUnit && (
+        <Text className="text-xs text-muted-foreground mb-2">
+          {t('cart_drawer.price_for_amount', {
+            amount: categoryAmount,
+            unit: categoryUnit,
+          })}
         </Text>
       )}
       <View className="bg-muted rounded-xl py-4 px-2 border border-border">
