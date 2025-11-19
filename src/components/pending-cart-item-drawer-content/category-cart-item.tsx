@@ -71,6 +71,8 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
   const categoryPrices = shop_prices?.map(({ shop_id, price }) => ({
     shop_id,
     price: price?.actual_price ?? 0,
+    originalPrice: price?.price ?? 0,
+    discountPrice: price?.discount_price?.price,
   }));
 
   return (

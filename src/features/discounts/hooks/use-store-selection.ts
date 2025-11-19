@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { isArrayNotEmpty } from '../../../lib/utils';
+import { useEffect, useMemo, useState } from 'react';
 import type { ShopExtendedDto } from '~/src/network/model';
 import {
   useGetDiscountsStatistics,
@@ -10,7 +9,6 @@ import { sortShopsByDiscountCount } from '../utils/store-utils';
 export const useStoreSelection = () => {
   const {
     data: { shops } = {},
-    isLoading: areShopsLoading,
   } = useGetShops();
   const {
     data: { stats = [] } = {},
@@ -22,19 +20,19 @@ export const useStoreSelection = () => {
     (store: ShopExtendedDto) => store.id === activeStoreId,
   );
 
-  const sortedShops =
-    shops && stats ? sortShopsByDiscountCount(shops, stats) : [];
+  const sortedShops = useMemo(() => {
+    return shops && stats ? sortShopsByDiscountCount(shops, stats) : [];
+  }, [shops, stats]);
 
   useEffect(() => {
-    if (!activeStoreId) {
-      if (isArrayNotEmpty(shops) && isArrayNotEmpty(stats)) {
-        const sorted = sortShopsByDiscountCount(shops, stats);
-        setActiveStoreId(Number(sorted?.[0]?.id));
-      } else {
-        setActiveStoreId(Number(shops?.[0]?.id));
-      }
+    if (
+      !activeStoreId &&
+      !areDiscountStatisticsLoading &&
+      sortedShops.length > 0
+    ) {
+      setActiveStoreId(Number(sortedShops[0]?.id));
     }
-  }, [shops, stats, activeStoreId]);
+  }, [sortedShops, activeStoreId, areDiscountStatisticsLoading]);
 
   const handleStoreSelect = (storeId: number) => {
     setActiveStoreId(storeId);

@@ -23,7 +23,7 @@ export const sortShopsByDiscountCount = (
   shops: ShopExtendedDto[],
   stats: DiscountStatsDto[] | null,
 ) => {
-  return shops?.sort(
+  return [...shops].sort(
     ({ id: firstStoreId = 0 }, { id: secondStoreId = 0 }) =>
       getStoreDiscountsCount(secondStoreId, stats) -
       getStoreDiscountsCount(firstStoreId, stats),

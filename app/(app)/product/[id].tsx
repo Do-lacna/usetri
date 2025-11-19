@@ -130,6 +130,8 @@ const ProductDetailScreen: React.FC = () => {
       .map(({ shop_id, price }) => ({
         shop_id,
         price: price?.actual_price ?? 0,
+        originalPrice: price?.price ?? 0,
+        discountPrice: price?.discount_price?.price,
       }));
   }, [categoryShopPrices, shops_prices]);
 

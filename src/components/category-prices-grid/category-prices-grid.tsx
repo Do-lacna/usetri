@@ -7,6 +7,8 @@ import { Text } from '../ui/text';
 interface CategoryPrice {
   shop_id: number | null | undefined;
   price: number;
+  originalPrice?: number;
+  discountPrice?: number | null;
 }
 
 interface CategoryPricesGridProps {
@@ -49,18 +51,36 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
       )}
       <View className="bg-muted rounded-xl py-4 px-2 border border-border">
         <View className="flex-row flex-wrap gap-3">
-          {categoryPrices?.map(({ shop_id, price }) =>
-            shop_id ? (
-              <View
-                key={shop_id}
-                className="flex-row items-center bg-background rounded-lg px-2 py-2 border border-border"
-              >
-                <ShopLogoBadge shopId={shop_id} size={20} />
-                <Text className="text-sm font-medium text-foreground ml-2">
-                  {price.toFixed(2)}€
-                </Text>
-              </View>
-            ) : null,
+          {categoryPrices?.map(
+            ({ shop_id, price, originalPrice, discountPrice }) => {
+              const hasDiscount =
+                discountPrice &&
+                discountPrice > 0 &&
+                discountPrice < (originalPrice ?? price);
+
+              return shop_id ? (
+                <View
+                  key={shop_id}
+                  className="flex-row items-center bg-background rounded-lg px-2 py-2 border border-border"
+                >
+                  <ShopLogoBadge shopId={shop_id} size={20} />
+                  {hasDiscount ? (
+                    <View className="ml-2">
+                      <Text className="text-xs text-muted-foreground line-through">
+                        {originalPrice?.toFixed(2)}€
+                      </Text>
+                      <Text className="text-sm font-bold text-discount">
+                        {discountPrice?.toFixed(2)}€
+                      </Text>
+                    </View>
+                  ) : (
+                    <Text className="text-sm font-medium text-foreground ml-2">
+                      {price.toFixed(2)}€
+                    </Text>
+                  )}
+                </View>
+              ) : null;
+            },
           )}
         </View>
       </View>
