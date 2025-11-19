@@ -88,7 +88,10 @@ export default function RootLayout() {
         }
       }
       if (!theme) {
-        setTheme(colorScheme);
+        // Set default theme to light instead of using system preference
+        setColorScheme('light');
+        setTheme('light');
+        setAndroidNavigationBar('light');
         setIsColorSchemeLoaded(true);
         return;
       }
