@@ -45,7 +45,7 @@ export const SearchHeader = ({
         onBlur={() => setIsFocused(false)}
       />
 
-      {isFocused ? (
+      {isFocused && (
         <Button
           onPress={handleCancel}
           variant="ghost"
@@ -54,16 +54,18 @@ export const SearchHeader = ({
         >
           <Text className="text-primary text-base">Zrušiť</Text>
         </Button>
-      ) : (
-        <IconButton
-          onPress={() =>
-            router.navigate("/main/barcode-search/barcode-search-screen")
-          }
-          className="w-10"
-        >
-          <ScanBarcode size={24} className="text-primary mr-3" />
-        </IconButton>
-      )}
+      )       
+      // (
+      //   <IconButton
+      //     onPress={() =>
+      //       router.navigate("/main/barcode-search/barcode-search-screen")
+      //     }
+      //     className="w-10"
+      //   >
+      //     <ScanBarcode size={24} className="text-primary mr-3" />
+      //   </IconButton>
+      // )
+      }
     </View>
   );
 };
