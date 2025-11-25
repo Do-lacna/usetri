@@ -28,19 +28,19 @@ export const ProductsList: React.FC<ProductsListProps> = ({
 
       {selectedCart?.specific_products?.map((product, index) => (
         <ProductListItem
-          key={product?.detail?.barcode}
+          key={product?.detail?.id}
           product={product}
           index={index}
           totalProducts={selectedCart?.specific_products?.length ?? 0}
-          isFlipped={flippedItems.has(String(product?.detail?.barcode))}
-          onFlip={() => onFlipItem(String(product?.detail?.barcode))}
+          isFlipped={flippedItems.has(String(product?.detail?.id))}
+          onFlip={() => onFlipItem(String(product?.detail?.id))}
         />
       ))}
 
       {selectedCart?.missing_products?.map((product, index) => (
         <MissingProductCard
           product={product}
-          key={product?.detail?.barcode}
+          key={product?.detail?.id}
           index={index}
           totalProducts={selectedCart?.missing_products?.length ?? 0}
         />

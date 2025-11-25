@@ -1,4 +1,3 @@
-import { Percent, Tag } from 'lucide-react-native';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
@@ -38,6 +37,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     discount_price: { percentage_discount, price: discountPrice } = {},
     quantity = 1,
     type,
+    original_product_detail,
   } = product;
 
   const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
@@ -54,25 +54,12 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
       {percentage_discount && price && (
-        <View className="items-end mb-1">
-          <Text className="text-xs text-muted-foreground line-through">
-            {showQuantity ? (price * quantity).toFixed(2) : price.toFixed(2)} €
-          </Text>
-          {percentage_discount && (
-            <View className="flex-row items-center bg-red-100 px-2 py-1 rounded-md mt-1">
-              <Percent size={12} color="#DC2626" />
-              <Text className="text-xs font-medium text-red-600 ml-1">
-                -{percentage_discount}%
-              </Text>
-            </View>
-          )}
-        </View>
+        <Text className="text-xs text-muted-foreground line-through mb-1">
+          {showQuantity ? (price * quantity).toFixed(2) : price.toFixed(2)} €
+        </Text>
       )}
 
       <View className="flex-row items-center">
-        {percentage_discount && (
-          <Tag size={14} color="#DC2626" className="mr-1" />
-        )}
         <Text
           className={`text-base font-semibold ${percentage_discount ? 'text-red-600' : 'text-foreground'}`}
         >
@@ -81,6 +68,13 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             : currentPrice.toFixed(2)}{' '}
           €
         </Text>
+        {percentage_discount && (
+          <View className="bg-red-100 px-1.5 py-0.5 rounded ml-2">
+            <Text className="text-xs font-medium text-red-600">
+              -{percentage_discount}%
+            </Text>
+          </View>
+        )}
       </View>
 
       {quantity > 1 && showQuantity && (
@@ -93,21 +87,12 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   const renderProductInfo = (productName?: string | null, showBrand = true) => (
     <View className="flex-1 pr-4">
-      <View className="flex-row items-start justify-between">
-        <Text
-          className="text-base font-medium text-foreground leading-5 flex-1"
-          numberOfLines={2}
-        >
-          {productName}
-        </Text>
-        {percentage_discount && (
-          <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
-            <Text className="text-xs font-medium text-red-600">
-              {t('discount')}
-            </Text>
-          </View>
-        )}
-      </View>
+      <Text
+        className="text-base font-medium text-foreground leading-5"
+        numberOfLines={2}
+      >
+        {productName}
+      </Text>
 
       <View className="flex-row items-center mt-1">
         <Text className="text-sm text-muted-foreground">
@@ -121,9 +106,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   );
 
   const frontContent = (
-    <View
-      className={`p-4 bg-card ${borderClass} ${percentage_discount ? 'bg-red-50/30' : ''}`}
-    >
+    <View className={`p-4 bg-card ${borderClass}`}>
       <View className="flex-row items-center justify-between min-h-[60px]">
         {renderProductInfo(name)}
         {renderPriceSection(price)}
@@ -138,38 +121,56 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   );
 
   const backContent = displayFlippableCard ? (
-    <View
-      className={`p-4 bg-card ${borderClass} ${percentage_discount ? 'bg-red-50/30' : ''}`}
-    >
+    <View className={`p-4 bg-card ${borderClass}`}>
       <View className="flex-row items-center justify-between min-h-[60px]">
-        <View className="flex-row items-center flex-1 pr-4">
-          {!!image_url && (
-            <Image
-              source={{ uri: image_url as string }}
-              resizeMode="contain"
-              className="w-8 h-8 mr-2"
-            />
-          )}
-          <View className="flex-1">
-            <View className="flex-row items-start justify-between">
+        {original_product_detail ? (
+          // Show original product when it was replaced with another product
+          <>
+            <View className="flex-1 pr-4">
               <Text
-                className="text-base font-medium text-foreground flex-1 leading-5"
+                className="text-base font-medium text-foreground leading-5"
                 numberOfLines={2}
               >
-                {categoryName}
+                {original_product_detail.name}
               </Text>
-              {percentage_discount && (
-                <View className="bg-red-50 px-2 py-1 rounded-md ml-2">
-                  <Text className="text-xs font-medium text-red-600">
-                    {t('discount')}
-                  </Text>
-                </View>
-              )}
-            </View>
-          </View>
-        </View>
 
-        {renderPriceSection(price)}
+              <View className="flex-row items-center mt-1">
+                <Text className="text-sm text-muted-foreground">
+                  {original_product_detail.unit?.normalized_amount}{' '}
+                  {original_product_detail.unit?.normalized_unit}
+                </Text>
+                {original_product_detail.brand && (
+                  <Text className="text-xs text-muted-foreground ml-2">
+                    • {original_product_detail.brand}
+                  </Text>
+                )}
+              </View>
+            </View>
+            {renderPriceSection(price, false)}
+          </>
+        ) : (
+          // Show category when it was replaced with a category product
+          <>
+            <View className="flex-row items-center flex-1 pr-4">
+              {!!image_url && (
+                <Image
+                  source={{ uri: image_url as string }}
+                  resizeMode="contain"
+                  className="w-8 h-8 mr-2"
+                />
+              )}
+              <View className="flex-1">
+                <Text
+                  className="text-base font-medium text-foreground leading-5"
+                  numberOfLines={2}
+                >
+                  {categoryName}
+                </Text>
+              </View>
+            </View>
+            {renderPriceSection(price)}
+          </>
+        )}
         <RefreshCw
           size={18}
           className="ml-4 mr-2 text-terciary flex-shrink-0"
