@@ -1,6 +1,7 @@
 import type React from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, Text, View } from 'react-native';
+import { Animated, Image, Text, View } from 'react-native';
 import FlippableCard from '~/src/components/flippable-card/flippable-card';
 import { RefreshCw } from '~/src/lib/icons/RefreshCw';
 import {
@@ -24,6 +25,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   onFlip,
 }) => {
   const { t } = useTranslation('common');
+  const spinValue = useRef(new Animated.Value(0)).current;
 
   const {
     detail: {
@@ -50,6 +52,30 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
         CartComparisonProductType.ReplacedWithCategoryProduct,
       ] as CartComparisonProductType[]
     ).includes(type);
+
+  // Spin animation for replacement icon
+  useEffect(() => {
+    if (displayFlippableCard) {
+      Animated.sequence([
+        Animated.timing(spinValue, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: true,
+        }),
+        Animated.delay(500),
+        Animated.timing(spinValue, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [displayFlippableCard]);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
@@ -111,10 +137,12 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
         {renderProductInfo(name)}
         {renderPriceSection(price)}
         {displayFlippableCard && (
-          <RefreshCw
-            size={18}
-            className="ml-4 mr-2 text-terciary flex-shrink-0"
-          />
+          <Animated.View
+            style={{ transform: [{ rotate: spin }] }}
+            className="ml-4 mr-2 rounded-full p-1.5 flex-shrink-0"
+          >
+            <RefreshCw size={16} className="text-terciary" />
+          </Animated.View>
         )}
       </View>
     </View>
@@ -171,10 +199,12 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             {renderPriceSection(price)}
           </>
         )}
-        <RefreshCw
-          size={18}
-          className="ml-4 mr-2 text-terciary flex-shrink-0"
-        />
+        <Animated.View
+          style={{ transform: [{ rotate: spin }] }}
+          className="ml-4 mr-2 rounded-full p-1.5 flex-shrink-0"
+        >
+          <RefreshCw size={16} className="text-terciary" />
+        </Animated.View>
       </View>
     </View>
   ) : null;

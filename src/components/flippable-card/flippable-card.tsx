@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Animated, TouchableOpacity, View, type ViewStyle } from 'react-native';
 
 interface FlippableCardProps {
@@ -18,39 +18,18 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   style = {},
   disableFlipping = false, // Default to false to maintain existing behavior
 }) => {
-  const flipAnimation = useRef(
-    new Animated.Value(disableFlipping ? 0 : 180),
-  ).current; // Start from front if flipping is disabled
-  const [hasInitialFlipped, setHasInitialFlipped] = useState(disableFlipping); // Skip initial flip if disabled
+  const flipAnimation = useRef(new Animated.Value(0)).current;
 
-  // Initial flip animation on mount (only if flipping is enabled)
+  // Handle flip animation on user interaction
   React.useEffect(() => {
-    if (!disableFlipping && !hasInitialFlipped) {
-      // Start from back, flip to front with a delay for staggered effect
-      const delay = Math.random() * 500; // Random delay between 0-500ms for staggered effect
-
-      setTimeout(() => {
-        Animated.timing(flipAnimation, {
-          toValue: 0, // Flip to front
-          duration: 800,
-          useNativeDriver: true,
-        }).start(() => {
-          setHasInitialFlipped(true);
-        });
-      }, delay);
-    }
-  }, [hasInitialFlipped, disableFlipping]);
-
-  // Handle user interactions after initial flip (only if flipping is enabled)
-  React.useEffect(() => {
-    if (!disableFlipping && hasInitialFlipped) {
+    if (!disableFlipping) {
       Animated.timing(flipAnimation, {
         toValue: isFlipped ? 180 : 0,
         duration: 600,
         useNativeDriver: true,
       }).start();
     }
-  }, [isFlipped, hasInitialFlipped, disableFlipping]);
+  }, [isFlipped, disableFlipping]);
 
   const frontInterpolate = flipAnimation.interpolate({
     inputRange: [0, 180],
@@ -80,12 +59,7 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   }
 
   return (
-    <TouchableOpacity
-      onPress={hasInitialFlipped ? onFlip : undefined}
-      style={style}
-      disabled={!hasInitialFlipped} // Disable touch during initial animation
-      className="py-1"
-    >
+    <TouchableOpacity onPress={onFlip} style={style} className="py-1">
       <View style={{ position: 'relative', minHeight: 'auto' }}>
         <Animated.View
           style={[
