@@ -5,19 +5,20 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ArchivedCartProductDetail {
-  product_id?: number;
-  /** @nullable */
-  barcode?: string | null;
+export interface CreateProductDto {
   /** @nullable */
   name?: string | null;
   amount?: number;
   /** @nullable */
-  brand?: string | null;
-  /** @nullable */
   unit?: string | null;
   /** @nullable */
-  image_url?: string | null;
+  barcode?: string | null;
+  /** @nullable */
+  scanned_barcode?: string | null;
+  /** @nullable */
+  brand?: string | null;
   /** @nullable */
   category_id?: number | null;
+  /** @nullable */
+  image_base64?: string | null;
 }

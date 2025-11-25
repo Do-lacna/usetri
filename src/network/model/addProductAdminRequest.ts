@@ -4,8 +4,8 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { CreateProductModel } from './createProductModel';
+import type { CreateProductDto } from './createProductDto';
 
 export interface AddProductAdminRequest {
-  product?: CreateProductModel;
+  product?: CreateProductDto;
 }

@@ -6,5 +6,6 @@
  */
 
 export type UploadWoltJsonParams = {
+  shopId?: number;
   batchSize?: number;
 };

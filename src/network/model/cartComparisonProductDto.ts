@@ -16,4 +16,5 @@ export interface CartComparisonProductDto {
   price?: number;
   total_price?: number;
   discount_price?: DiscountPriceDto;
+  original_product_detail?: ProductDto;
 }
