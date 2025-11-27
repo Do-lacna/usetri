@@ -1,12 +1,27 @@
 import { Redirect } from 'expo-router';
-import { Text } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { View } from 'react-native';
+import loadingAnimation from '~/assets/animations/loading-animation.json';
 import { useSession } from '~/src/context/authentication-context';
+
 const AppIndex = () => {
   const { user, isLoading } = useSession();
 
-  // You can keep the splash screen open, or render a loading screen like we do here.
+  // Show a nice loading animation while checking authentication
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <LottieView
+          autoPlay
+          loop
+          style={{
+            width: 200,
+            height: 200,
+          }}
+          source={loadingAnimation}
+        />
+      </View>
+    );
   }
 
   // Only require authentication within the (app) group's layout as users
