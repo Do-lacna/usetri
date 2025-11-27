@@ -1,9 +1,9 @@
 import type React from 'react';
 import { ActivityIndicator, FlatList, View } from 'react-native';
-import { useGetProducts } from '~/src/network/query/query';
 import { NoDataText } from '~/src/components/no-data-text/no-data-text';
 import DiscountedProductCard from '~/src/components/product-card/discounted-product-card';
 import { Text } from '~/src/components/ui/text';
+import { useGetProducts } from '~/src/network/query/query';
 
 interface ShoppingListProductSearchProps {
   searchQuery: string;
@@ -48,7 +48,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
         renderItem={({ item }) => (
           <DiscountedProductCard
             product={item}
-            onPress={onProductSelect}
+            onPress={productId => onProductSelect?.(productId)}
             shopsPrices={item?.shops_prices}
           />
         )}

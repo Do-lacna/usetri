@@ -65,7 +65,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
 
       {/* Availability warning - below the row */}
       {!isAvailable && (
-        <View className="flex-row items-center px-2 py-1.5 bg-yellow-100 dark:bg-yellow-200 rounded-md self-start">
+        <View className="flex-row items-center px-2 py-1.5 bg-yellow-100 dark:bg-yellow-200 rounded-md">
           <AlertCircle
             size={12}
             className="mr-1.5 text-foreground dark:text-background"
