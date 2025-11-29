@@ -1,13 +1,13 @@
-import type React from 'react';
-import { useRef } from 'react';
-import { Dimensions, View } from 'react-native';
+import type React from "react";
+import { useRef } from "react";
+import { Animated, Dimensions, View } from "react-native";
 import {
   Carousel,
   CarouselIndicators,
   CarouselItem,
-} from '../../../components/ui/carousel';
-import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
-import { StoreCard } from './store-card';
+} from "../../../components/ui/carousel";
+import type { DiscountStatsDto, ShopExtendedDto } from "~/src/network/model";
+import { StoreCard } from "./store-card";
 
 interface StoreCarouselProps {
   shops: ShopExtendedDto[];
@@ -15,6 +15,8 @@ interface StoreCarouselProps {
   stats: DiscountStatsDto[];
   onStoreSelect: (storeId: number, index: number) => void;
   onSnapToItem: (index: number) => void;
+  animatedHeight?: Animated.AnimatedInterpolation<number>;
+  animatedScale?: Animated.AnimatedInterpolation<number>;
 }
 
 export const StoreCarousel: React.FC<StoreCarouselProps> = ({
@@ -23,12 +25,16 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   stats,
   onStoreSelect,
   onSnapToItem,
+  animatedHeight,
+  animatedScale,
 }) => {
   const carouselRef = useRef<any>(null);
-  const { width: screenWidth } = Dimensions.get('window');
+  const { width: screenWidth } = Dimensions.get("window");
+
   // Card takes 75% of screen width, leaving 12.5% visible on each side
   const CARD_WIDTH_PERCENTAGE = 0.75;
   const CARD_WIDTH = screenWidth * CARD_WIDTH_PERCENTAGE;
+
   // Add margins to create spacing between cards
   const CARD_MARGIN = 8;
   const ITEM_WIDTH = CARD_WIDTH + CARD_MARGIN * 2;
@@ -43,7 +49,14 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   };
 
   return (
-    <View className="bg-background py-3">
+    <Animated.View
+      className="bg-background"
+      style={{
+        height: animatedHeight || 240,
+        overflow: "hidden",
+        justifyContent: "center",
+      }}
+    >
       <Carousel
         ref={carouselRef}
         height={240}
@@ -53,23 +66,29 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
       >
         {shops?.map((store, index) => (
           <CarouselItem key={store.id}>
-            <StoreCard
-              store={store}
-              index={index}
-              isActive={store?.id === activeStoreId}
-              stats={stats}
-              onPress={handleStoreSelect}
-              cardWidth={CARD_WIDTH}
-            />
+            <View style={{ alignItems: "flex-start", width: ITEM_WIDTH }}>
+              <StoreCard
+                store={store}
+                index={index}
+                isActive={store?.id === activeStoreId}
+                stats={stats}
+                onPress={handleStoreSelect}
+                cardWidth={CARD_WIDTH}
+                animatedHeight={animatedHeight}
+                animatedScale={animatedScale}
+              />
+            </View>
           </CarouselItem>
         )) || []}
       </Carousel>
 
-      <CarouselIndicators
-        className="mt-3"
-        indicatorClassName="bg-gray-300"
-        activeIndicatorClassName="bg-primary scale-125"
-      />
-    </View>
+      <Animated.View style={{ transform: [{ scale: animatedScale || 1 }] }}>
+        <CarouselIndicators
+          className="mt-3"
+          indicatorClassName="bg-gray-300"
+          activeIndicatorClassName="bg-primary scale-125"
+        />
+      </Animated.View>
+    </Animated.View>
   );
 };

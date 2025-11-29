@@ -1,13 +1,19 @@
-import type React from 'react';
-import { useTranslation } from 'react-i18next';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
-import { PRIMARY_HEX } from '~/src/lib/constants';
-import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
-import { getShopCoverImage } from '../../../utils/logo-utils';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Animated,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { PRIMARY_HEX } from "~/src/lib/constants";
+import type { DiscountStatsDto, ShopExtendedDto } from "~/src/network/model";
+import { getShopCoverImage } from "../../../utils/logo-utils";
 import {
   getStoreDiscountsCount,
   getStoreDisplayName,
-} from '../utils/store-utils';
+} from "../utils/store-utils";
 
 interface StoreCardProps {
   store: ShopExtendedDto;
@@ -16,6 +22,8 @@ interface StoreCardProps {
   stats: DiscountStatsDto[];
   onPress: (storeId: number, index: number) => void;
   cardWidth: number;
+  animatedHeight?: Animated.AnimatedInterpolation<number>;
+  animatedScale?: Animated.AnimatedInterpolation<number>;
 }
 
 export const StoreCard: React.FC<StoreCardProps> = ({
@@ -25,122 +33,140 @@ export const StoreCard: React.FC<StoreCardProps> = ({
   stats,
   onPress,
   cardWidth,
+  animatedHeight,
+  animatedScale,
 }) => {
   const { t } = useTranslation();
   const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
   const storeImage = getShopCoverImage(Number(store?.id));
 
-  return (
-    <TouchableOpacity
-      key={store.id}
-      onPress={() => onPress(Number(store?.id), index)}
-      style={[
-        {
-          width: cardWidth,
-          height: 192,
-          marginHorizontal: 8,
-          borderRadius: 12,
-          // Remove overflow: 'hidden' to prevent border clipping
-          transform: [{ scale: isActive ? 1 : 0.92 }],
-          opacity: isActive ? 1 : 0.7,
-        },
-        isActive && {
-          elevation: 8, // Android shadow
-          shadowColor: '#000', // iOS shadow
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.3,
-          shadowRadius: 8,
-        },
-        !isActive && {
-          elevation: 2, // Android shadow
-          shadowColor: '#000', // iOS shadow
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-        },
-      ]}
-    >
-      <ImageBackground
-        source={storeImage}
-        style={{ flex: 1 }}
-        resizeMode="cover"
-        imageStyle={{ borderRadius: 12 }}
-      >
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: isActive
-              ? 'rgba(0, 0, 0, 0.3)'
-              : 'rgba(0, 0, 0, 0.5)',
-            borderRadius: 12,
-          }}
-        />
+  // We'll hide discount count when animatedHeight is provided (indicating scroll is happening)
+  // In practice, you might want to use an Animated.Value listener, but for simplicity
+  // we just check if the prop exists
+  const [isShrunk, setIsShrunk] = React.useState(false);
 
-        <View style={{ position: 'absolute', bottom: 12, left: 16 }}>
-          <Text
+  React.useEffect(() => {
+    if (animatedHeight) {
+      const listenerId = animatedHeight.addListener(({ value }) => {
+        setIsShrunk(value < 180); // Hide when height is less than 180px
+      });
+      return () => animatedHeight.removeListener(listenerId);
+    }
+  }, [animatedHeight]);
+
+  return (
+    <Animated.View style={{ transform: [{ scale: animatedScale || 1 }] }}>
+      <TouchableOpacity
+        key={store.id}
+        onPress={() => onPress(Number(store?.id), index)}
+        style={[
+          {
+            width: cardWidth,
+            height: 192,
+            marginHorizontal: 8,
+            borderRadius: 12,
+            // Remove overflow: 'hidden' to prevent border clipping
+            transform: [{ scale: isActive ? 1 : 0.92 }],
+            opacity: isActive ? 1 : 0.7,
+          },
+          isActive && {
+            elevation: 8, // Android shadow
+            shadowColor: "#000", // iOS shadow
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 8,
+          },
+          !isActive && {
+            elevation: 2, // Android shadow
+            shadowColor: "#000", // iOS shadow
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+          },
+        ]}
+      >
+        <ImageBackground
+          source={storeImage}
+          style={{ flex: 1 }}
+          resizeMode="cover"
+          imageStyle={{ borderRadius: 12 }}
+        >
+          <View
             style={{
-              fontWeight: 'bold',
-              color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
-              fontSize: isActive ? 18 : 16,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: isActive
+                ? "rgba(0, 0, 0, 0.3)"
+                : "rgba(0, 0, 0, 0.5)",
+              borderRadius: 12,
             }}
-          >
-            {getStoreDisplayName(store.name)}
-          </Text>
-          {discountCount > 0 && (
+          />
+
+          <View style={{ position: "absolute", bottom: 12, left: 16 }}>
             <Text
               style={{
-                marginTop: 4,
-                color: isActive
-                  ? 'rgba(255, 255, 255, 0.9)'
-                  : 'rgba(255, 255, 255, 0.7)',
-                fontSize: isActive ? 14 : 12,
+                fontWeight: "bold",
+                color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.8)",
+                fontSize: isActive ? 24 : 20,
               }}
             >
-              {t('discounts.discountsCount', {
-                count: discountCount,
-              })}
+              {getStoreDisplayName(store.name)}
             </Text>
-          )}
-        </View>
+            {!isShrunk && discountCount > 0 && (
+              <Text
+                style={{
+                  marginTop: 4,
+                  color: isActive
+                    ? "rgba(255, 255, 255, 0.9)"
+                    : "rgba(255, 255, 255, 0.7)",
+                  fontSize: isActive ? 14 : 12,
+                }}
+              >
+                {t("discounts.discountsCount", {
+                  count: discountCount,
+                })}
+              </Text>
+            )}
+          </View>
 
-        {isActive && (
-          <>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                borderWidth: 4,
-                borderColor: PRIMARY_HEX, // primary color
-                borderRadius: 12,
-                pointerEvents: 'none', // Prevent touch interference
-              }}
-            />
-            <View
-              style={{
-                position: 'absolute',
-                top: 12,
-                right: 12,
-                width: 16,
-                height: 16,
-                backgroundColor: PRIMARY_HEX, // primary color
-                borderRadius: 8,
-                elevation: 4,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.3,
-                shadowRadius: 4,
-              }}
-            />
-          </>
-        )}
-      </ImageBackground>
-    </TouchableOpacity>
+          {isActive && (
+            <>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderWidth: 4,
+                  borderColor: PRIMARY_HEX, // primary color
+                  borderRadius: 12,
+                  pointerEvents: "none", // Prevent touch interference
+                }}
+              />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 12,
+                  right: 12,
+                  width: 16,
+                  height: 16,
+                  backgroundColor: PRIMARY_HEX, // primary color
+                  borderRadius: 8,
+                  elevation: 4,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 4,
+                }}
+              />
+            </>
+          )}
+        </ImageBackground>
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
