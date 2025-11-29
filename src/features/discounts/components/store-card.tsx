@@ -23,8 +23,10 @@ interface StoreCardProps {
   onPress: (storeId: number, index: number) => void;
   cardWidth: number;
   animatedHeight?: Animated.AnimatedInterpolation<number>;
-  animatedScale?: Animated.AnimatedInterpolation<number>;
 }
+
+const EXPANDED_HEIGHT = 240;
+const COLLAPSED_HEIGHT = 90;
 
 export const StoreCard: React.FC<StoreCardProps> = ({
   store,
@@ -34,51 +36,90 @@ export const StoreCard: React.FC<StoreCardProps> = ({
   onPress,
   cardWidth,
   animatedHeight,
-  animatedScale,
 }) => {
   const { t } = useTranslation();
   const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
   const storeImage = getShopCoverImage(Number(store?.id));
 
-  // We'll hide discount count when animatedHeight is provided (indicating scroll is happening)
-  // In practice, you might want to use an Animated.Value listener, but for simplicity
-  // we just check if the prop exists
-  const [isShrunk, setIsShrunk] = React.useState(false);
+  // Create collapse interpolation (0 = expanded, 1 = collapsed)
+  const collapse = animatedHeight
+    ? animatedHeight.interpolate({
+        inputRange: [COLLAPSED_HEIGHT, EXPANDED_HEIGHT],
+        outputRange: [1, 0],
+        extrapolate: "clamp",
+      })
+    : new Animated.Value(0);
 
-  React.useEffect(() => {
-    if (animatedHeight) {
-      const listenerId = animatedHeight.addListener(({ value }) => {
-        setIsShrunk(value < 180); // Hide when height is less than 180px
-      });
-      return () => animatedHeight.removeListener(listenerId);
-    }
-  }, [animatedHeight]);
+  // Interpolate internal UI elements based on collapse value
+  const titleFontSize = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [isActive ? 24 : 20, isActive ? 16 : 14],
+  });
+
+  const contentPaddingBottom = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [12, 6],
+  });
+
+  const contentPaddingLeft = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [16, 12],
+  });
+
+  const discountTextOpacity = collapse.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [1, 0, 0],
+  });
+
+  const discountTextFontSize = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [isActive ? 14 : 12, 10],
+  });
+
+  const cardHeight = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [192, 80],
+  });
+
+  const indicatorSize = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [16, 10],
+  });
+
+  const indicatorTopPosition = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [12, 6],
+  });
+
+  const indicatorRightPosition = collapse.interpolate({
+    inputRange: [0, 1],
+    outputRange: [12, 8],
+  });
 
   return (
-    <Animated.View style={{ transform: [{ scale: animatedScale || 1 }] }}>
+    <Animated.View style={{ height: cardHeight }}>
       <TouchableOpacity
         key={store.id}
         onPress={() => onPress(Number(store?.id), index)}
         style={[
           {
             width: cardWidth,
-            height: 192,
+            height: "100%",
             marginHorizontal: 8,
             borderRadius: 12,
-            // Remove overflow: 'hidden' to prevent border clipping
             transform: [{ scale: isActive ? 1 : 0.92 }],
             opacity: isActive ? 1 : 0.7,
           },
           isActive && {
-            elevation: 8, // Android shadow
-            shadowColor: "#000", // iOS shadow
+            elevation: 8,
+            shadowColor: "#000",
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
             shadowRadius: 8,
           },
           !isActive && {
-            elevation: 2, // Android shadow
-            shadowColor: "#000", // iOS shadow
+            elevation: 2,
+            shadowColor: "#000",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
             shadowRadius: 4,
@@ -105,32 +146,39 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             }}
           />
 
-          <View style={{ position: "absolute", bottom: 12, left: 16 }}>
-            <Text
+          <Animated.View
+            style={{
+              position: "absolute",
+              bottom: contentPaddingBottom,
+              left: contentPaddingLeft,
+            }}
+          >
+            <Animated.Text
               style={{
                 fontWeight: "bold",
                 color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.8)",
-                fontSize: isActive ? 24 : 20,
+                fontSize: titleFontSize,
               }}
             >
               {getStoreDisplayName(store.name)}
-            </Text>
-            {!isShrunk && discountCount > 0 && (
-              <Text
+            </Animated.Text>
+            {discountCount > 0 && (
+              <Animated.Text
                 style={{
                   marginTop: 4,
                   color: isActive
                     ? "rgba(255, 255, 255, 0.9)"
                     : "rgba(255, 255, 255, 0.7)",
-                  fontSize: isActive ? 14 : 12,
+                  fontSize: discountTextFontSize,
+                  opacity: discountTextOpacity,
                 }}
               >
                 {t("discounts.discountsCount", {
                   count: discountCount,
                 })}
-              </Text>
+              </Animated.Text>
             )}
-          </View>
+          </Animated.View>
 
           {isActive && (
             <>
@@ -142,20 +190,23 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                   right: 0,
                   bottom: 0,
                   borderWidth: 4,
-                  borderColor: PRIMARY_HEX, // primary color
+                  borderColor: PRIMARY_HEX,
                   borderRadius: 12,
-                  pointerEvents: "none", // Prevent touch interference
+                  pointerEvents: "none",
                 }}
               />
-              <View
+              <Animated.View
                 style={{
                   position: "absolute",
-                  top: 12,
-                  right: 12,
-                  width: 16,
-                  height: 16,
-                  backgroundColor: PRIMARY_HEX, // primary color
-                  borderRadius: 8,
+                  top: indicatorTopPosition,
+                  right: indicatorRightPosition,
+                  width: indicatorSize,
+                  height: indicatorSize,
+                  backgroundColor: PRIMARY_HEX,
+                  borderRadius: collapse.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [8, 5],
+                  }),
                   elevation: 4,
                   shadowColor: "#000",
                   shadowOffset: { width: 0, height: 2 },

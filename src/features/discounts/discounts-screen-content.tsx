@@ -12,30 +12,23 @@ export const DiscountsScreenContent: React.FC = () => {
   const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
     useGetDiscountsStatistics();
 
+  const scrollY = useRef(new Animated.Value(0)).current;
+
   const {
     activeStoreId,
     activeStore,
     sortedShops,
     handleStoreSelect,
     handleSnapToItem,
-  } = useStoreSelection();
+  } = useStoreSelection(scrollY);
 
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const SCROLL_DISTANCE = 150; // Distance over which animation completes
+  const SCROLL_DISTANCE = 150;
   const MIN_HEIGHT = 90;
   const MAX_HEIGHT = 240;
 
-  // Interpolate carousel height
   const carouselHeight = scrollY.interpolate({
     inputRange: [0, SCROLL_DISTANCE],
     outputRange: [MAX_HEIGHT, MIN_HEIGHT],
-    extrapolate: "clamp",
-  });
-
-  // Interpolate scale for cards (90/240 = 0.375)
-  const carouselScale = scrollY.interpolate({
-    inputRange: [0, SCROLL_DISTANCE],
-    outputRange: [1, MIN_HEIGHT / MAX_HEIGHT],
     extrapolate: "clamp",
   });
 
@@ -51,7 +44,6 @@ export const DiscountsScreenContent: React.FC = () => {
         onStoreSelect={handleStoreSelect}
         onSnapToItem={handleSnapToItem}
         animatedHeight={carouselHeight}
-        animatedScale={carouselScale}
         scrollY={scrollY}
       />
 
@@ -62,7 +54,11 @@ export const DiscountsScreenContent: React.FC = () => {
               Zľavy v {getStoreDisplayName(activeStore.name)}
             </Text>
           </View>
-          <DiscountList shop={activeStore} onScroll={scrollY} />
+          <DiscountList
+            key={activeStoreId}
+            shop={activeStore}
+            onScroll={scrollY}
+          />
         </View>
       )}
 
