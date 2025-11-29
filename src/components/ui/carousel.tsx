@@ -1,8 +1,8 @@
-import React from 'react';
-import { Dimensions, ScrollView, View } from 'react-native';
-import { cn } from '../../lib/utils';
+import React from "react";
+import { Dimensions, ScrollView, View } from "react-native";
+import { cn } from "../../lib/utils";
 
-const { width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get("window");
 
 interface CarouselProps {
   children: React.ReactNode[];
@@ -11,6 +11,9 @@ interface CarouselProps {
   onSnapToItem?: (index: number) => void;
   className?: string;
   itemWidth?: number;
+  contentPadding?: number;
+  snapToInterval?: number;
+  snapEnabled?: boolean;
 }
 
 interface CarouselContextType {
@@ -28,22 +31,37 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
       height = 200,
       onSnapToItem,
       className,
-      itemWidth = 304, // Default card width (288) + margin (16)
+      itemWidth = 304,
+      contentPadding,
+      snapToInterval: customSnapToInterval,
+      snapEnabled = true,
       ...props
     },
-    ref,
+    ref
   ) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const totalItems = React.Children.count(children);
 
-    const handleScroll = (event: any) => {
-      const scrollPosition = event.nativeEvent.contentOffset.x;
-      const containerWidth = event.nativeEvent.layoutMeasurement.width;
+    const snapInterval =
+      customSnapToInterval !== undefined ? customSnapToInterval : itemWidth;
 
-      // Calculate which card is most centered in the viewport
-      const newIndex = Math.round(
-        (scrollPosition + containerWidth / 2 - itemWidth / 2) / itemWidth,
-      );
+    const horizontalPadding =
+      contentPadding !== undefined
+        ? contentPadding
+        : (screenWidth - itemWidth) / 2;
+
+    const paddingStyle = snapEnabled
+      ? { paddingHorizontal: horizontalPadding }
+      : { paddingLeft: horizontalPadding, paddingRight: horizontalPadding };
+
+    const handleScroll = (event: any) => {
+      if (!snapEnabled) {
+        return;
+      }
+
+      const scrollPosition = event.nativeEvent.contentOffset.x;
+      const adjustedScrollPosition = scrollPosition + horizontalPadding;
+      const newIndex = Math.round(adjustedScrollPosition / snapInterval);
 
       if (newIndex >= 0 && newIndex < totalItems && newIndex !== currentIndex) {
         setCurrentIndex(newIndex);
@@ -58,17 +76,15 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
 
     return (
       <CarouselContext.Provider value={contextValue}>
-        <View className={cn('w-full', className)} style={{ height }}>
+        <View className={cn("w-full", className)} style={{ height }}>
           <ScrollView
             ref={ref}
             horizontal
             showsHorizontalScrollIndicator={false}
-            decelerationRate="fast"
-            snapToInterval={itemWidth}
-            snapToAlignment="center"
-            contentContainerStyle={{
-              paddingHorizontal: (screenWidth - itemWidth) / 2,
-            }}
+            decelerationRate={snapEnabled ? "fast" : "normal"}
+            snapToInterval={snapEnabled ? snapInterval : undefined}
+            snapToAlignment={snapEnabled ? "center" : undefined}
+            contentContainerStyle={paddingStyle}
             onScroll={handleScroll}
             scrollEventThrottle={16}
             {...props}
@@ -78,23 +94,23 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
         </View>
       </CarouselContext.Provider>
     );
-  },
+  }
 );
 
-CarouselRoot.displayName = 'Carousel';
+CarouselRoot.displayName = "Carousel";
 
 const CarouselItem = React.forwardRef<View, React.ComponentProps<typeof View>>(
   ({ className, children, ...props }, ref) => (
     <View
       ref={ref}
-      className={cn('justify-center items-center', className)}
+      className={cn("justify-center items-center", className)}
       {...props}
     >
       {children}
     </View>
-  ),
+  )
 );
-CarouselItem.displayName = 'CarouselItem';
+CarouselItem.displayName = "CarouselItem";
 
 const CarouselIndicators = React.forwardRef<
   View,
@@ -105,7 +121,7 @@ const CarouselIndicators = React.forwardRef<
 >(
   (
     { className, indicatorClassName, activeIndicatorClassName, ...props },
-    ref,
+    ref
   ) => {
     const context = React.useContext(CarouselContext);
 
@@ -114,7 +130,7 @@ const CarouselIndicators = React.forwardRef<
     return (
       <View
         ref={ref}
-        className={cn('flex-row justify-center items-center mt-4', className)}
+        className={cn("flex-row justify-center items-center mt-4", className)}
         {...props}
       >
         {Array.from({ length: context.totalItems }, () => Math.random()).map(
@@ -122,24 +138,24 @@ const CarouselIndicators = React.forwardRef<
             <View
               key={randomValue}
               className={cn(
-                'w-2 h-2 rounded-full mx-1 transition-all duration-300',
+                "w-2 h-2 rounded-full mx-1 transition-all duration-300",
                 index === context.currentIndex
-                  ? cn('bg-primary scale-125', activeIndicatorClassName)
-                  : cn('bg-gray-300', indicatorClassName),
+                  ? cn("bg-primary scale-125", activeIndicatorClassName)
+                  : cn("bg-gray-300", indicatorClassName)
               )}
             />
-          ),
+          )
         )}
       </View>
     );
-  },
+  }
 );
-CarouselIndicators.displayName = 'CarouselIndicators';
+CarouselIndicators.displayName = "CarouselIndicators";
 
 const useCarousel = () => {
   const context = React.useContext(CarouselContext);
   if (!context) {
-    throw new Error('useCarousel must be used within a Carousel');
+    throw new Error("useCarousel must be used within a Carousel");
   }
   return context;
 };

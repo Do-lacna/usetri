@@ -52,6 +52,7 @@ export const DiscountsScreenContent: React.FC = () => {
         onSnapToItem={handleSnapToItem}
         animatedHeight={carouselHeight}
         animatedScale={carouselScale}
+        scrollY={scrollY}
       />
 
       {!!activeStore && (
