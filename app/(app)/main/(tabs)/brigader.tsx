@@ -21,8 +21,21 @@ import {
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
 import BrigaderProductRow from '../../../../src/features/brigader/components/brigader-product-row';
+import DiscountConfirmationScreen from '../../../../src/features/brigader/components/discount-confirmation-screen';
 
-export default function SearchScreen() {
+export default function BrigaderScreen() {
+  const [mode, setMode] = React.useState<'old' | 'discount'>('discount');
+
+  // Toggle between old and new mode
+  if (mode === 'discount') {
+    return <DiscountConfirmationScreen />;
+  }
+
+  // OLD FUNCTIONALITY BELOW (kept for reference)
+  return <OldBrigaderScreen />;
+}
+
+function OldBrigaderScreen() {
   const queryClient = useQueryClient();
   const [selectedShop, setSelectedShop] = React.useState<Option>({
     value: '',
