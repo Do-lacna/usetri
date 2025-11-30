@@ -1,5 +1,7 @@
 import type { Option } from '@rn-primitives/select';
 import { useQueryClient } from '@tanstack/react-query';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
 import type React from 'react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +13,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { Image } from 'expo-image';
-import { cssInterop } from 'nativewind';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   CustomSelect,
@@ -33,13 +33,13 @@ import type {
   ShopItemDto,
 } from '~/src/network/model';
 import { DiscountImportActionEnum } from '~/src/network/model';
-
-cssInterop(Image, { className: 'style' });
 import { useGetProducts, useGetShops } from '~/src/network/query/query';
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
+
+cssInterop(Image, { className: 'style' });
 
 interface DiscountItemProps {
   discount: DiscountPriceImportEntryDto;
@@ -101,7 +101,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
     mutation: {
       onSuccess: () => {
         displaySuccessToastMessage('Cena produktu bola úspešne aktualizovaná');
-        
+
         // After successful price update, patch the discount entry
         if (discount.discount_id && selectedProduct?.detail?.id) {
           patchDiscountEntry({
@@ -114,7 +114,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
             },
           });
         }
-        
+
         setSelectedProduct(null);
       },
       onError: () => {
@@ -253,7 +253,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
                         className="w-12 h-12 rounded"
                         contentFit="cover"
                       />
-                      
+
                       <View className="flex-1">
                         <Text
                           className={`text-sm font-medium ${
@@ -286,16 +286,21 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
                             <View>
                               <Text
                                 className={`text-sm font-bold ${
-                                  selectedProduct?.detail?.id === product.detail?.id
+                                  selectedProduct?.detail?.id ===
+                                  product.detail?.id
                                     ? 'text-primary-foreground'
                                     : 'text-red-600'
                                 }`}
                               >
-                                {product.shops_prices[0].discount_price.price.toFixed(2)} €
+                                {product.shops_prices[0].discount_price.price.toFixed(
+                                  2,
+                                )}{' '}
+                                €
                               </Text>
                               <Text
                                 className={`text-xs line-through ${
-                                  selectedProduct?.detail?.id === product.detail?.id
+                                  selectedProduct?.detail?.id ===
+                                  product.detail?.id
                                     ? 'text-primary-foreground/60'
                                     : 'text-muted-foreground'
                                 }`}
@@ -306,7 +311,8 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
                           ) : product.shops_prices[0].price !== undefined ? (
                             <Text
                               className={`text-sm font-bold ${
-                                selectedProduct?.detail?.id === product.detail?.id
+                                selectedProduct?.detail?.id ===
+                                product.detail?.id
                                   ? 'text-primary-foreground'
                                   : 'text-foreground'
                               }`}
