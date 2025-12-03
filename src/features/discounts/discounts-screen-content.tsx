@@ -1,17 +1,18 @@
-import type React from 'react';
-import { Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useGetDiscountsStatistics } from '~/src/network/query/query';
-import DiscountList from './components/discount-list';
-import { StoreCarousel } from './components/store-carousel';
-import { useStoreSelection } from './hooks/use-store-selection';
-import { getStoreDisplayName } from './utils/store-utils';
+import type React from "react";
+import { useRef } from "react";
+import { Animated, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useGetDiscountsStatistics } from "~/src/network/query/query";
+import DiscountList from "./components/discount-list";
+import { StoreCarousel } from "./components/store-carousel";
+import { useStoreSelection } from "./hooks/use-store-selection";
+import { getStoreDisplayName } from "./utils/store-utils";
 
 export const DiscountsScreenContent: React.FC = () => {
-  const {
-    data: { stats = [] } = {},
-    isLoading: areDiscountStatisticsLoading,
-  } = useGetDiscountsStatistics();
+  const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
+    useGetDiscountsStatistics();
+
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const {
     activeStoreId,
@@ -19,12 +20,22 @@ export const DiscountsScreenContent: React.FC = () => {
     sortedShops,
     handleStoreSelect,
     handleSnapToItem,
-  } = useStoreSelection();
+  } = useStoreSelection(scrollY);
+
+  const SCROLL_DISTANCE = 150;
+  const MIN_HEIGHT = 90;
+  const MAX_HEIGHT = 240;
+
+  const carouselHeight = scrollY.interpolate({
+    inputRange: [0, SCROLL_DISTANCE],
+    outputRange: [MAX_HEIGHT, MIN_HEIGHT],
+    extrapolate: "clamp",
+  });
 
   return (
     <SafeAreaView
       className="flex-1 bg-background"
-      edges={['top', 'left', 'right']}
+      edges={["top", "left", "right"]}
     >
       <StoreCarousel
         shops={sortedShops}
@@ -32,6 +43,8 @@ export const DiscountsScreenContent: React.FC = () => {
         stats={stats || []}
         onStoreSelect={handleStoreSelect}
         onSnapToItem={handleSnapToItem}
+        animatedHeight={carouselHeight}
+        scrollY={scrollY}
       />
 
       {!!activeStore && (
@@ -41,7 +54,11 @@ export const DiscountsScreenContent: React.FC = () => {
               Zľavy v {getStoreDisplayName(activeStore.name)}
             </Text>
           </View>
-          <DiscountList shop={activeStore} />
+          <DiscountList
+            key={activeStoreId}
+            shop={activeStore}
+            onScroll={scrollY}
+          />
         </View>
       )}
 
