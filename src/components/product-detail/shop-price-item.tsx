@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { formatDiscountValidity } from '~/src/features/discounts/utils/format-validity';
 import { AlertCircle } from '~/src/lib/icons/AlertCircle';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 
@@ -9,6 +10,8 @@ interface ShopPriceItemProps {
   shopName: string;
   price: number;
   discountPrice?: number | null;
+  discountValidFrom?: string;
+  discountValidTo?: string;
   isSelected: boolean;
   onSelect: (shopId: number) => void;
   isAvailable?: boolean; // Flag to indicate product availability
@@ -19,11 +22,17 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
   shopName,
   price,
   discountPrice,
+  discountValidFrom,
+  discountValidTo,
   isSelected,
   onSelect,
   isAvailable = true, // Default to available
 }) => {
   const { t } = useTranslation();
+
+  const validityText = discountPrice
+    ? formatDiscountValidity(discountValidFrom, discountValidTo)
+    : null;
 
   return (
     <TouchableOpacity
@@ -43,22 +52,27 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
 
         <View className="items-end">
           {discountPrice ? (
-            <View className="flex-row items-center space-x-1">
-              <Text className="text-xl font-bold text-destructive mr-1">
-                {discountPrice.toFixed(2)} €
-              </Text>
-              <Text className="text-xl text-muted-foreground line-through">
-                {price.toFixed(2)} €
-              </Text>
-            </View>
+            <>
+              <View className="flex-row items-center space-x-1">
+                <Text className="text-xl font-bold text-destructive mr-1">
+                  {discountPrice.toFixed(2)} €
+                </Text>
+                <Text className="text-xl text-muted-foreground line-through">
+                  {price.toFixed(2)} €
+                </Text>
+              </View>
+              {validityText && (
+                <View className="px-2 py-0.5 bg-border rounded-full mt-1">
+                  <Text className="text-[11px] font-medium text-foreground/70">
+                    {validityText}
+                  </Text>
+                </View>
+              )}
+            </>
           ) : (
             <Text className="text-xl font-bold text-foreground">
               {price.toFixed(2)} €
             </Text>
-          )}
-
-          {isSelected && (
-            <View className="w-2 h-2 bg-primary rounded-full mt-1" />
           )}
         </View>
       </View>

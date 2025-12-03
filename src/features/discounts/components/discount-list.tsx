@@ -1,25 +1,26 @@
-import { FlashList, type ListRenderItem } from "@shopify/flash-list";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { router } from "expo-router";
-import React from "react";
+import { FlashList, type ListRenderItem } from '@shopify/flash-list';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import React from 'react';
 import {
   ActivityIndicator,
   Animated,
   RefreshControl,
   Text,
   View,
-} from "react-native";
-import DiscountedProductCard from "~/src/components/product-card/discounted-product-card";
-import { DiscountedProductCardSkeleton } from "~/src/components/product-card/discounted-product-card-skeleton";
-import type { ShopExtendedDto, ShopProductDto } from "~/src/network/model";
+} from 'react-native';
+import DiscountedProductCard from '~/src/components/product-card/discounted-product-card';
+import { DiscountedProductCardSkeleton } from '~/src/components/product-card/discounted-product-card-skeleton';
+import type { ShopExtendedDto, ShopProductDto } from '~/src/network/model';
 import {
   getDiscounts,
   getGetDiscountsQueryKey,
-} from "~/src/network/query/query";
+} from '~/src/network/query/query';
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
   onScroll?: Animated.Value;
+  validityInfo?: { validFrom?: string; validTo?: string } | null;
 }
 
 interface SkeletonItem {
@@ -28,7 +29,7 @@ interface SkeletonItem {
 
 const LIMIT = 20; // Number of items to fetch per page
 
-const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
+const DiscountList = ({ shop, onScroll, validityInfo }: IDiscountListProps) => {
   const { id } = shop;
 
   const {
@@ -59,7 +60,7 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
 
   // Flatten all pages into a single array
   const allProducts = React.useMemo(() => {
-    return data?.pages.flatMap((page) => page.products || []) || [];
+    return data?.pages.flatMap(page => page.products || []) || [];
   }, [data]);
 
   const loadMoreData = React.useCallback(() => {
@@ -75,7 +76,7 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
   // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
     { length: 6 },
-    (_, index) => ({ id: index })
+    (_, index) => ({ id: index }),
   );
 
   const renderSkeletonItem: ListRenderItem<SkeletonItem> = () => (
@@ -108,7 +109,7 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
             data={skeletonData}
             renderItem={renderSkeletonItem}
             numColumns={2}
-            keyExtractor={(item) => String(item.id)}
+            keyExtractor={item => String(item.id)}
             contentContainerStyle={{ padding: 16 }}
             scrollEnabled={false}
           />
@@ -124,7 +125,7 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
             data={allProducts}
             renderItem={renderProductItem}
             numColumns={2}
-            keyExtractor={(product) => String(product?.detail?.id)}
+            keyExtractor={product => String(product?.detail?.id)}
             contentContainerStyle={{ padding: 16 }}
             ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
             refreshControl={
@@ -145,7 +146,7 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
               onScroll
                 ? Animated.event(
                     [{ nativeEvent: { contentOffset: { y: onScroll } } }],
-                    { useNativeDriver: false }
+                    { useNativeDriver: false },
                   )
                 : undefined
             }

@@ -43,6 +43,8 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
               discountPrice={
                 discount_price ? Number(discount_price?.price) : null
               }
+              discountValidFrom={discount_price?.valid_from}
+              discountValidTo={discount_price?.valid_to}
               isSelected={selectedShopId === shop_id}
               onSelect={onShopSelect}
               isAvailable={isAvailable}

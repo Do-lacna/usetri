@@ -140,9 +140,6 @@ export const PriceSummaryCard: React.FC<PriceSummaryCardProps> = ({
         {/* Quick comparison indicator */}
         {totalCarts > 1 && (
           <View className="items-center ml-4">
-            <Text className="text-xs text-muted-foreground mb-1">
-              {t('position')}
-            </Text>
             <View className="bg-secondary rounded-full px-3 py-1">
               <Text className="text-sm font-semibold text-foreground">
                 {rankPosition}/{totalCarts}
