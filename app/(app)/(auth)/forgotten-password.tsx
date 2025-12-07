@@ -3,7 +3,13 @@ import auth from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
 import { ThemedLogo } from '~/src/components/themed-logo';
@@ -56,35 +62,49 @@ export default function ForgottenPassword() {
   };
 
   return (
-    <View className="flex-1 items-center justify-center gap-2">
-      <ThemedLogo width={220} height={110} className="mb-8" />
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { value, onBlur, onChange } }) => (
-          <Input
-            placeholder="Zadajte svoj e-mail"
-            aria-labelledby="username"
-            aria-errormessage="inputError"
-            className="mt-4 w-[80%]"
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-            hasError={!!(touchedFields.email && errors.email)}
-          />
-        )}
-      />
-      {touchedFields.email && errors.email && (
-        <Text className="my-4 text-red-600">{errors.email.message}</Text>
-      )}
-
-      <Button
-        // disabled={!isDirty || !isValid}
-        onPress={handleSubmit(handlePasswordReset)}
-        className="w-[80%] mt-4"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1"
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <Text>Resetovať heslo</Text>
-      </Button>
-    </View>
+        <View className="flex-1 items-center justify-center gap-2 py-8">
+          <ThemedLogo width={220} height={110} className="mb-8" />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onBlur, onChange } }) => (
+              <Input
+                placeholder="Zadajte svoj e-mail"
+                aria-labelledby="username"
+                aria-errormessage="inputError"
+                className="mt-4 w-[80%]"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                hasError={!!(touchedFields.email && errors.email)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+              />
+            )}
+          />
+          {touchedFields.email && errors.email && (
+            <Text className="my-4 text-red-600">{errors.email.message}</Text>
+          )}
+
+          <Button
+            // disabled={!isDirty || !isValid}
+            onPress={handleSubmit(handlePasswordReset)}
+            className="w-[80%] mt-4"
+          >
+            <Text>Resetovať heslo</Text>
+          </Button>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

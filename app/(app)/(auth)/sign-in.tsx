@@ -3,7 +3,13 @@ import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 import type { z } from 'zod';
 
@@ -67,66 +73,86 @@ export default function SignIn() {
   }, [email, setValue]);
 
   return (
-    <View className="flex-1 items-center justify-center gap-2">
-      <ThemedLogo width={220} height={110} className="mb-8" />
-      <GoogleSignIn />
-      <AppleAuthentication />
-      <Controller
-        control={control}
-        name="email"
-        render={({ field: { value, onBlur, onChange } }) => (
-          <Input
-            placeholder="Zadajte svoj e-mail"
-            placeholderClassName="text-sm"
-            aria-labelledby="username"
-            aria-errormessage="inputError"
-            className="mt-4 w-[80%]"
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-          />
-        )}
-      />
-      {touchedFields.email && errors.email && (
-        <Text className="my-4 text-red-600">{errors.email.message}</Text>
-      )}
-      <Controller
-        control={control}
-        name="password"
-        render={({ field: { value, onBlur, onChange } }) => (
-          <Input
-            secureTextEntry
-            placeholder="Zadajte svoje heslo"
-            aria-labelledby="password"
-            aria-errormessage="passwordError"
-            className="mt-4 w-[80%]"
-            onChangeText={onChange}
-            onBlur={onBlur}
-            value={value}
-          />
-        )}
-      />
-      {touchedFields.password && errors.password && (
-        <Text className="my-4 text-red-600">{errors.password.message}</Text>
-      )}
-      <Button
-        disabled={!isDirty || !isValid || isLoading}
-        onPress={handleSubmit(performSignIn)}
-        className="w-[80%] mt-4"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1"
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <Text>Prihlásiť sa</Text>
-      </Button>
+        <View className="flex-1 items-center justify-center gap-2 py-8">
+          <ThemedLogo width={220} height={110} className="mb-8" />
+          <GoogleSignIn />
+          <AppleAuthentication />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onBlur, onChange } }) => (
+              <Input
+                placeholder="Zadajte svoj e-mail"
+                placeholderClassName="text-sm"
+                aria-labelledby="username"
+                aria-errormessage="inputError"
+                className="mt-4 w-[80%]"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+              />
+            )}
+          />
+          {touchedFields.email && errors.email && (
+            <Text className="my-4 text-red-600">{errors.email.message}</Text>
+          )}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { value, onBlur, onChange } }) => (
+              <Input
+                secureTextEntry
+                placeholder="Zadajte svoje heslo"
+                aria-labelledby="password"
+                aria-errormessage="passwordError"
+                className="mt-4 w-[80%]"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                autoCapitalize="none"
+                autoComplete="password"
+              />
+            )}
+          />
+          {touchedFields.password && errors.password && (
+            <Text className="my-4 text-red-600">{errors.password.message}</Text>
+          )}
+          <Button
+            disabled={!isDirty || !isValid || isLoading}
+            onPress={handleSubmit(performSignIn)}
+            className="w-[80%] mt-4"
+          >
+            <Text>Prihlásiť sa</Text>
+          </Button>
 
-      <View className="flex-row gap-2">
-        <Text className="text-lg text-foreground">Ešte nemáte účet?</Text>
-        <Link href="/sign-up" disabled={isLoading}>
-          <Text className="text-lg font-bold text-terciary">Registrovať</Text>
-        </Link>
-      </View>
+          <View className="flex-row gap-2">
+            <Text className="text-lg text-foreground">Ešte nemáte účet?</Text>
+            <Link href="/sign-up" disabled={isLoading}>
+              <Text className="text-lg font-bold text-terciary">
+                Registrovať
+              </Text>
+            </Link>
+          </View>
 
-      <Link href="/forgotten-password" disabled={isLoading}>
-        <Text className="text-lg font-bold text-terciary">Zabudnuté heslo</Text>
-      </Link>
-    </View>
+          <Link href="/forgotten-password" disabled={isLoading}>
+            <Text className="text-lg font-bold text-terciary">
+              Zabudnuté heslo
+            </Text>
+          </Link>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
