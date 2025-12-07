@@ -13,5 +13,7 @@ export interface AddOrChangePriceRequest {
   discount_price?: DiscountPriceModel;
   validity?: ProductValidityModel;
   /** @nullable */
+  barcode?: string | null;
+  /** @nullable */
   location?: string | null;
 }

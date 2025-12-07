@@ -5,18 +5,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateProductDto {
-  /** @nullable */
-  name?: string | null;
-  amount?: number;
-  /** @nullable */
-  unit?: string | null;
-  /** @nullable */
-  barcodes?: string[] | null;
+export interface PatchProductBulkDto {
   /** @nullable */
   brand?: string | null;
   /** @nullable */
-  category_id?: number | null;
+  amount?: number | null;
   /** @nullable */
-  image_base64?: string | null;
+  unit?: string | null;
+  /** @nullable */
+  category_id?: number | null;
 }

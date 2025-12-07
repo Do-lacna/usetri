@@ -14,6 +14,7 @@ export interface CartComparisonProductDto {
   shop_id?: number;
   quantity?: number;
   price?: number;
+  actual_price?: number;
   total_price?: number;
   discount_price?: DiscountPriceDto;
   original_product_detail?: ProductDto;

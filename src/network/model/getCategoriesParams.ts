@@ -9,6 +9,7 @@ export type GetCategoriesParams = {
   category_name?: string;
   is_leaf?: boolean;
   is_purchasable?: boolean;
+  has_image?: boolean;
   popularity?: number;
   Limit?: number;
   Offset?: number;

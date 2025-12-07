@@ -12,8 +12,8 @@ export type GetProductsParams = {
   category_id?: number;
   restricted_shops?: number[];
   has_image?: boolean;
-  is_barcode_checked?: boolean;
   is_category_checked?: boolean;
+  is_master_product?: boolean;
   Limit?: number;
   Offset?: number;
 };

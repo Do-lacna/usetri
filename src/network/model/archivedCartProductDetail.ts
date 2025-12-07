@@ -8,7 +8,7 @@
 export interface ArchivedCartProductDetail {
   product_id?: number;
   /** @nullable */
-  barcode?: string | null;
+  barcodes?: string[] | null;
   /** @nullable */
   name?: string | null;
   amount?: number;

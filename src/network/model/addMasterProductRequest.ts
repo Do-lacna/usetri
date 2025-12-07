@@ -9,5 +9,13 @@ export interface AddMasterProductRequest {
   /** @nullable */
   name?: string | null;
   /** @nullable */
-  product_ids?: number[] | null;
+  unit?: string | null;
+  amount?: number;
+  category_id?: number;
+  /** @nullable */
+  image_url?: string | null;
+  /** @nullable */
+  brand?: string | null;
+  /** @nullable */
+  child_product_ids?: number[] | null;
 }

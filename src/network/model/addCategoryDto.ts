@@ -14,4 +14,8 @@ export interface AddCategoryDto {
   parent_id?: number | null;
   is_purchasable?: boolean;
   popularity?: number;
+  /** @nullable */
+  default_amount?: number | null;
+  /** @nullable */
+  default_unit?: string | null;
 }

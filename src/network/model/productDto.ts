@@ -10,7 +10,7 @@ import type { CategoryDto } from './categoryDto';
 export interface ProductDto {
   id?: number;
   /** @nullable */
-  barcode?: string | null;
+  barcodes?: string[] | null;
   /** @nullable */
   name?: string | null;
   /** @nullable */
@@ -21,8 +21,5 @@ export interface ProductDto {
   /** @nullable */
   description?: string | null;
   category?: CategoryDto;
-  is_barcode_checked?: boolean;
   is_category_checked?: boolean;
-  /** @nullable */
-  master_product_id?: number | null;
 }

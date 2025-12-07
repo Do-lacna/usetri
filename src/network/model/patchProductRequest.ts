@@ -5,18 +5,25 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateProductDto {
+export interface PatchProductRequest {
   /** @nullable */
   name?: string | null;
-  amount?: number;
-  /** @nullable */
-  unit?: string | null;
-  /** @nullable */
-  barcodes?: string[] | null;
   /** @nullable */
   brand?: string | null;
   /** @nullable */
+  barcodes?: string[] | null;
+  /** @nullable */
+  amount?: number | null;
+  /** @nullable */
+  unit?: string | null;
+  /** @nullable */
   category_id?: number | null;
   /** @nullable */
+  is_category_checked?: boolean | null;
+  /** @nullable */
   image_base64?: string | null;
+  /** @nullable */
+  description?: string | null;
+  /** @nullable */
+  description_vector?: number[] | null;
 }
