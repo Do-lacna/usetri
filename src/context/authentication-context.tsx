@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { AppState, type AppStateStatus } from 'react-native';
 import { displaySuccessToastMessage } from '~/src/utils/toast-utils';
 import { AUTH_TOKEN, USER_ID } from '../network/api-client';
 import { isBrigaderActive } from '../persistence/theme-storage';
@@ -57,31 +58,72 @@ export function SessionProvider({ children }: PropsWithChildren) {
       if (!user) {
         setUser(undefined);
         resetAndRedirect('/sign-in');
+        return;
       }
       if (user?.emailVerified) {
-        const token = await user.getIdToken();
+        // Force token refresh to get a new token
+        const token = await user.getIdToken(true);
         await setItemAsync(USER_ID, user.uid);
         await setItemAsync(AUTH_TOKEN, token);
         setUser(user);
       }
     } catch (e) {
-      console.error(e);
+      console.error('Error in reactToChangedAuthState:', e);
     } finally {
       setInitializing(false);
     }
   };
 
+  // Refresh token when app comes to foreground
+  const refreshTokenOnForeground = async () => {
+    const currentUser = auth().currentUser;
+    if (currentUser?.emailVerified) {
+      try {
+        // Force refresh the token
+        const token = await currentUser.getIdToken(true);
+        await setItemAsync(AUTH_TOKEN, token);
+        console.log('Token refreshed on app foreground');
+      } catch (e) {
+        console.error('Error refreshing token on foreground:', e);
+      }
+    }
+  };
+
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(reactToChangedAuthState);
-    //TODO maybe use for token changes (refresh)
-    // const sub2 = auth().onIdTokenChanged(reactToChangedAuthState);
+    // Listen to auth state changes
+    const authSubscriber = auth().onAuthStateChanged(reactToChangedAuthState);
+
+    // Listen to token changes (handles automatic refresh)
+    const tokenSubscriber = auth().onIdTokenChanged(async user => {
+      if (user?.emailVerified) {
+        try {
+          const token = await user.getIdToken();
+          await setItemAsync(AUTH_TOKEN, token);
+          console.log('Token automatically refreshed by Firebase');
+        } catch (e) {
+          console.error('Error in onIdTokenChanged:', e);
+        }
+      }
+    });
+
+    // Listen to app state changes to refresh token when app returns from background
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      (nextAppState: AppStateStatus) => {
+        if (nextAppState === 'active') {
+          refreshTokenOnForeground();
+        }
+      },
+    );
 
     const brigaderActive = isBrigaderActive() ?? false;
     setBrigaderActive(brigaderActive);
 
     return () => {
-      subscriber();
-    }; // unsubscribe on unmount
+      authSubscriber();
+      tokenSubscriber();
+      appStateSubscription.remove();
+    };
   }, []);
 
   const performSignOut = async () => {
