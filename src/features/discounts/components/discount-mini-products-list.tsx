@@ -34,7 +34,7 @@ const DiscountMiniProductsList = () => {
             shopsPrices={item?.shops_prices}
           />
         )}
-        keyExtractor={item => String(item?.detail?.barcode)}
+        keyExtractor={item => String(item?.detail?.id)}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ padding: 4 }}

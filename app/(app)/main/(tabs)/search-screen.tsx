@@ -30,6 +30,7 @@ export default function SearchScreen() {
   } = useGetProducts(
     {
       search: searchQuery,
+      is_category_checked: true,
     },
     {
       query: {

@@ -30,7 +30,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   const {
     detail: {
       name,
-      barcode,
+      id: productId,
       brand,
       unit: { normalized_amount: amount, normalized_unit: unit } = {},
       category: { id, image_url, name: categoryName } = {},
@@ -211,7 +211,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   return (
     <FlippableCard
-      key={barcode}
+      key={productId}
       frontContent={frontContent}
       backContent={backContent}
       isFlipped={isFlipped}

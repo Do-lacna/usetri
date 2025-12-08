@@ -20,6 +20,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
   } = useGetProducts(
     {
       search: searchQuery,
+      is_category_checked: true,
     },
     {
       query: {
@@ -53,7 +54,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
           />
         )}
         numColumns={2}
-        keyExtractor={product => String(product?.detail?.barcode)}
+        keyExtractor={product => String(product?.detail?.id)}
         contentContainerClassName="gap-4 p-1"
         columnWrapperClassName="gap-4"
         //   refreshControl={

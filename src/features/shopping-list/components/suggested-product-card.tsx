@@ -29,7 +29,6 @@ const SuggestedProductCard = ({
       id: productId,
       name,
       brand,
-      barcode,
       unit: { normalized_amount: amount = '', normalized_unit: unit = '' } = {},
       category: { id: categoryId, image_url: categoryImageUrl } = {},
       image_url,

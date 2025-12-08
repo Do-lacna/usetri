@@ -96,8 +96,8 @@ const ComparisonShopReceiptView = ({
         </View>
 
         <ScrollView className="h-96 px-2">
-          {groceries?.map(({ price, detail: { name, barcode } = {} }) => (
-            <View key={barcode} className="flex-row justify-between mb-2">
+          {groceries?.map(({ price, detail: { name, id } = {} }) => (
+            <View key={id} className="flex-row justify-between mb-2">
               <Text className="text-lg">{name}</Text>
               <Text className="text-lg font-semibold">
                 {price?.toFixed(2) ?? 0} €

@@ -80,13 +80,13 @@ export const useShopComparison = () => {
     resetFlippedItems();
   };
 
-  const handleFlipItem = (barcode: string): void => {
+  const handleFlipItem = (productId: string): void => {
     setFlippedItems(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(barcode)) {
-        newSet.delete(barcode);
+      if (newSet.has(productId)) {
+        newSet.delete(productId);
       } else {
-        newSet.add(barcode);
+        newSet.add(productId);
       }
       return newSet;
     });

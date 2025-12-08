@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { FlatList, Text, View } from 'react-native';
+import { Skeleton } from '~/src/components/ui/skeleton';
+import SuggestedProductCard from '~/src/features/shopping-list/components/suggested-product-card';
 import type {
   CategoryDto,
   ProductDtoWithShopsPrices,
 } from '~/src/network/model';
 import { useGetProductsOutOfAllSubCategories } from '~/src/network/query/query';
-import { Skeleton } from '~/src/components/ui/skeleton';
-import SuggestedProductCard from '~/src/features/shopping-list/components/suggested-product-card';
 
 interface SubcategorySectionProps {
   subcategory: CategoryDto;
@@ -57,7 +57,7 @@ export function SubcategorySection({
         <FlatList
           data={categoryProducts}
           renderItem={renderProduct}
-          keyExtractor={(item, index) => String(item.detail?.barcode || index)}
+          keyExtractor={(item, index) => String(item.detail?.id || index)}
           horizontal={!isSubcategorySelected}
           numColumns={isSubcategorySelected ? 2 : 1}
           key={isSubcategorySelected ? 'vertical' : 'horizontal'} // Force re-render when layout changes

@@ -75,6 +75,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
     {
       search: searchQuery,
       restricted_shops: [shopId],
+      is_category_checked: true,
     },
     {
       query: {

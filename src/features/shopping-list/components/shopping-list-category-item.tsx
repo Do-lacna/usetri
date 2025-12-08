@@ -1,6 +1,6 @@
-import { Minus, Plus, Trash2 } from "lucide-react-native";
-import type React from "react";
-import { useEffect, useState } from "react";
+import { Minus, Plus, Trash2 } from 'lucide-react-native';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -9,13 +9,13 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { useGetCart } from "~/src/network/cart/cart";
-import type { CartCategoryDto } from "~/src/network/model";
-import { useGetProducts } from "~/src/network/query/query";
-import { PLACEHOLDER_PRODUCT_IMAGE } from "../../../lib/constants";
-import { useColorScheme } from "../../../lib/useColorScheme";
-import SuggestedProductCard from "./suggested-product-card";
+} from 'react-native';
+import { useGetCart } from '~/src/network/cart/cart';
+import type { CartCategoryDto } from '~/src/network/model';
+import { useGetProducts } from '~/src/network/query/query';
+import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+import { useColorScheme } from '../../../lib/useColorScheme';
+import SuggestedProductCard from './suggested-product-card';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -36,19 +36,24 @@ const ShoppingListCategoryItem: React.FC<{
     price = 0,
   } = item;
 
-  const { data: { cart } = {} } = useGetCart();
+  const {
+    data: { cart } = {},
+  } = useGetCart();
 
   // Theme-aware colors
-  const iconColor = isDarkColorScheme ? "#9CA3AF" : "#374151";
-  const activityIndicatorColor = isDarkColorScheme ? "#9CA3AF" : "#1F2937";
+  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
+  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
 
-  const { data: { products: suggestedProducts = [] } = {}, isLoading } =
-    useGetProducts(
-      {
-        category_id: id,
-      },
-      { query: { enabled: !!id && isExpanded } }
-    );
+  const {
+    data: { products: suggestedProducts = [] } = {},
+    isLoading,
+  } = useGetProducts(
+    {
+      category_id: id,
+      is_category_checked: true,
+    },
+    { query: { enabled: !!id && isExpanded } },
+  );
 
   useEffect(() => {
     if (externalIsExpanded !== undefined) {
@@ -67,15 +72,15 @@ const ShoppingListCategoryItem: React.FC<{
 
   const totalPrice = (price * quantity).toFixed(2);
 
-  const isSelected = (barcode: string): boolean =>
+  const isSelected = (productId: string): boolean =>
     cart?.specific_products?.some(
-      ({ product }) => product?.barcode === barcode
+      ({ product }) => String(product?.id) === productId,
     ) ?? false;
 
   return (
     <View className="mb-3">
       <Pressable
-        onPress={() => setIsExpanded((expanded) => !expanded)}
+        onPress={() => setIsExpanded(expanded => !expanded)}
         style={({ pressed }) => ({
           opacity: pressed ? 0.8 : 1,
           transform: [{ scale: pressed ? 0.96 : 1 }],
@@ -86,8 +91,8 @@ const ShoppingListCategoryItem: React.FC<{
             flex-row items-center px-4 py-3 rounded-full min-h-[48px]
             ${
               isExpanded
-                ? "border border-2 border-primary shadow-md"
-                : "bg-card border border-border shadow-sm"
+                ? 'border border-2 border-primary shadow-md'
+                : 'bg-card border border-border shadow-sm'
             }
           `}
         >
@@ -95,7 +100,7 @@ const ShoppingListCategoryItem: React.FC<{
             <View
               className={`
                 w-8 h-8 rounded-full mr-3 justify-center items-center
-                ${isExpanded ? "bg-primary/20" : "bg-card"}
+                ${isExpanded ? 'bg-primary/20' : 'bg-card'}
               `}
             >
               <Image
@@ -170,16 +175,16 @@ const ShoppingListCategoryItem: React.FC<{
               {suggestedProducts
                 ?.sort(
                   (a, b) =>
-                    Number(isSelected(String(b.barcode))) -
-                    Number(isSelected(String(a.barcode)))
+                    Number(isSelected(String(b.detail?.id))) -
+                    Number(isSelected(String(a.detail?.id))),
                 )
-                ?.map(({ barcode, detail, shops_prices }, index) => (
+                ?.map(({ detail, shops_prices }, index) => (
                   <SuggestedProductCard
-                    key={barcode || index}
+                    key={detail?.id || index}
                     product={{ detail }}
                     shopsPrices={shops_prices}
                     onPress={onAlternativeSelect}
-                    isSelected={isSelected(String(barcode))}
+                    isSelected={isSelected(String(detail?.id))}
                   />
                 ))}
             </View>

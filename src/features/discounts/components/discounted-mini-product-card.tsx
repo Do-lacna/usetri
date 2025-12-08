@@ -35,7 +35,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const {
     price,
-    detail: { id: productId, image_url, name, barcode } = {},
+    detail: { id: productId, image_url, name } = {},
     shop_id,
   } = product;
 

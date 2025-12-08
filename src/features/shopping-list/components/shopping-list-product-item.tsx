@@ -53,6 +53,7 @@ const ShoppingListProductItem: React.FC<{
   } = useGetProducts(
     {
       category_id: categoryId,
+      is_category_checked: true,
     },
     { query: { enabled: !!categoryId && isExpanded } },
   );

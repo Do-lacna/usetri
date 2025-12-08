@@ -1,11 +1,8 @@
-import { router } from "expo-router";
-import { useState, useRef } from "react";
-import { Text, View } from "react-native";
-import SearchBar, { ISearchBarHandle } from "~/src/components/search-bar";
-import { ProductDto } from "~/src/network/model";
-import IconButton from "~/src/components/icon-button/icon-button";
-import { ScanBarcode } from "~/src/lib/icons/ScanBarcode";
-import { Button } from "~/src/components/ui/button";
+import { useRef, useState } from 'react';
+import { Text, View } from 'react-native';
+import SearchBar, { type ISearchBarHandle } from '~/src/components/search-bar';
+import { Button } from '~/src/components/ui/button';
+import type { ProductDto } from '~/src/network/model';
 
 interface SearchHeaderProps {
   searchQuery: string;
@@ -36,35 +33,36 @@ export const SearchHeader = ({
         searchText={searchQuery}
         placeholder="Hľadaj produkty"
         options={[]}
-        onOptionSelect={(option) => console.log("Option selected:", option)}
-        renderOption={(item) => (
+        onOptionSelect={option => console.log('Option selected:', option)}
+        renderOption={item => (
           <Text className="text-foreground text-lg">{item?.name}</Text>
         )}
-        keyExtractor={(item) => String(item.barcode)}
+        keyExtractor={item => String(item.id)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
 
-      {isFocused && (
-        <Button
-          onPress={handleCancel}
-          variant="ghost"
-          size="sm"
-          className="px-3"
-        >
-          <Text className="text-primary text-base">Zrušiť</Text>
-        </Button>
-      )       
-      // (
-      //   <IconButton
-      //     onPress={() =>
-      //       router.navigate("/main/barcode-search/barcode-search-screen")
-      //     }
-      //     className="w-10"
-      //   >
-      //     <ScanBarcode size={24} className="text-primary mr-3" />
-      //   </IconButton>
-      // )
+      {
+        isFocused && (
+          <Button
+            onPress={handleCancel}
+            variant="ghost"
+            size="sm"
+            className="px-3"
+          >
+            <Text className="text-primary text-base">Zrušiť</Text>
+          </Button>
+        )
+        // (
+        //   <IconButton
+        //     onPress={() =>
+        //       router.navigate("/main/barcode-search/barcode-search-screen")
+        //     }
+        //     className="w-10"
+        //   >
+        //     <ScanBarcode size={24} className="text-primary mr-3" />
+        //   </IconButton>
+        // )
       }
     </View>
   );

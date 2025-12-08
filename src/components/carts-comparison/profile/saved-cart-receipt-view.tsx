@@ -40,12 +40,12 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
                 (
                   {
                     price = 1,
-                    detail: { name, barcode, brand } = {},
+                    detail: { name, product_id, brand } = {},
                     quantity = 1,
                   },
                   index,
                 ) => (
-                  <View key={barcode}>
+                  <View key={product_id}>
                     <View className="flex-row justify-between items-start py-3">
                       <View className="flex-1 pr-4">
                         <Text className="text-base font-medium text-card-foreground mb-1">

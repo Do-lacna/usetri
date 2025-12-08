@@ -9,7 +9,7 @@ import { ProductListItem } from './product-list-item';
 interface ProductsListProps {
   selectedCart?: CartComparisonDto;
   flippedItems: Set<string>;
-  onFlipItem: (barcode: string) => void;
+  onFlipItem: (productId: string) => void;
 }
 
 export const ProductsList: React.FC<ProductsListProps> = ({

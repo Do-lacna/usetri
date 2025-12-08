@@ -91,7 +91,6 @@ const ProductDetailScreen: React.FC = () => {
     data: {
       detail: {
         id,
-        barcode,
         image_url,
         brand,
         name,
