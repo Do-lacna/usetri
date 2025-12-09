@@ -49,7 +49,9 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
         renderItem={({ item }) => (
           <DiscountedProductCard
             product={item}
-            onPress={productId => onProductSelect?.(productId)}
+            onPress={(productId, categoryId) =>
+              onProductSelect?.(productId)
+            }
             shopsPrices={item?.shops_prices}
           />
         )}
