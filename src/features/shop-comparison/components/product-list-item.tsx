@@ -36,6 +36,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       category: { id, image_url, name: categoryName } = {},
     } = {},
     price = 0,
+    actual_price = 0,
     discount_price: { percentage_discount, price: discountPrice } = {},
     quantity = 1,
     type,
@@ -43,6 +44,10 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   } = product;
 
   const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
+
+  // Use actual_price (price with discount) if available, otherwise use regular price
+  const finalPrice = actual_price || price;
+  const hasDiscount = !!percentage_discount && !!discountPrice;
 
   const displayFlippableCard =
     type &&
@@ -79,7 +84,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
-      {percentage_discount && price && (
+      {hasDiscount && (
         <Text className="text-xs text-muted-foreground line-through mb-1">
           {showQuantity ? (price * quantity).toFixed(2) : price.toFixed(2)} €
         </Text>
@@ -87,14 +92,14 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
       <View className="flex-row items-center">
         <Text
-          className={`text-base font-semibold ${percentage_discount ? 'text-red-600' : 'text-foreground'}`}
+          className={`text-base font-semibold ${hasDiscount ? 'text-red-600' : 'text-foreground'}`}
         >
           {showQuantity
             ? (currentPrice * quantity).toFixed(2)
             : currentPrice.toFixed(2)}{' '}
           €
         </Text>
-        {percentage_discount && (
+        {hasDiscount && (
           <View className="bg-red-100 px-1.5 py-0.5 rounded ml-2">
             <Text className="text-xs font-medium text-red-600">
               -{percentage_discount}%
@@ -135,7 +140,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     <View className={`p-4 bg-card ${borderClass}`}>
       <View className="flex-row items-center justify-between min-h-[60px]">
         {renderProductInfo(name)}
-        {renderPriceSection(price)}
+        {renderPriceSection(finalPrice)}
         {displayFlippableCard && (
           <Animated.View
             style={{ transform: [{ rotate: spin }] }}

@@ -35,6 +35,8 @@ export const SearchResultsView = ({
       keyExtractor={product => String(product?.detail?.id)}
       contentContainerClassName="gap-4 py-12 px-2"
       columnWrapperClassName="gap-4"
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
       }

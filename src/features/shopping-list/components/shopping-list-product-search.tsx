@@ -49,14 +49,14 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
         renderItem={({ item }) => (
           <DiscountedProductCard
             product={item}
-            onPress={(productId, categoryId) =>
-              onProductSelect?.(productId)
-            }
+            onPress={(productId, categoryId) => onProductSelect?.(productId)}
             shopsPrices={item?.shops_prices}
           />
         )}
         numColumns={2}
         keyExtractor={product => String(product?.detail?.id)}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
         contentContainerClassName="gap-4 p-1"
         columnWrapperClassName="gap-4"
         //   refreshControl={

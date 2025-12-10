@@ -174,7 +174,7 @@ export default function ShoppingList() {
           </View>
 
           <View className="flex-1 gap-4 mt-4 px-2">
-            {isTextInputFocused ? (
+            {isTextInputFocused || searchQuery ? (
               <View className="flex-1 mb-16">
                 <ShoppingListCategorySearch
                   searchQuery={searchQuery}
