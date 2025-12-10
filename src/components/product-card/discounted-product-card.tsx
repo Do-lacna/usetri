@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { Image, Pressable, Text, View } from 'react-native';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;

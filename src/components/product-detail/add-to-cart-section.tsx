@@ -5,8 +5,8 @@ import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withSequence,
+  withSpring,
 } from 'react-native-reanimated';
 import { Button } from '~/src/components/ui/button';
 import { QuantityCounter } from './quantity-counter';

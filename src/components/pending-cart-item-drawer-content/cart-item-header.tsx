@@ -1,9 +1,9 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, TouchableOpacity, View } from 'react-native';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import Divider from '../ui/divider';
 import { Text } from '../ui/text';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 interface CartItemHeaderProps {
   image_url?: string | null;

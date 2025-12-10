@@ -21,7 +21,6 @@ import {
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { Button } from '~/src/components/ui/button';
 import { Card } from '~/src/components/ui/card';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { useAddOrChangePrice } from '~/src/network/admin/admin';
 import {
   useGetDiscountPriceImports,
@@ -38,6 +37,7 @@ import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 cssInterop(Image, { className: 'style' });
 

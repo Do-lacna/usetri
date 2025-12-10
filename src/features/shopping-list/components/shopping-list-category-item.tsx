@@ -13,9 +13,9 @@ import {
 import { useGetCart } from '~/src/network/cart/cart';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { useColorScheme } from '../../../lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -104,7 +104,9 @@ const ShoppingListCategoryItem: React.FC<{
               `}
             >
               <Image
-                source={image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE}
+                source={
+                  image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE
+                }
                 className="w-8 h-8 rounded-full"
                 resizeMode="contain"
               />

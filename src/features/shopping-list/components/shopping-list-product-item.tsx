@@ -12,9 +12,9 @@ import {
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { useColorScheme } from '../../../lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;

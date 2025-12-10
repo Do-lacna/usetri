@@ -31,7 +31,9 @@ import { getGetCartQueryKey, useGetCart } from '~/src/network/cart/cart';
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
-  const [actionType, setActionType] = useState<'added' | 'updated' | 'removed' | null>(null);
+  const [actionType, setActionType] = useState<
+    'added' | 'updated' | 'removed' | null
+  >(null);
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
