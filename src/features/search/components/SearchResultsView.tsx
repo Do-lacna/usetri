@@ -4,9 +4,9 @@ import {
   RefreshControl,
   View,
 } from 'react-native';
+import { NoDataText } from '~/src/components/no-data-text/no-data-text';
 import DiscountedProductCard from '~/src/components/product-card/discounted-product-card';
 import type { ShopProductDto } from '~/src/network/model';
-import { NoDataText } from '~/src/components/no-data-text/no-data-text';
 
 interface SearchResultsViewProps {
   products: ShopProductDto[];

@@ -12,7 +12,7 @@ import {
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { useColorScheme } from '../../../lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
 
@@ -88,10 +88,13 @@ const ShoppingListProductItem: React.FC<{
           <View className="flex-1 flex-row items-center">
             <View className="relative mr-2">
               <Image
-                source={{
-                  uri:
-                    image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
-                }}
+                source={
+                  image_url
+                    ? { uri: image_url }
+                    : categoryImageUrl
+                      ? { uri: categoryImageUrl }
+                      : PLACEHOLDER_PRODUCT_IMAGE
+                }
                 className="w-16 h-16 rounded-lg"
                 resizeMode="contain"
               />

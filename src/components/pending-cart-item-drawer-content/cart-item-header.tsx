@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, TouchableOpacity, View } from 'react-native';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/src/lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import Divider from '../ui/divider';
 import { Text } from '../ui/text';
 
@@ -39,9 +39,7 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
 
       <View className="w-full h-48 justify-center items-center">
         <Image
-          source={{
-            uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
-          }}
+          source={image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE}
           className="w-full h-full"
           resizeMode="contain"
         />

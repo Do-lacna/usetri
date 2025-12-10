@@ -5,7 +5,7 @@ import { Pressable, Text, View } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 cssInterop(Image, { className: 'style' });
 
@@ -66,9 +66,13 @@ const SuggestedProductCard = ({
 
         <View className="w-full h-24 rounded-lg relative">
           <Image
-            source={{
-              uri: image_url ?? categoryImageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
-            }}
+            source={
+              image_url
+                ? { uri: image_url }
+                : categoryImageUrl
+                  ? { uri: categoryImageUrl }
+                  : PLACEHOLDER_PRODUCT_IMAGE
+            }
             className="w-full h-24 rounded-lg"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">

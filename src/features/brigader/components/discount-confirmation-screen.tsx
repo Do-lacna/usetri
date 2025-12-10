@@ -21,7 +21,7 @@ import {
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { Button } from '~/src/components/ui/button';
 import { Card } from '~/src/components/ui/card';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/src/lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { useAddOrChangePrice } from '~/src/network/admin/admin';
 import {
   useGetDiscountPriceImports,
@@ -245,12 +245,13 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
                     <View className="flex-row items-center flex-1 gap-3">
                       {/* Product Image */}
                       <Image
-                        source={{
-                          uri:
-                            product.detail?.image_url ||
-                            product.detail?.category?.image_url ||
-                            PLACEHOLDER_PRODUCT_IMAGE,
-                        }}
+                        source={
+                          product.detail?.image_url
+                            ? { uri: product.detail.image_url }
+                            : product.detail?.category?.image_url
+                              ? { uri: product.detail.category.image_url }
+                              : PLACEHOLDER_PRODUCT_IMAGE
+                        }
                         className="w-12 h-12 rounded"
                         contentFit="cover"
                       />

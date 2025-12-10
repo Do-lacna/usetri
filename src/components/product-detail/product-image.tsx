@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Image, Text, View } from 'react-native';
 import { Badge } from '~/src/components/ui/badge';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/src/lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 interface ProductImageProps {
   imageUrl?: string | null;
@@ -15,9 +15,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
   return (
     <View className="items-center justify-center py-2 relative">
       <Image
-        source={{
-          uri: imageUrl ?? PLACEHOLDER_PRODUCT_IMAGE,
-        }}
+        source={imageUrl ? { uri: imageUrl } : PLACEHOLDER_PRODUCT_IMAGE}
         className="w-full h-60"
         resizeMode="contain"
       />

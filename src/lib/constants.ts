@@ -35,9 +35,6 @@ export const BASE_API_URL =
   process.env.EXPO_PUBLIC_API_URL ||
   'https://usetri-api.livelypond-189c8f13.polandcentral.azurecontainerapps.io/';
 
-export const PLACEHOLDER_PRODUCT_IMAGE =
-  'https://digitalcontent.api.tesco.com/v2/media/ghs/05c09f6c-82d2-4f55-a86d-dfc44e764d15/5e80370b-b62c-4012-8ded-e66ccb9d68be_1813485765.jpeg?h=960&w=960';
-
 export const WEBPAGE_LINKS = {
   PRIVACTY_POLICY: 'https://usetrislovensko.sk/PrivacyPolicy',
   HOW_IT_WORKS: 'https://usetrislovensko.sk/HowItWorks',

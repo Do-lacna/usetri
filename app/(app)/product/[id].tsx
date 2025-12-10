@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,7 +19,6 @@ import {
   useGetProductsById,
   useGetShops,
 } from '~/src/network/query/query';
-import { displaySuccessToastMessage } from '~/src/utils/toast-utils';
 
 import { CategoryPricesGrid } from '~/src/components/category-prices-grid';
 import { AddToCartSection } from '~/src/components/product-detail/add-to-cart-section';
@@ -31,6 +31,7 @@ import { getGetCartQueryKey, useGetCart } from '~/src/network/cart/cart';
 const ProductDetailScreen: React.FC = () => {
   const [cartQuantity, setCartQuantity] = useState<number>(1);
   const [selectedShopId, setSelectedShopId] = useState<number | null>(null);
+  const [actionType, setActionType] = useState<'added' | 'updated' | 'removed' | null>(null);
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
@@ -45,7 +46,10 @@ const ProductDetailScreen: React.FC = () => {
       queryClient.invalidateQueries({
         queryKey: getGetCartQueryKey(),
       });
-      displaySuccessToastMessage('Produkt bol vložený do košíka');
+      // Trigger haptic feedback
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      // Reset after 2 seconds
+      setTimeout(() => setActionType(null), 2000);
     },
   });
 
@@ -70,12 +74,15 @@ const ProductDetailScreen: React.FC = () => {
   const handleManageProductCartQuantity = () => {
     if (cartQuantity > 0 && selectedShopId) {
       if (currentProductInCartQuantity === 0) {
+        setActionType('added');
         handleAddProductToCart(Number(productId), cartQuantity);
       } else {
+        setActionType('updated');
         handleUpdateProductQuantity(Number(productId), cartQuantity);
       }
     }
     if (cartQuantity === 0 && selectedShopId) {
+      setActionType('removed');
       handleRemoveItemFromCart('product', Number(productId));
     }
   };
@@ -240,6 +247,7 @@ const ProductDetailScreen: React.FC = () => {
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
         onAddToCart={handleManageProductCartQuantity}
+        actionType={actionType}
       />
     </SafeAreaView>
   );

@@ -3,7 +3,7 @@ import { cssInterop } from 'nativewind';
 import { Platform, Pressable, View } from 'react-native';
 import { Text } from '~/src/components/ui/text';
 import type { PopularCategoryDto } from '~/src/network/model';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../../lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 
 cssInterop(Image, { className: 'style' });
 
@@ -28,9 +28,11 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
         } border border-border h-[180px] relative`}
       >
         <Image
-          source={{
-            uri: category?.category?.image_url ?? PLACEHOLDER_PRODUCT_IMAGE,
-          }}
+          source={
+            category?.category?.image_url
+              ? { uri: category.category.image_url }
+              : PLACEHOLDER_PRODUCT_IMAGE
+          }
           className="w-full h-full absolute inset-0"
           contentFit="cover"
           transition={400}

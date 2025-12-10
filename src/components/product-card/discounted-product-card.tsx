@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Image, Pressable, Text, View } from 'react-native';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '../../lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
@@ -69,11 +69,13 @@ const DiscountedProductCard = ({
       <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 mx-1">
         <View className="w-full h-32 rounded-lg relative">
           <Image
-            source={{
-              uri: image_url
-                ? image_url
-                : categoryImageUrl || PLACEHOLDER_PRODUCT_IMAGE,
-            }}
+            source={
+              image_url
+                ? { uri: image_url }
+                : categoryImageUrl
+                  ? { uri: categoryImageUrl }
+                  : PLACEHOLDER_PRODUCT_IMAGE
+            }
             className="w-full h-32 rounded-lg"
             resizeMode="contain"
           />

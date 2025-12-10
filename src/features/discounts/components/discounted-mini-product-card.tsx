@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
-import { PLACEHOLDER_PRODUCT_IMAGE } from '~/src/lib/constants';
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
 
@@ -62,7 +62,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
       {/* Product Image */}
       <View className="w-full h-16 rounded-lg relative">
         <Image
-          source={{ uri: image_url ?? PLACEHOLDER_PRODUCT_IMAGE }}
+          source={image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE}
           className="w-full h-16 rounded-md mb-2"
           resizeMode="cover"
         />
