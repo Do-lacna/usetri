@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { router } from 'expo-router';
 import type React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { DATE_FORMAT } from '../../lib/constants';
 import { getShopById } from '../../lib/utils';
 import { useGetShops } from '../../network/query/query';
@@ -30,10 +30,10 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
   const shopName = getShopById(shopId, shops ?? [])?.name;
 
   return (
-    <Card className="w-full bg-card mb-4 border border-border">
+    <View className="w-full mb-4" style={styles.cardContainer}>
       <TouchableOpacity
         onPress={() => router.navigate(`/main/archived-cart/${id}`)}
-        className="p-4 rounded-xl shadow-sm relative overflow-hidden"
+        className="p-4 rounded-xl bg-card border border-border relative overflow-hidden"
       >
         <Image
           className="absolute h-20 w-20 -rotate-45 top-1 opacity-30 -left-2"
@@ -65,10 +65,25 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
           </View>
         </View>
       </TouchableOpacity>
-    </Card>
+    </View>
   );
 };
 
 SavedCartCard.displayName = 'SavedCartCard';
+
+const styles = StyleSheet.create({
+  cardContainer: Platform.select({
+    ios: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.08,
+      shadowRadius: 2,
+    },
+    android: {
+      elevation: 1,
+    },
+    default: {},
+  }),
+});
 
 export { SavedCartCard };
