@@ -21,7 +21,7 @@
     "@react-native-firebase/app": "22.2.0",
     "@react-native-firebase/auth": "22.2.0",
     "@react-native-firebase/crashlytics": "22.2.0",
-    "@react-native-google-signin/google-signin": "13.1.0",
+    "@react-native-google-signin/google-signin": "^13.1.0",
     "@rn-primitives/avatar": "1.1.0",
     "@rn-primitives/label": "^1.1.0",
     "@rn-primitives/portal": "1.1.0",
