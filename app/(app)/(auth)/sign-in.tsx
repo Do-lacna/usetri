@@ -24,6 +24,7 @@ import { resetAndRedirect } from '~/src/utils/navigation-utils';
 export default function SignIn() {
   const { email } = useLocalSearchParams<{ email?: string }>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isOAuthLoading, setIsOAuthLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -84,8 +85,8 @@ export default function SignIn() {
       >
         <View className="flex-1 items-center justify-center gap-2 py-8">
           <ThemedLogo width={220} height={110} className="mb-8" />
-          <GoogleSignIn />
-          <AppleAuthentication />
+          <GoogleSignIn onLoadingChange={setIsOAuthLoading} />
+          <AppleAuthentication onLoadingChange={setIsOAuthLoading} />
           <Controller
             control={control}
             name="email"
@@ -102,6 +103,7 @@ export default function SignIn() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 autoComplete="email"
+                editable={!isLoading && !isOAuthLoading}
               />
             )}
           />
@@ -123,6 +125,7 @@ export default function SignIn() {
                 value={value}
                 autoCapitalize="none"
                 autoComplete="password"
+                editable={!isLoading && !isOAuthLoading}
               />
             )}
           />
@@ -130,7 +133,7 @@ export default function SignIn() {
             <Text className="my-4 text-red-600">{errors.password.message}</Text>
           )}
           <Button
-            disabled={!isDirty || !isValid || isLoading}
+            disabled={!isDirty || !isValid || isLoading || isOAuthLoading}
             onPress={handleSubmit(performSignIn)}
             className="w-[80%] mt-4"
           >
@@ -139,14 +142,17 @@ export default function SignIn() {
 
           <View className="flex-row gap-2">
             <Text className="text-lg text-foreground">Ešte nemáte účet?</Text>
-            <Link href="/sign-up" disabled={isLoading}>
+            <Link href="/sign-up" disabled={isLoading || isOAuthLoading}>
               <Text className="text-lg font-bold text-terciary">
                 Registrovať
               </Text>
             </Link>
           </View>
 
-          <Link href="/forgotten-password" disabled={isLoading}>
+          <Link
+            href="/forgotten-password"
+            disabled={isLoading || isOAuthLoading}
+          >
             <Text className="text-lg font-bold text-terciary">
               Zabudnuté heslo
             </Text>

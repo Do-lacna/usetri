@@ -293,6 +293,8 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (13.3.2):
     - ExpoModulesCore
+  - ExpoHaptics (15.0.8):
+    - ExpoModulesCore
   - ExpoHead (5.0.7):
     - ExpoModulesCore
   - ExpoImage (2.4.1):
@@ -2670,6 +2672,7 @@ DEPENDENCIES:
   - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
+  - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -2844,6 +2847,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   ExpoFont:
     :path: "../node_modules/expo-font/ios"
+  ExpoHaptics:
+    :path: "../node_modules/expo-haptics/ios"
   ExpoHead:
     :path: "../node_modules/expo-router/ios"
   ExpoImage:
@@ -3058,6 +3063,7 @@ SPEC CHECKSUMS:
   ExpoCrypto: fcb6a8a08d1929f346cb95eb05a8f7818627177a
   ExpoFileSystem: 9681caebda23fa1b38a12a9c68b2bade7072ce20
   ExpoFont: 091a47eeaa1b30b0b760aa1d0a2e7814e8bf6fe6
+  ExpoHaptics: 7240781406f4563c3f4eb1e72864302a8c643fd0
   ExpoHead: 5df88545652c2d3a3ea50bcd7f6be6ca935ac997
   ExpoImage: b5d08ac8a79f798c8306b53165415c15986f9764
   ExpoKeepAwake: e8dedc115d9f6f24b153ccd2d1d8efcdfd68a527
@@ -3071,7 +3077,7 @@ SPEC CHECKSUMS:
   EXStructuredHeaders: 32bec6771c2db18c4cd47cecae530d1d06cdf972
   EXUpdates: a89f631f0baa491daf161990c928caf1c8a9835b
   EXUpdatesInterface: 64f35449b8ef89ce08cdd8952a4d119b5de6821d
-  fast_float: 23278fd30b349f976d2014f4aec9e2d7bc1c3806
+  fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
   Firebase: 735108d2d0b67827cd929bfe8254983907c4479f
   FirebaseAnalytics: 2979c21ead00c520feff30db97ebadd669442f2a
@@ -3085,15 +3091,15 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 41189d8b11007152d9e46ec844019f38a0a4282a
   FirebaseRemoteConfigInterop: 1c6135e8a094cc6368949f5faeeca7ee8948b8aa
   FirebaseSessions: 2c0ea8956085570415601d64cc7ebe83c8dd5c93
-  fmt: b85d977e8fe789fd71c77123f9f4920d88c4d170
-  glog: 682871fb30f4a65f657bf357581110656ea90b08
+  fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
+  glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   GoogleAppMeasurement: 6ee0ee888bb1db802c49049001adb4013d7fe41b
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  hermes-engine: db1a9076c075d75c7ee12920c6130e793a989a3a
+  hermes-engine: 314be5250afa5692b57b4dd1705959e1973a8ebe
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
@@ -3103,7 +3109,7 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   PurchasesHybridCommon: 7f0944cc5411bdcd1ea5d69affa6a6f9aaf87b13
-  RCT-Folly: 031db300533e2dfa954cdc5a859b792d5c14ed7b
+  RCT-Folly: 36fe2295e44b10d831836cc0d1daec5f8abcf809
   RCTDeprecation: 83ffb90c23ee5cea353bd32008a7bca100908f8c
   RCTRequired: eb7c0aba998009f47a540bec9e9d69a54f68136e
   RCTTypeSafety: 659ae318c09de0477fd27bbc9e140071c7ea5c93

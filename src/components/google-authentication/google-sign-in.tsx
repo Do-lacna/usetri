@@ -1,8 +1,9 @@
 import auth, { signInWithCredential } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { useEffect } from 'react';
-import { Image, Text, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Image, Text, TouchableOpacity } from 'react-native';
 import { useSession } from '~/src/context/authentication-context';
+import { useColorScheme } from '~/src/lib/useColorScheme';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 // Configure Google Sign-In
@@ -11,8 +12,19 @@ GoogleSignin.configure({
   offlineAccess: true,
 });
 
-export function GoogleSignIn() {
+interface GoogleSignInProps {
+  onLoadingChange?: (loading: boolean) => void;
+}
+
+export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
   const { setUser } = useSession();
+  const { isDarkColorScheme } = useColorScheme();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateLoading = (loading: boolean) => {
+    setIsLoading(loading);
+    onLoadingChange?.(loading);
+  };
 
   useEffect(() => {
     // Check if user is already signed in
@@ -26,11 +38,12 @@ export function GoogleSignIn() {
         console.log('Error checking sign-in status:', error);
       }
     };
-    
+
     checkSignInStatus();
   }, []);
 
   const handleGoogleSignIn = async () => {
+    updateLoading(true);
     try {
       // Check if device supports Google Play services
       await GoogleSignin.hasPlayServices();
@@ -57,10 +70,12 @@ export function GoogleSignIn() {
 
         // Navigate to main screen
         resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
+        updateLoading(false);
       }
     } catch (error: any) {
+      updateLoading(false);
       console.error('Google Sign-In Error:', error);
-      
+
       if (error.code === 'SIGN_IN_CANCELLED') {
         console.log('User cancelled the sign-in flow');
       } else if (error.code === 'IN_PROGRESS') {
@@ -76,19 +91,29 @@ export function GoogleSignIn() {
   return (
     <TouchableOpacity
       className="flex-row items-center justify-center bg-card border border-border rounded-md py-3 px-4 shadow-sm active:opacity-80 mb-2"
-      style={{ width: 250, height: 44 }}
+      style={{ width: 250, height: 44, opacity: isLoading ? 0.6 : 1 }}
       onPress={handleGoogleSignIn}
+      disabled={isLoading}
     >
-      <Image
-        source={require('~/assets/images/logos/google_logo.png')}
-        className="w-[16px] h-[16px] mr-2"
-      />
-      <Text
-        className="text-foreground text-lg text-center"
-        style={{ lineHeight: 18 }}
-      >
-        Sign in with Google
-      </Text>
+      {isLoading ? (
+        <ActivityIndicator
+          size="small"
+          className={isDarkColorScheme ? 'text-primary' : 'text-foreground'}
+        />
+      ) : (
+        <>
+          <Image
+            source={require('~/assets/images/logos/google_logo.png')}
+            className="w-[16px] h-[16px] mr-2"
+          />
+          <Text
+            className="text-foreground text-lg text-center"
+            style={{ lineHeight: 18 }}
+          >
+            Sign in with Google
+          </Text>
+        </>
+      )}
     </TouchableOpacity>
   );
 }
