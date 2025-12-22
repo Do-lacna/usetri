@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { SearchType } from './searchType';
+import type { OrderType } from './orderType';
 
 export type GetProductsAdminParams = {
-  search_type?: SearchType;
+  search_type?: OrderType;
   search?: string;
   category_id?: number;
   restricted_shops?: number[];

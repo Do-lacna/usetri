@@ -20,8 +20,10 @@ import type {
 } from '@tanstack/react-query';
 import type {
   GetUnconfirmedWoltImportsResponse,
+  ProblemDetails,
   UploadWoltJsonBody,
   UploadWoltJsonParams,
+  WoltImportResult,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
@@ -174,7 +176,7 @@ export const uploadWoltJson = (
     formData.append('jsonFile', uploadWoltJsonBody.jsonFile);
   }
 
-  return orvalApiClient<void>(
+  return orvalApiClient<WoltImportResult>(
     {
       url: `/admin/wolt-imports`,
       method: 'POST',
@@ -189,7 +191,7 @@ export const uploadWoltJson = (
 
 export const getUploadWoltJsonMutationOptions = <
   TData = Awaited<ReturnType<typeof uploadWoltJson>>,
-  TError = unknown,
+  TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -230,11 +232,11 @@ export type UploadWoltJsonMutationResult = NonNullable<
   Awaited<ReturnType<typeof uploadWoltJson>>
 >;
 export type UploadWoltJsonMutationBody = UploadWoltJsonBody;
-export type UploadWoltJsonMutationError = unknown;
+export type UploadWoltJsonMutationError = ProblemDetails;
 
 export const useUploadWoltJson = <
   TData = Awaited<ReturnType<typeof uploadWoltJson>>,
-  TError = unknown,
+  TError = ProblemDetails,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<

@@ -9,4 +9,5 @@ import type { ShopPriceDto } from './shopPriceDto';
 export interface ShopCategoryPriceDto {
   shop_id?: number;
   price?: ShopPriceDto;
+  product_id?: number;
 }

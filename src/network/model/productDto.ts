@@ -22,4 +22,5 @@ export interface ProductDto {
   description?: string | null;
   category?: CategoryDto;
   is_category_checked?: boolean;
+  is_mater_product?: boolean;
 }
