@@ -75,10 +75,10 @@
 
   "cart_drawer": {
     "available_in": "Dostupné v:",
-    "add_to_cart": "Pridať do košíka",
+    "add_to_cart": "Pridať do zoznamu",
     "add_category": "Pridať kategóriu",
     "no_title": "Nezadaný názov",
-    "category_info": "Pridaním kategórie do košíka bude vo finálnom porovnaní z každého obchodu vybraný najlacnejší produkt",
+    "category_info": "Pridaním kategórie do zoznamu bude vo finálnom porovnaní z každého obchodu vybraný najlacnejší produkt",
     "estimated_prices": "Odhadované ceny v obchodoch",
     "estimated_prices_other_shops": "Najlacnejšie ceny v ostatných obchodoch pre kategóriu {{category}}",
     "price_for_amount": "Cena za {{amount}} {{unit}}"

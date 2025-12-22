@@ -1,8 +1,9 @@
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
 import type React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   RefreshControl,
@@ -11,6 +12,12 @@ import {
   Text,
   View,
 } from 'react-native';
+import {
+  DrawerTypeEnum,
+  type PendingCartDataType,
+} from '~/app/(app)/main/(tabs)/shopping-list';
+import { CustomBottomSheetModal } from '~/src/components/layout/bottom-sheet-modal/bottom-sheet-modal';
+import PendingCartItemDrawerContent from '~/src/components/pending-cart-item-drawer-content';
 import { useCartActions } from '~/src/hooks/use-cart-actions';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import { getShopById } from '~/src/lib/utils';
@@ -34,6 +41,10 @@ const ProductDetailScreen: React.FC = () => {
   const [actionType, setActionType] = useState<
     'added' | 'updated' | 'removed' | null
   >(null);
+  const pendingProductSheetRef = useRef<BottomSheetModal>(null);
+  const [pendingCartData, setPendingCartData] =
+    useState<PendingCartDataType | null>(null);
+
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
@@ -43,11 +54,15 @@ const ProductDetailScreen: React.FC = () => {
     handleAddProductToCart,
     handleRemoveItemFromCart,
     handleUpdateProductQuantity,
+    handleAddCategoryToCart,
+    handleUpdateCategoryQuantity,
+    isLoading: areCartActionsLoading,
   } = useCartActions({
     onSuccessfullCartUpdate: () => {
       queryClient.invalidateQueries({
         queryKey: getGetCartQueryKey(),
       });
+      pendingProductSheetRef?.current?.dismiss();
       // Trigger haptic feedback
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       // Reset after 2 seconds
@@ -236,6 +251,13 @@ const ProductDetailScreen: React.FC = () => {
               categoryAmount={categoryDefaultAmount}
               categoryUnit={categoryDefaultUnit}
               className="mb-6"
+              onPricePress={() => {
+                setPendingCartData({
+                  identifier: 4239,
+                  type: DrawerTypeEnum.PRODUCT,
+                });
+                pendingProductSheetRef.current?.present();
+              }}
             />
           )}
         </View>
@@ -251,6 +273,34 @@ const ProductDetailScreen: React.FC = () => {
         onAddToCart={handleManageProductCartQuantity}
         actionType={actionType}
       />
+
+      <CustomBottomSheetModal
+        ref={pendingProductSheetRef}
+        snapPoints={['85%']}
+        onDismiss={() => setPendingCartData(null)}
+      >
+        <PendingCartItemDrawerContent
+          pendingCartData={pendingCartData}
+          onDismiss={() => pendingProductSheetRef.current?.dismiss()}
+          onConfirm={(data, quantity, action) => {
+            if (!data || !quantity || !action) return;
+            if (data.type === DrawerTypeEnum.CATEGORY) {
+              if (action === 'ADD') {
+                handleAddCategoryToCart(data.identifier, quantity);
+              } else {
+                handleUpdateCategoryQuantity(data.identifier, quantity);
+              }
+            } else {
+              if (action === 'ADD') {
+                handleAddProductToCart(data.identifier, quantity);
+              } else {
+                handleUpdateProductQuantity(data.identifier, quantity);
+              }
+            }
+          }}
+          isLoading={areCartActionsLoading}
+        />
+      </CustomBottomSheetModal>
     </SafeAreaView>
   );
 };

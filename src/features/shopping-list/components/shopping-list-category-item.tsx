@@ -1,4 +1,10 @@
-import { Minus, Plus, Trash2 } from 'lucide-react-native';
+import {
+  ChevronDown,
+  ChevronUp,
+  Minus,
+  Plus,
+  Trash2,
+} from 'lucide-react-native';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -155,9 +161,13 @@ const ShoppingListCategoryItem: React.FC<{
             </TouchableOpacity>
           </View>
 
-          {isExpanded && (
-            <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
-          )}
+          <View className="ml-2">
+            {isExpanded ? (
+              <ChevronUp size={20} color={iconColor} />
+            ) : (
+              <ChevronDown size={20} color={iconColor} />
+            )}
+          </View>
         </View>
       </Pressable>
       {isExpanded &&

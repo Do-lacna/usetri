@@ -1,6 +1,8 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Alert, TouchableOpacity, View } from 'react-native';
+import { getShopById } from '~/src/lib/utils';
+import { useGetShops } from '~/src/network/query/query';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Text } from '../ui/text';
 
@@ -18,6 +20,7 @@ interface CategoryPricesGridProps {
   className?: string;
   categoryAmount?: number | null;
   categoryUnit?: string | null;
+  onPricePress?: (shopId: number) => void;
 }
 
 export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
@@ -27,8 +30,12 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
   className,
   categoryAmount,
   categoryUnit,
+  onPricePress,
 }) => {
   const { t } = useTranslation();
+  const {
+    data: { shops = [] } = {},
+  } = useGetShops();
 
   if (!categoryPrices || categoryPrices.length === 0) {
     return null;
@@ -58,9 +65,24 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                 discountPrice > 0 &&
                 discountPrice < (originalPrice ?? price);
 
+              const shop = getShopById(shop_id, shops);
+              const shopName = shop?.name || '';
+
               return shop_id ? (
-                <View
+                <TouchableOpacity
                   key={shop_id}
+                  onPress={() => {
+                    if (onPricePress) {
+                      onPricePress(shop_id);
+                    } else {
+                      Alert.alert(
+                        shopName,
+                        `Tento obchod nemá tento konkrétny produkt, ale priemerná cena v kategórii je ${price.toFixed(
+                          2,
+                        )}€`,
+                      );
+                    }
+                  }}
                   className="flex-row items-center bg-background rounded-lg px-2 py-2 border border-border"
                 >
                   <ShopLogoBadge shopId={shop_id} size={20} />
@@ -78,7 +100,7 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                       {price.toFixed(2)}€
                     </Text>
                   )}
-                </View>
+                </TouchableOpacity>
               ) : null;
             },
           )}

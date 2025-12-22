@@ -1,6 +1,7 @@
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
+  type BottomSheetModalProps,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import React, { forwardRef, type ReactNode, useCallback, useMemo } from 'react';
@@ -9,16 +10,16 @@ import Toast from 'react-native-toast-message';
 import { NAV_THEME } from '~/src/lib/constants';
 import { toastConfig } from '../../../utils/toast-config';
 
-export type CustomBottomSheetModalProps = {
+export interface CustomBottomSheetModalProps extends BottomSheetModalProps {
   children: ReactNode;
-  index?: number;
-};
+}
 
 export const CustomBottomSheetModal = forwardRef<
   BottomSheetModal,
   CustomBottomSheetModalProps
->(({ children, index = 1 }: CustomBottomSheetModalProps, ref) => {
-  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+>(({ children, snapPoints: propSnapPoints, ...props }, ref) => {
+  const defaultSnapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+  const snapPoints = propSnapPoints || defaultSnapPoints;
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -30,8 +31,8 @@ export const CustomBottomSheetModal = forwardRef<
       <React.Fragment>
         <BottomSheetBackdrop
           {...props}
-          //   disappearsOnIndex={1}
-          //   appearsOnIndex={2}
+          disappearsOnIndex={-1}
+          appearsOnIndex={0}
         />
         <Toast position="top" config={toastConfig} />
       </React.Fragment>
@@ -43,7 +44,6 @@ export const CustomBottomSheetModal = forwardRef<
     <BottomSheetModal
       ref={ref}
       backdropComponent={renderBackdrop}
-      index={index}
       snapPoints={snapPoints}
       backgroundStyle={{
         backgroundColor: theme.card,
@@ -53,6 +53,7 @@ export const CustomBottomSheetModal = forwardRef<
         width: 40,
         height: 4,
       }}
+      {...props}
     >
       <BottomSheetView style={styles.contentContainer}>
         {children}

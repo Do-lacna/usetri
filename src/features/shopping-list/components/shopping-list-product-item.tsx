@@ -78,13 +78,16 @@ const ShoppingListProductItem: React.FC<{
   const isSelected = (suggestedProductId: number): boolean =>
     suggestedProductId === id;
 
+  const validShops = available_shop_ids?.filter(Boolean) || [];
+  const shopCount = validShops.length;
+
   return (
     <View className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border">
       <TouchableOpacity
         onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}
       >
-        <View className="flex-row items-center space-x-3">
+        <View className="flex-row items-center space-x-2">
           <View className="flex-1 flex-row items-center">
             <View className="relative mr-2">
               <Image
@@ -132,41 +135,41 @@ const ShoppingListProductItem: React.FC<{
             </View>
           </View>
 
-          <View className="flex flex-col items-end">
-            <View className="flex-row items-end mb-2">
-              <View className="relative flex-row justify-end gap-x-2 mt-1">
-                {available_shop_ids?.map((retailer, index) =>
-                  retailer ? (
-                    <ShopLogoBadge
-                      key={retailer}
-                      shopId={retailer}
-                      size={20}
-                      index={index}
-                    />
-                  ) : null,
-                )}
-              </View>
-            </View>
-            <View className="flex-row items-center bg-muted rounded-full">
+          <View className="flex flex-col items-end justify-between">
+            <View className="flex-row items-center bg-muted rounded-full mb-2">
               <TouchableOpacity
                 onPress={decrementQuantity}
-                className="p-2"
+                className="p-1.5"
                 disabled={quantity <= 0}
               >
                 {quantity <= 1 ? (
-                  <Trash2 size={18} color="#ef4444" />
+                  <Trash2 size={16} color="#ef4444" />
                 ) : (
-                  <Minus size={16} color={iconColor} />
+                  <Minus size={14} color={iconColor} />
                 )}
               </TouchableOpacity>
 
-              <Text className="px-3 py-1 text-foreground font-medium min-w-[32px] text-center">
+              <Text className="px-2 py-1 text-foreground font-medium min-w-[24px] text-center">
                 {item.quantity}
               </Text>
 
-              <TouchableOpacity onPress={incrementQuantity} className="p-2">
-                <Plus size={16} color={iconColor} />
+              <TouchableOpacity onPress={incrementQuantity} className="p-1.5">
+                <Plus size={14} color={iconColor} />
               </TouchableOpacity>
+            </View>
+
+            <View className="relative flex-row justify-end">
+              {validShops.map((retailer, index) => (
+                <View
+                  key={retailer}
+                  style={{
+                    marginRight: index === shopCount - 1 ? 0 : -8, // Negative margin for overlap
+                    zIndex: shopCount - index,
+                  }}
+                >
+                  <ShopLogoBadge shopId={retailer} size={20} index={0} />
+                </View>
+              ))}
             </View>
           </View>
         </View>
