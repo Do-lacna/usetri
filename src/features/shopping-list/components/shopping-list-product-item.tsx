@@ -1,4 +1,10 @@
-import { Minus, Plus, Trash2 } from 'lucide-react-native';
+import {
+  ChevronDown,
+  ChevronUp,
+  Minus,
+  Plus,
+  Trash2,
+} from 'lucide-react-native';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import {
@@ -82,94 +88,102 @@ const ShoppingListProductItem: React.FC<{
   const shopCount = validShops.length;
 
   return (
-    <View className="bg-card rounded-xl p-4 mb-3 shadow-sm border border-border">
+    <View className="bg-card rounded-xl p-3 mb-3 shadow-sm border border-border">
       <TouchableOpacity
         onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}
       >
-        <View className="flex-row items-center space-x-2">
-          <View className="flex-1 flex-row items-center">
-            <View className="relative mr-2">
-              <Image
-                source={
-                  image_url
-                    ? { uri: image_url }
-                    : categoryImageUrl
-                      ? { uri: categoryImageUrl }
-                      : PLACEHOLDER_PRODUCT_IMAGE
-                }
-                className="w-16 h-16 rounded-lg"
-                resizeMode="contain"
-              />
+        <View className="flex-row gap-3">
+          <View className="relative">
+            <Image
+              source={
+                image_url
+                  ? { uri: image_url }
+                  : categoryImageUrl
+                    ? { uri: categoryImageUrl }
+                    : PLACEHOLDER_PRODUCT_IMAGE
+              }
+              className="w-16 h-16 rounded-lg"
+              resizeMode="contain"
+            />
+          </View>
+
+          <View className="flex-1 flex-col justify-between py-0.5">
+            <View>
+              <Text
+                className="text-card-foreground font-semibold text-base leading-tight"
+                numberOfLines={1}
+              >
+                {name}
+              </Text>
+              <Text
+                className="text-muted-foreground text-xs mt-0.5"
+                numberOfLines={1}
+              >
+                {brand} • {amount} {unit}
+              </Text>
             </View>
-            <View className="flex-1">
-              <View className="flex-row items-start justify-between mb-1">
-                <View className="flex-1 pr-2">
-                  <Text
-                    className="text-card-foreground font-semibold text-base"
-                    numberOfLines={1}
-                  >
-                    {name}
+
+            <View className="flex-row items-center justify-between mt-2">
+              <View className="flex-row items-baseline gap-1">
+                <Text className="text-card-foreground font-bold text-lg">
+                  {totalPrice}€
+                </Text>
+                {quantity > 1 && (
+                  <Text className="text-muted-foreground text-xs">
+                    ({price.toFixed(2)}/ks)
                   </Text>
-                  <Text
-                    className="text-muted-foreground text-sm"
-                    numberOfLines={1}
-                  >
-                    {brand} • {amount} {unit}
-                  </Text>
-                </View>
+                )}
               </View>
 
-              <View className="flex-row items-center justify-between">
-                <View className="flex-row gap-2 items-center">
-                  <Text className="text-card-foreground font-bold text-lg">
-                    {totalPrice}€
+              <View className="flex-row items-center gap-2">
+                <View className="relative flex-row justify-end mr-1">
+                  {validShops.map((retailer, index) => (
+                    <View
+                      key={retailer}
+                      style={{
+                        marginRight: index === shopCount - 1 ? 0 : -8,
+                        zIndex: shopCount - index,
+                      }}
+                    >
+                      <ShopLogoBadge shopId={retailer} size={20} index={0} />
+                    </View>
+                  ))}
+                </View>
+
+                <View className="flex-row items-center bg-muted rounded-full h-8">
+                  <TouchableOpacity
+                    onPress={decrementQuantity}
+                    className="w-8 h-8 items-center justify-center"
+                    disabled={quantity <= 0}
+                  >
+                    {quantity <= 1 ? (
+                      <Trash2 size={14} color="#ef4444" />
+                    ) : (
+                      <Minus size={14} color={iconColor} />
+                    )}
+                  </TouchableOpacity>
+
+                  <Text className="text-foreground font-medium min-w-[16px] text-center text-sm">
+                    {item.quantity}
                   </Text>
-                  {quantity > 1 && (
-                    <Text className="text-muted-foreground text-xs">
-                      ({price.toFixed(2)} € / kus)
-                    </Text>
+
+                  <TouchableOpacity
+                    onPress={incrementQuantity}
+                    className="w-8 h-8 items-center justify-center"
+                  >
+                    <Plus size={14} color={iconColor} />
+                  </TouchableOpacity>
+                </View>
+
+                <View className="ml-1">
+                  {isExpanded ? (
+                    <ChevronUp size={18} color={iconColor} />
+                  ) : (
+                    <ChevronDown size={18} color={iconColor} />
                   )}
                 </View>
               </View>
-            </View>
-          </View>
-
-          <View className="flex flex-col items-end justify-between">
-            <View className="flex-row items-center bg-muted rounded-full mb-2">
-              <TouchableOpacity
-                onPress={decrementQuantity}
-                className="p-1.5"
-                disabled={quantity <= 0}
-              >
-                {quantity <= 1 ? (
-                  <Trash2 size={16} color="#ef4444" />
-                ) : (
-                  <Minus size={14} color={iconColor} />
-                )}
-              </TouchableOpacity>
-
-              <Text className="px-2 py-1 text-foreground font-medium min-w-[24px] text-center">
-                {item.quantity}
-              </Text>
-
-              <TouchableOpacity onPress={incrementQuantity} className="p-1.5">
-                <Plus size={14} color={iconColor} />
-              </TouchableOpacity>
-            </View>
-
-            <View className="relative flex-row justify-end">
-              {validShops.map((retailer, index) => (
-                <View
-                  key={retailer}
-                  style={{
-                    marginRight: index === shopCount - 1 ? 0 : -8, // Negative margin for overlap
-                    zIndex: shopCount - index,
-                  }}
-                >
-                  <ShopLogoBadge shopId={retailer} size={20} index={0} />
-                </View>
-              ))}
             </View>
           </View>
         </View>
