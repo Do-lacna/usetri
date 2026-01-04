@@ -8,6 +8,7 @@ import type { DiscountPriceImportBatchDto } from './discountPriceImportBatchDto'
 
 export interface GetDiscountPriceImportsResponse {
   all_count?: number;
+  count?: number;
   /** @nullable */
   discount_import_batches?: DiscountPriceImportBatchDto[] | null;
 }

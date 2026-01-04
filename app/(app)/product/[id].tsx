@@ -150,11 +150,12 @@ const ProductDetailScreen: React.FC = () => {
 
     return categoryShopPrices
       .filter(({ shop_id }) => !productShopIds.has(Number(shop_id)))
-      .map(({ shop_id, price }) => ({
+      .map(({ shop_id, price, product_id }) => ({
         shop_id,
         price: price?.actual_price ?? 0,
         originalPrice: price?.price ?? 0,
         discountPrice: price?.discount_price?.price,
+        product_id,
       }));
   }, [categoryShopPrices, shops_prices]);
 
@@ -251,9 +252,10 @@ const ProductDetailScreen: React.FC = () => {
               categoryAmount={categoryDefaultAmount}
               categoryUnit={categoryDefaultUnit}
               className="mb-6"
-              onPricePress={() => {
+              onPricePress={(shopId, productId) => {
+                if (!productId) return;
                 setPendingCartData({
-                  identifier: 4239,
+                  identifier: productId,
                   type: DrawerTypeEnum.PRODUCT,
                 });
                 pendingProductSheetRef.current?.present();

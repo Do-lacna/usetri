@@ -8,6 +8,7 @@ import type { AdminCategoryDto } from './adminCategoryDto';
 
 export interface GetCategoryAdminResponse {
   all_count?: number;
+  count?: number;
   /** @nullable */
   all_categories?: AdminCategoryDto[] | null;
 }

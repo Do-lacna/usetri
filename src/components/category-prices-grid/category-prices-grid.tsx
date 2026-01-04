@@ -11,6 +11,7 @@ interface CategoryPrice {
   price: number;
   originalPrice?: number;
   discountPrice?: number | null;
+  product_id?: number;
 }
 
 interface CategoryPricesGridProps {
@@ -20,7 +21,7 @@ interface CategoryPricesGridProps {
   className?: string;
   categoryAmount?: number | null;
   categoryUnit?: string | null;
-  onPricePress?: (shopId: number) => void;
+  onPricePress?: (shopId: number, productId?: number) => void;
 }
 
 export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
@@ -59,7 +60,7 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
       <View className="bg-muted rounded-xl py-4 px-2 border border-border">
         <View className="flex-row flex-wrap gap-3">
           {categoryPrices?.map(
-            ({ shop_id, price, originalPrice, discountPrice }) => {
+            ({ shop_id, price, originalPrice, discountPrice, product_id }) => {
               const hasDiscount =
                 discountPrice &&
                 discountPrice > 0 &&
@@ -73,7 +74,7 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                   key={shop_id}
                   onPress={() => {
                     if (onPricePress) {
-                      onPricePress(shop_id);
+                      onPricePress(shop_id, product_id);
                     } else {
                       Alert.alert(
                         shopName,

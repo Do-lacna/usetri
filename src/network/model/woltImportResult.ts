@@ -8,6 +8,7 @@ import type { Error } from './error';
 
 export interface WoltImportResult {
   all_count?: number;
+  count?: number;
   count_of_products_with_barcode_update_product?: number;
   count_of_products_with_barcode_create_product?: number;
   count_of_products_without_barcode?: number;
