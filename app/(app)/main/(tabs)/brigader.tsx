@@ -1,147 +1,60 @@
-import type { Option } from '@rn-primitives/select';
-import { useQueryClient } from '@tanstack/react-query';
-import { Link } from 'expo-router';
-import React, { useMemo } from 'react';
-import { FlatList, RefreshControl, Text } from 'react-native';
+import type React from 'react';
+import { useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  CustomSelect,
-  type SelectOptionType,
-} from '~/src/components/custom-select/custom-select';
-import { Button } from '~/src/components/ui/button';
-import { generateShopLocationNameBasedOnId } from '~/src/lib/utils';
-import {
-  getGetProductsForBrigaderQueryKey,
-  useCheckItemInReviewList,
-  useGetProductsForBrigader,
-} from '~/src/network/brigader/brigader';
-import { useGetShops } from '~/src/network/query/query';
-import {
-  displayErrorToastMessage,
-  displaySuccessToastMessage,
-} from '~/src/utils/toast-utils';
-import BrigaderProductRow from '../../../../src/features/brigader/components/brigader-product-row';
+import CategoryVerificationScreen from '../../../../src/features/brigader/components/category-verification-screen';
 import DiscountConfirmationScreen from '../../../../src/features/brigader/components/discount-confirmation-screen';
 
-export default function BrigaderScreen() {
-  const [mode, setMode] = React.useState<'old' | 'discount'>('discount');
+type BrigaderMode = 'discounts' | 'categories';
 
-  // Toggle between old and new mode
-  if (mode === 'discount') {
-    return <DiscountConfirmationScreen />;
-  }
-
-  // OLD FUNCTIONALITY BELOW (kept for reference)
-  return <OldBrigaderScreen />;
+interface TabButtonProps {
+  label: string;
+  isActive: boolean;
+  onPress: () => void;
 }
 
-function OldBrigaderScreen() {
-  const queryClient = useQueryClient();
-  const [selectedShop, setSelectedShop] = React.useState<Option>({
-    value: '',
-    label: '',
-  });
+const TabButton: React.FC<TabButtonProps> = ({ label, isActive, onPress }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    className={`flex-1 py-3 px-4 rounded-lg ${
+      isActive ? 'bg-primary' : 'bg-muted'
+    }`}
+  >
+    <Text
+      className={`text-center font-medium ${
+        isActive ? 'text-primary-foreground' : 'text-muted-foreground'
+      }`}
+    >
+      {label}
+    </Text>
+  </TouchableOpacity>
+);
 
-  const {
-    data: { products_to_check = [], calendar_week, created_at } = {},
-    isLoading: areProductsLoading,
-  } = useGetProductsForBrigader(
-    { shop_id: Number(selectedShop?.value) },
-    { query: { enabled: !!selectedShop?.value } },
-  );
-  const { mutate: sendConfirmProductPrice, isPending: isConfirmingPrice } =
-    useCheckItemInReviewList({
-      mutation: {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: getGetProductsForBrigaderQueryKey(),
-          });
-          displaySuccessToastMessage('Cena produktu bola úspešne potvrdená');
-        },
-        onError: () => {
-          console.log('Error');
-          displayErrorToastMessage('Nepodarilo sa potvrdiť cenu produktu');
-        },
-      },
-    });
-  const {
-    data: { shops = [] } = {},
-    isPending: areShopsLoading,
-  } = useGetShops();
-
-  const mappedShops = useMemo(
-    () =>
-      shops?.map(shop => ({
-        label: shop?.name,
-        value: String(shop?.id),
-        icon: shop?.image_url,
-      })),
-    [shops],
-  ) as SelectOptionType[];
-
-  React.useEffect(() => {
-    if (mappedShops?.length > 0) {
-      setSelectedShop(mappedShops?.[0]);
-    }
-  }, [mappedShops]);
-
-  const isLoading = areProductsLoading || areShopsLoading || isConfirmingPrice;
+export default function BrigaderScreen() {
+  const [mode, setMode] = useState<BrigaderMode>('discounts');
 
   return (
-    <SafeAreaView className="flex justify-start px-2">
-      <CustomSelect
-        label="Dostupné obchody"
-        options={mappedShops}
-        defaultValue={mappedShops?.[0]}
-        onChange={setSelectedShop}
-        selectClassName="w-full my-4"
-      />
-      <Link
-        href={{
-          pathname: '/main/brigader-scan-screen/[...slug]',
-          params: { slug: [String(selectedShop?.value)] },
-        }}
-        asChild
-      >
-        <Button>
-          <Text>Sken nových produktov</Text>
-        </Button>
-      </Link>
+    <SafeAreaView className="flex-1 bg-background" edges={['top']}>
+      {/* Tab Switcher */}
+      <View className="flex-row gap-2 px-4 py-3 bg-background border-b border-border">
+        <TabButton
+          label="Potvrdenie zliav"
+          isActive={mode === 'discounts'}
+          onPress={() => setMode('discounts')}
+        />
+        <TabButton
+          label="Kategórie produktov"
+          isActive={mode === 'categories'}
+          onPress={() => setMode('categories')}
+        />
+      </View>
 
-      <Text className="font-bold text-center my-4 text-xl">
-        Kalendárny týždeň {calendar_week}, kontrola:
-      </Text>
-
-      <FlatList
-        data={products_to_check}
-        renderItem={({ item }) => (
-          <BrigaderProductRow
-            product={item}
-            onConfirm={(price, is_price_valid) =>
-              sendConfirmProductPrice({
-                data: {
-                  shop_id: Number(selectedShop?.value),
-                  barcode: item?.barcode,
-                  is_price_valid,
-                  new_base_price: !is_price_valid ? price : null,
-                  location: generateShopLocationNameBasedOnId(
-                    Number(selectedShop?.value),
-                  ),
-                },
-              })
-            }
-            shopId={Number(selectedShop?.value)}
-          />
-        )}
-        keyExtractor={product => String(product?.barcode)}
-        contentContainerClassName="gap-4 px-1 pt-4 pb-40 box-border"
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={() => queryClient.invalidateQueries()}
-          />
-        }
-      />
+      {/* Content */}
+      {mode === 'discounts' ? (
+        <DiscountConfirmationScreen />
+      ) : (
+        <CategoryVerificationScreen />
+      )}
     </SafeAreaView>
   );
 }
