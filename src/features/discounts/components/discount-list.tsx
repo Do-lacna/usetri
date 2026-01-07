@@ -16,11 +16,12 @@ import {
   getDiscounts,
   getGetDiscountsQueryKey,
 } from '~/src/network/query/query';
+import { formatDiscountValidity } from '../utils/format-validity';
+import { getStoreDisplayName } from '../utils/store-utils';
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
   onScroll?: Animated.Value;
-  validityInfo?: { validFrom?: string; validTo?: string } | null;
 }
 
 interface SkeletonItem {
@@ -29,8 +30,8 @@ interface SkeletonItem {
 
 const LIMIT = 20; // Number of items to fetch per page
 
-const DiscountList = ({ shop, onScroll, validityInfo }: IDiscountListProps) => {
-  const { id } = shop;
+const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
+  const { id, name } = shop;
 
   const {
     data,
@@ -49,7 +50,9 @@ const DiscountList = ({ shop, onScroll, validityInfo }: IDiscountListProps) => {
       }),
 
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage?.count === LIMIT) {
+      // Check if the current page returned LIMIT items (meaning there might be more)
+      const currentPageProductsCount = lastPage?.products?.length ?? 0;
+      if (currentPageProductsCount === LIMIT) {
         return allPages?.length * LIMIT;
       }
       return undefined;
@@ -62,6 +65,20 @@ const DiscountList = ({ shop, onScroll, validityInfo }: IDiscountListProps) => {
   const allProducts = React.useMemo(() => {
     return data?.pages.flatMap(page => page.products || []) || [];
   }, [data]);
+
+  // Extract validity info from first product
+  const validityInfo = React.useMemo(() => {
+    const firstProduct = data?.pages?.[0]?.products?.[0];
+    const discountPrice = firstProduct?.shops_prices?.[0]?.discount_price;
+
+    if (discountPrice?.valid_from || discountPrice?.valid_to) {
+      return {
+        validFrom: discountPrice.valid_from ?? undefined,
+        validTo: discountPrice.valid_to ?? undefined,
+      };
+    }
+    return null;
+  }, [data?.pages]);
 
   const loadMoreData = React.useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -101,59 +118,79 @@ const DiscountList = ({ shop, onScroll, validityInfo }: IDiscountListProps) => {
     );
   };
 
+  const renderHeader = () => (
+    <View className="pb-3 flex-row items-center justify-between">
+      <Text className="text-2xl font-bold text-foreground">
+        Zľavy v {getStoreDisplayName(name)}
+      </Text>
+      {validityInfo && (
+        <View className="bg-primary px-3 py-1 rounded-full">
+          <Text className="text-sm font-semibold text-foreground">
+            {formatDiscountValidity(
+              validityInfo.validFrom,
+              validityInfo.validTo,
+            )}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+
   return (
-    <View>
-      <View className="flex-row">
-        {isPending ? (
-          <FlashList
-            data={skeletonData}
-            renderItem={renderSkeletonItem}
-            numColumns={2}
-            keyExtractor={item => String(item.id)}
-            contentContainerStyle={{ padding: 16 }}
-            scrollEnabled={false}
-          />
-        ) : allProducts?.length === 0 ? (
+    <View className="flex-1">
+      {isPending ? (
+        <FlashList
+          data={skeletonData}
+          renderItem={renderSkeletonItem}
+          numColumns={2}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={{ padding: 16 }}
+          scrollEnabled={false}
+          estimatedItemSize={200}
+          ListHeaderComponent={renderHeader}
+        />
+      ) : allProducts?.length === 0 ? (
+        <View className="px-4 pt-4">
+          {renderHeader()}
           <Text
-            className="text-muted-foreground text-base text-center mt-2 px-4"
+            className="text-muted-foreground text-base text-center mt-2"
             numberOfLines={2}
           >
             Tento obchod momentálne neponúka žiadne zľavnené produkty
           </Text>
-        ) : (
-          <FlashList
-            data={allProducts}
-            renderItem={renderProductItem}
-            numColumns={2}
-            keyExtractor={product => String(product?.detail?.id)}
-            contentContainerStyle={{ padding: 16 }}
-            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-            refreshControl={
-              <RefreshControl
-                refreshing={isPending}
-                onRefresh={handleRefresh}
-              />
-            }
-            onEndReached={loadMoreData}
-            onEndReachedThreshold={0.3}
-            ListFooterComponent={renderFooter}
-            ListEmptyComponent={
-              <Text className="text-muted-foreground text-base text-center mt-4">
-                Tento obchod momentálne neponúka žiadne zľavnené produkty
-              </Text>
-            }
-            onScroll={
-              onScroll
-                ? Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: onScroll } } }],
-                    { useNativeDriver: false },
-                  )
-                : undefined
-            }
-            scrollEventThrottle={16}
-          />
-        )}
-      </View>
+        </View>
+      ) : (
+        <FlashList
+          data={allProducts}
+          renderItem={renderProductItem}
+          numColumns={2}
+          keyExtractor={product => String(product?.detail?.id)}
+          contentContainerStyle={{ padding: 16 }}
+          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+          refreshControl={
+            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+          }
+          onEndReached={loadMoreData}
+          onEndReachedThreshold={0.3}
+          ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderFooter}
+          ListEmptyComponent={
+            <Text className="text-muted-foreground text-base text-center mt-4">
+              Tento obchod momentálne neponúka žiadne zľavnené produkty
+            </Text>
+          }
+          onScroll={
+            onScroll
+              ? Animated.event(
+                  [{ nativeEvent: { contentOffset: { y: onScroll } } }],
+                  { useNativeDriver: false },
+                )
+              : undefined
+          }
+          scrollEventThrottle={16}
+          estimatedItemSize={200}
+        />
+      )}
     </View>
   );
 };

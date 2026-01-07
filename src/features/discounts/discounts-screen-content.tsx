@@ -1,16 +1,11 @@
 import type React from 'react';
-import { useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  useGetDiscounts,
-  useGetDiscountsStatistics,
-} from '~/src/network/query/query';
+import { useGetDiscountsStatistics } from '~/src/network/query/query';
 import DiscountList from './components/discount-list';
 import { StoreCarousel } from './components/store-carousel';
 import { useStoreSelection } from './hooks/use-store-selection';
-import { formatDiscountValidity } from './utils/format-validity';
-import { getStoreDisplayName } from './utils/store-utils';
 
 export const DiscountsScreenContent: React.FC = () => {
   const {
@@ -28,34 +23,10 @@ export const DiscountsScreenContent: React.FC = () => {
     handleSnapToItem,
   } = useStoreSelection(scrollY);
 
-  // Fetch first discount to get validity dates
-  const { data: discountsData } = useGetDiscounts(
-    {
-      restricted_shops: activeStoreId ? [Number(activeStoreId)] : undefined,
-      Limit: 1,
-      Offset: 0,
-    },
-    {
-      query: {
-        enabled: !!activeStoreId,
-      },
-    },
-  );
-
-  // Extract validity information from first discount
-  const validityInfo = useMemo(() => {
-    const firstProduct = discountsData?.products?.[0];
-    const discountPrice = firstProduct?.shops_prices?.[0]?.discount_price;
-
-    if (discountPrice?.valid_from || discountPrice?.valid_to) {
-      return {
-        validFrom: discountPrice.valid_from,
-        validTo: discountPrice.valid_to,
-      };
-    }
-
-    return null;
-  }, [discountsData]);
+  // Reset scroll position when shop changes
+  useEffect(() => {
+    scrollY.setValue(0);
+  }, [activeStoreId, scrollY]);
 
   const SCROLL_DISTANCE = 150;
   const MIN_HEIGHT = 90;
@@ -84,24 +55,10 @@ export const DiscountsScreenContent: React.FC = () => {
 
       {!!activeStore && (
         <View className="flex-1 bg-background">
-          <View className="px-4 py-2">
-            <Text className="text-2xl font-bold text-foreground">
-              Zľavy v {getStoreDisplayName(activeStore.name)}
-            </Text>
-            {validityInfo && (
-              <Text className="text-sm text-muted-foreground mt-1">
-                {formatDiscountValidity(
-                  validityInfo.validFrom,
-                  validityInfo.validTo,
-                )}
-              </Text>
-            )}
-          </View>
           <DiscountList
             key={activeStoreId}
             shop={activeStore}
             onScroll={scrollY}
-            validityInfo={validityInfo}
           />
         </View>
       )}
