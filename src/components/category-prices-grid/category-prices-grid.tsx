@@ -66,7 +66,7 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                 discountPrice > 0 &&
                 discountPrice < (originalPrice ?? price);
 
-              const shop = getShopById(shop_id, shops);
+              const shop = getShopById(shop_id ?? null, shops);
               const shopName = shop?.name || '';
 
               return shop_id ? (

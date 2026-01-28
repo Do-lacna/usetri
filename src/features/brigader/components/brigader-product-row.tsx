@@ -24,7 +24,7 @@ const BrigaderProductRow = ({
   shopId,
   onConfirm,
 }: IShoppingListItemProps) => {
-  const { brand, unit, amount, price, name, barcode, is_checked } = product;
+  const { brand, unit, amount, price, name, scanned_barcode: barcode, is_checked } = product;
 
   const [newPrice, setNewPrice] = useState<string | undefined>(
     price ? price.toString() : '',

@@ -171,7 +171,6 @@ const DiscountList = ({
           keyExtractor={item => String(item.id)}
           contentContainerStyle={{ padding: 16 }}
           scrollEnabled={false}
-          estimatedItemSize={200}
           ListHeaderComponent={renderHeader}
         />
       ) : allProducts?.length === 0 ? (
@@ -229,7 +228,6 @@ const DiscountList = ({
             }
           }}
           scrollEventThrottle={16}
-          estimatedItemSize={200}
         />
       )}
     </View>
