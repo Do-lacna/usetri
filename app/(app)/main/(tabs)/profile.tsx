@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GuestScreen } from '~/src/components/guest-screen';
 import ProfileHeader from '~/src/components/profile/profile-header';
 import { SavedCartCard } from '~/src/components/profile/saved-cart-card';
 import { TotalSavedCard } from '~/src/components/profile/total-saved-card';
@@ -16,7 +17,20 @@ export default function ProfileScreen() {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
-  const { user } = useSession();
+  const { user, isGuest } = useSession();
+
+  // Show guest screen if user is not logged in
+  if (isGuest) {
+    return (
+      <GuestScreen
+        title="Váš profil"
+        description="Prihláste sa pre zobrazenie vášho profilu, histórie nákupov a štatistík vašich úspor."
+        showProfileImage
+        showLogoutButton
+      />
+    );
+  }
+
   const {
     data: { archived_carts = [] } = {},
     isLoading: areArchivedCartsLoading,

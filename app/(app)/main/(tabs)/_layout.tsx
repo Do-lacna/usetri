@@ -84,11 +84,10 @@ export default function TabLayout() {
                 size={28}
                 color={focused ? activeColor : inactiveColor}
               />
-              <AnimatedCartBadge count={cartItemsNumber || 0} />
+              {!isGuest && <AnimatedCartBadge count={cartItemsNumber || 0} />}
             </View>
           ),
         }}
-        redirect={isGuest}
       />
       <Tabs.Screen
         name="profile"
@@ -102,7 +101,6 @@ export default function TabLayout() {
             />
           ),
         }}
-        redirect={isGuest}
       />
       <Tabs.Screen
         name="brigader"

@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GuestScreen } from '~/src/components/guest-screen';
 import { CustomBottomSheetModal } from '~/src/components/layout/bottom-sheet-modal/bottom-sheet-modal';
 import PendingCartItemDrawerContent, {
   PendingCartItemActionEnum,
@@ -19,6 +20,7 @@ import EmptyShoppingListPlaceholderScreen from '~/src/components/placeholders/em
 import SearchBar, { type ISearchBarHandle } from '~/src/components/search-bar';
 import { Button } from '~/src/components/ui/button';
 import Divider from '~/src/components/ui/divider';
+import { useSession } from '~/src/context/authentication-context';
 import ShoppingListProductSearch from '~/src/features/shopping-list/components/shopping-list-product-search';
 import { useCartActions } from '~/src/hooks/use-cart-actions';
 import { useGetCart } from '~/src/network/cart/cart';
@@ -52,10 +54,22 @@ interface SearchHeaderProps {
 
 export default function ShoppingList() {
   const { t } = useTranslation();
+  const { isGuest } = useSession();
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
   const searchBarRef = useRef<ISearchBarHandle>(null);
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  // Show guest screen if user is not logged in
+  if (isGuest) {
+    return (
+      <GuestScreen
+        title="Nákupný zoznam"
+        description="Prihláste sa pre vytvorenie nákupného zoznamu, porovnanie cien a zistenie kde nakúpite najlacnejšie."
+        showCartImage
+      />
+    );
+  }
 
   const queryClient = useQueryClient();
   const [expandedOption, setExpandedOption] = React.useState<number | null>(

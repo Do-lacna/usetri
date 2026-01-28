@@ -3,9 +3,11 @@ import axios, { type AxiosRequestConfig } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import qs from 'qs';
 import { BASE_API_URL } from '../lib/constants';
+import { isGuestMode } from '../persistence/guest-storage';
 
 export const AUTH_TOKEN = 'authToken';
 export const USER_ID = 'userId';
+export const ANONYMOUS_USER_ID = 'Anonymous user';
 
 const apiClient = axios.create({
   baseURL: BASE_API_URL, // Replace with your API URL
@@ -19,6 +21,12 @@ const apiClient = axios.create({
 
 // Add a request interceptor
 apiClient.interceptors.request.use(async config => {
+  // Check if user is in guest mode
+  if (isGuestMode()) {
+    config.headers['user-id'] = ANONYMOUS_USER_ID;
+    return config;
+  }
+
   const token = await SecureStore.getItemAsync(AUTH_TOKEN); // Get token from secure storage
   const userId = await SecureStore.getItemAsync(USER_ID); // Get user ID from secure storage
 

@@ -5,10 +5,18 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '~/src/context/authentication-context';
 import { WEBPAGE_LINKS } from '../lib/constants';
+import { LogOut } from '../lib/icons/Log-out';
 import {
   activateBrigader,
   deactivateBrigader,
 } from '../persistence/theme-storage';
+
+const BRIGADER_ALLOWED_EMAILS = [
+  'usetripareur@gmail.com',
+  'sualkoo@gmail.com',
+  'jurajpaska8@gmail.com',
+  'thefaston@gmail.com',
+];
 
 export interface MenuItem {
   id: string;
@@ -18,6 +26,7 @@ export interface MenuItem {
   iconRight?: React.ComponentType<any>;
   isThemeToggle?: boolean;
   isLanguageToggle?: boolean;
+  isDestructive?: boolean;
 }
 
 export interface MenuSection {
@@ -27,9 +36,19 @@ export interface MenuSection {
 }
 
 export const useSettingsMenuItems = () => {
-  const { signOut, deleteUserAccount, setBrigaderActive, brigaderActive } =
-    useSession();
+  const {
+    signOut,
+    deleteUserAccount,
+    setBrigaderActive,
+    brigaderActive,
+    user,
+  } = useSession();
   const { t } = useTranslation();
+
+  const userEmail = user?.email?.toLowerCase();
+  const canSeeBrigader = userEmail
+    ? BRIGADER_ALLOWED_EMAILS.includes(userEmail)
+    : false;
 
   const menuSections: MenuSection[] = useMemo(
     () => [
@@ -37,37 +56,36 @@ export const useSettingsMenuItems = () => {
         id: 'ucet',
         title: t('menu.account_settings'),
         items: [
-          {
-            id: 'email',
-            label: t('menu.email_password'),
-            onPress: () => console.log('Email password'),
-          },
-          {
-            id: 'predplatne',
-            label: t('menu.subscription'),
-            onPress: () => console.log('Subscription'),
-          },
-          {
-            id: 'brigader',
-            label: brigaderActive
-              ? t('menu.deactivate_brigader')
-              : t('menu.activate_brigader'),
-            onPress: () => {
-              if (brigaderActive) {
-                deactivateBrigader();
-                setBrigaderActive?.(false);
-                return router.back();
-              }
-              activateBrigader();
-              setBrigaderActive?.(true);
-              return router.back();
-            },
-          },
-          {
-            id: 'odhlasit',
-            label: t('menu.sign_out'),
-            onPress: signOut,
-          },
+          // {
+          //   id: 'email',
+          //   label: t('menu.email_password'),
+          //   onPress: () => console.log('Email password'),
+          // },
+          // {
+          //   id: 'predplatne',
+          //   label: t('menu.subscription'),
+          //   onPress: () => console.log('Subscription'),
+          // },
+          ...(canSeeBrigader
+            ? [
+                {
+                  id: 'brigader',
+                  label: brigaderActive
+                    ? t('menu.deactivate_brigader')
+                    : t('menu.activate_brigader'),
+                  onPress: () => {
+                    if (brigaderActive) {
+                      deactivateBrigader();
+                      setBrigaderActive?.(false);
+                      return router.back();
+                    }
+                    activateBrigader();
+                    setBrigaderActive?.(true);
+                    return router.back();
+                  },
+                },
+              ]
+            : []),
           {
             id: 'vymazatucet',
             label: t('menu.delete_account'),
@@ -89,11 +107,11 @@ export const useSettingsMenuItems = () => {
             label: t('menu.language'),
             isLanguageToggle: true,
           },
-          {
-            id: 'preferencie',
-            label: t('menu.preferences'),
-            onPress: () => console.log('Preferences'),
-          },
+          // {
+          //   id: 'preferencie',
+          //   label: t('menu.preferences'),
+          //   onPress: () => console.log('Preferences'),
+          // },
         ],
       },
       {
@@ -137,8 +155,28 @@ export const useSettingsMenuItems = () => {
           },
         ],
       },
+      {
+        id: 'signout',
+        title: '',
+        items: [
+          {
+            id: 'odhlasit',
+            label: t('menu.sign_out'),
+            onPress: signOut,
+            isDestructive: true,
+            icon: LogOut,
+          },
+        ],
+      },
     ],
-    [brigaderActive, signOut, deleteUserAccount, setBrigaderActive, t],
+    [
+      brigaderActive,
+      signOut,
+      deleteUserAccount,
+      setBrigaderActive,
+      t,
+      canSeeBrigader,
+    ],
   );
 
   return {

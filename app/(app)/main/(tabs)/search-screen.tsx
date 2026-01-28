@@ -1,7 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
+import { useSession } from '~/src/context/authentication-context';
 import { CategoriesGrid } from '~/src/features/search/components/CategoriesGrid';
 import { CategoryDetailView } from '~/src/features/search/components/CategoryDetailView';
 import { SearchHeader } from '~/src/features/search/components/SearchHeader';
@@ -14,9 +16,11 @@ import {
 
 export default function SearchScreen() {
   const queryClient = useQueryClient();
+  const { isGuest } = useSession();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCategory, setSelectedCategory] =
     React.useState<PopularCategoryDto | null>(null);
+  const [showGuestOverlay, setShowGuestOverlay] = useState(false);
 
   // Get popular categories from backend
   const {
@@ -56,8 +60,16 @@ export default function SearchScreen() {
   };
 
   const handleProductPress = (productId: number, categoryId?: number) => {
+    if (isGuest) {
+      setShowGuestOverlay(true);
+      return;
+    }
     router.navigate(`/product/${productId}`);
   };
+
+  const handleDismissOverlay = useCallback(() => {
+    setShowGuestOverlay(false);
+  }, []);
 
   const handleRefresh = () => {
     queryClient.invalidateQueries();
@@ -92,6 +104,15 @@ export default function SearchScreen() {
           onCategorySelect={handleCategorySelect}
           isLoading={isLoading}
           onRefresh={handleRefresh}
+        />
+      )}
+
+      {isGuest && showGuestOverlay && (
+        <GuestRegistrationOverlay
+          title="Detail produktu"
+          description="Pre zobrazenie detailu produktu a porovnania cien sa prosím zaregistrujte alebo prihláste."
+          dismissable
+          onDismiss={handleDismissOverlay}
         />
       )}
     </SafeAreaView>

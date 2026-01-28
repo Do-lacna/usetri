@@ -79,6 +79,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
         await setItemAsync(USER_ID, user.uid);
         await setItemAsync(AUTH_TOKEN, token);
         setUser(user);
+        // Clear guest mode when user successfully authenticates
+        clearGuestMode();
+        setIsGuest(false);
       }
     } catch (e) {
       console.error('Error in reactToChangedAuthState:', e);

@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import React from 'react';
 import {
   ActivityIndicator,
-  Animated,
+  type Animated,
   RefreshControl,
   Text,
   View,
@@ -22,6 +22,11 @@ import { getStoreDisplayName } from '../utils/store-utils';
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
   onScroll?: Animated.Value;
+  limitItems?: number;
+  guestScrollLimit?: number;
+  onGuestScrollLimitReached?: () => void;
+  isGuest?: boolean;
+  onProductPressBlocked?: () => void;
 }
 
 interface SkeletonItem {
@@ -30,8 +35,17 @@ interface SkeletonItem {
 
 const LIMIT = 20; // Number of items to fetch per page
 
-const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
+const DiscountList = ({
+  shop,
+  onScroll,
+  limitItems,
+  guestScrollLimit,
+  onGuestScrollLimitReached,
+  isGuest,
+  onProductPressBlocked,
+}: IDiscountListProps) => {
   const { id, name } = shop;
+  const scrollLimitReachedRef = React.useRef(false);
 
   const {
     data,
@@ -63,8 +77,9 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
 
   // Flatten all pages into a single array
   const allProducts = React.useMemo(() => {
-    return data?.pages.flatMap(page => page.products || []) || [];
-  }, [data]);
+    const products = data?.pages.flatMap(page => page.products || []) || [];
+    return limitItems ? products.slice(0, limitItems) : products;
+  }, [data, limitItems]);
 
   // Extract validity info from first product
   const validityInfo = React.useMemo(() => {
@@ -81,14 +96,18 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
   }, [data?.pages]);
 
   const loadMoreData = React.useCallback(() => {
+    // Don't load more if items are limited (guest mode)
+    if (limitItems) return;
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage, limitItems]);
 
   const handleRefresh = React.useCallback(() => {
+    // Don't allow refresh if items are limited (guest mode)
+    if (limitItems) return;
     refetch();
-  }, [refetch]);
+  }, [refetch, limitItems]);
 
   // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
@@ -103,7 +122,13 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
   const renderProductItem: ListRenderItem<ShopProductDto> = ({ item }) => (
     <DiscountedProductCard
       product={item}
-      onPress={(productId: number) => router.navigate(`/product/${productId}`)}
+      onPress={(productId: number) => {
+        if (isGuest && onProductPressBlocked) {
+          onProductPressBlocked();
+        } else {
+          router.navigate(`/product/${productId}`);
+        }
+      }}
       shopsPrices={item?.shops_prices}
       className="flex-1"
     />
@@ -168,7 +193,12 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
           contentContainerStyle={{ padding: 16 }}
           ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           refreshControl={
-            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
+            limitItems ? undefined : (
+              <RefreshControl
+                refreshing={isPending}
+                onRefresh={handleRefresh}
+              />
+            )
           }
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.3}
@@ -179,14 +209,25 @@ const DiscountList = ({ shop, onScroll }: IDiscountListProps) => {
               Tento obchod momentálne neponúka žiadne zľavnené produkty
             </Text>
           }
-          onScroll={
-            onScroll
-              ? Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: onScroll } } }],
-                  { useNativeDriver: false },
-                )
-              : undefined
-          }
+          onScroll={event => {
+            const scrollPosition = event.nativeEvent.contentOffset.y;
+
+            // Check if guest has scrolled past the limit
+            if (
+              guestScrollLimit &&
+              onGuestScrollLimitReached &&
+              scrollPosition >= guestScrollLimit &&
+              !scrollLimitReachedRef.current
+            ) {
+              scrollLimitReachedRef.current = true;
+              onGuestScrollLimitReached();
+            }
+
+            // Also trigger the animated scroll if provided
+            if (onScroll) {
+              onScroll.setValue(scrollPosition);
+            }
+          }}
           scrollEventThrottle={16}
           estimatedItemSize={200}
         />
