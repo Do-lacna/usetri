@@ -35,7 +35,11 @@ const DiscountedProductCard = ({
 
   const availableShopIds = shopsPrices?.map(shop => Number(shop.shop_id)) || [];
 
-  const { discount_price, price } = shopsPrices?.[0] || {};
+  const {
+    discount_price,
+    price,
+    shop_id: lowestPriceShopId,
+  } = shopsPrices?.[0] || {};
 
   const percentageDiscount = calculateDiscountPercentage(
     Number(price),
@@ -88,6 +92,11 @@ const DiscountedProductCard = ({
                   shopId={retailer}
                   size={20}
                   index={index}
+                  zIndex={availableShopIds.length - index}
+                  highlighted={
+                    availableShopIds.length > 1 &&
+                    retailer === Number(lowestPriceShopId)
+                  }
                 />
               ) : null,
             )}
