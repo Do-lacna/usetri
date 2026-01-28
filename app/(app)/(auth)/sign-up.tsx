@@ -177,14 +177,19 @@ export default function SignUp() {
                       onBlur={onBlur}
                       value={value}
                       hasError={
-                        !!(touchedFields.confirmPassword && errors.confirmPassword)
+                        !!(
+                          touchedFields.confirmPassword &&
+                          errors.confirmPassword
+                        )
                       }
                       autoCapitalize="none"
                       autoComplete="password-new"
                       editable={!loading}
                     />
                     <Pressable
-                      onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onPress={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 top-1/2 -translate-y-1/2"
                       hitSlop={8}
                     >

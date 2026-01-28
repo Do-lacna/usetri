@@ -111,122 +111,124 @@ export default function SignIn() {
               </View>
             </View>
 
-          {/* Divider */}
-          <View className="flex-row items-center mb-6">
-            <View className="flex-1 h-px bg-border" />
-            <Text className="mx-4 text-muted-foreground text-sm">alebo</Text>
-            <View className="flex-1 h-px bg-border" />
-          </View>
+            {/* Divider */}
+            <View className="flex-row items-center mb-6">
+              <View className="flex-1 h-px bg-border" />
+              <Text className="mx-4 text-muted-foreground text-sm">alebo</Text>
+              <View className="flex-1 h-px bg-border" />
+            </View>
 
-          {/* Email/Password Form */}
-          <View className="mb-6">
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { value, onBlur, onChange } }) => (
-                <Input
-                  placeholder="E-mail"
-                  placeholderClassName="text-sm"
-                  aria-labelledby="username"
-                  aria-errormessage="inputError"
-                  className="w-full"
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  editable={!isLoading && !isOAuthLoading}
-                />
-              )}
-            />
-            {touchedFields.email && errors.email && (
-              <Text className="text-destructive text-sm mt-1">
-                {errors.email.message}
-              </Text>
-            )}
-
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { value, onBlur, onChange } }) => (
-                <View className="relative w-full mt-3">
+            {/* Email/Password Form */}
+            <View className="mb-6">
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { value, onBlur, onChange } }) => (
                   <Input
-                    secureTextEntry={!showPassword}
-                    placeholder="Heslo"
-                    aria-labelledby="password"
-                    aria-errormessage="passwordError"
-                    className="w-full pr-12"
+                    placeholder="E-mail"
+                    placeholderClassName="text-sm"
+                    aria-labelledby="username"
+                    aria-errormessage="inputError"
+                    className="w-full"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
+                    keyboardType="email-address"
                     autoCapitalize="none"
-                    autoComplete="password"
+                    autoComplete="email"
                     editable={!isLoading && !isOAuthLoading}
                   />
-                  <Pressable
-                    onPress={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
-                    hitSlop={8}
-                  >
-                    {showPassword ? (
-                      <EyeOff size={20} className="text-muted-foreground" />
-                    ) : (
-                      <Eye size={20} className="text-muted-foreground" />
-                    )}
-                  </Pressable>
-                </View>
-              )}
-            />
-            {touchedFields.password && errors.password && (
-              <Text className="text-destructive text-sm mt-1">
-                {errors.password.message}
-              </Text>
-            )}
-
-            <Link
-              href="/forgotten-password"
-              disabled={isLoading || isOAuthLoading}
-              className="self-end mt-2"
-            >
-              <Text className="text-sm text-terciary">Zabudnuté heslo?</Text>
-            </Link>
-          </View>
-
-          {/* Sign In Button */}
-          <Button
-            disabled={!isDirty || !isValid || isLoading || isOAuthLoading}
-            onPress={handleSubmit(performSignIn)}
-            className="w-full"
-          >
-            <Text className="text-primary-foreground font-semibold">
-              Prihlásiť sa
-            </Text>
-          </Button>
-
-          {/* Footer Links */}
-          <View className="mt-auto pt-8">
-            <View className="flex-row justify-center gap-1">
-              <Text className="text-foreground">Ešte nemáte účet?</Text>
-              <Link href="/sign-up" disabled={isLoading || isOAuthLoading}>
-                <Text className="font-semibold text-terciary">
-                  Zaregistrujte sa
+                )}
+              />
+              {touchedFields.email && errors.email && (
+                <Text className="text-destructive text-sm mt-1">
+                  {errors.email.message}
                 </Text>
+              )}
+
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { value, onBlur, onChange } }) => (
+                  <View className="relative w-full mt-3">
+                    <Input
+                      secureTextEntry={!showPassword}
+                      placeholder="Heslo"
+                      aria-labelledby="password"
+                      aria-errormessage="passwordError"
+                      className="w-full pr-12"
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      autoCapitalize="none"
+                      autoComplete="password"
+                      editable={!isLoading && !isOAuthLoading}
+                    />
+                    <Pressable
+                      onPress={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      hitSlop={8}
+                    >
+                      {showPassword ? (
+                        <EyeOff size={20} className="text-muted-foreground" />
+                      ) : (
+                        <Eye size={20} className="text-muted-foreground" />
+                      )}
+                    </Pressable>
+                  </View>
+                )}
+              />
+              {touchedFields.password && errors.password && (
+                <Text className="text-destructive text-sm mt-1">
+                  {errors.password.message}
+                </Text>
+              )}
+
+              <Link
+                href="/forgotten-password"
+                disabled={isLoading || isOAuthLoading}
+                className="self-end mt-2"
+              >
+                <Text className="text-sm text-terciary">Zabudnuté heslo?</Text>
               </Link>
             </View>
 
+            {/* Sign In Button */}
             <Button
-              variant="ghost"
-              onPress={continueAsGuest}
-              disabled={isLoading || isOAuthLoading}
-              className="mt-4"
+              disabled={!isDirty || !isValid || isLoading || isOAuthLoading}
+              onPress={handleSubmit(performSignIn)}
+              className="w-full"
             >
-              <Text className="text-muted-foreground">Pokračovať ako hosť</Text>
+              <Text className="text-primary-foreground font-semibold">
+                Prihlásiť sa
+              </Text>
             </Button>
+
+            {/* Footer Links */}
+            <View className="mt-auto pt-8">
+              <View className="flex-row justify-center gap-1">
+                <Text className="text-foreground">Ešte nemáte účet?</Text>
+                <Link href="/sign-up" disabled={isLoading || isOAuthLoading}>
+                  <Text className="font-semibold text-terciary">
+                    Zaregistrujte sa
+                  </Text>
+                </Link>
+              </View>
+
+              <Button
+                variant="ghost"
+                onPress={continueAsGuest}
+                disabled={isLoading || isOAuthLoading}
+                className="mt-4"
+              >
+                <Text className="text-muted-foreground">
+                  Pokračovať ako hosť
+                </Text>
+              </Button>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
