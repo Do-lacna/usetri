@@ -13,5 +13,7 @@ export interface PatchProductBulkDto {
   /** @nullable */
   unit?: string | null;
   /** @nullable */
+  is_category_checked?: boolean | null;
+  /** @nullable */
   category_id?: number | null;
 }

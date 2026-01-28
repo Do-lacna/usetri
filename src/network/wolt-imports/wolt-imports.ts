@@ -4,27 +4,18 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
-  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
-  UseMutationOptions,
-  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
-import type {
-  GetUnconfirmedWoltImportsResponse,
-  ProblemDetails,
-  UploadWoltJsonBody,
-  UploadWoltJsonParams,
-  WoltImportResult,
-} from '.././model';
+import type { GetUnconfirmedWoltImportsResponse } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
@@ -164,95 +155,3 @@ export function useGetUnconfirmedWoltImports<
 
   return query;
 }
-
-export const uploadWoltJson = (
-  uploadWoltJsonBody: UploadWoltJsonBody,
-  params?: UploadWoltJsonParams,
-  options?: SecondParameter<typeof orvalApiClient>,
-  signal?: AbortSignal,
-) => {
-  const formData = new FormData();
-  if (uploadWoltJsonBody.jsonFile !== undefined) {
-    formData.append('jsonFile', uploadWoltJsonBody.jsonFile);
-  }
-
-  return orvalApiClient<WoltImportResult>(
-    {
-      url: `/admin/wolt-imports`,
-      method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
-      data: formData,
-      params,
-      signal,
-    },
-    options,
-  );
-};
-
-export const getUploadWoltJsonMutationOptions = <
-  TData = Awaited<ReturnType<typeof uploadWoltJson>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}) => {
-  const mutationKey = ['uploadWoltJson'];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      'mutationKey' in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof uploadWoltJson>>,
-    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams }
-  > = props => {
-    const { data, params } = props ?? {};
-
-    return uploadWoltJson(data, params, requestOptions);
-  };
-
-  return { mutationFn, ...mutationOptions } as UseMutationOptions<
-    TData,
-    TError,
-    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
-    TContext
-  >;
-};
-
-export type UploadWoltJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof uploadWoltJson>>
->;
-export type UploadWoltJsonMutationBody = UploadWoltJsonBody;
-export type UploadWoltJsonMutationError = ProblemDetails;
-
-export const useUploadWoltJson = <
-  TData = Awaited<ReturnType<typeof uploadWoltJson>>,
-  TError = ProblemDetails,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    TData,
-    TError,
-    { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
-    TContext
-  >;
-  request?: SecondParameter<typeof orvalApiClient>;
-}): UseMutationResult<
-  TData,
-  TError,
-  { data: UploadWoltJsonBody; params?: UploadWoltJsonParams },
-  TContext
-> => {
-  const mutationOptions = getUploadWoltJsonMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
