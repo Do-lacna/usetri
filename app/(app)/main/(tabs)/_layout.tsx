@@ -12,7 +12,7 @@ import { getNumberOfCartItems } from '~/src/lib/utils';
 import { useGetCart } from '~/src/network/cart/cart';
 
 export default function TabLayout() {
-  const { brigaderActive } = useSession();
+  const { brigaderActive, isGuest } = useSession();
   const {
     data: { cart } = {},
   } = useGetCart();
@@ -88,6 +88,7 @@ export default function TabLayout() {
             </View>
           ),
         }}
+        redirect={isGuest}
       />
       <Tabs.Screen
         name="profile"
@@ -101,6 +102,7 @@ export default function TabLayout() {
             />
           ),
         }}
+        redirect={isGuest}
       />
       <Tabs.Screen
         name="brigader"
@@ -114,7 +116,7 @@ export default function TabLayout() {
             />
           ),
         }}
-        redirect={!brigaderActive}
+        redirect={isGuest || !brigaderActive}
       />
     </Tabs>
   );

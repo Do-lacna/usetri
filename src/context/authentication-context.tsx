@@ -10,6 +10,11 @@ import {
 import { AppState, type AppStateStatus } from 'react-native';
 import { displaySuccessToastMessage } from '~/src/utils/toast-utils';
 import { AUTH_TOKEN, USER_ID } from '../network/api-client';
+import {
+  clearGuestMode,
+  isGuestMode,
+  setGuestMode,
+} from '../persistence/guest-storage';
 import { isBrigaderActive } from '../persistence/theme-storage';
 import { resetAndRedirect } from '../utils/navigation-utils';
 import { useStorageState } from './useStorageState';
@@ -26,12 +31,16 @@ export const AuthContext = createContext<{
   setBrigaderActive?: (active: boolean) => void;
   user?: User;
   deleteUserAccount: () => void;
+  isGuest: boolean;
+  continueAsGuest: () => void;
 }>({
   signIn: () => null,
   signOut: () => null,
   deleteUserAccount: () => null,
   setUser: () => {},
   isLoading: false,
+  isGuest: false,
+  continueAsGuest: () => null,
 });
 
 // This hook can be used to access the user info.
@@ -51,13 +60,17 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<User>();
   const [brigaderActive, setBrigaderActive] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
 
   const reactToChangedAuthState = async (user: User | null) => {
     setInitializing(true);
     try {
       if (!user) {
         setUser(undefined);
-        resetAndRedirect('/sign-in');
+        // Don't redirect if user is in guest mode
+        if (!isGuestMode()) {
+          resetAndRedirect('/sign-in');
+        }
         return;
       }
       if (user?.emailVerified) {
@@ -119,6 +132,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
     const brigaderActive = isBrigaderActive() ?? false;
     setBrigaderActive(brigaderActive);
 
+    // Initialize guest mode from storage
+    const guestMode = isGuestMode();
+    setIsGuest(guestMode);
+
     return () => {
       authSubscriber();
       tokenSubscriber();
@@ -129,11 +146,20 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const performSignOut = async () => {
     try {
       await deleteItemAsync('authToken');
+      clearGuestMode();
+      setIsGuest(false);
       await auth().signOut();
       setUser(undefined);
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const continueAsGuest = () => {
+    setGuestMode(true);
+    setIsGuest(true);
+    setInitializing(false);
+    resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
   };
 
   const deleteUserAccount = async () => {
@@ -162,6 +188,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
         brigaderActive,
         setBrigaderActive,
         deleteUserAccount,
+        isGuest,
+        continueAsGuest,
       }}
     >
       {children}

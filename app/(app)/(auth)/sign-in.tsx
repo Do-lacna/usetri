@@ -18,11 +18,13 @@ import { GoogleSignIn } from '~/src/components/google-authentication/google-sign
 import { ThemedLogo } from '~/src/components/themed-logo';
 import { Button } from '~/src/components/ui/button';
 import { Input } from '~/src/components/ui/input';
+import { useSession } from '~/src/context/authentication-context';
 import { signInSchema } from '~/src/schema/signin';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 export default function SignIn() {
   const { email } = useLocalSearchParams<{ email?: string }>();
+  const { continueAsGuest } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [isOAuthLoading, setIsOAuthLoading] = useState(false);
   const {
@@ -157,6 +159,15 @@ export default function SignIn() {
               Zabudnuté heslo
             </Text>
           </Link>
+
+          <Button
+            variant="ghost"
+            onPress={continueAsGuest}
+            disabled={isLoading || isOAuthLoading}
+            className="mt-4"
+          >
+            <Text className="text-muted-foreground">Pokračovať ako hosť</Text>
+          </Button>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
