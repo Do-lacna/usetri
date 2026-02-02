@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GuestScreen } from '~/src/components/guest-screen';
 import { CustomBottomSheetModal } from '~/src/components/layout/bottom-sheet-modal/bottom-sheet-modal';
 import PendingCartItemDrawerContent, {
@@ -55,21 +55,12 @@ interface SearchHeaderProps {
 export default function ShoppingList() {
   const { t } = useTranslation();
   const { isGuest } = useSession();
+  const isGuestUser = isGuest;
+
   const pendingProductSheetRef = useRef<BottomSheetModal>(null);
   const searchBarRef = useRef<ISearchBarHandle>(null);
   const [isTextInputFocused, setIsTextInputFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
-
-  // Show guest screen if user is not logged in
-  if (isGuest) {
-    return (
-      <GuestScreen
-        title="Nákupný zoznam"
-        description="Prihláste sa pre vytvorenie nákupného zoznamu, porovnanie cien a zistenie kde nakúpite najlacnejšie."
-        showCartImage
-      />
-    );
-  }
 
   const queryClient = useQueryClient();
   const [expandedOption, setExpandedOption] = React.useState<number | null>(
@@ -144,110 +135,130 @@ export default function ShoppingList() {
     }
   };
 
+  const insets = useSafeAreaInsets();
+
+  // Approx. height of the sticky PriceSummary (container paddings + text row)
+  const priceSummaryHeight = 72;
+  const scrollBottomPadding =
+    (cart?.total_price ? priceSummaryHeight : 0) + Math.max(insets.bottom, 8);
+
   return (
     <SafeAreaView
       edges={['left', 'top', 'right']}
       className="flex-1 content-center bg-background"
     >
-      <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
-        <PendingCartItemDrawerContent
-          pendingCartData={pendingCartData}
-          onConfirm={handleConfirmPendingCartItem}
-          onDismiss={() => pendingProductSheetRef?.current?.dismiss()}
-          isLoading={areCartActionsLoading}
+      {isGuestUser ? (
+        <GuestScreen
+          title="Nákupný zoznam"
+          description="Prihláste sa pre vytvorenie nákupného zoznamu, porovnanie cien a zistenie kde nakúpite najlacnejšie."
+          showCartImage
         />
-      </CustomBottomSheetModal>
-
-      <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss()}
-        className={`px-2 ${areAnyItemsInCart ? 'flex-1' : ''}`}
-      >
-        <View className="flex-1">
-          <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
-            <SearchBar<CategoryExtendedWithPathDto>
-              ref={searchBarRef}
-              onSearch={setSearchQuery}
-              onClear={() => setSearchQuery('')}
-              searchText={searchQuery}
-              placeholder={t('shopping_list.search_placeholder')}
-              keyExtractor={item => String(item.id)}
-              onFocus={() => setIsTextInputFocused(true)}
-              onBlur={() => setIsTextInputFocused(false)}
-              displaySearchOptions={false}
+      ) : (
+        <>
+          <CustomBottomSheetModal ref={pendingProductSheetRef} index={2}>
+            <PendingCartItemDrawerContent
+              pendingCartData={pendingCartData}
+              onConfirm={handleConfirmPendingCartItem}
+              onDismiss={() => pendingProductSheetRef?.current?.dismiss()}
+              isLoading={areCartActionsLoading}
             />
-            {isTextInputFocused && (
-              <Button
-                variant="ghost"
-                onPress={() => {
-                  searchBarRef.current?.blur();
-                  setSearchQuery('');
-                }}
-              >
-                <Text className="text-primary">
-                  {t('shopping_list.cancel')}
-                </Text>
-              </Button>
-            )}
-          </View>
+          </CustomBottomSheetModal>
 
-          <View className="flex-1 gap-4 mt-4 px-2">
-            {isTextInputFocused || searchQuery ? (
-              <View className="flex-1 mb-16">
-                <ShoppingListCategorySearch
-                  searchQuery={searchQuery}
-                  onCategorySelect={categoryId =>
-                    handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
-                  }
+          <TouchableWithoutFeedback
+            onPress={() => Keyboard.dismiss()}
+            className={`px-2 ${areAnyItemsInCart ? 'flex-1' : ''}`}
+          >
+            <View className="flex-1">
+              <View className="flex-row items-center gap-4 mt-2 z-10 px-2">
+                <SearchBar<CategoryExtendedWithPathDto>
+                  ref={searchBarRef}
+                  onSearch={setSearchQuery}
+                  onClear={() => setSearchQuery('')}
+                  searchText={searchQuery}
+                  placeholder={t('shopping_list.search_placeholder')}
+                  keyExtractor={item => String(item.id)}
+                  onFocus={() => setIsTextInputFocused(true)}
+                  onBlur={() => setIsTextInputFocused(false)}
+                  displaySearchOptions={false}
                 />
-                <ShoppingListProductSearch
-                  searchQuery={searchQuery}
-                  onProductSelect={productId =>
-                    handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
-                  }
-                />
+                {isTextInputFocused && (
+                  <Button
+                    variant="ghost"
+                    onPress={() => {
+                      searchBarRef.current?.blur();
+                      setSearchQuery('');
+                    }}
+                  >
+                    <Text className="text-primary">
+                      {t('shopping_list.cancel')}
+                    </Text>
+                  </Button>
+                )}
               </View>
-            ) : (
-              <ScrollView
-                refreshControl={
-                  <RefreshControl
-                    refreshing={isCartLoading || areCartActionsLoading}
-                    onRefresh={() => queryClient.invalidateQueries()}
-                  />
-                }
-                className="mb-24"
-              >
-                {cartCategories.map(item => (
-                  <ShoppingListCategoryItem
-                    key={item?.category?.id}
-                    item={item}
-                    isExpanded={expandedOption === item?.category?.id}
-                    onAlternativeSelect={handleChooseProductFromCategory}
-                    onUpdateQuantity={handleUpdateCategoryQuantity}
-                  />
-                ))}
 
-                <Divider className="mt-2 mb-4" />
-
-                {cartProducts.map(item => (
-                  <ShoppingListProductItem
-                    key={item?.product?.id}
-                    item={item}
-                    isExpanded={expandedOption === item?.product?.id}
-                    onAlternativeSelect={(originalId, id) =>
-                      handleSwitchProduct(originalId, id)
+              <View className="flex-1 gap-4 mt-4 px-2">
+                {isTextInputFocused || searchQuery ? (
+                  <View className="flex-1 mb-16">
+                    <ShoppingListCategorySearch
+                      searchQuery={searchQuery}
+                      onCategorySelect={categoryId =>
+                        handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
+                      }
+                    />
+                    <ShoppingListProductSearch
+                      searchQuery={searchQuery}
+                      onProductSelect={productId =>
+                        handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
+                      }
+                    />
+                  </View>
+                ) : (
+                  <ScrollView
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={isCartLoading || areCartActionsLoading}
+                        onRefresh={() => queryClient.invalidateQueries()}
+                      />
                     }
-                    onUpdateQuantity={handleUpdateProductQuantity}
-                  />
-                ))}
-              </ScrollView>
-            )}
-          </View>
-          {!areAnyItemsInCart && !isTextInputFocused && (
-            <EmptyShoppingListPlaceholderScreen />
-          )}
-          {!!cart?.total_price && <PriceSummary />}
-        </View>
-      </TouchableWithoutFeedback>
+                    className="mb-2"
+                    contentContainerStyle={{
+                      paddingBottom: scrollBottomPadding,
+                    }}
+                  >
+                    {cartCategories.map(item => (
+                      <ShoppingListCategoryItem
+                        key={item?.category?.id}
+                        item={item}
+                        isExpanded={expandedOption === item?.category?.id}
+                        onAlternativeSelect={handleChooseProductFromCategory}
+                        onUpdateQuantity={handleUpdateCategoryQuantity}
+                      />
+                    ))}
+
+                    <Divider className="mt-2 mb-4" />
+
+                    {cartProducts.map(item => (
+                      <ShoppingListProductItem
+                        key={item?.product?.id}
+                        item={item}
+                        isExpanded={expandedOption === item?.product?.id}
+                        onAlternativeSelect={(originalId, id) =>
+                          handleSwitchProduct(originalId, id)
+                        }
+                        onUpdateQuantity={handleUpdateProductQuantity}
+                      />
+                    ))}
+                  </ScrollView>
+                )}
+              </View>
+              {!areAnyItemsInCart && !isTextInputFocused && (
+                <EmptyShoppingListPlaceholderScreen />
+              )}
+              {!!cart?.total_price && <PriceSummary />}
+            </View>
+          </TouchableWithoutFeedback>
+        </>
+      )}
     </SafeAreaView>
   );
 }
