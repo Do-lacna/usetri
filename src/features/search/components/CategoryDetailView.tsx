@@ -9,8 +9,11 @@ import { SubcategorySection } from './SubcategorySection';
 
 type CategoryDetailViewProps = Readonly<{
   selectedCategory: PopularCategoryDto;
+
+  categories?: PopularCategoryDto[];
+  onCategorySelect?: (category: PopularCategoryDto) => void;
   onBack: () => void;
-  onProductPress: (productId: number, categoryId: number) => void;
+  onProductPress: (productId: number, categoryId?: number) => void;
 }>;
 
 export function CategoryDetailView({
