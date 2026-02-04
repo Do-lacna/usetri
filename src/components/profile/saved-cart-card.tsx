@@ -6,7 +6,6 @@ import { DATE_FORMAT } from '../../lib/constants';
 import { getShopById } from '../../lib/utils';
 import { useGetShops } from '../../network/query/query';
 import { getShopLogo } from '../../utils/logo-utils';
-import { Card } from '../ui/card';
 import { Text } from '../ui/text';
 
 export interface SavedCartCardProps {

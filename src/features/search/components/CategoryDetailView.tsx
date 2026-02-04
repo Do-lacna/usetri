@@ -2,36 +2,36 @@ import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import type { CategoryDto, PopularCategoryDto } from '~/src/network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';
 
-interface CategoryDetailViewProps {
+type CategoryDetailViewProps = Readonly<{
   selectedCategory: PopularCategoryDto;
-  categories: PopularCategoryDto[];
+
+  categories?: PopularCategoryDto[];
+  onCategorySelect?: (category: PopularCategoryDto) => void;
   onBack: () => void;
-  onProductPress: (productId: number, categoryId: number) => void;
-  onCategorySelect: (category: PopularCategoryDto) => void;
-}
+  onProductPress: (productId: number, categoryId?: number) => void;
+}>;
 
 export function CategoryDetailView({
   selectedCategory,
-  categories,
   onBack,
   onProductPress,
-  onCategorySelect,
-}: CategoryDetailViewProps) {
+}: Readonly<CategoryDetailViewProps>) {
   const [selectedSubcategoryId, setSelectedSubcategoryId] = React.useState<
     number | undefined
   >();
   const { t } = useTranslation();
 
-  const handleSubcategorySelect = (
-    subcategoryId: number | undefined,
-    subcategoryName: string,
-  ) => {
+  const handleSubcategorySelect = (subcategoryId: number | undefined) => {
     setSelectedSubcategoryId(subcategoryId);
   };
+
+  const categoryName = selectedCategory?.category?.name ?? '';
+  const hasSubcategories = (selectedCategory?.children?.length ?? 0) > 0;
 
   const subcategoriesToShow = selectedSubcategoryId
     ? selectedCategory?.children?.filter(
@@ -52,26 +52,37 @@ export function CategoryDetailView({
   return (
     <View className="flex-1">
       {/* Back Navigation Header */}
-      <View className="flex-row items-center px-4 py-3 bg-background border-b border-border dark:border-border">
+      <View className="px-4 py-3 bg-background border-b border-border dark:border-border">
         <Pressable
           onPress={onBack}
-          className="flex-row items-center"
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel={`${t('back_to')} ${t('all_categories')}`}
           style={({ pressed }) => ({
-            opacity: pressed ? 0.7 : 1,
+            opacity: pressed ? 0.85 : 1,
+            transform: [{ scale: pressed ? 0.99 : 1 }],
           })}
         >
-          <View className="w-8 h-8 rounded-full bg-card items-center justify-center mr-3">
-            <Text className="text-lg font-semibold text-muted-foreground">
-              ←
-            </Text>
-          </View>
-          <View>
-            <Text className="text-sm text-muted-foreground">
-              {t('back_to')}
-            </Text>
-            <Text className="text-lg font-semibold text-foreground">
-              {t('all_categories')}
-            </Text>
+          <View className="flex-row items-center">
+            <View className="w-11 h-11 rounded-full bg-card items-center justify-center mr-3 border border-border">
+              <Ionicons name="chevron-back" size={22} />
+            </View>
+
+            <View className="flex-1">
+              {/* Keep a single, non-duplicated context line */}
+              <Text
+                className="text-base font-semibold text-foreground"
+                numberOfLines={1}
+              >
+                {categoryName || t('all_categories')}
+                {hasSubcategories ? ` - ${t('subcategories_label')}` : ''}
+              </Text>
+
+              {/* Optional subtle hint about where back goes */}
+              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
+                {t('all_categories')}
+              </Text>
+            </View>
           </View>
         </Pressable>
       </View>
@@ -80,7 +91,9 @@ export function CategoryDetailView({
       <CategorySelector
         selectedCategory={selectedCategory}
         selectedSubcategoryId={selectedSubcategoryId}
-        onSubcategorySelect={handleSubcategorySelect}
+        onSubcategorySelect={(subcategoryId, _subcategoryName) =>
+          handleSubcategorySelect(subcategoryId)
+        }
       />
 
       {/* Subcategories with their products */}

@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Image,
@@ -9,6 +8,11 @@ import {
 } from 'react-native';
 import type { PopularCategoryDto } from '~/src/network/model';
 import { Text } from '~/src/components/ui/text';
+
+// Keep these outside to avoid recreating functions on each render (and satisfy lint rules)
+const SubcategorySeparator = () => <View className="w-3" />;
+const subcategoryKeyExtractor = (subcategory: { id?: number | string }) =>
+  String(subcategory?.id);
 
 interface CategorySelectorProps {
   selectedCategory: PopularCategoryDto;
@@ -24,7 +28,6 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   selectedSubcategoryId,
   onSubcategorySelect,
 }) => {
-  const { t } = useTranslation();
   const subcategories = selectedCategory?.children || [];
 
   const renderSubcategory = ({ item }: ListRenderItemInfo<any>) => {
@@ -50,7 +53,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              flex-row items-center px-4 py-3 rounded-full min-h-[48px]
              ${
                isSelected
-                 ? 'border border-2 border-primary shadow-md'
+                 ? 'border-2 border-primary shadow-md'
                  : 'bg-card border border-border shadow-sm'
              }
            `}
@@ -70,12 +73,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             </View>
           )}
 
-          <Text
-            className={`
-               font-medium text-sm text-foreground
-             `}
-            numberOfLines={1}
-          >
+          <Text className="font-medium text-sm text-foreground" numberOfLines={1}>
             {name}
           </Text>
 
@@ -93,27 +91,18 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
 
   return (
     <View className="py-3 bg-background/50">
-      {/* Section header showing main category name */}
-      <View className="px-4 mb-3">
-        <Text className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-          {selectedCategory?.category?.name} - {t('subcategories_label')}
-        </Text>
-      </View>
-
       <FlatList
         horizontal
         data={subcategories}
-        ItemSeparatorComponent={() => <View className="w-3" />}
+        ItemSeparatorComponent={SubcategorySeparator}
         renderItem={renderSubcategory}
-        keyExtractor={subcategory => String(subcategory?.id)}
+        keyExtractor={subcategoryKeyExtractor}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingVertical: 4,
         }}
-        style={{
-          flexGrow: 0,
-        }}
+        className="grow-0"
       />
     </View>
   );
