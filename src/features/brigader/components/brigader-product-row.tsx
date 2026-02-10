@@ -5,11 +5,11 @@ import { Check } from '~/src/lib/icons/Check';
 import { Pencil } from '~/src/lib/icons/Pencil';
 
 import Barcode from '@kichiyaki/react-native-barcode-generator';
-import { generateShoppingListItemDescription } from '~/src/lib/utils';
-import type { BrigaderReviewListItemDto } from '~/src/network/model';
 import IconButton from '~/src/components/icon-button/icon-button';
 import { Badge } from '~/src/components/ui/badge';
 import { Input } from '~/src/components/ui/input';
+import { generateShoppingListItemDescription } from '~/src/lib/utils';
+import type { BrigaderReviewListItemDto } from '~/src/network/model';
 
 interface IShoppingListItemProps {
   product: BrigaderReviewListItemDto;
@@ -24,7 +24,15 @@ const BrigaderProductRow = ({
   shopId,
   onConfirm,
 }: IShoppingListItemProps) => {
-  const { brand, unit, amount, price, name, scanned_barcode: barcode, is_checked } = product;
+  const {
+    brand,
+    unit,
+    amount,
+    price,
+    name,
+    scanned_barcode: barcode,
+    is_checked,
+  } = product;
 
   const [newPrice, setNewPrice] = useState<string | undefined>(
     price ? price.toString() : '',
