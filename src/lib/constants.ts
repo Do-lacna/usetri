@@ -40,7 +40,8 @@ export const COLORS = {
   // Base
   white: '#FFFFFF',
   black: '#000000',
-  bgDefault: '#FDF8F1',  // Background base (cream)
+  bgDefault: '#FFFFFF',    // Background base → white (light mode)
+  bgSubtle: '#FFFEF4',     // Subtle section bg → n2
   textPrimary: '#001122',
 
   // Semantic
@@ -53,12 +54,12 @@ export const COLORS = {
 
 export const NAV_THEME = {
   light: {
-    background: COLORS.bgDefault,         // warm cream background
-    border: COLORS.n5,                     // subtle warm border
-    card: COLORS.white,                    // surface white
-    notification: COLORS.error,           // error / destructive
+    background: COLORS.white,             // white background
+    border: COLORS.v2,
+    card: COLORS.white,
+    notification: COLORS.error,
     primary: COLORS.v1,                   // brand violet
-    text: COLORS.textPrimary,             // near-black text
+    text: COLORS.textPrimary,
   },
   dark: {
     background: COLORS.i1,                // deep indigo background

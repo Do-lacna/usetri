@@ -17,16 +17,23 @@ module.exports = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
-          hover: '#5E51E3',   // v4
-          active: '#3F21B7',  // v6
+          hover: 'hsl(var(--primary-hover))',
+          active: 'hsl(var(--primary-active))',
         },
+        // Yellow — secondary highlights, tags, badges
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
+        // Orange — CTAs, price highlights, conversion actions
+        tertiary: {
+          DEFAULT: 'hsl(var(--tertiary))',
+          foreground: 'hsl(var(--tertiary-foreground))',
+        },
+        // Kept for backward compat — mirrors tertiary
         terciary: {
           DEFAULT: 'hsl(var(--terciary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          foreground: 'hsl(var(--tertiary-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -62,11 +69,11 @@ module.exports = {
         },
         warning: {
           DEFAULT: 'hsl(var(--warning))',
-          foreground: '#FFFFFF',
+          foreground: 'hsl(var(--warning-foreground))',
         },
 
-        // ── Static brand palette (use via semantic tokens above when possible)
-        // Violet system
+        // ── Static brand palette ────────────────────────────────────────────
+        // Violet — light mode primary
         v1: '#5645CC',
         v2: '#CACAFC',
         v3: '#9595F3',
@@ -74,7 +81,7 @@ module.exports = {
         v5: '#5132D6',
         v6: '#3F21B7',
 
-        // Indigo / dark surfaces
+        // Indigo — dark mode surfaces ONLY
         i1: '#1E1E48',
         i2: '#404293',
         i3: '#3C3786',
@@ -82,12 +89,12 @@ module.exports = {
         i5: '#2B235F',
         i6: '#1E1A4C',
 
-        // CTA / Orange
+        // Orange — tertiary / CTA / price highlights
         o1: '#FB8200',
         o2: '#FFDEBD',
         o3: '#D45608',
 
-        // Yellow
+        // Yellow — secondary / highlights / badges
         g1: '#FFC900',
         g2: '#FFF7D9',
         g3: '#FF9D00',
@@ -100,16 +107,14 @@ module.exports = {
         n5: '#D5C0D6',
         n6: '#B39FCA',
 
-        // Semantic aliases (static hex — for StyleSheet / inline usage)
-        cta: '#FB8200',
-        'cta-hover': '#D45608',
+        // Base
         surface: '#FFFFFF',
         'text-primary': '#001122',
         'text-inverse': '#FFFFFF',
-        'bg-default': '#FDF8F1',
+        'bg-default': '#FFFFFF',
         'bg-subtle': '#FFFEF4',
 
-        // Discount / Error helpers (aligned to new brand)
+        // Discount badge — uses error red (comparison signal)
         discount: {
           DEFAULT: '#EE525B',
           foreground: '#FFFFFF',

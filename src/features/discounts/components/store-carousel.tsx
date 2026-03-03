@@ -93,7 +93,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
 
   return (
     <Animated.View
-      className="bg-background"
+      className="bg-background border-b border-border"
       style={{
         height: animatedHeight || 240,
         overflow: 'hidden',

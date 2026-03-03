@@ -20,10 +20,10 @@ export default function TabLayout() {
   const { colorScheme } = useColorScheme();
 
   // Brand-aligned tab bar colours
-  const activeColor   = colorScheme === 'dark' ? COLORS.v3  : COLORS.v1;   // violet (light) / light-violet (dark)
-  const inactiveColor = COLORS.n6;                                           // muted lavender both modes
-  const tabBarBackground = colorScheme === 'dark' ? COLORS.i2 : COLORS.white; // indigo card / white
-  const borderColor   = colorScheme === 'dark' ? COLORS.i3  : COLORS.n5;   // indigo border / warm subtle
+  const activeColor   = colorScheme === 'dark' ? COLORS.v3  : COLORS.v6;   // violet active
+  const inactiveColor = colorScheme === 'dark' ? COLORS.v2  : COLORS.v3;   // v4 unselected
+  const tabBarBackground = colorScheme === 'dark' ? COLORS.i2 : COLORS.white;
+  const borderColor   = colorScheme === 'dark' ? COLORS.i3  : COLORS.n5;
 
   return (
     <Tabs

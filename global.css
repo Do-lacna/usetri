@@ -5,81 +5,104 @@
 @layer base {
   @media (prefers-color-scheme: light) {
     :root {
-      /* ─── Brand Palette – Light Mode ─────────────────────────────────── */
+      /*
+       * LIGHT MODE — Designer Token Rules
+       * ────────────────────────────────────────────────────────
+       * background  → white  (#FFFFFF)
+       * primary     → brand violet  v1 (#5645CC)
+       * secondary   → yellow  g1/g2  (highlights, tags, badges)
+       * tertiary    → orange  o1     (CTAs, price highlights)
+       * card        → white  (#FFFFFF)
+       * error/red   → #EE525B  (discounts, comparison worse)
+       * success/grn → #4CB963  (comparison better)
+       * indigo      → dark mode surfaces ONLY
+       * ────────────────────────────────────────────────────────
+       */
 
-      /* Background: warm cream (#FDF8F1) → hsl(36 67% 96%) */
-      --background: 36 67% 96%;
-      /* Foreground / text-primary: #001122 → hsl(210 100% 7%) */
+      /* Background: pure white */
+      --background: 0 0% 100%;
+      /* Foreground: near-black #001122 */
       --foreground: 210 100% 7%;
 
-      /* Surface / card: white */
+      /* Card: white */
       --card: 0 0% 100%;
       --card-foreground: 210 100% 7%;
 
       --popover: 0 0% 100%;
       --popover-foreground: 210 100% 7%;
 
-      /* Primary: v1 #5645CC → hsl(249 55% 54%) */
+      /* Primary — violet v1 #5645CC → hsl(249 55% 54%) */
       --primary: 249 55% 54%;
-      /* Primary foreground: white text on violet */
       --primary-foreground: 0 0% 100%;
+      /* Hover v4 #5E51E3 → hsl(246 70% 61%) */
+      --primary-hover: 246 70% 61%;
+      /* Active v6 #3F21B7 → hsl(251 69% 42%) */
+      --primary-active: 251 69% 42%;
 
-      /* Secondary: n1 #FFF6ED → hsl(30 100% 96%) – warm neutral surface */
-      --secondary: 30 100% 96%;
+      /* Secondary — yellow g2 soft #FFF7D9 → hsl(48 100% 92%) */
+      --secondary: 48 100% 92%;
       --secondary-foreground: 210 100% 7%;
 
-      /* Terciary: indigo i1 #1E1E48 → hsl(240 43% 20%) – deep UI surfaces */
-      --terciary: 240 43% 20%;
+      /* Tertiary — orange o1 #FB8200 → hsl(31 97% 49%) */
+      --tertiary: 31 97% 49%;
+      --tertiary-foreground: 0 0% 100%;
+      /* Terciary alias kept for backward compat */
+      --terciary: 31 97% 49%;
 
-      /* Divider: n5 #D5C0D6 → hsl(296 16% 80%) */
-      --divider: 296 16% 80%;
-      --divider-dark: 240 43% 20%;
-
-      /* Muted: n2 #FFFEF4 → hsl(60 100% 98%) */
+      /* Muted: warm off-white n2 #FFFEF4 → hsl(60 100% 98%) */
       --muted: 60 100% 98%;
       --muted-foreground: 210 15% 45%;
 
-      /* Accent: v2 #CACAFC → hsl(240 91% 89%) – soft violet tint */
+      /* Accent: soft violet v2 #CACAFC → hsl(240 91% 89%) */
       --accent: 240 91% 89%;
       --accent-foreground: 249 55% 54%;
 
-      /* Destructive / Error: #EE525B → hsl(356 80% 63%) */
+      /* Destructive/Error #EE525B → hsl(356 80% 63%) */
       --destructive: 356 80% 63%;
       --destructive-foreground: 0 0% 100%;
 
       /* Border: n5 #D5C0D6 → hsl(296 16% 80%) */
       --border: 296 16% 80%;
-      /* Input border: n5 */
       --input: 296 16% 80%;
 
-      /* Ring / focus: v1 #5645CC → hsl(249 55% 54%) */
+      /* Focus ring: violet v1 */
       --ring: 249 55% 54%;
 
       --radius: 0.5rem;
 
-      /* CTA / Warning: o1 #FB8200 → hsl(31 97% 49%) */
-      --warning: 31 97% 49%;
+      /* Divider */
+      --divider: 296 16% 80%;
+      --divider-dark: 240 43% 20%;
 
-      /* Success: #4CB963 → hsl(131 39% 51%) */
+      /* Success #4CB963 → hsl(131 39% 51%) */
       --success: 131 39% 51%;
       --success-foreground: 0 0% 100%;
+
+      /* Warning: yellow-strong g3 #FF9D00 → hsl(37 100% 50%) */
+      --warning: 37 100% 50%;
+      --warning-foreground: 0 0% 100%;
 
       /* Charts */
       --chart-1: 249 55% 54%;
       --chart-2: 31 97% 49%;
       --chart-3: 131 39% 51%;
-      --chart-4: 240 43% 20%;
+      --chart-4: 48 100% 50%;
       --chart-5: 356 80% 63%;
     }
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      /* ─── Brand Palette – Dark Mode (Indigo Scale) ───────────────────── */
+      /*
+       * DARK MODE — Indigo scale for ALL surfaces
+       * Text: white or n2 for legibility
+       * Primary: v3 lighter violet for contrast on indigo
+       * Secondary: yellow stays (readable on dark)
+       * Tertiary: orange stays (CTA / price highlight)
+       */
 
       /* Background: i1 #1E1E48 → hsl(240 43% 20%) */
       --background: 240 43% 20%;
-      /* Foreground: white */
       --foreground: 0 0% 100%;
 
       /* Card: i2 #404293 → hsl(241 39% 41%) */
@@ -90,52 +113,57 @@
       --popover: 244 40% 37%;
       --popover-foreground: 0 0% 100%;
 
-      /* Primary: v3 #9595F3 → hsl(240 83% 76%) – lighter violet on dark */
+      /* Primary: v3 #9595F3 → hsl(240 83% 76%) */
       --primary: 240 83% 76%;
       --primary-foreground: 240 43% 20%;
+      --primary-hover: 246 70% 61%;
+      --primary-active: 249 55% 54%;
 
-      /* Secondary: i3 #3C3786 → hsl(244 40% 37%) */
-      --secondary: 244 40% 37%;
-      --secondary-foreground: 0 0% 100%;
+      /* Secondary: yellow g1 #FFC900 — high contrast on indigo */
+      --secondary: 48 100% 50%;
+      --secondary-foreground: 210 100% 7%;
 
-      /* Terciary: v1 #5645CC → hsl(249 55% 54%) */
-      --terciary: 249 55% 54%;
+      /* Tertiary: orange o1 stays */
+      --tertiary: 31 97% 49%;
+      --tertiary-foreground: 0 0% 100%;
+      --terciary: 31 97% 49%;
 
-      /* Divider: i4 #332B71 → hsl(247 44% 30%) */
-      --divider: 247 44% 30%;
-      --divider-dark: 247 44% 25%;
-
-      /* Muted: i4 #332B71 → hsl(247 44% 30%) */
+      /* Muted: i4 #332B71 */
       --muted: 247 44% 30%;
       --muted-foreground: 240 30% 75%;
 
-      /* Accent: v4 #5E51E3 → hsl(246 70% 61%) */
+      /* Accent: v4 #5E51E3 */
       --accent: 246 70% 61%;
       --accent-foreground: 0 0% 100%;
 
-      /* Destructive: #EE525B → hsl(356 80% 63%) */
+      /* Destructive */
       --destructive: 356 80% 63%;
       --destructive-foreground: 0 0% 100%;
 
-      /* Border: i3 #3C3786 → hsl(244 40% 37%) */
+      /* Border: i3 */
       --border: 244 40% 37%;
       --input: 244 40% 37%;
 
-      /* Ring: v3 #9595F3 → hsl(240 83% 76%) */
+      /* Ring: v3 */
       --ring: 240 83% 76%;
 
-      /* CTA / Warning: o1 #FB8200 → hsl(31 97% 49%) */
-      --warning: 31 97% 49%;
+      /* Divider */
+      --divider: 247 44% 30%;
+      --divider-dark: 247 44% 25%;
 
-      /* Success: #4CB963 → hsl(131 39% 51%) */
+      /* Success */
       --success: 131 39% 51%;
       --success-foreground: 0 0% 100%;
+
+      /* Warning */
+      --warning: 37 100% 50%;
+      --warning-foreground: 0 0% 100%;
 
       /* Charts */
       --chart-1: 240 83% 76%;
       --chart-2: 31 97% 49%;
       --chart-3: 131 39% 51%;
-      --chart-4: 296 16% 80%;
+      --chart-4: 48 100% 50%;
       --chart-5: 356 80% 63%;
     }
   }

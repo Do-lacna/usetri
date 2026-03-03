@@ -115,7 +115,7 @@ export const DiscountsScreenContent: React.FC = () => {
       )}
 
       {!isGuest && (
-        <View className="bg-card px-4 py-3 border-t border-border">
+        <View className="bg-background px-4 py-3 border-t border-border">
           <Text className="text-center text-xs text-muted-foreground">
             Ceny a dostupnosť sa môžu líšiť v jednotlivých predajniach
           </Text>

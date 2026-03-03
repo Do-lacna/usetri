@@ -149,8 +149,8 @@ const DiscountList = ({
         Zľavy v {getStoreDisplayName(name)}
       </Text>
       {validityInfo && (
-        <View className="bg-primary px-3 py-1 rounded-full">
-          <Text className="text-sm font-semibold text-foreground">
+        <View className="bg-secondary px-3 py-1 rounded-full border border-g1">
+          <Text className="text-xs font-semibold text-secondary-foreground">
             {formatDiscountValidity(
               validityInfo.validFrom,
               validityInfo.validTo,
@@ -162,7 +162,7 @@ const DiscountList = ({
   );
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-background">
       {isPending ? (
         <FlashList
           data={skeletonData}
