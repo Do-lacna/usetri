@@ -16,6 +16,7 @@ import {
   View,
 } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { COLORS } from '~/src/lib/constants';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
 import { useColorScheme } from '../../../lib/useColorScheme';
@@ -36,8 +37,8 @@ const ShoppingListProductItem: React.FC<{
   const [isExpanded, setIsExpanded] = useState(false);
   const { isDarkColorScheme } = useColorScheme();
 
-  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
-  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
+  const iconColor = isDarkColorScheme ? COLORS.n6 : COLORS.textPrimary;
+  const activityIndicatorColor = isDarkColorScheme ? COLORS.n6 : COLORS.i1;
 
   const {
     product: {
@@ -158,7 +159,7 @@ const ShoppingListProductItem: React.FC<{
                     disabled={quantity <= 0}
                   >
                     {quantity <= 1 ? (
-                      <Trash2 size={14} color="#ef4444" />
+                      <Trash2 size={14} color={COLORS.error} />
                     ) : (
                       <Minus size={14} color={iconColor} />
                     )}

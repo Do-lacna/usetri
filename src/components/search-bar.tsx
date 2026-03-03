@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export interface ISearchBarProps<T> {
@@ -75,11 +76,7 @@ const SearchBarComponent = <T,>(
     focus: () => inputRef.current?.focus(),
   }));
 
-  const placeholderColor = isFocused
-    ? '#22c55e'
-    : isDarkColorScheme
-      ? '#a1a1aa'
-      : '#6b7280';
+  const placeholderColor = isFocused ? COLORS.v1 : COLORS.n6;
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -208,13 +205,7 @@ const SearchBarComponent = <T,>(
           {isLoading && (
             <ActivityIndicator
               size="small"
-              color={
-                isFocused
-                  ? '#22c55e'
-                  : isDarkColorScheme
-                    ? '#a1a1aa'
-                    : '#6b7280'
-              }
+              color={isFocused ? COLORS.v1 : COLORS.n6}
               className="mr-2"
             />
           )}

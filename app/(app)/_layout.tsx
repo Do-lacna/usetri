@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import '~/global.css';
+import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export default function AppLayout() {
@@ -10,7 +11,7 @@ export default function AppLayout() {
     <>
       <StatusBar
         style={isDarkColorScheme ? 'light' : 'dark'}
-        backgroundColor={isDarkColorScheme ? '#181818' : 'white'}
+        backgroundColor={isDarkColorScheme ? COLORS.i1 : COLORS.bgDefault}
         translucent={false}
       />
       <Stack

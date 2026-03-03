@@ -56,7 +56,7 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
       <Button
         onPress={onAddToCart}
         className={`py-4 rounded-lg items-center justify-center flex-row ${
-          cartQuantity === 0 ? 'bg-red-400' : 'bg-primary'
+          cartQuantity === 0 ? 'bg-destructive' : 'bg-primary'
         }`}
       >
         <Ionicons name="cart" size={20} className="mr-2" />

@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -47,7 +47,7 @@ export default function SignIn() {
     password,
   }: z.infer<typeof signInSchema>) => {
     setIsLoading(true);
-    signInWithEmailAndPassword(auth(), email, password)
+    signInWithEmailAndPassword(getAuth(), email, password)
       .then(async data => {
         setIsLoading(false);
         if (data?.user?.emailVerified) {

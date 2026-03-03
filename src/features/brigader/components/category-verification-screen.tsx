@@ -22,6 +22,7 @@ import {
 } from '~/src/components/custom-select/custom-select';
 import { Button } from '~/src/components/ui/button';
 import { Card } from '~/src/components/ui/card';
+import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import {
   getGetProductsAdminQueryKey,
@@ -131,8 +132,8 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
   const { isDarkColorScheme } = useColorScheme();
 
   // Colors based on color scheme
-  const foregroundColor = isDarkColorScheme ? '#fafafa' : '#09090b';
-  const mutedForegroundColor = isDarkColorScheme ? '#a1a1aa' : '#71717a';
+  const foregroundColor = isDarkColorScheme ? COLORS.white : COLORS.textPrimary;
+  const mutedForegroundColor = COLORS.n6;
 
   // Debounce search query
   const handleSearchChange = useCallback((text: string) => {

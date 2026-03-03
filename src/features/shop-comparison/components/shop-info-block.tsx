@@ -2,6 +2,7 @@ import { Award, TrendingUp, AlertCircle, Info } from 'lucide-react-native';
 import type React from 'react';
 import { Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { COLORS } from '~/src/lib/constants';
 
 type ShopInfoType =
   | 'cheapest'
@@ -28,9 +29,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
     switch (type) {
       case 'cheapest':
         return {
-          bgColor: 'bg-green-50',
-          textColor: 'text-green-700',
-          iconColor: '#059669',
+          bgColor: 'bg-success/10',
+          textColor: 'text-success',
+          iconColor: COLORS.success,
           icon: Award,
           title: t('best_price'),
           subtitle: t('cheapest_of_stores', { count: totalShops }),
@@ -38,9 +39,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
 
       case 'more_expensive':
         return {
-          bgColor: 'bg-gray-50',
-          textColor: 'text-gray-700',
-          iconColor: '#6B7280',
+          bgColor: 'bg-muted',
+          textColor: 'text-muted-foreground',
+          iconColor: COLORS.n6,
           icon: Info,
           title: t('more_expensive_percentage', {
             percentage: percentageMore.toFixed(1),
@@ -50,9 +51,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
 
       case 'most_expensive':
         return {
-          bgColor: 'bg-red-50',
-          textColor: 'text-red-700',
-          iconColor: '#DC2626',
+          bgColor: 'bg-destructive/10',
+          textColor: 'text-destructive',
+          iconColor: COLORS.error,
           icon: TrendingUp,
           title: t('most_expensive'),
           subtitle: t('highest_price_option'),
@@ -60,9 +61,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
 
       case 'missing_items':
         return {
-          bgColor: 'bg-blue-50',
-          textColor: 'text-blue-700',
-          iconColor: '#2563EB',
+          bgColor: 'bg-accent/20',
+          textColor: 'text-accent-foreground',
+          iconColor: COLORS.v1,
           icon: AlertCircle,
           title: t('missing_items_count', { count: missingItemsCount }),
           subtitle: t('price_for_available_items'),
@@ -87,9 +88,7 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
           {config.title}
         </Text>
       </View>
-      <Text
-        className={`text-sm ${config.textColor.replace('700', '600')} mt-1`}
-      >
+      <Text className={`text-sm ${config.textColor} opacity-80 mt-1`}>
         {config.subtitle}
       </Text>
     </View>

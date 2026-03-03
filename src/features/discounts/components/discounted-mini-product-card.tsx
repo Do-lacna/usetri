@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { COLORS } from '~/src/lib/constants';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
 const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
@@ -83,8 +84,8 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
                   position: 'absolute',
                   right: index * 12,
                   zIndex: index + 1,
-                  backgroundColor: 'white',
-                  borderColor: '#D1D5DB',
+                  backgroundColor: COLORS.white,
+                  borderColor: COLORS.n5,
                   borderWidth: 1,
                 }}
               />

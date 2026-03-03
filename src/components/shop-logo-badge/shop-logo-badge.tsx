@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { memo } from 'react';
 
 import { type ImageStyle, type StyleProp, View } from 'react-native';
-import { PRIMARY_HEX } from '../../lib/constants';
+import { COLORS } from '../../lib/constants';
 import { getShopLogo } from '../../utils/logo-utils';
 
 interface ShopLogoBadgeProps {
@@ -31,6 +31,7 @@ const ShopLogoBadge = memo(
       <View style={{ width: size, height: size, borderRadius: size / 2 }}>
         <Image
           source={logoProps.source}
+          contentFit="contain"
           style={[
             {
               width: size,
@@ -39,10 +40,9 @@ const ShopLogoBadge = memo(
               position: 'absolute',
               right: index * 15,
               zIndex: zIndex ?? index + 1,
-              backgroundColor: 'white',
-              borderColor: highlighted ? PRIMARY_HEX : 'grey',
+              backgroundColor: COLORS.white,
+              borderColor: highlighted ? COLORS.v1 : COLORS.n5,
               borderWidth: highlighted ? 2 : 1,
-              resizeMode: 'contain',
             },
             style,
           ]}

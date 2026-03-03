@@ -30,21 +30,19 @@ import ShoppingListCategoryItem from '../../../../src/features/shopping-list/com
 import ShoppingListCategorySearch from '../../../../src/features/shopping-list/components/shopping-list-category-search';
 import ShoppingListProductItem from '../../../../src/features/shopping-list/components/shopping-list-product-item';
 
-export enum CartOperationsEnum {
-  ADD = 'ADD',
-  REMOVE = 'REMOVE',
-  UPDATE = 'UPDATE',
-}
+// Shared types — moved to a neutral file to break the circular dependency with
+// pending-cart-item-drawer-content components. Re-exported for backward compat.
+export {
+  CartOperationsEnum,
+  DrawerTypeEnum,
+  type PendingCartDataType,
+} from '~/src/types/cart-drawer-types';
 
-export enum DrawerTypeEnum {
-  CATEGORY = 'CATEGORY',
-  PRODUCT = 'PRODUCT',
-}
-
-export type PendingCartDataType = {
-  identifier: number;
-  type: DrawerTypeEnum;
-};
+// Local import for use within this file
+import {
+  DrawerTypeEnum,
+  type PendingCartDataType,
+} from '~/src/types/cart-drawer-types';
 
 interface SearchHeaderProps {
   searchQuery: string;

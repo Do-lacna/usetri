@@ -1,4 +1,4 @@
-import auth, { signInWithCredential } from '@react-native-firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithCredential } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Text, TouchableOpacity } from 'react-native';
@@ -57,12 +57,12 @@ export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
 
       if (idToken) {
         // Create Firebase credential with the Google ID token
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        const googleCredential = GoogleAuthProvider.credential(idToken);
 
         console.log('Signing in with Firebase using Google credential');
 
         // Sign in with Firebase
-        const { user } = await signInWithCredential(auth(), googleCredential);
+        const { user } = await signInWithCredential(getAuth(), googleCredential);
         console.log('Firebase sign-in successful:', user.uid);
 
         // Update user session

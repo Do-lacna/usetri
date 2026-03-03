@@ -141,7 +141,7 @@ const CarouselIndicators = React.forwardRef<
                 "w-2 h-2 rounded-full mx-1 transition-all duration-300",
                 index === context.currentIndex
                   ? cn("bg-primary scale-125", activeIndicatorClassName)
-                  : cn("bg-gray-300", indicatorClassName)
+                  : cn("bg-border", indicatorClassName)
               )}
             />
           )

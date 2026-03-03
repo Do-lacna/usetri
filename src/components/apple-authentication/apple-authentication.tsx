@@ -1,9 +1,14 @@
-import auth from '@react-native-firebase/auth';
+import {
+  AppleAuthProvider,
+  getAuth,
+  signInWithCredential,
+} from '@react-native-firebase/auth';
 import * as AppleAuth from 'expo-apple-authentication';
 import { useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSession } from '~/src/context/authentication-context';
+import { COLORS } from '~/src/lib/constants';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 import { useColorScheme } from '../../lib/useColorScheme';
 
@@ -40,10 +45,10 @@ export default function AppleAuthentication({
         throw new Error('No identity token received from Apple');
       }
 
-      const appleCredential = auth.AppleAuthProvider.credential(identityToken);
+      const appleCredential = AppleAuthProvider.credential(identityToken);
 
       // Sign in with Firebase
-      const userCredential = await auth().signInWithCredential(appleCredential);
+      const userCredential = await signInWithCredential(getAuth(), appleCredential);
 
       console.log('Successfully signed in with Apple:', userCredential.user);
       setUser(userCredential.user);
@@ -92,7 +97,7 @@ export default function AppleAuthentication({
         <View style={styles.loadingOverlay} pointerEvents="none">
           <ActivityIndicator
             size="small"
-            color={isDarkColorScheme ? '#000000' : '#FFFFFF'}
+            color={isDarkColorScheme ? COLORS.black : COLORS.white}
           />
         </View>
       )}

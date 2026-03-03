@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import auth from '@react-native-firebase/auth';
+import { getAuth, sendPasswordResetEmail } from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -40,7 +40,7 @@ export default function ForgottenPassword() {
     try {
       setLoading(true);
       // Create user with email and password
-      const promiseResult = await auth().sendPasswordResetEmail(email);
+      const promiseResult = await sendPasswordResetEmail(getAuth(), email);
 
       Toast.show({
         type: 'success',

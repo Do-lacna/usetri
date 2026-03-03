@@ -137,7 +137,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
 
         <CarouselIndicators
           className="mt-3"
-          indicatorClassName="bg-gray-300"
+          indicatorClassName="bg-n5"
           activeIndicatorClassName="bg-primary scale-125"
         />
       </Animated.View>

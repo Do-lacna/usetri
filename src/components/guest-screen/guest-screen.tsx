@@ -6,6 +6,7 @@ import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SvgProps } from 'react-native-svg';
 import { useSession } from '~/src/context/authentication-context';
+import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 
 interface GuestScreenProps {
@@ -43,8 +44,8 @@ export const GuestScreen = ({
       <LinearGradient
         colors={
           isDarkColorScheme
-            ? ['#181818', '#1a1a1a', '#181818']
-            : ['#ffffff', '#f8f8f8', '#ffffff']
+            ? [COLORS.i1, COLORS.i2, COLORS.i1]
+            : [COLORS.white, COLORS.bgDefault, COLORS.white]
         }
         style={{
           flex: 1,

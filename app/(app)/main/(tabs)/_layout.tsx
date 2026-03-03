@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import { View } from 'react-native';
 import { AnimatedCartBadge } from '~/src/components/layout/animated-cart-badge';
 import { useSession } from '~/src/context/authentication-context';
-import { NAVBAR_HEIGHT } from '~/src/lib/constants';
+import { COLORS, NAVBAR_HEIGHT } from '~/src/lib/constants';
 import { BadgePercent } from '~/src/lib/icons/BadgePercent';
 import { ClipboardList } from '~/src/lib/icons/ClipboardList';
 import { Search } from '~/src/lib/icons/Search';
@@ -19,11 +19,11 @@ export default function TabLayout() {
   const cartItemsNumber = getNumberOfCartItems(cart);
   const { colorScheme } = useColorScheme();
 
-  // Define theme-aware colors matching global.css
-  const activeColor = colorScheme === 'dark' ? '#E0E0E0' : '#1E1E1E'; // foreground color (white/black)
-  const inactiveColor = colorScheme === 'dark' ? '#A3A3A3' : '#737373'; // muted-foreground (64% gray)
-  const tabBarBackground = colorScheme === 'dark' ? '#292929' : '#FFFFFF'; // card background (16% gray / white)
-  const borderColor = colorScheme === 'dark' ? '#3D3D3D' : '#E5E7EB'; // border (24% gray / light gray)
+  // Brand-aligned tab bar colours
+  const activeColor   = colorScheme === 'dark' ? COLORS.v3  : COLORS.v1;   // violet (light) / light-violet (dark)
+  const inactiveColor = COLORS.n6;                                           // muted lavender both modes
+  const tabBarBackground = colorScheme === 'dark' ? COLORS.i2 : COLORS.white; // indigo card / white
+  const borderColor   = colorScheme === 'dark' ? COLORS.i3  : COLORS.n5;   // indigo border / warm subtle
 
   return (
     <Tabs

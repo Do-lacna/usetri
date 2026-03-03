@@ -69,7 +69,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       <TouchableOpacity
         key={pkg.identifier}
         className={`p-4 border rounded-lg mb-3 ${
-          isSelected ? 'border-green-500 bg-green-50' : 'border-gray-300'
+          isSelected ? 'border-success bg-success/10' : 'border-border'
         }`}
         onPress={() => setSelectedPackage(pkg)}
       >
@@ -78,27 +78,27 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           {pkg.product.priceString}
         </Text>
         {pkg.product.introPrice && (
-          <Text className="text-sm text-green-600 mb-1">
+          <Text className="text-sm text-success mb-1">
             {`${pkg.product.introPrice.periodNumberOfUnits} ${pkg.product.introPrice.periodUnit} trial at ${pkg.product.introPrice.priceString}`}
           </Text>
         )}
-        <Text className="text-sm text-gray-600">{pkg.product.description}</Text>
+        <Text className="text-sm text-muted-foreground">{pkg.product.description}</Text>
       </TouchableOpacity>
     );
   };
 
   return (
     <ScrollView className="w-full p-4">
-      <View className="flex-row justify-center items-center py-4 border-b border-gray-200 relative">
+      <View className="flex-row justify-center items-center py-4 border-b border-border relative">
         <Text className="text-lg font-bold">Zvoľte si predplatné</Text>
       </View>
 
       {packages?.map(renderPackageOption)}
 
-      <View className="p-4 border-t border-gray-200">
+      <View className="p-4 border-t border-border">
         <TouchableOpacity
           className={`py-4 rounded-lg items-center justify-center mb-4 ${
-            !selectedPackage || isPurchasing ? 'bg-gray-400' : 'bg-primary'
+            !selectedPackage || isPurchasing ? 'opacity-50 bg-primary' : 'bg-primary'
           }`}
           onPress={handlePurchase}
           disabled={!selectedPackage || isPurchasing}
@@ -106,7 +106,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           {isPurchasing ? (
             <ActivityIndicator color="#FFFFFF" size="small" />
           ) : (
-            <Text className="text-white font-bold text-base">
+            <Text className="text-primary-foreground font-bold text-base">
               {selectedPackage
                 ? `Odoberať za ${selectedPackage.product.priceString}`
                 : 'Zvoľte si predplatné'}
@@ -114,7 +114,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           )}
         </TouchableOpacity>
 
-        <Text className="text-xs text-gray-500 text-center">
+        <Text className="text-xs text-muted-foreground text-center">
           Payment will be charged to your Apple ID or Google Play account at
           confirmation of purchase. Subscriptions automatically renew unless
           canceled at least 24 hours before the end of the current period.

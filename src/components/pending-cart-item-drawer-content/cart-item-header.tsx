@@ -27,10 +27,10 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
         <View className="absolute top-0 right-0 z-10">
           <TouchableOpacity
             onPress={onDismiss}
-            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center"
+            className="w-8 h-8 rounded-full bg-muted items-center justify-center"
             activeOpacity={0.7}
           >
-            <Text className="text-gray-600 dark:text-gray-300 font-bold text-lg">
+            <Text className="text-muted-foreground font-bold text-lg">
               ×
             </Text>
           </TouchableOpacity>
