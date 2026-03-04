@@ -99,7 +99,7 @@ const ShoppingListCategoryItem: React.FC<{
             ${
               isExpanded
                 ? 'border border-2 border-primary shadow-md'
-                : 'bg-card border border-border shadow-sm'
+                : 'bg-card border border-v2 shadow-sm'
             }
           `}
         >
@@ -140,7 +140,7 @@ const ShoppingListCategoryItem: React.FC<{
             )}
           </View>
 
-          <View className="flex-row items-center bg-muted rounded-full ml-2">
+          <View className="flex-row items-center bg-n2 rounded-full ml-2">
             <TouchableOpacity
               onPress={decrementQuantity}
               className="p-2"
