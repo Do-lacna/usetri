@@ -122,6 +122,7 @@ const DiscountList = ({
   const renderProductItem: ListRenderItem<ShopProductDto> = ({ item }) => (
     <DiscountedProductCard
       product={item}
+      selectedShopId={Number(id)}
       onPress={(productId: number) => {
         if (isGuest && onProductPressBlocked) {
           onProductPressBlocked();
