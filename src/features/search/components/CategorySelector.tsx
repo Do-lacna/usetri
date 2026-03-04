@@ -50,11 +50,11 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
       >
         <View
           className={`
-             flex-row items-center px-4 py-3 rounded-full min-h-[48px]
+             flex-row items-center px-4 py-2 rounded-full min-h-[48px]
              ${
                isSelected
-                 ? 'border-2 border-primary shadow-md'
-                 : 'bg-card border border-border shadow-sm'
+                 ? 'bg-primary border-primary shadow-md'
+                 : 'bg-accent/10 border-accent/10 shadow-sm'
              }
            `}
         >
@@ -62,7 +62,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             <View
               className={`
                w-8 h-8 rounded-full mr-3 justify-center items-center
-               ${isSelected ? 'bg-primary/20' : 'bg-card'}
+               ${isSelected ? 'bg-white/20' : 'bg-accent/20'}
              `}
             >
               <Image
@@ -73,13 +73,12 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             </View>
           )}
 
-          <Text className="font-medium text-sm text-foreground" numberOfLines={1}>
+          <Text
+            className={`font-semibold text-sm ${isSelected ? 'text-primary-foreground' : 'text-foreground'}`}
+            numberOfLines={1}
+          >
             {name}
           </Text>
-
-          {isSelected && (
-            <View className="w-2 h-2 bg-primary-foreground rounded-full ml-2 opacity-80" />
-          )}
         </View>
       </Pressable>
     );
@@ -90,7 +89,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   }
 
   return (
-    <View className="py-3 bg-background/50">
+    <View className="py-2 bg-accent/5 border-b border-primary/10">
       <FlatList
         horizontal
         data={subcategories}

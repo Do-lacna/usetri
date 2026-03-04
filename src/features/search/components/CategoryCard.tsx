@@ -18,14 +18,22 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
       className="flex-1 mx-2"
       onPress={onPress}
       style={({ pressed }) => ({
-        opacity: pressed ? 0.8 : 1,
-        transform: [{ scale: pressed ? 0.95 : 1 }],
+        opacity: pressed ? 0.85 : 1,
+        transform: [{ scale: pressed ? 0.96 : 1 }],
       })}
     >
       <View
-        className={`rounded-2xl overflow-hidden shadow-${
-          Platform.OS === 'ios' ? 'sm' : 'md'
-        } border border-border h-[180px] relative`}
+        className={`rounded-2xl overflow-hidden border border-primary/20 h-[180px] relative`}
+        style={
+          Platform.OS === 'ios'
+            ? {
+                shadowColor: '#5645CC',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.15,
+                shadowRadius: 8,
+              }
+            : { elevation: 4 }
+        }
       >
         <Image
           source={
@@ -44,9 +52,10 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
           }}
         />
 
-        <View className="absolute bottom-0 left-0 right-0 bg-card/75 backdrop-blur-sm px-2 py-3">
+        {/* Violet-tinted gradient overlay */}
+        <View className="absolute bottom-0 left-0 right-0 bg-primary/70 backdrop-blur-sm px-3 py-3">
           <Text
-            className="text-m font-semibold text-card-foreground text-center leading-tight"
+            className="text-sm font-semibold text-white text-center leading-tight"
             numberOfLines={2}
           >
             {category?.category?.name}

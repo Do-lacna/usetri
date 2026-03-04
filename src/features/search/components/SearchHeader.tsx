@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import SearchBar, { type ISearchBarHandle } from '~/src/components/search-bar';
 import { Button } from '~/src/components/ui/button';
 import type { ProductDto } from '~/src/network/model';
@@ -17,6 +18,7 @@ export const SearchHeader = ({
 }: SearchHeaderProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const searchBarRef = useRef<ISearchBarHandle>(null);
+  const { t } = useTranslation();
 
   const handleCancel = () => {
     searchBarRef.current?.blur();
@@ -24,46 +26,34 @@ export const SearchHeader = ({
   };
 
   return (
-    <View className="flex-row items-center gap-4 mt-2 z-10">
+    <View className="flex-row items-center gap-3 mt-2 z-10">
       <SearchBar<ProductDto>
         ref={searchBarRef}
         displaySearchOptions={false}
         onSearch={onSearch}
         onClear={onClear}
         searchText={searchQuery}
-        placeholder="Hľadaj produkty"
+        placeholder={t('search_bar.search_products_placeholder')}
         options={[]}
         onOptionSelect={option => console.log('Option selected:', option)}
         renderOption={item => (
-          <Text className="text-foreground text-lg">{item?.name}</Text>
+          <Text className="text-foreground text-base font-medium">{item?.name}</Text>
         )}
         keyExtractor={item => String(item.id)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
 
-      {
-        isFocused && (
-          <Button
-            onPress={handleCancel}
-            variant="ghost"
-            size="sm"
-            className="px-3"
-          >
-            <Text className="text-primary text-base">Zrušiť</Text>
-          </Button>
-        )
-        // (
-        //   <IconButton
-        //     onPress={() =>
-        //       router.navigate("/main/barcode-search/barcode-search-screen")
-        //     }
-        //     className="w-10"
-        //   >
-        //     <ScanBarcode size={24} className="text-primary mr-3" />
-        //   </IconButton>
-        // )
-      }
+      {isFocused && (
+        <Button
+          onPress={handleCancel}
+          variant="ghost"
+          size="sm"
+          className="px-2 shrink-0"
+        >
+          <Text className="text-tertiary text-base font-semibold">{t('search_bar.cancel')}</Text>
+        </Button>
+      )}
     </View>
   );
 };

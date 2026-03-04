@@ -41,13 +41,15 @@ export function CategoriesGrid({
   return (
     <View className="flex-1">
       <View className="mt-6 mb-4 px-4 flex-row justify-between items-center">
-        <Text className="text-2xl font-bold text-foreground">
+        <Text className="text-2xl font-bold text-foreground tracking-tight">
           {t('categories_title')}
         </Text>
         {!isLoading && (
-          <Text className="text-sm text-muted-foreground">
-            {t('categories_count', { count: filteredCategories.length })}
-          </Text>
+          <View className="bg-primary/10 rounded-full px-3 py-1">
+            <Text className="text-xs font-semibold text-primary">
+              {t('categories_count', { count: filteredCategories.length })}
+            </Text>
+          </View>
         )}
       </View>
 
@@ -84,7 +86,7 @@ export function CategoriesGrid({
         contentContainerStyle={{
           gap: 12,
           padding: 12,
-          paddingBottom: 40, // Add extra bottom padding for navigation
+          paddingBottom: 40,
         }}
         columnWrapperStyle={{
           justifyContent: 'flex-start',

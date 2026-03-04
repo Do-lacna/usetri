@@ -19,8 +19,8 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { COLORS } from '~/src/lib/constants';
-import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export interface ISearchBarProps<T> {
   onSearch: (searchText: string) => void;
@@ -50,8 +50,7 @@ const SearchBarComponent = <T,>(
     onSearch,
     onClear,
     searchText = '',
-    placeholder = 'Hľadať',
-    options = [],
+    placeholder = 'Hľadať',    options = [],
     onOptionSelect,
     renderOption,
     keyExtractor,
@@ -66,7 +65,7 @@ const SearchBarComponent = <T,>(
   }: ISearchBarProps<T>,
   ref: React.Ref<ISearchBarHandle>,
 ) => {
-  const { isDarkColorScheme } = useColorScheme();
+  const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
   const dropdownAnimation = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
@@ -75,8 +74,6 @@ const SearchBarComponent = <T,>(
     blur: () => inputRef.current?.blur(),
     focus: () => inputRef.current?.focus(),
   }));
-
-  const placeholderColor = isFocused ? COLORS.v1 : COLORS.n6;
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -144,33 +141,33 @@ const SearchBarComponent = <T,>(
   return (
     <View className="relative z-10 w-full flex-shrink">
       <View
-        className={`bg-card px-4 flex-row items-center justify-center transition-all duration-200 border-2 ${
-          showDropdown ? 'rounded-t-xl border-b-0' : 'rounded-xl'
-        } ${disabled ? 'opacity-60' : ''} ${
+        className={`px-4 flex-row items-center justify-center bg-card ${
+          showDropdown ? 'rounded-t-2xl border-b-0' : 'rounded-2xl'
+        } ${disabled ? 'opacity-50' : ''} border-2 ${
           error
             ? 'border-destructive'
             : isFocused
               ? 'border-primary'
-              : 'border-border'
-        } ${isFocused ? 'shadow-lg' : 'shadow-sm'}`}
+              : 'border-v2'
+        }`}
         style={{
-          height: Platform.OS === 'ios' ? 48 : 44,
+          height: Platform.OS === 'ios' ? 50 : 46,
           ...(Platform.OS === 'ios'
             ? {
-                shadowColor: '#000',
+                shadowColor: isFocused ? COLORS.v1 : COLORS.v2,
                 shadowOffset: { width: 0, height: isFocused ? 4 : 1 },
-                shadowOpacity: isFocused ? 0.15 : 0.05,
-                shadowRadius: isFocused ? 8 : 2,
+                shadowOpacity: isFocused ? 0.28 : 0.18,
+                shadowRadius: isFocused ? 10 : 4,
               }
             : {
-                elevation: isFocused ? 8 : 2,
+                elevation: isFocused ? 6 : 1,
               }),
         }}
       >
         <View className="mr-3">
           <Search
-            size={22}
-            className={isFocused ? 'text-primary' : 'text-muted-foreground'}
+            size={20}
+            color={isFocused ? COLORS.v1 : COLORS.v2}
           />
         </View>
 
@@ -182,8 +179,8 @@ const SearchBarComponent = <T,>(
           onBlur={handleBlur}
           onChangeText={onSearch}
           placeholder={placeholder}
-          placeholderTextColor={placeholderColor}
-          className="flex-1 text-foreground text-base"
+          placeholderTextColor={isFocused ? COLORS.v3 : COLORS.v2}
+          className="flex-1 text-foreground text-base font-medium"
           autoComplete="off"
           autoCorrect={false}
           editable={!disabled}
@@ -201,34 +198,32 @@ const SearchBarComponent = <T,>(
         />
 
         {/* Loading or Clear Button */}
-        <View className="ml-3 flex-row items-center">
+        <View className="ml-2 flex-row items-center">
           {isLoading && (
             <ActivityIndicator
               size="small"
               color={isFocused ? COLORS.v1 : COLORS.n6}
-              className="mr-2"
+              className="mr-1"
             />
           )}
 
           {searchText?.length > 0 && !isLoading && (
             <Pressable
               onPress={handleClear}
-              className="p-1 rounded-full bg-muted/30 active:bg-muted/50 transition-colors duration-150"
-              accessibilityLabel="Clear search"
+              className="p-1.5 rounded-full bg-primary/15 active:bg-primary/25 transition-colors duration-150"
+              accessibilityLabel={t('search_bar.clear')}
               accessibilityRole="button"
             >
-              <X size={18} className="text-muted-foreground" />
+              <X size={16} color={COLORS.v1} />
             </Pressable>
           )}
         </View>
       </View>
 
-      {/* Error Message */}
       {error && (
-        <Text className="text-destructive text-sm mt-2 px-4">{error}</Text>
+        <Text className="text-destructive text-sm mt-2 px-1 font-medium">{error}</Text>
       )}
 
-      {/* Animated Dropdown */}
       {showDropdown && (
         <Animated.View
           style={{
@@ -240,16 +235,16 @@ const SearchBarComponent = <T,>(
             ],
             ...(Platform.OS === 'ios'
               ? {
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.15,
-                  shadowRadius: 8,
+                  shadowColor: COLORS.v1,
+                  shadowOffset: { width: 0, height: 6 },
+                  shadowOpacity: 0.18,
+                  shadowRadius: 12,
                 }
               : {
-                  elevation: 8,
+                  elevation: 10,
                 }),
           }}
-          className="absolute top-[56px] left-0 right-0 rounded-b-xl max-h-60 border-t-0 z-20 overflow-hidden bg-card border-2 border-border"
+          className="absolute top-[58px] left-0 right-0 rounded-b-2xl max-h-60 border-t-0 z-20 overflow-hidden bg-card border-2 border-primary"
           pointerEvents={showDropdown ? 'auto' : 'none'}
         >
           <FlatList
@@ -262,11 +257,9 @@ const SearchBarComponent = <T,>(
                 }}
                 style={{
                   backgroundColor: 'transparent',
-                  borderBottomColor:
-                    index !== options.length - 1 ? undefined : 'transparent',
                   borderBottomWidth: index !== options.length - 1 ? 1 : 0,
                 }}
-                className="px-4 py-3 active:bg-muted/30 transition-colors duration-150 border-b border-border"
+                className="px-4 py-3 active:bg-accent/30 transition-colors duration-150 border-b border-accent"
                 accessibilityRole="button"
               >
                 {renderOption?.(item)}
@@ -278,11 +271,11 @@ const SearchBarComponent = <T,>(
             ListEmptyComponent={
               !isLoading && searchText?.length >= minimumSearchLength ? (
                 <View className="px-4 py-6 items-center">
-                  <Text className="text-muted-foreground text-base">
-                    Žiadne výsledky
+                  <Text className="text-muted-foreground text-base font-medium">
+                    {t('search_bar.no_results')}
                   </Text>
-                  <Text className="text-muted-foreground/70 text-sm mt-1">
-                    Skúste iný vyhľadávací výraz
+                  <Text className="text-muted-foreground/60 text-sm mt-1">
+                    {t('search_bar.no_results_hint')}
                   </Text>
                 </View>
               ) : null

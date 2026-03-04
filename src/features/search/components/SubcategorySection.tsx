@@ -1,7 +1,9 @@
+import { FlashList, type ListRenderItem as FlashListRenderItem } from '@shopify/flash-list';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Text, View } from 'react-native';
-import { Skeleton } from '~/src/components/ui/skeleton';
-import SuggestedProductCard from '~/src/features/shopping-list/components/suggested-product-card';
+import { FlatList, type ListRenderItem as FlatListRenderItem, Text, View } from 'react-native';
+import DiscountedProductCard from '~/src/components/product-card/discounted-product-card';
+import { DiscountedProductCardSkeleton } from '~/src/components/product-card/discounted-product-card-skeleton';
 import type {
   CategoryDto,
   ProductDtoWithShopsPrices,
@@ -9,10 +11,13 @@ import type {
 import { useGetProductsOutOfAllSubCategories } from '~/src/network/query/query';
 
 interface SubcategorySectionProps {
-  subcategory: CategoryDto;
-  onProductPress: (productId: number, categoryId: number) => void;
-  isSubcategorySelected?: boolean;
+  readonly subcategory: CategoryDto;
+  readonly onProductPress: (productId: number, categoryId: number) => void;
+  readonly isSubcategorySelected?: boolean;
 }
+
+const SKELETON_DATA = Array.from({ length: 4 }, (_, i) => ({ id: i }));
+const ItemSeparator = () => <View style={{ height: 12 }} />;
 
 export function SubcategorySection({
   subcategory,
@@ -25,64 +30,104 @@ export function SubcategorySection({
     isLoading,
   } = useGetProductsOutOfAllSubCategories(Number(subcategory?.id));
 
-  const renderProduct = ({ item }: { item: ProductDtoWithShopsPrices }) => (
-    <SuggestedProductCard
-      product={item}
+  const renderProductFlash: FlashListRenderItem<ProductDtoWithShopsPrices> = ({ item }) => (
+    <DiscountedProductCard
+      product={item as any}
       shopsPrices={item?.shops_prices}
       onPress={(productId, categoryId) => onProductPress(productId, categoryId)}
+      className="flex-1"
     />
   );
 
-  const renderSkeleton = ({ index }: { index: number }) => (
-    <View key={index} className={isSubcategorySelected ? 'mb-3' : 'w-32 mr-3'}>
-      <Skeleton
-        className={`${isSubcategorySelected ? 'w-full h-24' : 'w-full h-32'} bg-card rounded-lg`}
-      />
-    </View>
+  const renderProductFlat: FlatListRenderItem<ProductDtoWithShopsPrices> = ({ item }) => (
+    <DiscountedProductCard
+      product={item as any}
+      shopsPrices={item?.shops_prices}
+      onPress={(productId, categoryId) => onProductPress(productId, categoryId)}
+      className="w-44"
+    />
   );
+
+  const renderSkeletonFlash: FlashListRenderItem<{ id: number }> = () => (
+    <DiscountedProductCardSkeleton />
+  );
+
+  const renderSkeletonFlat: FlatListRenderItem<{ id: number }> = () => (
+    <DiscountedProductCardSkeleton />
+  );
+
+  const hasProducts = (categoryProducts ?? []).length > 0;
+
+  const skeletonList = isSubcategorySelected ? (
+    <FlashList
+      data={SKELETON_DATA}
+      renderItem={renderSkeletonFlash}
+      numColumns={2}
+      keyExtractor={item => String(item.id)}
+      contentContainerStyle={{ paddingHorizontal: 16 }}
+      scrollEnabled={false}
+    />
+  ) : (
+    <FlatList
+      data={SKELETON_DATA}
+      renderItem={renderSkeletonFlat}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={item => String(item.id)}
+      contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+      scrollEnabled={false}
+    />
+  );
+
+  const productList = isSubcategorySelected ? (
+    <FlashList
+      data={categoryProducts}
+      renderItem={renderProductFlash}
+      numColumns={2}
+      keyExtractor={(item, index) => String(item.detail?.id || index)}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 8 }}
+      ItemSeparatorComponent={ItemSeparator}
+      showsVerticalScrollIndicator={false}
+      scrollEnabled={false}
+    />
+  ) : (
+    <FlatList
+      data={categoryProducts}
+      renderItem={renderProductFlat}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item, index) => String(item.detail?.id || index)}
+      contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+    />
+  );
+
+  const emptyState = (
+    <Text className="text-muted-foreground text-center py-4 px-4">
+      {t('no_products_in_category')}
+    </Text>
+  );
+
+  let content: React.ReactNode;
+  if (isLoading) {
+    content = skeletonList;
+  } else if (hasProducts) {
+    content = productList;
+  } else {
+    content = emptyState;
+  }
 
   return (
     <View className="mb-6">
-      <Text className="text-lg font-semibold text-foreground mb-3 px-4">
-        {subcategory.name}
-      </Text>
-
-      {isLoading ? (
-        <View className={isSubcategorySelected ? 'px-4' : 'flex-row px-4'}>
-          {Array.from({ length: isSubcategorySelected ? 6 : 3 }, (_, index) =>
-            renderSkeleton({ index }),
-          )}
+      {!isSubcategorySelected && (
+        <View className="flex-row items-center px-4 mb-3">
+          <View className="w-1 h-5 bg-primary rounded-full mr-2" />
+          <Text className="text-lg font-bold text-foreground">
+            {subcategory.name}
+          </Text>
         </View>
-      ) : (categoryProducts ?? []).length > 0 ? (
-        <FlatList
-          data={categoryProducts}
-          renderItem={renderProduct}
-          keyExtractor={(item, index) => String(item.detail?.id || index)}
-          horizontal={!isSubcategorySelected}
-          numColumns={isSubcategorySelected ? 2 : 1}
-          key={isSubcategorySelected ? 'vertical' : 'horizontal'} // Force re-render when layout changes
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={isSubcategorySelected}
-          scrollEnabled={true}
-          contentContainerStyle={
-            isSubcategorySelected
-              ? { paddingHorizontal: 16, paddingBottom: 16 }
-              : { paddingHorizontal: 16 }
-          }
-          columnWrapperStyle={
-            isSubcategorySelected
-              ? { justifyContent: 'space-between' }
-              : undefined
-          }
-          ItemSeparatorComponent={
-            isSubcategorySelected ? () => <View className="h-3" /> : undefined
-          }
-        />
-      ) : (
-        <Text className="text-muted-foreground text-center py-4 px-4">
-          {t('no_products_in_category')}
-        </Text>
       )}
+
+      {content}
     </View>
   );
 }

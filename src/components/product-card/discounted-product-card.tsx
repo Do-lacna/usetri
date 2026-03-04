@@ -4,6 +4,7 @@ import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
+  ShopPriceDto,
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
@@ -11,7 +12,7 @@ const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.j
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
-  shopsPrices?: ShopItemDto[] | null; // List of prices from different shops
+  shopsPrices?: (ShopItemDto | ShopPriceDto)[] | null;
   onPress?: (productId: number, categoryId: number) => void;
   className?: string;
 }

@@ -64,6 +64,15 @@
   "categories_count": "{{count}} kategórií",
   "no_products_in_category": "Žiadne produkty v tejto kategórii",
 
+  "search_bar": {
+    "placeholder": "Hľadať",
+    "search_products_placeholder": "Hľadaj produkty",
+    "no_results": "Žiadne výsledky",
+    "no_results_hint": "Skúste iný vyhľadávací výraz",
+    "clear": "Vymazať hľadanie",
+    "cancel": "Zrušiť"
+  },
+
   "product": {
     "may_not_be_available": "Produkt môže byť nedostupný v niektorých označených predajniach"
   },
