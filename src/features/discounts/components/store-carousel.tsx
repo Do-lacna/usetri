@@ -40,7 +40,6 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   const CARD_WIDTH = screenWidth * CARD_WIDTH_PERCENTAGE;
   const CARD_MARGIN = 8;
 
-  // Get fixed layout values from simplified hook
   const {
     itemWidth,
     horizontalPadding,
@@ -52,15 +51,11 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
     carouselRef,
   });
 
-  /**
-   * Handle store selection - coordinate with parent and internal logic
-   */
   const handleStoreSelect = (storeId: number, index: number) => {
     onStoreSelect(storeId, index);
     handleStoreSelectInternal(storeId, index);
   };
 
-  // Monitor scroll position to determine if we should show compact view
   useEffect(() => {
     if (!scrollY) return;
 
@@ -74,7 +69,6 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
     };
   }, [scrollY]);
 
-  // Calculate opacity for smooth transition between views
   const carouselOpacity = scrollY
     ? scrollY.interpolate({
         inputRange: [COLLAPSE_THRESHOLD - 20, COLLAPSE_THRESHOLD],
@@ -93,14 +87,13 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
 
   return (
     <Animated.View
-      className="bg-background border-b border-border"
+      className="bg-background border-border"
       style={{
         height: animatedHeight || 240,
         overflow: 'hidden',
         justifyContent: 'center',
       }}
     >
-      {/* Carousel view - visible when expanded */}
       <Animated.View
         style={{
           opacity: carouselOpacity,
@@ -142,7 +135,6 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
         />
       </Animated.View>
 
-      {/* Compact row view - visible when collapsed */}
       <Animated.View
         style={{
           opacity: compactOpacity,

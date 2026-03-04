@@ -6,7 +6,8 @@
   "discounts": {
     "discountsCount_one": "{{count}} akcia",
     "discountsCount_few": "{{count}} akcie",
-    "discountsCount_other": "{{count}} akcií"
+    "discountsCount_other": "{{count}} akcií",
+    "prices_may_vary": "Ceny a dostupnosť sa môžu líšiť v jednotlivých predajniach"
   },
 
   "available_in_one": "Dostupné v {{count}} obchode",
