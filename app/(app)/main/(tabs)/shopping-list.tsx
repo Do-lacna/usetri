@@ -19,6 +19,7 @@ import PendingCartItemDrawerContent, {
 import EmptyShoppingListPlaceholderScreen from '~/src/components/placeholders/empty-shopping-list-placeholder-screen';
 import SearchBar, { type ISearchBarHandle } from '~/src/components/search-bar';
 import { Button } from '~/src/components/ui/button';
+import Divider from '~/src/components/ui/divider';
 import { useSession } from '~/src/context/authentication-context';
 import ShoppingListProductSearch from '~/src/features/shopping-list/components/shopping-list-product-search';
 import { useCartActions } from '~/src/hooks/use-cart-actions';
@@ -43,6 +44,11 @@ import {
   type PendingCartDataType,
 } from '~/src/types/cart-drawer-types';
 
+interface SearchHeaderProps {
+  searchQuery: string;
+  onSearch: (query: string) => void;
+  onClear: () => void;
+}
 
 export default function ShoppingList() {
   const { t } = useTranslation();
@@ -226,6 +232,8 @@ export default function ShoppingList() {
                         onUpdateQuantity={handleUpdateCategoryQuantity}
                       />
                     ))}
+
+                    <Divider className="mt-2 mb-4" />
 
                     {cartProducts.map(item => (
                       <ShoppingListProductItem
