@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, ImageBackground, View } from 'react-native';
 import {
   Directions,
   Gesture,
@@ -97,7 +97,11 @@ const ShopComparisonScreen: React.FC = () => {
                 : SlideInLeft.duration(200)
             }
           >
-            <View className="bg-secondary px-4 py-6 border-b border-border">
+            <ImageBackground
+              source={require('~/assets/images/pattern.png')}
+              className="px-4 py-6 border-b border-border"
+              imageStyle={{ resizeMode: 'repeat', opacity: 0.5 }}
+            >
               <ShopNavigationHeader
                 currentShop={currentShop}
                 carts={carts}
@@ -123,7 +127,7 @@ const ShopComparisonScreen: React.FC = () => {
                 totalCarts={carts?.length || 0}
                 allCarts={carts ?? undefined}
               />
-            </View>
+            </ImageBackground>
 
             <View className="px-4 pb-6">
               <ProductsList
