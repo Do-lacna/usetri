@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  FlatList,
   Image,
-  type ListRenderItemInfo,
   Pressable,
   View,
 } from 'react-native';
@@ -11,7 +9,6 @@ import type { AddCategoryExtendedWithPathDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
 import { type SearchOptions, searchItems } from '../../../utils/search-utils';
 import { NoDataText } from '~/src/components/no-data-text/no-data-text';
-import { Card } from '~/src/components/ui/card';
 import Divider from '~/src/components/ui/divider';
 import { Text } from '~/src/components/ui/text';
 
@@ -56,27 +53,31 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     }
   }, [searchQuery]);
 
-  const renderCategory = ({
-    item: { name, id, image_url } = {},
-  }: ListRenderItemInfo<AddCategoryExtendedWithPathDto>) => (
-    <Pressable onPress={() => onCategorySelect?.(Number(id))}>
-      <Card className="flex flex-row items-center bg-muted p-2">
+  const renderCategory = (
+    { name, id, image_url }: AddCategoryExtendedWithPathDto,
+    index: number,
+  ) => (
+    <Pressable key={String(id)} onPress={() => onCategorySelect?.(Number(id))}>
+      <View className="flex flex-row items-center border border-g1 rounded-full px-3 py-3 bg-muted">
         {!!image_url && (
           <Image
             source={{ uri: image_url as string }}
             resizeMode="contain"
-            className="w-8 h-8 mr-4"
+            className="w-5 h-5 mr-2"
           />
         )}
-
-        <Text>{name}</Text>
-      </Card>
+        <Text className="text-sm">{name}</Text>
+      </View>
     </Pressable>
   );
 
   if (!searchQuery || searchQuery.length < 2) {
     return null;
   }
+
+  // Show at most ~4 rows worth of results (12 items at ~3 per row)
+  const MAX_ITEMS = 12;
+  const visibleResults = searchResults.slice(0, MAX_ITEMS);
 
   return (
     <View>
@@ -85,26 +86,18 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
           Najlacnejšia varianta (kategória)
         </Text>
       )}
-      <FlatList
-        horizontal
-        data={searchResults}
-        ItemSeparatorComponent={() => <View className="w-4" />}
-        renderItem={renderCategory}
-        keyExtractor={category => String(category?.id)}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          paddingHorizontal: 8,
-          paddingVertical: 8,
-        }}
-        ListEmptyComponent={
-          <View className="flex items-center justify-center">
-            <NoDataText className="text-xl my-4">
-              Nenašli sa žiadne kategórie
-            </NoDataText>
-          </View>
-        }
-      />
-      {searchResults?.length > 0 && <Divider className="my-4" />}
+      {visibleResults.length > 0 ? (
+        <View className="flex flex-row flex-wrap justify-center gap-2 px-2 py-2">
+          {visibleResults.map((item, index) => renderCategory(item, index))}
+        </View>
+      ) : (
+        <View className="flex items-center justify-center">
+          <NoDataText className="text-xl my-4">
+            Nenašli sa žiadne kategórie
+          </NoDataText>
+        </View>
+      )}
+      {visibleResults.length > 0 && <Divider className="my-4" />}
     </View>
   );
 };

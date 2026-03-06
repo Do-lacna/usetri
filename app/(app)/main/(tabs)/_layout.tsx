@@ -19,9 +19,8 @@ export default function TabLayout() {
   const cartItemsNumber = getNumberOfCartItems(cart);
   const { colorScheme } = useColorScheme();
 
-  // Brand-aligned tab bar colours
   const activeColor   = colorScheme === 'dark' ? COLORS.v3  : COLORS.v6;   // violet active
-  const inactiveColor = colorScheme === 'dark' ? COLORS.v2  : COLORS.v3;   // v4 unselected
+  const inactiveColor = colorScheme === 'dark' ? COLORS.v2  : COLORS.grey;   // v4 unselected
   const tabBarBackground = colorScheme === 'dark' ? COLORS.i2 : COLORS.white;
   const borderColor   = colorScheme === 'dark' ? COLORS.i3  : COLORS.n5;
 

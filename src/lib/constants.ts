@@ -40,6 +40,7 @@ export const COLORS = {
   // Base
   white: '#FFFFFF',
   black: '#000000',
+  grey: '#858585',
   bgDefault: '#FFFFFF',    // Background base → white (light mode)
   bgSubtle: '#FFFEF4',     // Subtle section bg → n2
   textPrimary: '#001122',
@@ -72,15 +73,6 @@ export const NAV_THEME = {
 };
 
 // ─── Legacy named exports (kept for backward compatibility) ──────────────────
-
-/** @deprecated Use COLORS.v1 */
-export const PRIMARY_HEX = COLORS.v1;
-
-/** @deprecated Use COLORS.i1 */
-export const TERCIARY_HEX = COLORS.i1;
-
-/** @deprecated Use COLORS.n5 */
-export const DIVIDER_HEX = COLORS.n5;
 
 export const NAVBAR_HEIGHT = Platform.OS === 'ios' ? 80 : 70;
 

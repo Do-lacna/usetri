@@ -89,7 +89,7 @@ const ShoppingListProductItem: React.FC<{
   const shopCount = validShops.length;
 
   return (
-    <View className="bg-card rounded-xl p-3 mb-3 shadow-sm border border-border">
+    <View className="bg-card rounded-xl p-3 mb-3 shadow-sm border border-v2">
       <TouchableOpacity
         onPress={() => setIsExpanded(expanded => !expanded)}
         activeOpacity={0.7}

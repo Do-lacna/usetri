@@ -38,17 +38,11 @@ export {
   type PendingCartDataType,
 } from '~/src/types/cart-drawer-types';
 
-// Local import for use within this file
 import {
   DrawerTypeEnum,
   type PendingCartDataType,
 } from '~/src/types/cart-drawer-types';
 
-interface SearchHeaderProps {
-  searchQuery: string;
-  onSearch: (query: string) => void;
-  onClear: () => void;
-}
 
 export default function ShoppingList() {
   const { t } = useTranslation();
@@ -197,16 +191,18 @@ export default function ShoppingList() {
               <View className="flex-1 gap-4 mt-4 px-2">
                 {isTextInputFocused || searchQuery ? (
                   <View className="flex-1 mb-16">
-                    <ShoppingListCategorySearch
-                      searchQuery={searchQuery}
-                      onCategorySelect={categoryId =>
-                        handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
-                      }
-                    />
                     <ShoppingListProductSearch
                       searchQuery={searchQuery}
                       onProductSelect={productId =>
                         handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
+                      }
+                      ListHeaderComponent={
+                        <ShoppingListCategorySearch
+                          searchQuery={searchQuery}
+                          onCategorySelect={categoryId =>
+                            handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
+                          }
+                        />
                       }
                     />
                   </View>
@@ -232,9 +228,6 @@ export default function ShoppingList() {
                         onUpdateQuantity={handleUpdateCategoryQuantity}
                       />
                     ))}
-
-                    <Divider className="mt-2 mb-4" />
-
                     {cartProducts.map(item => (
                       <ShoppingListProductItem
                         key={item?.product?.id}
