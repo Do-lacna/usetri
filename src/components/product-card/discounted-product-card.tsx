@@ -13,6 +13,7 @@ const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.j
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
   shopsPrices?: (ShopItemDto | ShopPriceDto)[] | null;
+  selectedShopId?: number | null;
   onPress?: (productId: number, categoryId: number) => void;
   className?: string;
 }
@@ -20,6 +21,7 @@ export interface IProductCardProps {
 const DiscountedProductCard = ({
   product,
   shopsPrices = [],
+  selectedShopId,
   onPress,
   className,
 }: IProductCardProps) => {
@@ -36,11 +38,15 @@ const DiscountedProductCard = ({
 
   const availableShopIds = shopsPrices?.map(shop => Number(shop.shop_id)) || [];
 
+  const selectedShopPrice = selectedShopId
+    ? shopsPrices?.find(shop => Number(shop.shop_id) === Number(selectedShopId))
+    : undefined;
+
   const {
     discount_price,
     price,
     shop_id: lowestPriceShopId,
-  } = shopsPrices?.[0] || {};
+  } = selectedShopPrice ?? shopsPrices?.[0] ?? {};
 
   const percentageDiscount = calculateDiscountPercentage(
     Number(price),
@@ -95,7 +101,9 @@ const DiscountedProductCard = ({
                   zIndex={availableShopIds.length - index}
                   highlighted={
                     availableShopIds.length > 1 &&
-                    retailer === Number(lowestPriceShopId)
+                    (selectedShopId
+                      ? retailer === Number(selectedShopId)
+                      : retailer === Number(lowestPriceShopId))
                   }
                 />
               ) : null,
