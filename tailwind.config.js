@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // ── CSS-variable-driven semantic tokens ────────────────────────────
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -16,14 +17,23 @@ module.exports = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          hover: 'hsl(var(--primary-hover))',
+          active: 'hsl(var(--primary-active))',
         },
+        // Yellow — secondary highlights, tags, badges
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
+        // Orange — CTAs, price highlights, conversion actions
+        tertiary: {
+          DEFAULT: 'hsl(var(--tertiary))',
+          foreground: 'hsl(var(--tertiary-foreground))',
+        },
+        // Kept for backward compat — mirrors tertiary
         terciary: {
           DEFAULT: 'hsl(var(--terciary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          foreground: 'hsl(var(--tertiary-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -53,11 +63,63 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+        },
+
+        // ── Static brand palette ────────────────────────────────────────────
+        // Violet — light mode primary
+        v1: '#5645CC',
+        v2: '#CACAFC',
+        v3: '#9595F3',
+        v4: '#5E51E3',
+        v5: '#5132D6',
+        v6: '#3F21B7',
+
+        // Indigo — dark mode surfaces ONLY
+        i1: '#1E1E48',
+        i2: '#404293',
+        i3: '#3C3786',
+        i4: '#332B71',
+        i5: '#2B235F',
+        i6: '#1E1A4C',
+
+        // Orange — tertiary / CTA / price highlights
+        o1: '#FB8200',
+        o2: '#FFDEBD',
+        o3: '#D45608',
+
+        // Yellow — secondary / highlights / badges
+        g1: '#FFC900',
+        g2: '#FFF7D9',
+        g3: '#FF9D00',
+
+        // Neutral warm
+        n1: '#FFF6ED',
+        n2: '#FFFEF4',
+        n3: '#F3E6E5',
+        n4: '#E5D1DC',
+        n5: '#D5C0D6',
+        n6: '#B39FCA',
+
+        // Base
+        surface: '#FFFFFF',
+        'text-primary': '#001122',
+        'text-inverse': '#FFFFFF',
+        'bg-default': '#FFFFFF',
+        'bg-subtle': '#FFFEF4',
+
+        // Discount badge — uses error red (comparison signal)
         discount: {
-          DEFAULT: '#ef4444', // red-500
-          foreground: '#ffffff', // white text on red background
-          light: '#fecaca', // red-200 for light backgrounds
-          dark: '#dc2626', // red-600 for darker variant
+          DEFAULT: '#EE525B',
+          foreground: '#FFFFFF',
+          light: '#FFDEBD',
+          dark: '#D45608',
         },
       },
       borderWidth: {

@@ -103,9 +103,9 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
           disabled={!!actionType}
           className={`py-4 rounded-lg items-center justify-center flex-row ${
             actionType
-              ? 'bg-green-500'
+              ? 'bg-success'
               : cartQuantity === 0
-                ? 'bg-red-400'
+                ? 'bg-destructive'
                 : 'bg-primary'
           }`}
         >

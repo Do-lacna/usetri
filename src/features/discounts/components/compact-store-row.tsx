@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { PRIMARY_HEX } from '~/src/lib/constants';
+import { COLORS } from '~/src/lib/constants';
 import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
 import { getShopCoverImage } from '../../../utils/logo-utils';
 import {
@@ -93,7 +93,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                   style={{
                     fontSize: 11,
                     fontWeight: isActive ? '700' : '600',
-                    color: '#FFFFFF',
+                    color: COLORS.white,
                     textAlign: 'center',
                   }}
                   numberOfLines={1}
@@ -123,7 +123,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                       right: 0,
                       bottom: 0,
                       borderWidth: 2,
-                      borderColor: PRIMARY_HEX,
+                      borderColor: COLORS.v1,
                       borderRadius: 8,
                       pointerEvents: 'none',
                     }}
@@ -135,7 +135,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                       right: 4,
                       width: 8,
                       height: 8,
-                      backgroundColor: PRIMARY_HEX,
+                      backgroundColor: COLORS.v1,
                       borderRadius: 4,
                       elevation: 2,
                       shadowColor: '#000',

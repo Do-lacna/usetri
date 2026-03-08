@@ -226,13 +226,13 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
         {/* Scanned barcode display */}
         {scannedBarcode && (
           <View className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-75 p-3 rounded-lg">
-            <Text className="text-green-400 font-bold text-sm">
+            <Text className="text-success font-bold text-sm">
               Nasnímaný barcode:
             </Text>
             <Text className="text-white text-lg font-mono">
               {scannedBarcode.value}
             </Text>
-            <Text className="text-gray-300 text-xs mt-1">
+            <Text className="text-n6 text-xs mt-1">
               Typ: {scannedBarcode.type}
             </Text>
           </View>
@@ -244,14 +244,14 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
         {/* Barcode Status */}
         <View className="mb-4">
           {scannedBarcode ? (
-            <View className="bg-green-800 p-3 rounded-lg">
+            <View className="bg-success/20 p-3 rounded-lg">
               <Text className="text-white font-bold">✓ Barcode Nasnímaný</Text>
               <Text className="text-white text-sm mt-1">
                 {scannedBarcode.type}: {scannedBarcode.value}
               </Text>
             </View>
           ) : (
-            <View className="bg-gray-700 p-3 rounded-lg">
+            <View className="bg-i4 p-3 rounded-lg">
               <Text className="text-white">
                 Naskenujte barcode pre pokračovanie
               </Text>

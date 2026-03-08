@@ -125,7 +125,7 @@ export default function BarcodeSearchCameraView({
           <X size={25} color="white" strokeWidth={2} />
         </IconButton>
         <View className="flex-1 bg-transparent relative mb-16">
-          <Text className="text-lg text-gray-600 font-bold absolute bottom-4 w-full text-center">
+          <Text className="text-lg text-n2 font-bold absolute bottom-4 w-full text-center">
             Naskenujte čiarový kód produktu a budete automaticky presmerovaný na
             daný produkt
           </Text>

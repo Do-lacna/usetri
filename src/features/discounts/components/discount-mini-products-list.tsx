@@ -4,10 +4,6 @@ import { Skeleton } from '~/src/components/ui/skeleton';
 import { useGetDiscounts } from '~/src/network/query/query';
 import DiscountedMiniProductCard from './discounted-mini-product-card';
 
-interface SkeletonItem {
-  id: number;
-}
-
 const DiscountMiniProductsList = () => {
   const {
     data: { products: mostSaleProducts = [] } = {},
@@ -19,10 +15,13 @@ const DiscountMiniProductsList = () => {
   }
 
   return (
-    <View className="bg-card px-4 py-3 border-b border-border">
-      <Text className="text-xl font-bold text-foreground">
-        Najväčšie zľavy tohto týždňa
-      </Text>
+    <View className="bg-background px-4 py-3 border-b border-border">
+      <View className="flex-row items-center mb-2">
+        <View className="w-1 h-6 bg-g1 rounded-full mr-2" />
+        <Text className="text-xl font-bold text-foreground">
+          Najväčšie zľavy tohto týždňa
+        </Text>
+      </View>
       <FlatList
         data={mostSaleProducts}
         renderItem={({ item }) => (

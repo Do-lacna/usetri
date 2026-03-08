@@ -2,7 +2,7 @@ import type React from 'react';
 import {
   DrawerTypeEnum,
   type PendingCartDataType,
-} from '~/app/(app)/main/(tabs)/shopping-list';
+} from '~/src/types/cart-drawer-types';
 import { useGetCart } from '~/src/network/cart/cart';
 import { CategoryCartItem } from './category-cart-item';
 import {

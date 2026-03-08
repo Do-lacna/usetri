@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 import type React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { COLORS } from '../../lib/constants';
 import { useColorScheme } from '../../lib/useColorScheme';
 
 interface ProfileHeaderProps {
@@ -15,8 +16,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   userImage,
 }) => {
   const { colorScheme } = useColorScheme();
-  const iconColor = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280';
-  const settingsIconColor = colorScheme === 'dark' ? '#F3F4F6' : '#374151';
+  const iconColor = COLORS.n6;
+  const settingsIconColor = colorScheme === 'dark' ? COLORS.white : COLORS.textPrimary;
 
   return (
     <View className="relative overflow-hidden bg-background">
@@ -24,8 +25,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       <LinearGradient
         colors={
           colorScheme === 'dark'
-            ? ['#1f2937', '#374151']
-            : ['#f8fafc', '#e2e8f0']
+            ? [COLORS.i1, COLORS.i2]
+            : [COLORS.bgDefault, COLORS.n1]
         }
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

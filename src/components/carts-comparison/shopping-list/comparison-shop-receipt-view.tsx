@@ -120,7 +120,7 @@ const ComparisonShopReceiptView = ({
               // disabled={!isDirty || !isValid}
               variant="outline"
               onPress={() => sendDiscardCart()}
-              className="w-[40%] border-2 border-gray-600"
+              className="w-[40%] border-2 border-border"
             >
               <Text className="font-bold">Zahodiť</Text>
             </Button>

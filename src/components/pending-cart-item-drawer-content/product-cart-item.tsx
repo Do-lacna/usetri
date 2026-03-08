@@ -2,7 +2,7 @@ import { AlertCircle } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
+import type { PendingCartDataType } from '~/src/types/cart-drawer-types';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import { useGetCart } from '~/src/network/cart/cart';
 import type { ShopPriceDto } from '~/src/network/model';

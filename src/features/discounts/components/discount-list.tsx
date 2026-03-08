@@ -75,13 +75,11 @@ const DiscountList = ({
     initialPageParam: 0,
   });
 
-  // Flatten all pages into a single array
   const allProducts = React.useMemo(() => {
     const products = data?.pages.flatMap(page => page.products || []) || [];
     return limitItems ? products.slice(0, limitItems) : products;
   }, [data, limitItems]);
 
-  // Extract validity info from first product
   const validityInfo = React.useMemo(() => {
     const firstProduct = data?.pages?.[0]?.products?.[0];
     const discountPrice = firstProduct?.shops_prices?.[0]?.discount_price;
@@ -96,7 +94,6 @@ const DiscountList = ({
   }, [data?.pages]);
 
   const loadMoreData = React.useCallback(() => {
-    // Don't load more if items are limited (guest mode)
     if (limitItems) return;
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -104,12 +101,10 @@ const DiscountList = ({
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, limitItems]);
 
   const handleRefresh = React.useCallback(() => {
-    // Don't allow refresh if items are limited (guest mode)
     if (limitItems) return;
     refetch();
   }, [refetch, limitItems]);
 
-  // Create skeleton data that matches FlatList structure
   const skeletonData: SkeletonItem[] = Array.from(
     { length: 6 },
     (_, index) => ({ id: index }),
@@ -150,8 +145,8 @@ const DiscountList = ({
         Zľavy v {getStoreDisplayName(name)}
       </Text>
       {validityInfo && (
-        <View className="bg-primary px-3 py-1 rounded-full">
-          <Text className="text-sm font-semibold text-foreground">
+        <View className="bg-v1 px-3 py-2 rounded-full ">
+          <Text className="text-xs font-semibold text-white">
             {formatDiscountValidity(
               validityInfo.validFrom,
               validityInfo.validTo,
@@ -163,7 +158,7 @@ const DiscountList = ({
   );
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-background">
       {isPending ? (
         <FlashList
           data={skeletonData}
@@ -212,7 +207,6 @@ const DiscountList = ({
           onScroll={event => {
             const scrollPosition = event.nativeEvent.contentOffset.y;
 
-            // Check if guest has scrolled past the limit
             if (
               guestScrollLimit &&
               onGuestScrollLimitReached &&
@@ -223,7 +217,6 @@ const DiscountList = ({
               onGuestScrollLimitReached();
             }
 
-            // Also trigger the animated scroll if provided
             if (onScroll) {
               onScroll.setValue(scrollPosition);
             }

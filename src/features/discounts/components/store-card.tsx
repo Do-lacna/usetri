@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { PRIMARY_HEX } from "~/src/lib/constants";
+import { COLORS } from "~/src/lib/constants";
 import type { DiscountStatsDto, ShopExtendedDto } from "~/src/network/model";
 import { getShopCoverImage } from "../../../utils/logo-utils";
 import {
@@ -189,7 +189,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                   right: 0,
                   bottom: 0,
                   borderWidth: 4,
-                  borderColor: PRIMARY_HEX,
+                  borderColor: COLORS.v1,
                   borderRadius: 12,
                   pointerEvents: "none",
                 }}
@@ -201,7 +201,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                   right: indicatorRightPosition,
                   width: indicatorSize,
                   height: indicatorSize,
-                  backgroundColor: PRIMARY_HEX,
+                  backgroundColor: COLORS.v1,
                   borderRadius: collapse.interpolate({
                     inputRange: [0, 1],
                     outputRange: [8, 5],

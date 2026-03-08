@@ -41,14 +41,14 @@ const BrigaderProductRow = ({
   return (
     <View
       className={`w-full rounded-lg shadow-md mb-2 relative p-4 ${
-        is_checked ? 'bg-green-100' : 'bg-white'
+        is_checked ? 'bg-success/10' : 'bg-card'
       }`}
     >
       <View className={'w-full relative flex-row items-center justify-between'}>
         {/* Text content container with flex-1 to take available space and shrink if needed */}
         <View className="flex-1 mr-4">
           <Text
-            className="text-base font-medium text-gray-800"
+            className="text-base font-medium text-foreground"
             numberOfLines={2}
             ellipsizeMode="tail"
           >
@@ -56,7 +56,7 @@ const BrigaderProductRow = ({
           </Text>
           {!!brand && (
             <Text
-              className="text-sm font-medium text-gray-600"
+              className="text-sm font-medium text-muted-foreground"
               numberOfLines={2}
               ellipsizeMode="tail"
             >

@@ -30,27 +30,19 @@ import ShoppingListCategoryItem from '../../../../src/features/shopping-list/com
 import ShoppingListCategorySearch from '../../../../src/features/shopping-list/components/shopping-list-category-search';
 import ShoppingListProductItem from '../../../../src/features/shopping-list/components/shopping-list-product-item';
 
-export enum CartOperationsEnum {
-  ADD = 'ADD',
-  REMOVE = 'REMOVE',
-  UPDATE = 'UPDATE',
-}
+// Shared types — moved to a neutral file to break the circular dependency with
+// pending-cart-item-drawer-content components. Re-exported for backward compat.
+export {
+  CartOperationsEnum,
+  DrawerTypeEnum,
+  type PendingCartDataType,
+} from '~/src/types/cart-drawer-types';
 
-export enum DrawerTypeEnum {
-  CATEGORY = 'CATEGORY',
-  PRODUCT = 'PRODUCT',
-}
+import {
+  DrawerTypeEnum,
+  type PendingCartDataType,
+} from '~/src/types/cart-drawer-types';
 
-export type PendingCartDataType = {
-  identifier: number;
-  type: DrawerTypeEnum;
-};
-
-interface SearchHeaderProps {
-  searchQuery: string;
-  onSearch: (query: string) => void;
-  onClear: () => void;
-}
 
 export default function ShoppingList() {
   const { t } = useTranslation();
@@ -199,16 +191,18 @@ export default function ShoppingList() {
               <View className="flex-1 gap-4 mt-4 px-2">
                 {isTextInputFocused || searchQuery ? (
                   <View className="flex-1 mb-16">
-                    <ShoppingListCategorySearch
-                      searchQuery={searchQuery}
-                      onCategorySelect={categoryId =>
-                        handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
-                      }
-                    />
                     <ShoppingListProductSearch
                       searchQuery={searchQuery}
                       onProductSelect={productId =>
                         handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
+                      }
+                      ListHeaderComponent={
+                        <ShoppingListCategorySearch
+                          searchQuery={searchQuery}
+                          onCategorySelect={categoryId =>
+                            handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
+                          }
+                        />
                       }
                     />
                   </View>
@@ -234,9 +228,6 @@ export default function ShoppingList() {
                         onUpdateQuantity={handleUpdateCategoryQuantity}
                       />
                     ))}
-
-                    <Divider className="mt-2 mb-4" />
-
                     {cartProducts.map(item => (
                       <ShoppingListProductItem
                         key={item?.product?.id}

@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
 import { useSession } from '~/src/context/authentication-context';
@@ -14,6 +15,7 @@ const GUEST_SCROLL_LIMIT = 1000;
 
 export const DiscountsScreenContent: React.FC = () => {
   const { isGuest } = useSession();
+  const { t } = useTranslation();
   const [showGuestOverlay, setShowGuestOverlay] = useState(false);
   const [isOverlayDismissable, setIsOverlayDismissable] = useState(false);
   const [guestOverlayMessage, setGuestOverlayMessage] = useState<{
@@ -22,7 +24,6 @@ export const DiscountsScreenContent: React.FC = () => {
   } | null>(null);
   const {
     data: { stats = [] } = {},
-    isLoading: areDiscountStatisticsLoading,
   } = useGetDiscountsStatistics();
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -35,7 +36,6 @@ export const DiscountsScreenContent: React.FC = () => {
     handleSnapToItem,
   } = useStoreSelection(scrollY);
 
-  // Reset scroll position and overlay when shop changes
   useEffect(() => {
     scrollY.setValue(0);
     setShowGuestOverlay(false);
@@ -115,9 +115,9 @@ export const DiscountsScreenContent: React.FC = () => {
       )}
 
       {!isGuest && (
-        <View className="bg-card px-4 py-3 border-t border-border">
+        <View className="bg-background px-4 py-3 border-t border-border">
           <Text className="text-center text-xs text-muted-foreground">
-            Ceny a dostupnosť sa môžu líšiť v jednotlivých predajniach
+            {t('discounts.prices_may_vary')}
           </Text>
         </View>
       )}

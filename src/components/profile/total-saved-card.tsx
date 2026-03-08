@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { Platform, View } from 'react-native';
+import { COLORS } from '../../lib/constants';
 import { useColorScheme } from '../../lib/useColorScheme';
 import { useGetArchivedCart } from '../../network/customer/customer';
 import { Card } from '../ui/card';
@@ -9,7 +10,7 @@ import { Text } from '../ui/text';
 
 const TotalSavedCard: React.FC = () => {
   const { colorScheme } = useColorScheme();
-  const iconColor = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280';
+  const iconColor = COLORS.n6;
 
   const {
     isLoading,

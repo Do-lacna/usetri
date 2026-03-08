@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { COLORS } from '~/src/lib/constants';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
 const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
@@ -44,12 +45,12 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Pressable
-      className="bg-card rounded-lg p-2 mx-2 shadow-sm border border-border w-32"
+      className="rounded-lg p-2 mx-2 shadow-sm border bg-v3 border-border w-32"
       onPress={() => onPress?.(Number(productId))}
     >
-      {/* Discount Badge */}
-      <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">
-        <Text className="text-discount-foreground text-xs font-bold">
+      {/* Discount Badge — g1 yellow */}
+      <View className="absolute top-2 right-2 bg-g1 rounded-full px-2 py-1 z-10">
+        <Text className="text-foreground text-xs font-bold">
           -
           {calculateDiscountPercentage(
             Number(lowestPrice),
@@ -83,8 +84,8 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
                   position: 'absolute',
                   right: index * 12,
                   zIndex: index + 1,
-                  backgroundColor: 'white',
-                  borderColor: '#D1D5DB',
+                  backgroundColor: COLORS.white,
+                  borderColor: COLORS.n5,
                   borderWidth: 1,
                 }}
               />
@@ -106,7 +107,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
         <Text className="text-muted-foreground text-xs line-through">
           {lowestPrice?.toFixed(2)} €
         </Text>
-        <Text className="text-discount text-xs font-bold">
+        <Text className="text-o3 text-xs font-bold">
           {lowestDiscountedPrice?.toFixed(2)} €
         </Text>
       </View>

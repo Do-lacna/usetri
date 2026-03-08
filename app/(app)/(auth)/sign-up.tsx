@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import auth from '@react-native-firebase/auth';
+import { createUserWithEmailAndPassword, getAuth } from '@react-native-firebase/auth';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -42,7 +42,8 @@ export default function SignUp() {
     try {
       setLoading(true);
       // Create user with email and password
-      const userCredential = await auth().createUserWithEmailAndPassword(
+      const userCredential = await createUserWithEmailAndPassword(
+        getAuth(),
         email,
         password,
       );

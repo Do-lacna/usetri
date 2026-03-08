@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import { useGetCart } from '~/src/network/cart/cart';
+import { COLORS } from '~/src/lib/constants';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
 import { useColorScheme } from '../../../lib/useColorScheme';
@@ -47,8 +48,8 @@ const ShoppingListCategoryItem: React.FC<{
   } = useGetCart();
 
   // Theme-aware colors
-  const iconColor = isDarkColorScheme ? '#9CA3AF' : '#374151';
-  const activityIndicatorColor = isDarkColorScheme ? '#9CA3AF' : '#1F2937';
+  const iconColor = isDarkColorScheme ? COLORS.n6 : COLORS.textPrimary;
+  const activityIndicatorColor = isDarkColorScheme ? COLORS.n6 : COLORS.i1;
 
   const {
     data: { products: suggestedProducts = [] } = {},
@@ -98,7 +99,7 @@ const ShoppingListCategoryItem: React.FC<{
             ${
               isExpanded
                 ? 'border border-2 border-primary shadow-md'
-                : 'bg-card border border-border shadow-sm'
+                : 'bg-card border border-v2  shadow-sm'
             }
           `}
         >

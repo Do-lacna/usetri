@@ -2,7 +2,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import type { PendingCartDataType } from '~/app/(app)/main/(tabs)/shopping-list';
+import type { PendingCartDataType } from '~/src/types/cart-drawer-types';
 import { useGetCart } from '~/src/network/cart/cart';
 import {
   useGetCategories,
@@ -86,8 +86,8 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
         />
 
         {/* Category Info Message */}
-        <View className="mb-4 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-lg p-3">
-          <Text className="text-sm text-green-700 dark:text-green-400 leading-relaxed">
+        <View className="mb-4 bg-success/10 border border-success/30 rounded-lg p-3">
+          <Text className="text-sm text-success leading-relaxed">
             {t('cart_drawer.category_info')}
           </Text>
         </View>

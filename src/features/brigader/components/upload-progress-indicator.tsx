@@ -1,6 +1,7 @@
 // components/UploadProgressIndicator.tsx
 import type React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { COLORS } from '~/src/lib/constants';
 import type { UploadProgress } from './use-background-upload';
 
 interface UploadProgressIndicatorProps {
@@ -46,10 +47,10 @@ export const UploadProgressIndicator: React.FC<
   };
 
   const getStatusColor = () => {
-    if (progress.failed > 0) return '#ef4444'; // red
-    if (progress.uploading > 0) return '#10b981'; // green
-    if (progress.completed === progress.total) return '#10b981'; // green
-    return '#6b7280'; // gray
+    if (progress.failed > 0) return COLORS.error;       // #EE525B
+    if (progress.uploading > 0) return COLORS.success;  // #4CB963
+    if (progress.completed === progress.total) return COLORS.success;
+    return COLORS.n6;                                    // #B39FCA muted
   };
 
   return (
@@ -101,10 +102,10 @@ const styles = StyleSheet.create({
     bottom: 100,
     left: 16,
     right: 16,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     borderRadius: 12,
     borderLeftWidth: 4,
-    shadowColor: '#000',
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -127,16 +128,16 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     fontWeight: '600',
-    color: '#374151',
+    color: COLORS.textPrimary,
   },
   progressText: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#6b7280',
+    color: COLORS.n6,
   },
   progressBarContainer: {
     height: 4,
-    backgroundColor: '#e5e7eb',
+    backgroundColor: COLORS.n4,
     borderRadius: 2,
     overflow: 'hidden',
   },
@@ -147,30 +148,30 @@ const styles = StyleSheet.create({
   actionButtons: {
     flexDirection: 'row',
     borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
+    borderTopColor: COLORS.n4,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
   retryButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#ef4444',
+    backgroundColor: COLORS.error,
     borderRadius: 6,
     marginRight: 8,
   },
   retryButtonText: {
-    color: 'white',
+    color: COLORS.white,
     fontSize: 12,
     fontWeight: '600',
   },
   clearButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#6b7280',
+    backgroundColor: COLORS.n6,
     borderRadius: 6,
   },
   clearButtonText: {
-    color: 'white',
+    color: COLORS.white,
     fontSize: 12,
     fontWeight: '600',
   },

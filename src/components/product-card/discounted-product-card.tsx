@@ -4,6 +4,7 @@ import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
+  ShopPriceDto,
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
@@ -11,7 +12,7 @@ const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.j
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
-  shopsPrices?: ShopItemDto[] | null; // List of prices from different shops
+  shopsPrices?: (ShopItemDto | ShopPriceDto)[] | null;
   selectedShopId?: number | null;
   onPress?: (productId: number, categoryId: number) => void;
   className?: string;
@@ -57,7 +58,7 @@ const DiscountedProductCard = ({
     if (hasDiscount) {
       return (
         <View className="flex-row items-center space-x-1">
-          <Text className="text-xs font-bold text-red-600 mr-1">
+          <Text className="text-xs font-bold text-o3 mr-1">
             {discount_price?.price} €
           </Text>
           <Text className="text-xs text-muted-foreground line-through">
@@ -67,7 +68,6 @@ const DiscountedProductCard = ({
       );
     }
 
-    // Regular price when no discount
     return <Text className="text-sm font-bold text-foreground">{price} €</Text>;
   };
 
@@ -76,7 +76,7 @@ const DiscountedProductCard = ({
       className={clsx('flex-1', className)}
       onPress={() => onPress?.(Number(productId), Number(categoryId))}
     >
-      <View className="bg-card rounded-xl p-2 shadow-sm shadow-foreground/10 mx-1">
+      <View className="bg-card rounded-xl p-2 shadow-sm border border-border mx-1">
         <View className="w-full h-32 rounded-lg relative">
           <Image
             source={
@@ -111,13 +111,15 @@ const DiscountedProductCard = ({
           </View>
         </View>
 
-        <Badge className="absolute top-2 bg-accent">
-          <Text className="text-xs text-accent-foreground">{`${amount} ${unit}`}</Text>
+        {/* Unit badge — n3 neutral */}
+        <Badge className="absolute top-2 left-2 bg-v2">
+          <Text className="text-xs text-foreground">{`${amount} ${unit}`}</Text>
         </Badge>
 
+        {/* Discount % badge — g1 yellow */}
         {hasDiscount && (
-          <Badge className="absolute top-2 right-2 bg-discount">
-            <Text className="text-xs text-discount-foreground font-semibold">
+          <Badge className="absolute top-2 right-2 bg-g1">
+            <Text className="text-xs text-foreground font-semibold">
               -{percentageDiscount}%
             </Text>
           </Badge>

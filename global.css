@@ -5,90 +5,166 @@
 @layer base {
   @media (prefers-color-scheme: light) {
     :root {
+      /*
+       * LIGHT MODE — Designer Token Rules
+       * ────────────────────────────────────────────────────────
+       * background  → white  (#FFFFFF)
+       * primary     → brand violet  v1 (#5645CC)
+       * secondary   → yellow  g1/g2  (highlights, tags, badges)
+       * tertiary    → orange  o1     (CTAs, price highlights)
+       * card        → white  (#FFFFFF)
+       * error/red   → #EE525B  (discounts, comparison worse)
+       * success/grn → #4CB963  (comparison better)
+       * indigo      → dark mode surfaces ONLY
+       * ────────────────────────────────────────────────────────
+       */
+
+      /* Background: pure white */
       --background: 0 0% 100%;
-      --foreground: 240 10% 3.9%;
+      /* Foreground: near-black #001122 */
+      --foreground: 210 100% 7%;
+
+      /* Card: white */
       --card: 0 0% 100%;
-      --card-foreground: 240 10% 3.9%;
+      --card-foreground: 210 100% 7%;
+
       --popover: 0 0% 100%;
-      --popover-foreground: 240 10% 3.9%;
-      --primary: 125 71% 64%;
-      --primary-foreground: 355.7 100% 97.3%;
-      --secondary: 240 4.8% 95.9%;
-      --secondary-foreground: 240 5.9% 10%;
-      --terciary: 176 93% 16%;
-      --divider: 176 18% 83%;
-      --muted: 240 4.8% 95.9%;
-      --muted-foreground: 240 3.8% 46.1%;
-      --accent: 240 4.8% 95.9%;
-      --accent-foreground: 240 5.9% 10%;
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 0 0% 98%;
-      --border: 240 5.9% 90%;
-      --input: 240 5.9% 90%;
-      --ring: 142.1 76.2% 36.3%;
+      --popover-foreground: 210 100% 7%;
+
+      /* Primary — violet v1 #5645CC → hsl(249 55% 54%) */
+      --primary: 249 55% 54%;
+      --primary-foreground: 0 0% 100%;
+      /* Hover v4 #5E51E3 → hsl(246 70% 61%) */
+      --primary-hover: 246 70% 61%;
+      /* Active v6 #3F21B7 → hsl(251 69% 42%) */
+      --primary-active: 251 69% 42%;
+
+      /* Secondary — yellow g2 soft #FFF7D9 → hsl(48 100% 92%) */
+      --secondary: 48 100% 92%;
+      --secondary-foreground: 210 100% 7%;
+
+      /* Tertiary — orange o1 #FB8200 → hsl(31 97% 49%) */
+      --tertiary: 31 97% 49%;
+      --tertiary-foreground: 0 0% 100%;
+      /* Terciary alias kept for backward compat */
+      --terciary: 31 97% 49%;
+
+      /* Muted: warm off-white n2 #FFFEF4 → hsl(60 100% 98%) */
+      --muted: 60 100% 98%;
+      --muted-foreground: 210 15% 45%;
+
+      /* Accent: soft violet v2 #CACAFC → hsl(240 91% 89%) */
+      --accent: 240 91% 89%;
+      --accent-foreground: 249 55% 54%;
+
+      /* Destructive/Error #EE525B → hsl(356 80% 63%) */
+      --destructive: 356 80% 63%;
+      --destructive-foreground: 0 0% 100%;
+
+      /* Border: n5 #D5C0D6 → hsl(296 16% 80%) */
+      --border: 296 16% 80%;
+      --input: 296 16% 80%;
+
+      /* Focus ring: violet v1 */
+      --ring: 249 55% 54%;
+
       --radius: 0.5rem;
-      --chart-1: 12 76% 61%;
-      --chart-2: 173 58% 39%;
-      --chart-3: 197 37% 24%;
-      --chart-4: 43 74% 66%;
-      --chart-5: 27 87% 67%;
-      --warning: 60 100% 90%;
+
+      /* Divider */
+      --divider: 296 16% 80%;
+      --divider-dark: 240 43% 20%;
+
+      /* Success #4CB963 → hsl(131 39% 51%) */
+      --success: 131 39% 51%;
+      --success-foreground: 0 0% 100%;
+
+      /* Warning: yellow-strong g3 #FF9D00 → hsl(37 100% 50%) */
+      --warning: 37 100% 50%;
+      --warning-foreground: 0 0% 100%;
+
+      /* Charts */
+      --chart-1: 249 55% 54%;
+      --chart-2: 31 97% 49%;
+      --chart-3: 131 39% 51%;
+      --chart-4: 48 100% 50%;
+      --chart-5: 356 80% 63%;
     }
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      /* Main background - neutral gray like VS Code (#1e1e1e) */
-      --background: 0 0% 12%;
-      --foreground: 0 0% 88%;
+      /*
+       * DARK MODE — Indigo scale for ALL surfaces
+       * Text: white or n2 for legibility
+       * Primary: v3 lighter violet for contrast on indigo
+       * Secondary: yellow stays (readable on dark)
+       * Tertiary: orange stays (CTA / price highlight)
+       */
 
-      /* Card - elevated surface, lighter than background for depth */
-      --card: 0 0% 16%;
-      --card-foreground: 0 0% 88%;
+      /* Background: i1 #1E1E48 → hsl(240 43% 20%) */
+      --background: 240 43% 20%;
+      --foreground: 0 0% 100%;
 
-      /* Popover - slightly elevated */
-      --popover: 0 0% 14%;
-      --popover-foreground: 0 0% 88%;
+      /* Card: i2 #404293 → hsl(241 39% 41%) */
+      --card: 241 39% 41%;
+      --card-foreground: 0 0% 100%;
 
-      /* Primary stays the same (your brand color) */
-      --primary: 142.1 70.6% 45.3%;
-      --primary-foreground: 144.9 80.4% 10%;
+      /* Popover: i3 #3C3786 → hsl(244 40% 37%) */
+      --popover: 244 40% 37%;
+      --popover-foreground: 0 0% 100%;
 
-      /* Secondary - neutral gray */
-      --secondary: 0 0% 20%;
-      --secondary-foreground: 0 0% 88%;
+      /* Primary: v3 #9595F3 → hsl(240 83% 76%) */
+      --primary: 240 83% 76%;
+      --primary-foreground: 240 43% 20%;
+      --primary-hover: 246 70% 61%;
+      --primary-active: 249 55% 54%;
 
-      /* Terciary - adjusted for better visibility */
-      --terciary: 176 93% 28%;
+      /* Secondary: yellow g1 #FFC900 — high contrast on indigo */
+      --secondary: 48 100% 50%;
+      --secondary-foreground: 210 100% 7%;
 
-      /* Muted - improved contrast */
-      --muted: 0 0% 20%;
-      --divider: 0 0% 25%;
-      --muted-foreground: 0 0% 64%;
+      /* Tertiary: orange o1 stays */
+      --tertiary: 31 97% 49%;
+      --tertiary-foreground: 0 0% 100%;
+      --terciary: 31 97% 49%;
 
-      /* Accent - subtle highlight */
-      --accent: 0 0% 20%;
-      --accent-foreground: 0 0% 88%;
+      /* Muted: i4 #332B71 */
+      --muted: 247 44% 30%;
+      --muted-foreground: 240 30% 75%;
 
-      /* Destructive - more visible */
-      --destructive: 0 63% 42%;
-      --destructive-foreground: 0 0% 88%;
+      /* Accent: v4 #5E51E3 */
+      --accent: 246 70% 61%;
+      --accent-foreground: 0 0% 100%;
 
-      /* Borders and inputs - softer, more visible */
-      --border: 0 0% 24%;
-      --input: 0 0% 24%;
+      /* Destructive */
+      --destructive: 356 80% 63%;
+      --destructive-foreground: 0 0% 100%;
 
-      --warning: 60 100% 90%;
+      /* Border: i3 */
+      --border: 244 40% 37%;
+      --input: 244 40% 37%;
 
-      /* Ring - matches primary but darker */
-      --ring: 142.4 71.8% 35%;
+      /* Ring: v3 */
+      --ring: 240 83% 76%;
 
-      /* Charts remain the same */
-      --chart-1: 220 70% 50%;
-      --chart-2: 160 60% 45%;
-      --chart-3: 30 80% 55%;
-      --chart-4: 280 65% 60%;
-      --chart-5: 340 75% 55%;
+      /* Divider */
+      --divider: 247 44% 30%;
+      --divider-dark: 247 44% 25%;
+
+      /* Success */
+      --success: 131 39% 51%;
+      --success-foreground: 0 0% 100%;
+
+      /* Warning */
+      --warning: 37 100% 50%;
+      --warning-foreground: 0 0% 100%;
+
+      /* Charts */
+      --chart-1: 240 83% 76%;
+      --chart-2: 31 97% 49%;
+      --chart-3: 131 39% 51%;
+      --chart-4: 48 100% 50%;
+      --chart-5: 356 80% 63%;
     }
   }
 }

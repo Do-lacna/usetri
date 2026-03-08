@@ -33,8 +33,8 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
         </TouchableOpacity>
       )}
 
-      <View className="flex-1 items-center">
-        {currentShop?.id && <ShopLogoBadge shopId={currentShop.id} size={64} />}
+      <View className="flex-1 items-center border-primary">
+        {currentShop?.id && <ShopLogoBadge shopId={currentShop.id} size={80} />}
       </View>
 
       {areMoreCartsAvailable && (

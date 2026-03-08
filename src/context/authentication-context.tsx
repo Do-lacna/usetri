@@ -1,4 +1,4 @@
-import auth, { type FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { getAuth, type FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { deleteItemAsync, setItemAsync } from 'expo-secure-store';
 import {
   type PropsWithChildren,
@@ -92,7 +92,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   // Refresh token when app comes to foreground
   const refreshTokenOnForeground = async () => {
-    const currentUser = auth().currentUser;
+    const currentUser = getAuth().currentUser;
     if (currentUser?.emailVerified) {
       try {
         // Force refresh the token
@@ -107,10 +107,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     // Listen to auth state changes
-    const authSubscriber = auth().onAuthStateChanged(reactToChangedAuthState);
+    const authSubscriber = getAuth().onAuthStateChanged(reactToChangedAuthState);
 
     // Listen to token changes (handles automatic refresh)
-    const tokenSubscriber = auth().onIdTokenChanged(async user => {
+    const tokenSubscriber = getAuth().onIdTokenChanged(async user => {
       if (user?.emailVerified) {
         try {
           const token = await user.getIdToken();
@@ -151,7 +151,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       await deleteItemAsync('authToken');
       clearGuestMode();
       setIsGuest(false);
-      await auth().signOut();
+      await getAuth().signOut();
       setUser(undefined);
     } catch (e) {
       console.error(e);

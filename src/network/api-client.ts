@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import { getAuth } from '@react-native-firebase/auth';
 import axios, { type AxiosRequestConfig } from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import qs from 'qs';
@@ -48,7 +48,7 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const currentUser = auth().currentUser;
+        const currentUser = getAuth().currentUser;
 
         if (currentUser) {
           console.log('Token expired, refreshing...');

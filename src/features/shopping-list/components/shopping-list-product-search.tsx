@@ -8,11 +8,13 @@ import { useGetProducts } from '~/src/network/query/query';
 interface ShoppingListProductSearchProps {
   searchQuery: string;
   onProductSelect?: (productId: number) => void;
+  ListHeaderComponent?: React.ReactElement;
 }
 
 const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
   searchQuery,
   onProductSelect,
+  ListHeaderComponent,
 }) => {
   const {
     data: { products: searchProducts = [] } = {},
@@ -31,19 +33,28 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
 
   if (!(searchQuery?.length >= 2)) {
     return (
-      <Text className="mt-8 flex-1 flex items-center justify-center text-center text-muted-foreground font-semibold w-[80%] mx-auto">
-        Začni písať pre vyhľadanie kategórie alebo produktu
-      </Text>
+      <>
+        {ListHeaderComponent}
+        <Text className="mt-8 flex-1 flex items-center justify-center text-center text-muted-foreground font-semibold w-[80%] mx-auto">
+          Začni písať pre vyhľadanie kategórie alebo produktu
+        </Text>
+      </>
     );
   }
 
-  return (
+  const header = (
     <>
+      {ListHeaderComponent}
       {(searchProducts ?? []).length > 0 && (
         <Text className="text-lg font-bold mx-2 text-foreground">
           Konkrétne produkty
         </Text>
       )}
+    </>
+  );
+
+  return (
+    <>
       <FlatList
         data={searchProducts}
         renderItem={({ item }) => (
@@ -59,12 +70,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
         keyboardDismissMode="on-drag"
         contentContainerClassName="gap-4 p-1"
         columnWrapperClassName="gap-4"
-        //   refreshControl={
-        //     <RefreshControl
-        //       refreshing={isLoading}
-        //       onRefresh={() => queryClient.invalidateQueries()}
-        //     />
-        //   }
+        ListHeaderComponent={header}
         ListEmptyComponent={
           areProductsLoading ? (
             <ActivityIndicator animating={true} className="mt-10" />
