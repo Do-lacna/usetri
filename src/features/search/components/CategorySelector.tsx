@@ -61,14 +61,14 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
           {!!image_url && (
             <View
               className={`
-               w-8 h-8 rounded-full mr-3 justify-center items-center
+               w-6 h-6 mr-3 justify-center items-center
                ${isSelected ? 'bg-white/20' : 'bg-accent/20'}
              `}
             >
               <Image
                 source={{ uri: image_url as string }}
                 resizeMode="contain"
-                className="w-8 h-8 rounded-full"
+                className="w-10 h-10 rounded-full"
               />
             </View>
           )}
