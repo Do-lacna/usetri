@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, Pressable, ScrollView, Text, View } from 'react-native';
+import { Animated, FlatList as RNFlatList, Pressable, Text, View } from 'react-native';
 import type { CategoryDto, PopularCategoryDto } from '~/src/network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';
@@ -135,22 +135,24 @@ export function CategoryDetailView({
 
       {/* Subcategories with their products */}
       {selectedSubcategoryId ? (
-        <ScrollView
-          className="bg-background flex-1"
-          showsVerticalScrollIndicator={false}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-        >
+        <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-            subcategoriesToShow.map(subcategory => (
-              <View key={subcategory.id}>
+            <RNFlatList
+              data={subcategoriesToShow}
+              renderItem={({ item: subcategory }) => (
                 <SubcategorySection
                   subcategory={subcategory}
                   onProductPress={onProductPress}
                   isSubcategorySelected={true}
                 />
-              </View>
-            ))
+              )}
+              keyExtractor={subcategory =>
+                subcategory.id?.toString() || Math.random().toString()
+              }
+              showsVerticalScrollIndicator={false}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+            />
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
@@ -159,7 +161,7 @@ export function CategoryDetailView({
               </Text>
             </View>
           )}
-        </ScrollView>
+        </View>
       ) : (
         <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
