@@ -2,7 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, FlatList as RNFlatList, Pressable, Text, View } from 'react-native';
+import {
+  Animated,
+  Pressable,
+  FlatList as RNFlatList,
+  Text,
+  View,
+} from 'react-native';
 import type { CategoryDto, PopularCategoryDto } from '~/src/network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';

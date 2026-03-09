@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { useEffect } from 'react';
 import { Text, View } from 'react-native';
@@ -9,6 +8,8 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { Button } from '~/src/components/ui/button';
+import { CircleCheck } from '~/src/lib/icons/CircleCheck';
+import { ShoppingCart } from '~/src/lib/icons/Cart';
 import { QuantityCounter } from './quantity-counter';
 
 interface AddToCartSectionProps {
@@ -110,13 +111,15 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
           }`}
         >
           <Animated.View style={animatedIconStyle}>
-            <Ionicons
-              name={actionType ? 'checkmark-circle' : 'cart'}
-              size={20}
-              className="mr-2"
-            />
+            {actionType ? (
+              <CircleCheck size={20} className="mr-2 text-primary-foreground" />
+            ) : (
+              <ShoppingCart size={20} className="mr-2 text-primary-foreground" />
+            )}
           </Animated.View>
-          <Text className="font-semibold">{getButtonText()}</Text>
+          <Text className="font-semibold text-primary-foreground">
+            {getButtonText()}
+          </Text>
         </Button>
       </Animated.View>
     </View>

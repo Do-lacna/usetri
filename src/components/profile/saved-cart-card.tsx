@@ -1,7 +1,13 @@
 import { format } from 'date-fns';
 import { router } from 'expo-router';
 import type React from 'react';
-import { Image, Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { DATE_FORMAT } from '../../lib/constants';
 import { getShopById } from '../../lib/utils';
 import { useGetShops } from '../../network/query/query';
@@ -56,8 +62,8 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
             <Text className="text-lg font-bold text-card-foreground">
               {totalPrice.toFixed(2)} €
             </Text>
-            <View className="bg-green-100 px-2 py-1 rounded-full mt-1">
-              <Text className="text-xs font-medium text-green-700">
+            <View className="bg-v2 px-2 py-1 rounded-full mt-1">
+              <Text className="text-xs font-medium text-card-foreground">
                 Ušetrené {savedAmount.toFixed(2)} €
               </Text>
             </View>

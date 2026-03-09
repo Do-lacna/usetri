@@ -1,7 +1,7 @@
+import { Image } from 'expo-image';
 import type React from 'react';
 import {
   FlatList,
-  Image,
   type ListRenderItemInfo,
   Pressable,
   View,
@@ -53,8 +53,8 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
              flex-row items-center px-4 py-2 rounded-full min-h-[48px]
              ${
                isSelected
-                 ? 'bg-primary border-primary shadow-md'
-                 : 'bg-accent/10 border-accent/10 shadow-sm'
+                 ? 'bg-primary border-primary shadow-sm'
+                 : 'bg-accent/10 border-accent/10 shadow-xs'
              }
            `}
         >
@@ -67,7 +67,10 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
             >
               <Image
                 source={{ uri: image_url as string }}
-                resizeMode="contain"
+                contentFit="contain"
+                cachePolicy="memory-disk"
+                transition={150}
+                recyclingKey={String(id)}
                 className="w-10 h-10 rounded-full"
               />
             </View>

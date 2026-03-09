@@ -1,18 +1,15 @@
-import type React from "react";
-import { useTranslation } from "react-i18next";
+import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Animated,
   ImageBackground,
   TouchableOpacity,
   View,
-} from "react-native";
-import { COLORS } from "~/src/lib/constants";
-import type { DiscountStatsDto, ShopExtendedDto } from "~/src/network/model";
-import { getShopCoverImage } from "../../../utils/logo-utils";
-import {
-  getStoreDiscountsCount,
-  getStoreDisplayName,
-} from "../utils/store-utils";
+} from 'react-native';
+import { COLORS } from '~/src/lib/constants';
+import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
+import { getShopCoverImage } from '../../../utils/logo-utils';
+import { getStoreDisplayName } from '../utils/store-utils';
 
 interface StoreCardProps {
   store: ShopExtendedDto;
@@ -37,7 +34,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
   animatedHeight,
 }) => {
   const { t } = useTranslation();
-  const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
+  // const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
   const storeImage = getShopCoverImage(Number(store?.id));
 
   // Create collapse interpolation (0 = expanded, 1 = collapsed)
@@ -45,7 +42,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
     ? animatedHeight.interpolate({
         inputRange: [COLLAPSED_HEIGHT, EXPANDED_HEIGHT],
         outputRange: [1, 0],
-        extrapolate: "clamp",
+        extrapolate: 'clamp',
       })
     : new Animated.Value(0);
 
@@ -103,7 +100,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
         style={[
           {
             width: cardWidth,
-            height: "100%",
+            height: '100%',
             marginHorizontal: 8,
             borderRadius: 12,
             transform: [{ scale: isActive ? 1 : 0.92 }],
@@ -111,14 +108,14 @@ export const StoreCard: React.FC<StoreCardProps> = ({
           },
           isActive && {
             elevation: 8,
-            shadowColor: "#000",
+            shadowColor: '#000',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
             shadowRadius: 8,
           },
           !isActive && {
             elevation: 2,
-            shadowColor: "#000",
+            shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
             shadowRadius: 4,
@@ -133,35 +130,35 @@ export const StoreCard: React.FC<StoreCardProps> = ({
         >
           <View
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
               backgroundColor: isActive
-                ? "rgba(0, 0, 0, 0.3)"
-                : "rgba(0, 0, 0, 0.5)",
+                ? 'rgba(0, 0, 0, 0.3)'
+                : 'rgba(0, 0, 0, 0.5)',
               borderRadius: 12,
             }}
           />
 
           <Animated.View
             style={{
-              position: "absolute",
+              position: 'absolute',
               bottom: contentPaddingBottom,
               left: contentPaddingLeft,
             }}
           >
             <Animated.Text
               style={{
-                fontWeight: "bold",
-                color: isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.8)",
+                fontWeight: 'bold',
+                color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
                 fontSize: titleFontSize,
               }}
             >
               {getStoreDisplayName(store.name)}
             </Animated.Text>
-            {discountCount > 0 && (
+            {/* {discountCount > 0 && (
               <Animated.Text
                 style={{
                   marginTop: 4,
@@ -176,14 +173,14 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                   count: discountCount,
                 })}
               </Animated.Text>
-            )}
+            )} */}
           </Animated.View>
 
           {isActive && (
             <>
               <View
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   top: 0,
                   left: 0,
                   right: 0,
@@ -191,12 +188,12 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                   borderWidth: 4,
                   borderColor: COLORS.v1,
                   borderRadius: 12,
-                  pointerEvents: "none",
+                  pointerEvents: 'none',
                 }}
               />
               <Animated.View
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   top: indicatorTopPosition,
                   right: indicatorRightPosition,
                   width: indicatorSize,
@@ -207,7 +204,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
                     outputRange: [8, 5],
                   }),
                   elevation: 4,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: { width: 0, height: 2 },
                   shadowOpacity: 0.3,
                   shadowRadius: 4,
