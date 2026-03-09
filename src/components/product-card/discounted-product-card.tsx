@@ -1,6 +1,11 @@
 import clsx from 'clsx';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image } from 'expo-image';
+import { cssInterop } from 'nativewind';
+import { Pressable, Text, View } from 'react-native';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
+
+cssInterop(Image, { className: 'style' });
+
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
@@ -87,7 +92,13 @@ const DiscountedProductCard = ({
                   : PLACEHOLDER_PRODUCT_IMAGE
             }
             className="w-full h-32 rounded-lg"
-            resizeMode="contain"
+            contentFit="contain"
+            transition={200}
+            cachePolicy="memory-disk"
+            placeholder={{
+              blurhash:
+                '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[',
+            }}
           />
 
           <View className="absolute bottom-4 flex-row gap-x-2 mt-1">

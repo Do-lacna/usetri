@@ -10,10 +10,7 @@ import {
 import { COLORS } from '~/src/lib/constants';
 import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
 import { getShopCoverImage } from '../../../utils/logo-utils';
-import {
-  getStoreDiscountsCount,
-  getStoreDisplayName,
-} from '../utils/store-utils';
+import { getStoreDisplayName } from '../utils/store-utils';
 
 interface CompactStoreRowProps {
   shops: ShopExtendedDto[];
@@ -45,7 +42,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
     >
       {shops?.map((store, index) => {
         const isActive = store?.id === activeStoreId;
-        const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
+        // const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
         const storeImage = getShopCoverImage(Number(store?.id));
 
         return (
@@ -100,7 +97,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                 >
                   {getStoreDisplayName(store.name)}
                 </Text>
-                {discountCount > 0 && (
+                {/* {discountCount > 0 && (
                   <Text
                     style={{
                       fontSize: 9,
@@ -110,7 +107,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                   >
                     {discountCount}
                   </Text>
-                )}
+                )} */}
               </View>
 
               {isActive && (

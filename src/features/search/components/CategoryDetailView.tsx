@@ -1,13 +1,19 @@
+import { Ionicons } from '@expo/vector-icons';
 import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, Pressable, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import {
+  Animated,
+  Pressable,
+  FlatList as RNFlatList,
+  Text,
+  View,
+} from 'react-native';
 import type { CategoryDto, PopularCategoryDto } from '~/src/network/model';
 import { CategorySelector } from './CategorySelector';
 import { SubcategorySection } from './SubcategorySection';
 
-const SELECTOR_MAX_HEIGHT = 64;
+const SELECTOR_MAX_HEIGHT = 88;
 const SCROLL_HIDE_THRESHOLD = 40;
 
 type CategoryDetailViewProps = Readonly<{
@@ -28,7 +34,9 @@ export function CategoryDetailView({
     number | undefined
   >();
   const { t } = useTranslation();
-  const selectorHeight = React.useRef(new Animated.Value(SELECTOR_MAX_HEIGHT)).current;
+  const selectorHeight = React.useRef(
+    new Animated.Value(SELECTOR_MAX_HEIGHT),
+  ).current;
   const lastScrollY = React.useRef(0);
 
   const handleSubcategorySelect = (subcategoryId: number | undefined) => {
@@ -40,7 +48,9 @@ export function CategoryDetailView({
     }).start();
   };
 
-  const handleScroll = (event: { nativeEvent: { contentOffset: { y: number } } }) => {
+  const handleScroll = (event: {
+    nativeEvent: { contentOffset: { y: number } };
+  }) => {
     const currentY = event.nativeEvent.contentOffset.y;
     const isScrollingDown = currentY > lastScrollY.current;
     lastScrollY.current = currentY;
@@ -107,7 +117,10 @@ export function CategoryDetailView({
                 {hasSubcategories ? ` - ${t('subcategories_label')}` : ''}
               </Text>
 
-              <Text className="text-xs text-primary/60 font-medium" numberOfLines={1}>
+              <Text
+                className="text-xs text-primary/60 font-medium"
+                numberOfLines={1}
+              >
                 {t('all_categories')}
               </Text>
             </View>
@@ -130,15 +143,22 @@ export function CategoryDetailView({
       {selectedSubcategoryId ? (
         <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
-            subcategoriesToShow.map(subcategory => (
-              <View key={subcategory.id} className="flex-1">
+            <RNFlatList
+              data={subcategoriesToShow}
+              renderItem={({ item: subcategory }) => (
                 <SubcategorySection
                   subcategory={subcategory}
                   onProductPress={onProductPress}
                   isSubcategorySelected={true}
                 />
-              </View>
-            ))
+              )}
+              keyExtractor={subcategory =>
+                subcategory.id?.toString() || Math.random().toString()
+              }
+              showsVerticalScrollIndicator={false}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+            />
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
@@ -157,6 +177,7 @@ export function CategoryDetailView({
               keyExtractor={subcategory =>
                 subcategory.id?.toString() || Math.random().toString()
               }
+              drawDistance={500}
               showsVerticalScrollIndicator={false}
               removeClippedSubviews={true}
               contentContainerStyle={{ flexGrow: 1 }}
