@@ -48,7 +48,10 @@ export default function AppleAuthentication({
       const appleCredential = AppleAuthProvider.credential(identityToken);
 
       // Sign in with Firebase
-      const userCredential = await signInWithCredential(getAuth(), appleCredential);
+      const userCredential = await signInWithCredential(
+        getAuth(),
+        appleCredential,
+      );
 
       console.log('Successfully signed in with Apple:', userCredential.user);
       setUser(userCredential.user);
@@ -81,7 +84,7 @@ export default function AppleAuthentication({
   };
 
   return (
-    <View style={styles.button}>
+    <View style={styles.buttonWrapper}>
       <AppleAuth.AppleAuthenticationButton
         buttonType={AppleAuth.AppleAuthenticationButtonType.SIGN_IN}
         buttonStyle={
@@ -89,7 +92,7 @@ export default function AppleAuthentication({
             ? AppleAuth.AppleAuthenticationButtonStyle.WHITE
             : AppleAuth.AppleAuthenticationButtonStyle.BLACK
         }
-        cornerRadius={5}
+        cornerRadius={6}
         style={[styles.button, { opacity: isLoading ? 0.6 : 1 }]}
         onPress={isLoading ? () => {} : handleAppleSignIn}
       />
@@ -106,10 +109,9 @@ export default function AppleAuthentication({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonWrapper: {
+    width: 250,
+    height: 44,
   },
   button: {
     width: 250,

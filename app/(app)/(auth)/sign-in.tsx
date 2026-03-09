@@ -1,5 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getAuth, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+} from '@react-native-firebase/auth';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -95,12 +98,6 @@ export default function SignIn() {
             {/* Header Section */}
             <View className="items-center mb-10">
               <ThemedLogo width={180} height={90} className="mb-6" />
-              <Text className="text-2xl font-bold text-foreground text-center">
-                Vitajte späť
-              </Text>
-              <Text className="text-base text-muted-foreground text-center mt-2">
-                Prihláste sa do svojho účtu
-              </Text>
             </View>
 
             {/* Social Login Section */}

@@ -1,5 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createUserWithEmailAndPassword, getAuth } from '@react-native-firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+} from '@react-native-firebase/auth';
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -88,12 +91,6 @@ export default function SignUp() {
             {/* Header Section */}
             <View className="items-center mb-10">
               <ThemedLogo width={180} height={90} className="mb-6" />
-              <Text className="text-2xl font-bold text-foreground text-center">
-                Vytvorte si účet
-              </Text>
-              <Text className="text-base text-muted-foreground text-center mt-2">
-                Zaregistrujte sa a začnite šetriť
-              </Text>
             </View>
 
             {/* Registration Form */}

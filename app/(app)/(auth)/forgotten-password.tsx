@@ -82,7 +82,7 @@ export default function ForgottenPassword() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1 items-center justify-center gap-2 py-8">
-          <ThemedLogo width={220} height={110} className="mb-8" />
+          <ThemedLogo width={180} height={90} className="mb-8" />
           <Controller
             control={control}
             name="email"
@@ -111,7 +111,7 @@ export default function ForgottenPassword() {
             onPress={handleSubmit(handlePasswordReset)}
             className="w-[80%] mt-4"
           >
-            <Text>Resetovať heslo</Text>
+            <Text className="text-primary-foreground">Resetovať heslo</Text>
           </Button>
         </View>
       </ScrollView>
