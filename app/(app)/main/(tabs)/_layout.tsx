@@ -19,10 +19,31 @@ export default function TabLayout() {
   const cartItemsNumber = getNumberOfCartItems(cart);
   const { colorScheme } = useColorScheme();
 
-  const activeColor   = colorScheme === 'dark' ? COLORS.v3  : COLORS.v6;   // violet active
-  const inactiveColor = colorScheme === 'dark' ? COLORS.v2  : COLORS.grey;   // v4 unselected
-  const tabBarBackground = colorScheme === 'dark' ? COLORS.i2 : COLORS.white;
-  const borderColor   = colorScheme === 'dark' ? COLORS.i3  : COLORS.n5;
+  const isDark = colorScheme === 'dark';
+
+  const activeColor = isDark ? COLORS.white : COLORS.v6; // bright white / deep violet
+  const inactiveColor = isDark ? COLORS.n6 : COLORS.grey; // muted lavender / grey
+  const tabBarBackground = isDark ? COLORS.i1 : COLORS.white;
+  const borderColor = isDark ? COLORS.i3 : COLORS.n5;
+
+  // Active indicator pill for dark mode (modern tab bar UX)
+  const ActiveIndicator = ({
+    children,
+    focused,
+  }: { children: React.ReactNode; focused: boolean }) => (
+    <View
+      style={{
+        backgroundColor: isDark && focused ? `${COLORS.v1}30` : 'transparent',
+        borderRadius: 16,
+        paddingHorizontal: isDark && focused ? 12 : 0,
+        paddingVertical: isDark && focused ? 4 : 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {children}
+    </View>
+  );
 
   return (
     <Tabs
@@ -36,11 +57,22 @@ export default function TabLayout() {
           justifyContent: 'center',
           backgroundColor: tabBarBackground,
           borderTopColor: borderColor,
-          borderTopWidth: 1,
+          borderTopWidth: isDark ? 0 : 1,
+          ...(isDark && {
+            shadowColor: COLORS.v1,
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.15,
+            shadowRadius: 8,
+            elevation: 8,
+          }),
         },
         tabBarItemStyle: {
           alignItems: 'center',
           flexDirection: 'row',
+        },
+        tabBarLabelStyle: {
+          fontWeight: '600',
+          fontSize: 11,
         },
         headerShown: false,
         animation: 'fade', // or 'shift'
@@ -57,10 +89,12 @@ export default function TabLayout() {
         options={{
           title: 'Zľavy',
           tabBarIcon: ({ color, focused }) => (
-            <BadgePercent
-              size={28}
-              color={focused ? activeColor : inactiveColor}
-            />
+            <ActiveIndicator focused={focused}>
+              <BadgePercent
+                size={28}
+                color={focused ? activeColor : inactiveColor}
+              />
+            </ActiveIndicator>
           ),
         }}
       />
@@ -69,7 +103,9 @@ export default function TabLayout() {
         options={{
           title: 'Hĺadať',
           tabBarIcon: ({ color, focused }) => (
-            <Search size={28} color={focused ? activeColor : inactiveColor} />
+            <ActiveIndicator focused={focused}>
+              <Search size={28} color={focused ? activeColor : inactiveColor} />
+            </ActiveIndicator>
           ),
         }}
       />
@@ -78,13 +114,15 @@ export default function TabLayout() {
         options={{
           title: 'Zoznam',
           tabBarIcon: ({ color, focused }) => (
-            <View style={{ position: 'relative' }}>
-              <ClipboardList
-                size={28}
-                color={focused ? activeColor : inactiveColor}
-              />
-              {!isGuest && <AnimatedCartBadge count={cartItemsNumber || 0} />}
-            </View>
+            <ActiveIndicator focused={focused}>
+              <View style={{ position: 'relative' }}>
+                <ClipboardList
+                  size={28}
+                  color={focused ? activeColor : inactiveColor}
+                />
+                {!isGuest && <AnimatedCartBadge count={cartItemsNumber || 0} />}
+              </View>
+            </ActiveIndicator>
           ),
         }}
       />
@@ -93,11 +131,13 @@ export default function TabLayout() {
         options={{
           title: 'Profil',
           tabBarIcon: ({ color, focused }) => (
-            <FontAwesome
-              size={28}
-              name="user"
-              color={focused ? activeColor : inactiveColor}
-            />
+            <ActiveIndicator focused={focused}>
+              <FontAwesome
+                size={28}
+                name="user"
+                color={focused ? activeColor : inactiveColor}
+              />
+            </ActiveIndicator>
           ),
         }}
       />
@@ -106,11 +146,13 @@ export default function TabLayout() {
         options={{
           title: 'Nahravanie',
           tabBarIcon: ({ color, focused }) => (
-            <FontAwesome
-              size={28}
-              name="upload"
-              color={focused ? activeColor : inactiveColor}
-            />
+            <ActiveIndicator focused={focused}>
+              <FontAwesome
+                size={28}
+                name="upload"
+                color={focused ? activeColor : inactiveColor}
+              />
+            </ActiveIndicator>
           ),
         }}
         redirect={isGuest || !brigaderActive}

@@ -39,8 +39,7 @@ export default function ForgottenPassword() {
 
     try {
       setLoading(true);
-      // Create user with email and password
-      const promiseResult = await sendPasswordResetEmail(getAuth(), email);
+      await sendPasswordResetEmail(getAuth(), email);
 
       Toast.show({
         type: 'success',
@@ -50,10 +49,21 @@ export default function ForgottenPassword() {
       });
 
       router.back();
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Password reset error:', error?.code, error?.message);
+
+      let errorMessage = 'Nastala chyba pri resetovaní hesla';
+      if (error?.code === 'auth/user-not-found') {
+        errorMessage = 'Používateľ s daným e-mailom nebol nájdený';
+      } else if (error?.code === 'auth/invalid-email') {
+        errorMessage = 'Nesprávny formát e-mailovej adresy';
+      } else if (error?.code === 'auth/too-many-requests') {
+        errorMessage = 'Príliš veľa pokusov. Skúste to neskôr';
+      }
+
       Toast.show({
         type: 'error',
-        text1: 'Nastala chyba pri resetovaní hesla',
+        text1: errorMessage,
         position: 'bottom',
       });
     } finally {
