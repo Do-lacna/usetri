@@ -8,8 +8,8 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { Button } from '~/src/components/ui/button';
-import { CircleCheck } from '~/src/lib/icons/CircleCheck';
 import { ShoppingCart } from '~/src/lib/icons/Cart';
+import { CircleCheck } from '~/src/lib/icons/CircleCheck';
 import { QuantityCounter } from './quantity-counter';
 
 interface AddToCartSectionProps {
@@ -114,7 +114,10 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
             {actionType ? (
               <CircleCheck size={20} className="mr-2 text-primary-foreground" />
             ) : (
-              <ShoppingCart size={20} className="mr-2 text-primary-foreground" />
+              <ShoppingCart
+                size={20}
+                className="mr-2 text-primary-foreground"
+              />
             )}
           </Animated.View>
           <Text className="font-semibold text-primary-foreground">
