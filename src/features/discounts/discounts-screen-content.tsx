@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Text, View } from 'react-native';
+import { Animated, Button, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
@@ -9,11 +9,13 @@ import { useGetDiscountsStatistics } from '~/src/network/query/query';
 import DiscountList from './components/discount-list';
 import { StoreCarousel } from './components/store-carousel';
 import { useStoreSelection } from './hooks/use-store-selection';
+import HotReloadSplash, { HotReloadSplashHandle } from '~/src/components/HotReloadSplash';
 
-// Approximate scroll distance to show ~10 products (5 rows × ~200px per row)
 const GUEST_SCROLL_LIMIT = 1000;
 
 export const DiscountsScreenContent: React.FC = () => {
+  const splashRef = useRef<HotReloadSplashHandle | null>(null);
+  const [showLocalSplash, setShowLocalSplash] = useState(false);
   const { isGuest } = useSession();
   const { t } = useTranslation();
   const [showGuestOverlay, setShowGuestOverlay] = useState(false);
@@ -79,6 +81,23 @@ export const DiscountsScreenContent: React.FC = () => {
       className="flex-1 bg-background"
       edges={['top', 'left', 'right']}
     >
+      {/* Dev-only: allow opening/replaying the splash from the discounts screen */}
+      {__DEV__ && (
+        <View style={{ position: 'absolute', top: 40, right: 16, zIndex: 999 }}>
+          <Button title={showLocalSplash ? 'Hide Splash' : 'Show Splash'} onPress={() => setShowLocalSplash(s => !s)} />
+          <View style={{ height: 8 }} />
+          <Button title="Replay Splash" onPress={() => splashRef.current?.replay()} disabled={!showLocalSplash} />
+          <View style={{ height: 8 }} />
+          <Button title="Remount Splash" onPress={() => splashRef.current?.remount()} disabled={!showLocalSplash} />
+        </View>
+      )}
+
+      {__DEV__ && showLocalSplash && (
+        <View style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, zIndex: 998 }}>
+          <HotReloadSplash ref={splashRef} onFinish={() => { /* no-op for dev */ }} />
+        </View>
+      )}
+
       <StoreCarousel
         shops={sortedShops}
         activeStoreId={activeStoreId}

@@ -15,6 +15,8 @@
 		A8E6F9F170F8425D867D5A0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5C46FAE0C694E86BE27630D /* GoogleService-Info.plist */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		0F80209FED044D77AC0D8559 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4724C0542F244025AA4C3CAF /* BootSplash.storyboard */; };
+		A4F5D540A5CE4655BE790828 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CF09F9FDD1A48D9B3BAB120 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Usetri/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* Usetri-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Usetri-Bridging-Header.h"; path = "Usetri/Usetri-Bridging-Header.h"; sourceTree = "<group>"; };
+		4724C0542F244025AA4C3CAF /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "Usetri/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8CF09F9FDD1A48D9B3BAB120 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "Usetri/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,8 @@
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				A5C46FAE0C694E86BE27630D /* GoogleService-Info.plist */,
 				B96EE7C4D9FAD175C2A7FFF0 /* PrivacyInfo.xcprivacy */,
+				4724C0542F244025AA4C3CAF /* BootSplash.storyboard */,
+				8CF09F9FDD1A48D9B3BAB120 /* Colors.xcassets */,
 			);
 			name = Usetri;
 			sourceTree = "<group>";
@@ -205,6 +211,8 @@
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				A8E6F9F170F8425D867D5A0B /* GoogleService-Info.plist in Resources */,
 				545F966E3AB7EB12893656B1 /* PrivacyInfo.xcprivacy in Resources */,
+				0F80209FED044D77AC0D8559 /* BootSplash.storyboard in Resources */,
+				A4F5D540A5CE4655BE790828 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
