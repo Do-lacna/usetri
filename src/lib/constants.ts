@@ -41,8 +41,8 @@ export const COLORS = {
   white: '#FFFFFF',
   black: '#000000',
   grey: '#858585',
-  bgDefault: '#FFFFFF',    // Background base → white (light mode)
-  bgSubtle: '#FFFEF4',     // Subtle section bg → n2
+  bgDefault: '#FFFFFF', // Background base → white (light mode)
+  bgSubtle: '#FFFEF4', // Subtle section bg → n2
   textPrimary: '#001122',
 
   // Semantic
@@ -55,20 +55,20 @@ export const COLORS = {
 
 export const NAV_THEME = {
   light: {
-    background: COLORS.white,             // white background
+    background: COLORS.white, // white background
     border: COLORS.v2,
     card: COLORS.white,
     notification: COLORS.error,
-    primary: COLORS.v1,                   // brand violet
+    primary: COLORS.v1, // brand violet
     text: COLORS.textPrimary,
   },
   dark: {
-    background: COLORS.i1,                // deep indigo background
-    border: COLORS.i3,                    // indigo border
-    card: COLORS.i2,                      // elevated indigo card
-    notification: COLORS.error,           // error stays consistent
-    primary: COLORS.v3,                   // lighter violet readable on dark
-    text: COLORS.white,                   // white text
+    background: COLORS.i1, // deep indigo background
+    border: COLORS.i3, // indigo border
+    card: COLORS.i2, // elevated indigo card
+    notification: COLORS.error, // error stays consistent
+    primary: COLORS.v3, // lighter violet readable on dark
+    text: COLORS.white, // white text
   },
 };
 
@@ -90,3 +90,5 @@ export const WEBPAGE_LINKS = {
   COOKIES: 'https://usetrislovensko.sk/Cookies',
   TERMS_OF_SERVICE: 'https://usetrislovensko.sk/TermsOfService',
 };
+
+export const USETRI_BLURHASH = 'K9Eem.tA00a+WB%200Rj~C';
