@@ -103,9 +103,12 @@ export default function SignIn() {
             {/* Social Login Section */}
             <View className="mb-6 items-center justify-center">
               <GoogleSignIn onLoadingChange={setIsOAuthLoading} />
-              <View className="mt-3">
-                <AppleAuthentication onLoadingChange={setIsOAuthLoading} />
-              </View>
+
+              {Platform.OS === 'ios' && (
+                <View className="mt-3">
+                  <AppleAuthentication onLoadingChange={setIsOAuthLoading} />
+                </View>
+              )}
             </View>
 
             {/* Divider */}
