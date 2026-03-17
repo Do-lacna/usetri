@@ -10,8 +10,9 @@ import { PortalHost } from '@rn-primitives/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot, SplashScreen } from 'expo-router';
 import 'intl-pluralrules';
-import { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Platform, StyleSheet } from 'react-native';
+import AnimatedLogoSplash from '~/src/components/AnimatedSplash';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
@@ -22,7 +23,6 @@ import { setAndroidNavigationBar } from '~/src/lib/android-navigation-bar';
 import { NAV_THEME } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { getTheme, setTheme } from '~/src/persistence/theme-storage';
-// HotReloadSplash moved to a dev screen so layout no longer mounts it here.
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -62,7 +62,11 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
 
-  // animationDone and splashRef removed — splash rendering moved to a feature screen for dev.
+  const [animationDone, setAnimationDone] = useState(false);
+
+  const onSplashFinish = useCallback(() => {
+    setAnimationDone(true);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -92,9 +96,7 @@ export default function RootLayout() {
 
       await setAndroidNavigationBar(colorTheme);
 
-      // Ensure the native splash is hidden once theme is applied. Layout no longer shows
-      // the HotReloadSplash; dev tooling for replaying the animation is available in the
-      // discounts screen.
+      // Hide the native splash once theme is ready — AnimatedLogoSplash takes over from here.
       await SplashScreen.hideAsync().catch((e) => {
         // Log to aid debugging but continue — splash may already be hidden.
         // eslint-disable-next-line no-console
@@ -103,13 +105,11 @@ export default function RootLayout() {
     })();
   }, []);
 
-  // Layout now always renders the app — HotReloadSplash is available in the discounts screen for dev.
-
   return (
     <QueryClientProvider client={queryClient}>
       <RevenueCatProvider>
         <SessionProvider>
-          <GestureHandlerRootView>
+          <GestureHandlerRootView style={styles.root}>
             <BottomSheetModalProvider>
               <ThemeProvider
                 value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}
@@ -121,9 +121,19 @@ export default function RootLayout() {
                 <Toast />
               </ThemeProvider>
             </BottomSheetModalProvider>
+            {!animationDone && (
+              <AnimatedLogoSplash onFinish={onSplashFinish} />
+            )}
           </GestureHandlerRootView>
         </SessionProvider>
       </RevenueCatProvider>
     </QueryClientProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});
+

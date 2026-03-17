@@ -75,9 +75,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#ffffff",
-          "image": "./assets/usetri_splash.png",
-          "imageWidth": 200
+          "backgroundColor": "#ffffff"
         }
       ],
       "expo-font",
