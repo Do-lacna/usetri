@@ -25,7 +25,7 @@ function LogoPath({ d, index, progress }: { readonly d: string; readonly index: 
         } as any;
     });
 
-    return <AnimatedSVGPath animatedProps={animatedProps} d={d} fill="#FFFFFF" />;
+    return <AnimatedSVGPath animatedProps={animatedProps} d={d} fill="#5645CC" />;
 }
 
 // All `d` attributes copied from assets/usetri_splash.svg
@@ -130,7 +130,7 @@ export default function AnimatedLogoSplash({
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: "#5645CC",
+        backgroundColor: "#FFFFFF",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 999,
