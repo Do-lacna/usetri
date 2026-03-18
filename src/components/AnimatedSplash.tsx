@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import Animated, {
     useSharedValue,
     useAnimatedProps,
@@ -87,7 +87,6 @@ export default function AnimatedLogoSplash({
     return (
         <Animated.View style={styles.container}>
             <Svg viewBox="0 0 1000 394" width={260} height={110}>
-
                 <Defs>
                     <Mask id="revealMask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
                         <AnimatedRect
@@ -99,12 +98,10 @@ export default function AnimatedLogoSplash({
                             fill="white"
                         />
                     </Mask>
-
                     <ClipPath id="clippath">
                         <Path d={`M146.85,247.74c-.6.41-1.24.77-1.89,1.09l-8.67,4.13c-18.78,8.93-55-26.66-80.3-79.83-25.28-53.15-29.87-103.8-11.27-112.65l8.69-4.13c.68-.33,1.37-.59,2.09-.8-7.18,20.91.38,63.47,21.4,107.65,21.02,44.18,49.17,76.94,69.96,84.55Z`} />
                     </ClipPath>
                 </Defs>
-
                 <AnimatedG animatedProps={groupAnimatedProps} mask="url(#revealMask)">
                     {PATHS.map((d, i) => (
                         <LogoPath key={d} d={d} index={i} progress={progress} />
@@ -122,8 +119,14 @@ export default function AnimatedLogoSplash({
                         />
                     </G>
                 </AnimatedG>
-             </Svg>
-         </Animated.View>
+            </Svg>
+            <Image
+                source={require("../../assets/images/vozik.png")}
+                style={styles.vozikImage}
+                resizeMode="contain"
+                accessibilityLabel="Vozik splash image"
+            />
+        </Animated.View>
      );
  }
 
@@ -134,6 +137,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         zIndex: 999,
+    },
+    vozikImage: {
+        position: "absolute",
+        bottom: 32,
+        left: 0,
+        right: 0,
+        height: 180,
+        width: "100%",
+        alignSelf: "center",
     },
 });
 
