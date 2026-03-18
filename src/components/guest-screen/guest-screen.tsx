@@ -1,5 +1,5 @@
-import EmptyCartSVG from 'assets/images/empty-cart.svg';
-import ProfilePlaceholderSVG from 'assets/images/profile_placeholder.svg';
+import EmptyCartSVG from '~/assets/images/other/empty-cart.svg';
+import ProfilePlaceholderSVG from '~/assets/images/other/profile_placeholder.svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';

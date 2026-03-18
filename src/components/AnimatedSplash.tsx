@@ -121,7 +121,7 @@ export default function AnimatedLogoSplash({
                 </AnimatedG>
             </Svg>
             <Image
-                source={require("../../assets/images/vozik.png")}
+                source={require("../../assets/images/other/vozik.png")}
                 style={styles.vozikImage}
                 resizeMode="contain"
                 accessibilityLabel="Vozik splash image"

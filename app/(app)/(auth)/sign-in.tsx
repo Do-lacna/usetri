@@ -91,35 +91,33 @@ export default function SignIn() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View className="flex-1 px-8 py-8">
+          <View className="flex-1 px-6 py-12">
             {/* Header Section */}
-            <View className="items-center mb-10">
-              <ThemedLogo width={180} height={90} className="mb-6" />
-              <Text className="text-2xl font-bold text-foreground text-center">
+            <View className="items-center mb-12">
+              <ThemedLogo className="mb-8" />
+              <Text className="text-3xl font-bold text-foreground text-center">
                 Vitajte späť
               </Text>
-              <Text className="text-base text-muted-foreground text-center mt-2">
+              <Text className="text-sm text-muted-foreground text-center mt-3">
                 Prihláste sa do svojho účtu
               </Text>
             </View>
 
             {/* Social Login Section */}
-            <View className="mb-6 items-center justify-center">
+            <View className="mb-8 items-center justify-center gap-3">
               <GoogleSignIn onLoadingChange={setIsOAuthLoading} />
-              <View className="mt-3">
-                <AppleAuthentication onLoadingChange={setIsOAuthLoading} />
-              </View>
+              <AppleAuthentication onLoadingChange={setIsOAuthLoading} />
             </View>
 
             {/* Divider */}
-            <View className="flex-row items-center mb-6">
+            <View className="flex-row items-center mb-8">
               <View className="flex-1 h-px bg-border" />
-              <Text className="mx-4 text-muted-foreground text-sm">alebo</Text>
+              <Text className="mx-3 text-muted-foreground text-xs">alebo</Text>
               <View className="flex-1 h-px bg-border" />
             </View>
 
             {/* Email/Password Form */}
-            <View className="mb-6">
+            <View className="mb-8">
               <Controller
                 control={control}
                 name="email"

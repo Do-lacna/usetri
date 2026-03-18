@@ -37,7 +37,7 @@ import {
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
 
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
 const PAGE_SIZE = 20;
 const CATEGORIES_PAGE_SIZE = 50;
 

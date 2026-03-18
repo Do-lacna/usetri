@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Image, Text, View } from 'react-native';
 import { Badge } from '~/src/components/ui/badge';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
 
 interface ProductImageProps {
   imageUrl?: string | null;
