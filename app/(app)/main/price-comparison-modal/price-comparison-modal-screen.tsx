@@ -119,9 +119,6 @@ const ShopComparisonScreen: React.FC = () => {
 
               <PriceSummaryCard
                 selectedCart={selectedCart}
-                isCurrentCheapest={isCurrentCheapest}
-                isCurrentMostExpensive={isCurrentMostExpensive}
-                areMoreCartsAvailable={areMoreCartsAvailable}
                 savingsVsCheapest={savingsVsCheapest}
                 currentCartIndex={currentCartIndex}
                 totalCarts={carts?.length || 0}
