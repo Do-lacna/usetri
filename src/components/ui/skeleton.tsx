@@ -7,6 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { cn } from '~/src/lib/utils';
+import { COLORS } from '../../lib/constants';
 
 const duration = 1000;
 
@@ -25,6 +26,7 @@ function Skeleton({
 
   const style = useAnimatedStyle(() => ({
     opacity: sv.value,
+    backgroundColor: COLORS.v2,
   }));
 
   return (

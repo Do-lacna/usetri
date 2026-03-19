@@ -6,6 +6,7 @@ import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 
 cssInterop(Image, { className: 'style' });
 
+import { USETRI_BLURHASH } from '../../lib/constants';
 import type {
   ItemListGroupedByBarcodeDto,
   ShopItemDto,
@@ -98,8 +99,7 @@ const DiscountedProductCard = ({
             transition={200}
             cachePolicy="memory-disk"
             placeholder={{
-              blurhash:
-                '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[',
+              blurhash: USETRI_BLURHASH,
             }}
           />
 

@@ -35,8 +35,6 @@ interface SkeletonItem {
 
 const LIMIT = 20; // Number of items to fetch per page
 
-const ListItemSeparator = () => <View style={{ height: 12 }} />;
-
 const DiscountList = ({
   shop,
   onScroll,
@@ -143,12 +141,12 @@ const DiscountList = ({
 
   const renderHeader = () => (
     <View className="pb-3 flex-row items-center justify-between">
-      <Text className="text-2xl text-foreground font-expose-bold">
+      <Text className="text-2xl font-bold text-foreground">
         Zľavy v {getStoreDisplayName(name)}
       </Text>
       {validityInfo && (
         <View className="bg-v1 px-3 py-2 rounded-full ">
-          <Text className="text-xs text-white font-expose-medium">
+          <Text className="text-xs font-semibold text-white">
             {formatDiscountValidity(
               validityInfo.validFrom,
               validityInfo.validTo,
@@ -159,78 +157,76 @@ const DiscountList = ({
     </View>
   );
 
-  let content: React.ReactNode;
-
-  if (isPending) {
-    content = (
-      <FlashList
-        data={skeletonData}
-        renderItem={renderSkeletonItem}
-        numColumns={2}
-        keyExtractor={item => String(item.id)}
-        contentContainerStyle={{ padding: 16 }}
-        scrollEnabled={false}
-        ListHeaderComponent={renderHeader}
-      />
-    );
-  } else if (allProducts?.length === 0) {
-    content = (
-      <View className="px-4 pt-4">
-        {renderHeader()}
-        <Text
-          className="text-muted-foreground text-base text-center mt-2 font-sans"
-          numberOfLines={2}
-        >
-          Tento obchod momentálne neponúka žiadne zľavnené produkty
-        </Text>
-      </View>
-    );
-  } else {
-    content = (
-      <FlashList
-        data={allProducts}
-        renderItem={renderProductItem}
-        numColumns={2}
-        keyExtractor={product => String(product?.detail?.id)}
-        contentContainerStyle={{ padding: 16 }}
-        ItemSeparatorComponent={ListItemSeparator}
-        refreshControl={
-          limitItems ? undefined : (
-            <RefreshControl refreshing={isPending} onRefresh={handleRefresh} />
-          )
-        }
-        onEndReached={loadMoreData}
-        onEndReachedThreshold={0.3}
-        ListHeaderComponent={renderHeader}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={
-          <Text className="text-muted-foreground text-base text-center mt-4 font-sans">
+  return (
+    <View className="flex-1 bg-background">
+      {isPending ? (
+        <FlashList
+          data={skeletonData}
+          renderItem={renderSkeletonItem}
+          numColumns={2}
+          keyExtractor={item => String(item.id)}
+          contentContainerStyle={{ padding: 16 }}
+          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+          scrollEnabled={false}
+          ListHeaderComponent={renderHeader}
+        />
+      ) : allProducts?.length === 0 ? (
+        <View className="px-4 pt-4">
+          {renderHeader()}
+          <Text
+            className="text-muted-foreground text-base text-center mt-2"
+            numberOfLines={2}
+          >
             Tento obchod momentálne neponúka žiadne zľavnené produkty
           </Text>
-        }
-        onScroll={event => {
-          const scrollPosition = event.nativeEvent.contentOffset.y;
-
-          if (
-            guestScrollLimit &&
-            onGuestScrollLimitReached &&
-            scrollPosition >= guestScrollLimit &&
-            !scrollLimitReachedRef.current
-          ) {
-            scrollLimitReachedRef.current = true;
-            onGuestScrollLimitReached();
+        </View>
+      ) : (
+        <FlashList
+          data={allProducts}
+          renderItem={renderProductItem}
+          numColumns={2}
+          keyExtractor={product => String(product?.detail?.id)}
+          contentContainerStyle={{ padding: 16 }}
+          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+          refreshControl={
+            limitItems ? undefined : (
+              <RefreshControl
+                refreshing={isPending}
+                onRefresh={handleRefresh}
+              />
+            )
           }
-
-          if (onScroll) {
-            onScroll.setValue(scrollPosition);
+          onEndReached={loadMoreData}
+          onEndReachedThreshold={0.3}
+          ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderFooter}
+          ListEmptyComponent={
+            <Text className="text-muted-foreground text-base text-center mt-4 font-sans">
+              Tento obchod momentálne neponúka žiadne zľavnené produkty
+            </Text>
           }
-        }}
-        scrollEventThrottle={16}
-      />
-    );
-  }
+          onScroll={event => {
+            const scrollPosition = event.nativeEvent.contentOffset.y;
 
-  return <View className="flex-1 bg-background">{content}</View>;
+            if (
+              guestScrollLimit &&
+              onGuestScrollLimitReached &&
+              scrollPosition >= guestScrollLimit &&
+              !scrollLimitReachedRef.current
+            ) {
+              scrollLimitReachedRef.current = true;
+              onGuestScrollLimitReached();
+            }
+
+            if (onScroll) {
+              onScroll.setValue(scrollPosition);
+            }
+          }}
+          scrollEventThrottle={16}
+        />
+      )}
+    </View>
+  );
 };
 
 export default DiscountList;

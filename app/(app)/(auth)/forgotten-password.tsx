@@ -83,7 +83,7 @@ export default function ForgottenPassword() {
       >
         <View className="flex-1 px-6 py-12 items-center justify-center">
           <ThemedLogo className="mb-12" />
-          
+
           <Text className="text-2xl font-bold text-foreground text-center mb-2">
             Obnovte heslo
           </Text>
@@ -111,7 +111,9 @@ export default function ForgottenPassword() {
             )}
           />
           {touchedFields.email && errors.email && (
-            <Text className="text-destructive text-sm mt-2">{errors.email.message}</Text>
+            <Text className="text-destructive text-sm mt-2">
+              {errors.email.message}
+            </Text>
           )}
 
           <Button
@@ -119,7 +121,9 @@ export default function ForgottenPassword() {
             className="w-full mt-8"
             disabled={loading}
           >
-            <Text className="text-primary-foreground font-semibold">Resetovať heslo</Text>
+            <Text className="text-primary-foreground font-semibold">
+              Resetovať heslo
+            </Text>
           </Button>
         </View>
       </ScrollView>
