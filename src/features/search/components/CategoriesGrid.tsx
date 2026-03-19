@@ -11,7 +11,6 @@ interface CategoriesGridProps {
   onRefresh: () => void;
 }
 
-// Define a union type for the list items
 type SkeletonItem = { id: string; isSkeleton: true };
 type CategoryItem = { data: PopularCategoryDto; isSkeleton: false };
 type ListItem = SkeletonItem | CategoryItem;
@@ -21,13 +20,12 @@ export function CategoriesGrid({
   onCategorySelect,
   isLoading,
   onRefresh,
-}: CategoriesGridProps) {
+}: Readonly<CategoriesGridProps>) {
   const { t } = useTranslation();
   const filteredCategories = categories.filter(
     category => category?.category?.name?.toLowerCase() !== 'root',
   );
 
-  // Create properly typed data array
   const listData: ListItem[] = isLoading
     ? Array.from({ length: 8 }, (_, index) => ({
         id: `skeleton-${index}`,
@@ -41,19 +39,18 @@ export function CategoriesGrid({
   return (
     <View className="flex-1">
       <View className="mt-6 mb-4 px-4 flex-row justify-between items-center">
-        <Text className="text-2xl font-bold text-foreground tracking-tight">
+        <Text className="text-2xl font-expose-bold text-foreground tracking-tight">
           {t('categories_title')}
         </Text>
         {!isLoading && (
           <View className="bg-primary/10 rounded-full px-3 py-1">
-            <Text className="text-xs font-semibold text-primary">
+            <Text className="text-xs font-expose-bold text-primary">
               {t('categories_count', { count: filteredCategories.length })}
             </Text>
           </View>
         )}
       </View>
 
-      {/* Categories grid or skeleton */}
       <FlatList
         data={listData}
         renderItem={({ item, index }) => {
@@ -94,9 +91,9 @@ export function CategoriesGrid({
         }}
         scrollEnabled={!isLoading}
         refreshControl={
-          !isLoading ? (
-            <RefreshControl refreshing={false} onRefresh={onRefresh} />
-          ) : undefined
+            isLoading ? undefined : (
+                <RefreshControl refreshing={false} onRefresh={onRefresh}/>
+            )
         }
         showsVerticalScrollIndicator={false}
       />

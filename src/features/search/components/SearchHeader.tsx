@@ -37,7 +37,7 @@ export const SearchHeader = ({
         options={[]}
         onOptionSelect={option => console.log('Option selected:', option)}
         renderOption={item => (
-          <Text className="text-foreground text-base font-medium">{item?.name}</Text>
+          <Text className="text-foreground text-base font-expose">{item?.name}</Text>
         )}
         keyExtractor={item => String(item.id)}
         onFocus={() => setIsFocused(true)}
@@ -51,7 +51,7 @@ export const SearchHeader = ({
           size="sm"
           className="px-2 shrink-0"
         >
-          <Text className="text-tertiary text-base font-semibold">{t('search_bar.cancel')}</Text>
+          <Text className="text-tertiary text-base font-expose-bold">{t('search_bar.cancel')}</Text>
         </Button>
       )}
     </View>

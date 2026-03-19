@@ -13,7 +13,6 @@ import DiscountedProductCard from '~/src/components/product-card/discounted-prod
 import { useSession } from '~/src/context/authentication-context';
 import type { ShopProductDto } from '~/src/network/model';
 
-// Approximate scroll distance to show ~10 products
 const GUEST_SCROLL_LIMIT = 800;
 
 interface SearchResultsViewProps {
@@ -38,7 +37,6 @@ export const SearchResultsView = ({
   } | null>(null);
   const scrollLimitReachedRef = React.useRef(false);
 
-  // Reset overlay when products change (new search)
   React.useEffect(() => {
     setShowGuestOverlay(false);
     setGuestOverlayMessage(null);
@@ -107,12 +105,12 @@ export const SearchResultsView = ({
           )
         }
         ListEmptyComponent={
-          !isLoading ? (
-            <ActivityIndicator animating={true} className="mt-12" />
+          isLoading ? (
+              <View className="flex-1 flex items-center justify-center">
+                <NoDataText className="text-xl font-expose my-4">Žiadne výsledky</NoDataText>
+              </View>
           ) : (
-            <View className="flex-1 flex items-center justify-center">
-              <NoDataText className="text-xl my-4">Žiadne výsledky</NoDataText>
-            </View>
+              <ActivityIndicator animating={true} className="mt-12"/>
           )
         }
       />

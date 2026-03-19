@@ -110,7 +110,7 @@ export function SubcategorySection({
   );
 
   const emptyState = (
-    <Text className="text-muted-foreground text-center py-4 px-4">
+    <Text className="text-muted-foreground font-expose text-center py-4 px-4">
       {t('no_products_in_category')}
     </Text>
   );
@@ -129,7 +129,7 @@ export function SubcategorySection({
       {!isSubcategorySelected && (
         <View className="flex-row items-center px-4 mb-3">
           <View className="w-1 h-5 bg-primary rounded-full mr-2" />
-          <Text className="text-lg font-bold text-foreground">
+          <Text className="text-lg font-expose-bold text-foreground">
             {subcategory.name}
           </Text>
         </View>

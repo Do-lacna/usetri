@@ -41,7 +41,6 @@ export function CategoryDetailView({
 
   const handleSubcategorySelect = (subcategoryId: number | undefined) => {
     setSelectedSubcategoryId(subcategoryId);
-    // Reset selector visibility when changing subcategory
     Animated.spring(selectorHeight, {
       toValue: SELECTOR_MAX_HEIGHT,
       useNativeDriver: false,
@@ -91,7 +90,6 @@ export function CategoryDetailView({
 
   return (
     <View className="flex-1">
-      {/* Back Navigation Header */}
       <View className="px-4 py-3 bg-background border-b border-primary/15">
         <Pressable
           onPress={onBack}
@@ -110,7 +108,7 @@ export function CategoryDetailView({
 
             <View className="flex-1">
               <Text
-                className="text-base font-semibold text-foreground"
+                className="text-base font-expose-bold text-foreground"
                 numberOfLines={1}
               >
                 {categoryName || t('all_categories')}
@@ -118,7 +116,7 @@ export function CategoryDetailView({
               </Text>
 
               <Text
-                className="text-xs text-primary/60 font-medium"
+                className="text-xs text-primary/60 font-expose"
                 numberOfLines={1}
               >
                 {t('all_categories')}
@@ -128,7 +126,6 @@ export function CategoryDetailView({
         </Pressable>
       </View>
 
-      {/* Animated collapsible category selector */}
       <Animated.View style={{ height: selectorHeight, overflow: 'hidden' }}>
         <CategorySelector
           selectedCategory={selectedCategory}
@@ -139,7 +136,6 @@ export function CategoryDetailView({
         />
       </Animated.View>
 
-      {/* Subcategories with their products */}
       {selectedSubcategoryId ? (
         <View className="bg-background flex-1">
           {subcategoriesToShow && subcategoriesToShow.length > 0 ? (
@@ -162,7 +158,7 @@ export function CategoryDetailView({
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
-              <Text className="text-xl text-muted-foreground text-center">
+              <Text className="text-xl font-expose text-muted-foreground text-center">
                 {t('category_no_subcategories')}
               </Text>
             </View>
@@ -187,7 +183,7 @@ export function CategoryDetailView({
           ) : (
             <View className="flex-1 justify-center items-center py-20">
               <Text className="text-6xl mb-4">📂</Text>
-              <Text className="text-xl text-muted-foreground text-center">
+              <Text className="text-xl font-expose text-muted-foreground text-center">
                 {t('category_no_subcategories')}
               </Text>
             </View>

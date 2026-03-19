@@ -3,7 +3,7 @@ import { cssInterop } from 'nativewind';
 import { Platform, Pressable, View } from 'react-native';
 import { Text } from '~/src/components/ui/text';
 import type { PopularCategoryDto } from '~/src/network/model';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 cssInterop(Image, { className: 'style' });
 
@@ -12,7 +12,7 @@ interface CategoryCardProps {
   onPress: () => void;
 }
 
-export function CategoryCard({ category, onPress }: CategoryCardProps) {
+export function CategoryCard({ category, onPress }: Readonly<CategoryCardProps>) {
   return (
     <Pressable
       className="flex-1 mx-2"
@@ -52,10 +52,9 @@ export function CategoryCard({ category, onPress }: CategoryCardProps) {
           }}
         />
 
-        {/* Violet-tinted gradient overlay */}
         <View className="absolute bottom-0 left-0 right-0 bg-primary/70 backdrop-blur-sm px-3 py-3">
           <Text
-            className="text-sm font-semibold text-white text-center leading-tight"
+            className="text-sm font-expose-bold text-white text-center leading-tight"
             numberOfLines={2}
           >
             {category?.category?.name}
