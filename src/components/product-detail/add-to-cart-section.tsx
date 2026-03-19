@@ -83,10 +83,10 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
     <View className="bg-card border-t border-border px-4 py-4">
       <View className="flex-row items-center justify-between mb-4">
         <View>
-          <Text className="text-sm text-muted-foreground">
+          <Text className="text-sm font-expose text-muted-foreground">
             Cena v {selectedShopName}
           </Text>
-          <Text className="text-2xl font-bold text-foreground">
+          <Text className="text-2xl font-expose-bold text-foreground">
             {totalPrice.toFixed(2)} €
           </Text>
         </View>
@@ -120,7 +120,7 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
               />
             )}
           </Animated.View>
-          <Text className="font-semibold text-primary-foreground">
+          <Text className="font-expose-bold text-primary-foreground">
             {getButtonText()}
           </Text>
         </Button>

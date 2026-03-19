@@ -27,7 +27,7 @@ export const QuantityCounter: React.FC<QuantityCounterProps> = ({
       </TouchableOpacity>
 
       <View className="w-16 h-12 items-center justify-center bg-background">
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="text-lg font-expose-bold text-foreground">
           {quantity}
         </Text>
       </View>
