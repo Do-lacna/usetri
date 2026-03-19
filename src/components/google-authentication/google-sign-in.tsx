@@ -6,7 +6,6 @@ import { useSession } from '~/src/context/authentication-context';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
-// Configure Google Sign-In
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
   offlineAccess: true,
@@ -16,7 +15,7 @@ interface GoogleSignInProps {
   onLoadingChange?: (loading: boolean) => void;
 }
 
-export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
+export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
   const { setUser } = useSession();
   const { isDarkColorScheme } = useColorScheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +26,9 @@ export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
   };
 
   useEffect(() => {
-    // Check if user is already signed in
     const checkSignInStatus = async () => {
       try {
-        const currentUser = await GoogleSignin.getCurrentUser();
+        const currentUser = GoogleSignin.getCurrentUser();
         if (currentUser) {
           console.log('User is already signed in with Google');
         }
@@ -45,30 +43,23 @@ export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
   const handleGoogleSignIn = async () => {
     updateLoading(true);
     try {
-      // Check if device supports Google Play services
       await GoogleSignin.hasPlayServices();
 
-      // Sign in with Google
       const response = await GoogleSignin.signIn();
       console.log('Google Sign-In successful:', response);
 
-      // Get the ID token
       const idToken = response.data?.idToken;
 
       if (idToken) {
-        // Create Firebase credential with the Google ID token
         const googleCredential = GoogleAuthProvider.credential(idToken);
 
         console.log('Signing in with Firebase using Google credential');
 
-        // Sign in with Firebase
         const { user } = await signInWithCredential(getAuth(), googleCredential);
         console.log('Firebase sign-in successful:', user.uid);
 
-        // Update user session
         setUser(user);
 
-        // Navigate to main screen
         resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
         updateLoading(false);
       }
@@ -107,7 +98,7 @@ export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
             className="w-[16px] h-[16px] mr-2"
           />
           <Text
-            className="text-foreground text-lg text-center"
+            className="text-foreground font-sans text-lg text-center"
             style={{ lineHeight: 18 }}
           >
             Sign in with Google

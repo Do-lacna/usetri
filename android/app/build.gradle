@@ -125,11 +125,6 @@ android {
     androidResources {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
-    lint {
-        // Avoid blocking release builds on lint crashes inside third-party RN modules.
-        checkReleaseBuilds false
-        abortOnError false
-    }
 }
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`
@@ -178,6 +173,22 @@ dependencies {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
+    }
+}
+
+// Ensure native libraries publish release prefab artifacts before app CMake release config.
+tasks.configureEach { task ->
+    if (task.name.contains("configureCMakeRel") || task.name.contains("generateJsonModelRel")) {
+        [":react-native-vision-camera", ":react-native-reanimated"].each { projectPath ->
+            def nativeProject = rootProject.findProject(projectPath)
+            if (nativeProject != null) {
+                nativeProject.tasks.configureEach { nativeTask ->
+                    if (nativeTask.name in ["bundleReleaseAar", "prefabReleasePackage"]) {
+                        task.dependsOn(nativeTask)
+                    }
+                }
+            }
+        }
     }
 }
 

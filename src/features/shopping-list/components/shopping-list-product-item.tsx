@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
+  type ImageSourcePropType,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -19,9 +20,9 @@ import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { COLORS } from '~/src/lib/constants';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import { useColorScheme } from '../../../lib/useColorScheme';
+import { useColorScheme } from '~/src/lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 const ShoppingListProductItem: React.FC<{
   item: CartProductDto;
@@ -87,6 +88,13 @@ const ShoppingListProductItem: React.FC<{
 
   const validShops = available_shop_ids?.filter(Boolean) || [];
   const shopCount = validShops.length;
+  let imageSource: ImageSourcePropType = PLACEHOLDER_PRODUCT_IMAGE;
+  if (categoryImageUrl) {
+    imageSource = { uri: categoryImageUrl };
+  }
+  if (image_url) {
+    imageSource = { uri: image_url };
+  }
 
   return (
     <View className="bg-card rounded-xl p-3 mb-3 shadow-sm border border-v2">
@@ -97,13 +105,7 @@ const ShoppingListProductItem: React.FC<{
         <View className="flex-row gap-3">
           <View className="relative">
             <Image
-              source={
-                image_url
-                  ? { uri: image_url }
-                  : categoryImageUrl
-                    ? { uri: categoryImageUrl }
-                    : PLACEHOLDER_PRODUCT_IMAGE
-              }
+              source={imageSource}
               className="w-16 h-16 rounded-lg"
               resizeMode="contain"
             />
@@ -112,13 +114,13 @@ const ShoppingListProductItem: React.FC<{
           <View className="flex-1 flex-col justify-between py-0.5">
             <View>
               <Text
-                className="text-card-foreground font-semibold text-base leading-tight"
+                className="text-card-foreground font-expose-bold text-base leading-tight"
                 numberOfLines={1}
               >
                 {name}
               </Text>
               <Text
-                className="text-muted-foreground text-xs mt-0.5"
+                className="text-muted-foreground font-expose text-xs mt-0.5"
                 numberOfLines={1}
               >
                 {brand} • {amount} {unit}
@@ -127,11 +129,11 @@ const ShoppingListProductItem: React.FC<{
 
             <View className="flex-row items-center justify-between mt-2">
               <View className="flex-row items-baseline gap-1">
-                <Text className="text-card-foreground font-bold text-lg">
+                <Text className="text-card-foreground font-expose-bold text-lg">
                   {totalPrice}€
                 </Text>
                 {quantity > 1 && (
-                  <Text className="text-muted-foreground text-xs">
+                  <Text className="text-muted-foreground font-expose text-xs">
                     ({price.toFixed(2)}/ks)
                   </Text>
                 )}
@@ -165,7 +167,7 @@ const ShoppingListProductItem: React.FC<{
                     )}
                   </TouchableOpacity>
 
-                  <Text className="text-foreground font-medium min-w-[16px] text-center text-sm">
+                  <Text className="text-foreground font-expose min-w-[16px] text-center text-sm">
                     {item.quantity}
                   </Text>
 

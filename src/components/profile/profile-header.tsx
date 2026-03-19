@@ -21,7 +21,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   return (
     <View className="relative overflow-hidden bg-background">
-      {/* Subtle Gradient Background */}
       <LinearGradient
         colors={
           colorScheme === 'dark'
@@ -33,15 +32,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         className="absolute inset-0"
       />
 
-      {/* Decorative Elements */}
       <View className="absolute -top-10 -right-10 w-32 h-32 bg-muted/20 rounded-full" />
       <View className="absolute -bottom-5 -left-5 w-20 h-20 bg-muted/30 rounded-full" />
 
-      {/* Content Container */}
       <View className="flex-row items-center justify-between px-6 py-8 pt-12">
-        {/* Left Side - Profile Info */}
         <View className="flex-row items-center flex-1">
-          {/* Profile Image */}
           <View className="relative">
             <View className="w-16 h-16 rounded-full bg-muted border-2 border-border overflow-hidden">
               {userImage ? (
@@ -58,13 +53,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </View>
           </View>
 
-          {/* User Info */}
           <View className="ml-4 flex-1">
-            <Text className="text-muted-foreground text-sm font-medium mb-1">
+            <Text className="text-muted-foreground text-sm font-expose mb-1">
               Vítaj späť
             </Text>
             <Text
-              className="text-foreground text-lg font-semibold"
+              className="text-foreground text-lg font-expose-bold"
               numberOfLines={1}
             >
               {userEmail}
@@ -78,7 +72,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           className="absolute top-12 right-6"
         >
           <TouchableOpacity
-            //   onPress={onSettingsPress}
             className="w-12 h-12 bg-card rounded-full items-center justify-center border border-border"
             activeOpacity={0.7}
           >

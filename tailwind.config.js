@@ -146,6 +146,12 @@ module.exports = {
         '5xl': '3rem', // equivalent to 48px
         '6xl': '4rem', // equivalent to 64px
       },
+      fontFamily: {
+        sans: ['Expose-Regular', 'system-ui', 'sans-serif'],
+        'expose-regular': ['Expose-Regular', 'system-ui', 'sans-serif'],
+        'expose-medium': ['Expose-Medium', 'system-ui', 'sans-serif'],
+        'expose-bold': ['Expose-Bold', 'system-ui', 'sans-serif'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

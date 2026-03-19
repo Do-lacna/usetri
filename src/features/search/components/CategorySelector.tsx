@@ -9,7 +9,6 @@ import {
 import { Text } from '~/src/components/ui/text';
 import type { PopularCategoryDto } from '~/src/network/model';
 
-// Keep these outside to avoid recreating functions on each render (and satisfy lint rules)
 const SubcategorySeparator = () => <View className="w-3" />;
 const subcategoryKeyExtractor = (subcategory: { id?: number | string }) =>
   String(subcategory?.id);
@@ -77,7 +76,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
           )}
 
           <Text
-            className={`font-semibold text-sm ${isSelected ? 'text-primary-foreground' : 'text-foreground'}`}
+            className={`font-expose-bold text-sm ${isSelected ? 'text-primary-foreground' : 'text-foreground'}`}
             numberOfLines={1}
           >
             {name}

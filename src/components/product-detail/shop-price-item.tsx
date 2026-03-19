@@ -45,7 +45,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
       <View className="flex-row items-center justify-between mb-2">
         <View className="flex-row items-center flex-1 gap-4">
           <ShopLogoBadge shopId={shopId} size={32} />
-          <Text className="text-lg font-semibold text-foreground mr-2">
+          <Text className="text-lg font-expose-bold text-foreground mr-2">
             {shopName}
           </Text>
         </View>
@@ -54,23 +54,23 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
           {discountPrice ? (
             <>
               <View className="flex-row items-center space-x-1">
-                <Text className="text-xl font-bold text-destructive mr-1">
+                <Text className="text-xl font-expose-bold text-destructive mr-1">
                   {discountPrice.toFixed(2)} €
                 </Text>
-                <Text className="text-xl text-muted-foreground line-through">
+                <Text className="text-xl font-expose text-muted-foreground line-through">
                   {price.toFixed(2)} €
                 </Text>
               </View>
               {validityText && (
                 <View className="px-2 py-0.5 bg-border rounded-full mt-1">
-                  <Text className="text-[11px] font-medium text-foreground/70">
+                  <Text className="text-[11px] font-expose font-medium text-foreground/70">
                     {validityText}
                   </Text>
                 </View>
               )}
             </>
           ) : (
-            <Text className="text-xl font-bold text-foreground">
+            <Text className="text-xl font-expose-bold text-foreground">
               {price.toFixed(2)} €
             </Text>
           )}
@@ -84,7 +84,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
             size={12}
             className="mr-1.5 text-foreground dark:text-background"
           />
-          <Text className="text-xs font-medium text-foreground dark:text-background">
+          <Text className="text-xs font-expose font-medium text-foreground dark:text-background">
             {t('product.may_not_be_available')}
           </Text>
         </View>

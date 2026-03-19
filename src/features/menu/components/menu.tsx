@@ -12,7 +12,9 @@ const MenuItemRow = ({ item }: { item: MenuItem }) => {
   if (item.isThemeToggle) {
     return (
       <View className="flex-row items-center justify-between flex-1">
-        <Text className="text-base text-foreground flex-1">{item.label}</Text>
+        <Text className="text-base text-foreground flex-1 font-sans">
+          {item.label}
+        </Text>
         <View className="ml-4">
           <ThemeSwitch showLabel={false} />
         </View>
@@ -23,7 +25,9 @@ const MenuItemRow = ({ item }: { item: MenuItem }) => {
   if (item.isLanguageToggle) {
     return (
       <View className="flex-row items-center justify-between flex-1">
-        <Text className="text-base text-foreground flex-1">{item.label}</Text>
+        <Text className="text-base text-foreground flex-1 font-sans">
+          {item.label}
+        </Text>
         <View className="ml-4">
           <LanguageSwitch showLabel={false} />
         </View>
@@ -45,7 +49,7 @@ const MenuItemRow = ({ item }: { item: MenuItem }) => {
         />
       )}
       <Text
-        className={`text-base ${item.isDestructive ? 'text-destructive' : 'text-foreground'} ${IconComponent ? 'ml-3' : ''}`}
+        className={`text-base font-sans ${item.isDestructive ? 'text-destructive' : 'text-foreground'} ${IconComponent ? 'ml-3' : ''}`}
       >
         {item.label}
       </Text>
@@ -63,7 +67,7 @@ export default function Menu() {
           <View key={section.id} className="mb-6">
             {/* Section heading (non-clickable) */}
             {section.title ? (
-              <Text className="px-2 py-2 text-sm font-bold text-muted-foreground uppercase tracking-wider">
+              <Text className="px-2 py-2 text-sm font-expose-bold text-muted-foreground uppercase tracking-wider">
                 {section.title}
               </Text>
             ) : null}

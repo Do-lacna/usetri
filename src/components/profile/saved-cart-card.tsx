@@ -48,22 +48,22 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
         <View className="ml-12 flex-row items-center justify-between space-x-2">
           <View className="flex-1">
             <Text
-              className="font-semibold text-lg mb-1 text-card-foreground"
+              className="font-expose-bold text-lg mb-1 text-card-foreground"
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               Nákup v {shopName}
             </Text>
-            <Text className="text-muted-foreground text-sm">
+            <Text className="text-muted-foreground font-expose text-sm">
               {format(createdDate, DATE_FORMAT)}
             </Text>
           </View>
           <View className="flex flex-col items-center">
-            <Text className="text-lg font-bold text-card-foreground">
+            <Text className="text-lg font-expose-bold text-card-foreground">
               {totalPrice.toFixed(2)} €
             </Text>
-            <View className="bg-v2 px-2 py-1 rounded-full mt-1">
-              <Text className="text-xs font-medium text-card-foreground">
+            <View className="bg-secondary px-2 py-1 rounded-full mt-1">
+              <Text className="text-xs font-expose text-card-foreground">
                 Ušetrené {savedAmount.toFixed(2)} €
               </Text>
             </View>

@@ -201,7 +201,7 @@ const DiscountList = ({
           ListHeaderComponent={renderHeader}
           ListFooterComponent={renderFooter}
           ListEmptyComponent={
-            <Text className="text-muted-foreground text-base text-center mt-4">
+            <Text className="text-muted-foreground text-base text-center mt-4 font-sans">
               Tento obchod momentálne neponúka žiadne zľavnené produkty
             </Text>
           }

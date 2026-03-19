@@ -10,13 +10,12 @@ interface LanguageSwitchProps {
 export function LanguageSwitch({
   className,
   showLabel = true,
-}: LanguageSwitchProps) {
+}: Readonly<LanguageSwitchProps>) {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   const handleLanguageChange = (lang: string) => {
-    // Map to the actual language codes used in i18n config
-    const languageCode = lang === 'sk' ? 'sk-SK' : 'ar-AR';
+    const languageCode = lang === 'sk' ? 'sk-SK' : 'en-US';
 
     if (currentLanguage !== languageCode) {
       i18n.changeLanguage(languageCode);
@@ -27,14 +26,13 @@ export function LanguageSwitch({
   const isSlovak = currentLanguage === 'sk' || currentLanguage === 'sk-SK';
   const isEnglish =
     currentLanguage === 'en' ||
-    currentLanguage === 'ar-AR' ||
     currentLanguage === 'en-US';
 
   return (
     <View className={cn('flex-row items-center justify-between', className)}>
       {showLabel && (
         <View className="flex-row items-center flex-1">
-          <Text className="text-base text-foreground">Jazyk</Text>
+          <Text className="text-base text-foreground font-sans">Jazyk</Text>
         </View>
       )}
 
@@ -50,7 +48,7 @@ export function LanguageSwitch({
         >
           <Text
             className={cn(
-              'text-sm font-semibold',
+              'text-sm font-sans font-semibold',
               isSlovak ? 'text-foreground' : 'text-muted-foreground',
             )}
           >
@@ -68,7 +66,7 @@ export function LanguageSwitch({
         >
           <Text
             className={cn(
-              'text-sm font-semibold',
+              'text-sm font-sans font-semibold',
               isEnglish ? 'text-foreground' : 'text-muted-foreground',
             )}
           >

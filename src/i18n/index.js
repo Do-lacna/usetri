@@ -9,7 +9,7 @@ const resources = {
   'sk-SK': {
     common: skCommon,
   },
-  'ar-AR': {
+  'en-US': {
     common: enCommon,
   },
   sk: {
@@ -22,35 +22,17 @@ const resources = {
 
 const savedLanguage = 'sk-SK'; // default to Slovak
 
-// try {
-//   // Try to get saved language from AsyncStorage
-//   const storedLanguage = await getLanguage(); // Použi await, ak getLanguage() vracia Promise
-//   if (storedLanguage) {
-//     console.log("Saved language found:", storedLanguage);
 
-//     savedLanguage = storedLanguage;
-//   } else {
-//     // Fallback to device language if no saved preference
-//     const deviceLanguage = Localization.locale.split("-")[0];
-//     savedLanguage = resources[deviceLanguage] ? deviceLanguage : "sk";
-//     console.log(
-//       "No saved language found, using device language:",
-//       savedLanguage
-//     );
-//   }
-// } catch (error) {
-//   console.log("Error loading saved language:", error);
-// }
 const instance = i18n.use(initReactI18next).init({
   resources,
   lng: savedLanguage,
   fallbackLng: 'sk-SK',
   defaultNS: 'common',
   interpolation: {
-    escapeValue: false, // React already does escaping
+    escapeValue: false,
   },
   react: {
-    useSuspense: false, // Disable suspense to prevent navigation context loss
+    useSuspense: false,
   },
 });
 

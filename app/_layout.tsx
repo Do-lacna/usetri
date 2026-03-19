@@ -12,7 +12,7 @@ import { Slot, SplashScreen } from 'expo-router';
 import 'intl-pluralrules';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import AnimatedLogoSplash from '~/src/components/AnimatedSplash';
+import AnimatedLogoSplash from '~/src/components/animated-splash';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
@@ -23,6 +23,7 @@ import { setAndroidNavigationBar } from '~/src/lib/android-navigation-bar';
 import { NAV_THEME } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { getTheme, setTheme } from '~/src/persistence/theme-storage';
+import { useFonts } from '~/src/hooks/use-fonts';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -61,6 +62,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const { fontsLoaded } = useFonts();
 
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -104,6 +106,10 @@ export default function RootLayout() {
       });
     })();
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

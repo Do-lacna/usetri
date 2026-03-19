@@ -78,7 +78,17 @@
           "backgroundColor": "#5645CC"
         }
       ],
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/OTF/Expose-Regular.otf",
+            "./assets/fonts/OTF/Expose-Medium.otf",
+            "./assets/fonts/OTF/Expose-Bold.otf",
+            "./assets/fonts/OTF/Expose-Black.otf"
+          ]
+        }
+      ],
       "expo-web-browser"
     ],
     "experiments": {

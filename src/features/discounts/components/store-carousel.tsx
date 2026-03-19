@@ -148,7 +148,6 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
         <CompactStoreRow
           shops={shops}
           activeStoreId={activeStoreId}
-          stats={stats}
           onStoreSelect={handleStoreSelect}
         />
       </Animated.View>

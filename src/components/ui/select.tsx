@@ -95,7 +95,7 @@ const SelectContent = React.forwardRef<
   return (
     <SelectPrimitive.Portal hostName={portalHost}>
       <SelectPrimitive.Overlay
-        style={Platform.OS !== 'web' ? StyleSheet.absoluteFill : undefined}
+        style={Platform.OS === 'web' ? undefined : StyleSheet.absoluteFill}
       >
         <Animated.View className="z-50" entering={FadeIn} exiting={FadeOut}>
           <SelectPrimitive.Content
@@ -164,7 +164,7 @@ const SelectItem = React.forwardRef<
         <Check size={16} strokeWidth={3} className="text-popover-foreground" />
       </SelectPrimitive.ItemIndicator>
     </View>
-    <SelectPrimitive.ItemText className="text-sm native:text-lg text-popover-foreground native:text-base web:group-focus:text-accent-foreground" />
+    <SelectPrimitive.ItemText className="text-sm native:text-lg text-popover-foreground web:group-focus:text-accent-foreground" />
   </SelectPrimitive.Item>
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;

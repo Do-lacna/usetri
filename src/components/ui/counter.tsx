@@ -39,16 +39,16 @@ const Counter: React.FC<CounterProps> = ({
         className="rounded-full w-10 h-10 justify-center items-center border-2 border-border"
         onPress={decrementCount}
       >
-        <Text className="text-xl">-</Text>
+        <Text className="text-xl font-expose-bold">-</Text>
       </TouchableOpacity>
 
-      <Text className="mx-4 text-xl font-semibold">{count}</Text>
+      <Text className="mx-4 text-xl font-expose-bold">{count}</Text>
 
       <TouchableOpacity
         className="rounded-full w-10 h-10 justify-center items-center border-2 border-border"
         onPress={incrementCount}
       >
-        <Text className="text-xl">+</Text>
+        <Text className="text-xl font-expose-bold">+</Text>
       </TouchableOpacity>
     </View>
   );

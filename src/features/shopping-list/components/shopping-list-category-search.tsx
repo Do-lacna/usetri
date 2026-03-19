@@ -4,10 +4,10 @@ import {
   Pressable,
   View,
 } from 'react-native';
-import { isArrayNotEmpty } from '../../../lib/utils';
+import { isArrayNotEmpty } from '~/src/lib/utils';
 import type { AddCategoryExtendedWithPathDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
-import { type SearchOptions, searchItems } from '../../../utils/search-utils';
+import { type SearchOptions, searchItems } from '~/src/utils/search-utils';
 import { NoDataText } from '~/src/components/no-data-text/no-data-text';
 import Divider from '~/src/components/ui/divider';
 import { Text } from '~/src/components/ui/text';
@@ -33,7 +33,6 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
 
   const {
     data: { categories = [] } = {},
-    isLoading,
   } = useGetCategories();
 
   React.useEffect(() => {
@@ -55,18 +54,17 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
 
   const renderCategory = (
     { name, id, image_url }: AddCategoryExtendedWithPathDto,
-    index: number,
   ) => (
     <Pressable key={String(id)} onPress={() => onCategorySelect?.(Number(id))}>
       <View className="flex flex-row items-center border border-g1 rounded-full px-3 py-3 bg-muted">
         {!!image_url && (
           <Image
-            source={{ uri: image_url as string }}
+            source={{ uri: image_url }}
             resizeMode="contain"
             className="w-5 h-5 mr-2"
           />
         )}
-        <Text className="text-sm">{name}</Text>
+        <Text className="text-sm font-expose">{name}</Text>
       </View>
     </Pressable>
   );
@@ -82,17 +80,17 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
   return (
     <View>
       {searchResults.length > 0 && (
-        <Text className="text-lg font-bold mx-2 text-foreground">
+        <Text className="text-lg font-expose-bold mx-2 text-foreground">
           Najlacnejšia varianta (kategória)
         </Text>
       )}
       {visibleResults.length > 0 ? (
         <View className="flex flex-row flex-wrap justify-center gap-2 px-2 py-2">
-          {visibleResults.map((item, index) => renderCategory(item, index))}
+          {visibleResults.map((item) => renderCategory(item,))}
         </View>
       ) : (
         <View className="flex items-center justify-center">
-          <NoDataText className="text-xl my-4">
+          <NoDataText className="text-xl font-expose my-4">
             Nenašli sa žiadne kategórie
           </NoDataText>
         </View>

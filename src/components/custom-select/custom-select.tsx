@@ -1,5 +1,4 @@
 import type { Option } from '@rn-primitives/select';
-import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   Select,
@@ -11,11 +10,10 @@ import {
   SelectValue,
 } from '../ui/select';
 
-// Define our option types
 export type SelectOptionType = {
   value: string;
   label: string;
-  icon?: string; // URL for the icon image
+  icon?: string;
 };
 
 type CustomSelectProps = {
@@ -25,13 +23,8 @@ type CustomSelectProps = {
   placeholder?: string;
   label?: string;
   defaultValue?: Option;
-  error?: string;
-  disabled?: boolean;
-  className?: string;
-  labelClassName?: string;
   selectClassName?: string;
   optionClassName?: string;
-  iconSize?: number;
 };
 
 export const CustomSelect = ({
@@ -41,15 +34,9 @@ export const CustomSelect = ({
   placeholder = 'Select an option',
   label,
   defaultValue,
-  error,
-  disabled = false,
-  className = '',
-  labelClassName = '',
   selectClassName = '',
   optionClassName = '',
-  iconSize = 24,
 }: CustomSelectProps) => {
-  const [open, setOpen] = useState(false);
 
   const insets = useSafeAreaInsets();
   const contentInsets = {
@@ -68,7 +55,7 @@ export const CustomSelect = ({
     >
       <SelectTrigger>
         <SelectValue
-          className="text-foreground text-sm native:text-lg"
+          className="text-foreground text-sm font-sans native:text-lg"
           placeholder={placeholder}
         />
       </SelectTrigger>
@@ -83,14 +70,6 @@ export const CustomSelect = ({
                 value={option.value}
                 className={optionClassName}
               >
-                {/* {shopIcon && (
-                  <Image
-                    source={{ uri: shopIcon }}
-                    style={{ width: 50, height: 50 }}
-                    resizeMode="contain"
-                  />
-                )}
-                {option.label} */}
               </SelectItem>
             );
           })}

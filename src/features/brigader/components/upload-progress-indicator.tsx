@@ -127,11 +127,13 @@ const styles = StyleSheet.create({
   statusText: {
     flex: 1,
     fontSize: 14,
+    fontFamily: 'Expose-Bold',
     fontWeight: '600',
     color: COLORS.textPrimary,
   },
   progressText: {
     fontSize: 12,
+    fontFamily: 'Expose-Medium',
     fontWeight: '500',
     color: COLORS.n6,
   },
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
   retryButtonText: {
     color: COLORS.white,
     fontSize: 12,
+    fontFamily: 'Expose-Bold',
     fontWeight: '600',
   },
   clearButton: {
@@ -173,6 +176,7 @@ const styles = StyleSheet.create({
   clearButtonText: {
     color: COLORS.white,
     fontSize: 12,
+    fontFamily: 'Expose-Bold',
     fontWeight: '600',
   },
 });

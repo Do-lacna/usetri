@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { Image } from 'expo-image';
+import { Image, type ImageSource } from 'expo-image';
 import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 cssInterop(Image, { className: 'style' });
 
@@ -42,6 +42,13 @@ const SuggestedProductCard = ({
   const displayPrice = hasDiscount
     ? lowestDiscountedPrice
     : (shopsPrices?.[0]?.actual_price ?? 0);
+  let imageSource: ImageSource | number = PLACEHOLDER_PRODUCT_IMAGE;
+  if (categoryImageUrl) {
+    imageSource = { uri: categoryImageUrl };
+  }
+  if (image_url) {
+    imageSource = { uri: image_url };
+  }
 
   return (
     <Pressable
@@ -54,10 +61,9 @@ const SuggestedProductCard = ({
           isSelected ? 'border-2 border-primary' : '',
         )}
       >
-        {/* Discount Badge */}
         {hasDiscount && (
           <View className="absolute top-2 right-2 bg-discount rounded-full px-2 py-1 z-10">
-            <Text className="text-discount-foreground text-xs font-bold">
+            <Text className="text-discount-foreground text-xs font-expose-bold">
               -{calculateDiscountPercentage(lowestPrice, lowestDiscountedPrice)}
               %
             </Text>
@@ -66,13 +72,7 @@ const SuggestedProductCard = ({
 
         <View className="w-full h-24 rounded-lg relative">
           <Image
-            source={
-              image_url
-                ? { uri: image_url }
-                : categoryImageUrl
-                  ? { uri: categoryImageUrl }
-                  : PLACEHOLDER_PRODUCT_IMAGE
-            }
+            source={imageSource}
             className="w-full h-24 rounded-lg"
           />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
@@ -92,30 +92,30 @@ const SuggestedProductCard = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
+              <Text className="text-xs font-expose text-muted-foreground" numberOfLines={1}>
                 {brand}
               </Text>
               <Text
-                className="text-sm font-medium text-card-foreground"
+                className="text-sm font-expose text-card-foreground"
                 numberOfLines={1}
               >
                 {name}
               </Text>
-              <Text className="text-xs text-muted-foreground">
+              <Text className="text-xs font-expose text-muted-foreground">
                 {amount} {unit}
               </Text>
             </View>
             {hasDiscount ? (
               <View className="flex-col items-end">
-                <Text className="text-xs text-muted-foreground line-through">
+                <Text className="text-xs font-expose text-muted-foreground line-through">
                   {lowestPrice.toFixed(2)} €
                 </Text>
-                <Text className="text-sm font-bold text-discount">
+                <Text className="text-sm font-expose-bold text-discount">
                   {displayPrice.toFixed(2)} €
                 </Text>
               </View>
             ) : (
-              <Text className="text-sm font-bold text-card-foreground">
+              <Text className="text-sm font-expose-bold text-card-foreground">
                 {displayPrice} €
               </Text>
             )}

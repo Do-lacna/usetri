@@ -50,7 +50,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
     >
       {/* Discount Badge — g1 yellow */}
       <View className="absolute top-2 right-2 bg-g1 rounded-full px-2 py-1 z-10">
-        <Text className="text-foreground text-xs font-bold">
+        <Text className="text-foreground text-xs font-expose-bold">
           -
           {calculateDiscountPercentage(
             Number(lowestPrice),
@@ -96,7 +96,7 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
       {/* Product Name */}
       <Text
-        className="text-card-foreground text-xs font-medium mb-1 leading-4"
+        className="text-card-foreground text-xs font-expose-medium mb-1 leading-4"
         numberOfLines={1}
       >
         {name}
@@ -104,10 +104,10 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
 
       {/* Price Information */}
       <View className="flex-row items-center justify-between">
-        <Text className="text-muted-foreground text-xs line-through">
+        <Text className="text-muted-foreground text-xs line-through font-sans">
           {lowestPrice?.toFixed(2)} €
         </Text>
-        <Text className="text-o3 text-xs font-bold">
+        <Text className="text-o3 text-xs font-expose-bold">
           {lowestDiscountedPrice?.toFixed(2)} €
         </Text>
       </View>

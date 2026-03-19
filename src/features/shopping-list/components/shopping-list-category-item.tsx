@@ -20,9 +20,9 @@ import { useGetCart } from '~/src/network/cart/cart';
 import { COLORS } from '~/src/lib/constants';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import { useColorScheme } from '../../../lib/useColorScheme';
+import { useColorScheme } from '~/src/lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -47,7 +47,6 @@ const ShoppingListCategoryItem: React.FC<{
     data: { cart } = {},
   } = useGetCart();
 
-  // Theme-aware colors
   const iconColor = isDarkColorScheme ? COLORS.n6 : COLORS.textPrimary;
   const activityIndicatorColor = isDarkColorScheme ? COLORS.n6 : COLORS.i1;
 
@@ -98,7 +97,7 @@ const ShoppingListCategoryItem: React.FC<{
             flex-row items-center px-4 py-3 rounded-full min-h-[48px]
             ${
               isExpanded
-                ? 'border border-2 border-primary shadow-md'
+                ? 'border-2 border-primary shadow-md'
                 : 'bg-card border border-v2  shadow-sm'
             }
           `}
@@ -122,7 +121,7 @@ const ShoppingListCategoryItem: React.FC<{
 
           <View className="flex-1">
             <Text
-              className="font-medium text-sm text-foreground"
+              className="font-expose text-sm text-foreground"
               numberOfLines={1}
             >
               {name}
@@ -130,11 +129,11 @@ const ShoppingListCategoryItem: React.FC<{
           </View>
 
           <View className="flex-row items-center ml-2">
-            <Text className="text-foreground font-bold text-sm mr-2">
+            <Text className="text-foreground font-expose-bold text-sm mr-2">
               {totalPrice}€
             </Text>
             {quantity > 1 && (
-              <Text className="text-muted-foreground text-xs mr-2">
+              <Text className="text-muted-foreground font-expose text-xs mr-2">
                 ({price.toFixed(2)} €)
               </Text>
             )}
@@ -153,7 +152,7 @@ const ShoppingListCategoryItem: React.FC<{
               )}
             </TouchableOpacity>
 
-            <Text className="px-2 text-foreground font-medium min-w-[24px] text-center text-sm">
+            <Text className="px-2 text-foreground font-expose min-w-[24px] text-center text-sm">
               {item.quantity}
             </Text>
 

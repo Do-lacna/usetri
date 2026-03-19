@@ -85,32 +85,27 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           onDismiss={onDismiss}
         />
 
-        {/* Category Info Message */}
         <View className="mb-4 bg-success/10 border border-success/30 rounded-lg p-3">
-          <Text className="text-sm text-success leading-relaxed">
+          <Text className="text-sm font-expose text-success leading-relaxed">
             {t('cart_drawer.category_info')}
           </Text>
         </View>
 
-        {/* Category Prices in Different Supermarkets */}
         <CategoryPricesGrid categoryPrices={categoryPrices} className="mb-6" />
       </View>
 
-      {/* Actions Section - Wolt Style */}
       <View className="w-full flex-row gap-4 items-center justify-between mt-6 mb-6">
-        {/* Counter on the left */}
         <Counter
           initialCount={categoryCount}
           onCountChange={setCategoryCount}
         />
 
-        {/* Confirm button on the right */}
         <Button
           onPress={() => onConfirm(categoryCount)}
           className="flex-1 ml-4"
           disabled={isLoadingGlobal}
         >
-          <Text>{t('cart_drawer.add_category')}</Text>
+          <Text className="font-expose-bold">{t('cart_drawer.add_category')}</Text>
         </Button>
       </View>
     </View>

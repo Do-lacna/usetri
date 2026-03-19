@@ -143,17 +143,17 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
         >
           <View className="flex-row items-center justify-between">
             <View className="flex-1 pr-3">
-              <Text className="text-white font-bold text-base">
+              <Text className="text-white font-expose-bold text-base">
                 {t('price_summary.total_sum')}
               </Text>
-              <Text className="text-white text-xs">
+              <Text className="text-white font-expose text-xs">
                 {t('price_summary.show_comparison')}
               </Text>
             </View>
 
             <View className="flex-row items-center gap-2">
               <Animated.View style={animatedStyle}>
-                <Text className="text-white font-bold text-xl tabular-nums">
+                <Text className="text-white font-expose-bold text-xl tabular-nums">
                   {isCartLoading ? '—.—' : displayPrice.toFixed(2)} €
                 </Text>
               </Animated.View>

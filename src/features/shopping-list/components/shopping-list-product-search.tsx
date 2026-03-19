@@ -31,11 +31,11 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     },
   );
 
-  if (!(searchQuery?.length >= 2)) {
+  if (searchQuery?.length < 2) {
     return (
       <>
         {ListHeaderComponent}
-        <Text className="mt-8 flex-1 flex items-center justify-center text-center text-muted-foreground font-semibold w-[80%] mx-auto">
+        <Text className="mt-8 flex-1 flex items-center justify-center text-center text-muted-foreground font-expose w-[80%] mx-auto">
           Začni písať pre vyhľadanie kategórie alebo produktu
         </Text>
       </>
@@ -46,7 +46,7 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
     <>
       {ListHeaderComponent}
       {(searchProducts ?? []).length > 0 && (
-        <Text className="text-lg font-bold mx-2 text-foreground">
+        <Text className="text-lg font-expose-bold mx-2 text-foreground">
           Konkrétne produkty
         </Text>
       )}
@@ -54,42 +54,40 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
   );
 
   return (
-    <>
       <FlatList
-        data={searchProducts}
-        renderItem={({ item }) => (
-          <DiscountedProductCard
-            product={item}
-            onPress={(productId, categoryId) => onProductSelect?.(productId)}
-            shopsPrices={item?.shops_prices}
-          />
-        )}
-        numColumns={2}
-        keyExtractor={product => String(product?.detail?.id)}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-        contentContainerClassName="gap-4 p-1"
-        columnWrapperClassName="gap-4"
-        ListHeaderComponent={header}
-        ListEmptyComponent={
-          areProductsLoading ? (
-            <ActivityIndicator animating={true} className="mt-10" />
-          ) : (
-            <View className="flex items-center justify-center">
-              {/* TODO add nicer no data screen with picture */}
-              <NoDataText className="text-xl my-4">
-                Nenašli sa žiadne produkty
-              </NoDataText>
-            </View>
-          )
-        }
-        contentContainerStyle={{
-          paddingHorizontal: 8,
-          paddingVertical: 8,
-          marginBottom: 250,
-        }}
+          data={searchProducts}
+          renderItem={({item}) => (
+              <DiscountedProductCard
+                  product={item}
+                  onPress={(productId, categoryId) => onProductSelect?.(productId)}
+                  shopsPrices={item?.shops_prices}
+              />
+          )}
+          numColumns={2}
+          keyExtractor={product => String(product?.detail?.id)}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          contentContainerClassName="gap-4 p-1"
+          columnWrapperClassName="gap-4"
+          ListHeaderComponent={header}
+          ListEmptyComponent={
+            areProductsLoading ? (
+                <ActivityIndicator animating={true} className="mt-10"/>
+            ) : (
+                <View className="flex items-center justify-center">
+                  {/* TODO add nicer no data screen with picture */}
+                  <NoDataText className="text-xl font-expose my-4">
+                    Nenašli sa žiadne produkty
+                  </NoDataText>
+                </View>
+            )
+          }
+          contentContainerStyle={{
+            paddingHorizontal: 8,
+            paddingVertical: 8,
+            marginBottom: 250,
+          }}
       />
-    </>
   );
 };
 

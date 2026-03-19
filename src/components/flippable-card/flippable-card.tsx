@@ -7,7 +7,7 @@ interface FlippableCardProps {
   isFlipped: boolean;
   onFlip: () => void;
   style?: ViewStyle;
-  disableFlipping?: boolean; // New prop to disable flipping
+  disableFlipping?: boolean;
 }
 
 const FlippableCard: React.FC<FlippableCardProps> = ({
@@ -16,11 +16,10 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
   isFlipped,
   onFlip,
   style = {},
-  disableFlipping = false, // Default to false to maintain existing behavior
+  disableFlipping = false,
 }) => {
   const flipAnimation = useRef(new Animated.Value(0)).current;
 
-  // Handle flip animation on user interaction
   React.useEffect(() => {
     if (!disableFlipping) {
       Animated.timing(flipAnimation, {
@@ -49,7 +48,6 @@ const FlippableCard: React.FC<FlippableCardProps> = ({
     transform: [{ rotateY: backInterpolate }],
   };
 
-  // If flipping is disabled, render a simple view with just front content
   if (disableFlipping) {
     return (
       <View style={style} className="py-1">
