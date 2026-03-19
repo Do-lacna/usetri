@@ -23,6 +23,7 @@ import { setAndroidNavigationBar } from '~/src/lib/android-navigation-bar';
 import { NAV_THEME } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { getTheme, setTheme } from '~/src/persistence/theme-storage';
+import { useFonts } from '~/src/hooks/useFonts';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -61,6 +62,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  useFonts();
 
   const [animationDone, setAnimationDone] = useState(false);
 

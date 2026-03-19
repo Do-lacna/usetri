@@ -19,7 +19,6 @@ import PendingCartItemDrawerContent, {
 import EmptyShoppingListPlaceholderScreen from '~/src/components/placeholders/empty-shopping-list-placeholder-screen';
 import SearchBar, { type ISearchBarHandle } from '~/src/components/search-bar';
 import { Button } from '~/src/components/ui/button';
-import Divider from '~/src/components/ui/divider';
 import { useSession } from '~/src/context/authentication-context';
 import ShoppingListProductSearch from '~/src/features/shopping-list/components/shopping-list-product-search';
 import { useCartActions } from '~/src/hooks/use-cart-actions';

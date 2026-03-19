@@ -2,7 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Expose Font Family */
+@font-face {
+  font-family: 'Expose';
+  src: url('./assets/fonts/WEB/fonts/Expose-Regular.woff2') format('woff2'),
+       url('./assets/fonts/WEB/fonts/Expose-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('./assets/fonts/WEB/fonts/Expose-Medium.woff2') format('woff2'),
+       url('./assets/fonts/WEB/fonts/Expose-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('./assets/fonts/WEB/fonts/Expose-Bold.woff2') format('woff2'),
+       url('./assets/fonts/WEB/fonts/Expose-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Expose';
+  src: url('./assets/fonts/WEB/fonts/Expose-Black.woff2') format('woff2'),
+       url('./assets/fonts/WEB/fonts/Expose-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
 @layer base {
+  /* Set Expose as the default font for the entire app */
+  * {
+    @apply font-sans;
+  }
   @media (prefers-color-scheme: light) {
     :root {
       /*
