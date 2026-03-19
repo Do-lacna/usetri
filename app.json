@@ -7,11 +7,6 @@
     "icon": "./assets/usetri_logo.png",
     "scheme": "usetri",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/usetri_splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#26252c"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
@@ -64,12 +59,6 @@
         }
       ],
       [
-        "expo-web-browser",
-        {
-          "experimentalLauncherActivity": true
-        }
-      ],
-      [
         "expo-secure-store",
         {
           "configureAndroidBackup": true,
@@ -81,6 +70,12 @@
         {
           "cameraPermissionText": "This app uses your camera to scan product barcodes and help you track your purchases",
           "enableCodeScanner": true
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#5645CC"
         }
       ],
       "expo-font",

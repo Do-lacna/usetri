@@ -14,7 +14,7 @@ import type {
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;

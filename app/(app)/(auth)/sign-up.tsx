@@ -87,14 +87,20 @@ export default function SignUp() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View className="flex-1 px-8 py-8">
+          <View className="flex-1 px-6 py-12">
             {/* Header Section */}
-            <View className="items-center mb-10">
-              <ThemedLogo width={180} height={90} className="mb-6" />
+            <View className="items-center mb-12">
+              <ThemedLogo className="mb-8" />
+              <Text className="text-3xl font-bold text-foreground text-center">
+                Vytvorte si účet
+              </Text>
+              <Text className="text-sm text-muted-foreground text-center mt-3">
+                Zaregistrujte sa a začnite šetriť
+              </Text>
             </View>
 
             {/* Registration Form */}
-            <View className="mb-6">
+            <View className="mb-8">
               <Controller
                 control={control}
                 name="email"

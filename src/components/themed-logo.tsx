@@ -1,8 +1,4 @@
-import { View } from 'react-native';
-import { useColorScheme } from '~/src/lib/useColorScheme';
-
-import LilacLogo from '~/assets/images/claim-logo/usetri-logo_claim-lilac.svg';
-import PurpleLogo from '~/assets/images/claim-logo/usetri-logo_claim-purple.svg';
+import { Image, View } from 'react-native';
 
 interface ThemedLogoProps {
   width?: number;
@@ -11,17 +7,33 @@ interface ThemedLogoProps {
 }
 
 export const ThemedLogo = ({
-  width = 220,
-  height = 110,
+  width = 120,
+  height = 120,
   className,
 }: ThemedLogoProps) => {
-  const { isDarkColorScheme } = useColorScheme();
-
-  const LogoComponent = isDarkColorScheme ? LilacLogo : PurpleLogo;
+  // Use the smaller dimension to create a square container
+  const size = Math.min(width, height);
+  const borderRadius = size / 2;
 
   return (
-    <View style={{ width, height }} className={className}>
-      <LogoComponent width={width} height={height} />
+    <View
+      style={{
+        width: size,
+        height: size,
+        borderRadius,
+        overflow: 'hidden',
+      }}
+      className={className}
+    >
+      <Image
+        source={require('../../assets/usetri_logo.png')}
+        style={{
+          width: '100%',
+          height: '100%',
+          borderRadius,
+        }}
+        resizeMode={resizeMode}
+      />
     </View>
   );
 };

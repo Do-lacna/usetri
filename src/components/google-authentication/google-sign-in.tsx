@@ -103,7 +103,7 @@ export function GoogleSignIn({ onLoadingChange }: GoogleSignInProps) {
       ) : (
         <>
           <Image
-            source={require('~/assets/images/logos/google_logo.png')}
+            source={require('~/assets/images/store-logos/google_logo.png')}
             className="w-[16px] h-[16px] mr-2"
           />
           <Text
