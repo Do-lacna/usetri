@@ -166,6 +166,7 @@ const DiscountList = ({
           numColumns={2}
           keyExtractor={item => String(item.id)}
           contentContainerStyle={{ padding: 16 }}
+          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           scrollEnabled={false}
           ListHeaderComponent={renderHeader}
         />

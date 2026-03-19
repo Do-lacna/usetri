@@ -2,7 +2,6 @@ import { router } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing,
   runOnJS,
@@ -24,7 +23,6 @@ const COMPARISON_ROUTE =
 
 const PriceSummary = ({ onPress }: PriceSummaryProps) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
 
   const {
     data: {
@@ -111,7 +109,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
       pointerEvents="box-none"
       className="absolute bottom-0 left-0 right-0"
       style={{
-        paddingBottom: Math.max(insets.bottom, 8),
+        paddingBottom: 8,
         backgroundColor: 'transparent',
       }}
     >
