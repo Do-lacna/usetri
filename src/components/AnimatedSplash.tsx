@@ -19,7 +19,7 @@ function LogoPath({ d, index, progress }: { readonly d: string; readonly index: 
         const window = 0.5;
         const t = (progress.value - delay) / window;
         const clamped = Math.max(0, Math.min(1, t));
-        const opacity = 1 - Math.pow(1 - clamped, 3);
+        const opacity = 1 - (1 - clamped) ** 3;
         return {
             opacity,
         } as any;
@@ -79,7 +79,7 @@ export default function AnimatedLogoSplash({
     }));
 
     const groupAnimatedProps = useAnimatedProps(() => {
-        const opacity = 0.85 + 0.15 * (1 - Math.pow(1 - progress.value, 3));
+        const opacity = 0.85 + 0.15 * (1 - (1 - progress.value) ** 3);
         return { opacity } as any;
     });
 
