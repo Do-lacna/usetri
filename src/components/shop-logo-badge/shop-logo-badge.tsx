@@ -28,7 +28,7 @@ const ShopLogoBadge = memo(
     if (!logoProps) return null;
 
     return (
-      <View style={{ width: size, height: size, borderRadius: size / 2 }}>
+      <View style={{ width: size, height: size }}>
         <Image
           source={logoProps.source}
           contentFit="contain"
@@ -36,7 +36,7 @@ const ShopLogoBadge = memo(
             {
               width: size,
               height: size,
-              borderRadius: size / 2,
+              borderRadius: 10,
               position: 'absolute',
               right: index * 15,
               zIndex: zIndex ?? index + 1,
