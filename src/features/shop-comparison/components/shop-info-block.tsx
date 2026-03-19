@@ -84,11 +84,11 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
     <View className={`${config.bgColor} px-3 py-2 rounded-lg mb-2`}>
       <View className="flex-row items-center">
         <IconComponent size={18} color={config.iconColor} />
-        <Text className={`text-lg font-semibold ${config.textColor} ml-2`}>
+        <Text className={`text-lg font-expose-bold ${config.textColor} ml-2`}>
           {config.title}
         </Text>
       </View>
-      <Text className={`text-sm ${config.textColor} opacity-80 mt-1`}>
+      <Text className={`text-sm font-expose ${config.textColor} opacity-80 mt-1`}>
         {config.subtitle}
       </Text>
     </View>

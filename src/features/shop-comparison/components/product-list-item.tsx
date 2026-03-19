@@ -1,6 +1,5 @@
 import type React from 'react';
 import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Animated, Image, Text, View } from 'react-native';
 import FlippableCard from '~/src/components/flippable-card/flippable-card';
 import { RefreshCw } from '~/src/lib/icons/RefreshCw';
@@ -24,7 +23,6 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   isFlipped,
   onFlip,
 }) => {
-  const { t } = useTranslation('common');
   const spinValue = useRef(new Animated.Value(0)).current;
 
   const {
@@ -33,7 +31,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       id: productId,
       brand,
       unit: { normalized_amount: amount, normalized_unit: unit } = {},
-      category: { id, image_url, name: categoryName } = {},
+      category: { image_url, name: categoryName } = {},
     } = {},
     price = 0,
     actual_price = 0,
@@ -45,7 +43,6 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
 
   const borderClass = index < totalProducts - 1 ? 'border-b border-border' : '';
 
-  // Use actual_price (price with discount) if available, otherwise use regular price
   const finalPrice = actual_price || price;
   const hasDiscount = !!percentage_discount && !!discountPrice;
 
@@ -58,7 +55,6 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       ] as CartComparisonProductType[]
     ).includes(type);
 
-  // Spin animation for replacement icon
   useEffect(() => {
     if (displayFlippableCard) {
       Animated.sequence([
@@ -85,14 +81,14 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
       {hasDiscount && (
-        <Text className="text-xs text-muted-foreground line-through mb-1">
+        <Text className="text-xs font-expose text-muted-foreground line-through mb-1">
           {showQuantity ? (price * quantity).toFixed(2) : price.toFixed(2)} €
         </Text>
       )}
 
       <View className="flex-row items-center">
         <Text
-          className={`text-base font-semibold ${hasDiscount ? 'text-red-600' : 'text-foreground'}`}
+          className={`text-base font-expose-bold ${hasDiscount ? 'text-discount' : 'text-foreground'}`}
         >
           {showQuantity
             ? (currentPrice * quantity).toFixed(2)
@@ -100,8 +96,8 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
           €
         </Text>
         {hasDiscount && (
-          <View className="bg-red-100 px-1.5 py-0.5 rounded ml-2">
-            <Text className="text-xs font-medium text-red-600">
+          <View className="bg-discount-light px-1.5 py-0.5 rounded ml-2">
+            <Text className="text-xs font-expose text-discount">
               -{percentage_discount}%
             </Text>
           </View>
@@ -109,7 +105,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       </View>
 
       {quantity > 1 && showQuantity && (
-        <Text className="text-xs text-muted-foreground">
+        <Text className="text-xs font-expose text-muted-foreground">
           {quantity} x {currentPrice.toFixed(2)} €
         </Text>
       )}
@@ -119,18 +115,18 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   const renderProductInfo = (productName?: string | null, showBrand = true) => (
     <View className="flex-1 pr-4">
       <Text
-        className="text-base font-medium text-foreground leading-5"
+        className="text-base font-expose text-foreground leading-5"
         numberOfLines={2}
       >
         {productName}
       </Text>
 
       <View className="flex-row items-center mt-1">
-        <Text className="text-sm text-muted-foreground">
+        <Text className="text-sm font-expose text-muted-foreground">
           {amount} {unit}
         </Text>
         {showBrand && brand && (
-          <Text className="text-xs text-muted-foreground ml-2">• {brand}</Text>
+          <Text className="text-xs font-expose text-muted-foreground ml-2">• {brand}</Text>
         )}
       </View>
     </View>
@@ -157,23 +153,22 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
     <View className={`p-4 bg-card ${borderClass}`}>
       <View className="flex-row items-center justify-between min-h-[60px]">
         {original_product_detail ? (
-          // Show original product when it was replaced with another product
           <>
             <View className="flex-1 pr-4">
               <Text
-                className="text-base font-medium text-foreground leading-5"
+                className="text-base font-expose text-foreground leading-5"
                 numberOfLines={2}
               >
                 {original_product_detail.name}
               </Text>
 
               <View className="flex-row items-center mt-1">
-                <Text className="text-sm text-muted-foreground">
+                <Text className="text-sm font-expose text-muted-foreground">
                   {original_product_detail.unit?.normalized_amount}{' '}
                   {original_product_detail.unit?.normalized_unit}
                 </Text>
                 {original_product_detail.brand && (
-                  <Text className="text-xs text-muted-foreground ml-2">
+                  <Text className="text-xs font-expose text-muted-foreground ml-2">
                     • {original_product_detail.brand}
                   </Text>
                 )}
@@ -182,19 +177,18 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             {renderPriceSection(price, false)}
           </>
         ) : (
-          // Show category when it was replaced with a category product
           <>
             <View className="flex-row items-center flex-1 pr-4">
               {!!image_url && (
                 <Image
-                  source={{ uri: image_url as string }}
+                  source={{ uri: image_url }}
                   resizeMode="contain"
                   className="w-8 h-8 mr-2"
                 />
               )}
               <View className="flex-1">
                 <Text
-                  className="text-base font-medium text-foreground leading-5"
+                  className="text-base font-expose text-foreground leading-5"
                   numberOfLines={2}
                 >
                   {categoryName}
