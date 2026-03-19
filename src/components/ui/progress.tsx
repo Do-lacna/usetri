@@ -36,7 +36,7 @@ export { Progress };
 function Indicator({
   value,
   className,
-}: { value: number | undefined | null; className?: string }) {
+}: Readonly<{ value: number | undefined | null; className?: string }>) {
   const progress = useDerivedValue(() => value ?? 0);
 
   const indicator = useAnimatedStyle(() => {

@@ -43,12 +43,10 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
     const totalItems = React.Children.count(children);
 
     const snapInterval =
-      customSnapToInterval !== undefined ? customSnapToInterval : itemWidth;
+        customSnapToInterval ?? itemWidth;
 
     const horizontalPadding =
-      contentPadding !== undefined
-        ? contentPadding
-        : (screenWidth - itemWidth) / 2;
+        contentPadding ?? (screenWidth - itemWidth) / 2;
 
     const paddingStyle = snapEnabled
       ? { paddingHorizontal: horizontalPadding }
@@ -152,18 +150,9 @@ const CarouselIndicators = React.forwardRef<
 );
 CarouselIndicators.displayName = "CarouselIndicators";
 
-const useCarousel = () => {
-  const context = React.useContext(CarouselContext);
-  if (!context) {
-    throw new Error("useCarousel must be used within a Carousel");
-  }
-  return context;
-};
-
 export {
   CarouselRoot as Carousel,
   CarouselIndicators,
   CarouselItem,
-  useCarousel,
   type CarouselProps,
 };
