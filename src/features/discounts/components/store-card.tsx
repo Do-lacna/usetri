@@ -151,6 +151,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
           >
             <Animated.Text
               style={{
+                fontFamily: 'Expose-Bold',
                 fontWeight: 'bold',
                 color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
                 fontSize: titleFontSize,
@@ -158,22 +159,7 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             >
               {getStoreDisplayName(store.name)}
             </Animated.Text>
-            {/* {discountCount > 0 && (
-              <Animated.Text
-                style={{
-                  marginTop: 4,
-                  color: isActive
-                    ? "rgba(255, 255, 255, 0.9)"
-                    : "rgba(255, 255, 255, 0.7)",
-                  fontSize: discountTextFontSize,
-                  opacity: discountTextOpacity,
-                }}
-              >
-                {t("discounts.discountsCount", {
-                  count: discountCount,
-                })}
-              </Animated.Text>
-            )} */}
+
           </Animated.View>
 
           {isActive && (

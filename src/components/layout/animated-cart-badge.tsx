@@ -65,7 +65,7 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
         animatedStyle,
       ]}
     >
-      <Text style={{ color: 'white', fontSize: 12, fontWeight: 'bold' }}>
+      <Text style={{ color: 'white', fontSize: 12, fontFamily: 'Expose-Bold', fontWeight: 'bold' }}>
         {count > 99 ? '99+' : count}
       </Text>
     </Animated.View>

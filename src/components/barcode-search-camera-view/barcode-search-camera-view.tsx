@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
+    fontFamily: 'Expose-Bold',
     fontWeight: 'bold',
     color: 'white',
   },

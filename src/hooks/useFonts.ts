@@ -9,8 +9,15 @@ export function useFonts() {
     (async () => {
       try {
         await Font.loadAsync({
-          'Expose-Regular': require('../../assets/fonts/TTF/Expose-Variable.ttf'),
-          'Expose': require('../../assets/fonts/TTF/Expose-Variable.ttf'),
+          // Regular (400)
+          'Expose': require('../../assets/fonts/OTF/Expose-Regular.otf'),
+          'Expose-Regular': require('../../assets/fonts/OTF/Expose-Regular.otf'),
+          // Medium (500)
+          'Expose-Medium': require('../../assets/fonts/OTF/Expose-Medium.otf'),
+          // Bold (700)
+          'Expose-Bold': require('../../assets/fonts/OTF/Expose-Bold.otf'),
+          // Black (900)
+          'Expose-Black': require('../../assets/fonts/OTF/Expose-Black.otf'),
         });
         setFontsLoaded(true);
       } catch (error) {

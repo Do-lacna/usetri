@@ -89,6 +89,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                 <Text
                   style={{
                     fontSize: 11,
+                    fontFamily: 'Expose-Bold',
                     fontWeight: isActive ? '700' : '600',
                     color: COLORS.white,
                     textAlign: 'center',

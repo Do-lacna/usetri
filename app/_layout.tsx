@@ -62,7 +62,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  useFonts();
+  const { fontsLoaded } = useFonts();
 
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -106,6 +106,10 @@ export default function RootLayout() {
       });
     })();
   }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
