@@ -147,7 +147,10 @@ module.exports = {
         '6xl': '4rem', // equivalent to 64px
       },
       fontFamily: {
-        sans: ['Expose', 'system-ui', 'sans-serif'],
+        sans: ['Expose-Regular', 'system-ui', 'sans-serif'],
+        'expose-regular': ['Expose-Regular', 'system-ui', 'sans-serif'],
+        'expose-medium': ['Expose-Medium', 'system-ui', 'sans-serif'],
+        'expose-bold': ['Expose-Bold', 'system-ui', 'sans-serif'],
       },
     },
   },

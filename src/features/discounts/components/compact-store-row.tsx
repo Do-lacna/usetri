@@ -1,5 +1,4 @@
 import type React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Dimensions,
   ImageBackground,
@@ -8,24 +7,21 @@ import {
   View,
 } from 'react-native';
 import { COLORS } from '~/src/lib/constants';
-import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
-import { getShopCoverImage } from '../../../utils/logo-utils';
+import type { ShopExtendedDto } from '~/src/network/model';
+import { getShopCoverImage } from '~/src/utils/logo-utils';
 import { getStoreDisplayName } from '../utils/store-utils';
 
 interface CompactStoreRowProps {
   shops: ShopExtendedDto[];
   activeStoreId: number | null;
-  stats: DiscountStatsDto[];
   onStoreSelect: (storeId: number, index: number) => void;
 }
 
 export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
   shops,
   activeStoreId,
-  stats,
-  onStoreSelect,
+                                                                    onStoreSelect,
 }) => {
-  const { t } = useTranslation();
   const { width: screenWidth } = Dimensions.get('window');
 
   // Calculate width for each shop to fit all 4 in a row
@@ -42,7 +38,6 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
     >
       {shops?.map((store, index) => {
         const isActive = store?.id === activeStoreId;
-        // const discountCount = getStoreDiscountsCount(Number(store?.id), stats);
         const storeImage = getShopCoverImage(Number(store?.id));
 
         return (
@@ -89,7 +84,7 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                 <Text
                   style={{
                     fontSize: 11,
-                    fontFamily: 'Expose-Bold',
+                    fontFamily: 'Expose',
                     fontWeight: isActive ? '700' : '600',
                     color: COLORS.white,
                     textAlign: 'center',
@@ -98,17 +93,6 @@ export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
                 >
                   {getStoreDisplayName(store.name)}
                 </Text>
-                {/* {discountCount > 0 && (
-                  <Text
-                    style={{
-                      fontSize: 9,
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      marginTop: 2,
-                    }}
-                  >
-                    {discountCount}
-                  </Text>
-                )} */}
               </View>
 
               {isActive && (

@@ -152,7 +152,6 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             <Animated.Text
               style={{
                 fontFamily: 'Expose-Bold',
-                fontWeight: 'bold',
                 color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.8)',
                 fontSize: titleFontSize,
               }}
