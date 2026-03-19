@@ -3,7 +3,7 @@ import { cssInterop } from 'nativewind';
 import { Platform, Pressable, View } from 'react-native';
 import { Text } from '~/src/components/ui/text';
 import type { PopularCategoryDto } from '~/src/network/model';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
 
 cssInterop(Image, { className: 'style' });
 

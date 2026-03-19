@@ -37,7 +37,7 @@ import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/product_placeholder.jpg');
+const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
 
 cssInterop(Image, { className: 'style' });
 

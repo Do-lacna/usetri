@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 
 // Add all PNG logo imports here
 const logoImports = [
-  require('~/assets/logos/logo1.png'),
-  require('~/assets/logos/logo2.png'),
-  // ...add more logos as needed
+  require('~/assets/store-logos/logo1.png'),
+  require('~/assets/store-logos/logo2.png'),
+  // ...add more store-logos as needed
 ];
 
 const useShopLogos = () => {

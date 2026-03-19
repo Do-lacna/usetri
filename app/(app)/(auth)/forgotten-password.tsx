@@ -74,15 +74,23 @@ export default function ForgottenPassword() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1"
+      className="flex-1 bg-background"
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View className="flex-1 items-center justify-center gap-2 py-8">
-          <ThemedLogo width={220} height={110} className="mb-8" />
+        <View className="flex-1 px-6 py-12 items-center justify-center">
+          <ThemedLogo className="mb-12" />
+          
+          <Text className="text-2xl font-bold text-foreground text-center mb-2">
+            Obnovte heslo
+          </Text>
+          <Text className="text-sm text-muted-foreground text-center mb-8">
+            Zadajte svoj e-mail a obdržíte link na obnovenie hesla
+          </Text>
+
           <Controller
             control={control}
             name="email"
@@ -91,7 +99,7 @@ export default function ForgottenPassword() {
                 placeholder="Zadajte svoj e-mail"
                 aria-labelledby="username"
                 aria-errormessage="inputError"
-                className="mt-4 w-[80%]"
+                className="w-full"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}
@@ -103,15 +111,15 @@ export default function ForgottenPassword() {
             )}
           />
           {touchedFields.email && errors.email && (
-            <Text className="my-4 text-red-600">{errors.email.message}</Text>
+            <Text className="text-destructive text-sm mt-2">{errors.email.message}</Text>
           )}
 
           <Button
-            // disabled={!isDirty || !isValid}
             onPress={handleSubmit(handlePasswordReset)}
-            className="w-[80%] mt-4"
+            className="w-full mt-8"
+            disabled={loading}
           >
-            <Text>Resetovať heslo</Text>
+            <Text className="text-primary-foreground font-semibold">Resetovať heslo</Text>
           </Button>
         </View>
       </ScrollView>

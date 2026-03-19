@@ -1,13 +1,12 @@
-import EmptyCartSVG from 'assets/images/empty-cart.svg';
-import ProfilePlaceholderSVG from 'assets/images/profile_placeholder.svg';
+import EmptyCartSVG from '~/assets/images/other/empty-cart.svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { SvgProps } from 'react-native-svg';
-import { useSession } from '~/src/context/authentication-context';
 import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
+import React from "react";
 
 interface GuestScreenProps {
   title?: string;
@@ -15,7 +14,6 @@ interface GuestScreenProps {
   icon?: React.ReactNode;
   showCartImage?: boolean;
   showProfileImage?: boolean;
-  showLogoutButton?: boolean;
 }
 
 export const GuestScreen = ({
@@ -24,12 +22,9 @@ export const GuestScreen = ({
   icon,
   showCartImage = false,
   showProfileImage = false,
-  showLogoutButton = false,
 }: GuestScreenProps) => {
   const { isDarkColorScheme } = useColorScheme();
-  const { signOut } = useSession();
   const CartIcon = EmptyCartSVG as unknown as React.FC<SvgProps>;
-  const ProfileIcon = ProfilePlaceholderSVG as unknown as React.FC<SvgProps>;
 
   const handleRegister = () => {
     router.push('/(app)/(auth)/sign-up');
@@ -63,7 +58,11 @@ export const GuestScreen = ({
 
           {showProfileImage && (
             <View className="mb-10">
-              <ProfileIcon width={180} height={140} />
+              <Image
+                source={require('~/assets/images/other/profile_placeholder.png')}
+                style={{ width: 180, height: 140 }}
+                resizeMode="contain"
+              />
             </View>
           )}
 

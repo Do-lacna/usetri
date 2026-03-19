@@ -10,7 +10,6 @@ import DiscountList from './components/discount-list';
 import { StoreCarousel } from './components/store-carousel';
 import { useStoreSelection } from './hooks/use-store-selection';
 
-// Approximate scroll distance to show ~10 products (5 rows × ~200px per row)
 const GUEST_SCROLL_LIMIT = 1000;
 
 export const DiscountsScreenContent: React.FC = () => {

@@ -1,4 +1,4 @@
-import LogoSVG from 'assets/images/empty-cart.svg';
+import LogoSVG from '~/assets/images/other/empty-cart.svg';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import type { SvgProps } from 'react-native-svg';

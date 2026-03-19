@@ -26,7 +26,6 @@ export default function ProfileScreen() {
         title="Váš profil"
         description="Prihláste sa pre zobrazenie vášho profilu, histórie nákupov a štatistík vašich úspor."
         showProfileImage
-        showLogoutButton
       />
     );
   }

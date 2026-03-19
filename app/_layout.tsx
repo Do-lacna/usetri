@@ -9,10 +9,10 @@ import {
 import { PortalHost } from '@rn-primitives/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot, SplashScreen } from 'expo-router';
-import type { i18n } from 'i18next';
 import 'intl-pluralrules';
-import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Platform, StyleSheet } from 'react-native';
+import AnimatedLogoSplash from '~/src/components/AnimatedSplash';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
@@ -36,19 +36,12 @@ const DARK_THEME: Theme = {
 };
 
 export {
-  // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // retry: (_, err: any) => {
-      //   if (err?.response?.status === 401) {
-      //     return true; // do not retry, trigger error
-      //   }
-      //   return false;
-      // },
       retry: 2,
       refetchOnMount: true,
       refetchOnWindowFocus: true,
@@ -68,9 +61,12 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
-  const [i18nInstance, setI18nInstance] = useState<i18n | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [animationDone, setAnimationDone] = useState(false);
+
+  const onSplashFinish = useCallback(() => {
+    setAnimationDone(true);
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -87,45 +83,33 @@ export default function RootLayout() {
           document.documentElement.classList.remove('dark');
         }
       }
+
+      // Consolidate theme selection and make sure we always set the android nav bar.
+      const colorTheme = theme && theme === 'dark' ? 'dark' : 'light';
       if (!theme) {
         // Set default theme to light instead of using system preference
         setColorScheme('light');
         setTheme('light');
-        setAndroidNavigationBar('light');
-        setIsColorSchemeLoaded(true);
-        return;
-      }
-      const colorTheme = theme === 'dark' ? 'dark' : 'light';
-      if (colorTheme !== colorScheme) {
+      } else if (colorTheme !== colorScheme) {
         setColorScheme(colorTheme);
-        setAndroidNavigationBar(colorTheme);
-        setIsColorSchemeLoaded(true);
-        return;
       }
-      setAndroidNavigationBar(colorTheme);
-      setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      SplashScreen.hideAsync();
-    });
+
+      await setAndroidNavigationBar(colorTheme);
+
+      // Hide the native splash once theme is ready — AnimatedLogoSplash takes over from here.
+      await SplashScreen.hideAsync().catch((e) => {
+        // Log to aid debugging but continue — splash may already be hidden.
+        // eslint-disable-next-line no-console
+        console.debug('SplashScreen.hideAsync failed:', e);
+      });
+    })();
   }, []);
-
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
-
-  // if (!i18nInstance) {
-  //   return (
-  //     <View className="flex-1">
-  //       <Text>Nenacitana localization</Text>
-  //     </View>
-  //   );
-  // }
 
   return (
     <QueryClientProvider client={queryClient}>
       <RevenueCatProvider>
         <SessionProvider>
-          <GestureHandlerRootView>
+          <GestureHandlerRootView style={styles.root}>
             <BottomSheetModalProvider>
               <ThemeProvider
                 value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}
@@ -137,9 +121,19 @@ export default function RootLayout() {
                 <Toast />
               </ThemeProvider>
             </BottomSheetModalProvider>
+            {!animationDone && (
+              <AnimatedLogoSplash onFinish={onSplashFinish} />
+            )}
           </GestureHandlerRootView>
         </SessionProvider>
       </RevenueCatProvider>
     </QueryClientProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});
+
