@@ -21,18 +21,15 @@ export const AnimatedCartBadge: React.FC<AnimatedCartBadgeProps> = ({
 
   useEffect(() => {
     if (count !== displayCount) {
-      // Update display count
       setDisplayCount(count);
 
       if (count > 0) {
-        // Show badge with bounce animation
         opacity.value = withTiming(1, { duration: 200 });
         scale.value = withSequence(
           withSpring(1.3, { damping: 8, stiffness: 150 }),
           withSpring(1, { damping: 8, stiffness: 150 }),
         );
       } else {
-        // Hide badge with scale down
         scale.value = withTiming(0.8, { duration: 150 }, () => {
           opacity.value = withTiming(0, { duration: 100 });
         });

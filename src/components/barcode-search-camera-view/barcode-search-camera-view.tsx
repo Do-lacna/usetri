@@ -24,7 +24,7 @@ export type CameraViewProps = {
 
 export default function BarcodeSearchCameraView({
   onBarcodeScanned,
-}: CameraViewProps) {
+}: Readonly<CameraViewProps>) {
   const [barcode, setBarcode] = useState<string | null>(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -36,7 +36,6 @@ export default function BarcodeSearchCameraView({
     { photoResolution: { width: 1280, height: 720 } },
   ]);
 
-  // Request camera permission
   useEffect(() => {
     const requestCameraPermission = async () => {
       const permission = await Camera.requestCameraPermission();
@@ -75,13 +74,11 @@ export default function BarcodeSearchCameraView({
     },
   });
 
-  // Handle camera errors
   const onError = (error: CameraRuntimeError) => {
     console.error('Camera error:', error);
   };
 
   if (!hasPermission) {
-    // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
         <Text style={styles.message}>
@@ -95,7 +92,7 @@ export default function BarcodeSearchCameraView({
             setHasPermission(permission === 'granted');
           }}
         >
-          <Text>Continue</Text>
+          <Text className="font-expose-bold">Continue</Text>
         </Button>
       </View>
     );
@@ -125,7 +122,7 @@ export default function BarcodeSearchCameraView({
           <X size={25} color="white" strokeWidth={2} />
         </IconButton>
         <View className="flex-1 bg-transparent relative mb-16">
-          <Text className="text-lg text-n2 font-bold absolute bottom-4 w-full text-center">
+          <Text className="text-lg text-n2 font-expose-bold absolute bottom-4 w-full text-center">
             Naskenujte čiarový kód produktu a budete automaticky presmerovaný na
             daný produkt
           </Text>
@@ -143,6 +140,7 @@ const styles = StyleSheet.create({
   message: {
     textAlign: 'center',
     paddingBottom: 10,
+    fontFamily: 'Expose',
   },
   camera: {
     flex: 1,

@@ -27,7 +27,7 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
         <Card className="bg-card shadow-lg mb-4 border border-border">
           <CardHeader className="pb-4">
             <View className="items-center border-b border-border pb-4">
-              <Text className="text-xl font-bold text-card-foreground mb-1">
+              <Text className="text-xl font-expose-bold text-card-foreground mb-1">
                 {shopName}
               </Text>
               <View className="flex-row justify-between w-full" />
@@ -48,17 +48,17 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
                   <View key={product_id}>
                     <View className="flex-row justify-between items-start py-3">
                       <View className="flex-1 pr-4">
-                        <Text className="text-base font-medium text-card-foreground mb-1">
+                        <Text className="text-base font-expose text-card-foreground mb-1">
                           {name}
                         </Text>
-                        <Text className="text-sm text-muted-foreground mb-1">
+                        <Text className="text-sm font-expose text-muted-foreground mb-1">
                           {brand}
                         </Text>
-                        <Text className="text-xs text-muted-foreground opacity-75">
+                        <Text className="text-xs font-expose text-muted-foreground opacity-75">
                           Počet: {2}
                         </Text>
                       </View>
-                      <Text className="text-base font-semibold text-card-foreground">
+                      <Text className="text-base font-expose-bold text-card-foreground">
                         {formatPrice(price * quantity)}
                       </Text>
                     </View>
@@ -70,13 +70,12 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
               )}
             </View>
 
-            {/* Total Section */}
             <Separator className="bg-border mb-4" />
             <View className="flex-row justify-between items-center bg-muted p-4 rounded-lg">
-              <Text className="text-lg font-bold text-card-foreground">
+              <Text className="text-lg font-expose-bold text-card-foreground">
                 Celková suma
               </Text>
-              <Text className="text-xl font-bold text-green-600">
+              <Text className="text-xl font-expose-bold text-green-600">
                 {formatPrice(total_price)}
               </Text>
             </View>

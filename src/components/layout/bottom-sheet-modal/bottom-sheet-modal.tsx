@@ -8,7 +8,7 @@ import React, { forwardRef, type ReactNode, useCallback, useMemo } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { NAV_THEME } from '~/src/lib/constants';
-import { toastConfig } from '../../../utils/toast-config';
+import { toastConfig } from '~/src/utils/toast-config';
 
 export interface CustomBottomSheetModalProps extends BottomSheetModalProps {
   children: ReactNode;
@@ -23,7 +23,6 @@ export const CustomBottomSheetModal = forwardRef<
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Use theme colors from NAV_THEME
   const theme = isDark ? NAV_THEME.dark : NAV_THEME.light;
 
   const renderBackdrop = useCallback(
@@ -64,14 +63,11 @@ export const CustomBottomSheetModal = forwardRef<
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     padding: 24,
     justifyContent: 'center',
     backgroundColor: 'grey',
   },
   contentContainer: {
-    // flex: 1,
-    // minHeight: 300,
     alignItems: 'center',
   },
 });

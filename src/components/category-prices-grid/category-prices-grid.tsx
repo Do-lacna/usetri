@@ -45,12 +45,12 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
   return (
     <View className={className}>
       {showTitle && (
-        <Text className="text-sm font-semibold text-foreground mb-3">
+        <Text className="text-sm font-expose-bold text-foreground mb-3">
           {title ?? t('cart_drawer.estimated_prices')}
         </Text>
       )}
       {categoryAmount && categoryUnit && (
-        <Text className="text-xs text-muted-foreground mb-2">
+        <Text className="text-xs font-expose text-muted-foreground mb-2">
           {t('cart_drawer.price_for_amount', {
             amount: categoryAmount,
             unit: categoryUnit,
@@ -89,15 +89,15 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                   <ShopLogoBadge shopId={shop_id} size={20} />
                   {hasDiscount ? (
                     <View className="ml-2">
-                      <Text className="text-xs text-muted-foreground line-through">
+                      <Text className="text-xs font-expose text-muted-foreground line-through">
                         {originalPrice?.toFixed(2)}€
                       </Text>
-                      <Text className="text-sm font-bold text-discount">
+                      <Text className="text-sm font-expose-bold text-discount">
                         {discountPrice?.toFixed(2)}€
                       </Text>
                     </View>
                   ) : (
-                    <Text className="text-sm font-medium text-foreground ml-2">
+                    <Text className="text-sm font-expose text-foreground ml-2">
                       {price.toFixed(2)}€
                     </Text>
                   )}

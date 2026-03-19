@@ -12,7 +12,7 @@ import { Slot, SplashScreen } from 'expo-router';
 import 'intl-pluralrules';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import AnimatedLogoSplash from '~/src/components/AnimatedSplash';
+import AnimatedLogoSplash from '~/src/components/animated-splash';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';

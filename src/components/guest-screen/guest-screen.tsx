@@ -70,11 +70,11 @@ export const GuestScreen = ({
             <View className="mb-8">{icon}</View>
           )}
 
-          <Text className="text-2xl font-bold text-foreground text-center mb-4">
+          <Text className="text-2xl font-expose-bold text-foreground text-center mb-4">
             {title}
           </Text>
 
-          <Text className="text-base text-muted-foreground text-center mb-10 leading-6">
+          <Text className="text-base font-expose text-muted-foreground text-center mb-10 leading-6">
             {description}
           </Text>
 
@@ -82,15 +82,15 @@ export const GuestScreen = ({
             onPress={handleRegister}
             className="bg-primary w-full py-4 rounded-xl mb-4 active:opacity-80"
           >
-            <Text className="text-primary-foreground text-center font-semibold text-lg">
+            <Text className="text-primary-foreground text-center font-expose-bold text-lg">
               Zaregistrovať sa zadarmo
             </Text>
           </Pressable>
 
           <Pressable onPress={handleSignIn} className="py-3 active:opacity-60">
-            <Text className="text-muted-foreground text-center">
+            <Text className="text-muted-foreground font-expose text-center">
               Už máte účet?{' '}
-              <Text className="text-terciary font-semibold">Prihlásiť sa</Text>
+              <Text className="text-terciary font-expose-bold">Prihlásiť sa</Text>
             </Text>
           </Pressable>
         </View>

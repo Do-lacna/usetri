@@ -2,6 +2,7 @@ import { AlertCircle } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import { COLORS } from '~/src/lib/constants';
 import type { PendingCartDataType } from '~/src/types/cart-drawer-types';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import { useGetCart } from '~/src/network/cart/cart';
@@ -104,14 +105,13 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
         {/* Shop Availability Section */}
         {isArrayNotEmpty(itemDetail.shops_prices) && (
           <View className="mb-2">
-            <Text className="text-sm text-muted-foreground mb-2">
+            <Text className="text-sm font-expose text-muted-foreground mb-2">
               {t('cart_drawer.available_in')}
             </Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
                 ({ shop_id, price, valid_to }: ShopPriceDto, index: number) => {
                   // TODO: Replace with actual availability flag from BE when available
-                  // For now, simulate: make every 3rd item unavailable for testing
                   const isAvailable = valid_to
                     ? new Date(valid_to) > new Date()
                     : true;
@@ -122,16 +122,16 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
                       className={`flex-row items-center rounded-lg px-2 py-1 ${
                         isAvailable
                           ? 'bg-muted border border-border'
-                          : 'bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-900/50'
+                          : 'bg-g2 border border-g1'
                       }`}
                     >
                       <ShopLogoBadge shopId={shop_id} size={24} />
                       {price && (
                         <Text
-                          className={`text-xs ml-1 font-medium ${
+                          className={`text-xs ml-1 font-expose ${
                             isAvailable
                               ? 'text-muted-foreground'
-                              : 'text-yellow-700 dark:text-yellow-500'
+                              : 'text-g3'
                           }`}
                         >
                           {price.toFixed(2)}€
@@ -140,7 +140,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
                       {!isAvailable && (
                         <AlertCircle
                           size={12}
-                          color="#EAB308"
+                          color={COLORS.g3}
                           className="ml-1"
                         />
                       )}
@@ -150,17 +150,16 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
               )}
             </View>
 
-            {/* Warning message if any shop has unavailable product */}
             {itemDetail.shops_prices?.some(
               (_, index) => index % 3 === 1, // TODO: Replace with actual availability check
             ) && (
-              <View className="flex-row items-center mt-3 px-3 py-2 bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-900/50 rounded-lg">
+              <View className="flex-row items-center mt-3 px-3 py-2 bg-g2 border border-g1 rounded-lg">
                 <AlertCircle
                   size={16}
-                  color="#EAB308"
+                  color={COLORS.g3}
                   className="mr-2 flex-shrink-0"
                 />
-                <Text className="text-xs font-medium text-yellow-700 dark:text-yellow-400 flex-1">
+                <Text className="text-xs font-expose text-g3 flex-1">
                   {t('product.may_not_be_available')}
                 </Text>
               </View>
@@ -169,19 +168,16 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
         )}
       </View>
 
-      {/* Actions Section - Wolt Style */}
       <View className="w-full flex-row gap-4 items-center justify-between my-6">
-        {/* Counter on the left */}
         <Counter initialCount={productCount} onCountChange={setProductCount} />
 
-        {/* Confirm button on the right */}
         <Button
           onPress={() => handleConfirm(productCount)}
           className="flex-1 flex-row ml-4 px-2 justify-between"
           disabled={isLoadingGlobal}
         >
-          <Text>{t('cart_drawer.add_to_cart')}</Text>
-          <Text>{((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€</Text>
+          <Text className="font-expose-bold">{t('cart_drawer.add_to_cart')}</Text>
+          <Text className="font-expose-bold">{((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€</Text>
         </Button>
       </View>
     </View>

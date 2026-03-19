@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Image } from 'expo-image';
+import { Image, type ImageSource } from 'expo-image';
 import { cssInterop } from 'nativewind';
 import { Pressable, Text, View } from 'react-native';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
@@ -13,7 +13,7 @@ import type {
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
@@ -43,6 +43,14 @@ const DiscountedProductCard = ({
 
   const availableShopIds = shopsPrices?.map(shop => Number(shop.shop_id)) || [];
 
+  let imageSource: ImageSource | number = PLACEHOLDER_PRODUCT_IMAGE;
+  if (categoryImageUrl) {
+    imageSource = { uri: categoryImageUrl };
+  }
+  if (image_url) {
+    imageSource = { uri: image_url };
+  }
+
   const selectedShopPrice = selectedShopId
     ? shopsPrices?.find(shop => Number(shop.shop_id) === Number(selectedShopId))
     : undefined;
@@ -63,17 +71,17 @@ const DiscountedProductCard = ({
     if (hasDiscount) {
       return (
         <View className="flex-row items-center space-x-1">
-          <Text className="text-xs font-bold text-o3 mr-1">
+          <Text className="text-xs font-expose-bold text-o3 mr-1">
             {discount_price?.price} €
           </Text>
-          <Text className="text-xs text-muted-foreground line-through">
+          <Text className="text-xs font-expose text-muted-foreground line-through">
             {price} €
           </Text>
         </View>
       );
     }
 
-    return <Text className="text-sm font-bold text-foreground">{price} €</Text>;
+    return <Text className="text-sm font-expose-bold text-foreground">{price} €</Text>;
   };
 
   return (
@@ -84,13 +92,7 @@ const DiscountedProductCard = ({
       <View className="bg-card rounded-xl p-2 shadow-sm border border-border mx-1">
         <View className="w-full h-32 rounded-lg relative">
           <Image
-            source={
-              image_url
-                ? { uri: image_url }
-                : categoryImageUrl
-                  ? { uri: categoryImageUrl }
-                  : PLACEHOLDER_PRODUCT_IMAGE
-            }
+            source={imageSource}
             className="w-full h-32 rounded-lg"
             contentFit="contain"
             transition={200}
@@ -122,29 +124,26 @@ const DiscountedProductCard = ({
           </View>
         </View>
 
-        {/* Unit badge — n3 neutral */}
-        <Badge className="absolute top-2 left-2 bg-v2">
-          <Text className="text-xs text-foreground">{`${amount} ${unit}`}</Text>
+        <Badge className="absolute top-2 left-2 bg-secondary">
+          <Text className="text-xs font-expose text-foreground">{`${amount} ${unit}`}</Text>
         </Badge>
 
-        {/* Discount % badge — g1 yellow */}
         {hasDiscount && (
-          <Badge className="absolute top-2 right-2 bg-g1">
-            <Text className="text-xs text-foreground font-semibold">
+          <Badge className="absolute top-2 right-2 bg-warning">
+            <Text className="text-xs font-expose-bold text-foreground">
               -{percentageDiscount}%
             </Text>
           </Badge>
         )}
 
-        {/* Product Info */}
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs text-muted-foreground" numberOfLines={1}>
+              <Text className="text-xs font-expose text-muted-foreground" numberOfLines={1}>
                 {brand}
               </Text>
               <Text
-                className="text-sm font-medium text-card-foreground"
+                className="text-sm font-expose text-card-foreground"
                 numberOfLines={1}
               >
                 {name}

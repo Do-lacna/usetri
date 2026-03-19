@@ -20,12 +20,10 @@ export const GuestRegistrationOverlay = ({
 }: GuestRegistrationOverlayProps) => {
   const { isDarkColorScheme } = useColorScheme();
 
-  // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(100)).current;
 
   useEffect(() => {
-    // Run fade-in and slide-up animation
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -108,10 +106,10 @@ export const GuestRegistrationOverlay = ({
             </Pressable>
           )}
 
-          <Text className="text-2xl font-bold text-foreground text-center mb-2">
+          <Text className="text-2xl font-expose-bold text-foreground text-center mb-2">
             {title}
           </Text>
-          <Text className="text-base text-muted-foreground text-center mb-6 px-4">
+          <Text className="text-base font-sans text-muted-foreground text-center mb-6 px-4">
             {description}
           </Text>
 
@@ -119,15 +117,15 @@ export const GuestRegistrationOverlay = ({
             onPress={handleRegister}
             className="bg-primary w-full py-4 rounded-xl mb-3 active:opacity-80"
           >
-            <Text className="text-primary-foreground text-center font-semibold text-lg">
+            <Text className="text-primary-foreground text-center font-expose-medium text-lg">
               Zaregistrovať sa zadarmo
             </Text>
           </Pressable>
 
           <Pressable onPress={handleSignIn} className="py-2 active:opacity-60">
-            <Text className="text-muted-foreground text-center">
+            <Text className="text-muted-foreground font-sans text-center">
               Už máte účet?{' '}
-              <Text className="text-terciary font-semibold">Prihlásiť sa</Text>
+              <Text className="text-terciary font-expose-medium">Prihlásiť sa</Text>
             </Text>
           </Pressable>
         </View>

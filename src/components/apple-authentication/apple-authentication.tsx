@@ -18,7 +18,7 @@ interface AppleAuthenticationProps {
 
 export default function AppleAuthentication({
   onLoadingChange,
-}: AppleAuthenticationProps) {
+}: Readonly<AppleAuthenticationProps>) {
   const { isDarkColorScheme } = useColorScheme();
   const { setUser } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,6 @@ export default function AppleAuthentication({
         ],
       });
 
-      // Create a Firebase credential from the Apple ID token
       const { identityToken } = credential;
 
       if (!identityToken) {
