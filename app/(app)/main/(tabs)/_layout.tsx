@@ -71,7 +71,7 @@ export default function TabLayout() {
           flexDirection: 'row',
         },
         tabBarLabelStyle: {
-          fontWeight: '600',
+          fontFamily: 'Expose-Bold',
           fontSize: 11,
         },
         headerShown: false,

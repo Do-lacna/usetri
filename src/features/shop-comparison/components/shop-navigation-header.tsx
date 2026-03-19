@@ -34,7 +34,7 @@ export const ShopNavigationHeader: React.FC<ShopNavigationHeaderProps> = ({
       )}
 
       <View className="flex-1 items-center border-primary">
-        {currentShop?.id && <ShopLogoBadge shopId={currentShop.id} size={80} />}
+        {currentShop?.id && <ShopLogoBadge shopId={currentShop.id} size={90} />}
       </View>
 
       {areMoreCartsAvailable && (
