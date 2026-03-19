@@ -32,7 +32,6 @@ export const ThemedLogo = ({
           height: '100%',
           borderRadius,
         }}
-        resizeMode={resizeMode}
       />
     </View>
   );
