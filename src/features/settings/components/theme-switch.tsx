@@ -15,7 +15,7 @@ interface ThemeSwitchProps {
   showLabel?: boolean;
 }
 
-export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
+export function ThemeSwitch({ className, showLabel = true }: Readonly<ThemeSwitchProps>) {
   const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
   const translateX = useSharedValue(isDarkColorScheme ? 28 : 0);
 
@@ -38,7 +38,7 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
     <View className={cn('flex-row items-center justify-between', className)}>
       {showLabel && (
         <View className="flex-row items-center flex-1">
-          <Text className="text-base text-foreground">Tmavý režim</Text>
+          <Text className="text-base text-foreground font-sans">Tmavý režim</Text>
         </View>
       )}
 
@@ -75,8 +75,7 @@ export function ThemeSwitch({ className, showLabel = true }: ThemeSwitchProps) {
         <Animated.View
           style={[animatedThumbStyle]}
           className={cn(
-            'absolute w-5 h-5 rounded-full shadow-sm',
-            isDarkColorScheme ? 'bg-background' : 'bg-background',
+            'absolute w-5 h-5 rounded-full shadow-sm bg-background',
           )}
         />
       </Pressable>

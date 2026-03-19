@@ -115,7 +115,7 @@ export const DiscountsScreenContent: React.FC = () => {
 
       {!isGuest && (
         <View className="bg-background px-4 py-3 border-t border-border">
-          <Text className="text-center text-xs text-muted-foreground">
+          <Text className="text-center text-xs text-muted-foreground font-sans">
             {t('discounts.prices_may_vary')}
           </Text>
         </View>
