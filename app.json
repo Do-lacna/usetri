@@ -2,7 +2,7 @@
   "expo": {
     "name": "Usetri",
     "slug": "usetri",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "orientation": "portrait",
     "icon": "./assets/usetri_logo.png",
     "scheme": "usetri",

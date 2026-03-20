@@ -17,6 +17,10 @@
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 		0F80209FED044D77AC0D8559 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4724C0542F244025AA4C3CAF /* BootSplash.storyboard */; };
 		A4F5D540A5CE4655BE790828 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8CF09F9FDD1A48D9B3BAB120 /* Colors.xcassets */; };
+		81D6839CACE74AFC9E428C68 /* Expose-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CD18DC921B7841348E676379 /* Expose-Regular.otf */; };
+		5B51106F37954407AA5E9634 /* Expose-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = B62BD2F89C8C459392A2DE45 /* Expose-Medium.otf */; };
+		7D4D100184664FE1BB950472 /* Expose-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60B5038B2D9740389DBBE14D /* Expose-Bold.otf */; };
+		6FD19DA3E23E42CDBB0BBEC5 /* Expose-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 96058949216342839D75D76C /* Expose-Black.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,10 @@
 		F11748442D0722820044C1D9 /* Usetri-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Usetri-Bridging-Header.h"; path = "Usetri/Usetri-Bridging-Header.h"; sourceTree = "<group>"; };
 		4724C0542F244025AA4C3CAF /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "Usetri/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		8CF09F9FDD1A48D9B3BAB120 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "Usetri/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
+		CD18DC921B7841348E676379 /* Expose-Regular.otf */ = {isa = PBXFileReference; name = "Expose-Regular.otf"; path = "../assets/fonts/OTF/Expose-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B62BD2F89C8C459392A2DE45 /* Expose-Medium.otf */ = {isa = PBXFileReference; name = "Expose-Medium.otf"; path = "../assets/fonts/OTF/Expose-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60B5038B2D9740389DBBE14D /* Expose-Bold.otf */ = {isa = PBXFileReference; name = "Expose-Bold.otf"; path = "../assets/fonts/OTF/Expose-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		96058949216342839D75D76C /* Expose-Black.otf */ = {isa = PBXFileReference; name = "Expose-Black.otf"; path = "../assets/fonts/OTF/Expose-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +100,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D8A70B6AB2590FE1BAE3D97C /* Pods */,
 				8C82EE1E107E43B921EBC488 /* ExpoModulesProviders */,
+				B930608CAF2546AAB6E9BCF9 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -140,6 +149,18 @@
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		B930608CAF2546AAB6E9BCF9 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				CD18DC921B7841348E676379 /* Expose-Regular.otf */,
+				B62BD2F89C8C459392A2DE45 /* Expose-Medium.otf */,
+				60B5038B2D9740389DBBE14D /* Expose-Bold.otf */,
+				96058949216342839D75D76C /* Expose-Black.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -213,6 +234,10 @@
 				545F966E3AB7EB12893656B1 /* PrivacyInfo.xcprivacy in Resources */,
 				0F80209FED044D77AC0D8559 /* BootSplash.storyboard in Resources */,
 				A4F5D540A5CE4655BE790828 /* Colors.xcassets in Resources */,
+				81D6839CACE74AFC9E428C68 /* Expose-Regular.otf in Resources */,
+				5B51106F37954407AA5E9634 /* Expose-Medium.otf in Resources */,
+				7D4D100184664FE1BB950472 /* Expose-Bold.otf in Resources */,
+				6FD19DA3E23E42CDBB0BBEC5 /* Expose-Black.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,11 +477,11 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dutosvarc.usetri;
-				PRODUCT_NAME = Usetri;
+				PRODUCT_NAME = "Usetri";
 				SWIFT_OBJC_BRIDGING_HEADER = "Usetri/Usetri-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1";
 				VERSIONING_SYSTEM = "apple-generic";
 				DEVELOPMENT_TEAM = "W7Q9YP35BN";
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -486,10 +511,10 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dutosvarc.usetri;
-				PRODUCT_NAME = Usetri;
+				PRODUCT_NAME = "Usetri";
 				SWIFT_OBJC_BRIDGING_HEADER = "Usetri/Usetri-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1";
 				VERSIONING_SYSTEM = "apple-generic";
 				DEVELOPMENT_TEAM = "W7Q9YP35BN";
 				CODE_SIGN_IDENTITY = "Apple Development";
