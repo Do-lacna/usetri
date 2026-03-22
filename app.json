@@ -4,7 +4,7 @@
     "slug": "usetri",
     "version": "1.0.13",
     "orientation": "portrait",
-    "icon": "./assets/usetri_logo.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "usetri",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
@@ -24,9 +24,11 @@
       "versionCode": 7,
       "googleServicesFile": "./google-services.json",
       "package": "com.dutosvarc.usetri",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/usetri_logo.png",
-        "backgroundColor": "#26252c"
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/images/adaptive-icon.png",
+          "backgroundColor": "#5040d0"
+        }
       },
       "permissions": [
         "android.permission.CAMERA",
