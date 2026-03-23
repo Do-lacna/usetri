@@ -74,7 +74,8 @@
   },
 
   "product": {
-    "may_not_be_available": "Produkt môže byť nedostupný v niektorých označených predajniach"
+    "may_not_be_available": "Produkt môže byť nedostupný v niektorých predajniach",
+    "last_available_on": "Naposledy dostupné do {{date}}"
   },
 
   "shopping_list": {
@@ -97,6 +98,15 @@
   "price_summary": {
     "total_sum": "Celková suma",
     "show_comparison": "Zobraziť porovnanie"
+  },
+
+  "shop_comparison": {
+    "category_not_available": "Kategória nie je dostupná",
+    "not_available_at": "Nedostupné v {{shopName}}",
+    "missing": "Chýba",
+    "category": "Kategória",
+    "product_category": "Kategória: {{categoryName}}",
+    "not_available": "Nedostupné"
   },
 
   "menu": {

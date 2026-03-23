@@ -2,14 +2,13 @@ import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { ImageBackground, Platform, View } from 'react-native';
 import { COLORS } from '../../lib/constants';
-import { useColorScheme } from '../../lib/useColorScheme';
 import { useGetArchivedCart } from '../../network/customer/customer';
 import { Card } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
 import { Text } from '../ui/text';
 
 const TotalSavedCard: React.FC = () => {
-  const iconColor = COLORS.n6;
+  const iconColor = COLORS.black;
 
   const {
     isLoading,

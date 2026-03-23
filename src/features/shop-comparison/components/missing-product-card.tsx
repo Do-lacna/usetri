@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import type { CartComparisonProductDto } from '~/src/network/model';
 
@@ -15,6 +16,7 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
   totalProducts,
   shopName,
 }) => {
+  const { t } = useTranslation();
   const {
     detail: {
       name,
@@ -53,14 +55,14 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
                 />
               )}
               <Text className="text-sm font-expose text-primary">
-                Kategória : {categoryName}
+                {t('shop_comparison.product_category', { categoryName })}
               </Text>
             </View>
           )}
 
           {shopName && (
             <Text className="text-xs font-expose text-destructive mt-1 ml-5">
-              Nedostupné v {shopName}
+              {t('shop_comparison.not_available_at', { shopName })}
             </Text>
           )}
         </View>
@@ -68,7 +70,7 @@ export const MissingProductCard: React.FC<MissingProductCardProps> = ({
         <View className="items-end ml-4">
           <View className="bg-destructive/20 px-2 py-1 rounded">
             <Text className="text-sm font-expose-bold text-destructive">
-              Nedostupné
+              {t('shop_comparison.not_available')}
             </Text>
           </View>
 

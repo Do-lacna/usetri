@@ -74,7 +74,8 @@
   },
 
   "product": {
-    "may_not_be_available": "Product may not be available in some marked stores"
+    "may_not_be_available": "Product may not be available in some stores",
+    "last_available_on": "Last available on {{date}}"
   },
 
   "shopping_list": {
@@ -97,6 +98,15 @@
   "price_summary": {
     "total_sum": "Total sum",
     "show_comparison": "Show comparison"
+  },
+
+  "shop_comparison": {
+    "category_not_available": "Category not available",
+    "not_available_at": "Not available at {{shopName}}",
+    "missing": "Missing",
+    "category": "Category",
+    "product_category": "Category: {{categoryName}}",
+    "not_available": "Not available"
   },
 
   "menu": {

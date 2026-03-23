@@ -40,6 +40,7 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
               shopId={Number(shop_id)}
               shopName={shopName || 'Unknown Shop'}
               price={Number(price)}
+              productValidTo={valid_to}
               discountPrice={
                 discount_price ? Number(discount_price?.price) : null
               }

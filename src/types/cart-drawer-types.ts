@@ -17,5 +17,5 @@ export enum DrawerTypeEnum {
 export type PendingCartDataType = {
   identifier: number;
   type: DrawerTypeEnum;
+  source?: 'product_detail_category_prices_grid';
 };
-

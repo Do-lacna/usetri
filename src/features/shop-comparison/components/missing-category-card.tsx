@@ -1,4 +1,5 @@
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, Text, View } from 'react-native';
 import type { CategoryDto } from '~/src/network/model';
 
@@ -15,6 +16,7 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
   totalItems,
   shopName,
 }) => {
+  const { t } = useTranslation();
   const { image_url, name: categoryName } = category || {};
 
   const borderClass = index < totalItems - 1 ? 'border-b border-border' : '';
@@ -40,12 +42,12 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
           </View>
 
           <Text className="text-sm font-expose text-muted-foreground ml-5">
-            Category not available
+            {t('shop_comparison.category_not_available')}
           </Text>
 
           {shopName && (
             <Text className="text-xs font-expose text-g3 mt-1 ml-5">
-              Not available at {shopName}
+              {t('shop_comparison.not_available_at', { shopName })}
             </Text>
           )}
         </View>
@@ -53,11 +55,13 @@ export const MissingCategoryCard: React.FC<MissingCategoryCardProps> = ({
         <View className="items-end ml-4">
           <View className="bg-g1 px-2 py-1 rounded">
             <Text className="text-sm font-expose-bold text-foreground">
-              Missing
+              {t('shop_comparison.missing')}
             </Text>
           </View>
 
-          <Text className="text-xs font-expose text-muted-foreground mt-1">Category</Text>
+          <Text className="text-xs font-expose text-muted-foreground mt-1">
+            {t('shop_comparison.category')}
+          </Text>
         </View>
       </View>
     </View>

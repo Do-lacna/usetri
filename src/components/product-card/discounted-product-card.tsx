@@ -6,6 +6,7 @@ import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 
 cssInterop(Image, { className: 'style' });
 
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 import { USETRI_BLURHASH } from '../../lib/constants';
 import type {
   ItemListGroupedByBarcodeDto,
@@ -14,7 +15,6 @@ import type {
 } from '../../network/model';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Badge } from '../ui/badge';
-import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 export interface IProductCardProps {
   product?: ItemListGroupedByBarcodeDto;
@@ -82,7 +82,11 @@ const DiscountedProductCard = ({
       );
     }
 
-    return <Text className="text-sm font-expose-bold text-foreground">{price} €</Text>;
+    return (
+      <Text className="text-sm font-expose-bold text-foreground">
+        {price} €
+      </Text>
+    );
   };
 
   return (
@@ -125,12 +129,12 @@ const DiscountedProductCard = ({
         </View>
 
         <Badge className="absolute top-2 left-2 bg-secondary">
-          <Text className="text-xs font-expose text-foreground">{`${amount} ${unit}`}</Text>
+          <Text className="text-xs font-expose text-foreground dark:text-background">{`${amount} ${unit}`}</Text>
         </Badge>
 
         {hasDiscount && (
           <Badge className="absolute top-2 right-2 bg-warning">
-            <Text className="text-xs font-expose-bold text-foreground">
+            <Text className="text-xs font-expose-bold text-foreground dark:text-background">
               -{percentageDiscount}%
             </Text>
           </Badge>
@@ -139,7 +143,10 @@ const DiscountedProductCard = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs font-expose text-muted-foreground" numberOfLines={1}>
+              <Text
+                className="text-xs font-expose text-muted-foreground"
+                numberOfLines={1}
+              >
                 {brand}
               </Text>
               <Text

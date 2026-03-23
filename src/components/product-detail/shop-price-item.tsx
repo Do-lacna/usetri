@@ -9,6 +9,7 @@ interface ShopPriceItemProps {
   shopId: number;
   shopName: string;
   price: number;
+  productValidTo?: string | null;
   discountPrice?: number | null;
   discountValidFrom?: string;
   discountValidTo?: string;
@@ -21,6 +22,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
   shopId,
   shopName,
   price,
+  productValidTo,
   discountPrice,
   discountValidFrom,
   discountValidTo,
@@ -32,6 +34,9 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
 
   const validityText = discountPrice
     ? formatDiscountValidity(discountValidFrom, discountValidTo)
+    : null;
+  const latestAvailabilityDate = productValidTo
+    ? new Date(productValidTo).toLocaleDateString()
     : null;
 
   return (
@@ -79,14 +84,19 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
 
       {/* Availability warning - below the row */}
       {!isAvailable && (
-        <View className="flex-row items-center px-2 py-1.5 bg-yellow-100 dark:bg-yellow-200 rounded-md">
+        <View className="flex-row items-start px-2 py-1.5 bg-secondary rounded-md">
           <AlertCircle
             size={12}
-            className="mr-1.5 text-foreground dark:text-background"
+            className="mr-1.5 mt-0.5 text-foreground dark:text-background"
           />
-          <Text className="text-xs font-expose font-medium text-foreground dark:text-background">
-            {t('product.may_not_be_available')}
-          </Text>
+          <View className="flex-1">
+            <Text className="text-xs font-expose font-medium text-foreground dark:text-background">
+              {t('product.may_not_be_available')}
+              {latestAvailabilityDate
+                ? ` (${t('product.last_available_on', { date: latestAvailabilityDate })})`
+                : ''}
+            </Text>
+          </View>
         </View>
       )}
     </TouchableOpacity>

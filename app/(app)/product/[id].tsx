@@ -257,6 +257,7 @@ const ProductDetailScreen: React.FC = () => {
                 setPendingCartData({
                   identifier: productId,
                   type: DrawerTypeEnum.PRODUCT,
+                  source: 'product_detail_category_prices_grid',
                 });
                 pendingProductSheetRef.current?.present();
               }}

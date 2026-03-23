@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { COLORS } from '~/src/lib/constants';
-import type { PendingCartDataType } from '~/src/types/cart-drawer-types';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import { useGetCart } from '~/src/network/cart/cart';
 import type { ShopPriceDto } from '~/src/network/model';
 import { useGetProductsById } from '~/src/network/query/query';
+import type { PendingCartDataType } from '~/src/types/cart-drawer-types';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 import { Button } from '../ui/button';
 import Counter from '../ui/counter';
@@ -81,6 +81,12 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
     price: shops_prices?.[0]?.price ?? 0,
     shops_prices: shops_prices ?? [],
   };
+  const shouldHideShopPrices =
+    pendingCartData?.source === 'product_detail_category_prices_grid';
+  const hasUnavailableShop = itemDetail.shops_prices.some(
+    ({ valid_to }: ShopPriceDto) =>
+      Boolean(valid_to) && new Date(valid_to as string) <= new Date(),
+  );
 
   const handleConfirm = (count: number) => {
     onConfirm(
@@ -110,8 +116,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
             </Text>
             <View className="flex-row flex-wrap items-center gap-2">
               {itemDetail.shops_prices?.map(
-                ({ shop_id, price, valid_to }: ShopPriceDto, index: number) => {
-                  // TODO: Replace with actual availability flag from BE when available
+                ({ shop_id, price, valid_to }: ShopPriceDto) => {
                   const isAvailable = valid_to
                     ? new Date(valid_to) > new Date()
                     : true;
@@ -126,12 +131,10 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
                       }`}
                     >
                       <ShopLogoBadge shopId={shop_id} size={24} />
-                      {price && (
+                      {!shouldHideShopPrices && price && (
                         <Text
                           className={`text-xs ml-1 font-expose ${
-                            isAvailable
-                              ? 'text-muted-foreground'
-                              : 'text-g3'
+                            isAvailable ? 'text-muted-foreground' : 'text-g3'
                           }`}
                         >
                           {price.toFixed(2)}€
@@ -150,9 +153,7 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
               )}
             </View>
 
-            {itemDetail.shops_prices?.some(
-              (_, index) => index % 3 === 1, // TODO: Replace with actual availability check
-            ) && (
+            {hasUnavailableShop && (
               <View className="flex-row items-center mt-3 px-3 py-2 bg-g2 border border-g1 rounded-lg">
                 <AlertCircle
                   size={16}
@@ -176,8 +177,12 @@ export const ProductCartItem: React.FC<ProductCartItemProps> = ({
           className="flex-1 flex-row ml-4 px-2 justify-between"
           disabled={isLoadingGlobal}
         >
-          <Text className="font-expose-bold">{t('cart_drawer.add_to_cart')}</Text>
-          <Text className="font-expose-bold">{((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€</Text>
+          <Text className="font-expose-bold">
+            {t('cart_drawer.add_to_cart')}
+          </Text>
+          <Text className="font-expose-bold">
+            {((itemDetail.price ?? 0) * productCount)?.toFixed(2)}€
+          </Text>
         </Button>
       </View>
     </View>
