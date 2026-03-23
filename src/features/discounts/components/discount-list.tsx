@@ -141,12 +141,12 @@ const DiscountList = ({
 
   const renderHeader = () => (
     <View className="pb-3 flex-row items-center justify-between">
-      <Text className="text-2xl font-bold text-foreground">
+      <Text className="text-2xl font-expose-bold text-foreground">
         Zľavy v {getStoreDisplayName(name)}
       </Text>
       {validityInfo && (
         <View className="bg-v1 px-3 py-2 rounded-full ">
-          <Text className="text-xs font-semibold text-white">
+          <Text className="text-xs font-expose-medium text-white">
             {formatDiscountValidity(
               validityInfo.validFrom,
               validityInfo.validTo,
@@ -174,7 +174,7 @@ const DiscountList = ({
         <View className="px-4 pt-4">
           {renderHeader()}
           <Text
-            className="text-muted-foreground text-base text-center mt-2"
+            className="text-muted-foreground font-sans text-base text-center mt-2"
             numberOfLines={2}
           >
             Tento obchod momentálne neponúka žiadne zľavnené produkty
