@@ -4,7 +4,7 @@ import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { COLORS } from '~/src/lib/constants';
 import { calculateDiscountPercentage } from '~/src/lib/number-utils';
 import type { ShopItemDto, ShopPriceDto } from '~/src/network/model';
-const PLACEHOLDER_PRODUCT_IMAGE = require('~/assets/images/other/product_placeholder.jpg');
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 // Types
 interface Shop {
