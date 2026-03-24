@@ -32,7 +32,7 @@ export default function AnimatedLogoSplash({
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: "#cfb0ff",
+        backgroundColor: "#ffffff",
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
