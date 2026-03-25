@@ -176,21 +176,5 @@ dependencies {
     }
 }
 
-// Ensure native libraries publish release prefab artifacts before app CMake release config.
-tasks.configureEach { task ->
-    if (task.name.contains("configureCMakeRel") || task.name.contains("generateJsonModelRel")) {
-        [":react-native-vision-camera", ":react-native-reanimated"].each { projectPath ->
-            def nativeProject = rootProject.findProject(projectPath)
-            if (nativeProject != null) {
-                nativeProject.tasks.configureEach { nativeTask ->
-                    if (nativeTask.name in ["bundleReleaseAar", "prefabReleasePackage"]) {
-                        task.dependsOn(nativeTask)
-                    }
-                }
-            }
-        }
-    }
-}
-
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'

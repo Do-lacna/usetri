@@ -10,9 +10,8 @@ import { PortalHost } from '@rn-primitives/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot, SplashScreen } from 'expo-router';
 import 'intl-pluralrules';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import AnimatedLogoSplash from '~/src/components/animated-splash';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
@@ -64,12 +63,6 @@ export default function RootLayout() {
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const { fontsLoaded } = useFonts();
 
-  const [animationDone, setAnimationDone] = useState(false);
-
-  const onSplashFinish = useCallback(() => {
-    setAnimationDone(true);
-  }, []);
-
   useEffect(() => {
     (async () => {
       const theme = getTheme();
@@ -98,7 +91,6 @@ export default function RootLayout() {
 
       await setAndroidNavigationBar(colorTheme);
 
-      // Hide the native splash once theme is ready — AnimatedLogoSplash takes over from here.
       await SplashScreen.hideAsync().catch((e) => {
         // Log to aid debugging but continue — splash may already be hidden.
         // eslint-disable-next-line no-console
@@ -127,9 +119,6 @@ export default function RootLayout() {
                 <Toast />
               </ThemeProvider>
             </BottomSheetModalProvider>
-            {!animationDone && (
-              <AnimatedLogoSplash onFinish={onSplashFinish} />
-            )}
           </GestureHandlerRootView>
         </SessionProvider>
       </RevenueCatProvider>

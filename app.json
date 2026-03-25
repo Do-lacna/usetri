@@ -24,11 +24,9 @@
       "versionCode": 8,
       "googleServicesFile": "./google-services.json",
       "package": "com.dutosvarc.usetri",
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/images/adaptive-icon.png",
-          "backgroundColor": "#5040d0"
-        }
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#5040d0"
       },
       "permissions": [
         "android.permission.CAMERA",
@@ -77,7 +75,9 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#5645CC"
+          "image": "./assets/usetri_splash_screen.png",
+          "imageContentMode": "contain",
+          "backgroundColor": "#ffffff"
         }
       ],
       [
