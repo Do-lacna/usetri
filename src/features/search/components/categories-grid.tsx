@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { FlatList, RefreshControl, Text, View } from 'react-native';
 import type { PopularCategoryDto } from '~/src/network/model';
-import { CategoryCard } from './CategoryCard';
-import { SkeletonCategoryCard } from './SkeletonCategoryCard';
+import { CategoryCard } from './category-card';
+import { SkeletonCategoryCard } from './skeleton-category-card';
 
 interface CategoriesGridProps {
   categories: PopularCategoryDto[];

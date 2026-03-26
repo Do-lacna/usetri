@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(mv CategoriesGrid.tsx categories-grid.tsx)",
+      "Bash(mv CategoryCard.tsx category-card.tsx)",
+      "Bash(mv CategoryDetailView.tsx category-detail-view.tsx)",
+      "Bash(mv CategorySelector.tsx category-selector.tsx)",
+      "Bash(mv SearchHeader.tsx search-header.tsx)"
     ]
   }
 }

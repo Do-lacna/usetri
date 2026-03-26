@@ -10,8 +10,8 @@ import {
   View,
 } from 'react-native';
 import type { CategoryDto, PopularCategoryDto } from '~/src/network/model';
-import { CategorySelector } from './CategorySelector';
-import { SubcategorySection } from './SubcategorySection';
+import { CategorySelector } from './category-selector';
+import { SubcategorySection } from './subcategory-section';
 
 const SELECTOR_MAX_HEIGHT = 88;
 const SCROLL_HIDE_THRESHOLD = 40;

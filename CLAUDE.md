@@ -60,7 +60,7 @@ Firebase Auth (email/password, Google Sign-In, Apple Sign-In). Tokens stored in 
 
 - Screens: `*-screen.tsx`
 - Hooks: `use-*` (e.g., `use-cart-actions.ts`)
-- Components: PascalCase files
+- Components: kebab-case files (e.g., `category-card.tsx`, `search-header.tsx`)
 - Path alias `~/` maps to the project root (configured in `tsconfig.json`)
 - Linter is Biome (not ESLint). Rules: unused imports are errors, single quotes, no arrow function parens for single params. The `src/network/` generated directories are excluded from linting.
 - SVGs are imported as React components via `react-native-svg-transformer`.

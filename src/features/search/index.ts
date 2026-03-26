@@ -1,5 +1,5 @@
 // Export all search components
-export { CategoriesGrid } from './components/CategoriesGrid';
-export { CategoryDetailView } from './components/CategoryDetailView';
-export { SearchHeader } from './components/SearchHeader';
-export { SearchResultsView } from './components/SearchResultsView';
+export { CategoriesGrid } from './components/categories-grid';
+export { CategoryDetailView } from './components/category-detail-view';
+export { SearchHeader } from './components/search-header';
+export { SearchResultsView } from './components/search-results-view';
