@@ -4,10 +4,10 @@ import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
 import { useSession } from '~/src/context/authentication-context';
-import { CategoriesGrid } from '~/src/features/search/components/CategoriesGrid';
-import { CategoryDetailView } from '~/src/features/search/components/CategoryDetailView';
-import { SearchHeader } from '~/src/features/search/components/SearchHeader';
-import { SearchResultsView } from '~/src/features/search/components/SearchResultsView';
+import { CategoriesGrid } from '~/src/features/search/components/categories-grid';
+import { CategoryDetailView } from '~/src/features/search/components/category-detail-view';
+import { SearchHeader } from '~/src/features/search/components/search-header';
+import { SearchResultsView } from '~/src/features/search/components/search-results-view';
 import type { PopularCategoryDto } from '~/src/network/model';
 import {
   useGetPopularCategories,

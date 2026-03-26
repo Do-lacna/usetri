@@ -77,7 +77,8 @@
         {
           "image": "./assets/usetri_splash_screen.png",
           "imageContentMode": "cover",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#ffffff",
+          "enableFullScreenImage_legacy": true
         }
       ],
       [
