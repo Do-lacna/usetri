@@ -76,7 +76,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/usetri_splash_screen.png",
-          "imageContentMode": "contain",
+          "imageContentMode": "cover",
           "backgroundColor": "#ffffff"
         }
       ],
