@@ -4,7 +4,11 @@
       "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\")",
       "Bash(rm src/features/brigader/components/upload-progress-indicator.tsx src/features/brigader/components/use-background-upload.ts src/components/ui/tooltip.tsx src/components/ui/radio-group.tsx src/hooks/use-shop-logos.ts src/hooks/use-language.ts src/hooks/use-tailwind-colors.ts src/persistence/language-storage.ts src/lib/icons/CirclePlus.tsx src/lib/icons/ListPlus.tsx src/lib/icons/ShoppingBasket.tsx src/lib/icons/ScanBarcode.tsx assets/usetri_splash.png assets/images/other/vozik.png assets/images/svg/search-placeholder.svg)",
       "Bash(__NEW_LINE_597cde16a189599a__ rm:*)",
-      "Bash(__NEW_LINE_597cde16a189599a__ echo:*)"
+      "Bash(__NEW_LINE_597cde16a189599a__ echo:*)",
+      "Bash(npx expo:*)",
+      "Bash(npm run:*)",
+      "Bash(xcrun simctl:*)",
+      "Bash(open:*)"
     ]
   }
 }
