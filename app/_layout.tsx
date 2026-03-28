@@ -17,12 +17,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { SessionProvider } from '~/src/context/authentication-context';
 import { RevenueCatProvider } from '~/src/context/revenue-cat-provider';
+import { useFonts } from '~/src/hooks/use-fonts';
 import '~/src/i18n';
 import { setAndroidNavigationBar } from '~/src/lib/android-navigation-bar';
 import { NAV_THEME } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 import { getTheme, setTheme } from '~/src/persistence/theme-storage';
-import { useFonts } from '~/src/hooks/use-fonts';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,

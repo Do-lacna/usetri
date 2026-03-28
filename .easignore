@@ -1,0 +1,52 @@
+# EAS Build ignore file
+# Same as .gitignore but WITHOUT Firebase config exclusions,
+# so they get included in the build archive for local builds.
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Sensitive keys (but NOT Firebase config files - those are needed for builds)
+*.base64
+service-account-key.json
+
+# IDE
+.idea
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# @generated expo-cli sync-2b81b286409207a5da26e14c78851eb30d8ccbdb
+expo-env.d.ts
+# @end expo-cli
