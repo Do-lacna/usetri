@@ -5,10 +5,7 @@
 .env.*
 !.env.example
 
-# Sensitive Firebase/Google config files
-google-services.json
-GoogleService-Info.plist
-android/app/google-services.json
+# Sensitive files
 *.base64
 service-account-key.json
 
