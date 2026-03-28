@@ -1,6 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithCredential } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Image, Text, TouchableOpacity } from 'react-native';
 import { useSession } from '~/src/context/authentication-context';
 import { useColorScheme } from '~/src/lib/useColorScheme';
@@ -16,6 +17,7 @@ interface GoogleSignInProps {
 }
 
 export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
+  const { t } = useTranslation();
   const { setUser } = useSession();
   const { isDarkColorScheme } = useColorScheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -26,18 +28,7 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
   };
 
   useEffect(() => {
-    const checkSignInStatus = async () => {
-      try {
-        const currentUser = GoogleSignin.getCurrentUser();
-        if (currentUser) {
-          console.log('User is already signed in with Google');
-        }
-      } catch (error) {
-        console.log('Error checking sign-in status:', error);
-      }
-    };
-
-    checkSignInStatus();
+    GoogleSignin.getCurrentUser();
   }, []);
 
   const handleGoogleSignIn = async () => {
@@ -46,17 +37,12 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
       await GoogleSignin.hasPlayServices();
 
       const response = await GoogleSignin.signIn();
-      console.log('Google Sign-In successful:', response);
 
       const idToken = response.data?.idToken;
 
       if (idToken) {
         const googleCredential = GoogleAuthProvider.credential(idToken);
-
-        console.log('Signing in with Firebase using Google credential');
-
         const { user } = await signInWithCredential(getAuth(), googleCredential);
-        console.log('Firebase sign-in successful:', user.uid);
 
         setUser(user);
 
@@ -67,15 +53,6 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
       updateLoading(false);
       console.error('Google Sign-In Error:', error);
 
-      if (error.code === 'SIGN_IN_CANCELLED') {
-        console.log('User cancelled the sign-in flow');
-      } else if (error.code === 'IN_PROGRESS') {
-        console.log('Sign-in is already in progress');
-      } else if (error.code === 'PLAY_SERVICES_NOT_AVAILABLE') {
-        console.log('Google Play services not available');
-      } else {
-        console.log('Unknown error:', error.message);
-      }
     }
   };
 
@@ -101,7 +78,7 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
             className="text-foreground font-sans text-lg text-center"
             style={{ lineHeight: 18 }}
           >
-            Sign in with Google
+            {t('auth.sign_in_with_google')}
           </Text>
         </>
       )}

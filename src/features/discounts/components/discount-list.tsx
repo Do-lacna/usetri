@@ -222,7 +222,7 @@ const DiscountList = ({
               onScroll.setValue(scrollPosition);
             }
           }}
-          scrollEventThrottle={16}
+          scrollEventThrottle={32}
         />
       )}
     </View>

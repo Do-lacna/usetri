@@ -30,11 +30,8 @@ const AppIndex = () => {
   if (!user && !isGuest) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
-    console.log('no user');
     return <Redirect href="/(app)/(auth)/sign-in" />;
   }
-
-  console.log('redirecting');
 
   return <Redirect href="/(app)/main/(tabs)/discounts-screen" />;
 };

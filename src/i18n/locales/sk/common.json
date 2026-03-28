@@ -81,7 +81,8 @@
   "shopping_list": {
     "search_placeholder": "Vyhľadaj kategóriu alebo produkt",
     "cancel": "Zruš",
-    "empty_cart_message": "Tvoj nákupný zoznam je prázdny"
+    "empty_cart_message": "Tvoj nákupný zoznam je prázdny",
+    "empty_cart_hint": "Vyhľadaj kategórie potravín alebo produkty a pridaj si ich do svojho nákupného zoznamu"
   },
 
   "cart_drawer": {
@@ -129,6 +130,44 @@
     "privacy_policy": "Ochrana osobných údajov",
     "terms_of_service": "Podmienky používania",
     "contact": "Kontakt"
+  },
+
+  "auth": {
+    "welcome_back": "Vitajte späť",
+    "sign_in_subtitle": "Prihláste sa do svojho účtu",
+    "or": "alebo",
+    "forgot_password": "Zabudnuté heslo?",
+    "sign_in": "Prihlásiť sa",
+    "no_account": "Ešte nemáte účet?",
+    "register": "Zaregistrujte sa",
+    "continue_as_guest": "Pokračovať ako hosť",
+    "email_verification_required": "Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku",
+    "sign_in_failed": "Nepodarilo sa prihlásiť",
+    "sign_in_with_google": "Prihlásiť sa cez Google",
+    "verification_email_sent": "Verifikačný e-mail bol zaslaný na zadaný e-mail, overte svoj e-mail a môžte sa prihlásiť",
+    "register_error": "Nastala chyba pri registrácii",
+    "create_account": "Vytvorte si účet",
+    "register_subtitle": "Zaregistrujte sa a začnite šetriť",
+    "register_free": "Zaregistrovať sa zadarmo",
+    "have_account": "Už máte účet?",
+    "restore_password": "Obnovte heslo",
+    "restore_password_subtitle": "Zadajte svoj e-mail a obdržíte link na obnovenie hesla",
+    "reset_password_button": "Resetovať heslo",
+    "password_reset_email_sent": "Na vami zadaný e-mail bol zaslaný link na resetovanie hesla. Skontrolujte svoju e-mailovú schránku",
+    "password_reset_error": "Nastala chyba pri resetovaní hesla",
+    "user_not_found": "Používateľ s daným e-mailom nebol nájdený",
+    "invalid_email": "Nesprávny formát e-mailovej adresy",
+    "too_many_requests": "Príliš veľa pokusov. Skúste to neskôr",
+    "guest_title": "Prihláste sa pre prístup",
+    "guest_description": "Táto funkcia je dostupná len pre prihlásených používateľov. Zaregistrujte sa alebo sa prihláste pre plný prístup ku všetkým funkciám.",
+    "overlay_title": "Chcete vidieť viac?",
+    "overlay_description": "Zaregistrujte sa a získajte prístup ku všetkým zľavám, vytvorte si nákupný zoznam a ušetrite ešte viac!"
+  },
+
+  "camera": {
+    "permission_message": "Na skenovanie čiarových kódov produktov táto aplikácia používa kameru vášho zariadenia",
+    "continue": "Pokračovať",
+    "no_device": "Nenájdené žiadne zariadenie kamery"
   },
 
   "not_found": {

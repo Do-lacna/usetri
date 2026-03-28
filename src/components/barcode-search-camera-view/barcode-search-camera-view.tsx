@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { runOnJS } from 'react-native-reanimated';
 import {
@@ -25,6 +26,7 @@ export type CameraViewProps = {
 export default function BarcodeSearchCameraView({
   onBarcodeScanned,
 }: Readonly<CameraViewProps>) {
+  const { t } = useTranslation();
   const [barcode, setBarcode] = useState<string | null>(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
@@ -81,18 +83,14 @@ export default function BarcodeSearchCameraView({
   if (!hasPermission) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>
-          <Text>
-            To scan product barcodes, this app uses your device's camera
-          </Text>
-        </Text>
+        <Text style={styles.message}>{t('camera.permission_message')}</Text>
         <Button
           onPress={async () => {
             const permission = await Camera.requestCameraPermission();
             setHasPermission(permission === 'granted');
           }}
         >
-          <Text className="font-expose-bold">Continue</Text>
+          <Text className="font-expose-bold">{t('camera.continue')}</Text>
         </Button>
       </View>
     );
@@ -101,7 +99,7 @@ export default function BarcodeSearchCameraView({
   if (!device) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>No camera device found</Text>
+        <Text style={styles.message}>{t('camera.no_device')}</Text>
       </View>
     );
   }

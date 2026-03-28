@@ -3,6 +3,7 @@ import { getAuth, sendPasswordResetEmail } from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -18,6 +19,7 @@ import { Input } from '~/src/components/ui/input';
 import { forgottenPasswordSchema } from '~/src/schema/forgotten-password-schema';
 
 export default function ForgottenPassword() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const {
     control,
@@ -43,8 +45,7 @@ export default function ForgottenPassword() {
 
       Toast.show({
         type: 'success',
-        text1:
-          'Na vami zadaný e-mail bol zaslaný link na resetovanie hesla. Skontrolujte svoju e-mailovú schránku',
+        text1: t('auth.password_reset_email_sent'),
         position: 'bottom',
       });
 
@@ -52,13 +53,13 @@ export default function ForgottenPassword() {
     } catch (error: any) {
       console.error('Password reset error:', error?.code, error?.message);
 
-      let errorMessage = 'Nastala chyba pri resetovaní hesla';
+      let errorMessage = t('auth.password_reset_error');
       if (error?.code === 'auth/user-not-found') {
-        errorMessage = 'Používateľ s daným e-mailom nebol nájdený';
+        errorMessage = t('auth.user_not_found');
       } else if (error?.code === 'auth/invalid-email') {
-        errorMessage = 'Nesprávny formát e-mailovej adresy';
+        errorMessage = t('auth.invalid_email');
       } else if (error?.code === 'auth/too-many-requests') {
-        errorMessage = 'Príliš veľa pokusov. Skúste to neskôr';
+        errorMessage = t('auth.too_many_requests');
       }
 
       Toast.show({
@@ -85,10 +86,10 @@ export default function ForgottenPassword() {
           <ThemedLogo className="mb-12" />
 
           <Text className="text-2xl font-bold text-foreground text-center mb-2">
-            Obnovte heslo
+            {t('auth.restore_password')}
           </Text>
           <Text className="text-sm text-muted-foreground text-center mb-8">
-            Zadajte svoj e-mail a obdržíte link na obnovenie hesla
+            {t('auth.restore_password_subtitle')}
           </Text>
 
           <Controller
@@ -122,7 +123,7 @@ export default function ForgottenPassword() {
             disabled={loading}
           >
             <Text className="text-primary-foreground font-semibold">
-              Resetovať heslo
+              {t('auth.reset_password_button')}
             </Text>
           </Button>
         </View>

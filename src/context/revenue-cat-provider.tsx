@@ -78,7 +78,6 @@ export const RevenueCatProvider = ({ children }: any) => {
   const loadOfferings = async () => {
     try {
       const offerings = await Purchases.getOfferings();
-      console.log(offerings);
       if (offerings.current) {
         setPackages(offerings.current.availablePackages);
       }
@@ -122,7 +121,6 @@ export const RevenueCatProvider = ({ children }: any) => {
     try {
       await Purchases.purchasePackage(pack);
 
-      console.log('Purchase successful!');
       // After a successful purchase, the customer info update listener will be called
       // and the user state will be updated accordingly
 

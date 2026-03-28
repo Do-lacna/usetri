@@ -51,7 +51,6 @@ apiClient.interceptors.response.use(
         const currentUser = getAuth().currentUser;
 
         if (currentUser) {
-          console.log('Token expired, refreshing...');
           // Force refresh the token from Firebase
           const newToken = await currentUser.getIdToken(true);
 

@@ -1,12 +1,11 @@
-import EmptyCartSVG from '~/assets/images/other/empty-cart.svg';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Pressable, Text, View, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { SvgProps } from 'react-native-svg';
 import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
-import React from "react";
+import type React from "react";
 
 interface GuestScreenProps {
   title?: string;
@@ -17,16 +16,17 @@ interface GuestScreenProps {
 }
 
 export const GuestScreen = ({
-  title = 'Prihláste sa pre prístup',
-  description = 'Táto funkcia je dostupná len pre prihlásených používateľov. Zaregistrujte sa alebo sa prihláste pre plný prístup ku všetkým funkciám.',
+  title,
+  description,
   icon,
   showCartImage = false,
   showProfileImage = false,
 }: GuestScreenProps) => {
+  const { t } = useTranslation();
   const { isDarkColorScheme } = useColorScheme();
-  const CartIcon = EmptyCartSVG as unknown as React.FC<SvgProps>;
-
-  const handleRegister = () => {
+  const resolvedTitle = title ?? t('auth.guest_title');
+  const resolvedDescription = description ?? t('auth.guest_description');
+const handleRegister = () => {
     router.push('/(app)/(auth)/sign-up');
   };
 
@@ -52,7 +52,11 @@ export const GuestScreen = ({
         <View className="w-full max-w-sm items-center">
           {showCartImage && (
             <View className="mb-10 opacity-80">
-              <CartIcon width={180} height={140} />
+              <Image
+                source={require('~/assets/images/other/kosik.png')}
+                style={{ width: 180, height: 140 }}
+                resizeMode="contain"
+              />
             </View>
           )}
 
@@ -71,11 +75,11 @@ export const GuestScreen = ({
           )}
 
           <Text className="text-2xl font-expose-bold text-foreground text-center mb-4">
-            {title}
+            {resolvedTitle}
           </Text>
 
           <Text className="text-base font-expose text-muted-foreground text-center mb-10 leading-6">
-            {description}
+            {resolvedDescription}
           </Text>
 
           <Pressable
@@ -83,14 +87,14 @@ export const GuestScreen = ({
             className="bg-primary w-full py-4 rounded-xl mb-4 active:opacity-80"
           >
             <Text className="text-primary-foreground text-center font-expose-bold text-lg">
-              Zaregistrovať sa zadarmo
+              {t('auth.register_free')}
             </Text>
           </Pressable>
 
           <Pressable onPress={handleSignIn} className="py-3 active:opacity-60">
             <Text className="text-muted-foreground font-expose text-center">
-              Už máte účet?{' '}
-              <Text className="text-terciary font-expose-bold">Prihlásiť sa</Text>
+              {t('auth.have_account')}{' '}
+              <Text className="text-terciary font-expose-bold">{t('auth.sign_in')}</Text>
             </Text>
           </Pressable>
         </View>

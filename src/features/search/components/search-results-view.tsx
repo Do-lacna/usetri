@@ -91,10 +91,10 @@ export const SearchResultsView = ({
             shopsPrices={item?.shops_prices || []}
           />
         )}
-        numColumns={3}
+        numColumns={2}
         keyExtractor={product => String(product?.detail?.id)}
-        contentContainerClassName="gap-4 py-12 px-2"
-        columnWrapperClassName="gap-4"
+        contentContainerStyle={{ padding: 16, gap: 12 }}
+        columnWrapperStyle={{ gap: 12 }}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         onScroll={handleScroll}

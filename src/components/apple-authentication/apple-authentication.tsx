@@ -52,15 +52,13 @@ export default function AppleAuthentication({
         appleCredential,
       );
 
-      console.log('Successfully signed in with Apple:', userCredential.user);
       setUser(userCredential.user);
       resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
       updateLoading(false);
     } catch (e: any) {
       updateLoading(false);
       if (e?.code === 'ERR_REQUEST_CANCELED') {
-        // User canceled the sign-in flow
-        console.log('Apple sign-in canceled by user');
+        // User canceled, no action needed
       } else {
         console.error('Apple Sign-In Error:', e);
 

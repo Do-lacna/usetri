@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { AppState, type AppStateStatus } from 'react-native';
-import { displaySuccessToastMessage } from '~/src/utils/toast-utils';
+import { displayErrorToastMessage, displaySuccessToastMessage } from '~/src/utils/toast-utils';
 import { AUTH_TOKEN, USER_ID } from '../network/api-client';
 import {
   clearGuestMode,
@@ -98,7 +98,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
         // Force refresh the token
         const token = await currentUser.getIdToken(true);
         await setItemAsync(AUTH_TOKEN, token);
-        console.log('Token refreshed on app foreground');
       } catch (e) {
         console.error('Error refreshing token on foreground:', e);
       }
@@ -115,7 +114,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
         try {
           const token = await user.getIdToken();
           await setItemAsync(AUTH_TOKEN, token);
-          console.log('Token automatically refreshed by Firebase');
         } catch (e) {
           console.error('Error in onIdTokenChanged:', e);
         }
@@ -171,7 +169,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       displaySuccessToastMessage('Účet bol úspešne zmazaný');
       resetAndRedirect('/');
     } catch (e) {
-      displaySuccessToastMessage('Účet sa nepodarilo zmazať');
+      displayErrorToastMessage('Účet sa nepodarilo zmazať');
       console.error(e);
     }
   };

@@ -76,7 +76,7 @@ export default function SearchScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background px-2">
+    <SafeAreaView className="flex-1 bg-background">
       <SearchHeader
         searchQuery={searchQuery}
         onSearch={setSearchQuery}

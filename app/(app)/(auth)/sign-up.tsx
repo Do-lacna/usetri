@@ -6,6 +6,7 @@ import {
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -25,6 +26,7 @@ import { EyeOff } from '~/src/lib/icons/EyeOff';
 import { signUpSchema } from '~/src/schema/signup';
 
 export default function SignUp() {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -56,8 +58,7 @@ export default function SignUp() {
 
       Toast.show({
         type: 'success',
-        text1:
-          'Verifikačný e-mail bol zaslaný na zadaný e-mail, overte svoj e-mail a môžte sa prihlásiť',
+        text1: t('auth.verification_email_sent'),
         position: 'bottom',
       });
 
@@ -68,7 +69,7 @@ export default function SignUp() {
     } catch (error) {
       Toast.show({
         type: 'error',
-        text1: 'Nastala chyba pri registrácii',
+        text1: t('auth.register_error'),
         position: 'bottom',
       });
     } finally {
@@ -92,10 +93,10 @@ export default function SignUp() {
             <View className="items-center mb-12">
               <ThemedLogo className="mb-8" />
               <Text className="text-3xl font-bold text-foreground text-center">
-                Vytvorte si účet
+                {t('auth.create_account')}
               </Text>
               <Text className="text-sm text-muted-foreground text-center mt-3">
-                Zaregistrujte sa a začnite šetriť
+                {t('auth.register_subtitle')}
               </Text>
             </View>
 
@@ -220,17 +221,17 @@ export default function SignUp() {
               className="w-full"
             >
               <Text className="text-primary-foreground font-semibold">
-                Zaregistrovať sa
+                {t('auth.register_free')}
               </Text>
             </Button>
 
             {/* Footer Links */}
             <View className="mt-auto pt-8">
               <View className="flex-row justify-center gap-1">
-                <Text className="text-foreground">Už máte účet?</Text>
+                <Text className="text-foreground">{t('auth.have_account')}</Text>
                 <Link href="/sign-in" disabled={loading}>
                   <Text className="font-semibold text-terciary">
-                    Prihláste sa
+                    {t('auth.sign_in')}
                   </Text>
                 </Link>
               </View>

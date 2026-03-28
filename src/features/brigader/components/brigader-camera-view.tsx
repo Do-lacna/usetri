@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { MoveLeft } from 'lucide-react-native';
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -43,8 +44,9 @@ function blobToBase64(blob: Blob) {
 const BrigaderCameraView: React.FC<CameraViewProps> = ({
   shopId,
   scannedProductBarcode,
-  onBack, // Destructure onBack prop
+  onBack,
 }: CameraViewProps) => {
+  const { t } = useTranslation();
   const [hasPermission, setHasPermission] = useState(false);
   const [scannedBarcode, setScannedBarcode] = useState<BarcodeData | null>(
     null,
@@ -165,11 +167,9 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
     // Camera permissions are not granted yet.
     return (
       <View className="flex-1 justify-center items-center bg-black">
-        <Text className="text-white text-lg">
-          To scan product barcodes, this app uses your device's camera
-        </Text>
+        <Text className="text-white text-lg">{t('camera.permission_message')}</Text>
         <Button onPress={requestCameraPermission}>
-          <Text>Continue</Text>
+          <Text>{t('camera.continue')}</Text>
         </Button>
       </View>
     );
@@ -178,7 +178,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
   if (!device) {
     return (
       <View className="flex-1 justify-center items-center bg-black">
-        <Text className="text-white text-lg">Nenájdená žiadna kamera</Text>
+        <Text className="text-white text-lg">{t('camera.no_device')}</Text>
       </View>
     );
   }

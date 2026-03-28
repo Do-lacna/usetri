@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated, Dimensions } from 'react-native';
 import type { DiscountStatsDto, ShopExtendedDto } from '~/src/network/model';
 import {
@@ -33,8 +33,9 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   scrollY,
 }) => {
   const carouselRef = useRef<any>(null);
+  const carouselViewRef = useRef<Animated.View>(null);
+  const compactViewRef = useRef<Animated.View>(null);
   const { width: screenWidth } = Dimensions.get('window');
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const CARD_WIDTH_PERCENTAGE = 0.75;
   const CARD_WIDTH = screenWidth * CARD_WIDTH_PERCENTAGE;
@@ -56,22 +57,27 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
     handleStoreSelectInternal(storeId, index);
   };
 
+  // Update pointer events via setNativeProps to avoid React re-renders on every scroll tick
   useEffect(() => {
     if (!scrollY) return;
 
     const listenerId = scrollY.addListener(({ value }) => {
-      const shouldCollapse = value > COLLAPSE_THRESHOLD;
-      setIsCollapsed(shouldCollapse);
+      const collapsed = value > COLLAPSE_THRESHOLD;
+      (carouselViewRef.current as any)?.setNativeProps({
+        pointerEvents: collapsed ? 'none' : 'auto',
+      });
+      (compactViewRef.current as any)?.setNativeProps({
+        pointerEvents: collapsed ? 'auto' : 'none',
+      });
     });
 
-    return () => {
-      scrollY.removeListener(listenerId);
-    };
+    return () => scrollY.removeListener(listenerId);
   }, [scrollY]);
 
+  // Crossfade spans the full scroll range so the transition is gradual, not a sudden snap
   const carouselOpacity = scrollY
     ? scrollY.interpolate({
-        inputRange: [COLLAPSE_THRESHOLD - 20, COLLAPSE_THRESHOLD],
+        inputRange: [0, COLLAPSE_THRESHOLD * 0.7],
         outputRange: [1, 0],
         extrapolate: 'clamp',
       })
@@ -79,7 +85,7 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
 
   const compactOpacity = scrollY
     ? scrollY.interpolate({
-        inputRange: [COLLAPSE_THRESHOLD - 20, COLLAPSE_THRESHOLD],
+        inputRange: [COLLAPSE_THRESHOLD * 0.4, COLLAPSE_THRESHOLD],
         outputRange: [0, 1],
         extrapolate: 'clamp',
       })
@@ -95,12 +101,13 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
       }}
     >
       <Animated.View
+        ref={carouselViewRef}
         style={{
           opacity: carouselOpacity,
           position: 'absolute',
           width: '100%',
           height: '100%',
-          pointerEvents: isCollapsed ? 'none' : 'auto',
+          pointerEvents: 'auto',
         }}
       >
         <Carousel
@@ -136,13 +143,14 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
       </Animated.View>
 
       <Animated.View
+        ref={compactViewRef}
         style={{
           opacity: compactOpacity,
           position: 'absolute',
           width: '100%',
           height: '100%',
           justifyContent: 'center',
-          pointerEvents: isCollapsed ? 'auto' : 'none',
+          pointerEvents: 'none',
         }}
       >
         <CompactStoreRow

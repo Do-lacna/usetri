@@ -26,7 +26,7 @@ export const SearchHeader = ({
   };
 
   return (
-    <View className="flex-row items-center gap-3 mt-2 z-10">
+    <View className="flex-row items-center gap-3 mt-2 px-3 z-10">
       <SearchBar<ProductDto>
         ref={searchBarRef}
         displaySearchOptions={false}

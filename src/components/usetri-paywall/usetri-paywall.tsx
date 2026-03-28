@@ -54,7 +54,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           'Nepodarilo sa spracovať platbu. Skúste to znova.',
         );
         setErrorMessage('Nepodarilo sa spracovať platbu. Skúste to znova.');
-        console.log('Purchase error:', error);
+        console.error('Purchase error:', error);
       }
     } finally {
       setIsPurchasing(false);

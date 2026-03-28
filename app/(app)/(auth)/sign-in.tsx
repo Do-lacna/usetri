@@ -6,6 +6,7 @@ import {
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -30,6 +31,7 @@ import { signInSchema } from '~/src/schema/signin';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 export default function SignIn() {
+  const { t } = useTranslation();
   const { email } = useLocalSearchParams<{ email?: string }>();
   const { continueAsGuest } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -58,8 +60,7 @@ export default function SignIn() {
         } else {
           Toast.show({
             type: 'error',
-            text1:
-              'Je potrebné overenie vášho e-mailu. Skontrolujte si svoju e-mailovú schránku',
+            text1: t('auth.email_verification_required'),
             position: 'bottom',
           });
         }
@@ -70,7 +71,7 @@ export default function SignIn() {
         console.error(error);
         Toast.show({
           type: 'error',
-          text1: 'Nepodarilo sa prihlásiť',
+          text1: t('auth.sign_in_failed'),
           position: 'bottom',
         });
       });
@@ -99,10 +100,10 @@ export default function SignIn() {
             <View className="items-center mb-12">
               <ThemedLogo className="mb-8" />
               <Text className="text-3xl font-bold text-foreground text-center">
-                Vitajte späť
+                {t('auth.welcome_back')}
               </Text>
               <Text className="text-sm text-muted-foreground text-center mt-3">
-                Prihláste sa do svojho účtu
+                {t('auth.sign_in_subtitle')}
               </Text>
             </View>
 
@@ -115,7 +116,7 @@ export default function SignIn() {
             {/* Divider */}
             <View className="flex-row items-center mb-8">
               <View className="flex-1 h-px bg-border" />
-              <Text className="mx-3 text-muted-foreground text-xs">alebo</Text>
+              <Text className="mx-3 text-muted-foreground text-xs">{t('auth.or')}</Text>
               <View className="flex-1 h-px bg-border" />
             </View>
 
@@ -190,7 +191,7 @@ export default function SignIn() {
                 disabled={isLoading || isOAuthLoading}
                 className="self-end mt-2"
               >
-                <Text className="text-sm text-terciary">Zabudnuté heslo?</Text>
+                <Text className="text-sm text-terciary">{t('auth.forgot_password')}</Text>
               </Link>
             </View>
 
@@ -201,17 +202,17 @@ export default function SignIn() {
               className="w-full"
             >
               <Text className="text-primary-foreground font-semibold">
-                Prihlásiť sa
+                {t('auth.sign_in')}
               </Text>
             </Button>
 
             {/* Footer Links */}
             <View className="mt-auto pt-8">
               <View className="flex-row justify-center gap-1">
-                <Text className="text-foreground">Ešte nemáte účet?</Text>
+                <Text className="text-foreground">{t('auth.no_account')}</Text>
                 <Link href="/sign-up" disabled={isLoading || isOAuthLoading}>
                   <Text className="font-semibold text-terciary">
-                    Zaregistrujte sa
+                    {t('auth.register')}
                   </Text>
                 </Link>
               </View>
@@ -223,7 +224,7 @@ export default function SignIn() {
                 className="mt-4"
               >
                 <Text className="text-muted-foreground">
-                  Pokračovať ako hosť
+                  {t('auth.continue_as_guest')}
                 </Text>
               </Button>
             </View>
