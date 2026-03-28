@@ -178,5 +178,121 @@
 
   "discounts": {
     "prices_may_vary": "Prices and availability may vary across individual stores"
+  },
+
+  "navigation": {
+    "registration": "Registration",
+    "sign_in": "Sign In",
+    "restore_password": "Restore Password",
+    "product_detail": "Product Detail",
+    "price_comparison": "Price Comparison",
+    "cart_detail": "Cart Detail",
+    "settings": "Settings",
+    "discounts_tab": "Discounts",
+    "search_tab": "Search",
+    "list_tab": "List",
+    "profile_tab": "Profile",
+    "upload_tab": "Upload"
+  },
+
+  "product_detail": {
+    "loading": "Loading...",
+    "price_in_shop": "Price in {{shopName}}",
+    "added": "Added ✓",
+    "updated": "Updated ✓",
+    "removed": "Removed ✓",
+    "remove_from_cart": "Remove from cart",
+    "select_quantity": "Select quantity",
+    "update_in_cart": "Update in cart",
+    "add_to_shopping_list": "Add to shopping list",
+    "guest_block_title": "Product Detail",
+    "guest_block_description": "To view product details and price comparison, please register or sign in."
+  },
+
+  "profile_screen": {
+    "title": "Your Profile",
+    "description": "Sign in to view your profile, purchase history and savings statistics.",
+    "no_shopping_lists": "No shopping lists",
+    "create_first_list": "Create your first shopping list and save it to see how much you save",
+    "purchase_history": "Purchase History",
+    "your_savings": "Your Savings",
+    "this_month": "This Month",
+    "total": "Total"
+  },
+
+  "shopping_list_screen": {
+    "title": "Shopping List",
+    "description": "Sign in to create a shopping list, compare prices and find where to shop cheapest.",
+    "start_typing": "Start typing to search a category or product",
+    "specific_products": "Specific Products",
+    "no_products_found": "No products found",
+    "cheapest_variant": "Cheapest variant (category)",
+    "no_categories_found": "No categories found"
+  },
+
+  "discount_list": {
+    "discounts_in": "Discounts at {{storeName}}",
+    "no_discounts": "This store currently has no discounted products"
+  },
+
+  "shop_comparison_screen": {
+    "no_products_in_shops": "Your selected products are not available in any store"
+  },
+
+  "search_results": {
+    "no_results": "No results"
+  },
+
+  "paywall": {
+    "choose_subscription": "Choose a subscription",
+    "subscribe_for": "Subscribe for {{price}}",
+    "payment_error": "Failed to process payment. Please try again.",
+    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period."
+  },
+
+  "brigader": {
+    "discount_confirmation": "Discount Confirmation",
+    "product_categories": "Product Categories",
+    "no_category": "No category",
+    "unknown_product": "Unknown product",
+    "confirm_category": "Confirm category",
+    "change_category": "Change category",
+    "select_category": "Select category",
+    "current_category": "Current category:",
+    "search_category": "Search category...",
+    "no_categories_found": "No categories found",
+    "category_updated": "Category was successfully updated",
+    "category_update_error": "Failed to update category",
+    "select_shop": "Select shop",
+    "select_shop_hint": "Select a shop to view products",
+    "products_to_verify": "Products to verify: {{count}}",
+    "no_products_to_verify": "No products to verify category",
+    "price_placeholder": "Price",
+    "discount_confirmed": "Discount was successfully confirmed",
+    "discount_confirm_error": "Failed to confirm discount",
+    "price_updated": "Product price was successfully updated",
+    "price_update_error": "Failed to update product price",
+    "brand": "Brand: {{brand}}",
+    "discounted_price": "Discounted price: {{price}} €",
+    "status": "Status: {{state}}",
+    "find_product": "Find product in store",
+    "search_product": "Search product:",
+    "search_product_placeholder": "Enter product name...",
+    "found_products": "Found products:",
+    "no_products_found": "No products found",
+    "confirm_price": "Confirm price",
+    "batch_info": "Batch information",
+    "location": "Location: {{location}}",
+    "discount_count": "Discount count: {{count}}",
+    "unresolved": "Unresolved: {{count}}",
+    "valid_from": "Valid from: {{date}}",
+    "valid_to": "Valid to: {{date}}",
+    "previous": "Previous",
+    "page_of": "Page {{current}} of {{total}}",
+    "next": "Next",
+    "all_resolved": "All discounts in this batch have been resolved ✓",
+    "select_batch": "Select import batch",
+    "select_batch_hint": "Select a batch to continue",
+    "cancel": "Cancel"
   }
 }

@@ -49,9 +49,8 @@ export const DiscountsScreenContent: React.FC = () => {
 
   const handleProductPressBlocked = useCallback(() => {
     setGuestOverlayMessage({
-      title: 'Detail produktu',
-      description:
-        'Pre zobrazenie detailu produktu a porovnania cien sa prosím zaregistrujte alebo prihláste.',
+      title: t('product_detail.guest_block_title'),
+      description: t('product_detail.guest_block_description'),
     });
     setIsOverlayDismissable(true);
     setShowGuestOverlay(true);

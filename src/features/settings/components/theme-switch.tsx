@@ -15,7 +15,10 @@ interface ThemeSwitchProps {
   showLabel?: boolean;
 }
 
-export function ThemeSwitch({ className, showLabel = true }: Readonly<ThemeSwitchProps>) {
+export function ThemeSwitch({
+  className,
+  showLabel = true,
+}: Readonly<ThemeSwitchProps>) {
   const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
   const translateX = useSharedValue(isDarkColorScheme ? 28 : 0);
 
@@ -38,7 +41,9 @@ export function ThemeSwitch({ className, showLabel = true }: Readonly<ThemeSwitc
     <View className={cn('flex-row items-center justify-between', className)}>
       {showLabel && (
         <View className="flex-row items-center flex-1">
-          <Text className="text-base text-foreground font-sans">Tmavý režim</Text>
+          <Text className="text-base text-foreground font-sans">
+            Tmavý režim
+          </Text>
         </View>
       )}
 

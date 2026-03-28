@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView, ScrollView, ImageBackground, View } from 'react-native';
 import {
   Directions,
@@ -20,6 +21,7 @@ import { ShopPagination } from '~/src/features/shop-comparison/components/shop-p
 import { useShopComparison } from '~/src/hooks/use-shop-comparison';
 
 const ShopComparisonScreen: React.FC = () => {
+  const { t } = useTranslation();
   const {
     carts,
     currentCartIndex,
@@ -78,7 +80,7 @@ const ShopComparisonScreen: React.FC = () => {
       <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 items-center justify-center">
           <Text className="text-lg text-muted-foreground">
-            Vami zvolené produkty sa nenachádzajú v žiadnom obchode
+            {t('shop_comparison_screen.no_products_in_shops')}
           </Text>
         </View>
       </SafeAreaView>

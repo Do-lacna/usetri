@@ -20,7 +20,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
     <View className="bg-card px-4 py-3 border-t border-border">
       <View className="flex-row justify-center items-center gap-4">
         <Button variant="outline" onPress={onDiscardCart} className="w-[30%]">
-          <Text className="font-expose-bold text-foreground">{t('discard_list')}</Text>
+          <Text className="font-expose-bold text-foreground">
+            {t('discard_list')}
+          </Text>
         </Button>
         <Button onPress={onSaveCart} className="w-[60%] h-44">
           <Text className="font-expose-bold text-primary-foreground">

@@ -12,7 +12,10 @@ interface CategoryCardProps {
   onPress: () => void;
 }
 
-export function CategoryCard({ category, onPress }: Readonly<CategoryCardProps>) {
+export function CategoryCard({
+  category,
+  onPress,
+}: Readonly<CategoryCardProps>) {
   return (
     <Pressable
       className="flex-1 mx-2"

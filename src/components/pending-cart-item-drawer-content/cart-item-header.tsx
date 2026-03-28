@@ -47,7 +47,10 @@ export const CartItemHeader: React.FC<CartItemHeaderProps> = ({
       <Divider className="w-full my-4" />
 
       <View className="flex-row items-start mb-4">
-        <Text className="text-xl font-expose-bold flex-1 mr-3" numberOfLines={2}>
+        <Text
+          className="text-xl font-expose-bold flex-1 mr-3"
+          numberOfLines={2}
+        >
           {title || t('cart_drawer.no_title')}
         </Text>
         {amountUnit && (

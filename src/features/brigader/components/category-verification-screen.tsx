@@ -5,6 +5,7 @@ import { Search, X } from 'lucide-react-native';
 import { cssInterop } from 'nativewind';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   FlatList,
@@ -57,8 +58,9 @@ const CategoryProductItem: React.FC<CategoryProductItemProps> = ({
   isVerifying,
 }) => {
   const { detail } = product;
+  const { t } = useTranslation();
   const imageUrl = detail?.image_url;
-  const categoryName = detail?.category?.name || 'Bez kategórie';
+  const categoryName = detail?.category?.name || t('brigader.no_category');
 
   return (
     <Card className="p-4 mb-3 bg-card">
@@ -73,7 +75,7 @@ const CategoryProductItem: React.FC<CategoryProductItemProps> = ({
             className="text-card-foreground font-semibold text-base"
             numberOfLines={2}
           >
-            {detail?.name || 'Neznámy produkt'}
+            {detail?.name || t('brigader.unknown_product')}
           </Text>
           <Text className="text-muted-foreground text-sm" numberOfLines={1}>
             {detail?.brand}
@@ -97,7 +99,7 @@ const CategoryProductItem: React.FC<CategoryProductItemProps> = ({
             <ActivityIndicator size="small" color="#fff" />
           ) : (
             <Text className="text-primary-foreground font-medium">
-              Potvrdiť kategóriu
+              {t('brigader.confirm_category')}
             </Text>
           )}
         </Button>
@@ -107,7 +109,9 @@ const CategoryProductItem: React.FC<CategoryProductItemProps> = ({
           onPress={onChangeCategory}
           disabled={isVerifying}
         >
-          <Text className="text-foreground font-medium">Zmeniť kategóriu</Text>
+          <Text className="text-foreground font-medium">
+            {t('brigader.change_category')}
+          </Text>
         </Button>
       </View>
     </Card>
@@ -129,6 +133,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
+  const { t } = useTranslation();
   const { isDarkColorScheme } = useColorScheme();
 
   // Colors based on color scheme
@@ -201,7 +206,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
         {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-border">
           <Text className="text-foreground font-semibold text-lg">
-            Vybrať kategóriu
+            {t('brigader.select_category')}
           </Text>
           <TouchableOpacity onPress={onClose} className="p-2">
             <X size={24} color={foregroundColor} />
@@ -212,7 +217,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
         {currentCategoryName && (
           <View className="px-4 py-2 bg-muted">
             <Text className="text-muted-foreground text-sm">
-              Aktuálna kategória:{' '}
+              {t('brigader.current_category')}{' '}
               <Text className="font-medium">{currentCategoryName}</Text>
             </Text>
           </View>
@@ -225,7 +230,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
             <TextInput
               value={searchQuery}
               onChangeText={handleSearchChange}
-              placeholder="Hľadať kategóriu..."
+              placeholder={t('brigader.search_category')}
               placeholderTextColor={mutedForegroundColor}
               className="flex-1 ml-2 text-foreground"
               autoCapitalize="none"
@@ -258,7 +263,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
             ListEmptyComponent={
               <View className="flex-1 items-center justify-center py-10">
                 <Text className="text-muted-foreground text-center">
-                  Žiadne kategórie neboli nájdené
+                  {t('brigader.no_categories_found')}
                 </Text>
               </View>
             }
@@ -278,6 +283,7 @@ const CategorySelectorModal: React.FC<CategorySelectorModalProps> = ({
 
 const CategoryVerificationScreen: React.FC = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
   const [selectedShop, setSelectedShop] = useState<Option | null>(null);
   const [verifyingProductId, setVerifyingProductId] = useState<number | null>(
     null,
@@ -408,7 +414,7 @@ const CategoryVerificationScreen: React.FC = () => {
   const { mutate: patchProduct } = usePatchProductAdmin({
     mutation: {
       onSuccess: () => {
-        displaySuccessToastMessage('Kategória bola úspešne aktualizovaná');
+        displaySuccessToastMessage(t('brigader.category_updated'));
         // Remove the product from the list
         setAllProducts(prev =>
           prev.filter(p => p.detail?.id !== verifyingProductId),
@@ -421,7 +427,7 @@ const CategoryVerificationScreen: React.FC = () => {
         setSelectedProductForCategoryChange(null);
       },
       onError: () => {
-        displayErrorToastMessage('Nepodarilo sa aktualizovať kategóriu');
+        displayErrorToastMessage(t('brigader.category_update_error'));
         setVerifyingProductId(null);
       },
     },
@@ -470,7 +476,7 @@ const CategoryVerificationScreen: React.FC = () => {
   return (
     <SafeAreaView className="flex-1 px-2" edges={['bottom']}>
       <CustomSelect
-        label="Vyberte obchod"
+        label={t('brigader.select_shop')}
         options={mappedShops}
         defaultValue={undefined}
         onChange={handleShopChange}
@@ -480,7 +486,7 @@ const CategoryVerificationScreen: React.FC = () => {
       {!selectedShop?.value ? (
         <View className="flex-1 items-center justify-center">
           <Text className="text-muted-foreground text-center">
-            Vyberte obchod pre zobrazenie produktov
+            {t('brigader.select_shop_hint')}
           </Text>
         </View>
       ) : isLoading ? (
@@ -491,7 +497,7 @@ const CategoryVerificationScreen: React.FC = () => {
         <>
           <View className="flex-row justify-between items-center mb-3 px-1">
             <Text className="text-foreground font-semibold">
-              Produkty na overenie: {count}
+              {t('brigader.products_to_verify', { count })}
             </Text>
           </View>
 
@@ -524,7 +530,7 @@ const CategoryVerificationScreen: React.FC = () => {
             ListEmptyComponent={
               <View className="flex-1 items-center justify-center py-10">
                 <Text className="text-muted-foreground text-center">
-                  Žiadne produkty na overenie kategórie
+                  {t('brigader.no_products_to_verify')}
                 </Text>
               </View>
             }

@@ -10,7 +10,7 @@ export function useFonts() {
       try {
         await Font.loadAsync({
           // Regular (400)
-          'Expose': require('../../assets/fonts/OTF/Expose-Regular.otf'),
+          Expose: require('../../assets/fonts/OTF/Expose-Regular.otf'),
           'Expose-Regular': require('../../assets/fonts/OTF/Expose-Regular.otf'),
           // Medium (500)
           'Expose-Medium': require('../../assets/fonts/OTF/Expose-Medium.otf'),
@@ -30,4 +30,3 @@ export function useFonts() {
 
   return { fontsLoaded, fontError };
 }
-

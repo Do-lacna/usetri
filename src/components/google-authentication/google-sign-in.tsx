@@ -1,4 +1,8 @@
-import { getAuth, GoogleAuthProvider, signInWithCredential } from '@react-native-firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +46,10 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
 
       if (idToken) {
         const googleCredential = GoogleAuthProvider.credential(idToken);
-        const { user } = await signInWithCredential(getAuth(), googleCredential);
+        const { user } = await signInWithCredential(
+          getAuth(),
+          googleCredential,
+        );
 
         setUser(user);
 
@@ -52,7 +59,6 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
     } catch (error: any) {
       updateLoading(false);
       console.error('Google Sign-In Error:', error);
-
     }
   };
 

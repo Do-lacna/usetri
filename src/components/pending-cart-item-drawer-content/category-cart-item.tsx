@@ -105,7 +105,9 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
           className="flex-1 ml-4"
           disabled={isLoadingGlobal}
         >
-          <Text className="font-expose-bold">{t('cart_drawer.add_category')}</Text>
+          <Text className="font-expose-bold">
+            {t('cart_drawer.add_category')}
+          </Text>
         </Button>
       </View>
     </View>

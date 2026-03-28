@@ -5,6 +5,7 @@ import {
 } from '@react-native-firebase/auth';
 import * as AppleAuth from 'expo-apple-authentication';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSession } from '~/src/context/authentication-context';
@@ -19,6 +20,7 @@ interface AppleAuthenticationProps {
 export default function AppleAuthentication({
   onLoadingChange,
 }: Readonly<AppleAuthenticationProps>) {
+  const { t } = useTranslation();
   const { isDarkColorScheme } = useColorScheme();
   const { setUser } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -62,17 +64,17 @@ export default function AppleAuthentication({
       } else {
         console.error('Apple Sign-In Error:', e);
 
-        let errorMessage = 'Skúste to prosím znova';
+        let errorMessage = t('auth.try_again');
 
         if (e?.code === 'auth/operation-not-allowed') {
-          errorMessage = 'Apple prihlásenie nie je momentálne povolené';
+          errorMessage = t('auth.apple_sign_in_not_allowed');
         } else if (e?.code === 'auth/invalid-credential') {
-          errorMessage = 'Neplatné prihlasovacie údaje';
+          errorMessage = t('auth.invalid_credentials');
         }
 
         Toast.show({
           type: 'error',
-          text1: 'Nepodarilo sa prihlásiť cez Apple',
+          text1: t('auth.apple_sign_in_error'),
           text2: errorMessage,
           position: 'bottom',
         });

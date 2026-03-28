@@ -22,7 +22,6 @@ const resources = {
 
 const savedLanguage = 'sk-SK'; // default to Slovak
 
-
 const instance = i18n.use(initReactI18next).init({
   resources,
   lng: savedLanguage,

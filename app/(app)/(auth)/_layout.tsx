@@ -1,6 +1,9 @@
 import { Stack } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export default function AuthLayout() {
+  const { t } = useTranslation();
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -13,15 +16,15 @@ export default function AuthLayout() {
         name="sign-up"
         options={{
           headerShown: true,
-          headerTitle: 'Registrácia',
-          headerBackTitle: 'Prihlásenie',
+          headerTitle: t('navigation.registration'),
+          headerBackTitle: t('navigation.sign_in'),
         }}
       />
       <Stack.Screen
         name="forgotten-password"
         options={{
           headerShown: true,
-          headerTitle: 'Obnovenie hesla',
+          headerTitle: t('navigation.restore_password'),
           headerBackButtonDisplayMode: 'minimal',
         }}
       />

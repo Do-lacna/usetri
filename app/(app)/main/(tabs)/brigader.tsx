@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoryVerificationScreen from '../../../../src/features/brigader/components/category-verification-screen';
@@ -31,6 +32,7 @@ const TabButton: React.FC<TabButtonProps> = ({ label, isActive, onPress }) => (
 );
 
 export default function BrigaderScreen() {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<BrigaderMode>('discounts');
 
   return (
@@ -38,12 +40,12 @@ export default function BrigaderScreen() {
       {/* Tab Switcher */}
       <View className="flex-row gap-2 px-4 py-3 bg-background border-b border-border">
         <TabButton
-          label="Potvrdenie zliav"
+          label={t('brigader.discount_confirmation')}
           isActive={mode === 'discounts'}
           onPress={() => setMode('discounts')}
         />
         <TabButton
-          label="Kategórie produktov"
+          label={t('brigader.product_categories')}
           isActive={mode === 'categories'}
           onPress={() => setMode('categories')}
         />

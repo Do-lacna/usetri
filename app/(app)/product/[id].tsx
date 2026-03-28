@@ -183,7 +183,7 @@ const ProductDetailScreen: React.FC = () => {
   if (!id && isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
-        <Text className="text-foreground">Načítavam...</Text>
+        <Text className="text-foreground">{t('product_detail.loading')}</Text>
       </View>
     );
   }

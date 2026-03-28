@@ -88,7 +88,9 @@ export const ShopInfoBlock: React.FC<ShopInfoBlockProps> = ({
           {config.title}
         </Text>
       </View>
-      <Text className={`text-sm font-expose ${config.textColor} opacity-80 mt-1`}>
+      <Text
+        className={`text-sm font-expose ${config.textColor} opacity-80 mt-1`}
+      >
         {config.subtitle}
       </Text>
     </View>

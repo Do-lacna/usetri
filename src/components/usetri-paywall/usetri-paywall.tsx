@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   ScrollView,
@@ -23,6 +24,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
   onPurchaseComplete,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const { customerInfo, packages } = useRevenueCat();
   const subscriptions = customerInfo?.activeSubscriptions;
   const entitlements = customerInfo?.entitlements?.all || {};
@@ -50,10 +52,8 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       }
     } catch (error: any) {
       if (!error.userCancelled) {
-        displayErrorToastMessage(
-          'Nepodarilo sa spracovať platbu. Skúste to znova.',
-        );
-        setErrorMessage('Nepodarilo sa spracovať platbu. Skúste to znova.');
+        displayErrorToastMessage(t('paywall.payment_error'));
+        setErrorMessage(t('paywall.payment_error'));
         console.error('Purchase error:', error);
       }
     } finally {
@@ -82,7 +82,9 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
             {`${pkg.product.introPrice.periodNumberOfUnits} ${pkg.product.introPrice.periodUnit} trial at ${pkg.product.introPrice.priceString}`}
           </Text>
         )}
-        <Text className="text-sm text-muted-foreground">{pkg.product.description}</Text>
+        <Text className="text-sm text-muted-foreground">
+          {pkg.product.description}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -90,7 +92,9 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
   return (
     <ScrollView className="w-full p-4">
       <View className="flex-row justify-center items-center py-4 border-b border-border relative">
-        <Text className="text-lg font-bold">Zvoľte si predplatné</Text>
+        <Text className="text-lg font-bold">
+          {t('paywall.choose_subscription')}
+        </Text>
       </View>
 
       {packages?.map(renderPackageOption)}
@@ -98,7 +102,9 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       <View className="p-4 border-t border-border">
         <TouchableOpacity
           className={`py-4 rounded-lg items-center justify-center mb-4 ${
-            !selectedPackage || isPurchasing ? 'opacity-50 bg-primary' : 'bg-primary'
+            !selectedPackage || isPurchasing
+              ? 'opacity-50 bg-primary'
+              : 'bg-primary'
           }`}
           onPress={handlePurchase}
           disabled={!selectedPackage || isPurchasing}
@@ -108,16 +114,16 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
           ) : (
             <Text className="text-primary-foreground font-bold text-base">
               {selectedPackage
-                ? `Odoberať za ${selectedPackage.product.priceString}`
-                : 'Zvoľte si predplatné'}
+                ? t('paywall.subscribe_for', {
+                    price: selectedPackage.product.priceString,
+                  })
+                : t('paywall.choose_subscription')}
             </Text>
           )}
         </TouchableOpacity>
 
         <Text className="text-xs text-muted-foreground text-center">
-          Payment will be charged to your Apple ID or Google Play account at
-          confirmation of purchase. Subscriptions automatically renew unless
-          canceled at least 24 hours before the end of the current period.
+          {t('paywall.payment_disclaimer')}
         </Text>
       </View>
     </ScrollView>

@@ -10,7 +10,10 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { GuestScreen } from '~/src/components/guest-screen';
 import { CustomBottomSheetModal } from '~/src/components/layout/bottom-sheet-modal/bottom-sheet-modal';
 import PendingCartItemDrawerContent, {
@@ -41,7 +44,6 @@ import {
   DrawerTypeEnum,
   type PendingCartDataType,
 } from '~/src/types/cart-drawer-types';
-
 
 export default function ShoppingList() {
   const { t } = useTranslation();
@@ -140,8 +142,8 @@ export default function ShoppingList() {
     >
       {isGuestUser ? (
         <GuestScreen
-          title="Nákupný zoznam"
-          description="Prihláste sa pre vytvorenie nákupného zoznamu, porovnanie cien a zistenie kde nakúpite najlacnejšie."
+          title={t('shopping_list_screen.title')}
+          description={t('shopping_list_screen.description')}
           showCartImage
         />
       ) : (
@@ -193,13 +195,19 @@ export default function ShoppingList() {
                     <ShoppingListProductSearch
                       searchQuery={searchQuery}
                       onProductSelect={productId =>
-                        handleTriggerCartDrawer(DrawerTypeEnum.PRODUCT, productId)
+                        handleTriggerCartDrawer(
+                          DrawerTypeEnum.PRODUCT,
+                          productId,
+                        )
                       }
                       ListHeaderComponent={
                         <ShoppingListCategorySearch
                           searchQuery={searchQuery}
                           onCategorySelect={categoryId =>
-                            handleTriggerCartDrawer(DrawerTypeEnum.CATEGORY, categoryId)
+                            handleTriggerCartDrawer(
+                              DrawerTypeEnum.CATEGORY,
+                              categoryId,
+                            )
                           }
                         />
                       }

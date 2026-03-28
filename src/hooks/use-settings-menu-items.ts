@@ -113,14 +113,13 @@ export const useSettingsMenuItems = () => {
         id: 'ucet',
         title: t('menu.account_settings'),
         items: [
-
           ...(canSeeBrigader
-              ? [
+            ? [
                 {
                   id: 'brigader',
                   label: brigaderActive
-                      ? t('menu.deactivate_brigader')
-                      : t('menu.activate_brigader'),
+                    ? t('menu.deactivate_brigader')
+                    : t('menu.activate_brigader'),
                   onPress: () => {
                     if (brigaderActive) {
                       deactivateBrigader();
@@ -133,7 +132,7 @@ export const useSettingsMenuItems = () => {
                   },
                 },
               ]
-              : []),
+            : []),
           {
             id: 'vymazatucet',
             label: t('menu.delete_account'),
@@ -147,7 +146,7 @@ export const useSettingsMenuItems = () => {
             icon: LogOut,
           },
         ],
-      }
+      },
     ],
     [
       brigaderActive,

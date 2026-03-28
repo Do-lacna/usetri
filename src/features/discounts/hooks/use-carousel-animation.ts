@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from "react";
-import { Animated, Dimensions } from "react-native";
+import { useCallback, useMemo } from 'react';
+import { Animated, Dimensions } from 'react-native';
 
 interface UseCarouselAnimationProps {
   cardWidth: number;
@@ -20,16 +20,16 @@ export const useCarouselAnimation = ({
   scrollY,
   carouselRef,
 }: UseCarouselAnimationProps): UseCarouselAnimationReturn => {
-  const { width: screenWidth } = Dimensions.get("window");
+  const { width: screenWidth } = Dimensions.get('window');
 
   const itemWidth = useMemo(
     () => cardWidth + cardMargin * 2,
-    [cardWidth, cardMargin]
+    [cardWidth, cardMargin],
   );
 
   const horizontalPadding = useMemo(
     () => (screenWidth - itemWidth) / 2,
-    [screenWidth, itemWidth]
+    [screenWidth, itemWidth],
   );
 
   const handleStoreSelect = useCallback(
@@ -56,7 +56,7 @@ export const useCarouselAnimation = ({
         }
       }
     },
-    [scrollY, itemWidth, carouselRef]
+    [scrollY, itemWidth, carouselRef],
   );
 
   return {

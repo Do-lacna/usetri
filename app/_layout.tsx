@@ -35,9 +35,7 @@ const DARK_THEME: Theme = {
   colors: NAV_THEME.dark,
 };
 
-export {
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,7 +89,7 @@ export default function RootLayout() {
 
       await setAndroidNavigationBar(colorTheme);
 
-      await SplashScreen.hideAsync().catch((e) => {
+      await SplashScreen.hideAsync().catch(e => {
         // Log to aid debugging but continue — splash may already be hidden.
         // eslint-disable-next-line no-console
         console.debug('SplashScreen.hideAsync failed:', e);
@@ -131,4 +129,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-

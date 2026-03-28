@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-  Image,
-  Pressable,
-  View,
-} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, Pressable, View } from 'react-native';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import type { AddCategoryExtendedWithPathDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
@@ -27,6 +24,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
   searchQuery,
   onCategorySelect,
 }) => {
+  const { t } = useTranslation();
   const [searchResults, setSearchResults] = React.useState<
     AddCategoryExtendedWithPathDto[]
   >([]);
@@ -52,9 +50,11 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     }
   }, [searchQuery]);
 
-  const renderCategory = (
-    { name, id, image_url }: AddCategoryExtendedWithPathDto,
-  ) => (
+  const renderCategory = ({
+    name,
+    id,
+    image_url,
+  }: AddCategoryExtendedWithPathDto) => (
     <Pressable key={String(id)} onPress={() => onCategorySelect?.(Number(id))}>
       <View className="flex flex-row items-center border border-g1 rounded-full px-3 py-3 bg-muted">
         {!!image_url && (
@@ -81,17 +81,17 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     <View>
       {searchResults.length > 0 && (
         <Text className="text-lg font-expose-bold mx-2 text-foreground">
-          Najlacnejšia varianta (kategória)
+          {t('shopping_list_screen.cheapest_variant')}
         </Text>
       )}
       {visibleResults.length > 0 ? (
         <View className="flex flex-row flex-wrap justify-center gap-2 px-2 py-2">
-          {visibleResults.map((item) => renderCategory(item,))}
+          {visibleResults.map(item => renderCategory(item))}
         </View>
       ) : (
         <View className="flex items-center justify-center">
           <NoDataText className="text-xl font-expose my-4">
-            Nenašli sa žiadne kategórie
+            {t('shopping_list_screen.no_categories_found')}
           </NoDataText>
         </View>
       )}

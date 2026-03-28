@@ -135,7 +135,7 @@ export default function SignUp() {
                   <View className="relative w-full mt-3">
                     <Input
                       secureTextEntry={!showPassword}
-                      placeholder="Heslo"
+                      placeholder={t('auth.password_placeholder')}
                       aria-labelledby="password"
                       aria-errormessage="passwordError"
                       className="w-full pr-12"
@@ -174,7 +174,7 @@ export default function SignUp() {
                   <View className="relative w-full mt-3">
                     <Input
                       secureTextEntry={!showConfirmPassword}
-                      placeholder="Zopakujte heslo"
+                      placeholder={t('auth.confirm_password_placeholder')}
                       aria-labelledby="password"
                       aria-errormessage="passwordError"
                       className="w-full pr-12"
@@ -228,7 +228,9 @@ export default function SignUp() {
             {/* Footer Links */}
             <View className="mt-auto pt-8">
               <View className="flex-row justify-center gap-1">
-                <Text className="text-foreground">{t('auth.have_account')}</Text>
+                <Text className="text-foreground">
+                  {t('auth.have_account')}
+                </Text>
                 <Link href="/sign-in" disabled={loading}>
                   <Text className="font-semibold text-terciary">
                     {t('auth.sign_in')}

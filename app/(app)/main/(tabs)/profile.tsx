@@ -23,8 +23,8 @@ export default function ProfileScreen() {
   if (isGuest) {
     return (
       <GuestScreen
-        title="Váš profil"
-        description="Prihláste sa pre zobrazenie vášho profilu, histórie nákupov a štatistík vašich úspor."
+        title={t('profile_screen.title')}
+        description={t('profile_screen.description')}
         showProfileImage
       />
     );
@@ -49,11 +49,10 @@ export default function ProfileScreen() {
     <View className="bg-card rounded-2xl p-8 items-center shadow-sm border border-border">
       <Ionicons name="receipt-outline" size={48} color="#D1D5DB" />
       <Text className="text-muted-foreground text-center mt-4 text-base">
-        Žiadne nákupné zoznamy
+        {t('profile_screen.no_shopping_lists')}
       </Text>
       <Text className="text-muted-foreground text-center mt-2 text-sm opacity-75">
-        Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli koľko
-        ušetríte
+        {t('profile_screen.create_first_list')}
       </Text>
     </View>
   );
@@ -66,7 +65,7 @@ export default function ProfileScreen() {
       <View className="mb-1">
         <View className="flex-row justify-between items-center mb-4">
           <Text className="text-lg font-semibold text-foreground">
-            História nákupov
+            {t('profile_screen.purchase_history')}
           </Text>
           <Text className="text-sm text-muted-foreground">
             {t('nakup', { count: archived_carts?.length ?? 0 })}

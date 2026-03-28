@@ -129,7 +129,9 @@ export const GuestRegistrationOverlay = ({
           <Pressable onPress={handleSignIn} className="py-2 active:opacity-60">
             <Text className="text-muted-foreground font-sans text-center">
               {t('auth.have_account')}{' '}
-              <Text className="text-terciary font-expose-medium">{t('auth.sign_in')}</Text>
+              <Text className="text-terciary font-expose-medium">
+                {t('auth.sign_in')}
+              </Text>
             </Text>
           </Pressable>
         </View>

@@ -17,7 +17,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const { colorScheme } = useColorScheme();
   const iconColor = COLORS.n6;
-  const settingsIconColor = colorScheme === 'dark' ? COLORS.white : COLORS.textPrimary;
+  const settingsIconColor =
+    colorScheme === 'dark' ? COLORS.white : COLORS.textPrimary;
 
   return (
     <View className="relative overflow-hidden bg-background">

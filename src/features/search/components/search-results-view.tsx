@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   FlatList,
@@ -28,6 +29,7 @@ export const SearchResultsView = ({
   onProductPress,
   onRefresh,
 }: SearchResultsViewProps) => {
+  const { t } = useTranslation();
   const { isGuest } = useSession();
   const [showGuestOverlay, setShowGuestOverlay] = React.useState(false);
   const [isOverlayDismissable, setIsOverlayDismissable] = React.useState(false);
@@ -63,9 +65,8 @@ export const SearchResultsView = ({
   const handleProductPress = (productId: number, categoryId?: number) => {
     if (isGuest) {
       setGuestOverlayMessage({
-        title: 'Detail produktu',
-        description:
-          'Pre zobrazenie detailu produktu a porovnania cien sa prosím zaregistrujte alebo prihláste.',
+        title: t('product_detail.guest_block_title'),
+        description: t('product_detail.guest_block_description'),
       });
       setIsOverlayDismissable(true);
       setShowGuestOverlay(true);
@@ -106,11 +107,13 @@ export const SearchResultsView = ({
         }
         ListEmptyComponent={
           isLoading ? (
-              <View className="flex-1 flex items-center justify-center">
-                <NoDataText className="text-xl font-expose my-4">Žiadne výsledky</NoDataText>
-              </View>
+            <View className="flex-1 flex items-center justify-center">
+              <NoDataText className="text-xl font-expose my-4">
+                {t('search_results.no_results')}
+              </NoDataText>
+            </View>
           ) : (
-              <ActivityIndicator animating={true} className="mt-12"/>
+            <ActivityIndicator animating={true} className="mt-12" />
           )
         }
       />

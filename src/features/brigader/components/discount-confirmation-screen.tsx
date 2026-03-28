@@ -88,12 +88,12 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
     usePatchDiscountImportEntry({
       mutation: {
         onSuccess: () => {
-          displaySuccessToastMessage('Zľava bola úspešne potvrdená');
+          displaySuccessToastMessage(t('brigader.discount_confirmed'));
           queryClient.invalidateQueries();
           onConfirm();
         },
         onError: () => {
-          displayErrorToastMessage('Nepodarilo sa potvrdiť zľavu');
+          displayErrorToastMessage(t('brigader.discount_confirm_error'));
         },
       },
     });
@@ -101,7 +101,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
   const { mutate: updatePrice, isPending: isUpdating } = useAddOrChangePrice({
     mutation: {
       onSuccess: () => {
-        displaySuccessToastMessage('Cena produktu bola úspešne aktualizovaná');
+        displaySuccessToastMessage(t('brigader.price_updated'));
 
         // After successful price update, patch the discount entry
         if (discount.discount_id && selectedProduct?.detail?.id) {
@@ -119,7 +119,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
         setSelectedProduct(null);
       },
       onError: () => {
-        displayErrorToastMessage('Nepodarilo sa aktualizovať cenu produktu');
+        displayErrorToastMessage(t('brigader.price_update_error'));
       },
     },
   });
@@ -165,7 +165,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
         <View className="space-y-1">
           {discount.brand && (
             <Text className="text-sm text-muted-foreground">
-              Značka: {discount.brand}
+              {t('brigader.brand', { brand: discount.brand })}
             </Text>
           )}
           {discount.description && (
@@ -175,7 +175,9 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
           )}
           <View className="flex-row items-center gap-2 mt-2">
             <Text className="text-base font-semibold text-foreground">
-              Zľavnená cena: {discount.new_discount_price?.toFixed(2)} €
+              {t('brigader.discounted_price', {
+                price: discount.new_discount_price?.toFixed(2),
+              })}
             </Text>
             {discount.percentage_discount && (
               <View className="bg-red-100 px-2 py-1 rounded">
@@ -192,7 +194,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
           )}
           {discount.import_state && (
             <Text className="text-xs text-muted-foreground">
-              Stav: {discount.import_state}
+              {t('brigader.status', { state: discount.import_state })}
             </Text>
           )}
         </View>
@@ -201,20 +203,20 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
       {/* Action Button - Find Product */}
       {!isExpanded ? (
         <Button onPress={() => setIsExpanded(true)} variant="outline">
-          <Text>Nájsť produkt v obchode</Text>
+          <Text>{t('brigader.find_product')}</Text>
         </Button>
       ) : (
         <>
           {/* Search Input */}
           <View className="mb-4">
             <Text className="text-sm font-semibold text-foreground mb-2">
-              Vyhľadať produkt:
+              {t('brigader.search_product')}
             </Text>
             <View className="border border-border rounded-lg px-3 py-2 bg-background">
               <TextInput
                 value={searchQuery}
                 onChangeText={setSearchQuery}
-                placeholder="Zadajte názov produktu..."
+                placeholder={t('brigader.search_product_placeholder')}
                 className="text-sm text-foreground"
                 placeholderTextColor="#9CA3AF"
               />
@@ -224,7 +226,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
           {/* Product Search Results */}
           <View className="mb-4">
             <Text className="text-sm font-semibold text-foreground mb-2">
-              Nájdené produkty:
+              {t('brigader.found_products')}
             </Text>
 
             {isSearching ? (
@@ -330,7 +332,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
               </ScrollView>
             ) : (
               <Text className="text-sm text-muted-foreground italic">
-                Žiadne produkty nenájdené
+                {t('brigader.no_products_found')}
               </Text>
             )}
           </View>
@@ -345,7 +347,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
               {isUpdating || isPatchingDiscount ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text>Potvrdiť cenu</Text>
+                <Text>{t('brigader.confirm_price')}</Text>
               )}
             </Button>
           )}
@@ -359,7 +361,7 @@ const DiscountItem: React.FC<DiscountItemProps> = ({
             variant="ghost"
             className="mt-2"
           >
-            <Text>Zrušiť</Text>
+            <Text>{t('brigader.cancel')}</Text>
           </Button>
         </>
       )}
@@ -433,12 +435,12 @@ export default function DiscountConfirmationScreen() {
       >
         <View className="py-4">
           <Text className="text-2xl font-bold text-foreground mb-4">
-            Potvrdenie zliav
+            {t('brigader.discount_confirmation')}
           </Text>
 
           {/* Batch Selector */}
           <CustomSelect
-            label="Vyber import batch"
+            label={t('brigader.select_batch')}
             options={batchOptions}
             defaultValue={batchOptions[0]}
             onChange={setSelectedBatch}
@@ -450,28 +452,40 @@ export default function DiscountConfirmationScreen() {
               {/* Batch Info */}
               <Card className="p-4 mb-4 bg-card border border-border">
                 <Text className="text-lg font-semibold mb-2">
-                  Informácie o batchi
+                  {t('brigader.batch_info')}
                 </Text>
                 <View className="space-y-1">
                   <Text className="text-sm text-muted-foreground">
-                    Lokácia: {currentBatch.location || 'N/A'}
+                    {t('brigader.location', {
+                      location: currentBatch.location || 'N/A',
+                    })}
                   </Text>
                   <Text className="text-sm text-muted-foreground">
-                    Počet zliav: {currentBatch.discount_count || 0}
+                    {t('brigader.discount_count', {
+                      count: currentBatch.discount_count || 0,
+                    })}
                   </Text>
                   <Text className="text-sm text-muted-foreground">
-                    Nevyriešené: {unresolvedDiscounts.length}
+                    {t('brigader.unresolved', {
+                      count: unresolvedDiscounts.length,
+                    })}
                   </Text>
                   {currentBatch.valid_from && (
                     <Text className="text-sm text-muted-foreground">
-                      Platné od:{' '}
-                      {new Date(currentBatch.valid_from).toLocaleDateString()}
+                      {t('brigader.valid_from', {
+                        date: new Date(
+                          currentBatch.valid_from,
+                        ).toLocaleDateString(),
+                      })}
                     </Text>
                   )}
                   {currentBatch.valid_to && (
                     <Text className="text-sm text-muted-foreground">
-                      Platné do:{' '}
-                      {new Date(currentBatch.valid_to).toLocaleDateString()}
+                      {t('brigader.valid_to', {
+                        date: new Date(
+                          currentBatch.valid_to,
+                        ).toLocaleDateString(),
+                      })}
                     </Text>
                   )}
                 </View>
@@ -485,10 +499,13 @@ export default function DiscountConfirmationScreen() {
                     onPress={() => setCurrentPage(p => Math.max(0, p - 1))}
                     disabled={currentPage === 0}
                   >
-                    <Text>Predošlé</Text>
+                    <Text>{t('brigader.previous')}</Text>
                   </Button>
                   <Text className="text-sm text-muted-foreground">
-                    Strana {currentPage + 1} z {totalPages}
+                    {t('brigader.page_of', {
+                      current: currentPage + 1,
+                      total: totalPages,
+                    })}
                   </Text>
                   <Button
                     variant="outline"
@@ -497,7 +514,7 @@ export default function DiscountConfirmationScreen() {
                     }
                     disabled={currentPage >= totalPages - 1}
                   >
-                    <Text>Ďalšie</Text>
+                    <Text>{t('brigader.next')}</Text>
                   </Button>
                 </View>
               )}
@@ -519,7 +536,7 @@ export default function DiscountConfirmationScreen() {
               ) : (
                 <Card className="p-8 bg-card border border-border">
                   <Text className="text-center text-muted-foreground">
-                    Všetky zľavy v tomto batchi boli vyriešené ✓
+                    {t('brigader.all_resolved')}
                   </Text>
                 </Card>
               )}
@@ -529,7 +546,7 @@ export default function DiscountConfirmationScreen() {
           {!selectedBatch && (
             <Card className="p-8 bg-card border border-border">
               <Text className="text-center text-muted-foreground">
-                Vyber batch pre pokračovanie
+                {t('brigader.select_batch_hint')}
               </Text>
             </Card>
           )}

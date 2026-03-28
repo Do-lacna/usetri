@@ -91,9 +91,9 @@ export function CategoriesGrid({
         }}
         scrollEnabled={!isLoading}
         refreshControl={
-            isLoading ? undefined : (
-                <RefreshControl refreshing={false} onRefresh={onRefresh}/>
-            )
+          isLoading ? undefined : (
+            <RefreshControl refreshing={false} onRefresh={onRefresh} />
+          )
         }
         showsVerticalScrollIndicator={false}
       />

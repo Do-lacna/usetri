@@ -5,7 +5,7 @@ import { Image, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
-import type React from "react";
+import type React from 'react';
 
 interface GuestScreenProps {
   title?: string;
@@ -26,7 +26,7 @@ export const GuestScreen = ({
   const { isDarkColorScheme } = useColorScheme();
   const resolvedTitle = title ?? t('auth.guest_title');
   const resolvedDescription = description ?? t('auth.guest_description');
-const handleRegister = () => {
+  const handleRegister = () => {
     router.push('/(app)/(auth)/sign-up');
   };
 
@@ -94,7 +94,9 @@ const handleRegister = () => {
           <Pressable onPress={handleSignIn} className="py-3 active:opacity-60">
             <Text className="text-muted-foreground font-expose text-center">
               {t('auth.have_account')}{' '}
-              <Text className="text-terciary font-expose-bold">{t('auth.sign_in')}</Text>
+              <Text className="text-terciary font-expose-bold">
+                {t('auth.sign_in')}
+              </Text>
             </Text>
           </Pressable>
         </View>

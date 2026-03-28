@@ -1,5 +1,6 @@
 import { getAuth, type FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { deleteItemAsync, setItemAsync } from 'expo-secure-store';
+import i18n from 'i18next';
 import {
   type PropsWithChildren,
   createContext,
@@ -8,7 +9,10 @@ import {
   useState,
 } from 'react';
 import { AppState, type AppStateStatus } from 'react-native';
-import { displayErrorToastMessage, displaySuccessToastMessage } from '~/src/utils/toast-utils';
+import {
+  displayErrorToastMessage,
+  displaySuccessToastMessage,
+} from '~/src/utils/toast-utils';
 import { AUTH_TOKEN, USER_ID } from '../network/api-client';
 import {
   clearGuestMode,
@@ -106,7 +110,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     // Listen to auth state changes
-    const authSubscriber = getAuth().onAuthStateChanged(reactToChangedAuthState);
+    const authSubscriber = getAuth().onAuthStateChanged(
+      reactToChangedAuthState,
+    );
 
     // Listen to token changes (handles automatic refresh)
     const tokenSubscriber = getAuth().onIdTokenChanged(async user => {
@@ -166,10 +172,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const deleteUserAccount = async () => {
     try {
       await user?.delete();
-      displaySuccessToastMessage('Účet bol úspešne zmazaný');
+      displaySuccessToastMessage(i18n.t('auth.account_deleted'));
       resetAndRedirect('/');
     } catch (e) {
-      displayErrorToastMessage('Účet sa nepodarilo zmazať');
+      displayErrorToastMessage(i18n.t('auth.account_delete_error'));
       console.error(e);
     }
   };

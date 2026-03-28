@@ -16,9 +16,13 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({
 }) => {
   return (
     <View className="mb-6">
-      <Text className="text-2xl font-expose-bold text-foreground mb-2">{name}</Text>
+      <Text className="text-2xl font-expose-bold text-foreground mb-2">
+        {name}
+      </Text>
       <View className="flex-row items-center mb-2 justify-between">
-        <Text className="text-lg font-expose text-muted-foreground mb-1">{brand}</Text>
+        <Text className="text-lg font-expose text-muted-foreground mb-1">
+          {brand}
+        </Text>
         <Text className="text-sm font-expose bg-muted text-muted-foreground px-3 py-1 rounded-full">
           {amount} {unit}
         </Text>

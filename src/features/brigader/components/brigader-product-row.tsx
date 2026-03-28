@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dimensions, Text, View } from 'react-native';
 import { X } from '~/src/lib/icons/Cancel';
 import { Check } from '~/src/lib/icons/Check';
@@ -34,6 +35,7 @@ const BrigaderProductRow = ({
     is_checked,
   } = product;
 
+  const { t } = useTranslation();
   const [newPrice, setNewPrice] = useState<string | undefined>(
     price ? price.toString() : '',
   );
@@ -80,7 +82,7 @@ const BrigaderProductRow = ({
             {edittingPrice ? (
               <View className="flex items-center gap-2">
                 <Input
-                  placeholder="Cena"
+                  placeholder={t('brigader.price_placeholder')}
                   placeholderClassName="text-sm"
                   className="w-[150px]"
                   onChangeText={value => setNewPrice(value)}

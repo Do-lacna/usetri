@@ -24,9 +24,7 @@ export function LanguageSwitch({
 
   // Normalize current language for comparison
   const isSlovak = currentLanguage === 'sk' || currentLanguage === 'sk-SK';
-  const isEnglish =
-    currentLanguage === 'en' ||
-    currentLanguage === 'en-US';
+  const isEnglish = currentLanguage === 'en' || currentLanguage === 'en-US';
 
   return (
     <View className={cn('flex-row items-center justify-between', className)}>

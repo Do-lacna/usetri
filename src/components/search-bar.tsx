@@ -50,7 +50,8 @@ const SearchBarComponent = <T,>(
     onSearch,
     onClear,
     searchText = '',
-    placeholder = 'Hľadať',    options = [],
+    placeholder = 'Hľadať',
+    options = [],
     onOptionSelect,
     renderOption,
     keyExtractor,
@@ -165,10 +166,7 @@ const SearchBarComponent = <T,>(
         }}
       >
         <View className="mr-3">
-          <Search
-            size={20}
-            color={isFocused ? COLORS.v1 : COLORS.v2}
-          />
+          <Search size={20} color={isFocused ? COLORS.v1 : COLORS.v2} />
         </View>
 
         <TextInput
@@ -221,7 +219,9 @@ const SearchBarComponent = <T,>(
       </View>
 
       {error && (
-        <Text className="text-destructive text-sm mt-2 px-1 font-medium">{error}</Text>
+        <Text className="text-destructive text-sm mt-2 px-1 font-medium">
+          {error}
+        </Text>
       )}
 
       {showDropdown && (

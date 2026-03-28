@@ -2,6 +2,7 @@ import { FlashList, type ListRenderItem } from '@shopify/flash-list';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   type Animated,
@@ -44,6 +45,7 @@ const DiscountList = ({
   isGuest,
   onProductPressBlocked,
 }: IDiscountListProps) => {
+  const { t } = useTranslation();
   const { id, name } = shop;
   const scrollLimitReachedRef = React.useRef(false);
 
@@ -142,7 +144,9 @@ const DiscountList = ({
   const renderHeader = () => (
     <View className="pb-3 flex-row items-center justify-between">
       <Text className="text-2xl font-expose-bold text-foreground">
-        Zľavy v {getStoreDisplayName(name)}
+        {t('discount_list.discounts_in', {
+          storeName: getStoreDisplayName(name),
+        })}
       </Text>
       {validityInfo && (
         <View className="bg-v1 px-3 py-2 rounded-full ">
@@ -177,7 +181,7 @@ const DiscountList = ({
             className="text-muted-foreground font-sans text-base text-center mt-2"
             numberOfLines={2}
           >
-            Tento obchod momentálne neponúka žiadne zľavnené produkty
+            {t('discount_list.no_discounts')}
           </Text>
         </View>
       ) : (
@@ -202,7 +206,7 @@ const DiscountList = ({
           ListFooterComponent={renderFooter}
           ListEmptyComponent={
             <Text className="text-muted-foreground text-base text-center mt-4 font-sans">
-              Tento obchod momentálne neponúka žiadne zľavnené produkty
+              {t('discount_list.no_discounts')}
             </Text>
           }
           onScroll={event => {

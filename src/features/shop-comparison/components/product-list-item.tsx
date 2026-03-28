@@ -126,7 +126,9 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
           {amount} {unit}
         </Text>
         {showBrand && brand && (
-          <Text className="text-xs font-expose text-muted-foreground ml-2">• {brand}</Text>
+          <Text className="text-xs font-expose text-muted-foreground ml-2">
+            • {brand}
+          </Text>
         )}
       </View>
     </View>

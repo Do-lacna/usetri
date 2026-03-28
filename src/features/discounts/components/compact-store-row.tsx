@@ -20,7 +20,7 @@ interface CompactStoreRowProps {
 export const CompactStoreRow: React.FC<CompactStoreRowProps> = ({
   shops,
   activeStoreId,
-                                                                    onStoreSelect,
+  onStoreSelect,
 }) => {
   const { width: screenWidth } = Dimensions.get('window');
 

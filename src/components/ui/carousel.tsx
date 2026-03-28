@@ -1,8 +1,8 @@
-import React from "react";
-import { Dimensions, ScrollView, View } from "react-native";
-import { cn } from "../../lib/utils";
+import React from 'react';
+import { Dimensions, ScrollView, View } from 'react-native';
+import { cn } from '../../lib/utils';
 
-const { width: screenWidth } = Dimensions.get("window");
+const { width: screenWidth } = Dimensions.get('window');
 
 interface CarouselProps {
   children: React.ReactNode[];
@@ -37,16 +37,14 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
       snapEnabled = true,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const totalItems = React.Children.count(children);
 
-    const snapInterval =
-        customSnapToInterval ?? itemWidth;
+    const snapInterval = customSnapToInterval ?? itemWidth;
 
-    const horizontalPadding =
-        contentPadding ?? (screenWidth - itemWidth) / 2;
+    const horizontalPadding = contentPadding ?? (screenWidth - itemWidth) / 2;
 
     const paddingStyle = snapEnabled
       ? { paddingHorizontal: horizontalPadding }
@@ -74,14 +72,14 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
 
     return (
       <CarouselContext.Provider value={contextValue}>
-        <View className={cn("w-full", className)} style={{ height }}>
+        <View className={cn('w-full', className)} style={{ height }}>
           <ScrollView
             ref={ref}
             horizontal
             showsHorizontalScrollIndicator={false}
-            decelerationRate={snapEnabled ? "fast" : "normal"}
+            decelerationRate={snapEnabled ? 'fast' : 'normal'}
             snapToInterval={snapEnabled ? snapInterval : undefined}
-            snapToAlignment={snapEnabled ? "center" : undefined}
+            snapToAlignment={snapEnabled ? 'center' : undefined}
             contentContainerStyle={paddingStyle}
             onScroll={handleScroll}
             scrollEventThrottle={16}
@@ -92,23 +90,23 @@ const CarouselRoot = React.forwardRef<ScrollView, CarouselProps>(
         </View>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 
-CarouselRoot.displayName = "Carousel";
+CarouselRoot.displayName = 'Carousel';
 
 const CarouselItem = React.forwardRef<View, React.ComponentProps<typeof View>>(
   ({ className, children, ...props }, ref) => (
     <View
       ref={ref}
-      className={cn("justify-center items-center", className)}
+      className={cn('justify-center items-center', className)}
       {...props}
     >
       {children}
     </View>
-  )
+  ),
 );
-CarouselItem.displayName = "CarouselItem";
+CarouselItem.displayName = 'CarouselItem';
 
 const CarouselIndicators = React.forwardRef<
   View,
@@ -119,7 +117,7 @@ const CarouselIndicators = React.forwardRef<
 >(
   (
     { className, indicatorClassName, activeIndicatorClassName, ...props },
-    ref
+    ref,
   ) => {
     const context = React.useContext(CarouselContext);
 
@@ -128,7 +126,7 @@ const CarouselIndicators = React.forwardRef<
     return (
       <View
         ref={ref}
-        className={cn("flex-row justify-center items-center mt-4", className)}
+        className={cn('flex-row justify-center items-center mt-4', className)}
         {...props}
       >
         {Array.from({ length: context.totalItems }, () => Math.random()).map(
@@ -136,19 +134,19 @@ const CarouselIndicators = React.forwardRef<
             <View
               key={randomValue}
               className={cn(
-                "w-2 h-2 rounded-full mx-1 transition-all duration-300",
+                'w-2 h-2 rounded-full mx-1 transition-all duration-300',
                 index === context.currentIndex
-                  ? cn("bg-primary scale-125", activeIndicatorClassName)
-                  : cn("bg-border", indicatorClassName)
+                  ? cn('bg-primary scale-125', activeIndicatorClassName)
+                  : cn('bg-border', indicatorClassName),
               )}
             />
-          )
+          ),
         )}
       </View>
     );
-  }
+  },
 );
-CarouselIndicators.displayName = "CarouselIndicators";
+CarouselIndicators.displayName = 'CarouselIndicators';
 
 export {
   CarouselRoot as Carousel,

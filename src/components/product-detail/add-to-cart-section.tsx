@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -33,6 +34,7 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
   onAddToCart,
   actionType = null,
 }) => {
+  const { t } = useTranslation();
   // Animation values
   const scale = useSharedValue(1);
   const iconRotation = useSharedValue(0);
@@ -61,22 +63,22 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
 
   const getButtonText = () => {
     if (actionType === 'added') {
-      return 'Pridané ✓';
+      return t('product_detail.added');
     }
     if (actionType === 'updated') {
-      return 'Aktualizované ✓';
+      return t('product_detail.updated');
     }
     if (actionType === 'removed') {
-      return 'Odobrané ✓';
+      return t('product_detail.removed');
     }
     if (cartQuantity === 0) {
       return currentProductInCartQuantity > 0
-        ? 'Odobrať z košíka'
-        : 'Zvoľte množstvo';
+        ? t('product_detail.remove_from_cart')
+        : t('product_detail.select_quantity');
     }
     return currentProductInCartQuantity > 0
-      ? 'Aktualizovať v košíku'
-      : 'Pridať do nákupného zoznamu';
+      ? t('product_detail.update_in_cart')
+      : t('product_detail.add_to_shopping_list');
   };
 
   return (
@@ -84,7 +86,7 @@ export const AddToCartSection: React.FC<AddToCartSectionProps> = ({
       <View className="flex-row items-center justify-between mb-4">
         <View>
           <Text className="text-sm font-expose text-muted-foreground">
-            Cena v {selectedShopName}
+            {t('product_detail.price_in_shop', { shopName: selectedShopName })}
           </Text>
           <Text className="text-2xl font-expose-bold text-foreground">
             {totalPrice.toFixed(2)} €

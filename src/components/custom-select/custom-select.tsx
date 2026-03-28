@@ -37,7 +37,6 @@ export const CustomSelect = ({
   selectClassName = '',
   optionClassName = '',
 }: CustomSelectProps) => {
-
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -69,8 +68,7 @@ export const CustomSelect = ({
                 label={option.label}
                 value={option.value}
                 className={optionClassName}
-              >
-              </SelectItem>
+              ></SelectItem>
             );
           })}
         </SelectGroup>

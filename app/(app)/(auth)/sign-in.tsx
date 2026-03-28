@@ -116,7 +116,9 @@ export default function SignIn() {
             {/* Divider */}
             <View className="flex-row items-center mb-8">
               <View className="flex-1 h-px bg-border" />
-              <Text className="mx-3 text-muted-foreground text-xs">{t('auth.or')}</Text>
+              <Text className="mx-3 text-muted-foreground text-xs">
+                {t('auth.or')}
+              </Text>
               <View className="flex-1 h-px bg-border" />
             </View>
 
@@ -155,7 +157,7 @@ export default function SignIn() {
                   <View className="relative w-full mt-3">
                     <Input
                       secureTextEntry={!showPassword}
-                      placeholder="Heslo"
+                      placeholder={t('auth.password_placeholder')}
                       aria-labelledby="password"
                       aria-errormessage="passwordError"
                       className="w-full pr-12"
@@ -191,7 +193,9 @@ export default function SignIn() {
                 disabled={isLoading || isOAuthLoading}
                 className="self-end mt-2"
               >
-                <Text className="text-sm text-terciary">{t('auth.forgot_password')}</Text>
+                <Text className="text-sm text-terciary">
+                  {t('auth.forgot_password')}
+                </Text>
               </Link>
             </View>
 

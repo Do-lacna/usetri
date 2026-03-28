@@ -71,10 +71,7 @@ const SuggestedProductCard = ({
         )}
 
         <View className="w-full h-24 rounded-lg relative">
-          <Image
-            source={imageSource}
-            className="w-full h-24 rounded-lg"
-          />
+          <Image source={imageSource} className="w-full h-24 rounded-lg" />
           <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
             {shopsPrices?.map(({ shop_id }, index) =>
               shop_id ? (
@@ -92,7 +89,10 @@ const SuggestedProductCard = ({
         <View className="mt-2 space-y-1">
           <View className="flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-xs font-expose text-muted-foreground" numberOfLines={1}>
+              <Text
+                className="text-xs font-expose text-muted-foreground"
+                numberOfLines={1}
+              >
                 {brand}
               </Text>
               <Text

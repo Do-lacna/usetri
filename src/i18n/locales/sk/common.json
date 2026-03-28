@@ -161,7 +161,15 @@
     "guest_title": "Prihláste sa pre prístup",
     "guest_description": "Táto funkcia je dostupná len pre prihlásených používateľov. Zaregistrujte sa alebo sa prihláste pre plný prístup ku všetkým funkciám.",
     "overlay_title": "Chcete vidieť viac?",
-    "overlay_description": "Zaregistrujte sa a získajte prístup ku všetkým zľavám, vytvorte si nákupný zoznam a ušetrite ešte viac!"
+    "overlay_description": "Zaregistrujte sa a získajte prístup ku všetkým zľavám, vytvorte si nákupný zoznam a ušetrite ešte viac!",
+    "password_placeholder": "Heslo",
+    "confirm_password_placeholder": "Zopakujte heslo",
+    "apple_sign_in_error": "Nepodarilo sa prihlásiť cez Apple",
+    "apple_sign_in_not_allowed": "Apple prihlásenie nie je momentálne povolené",
+    "invalid_credentials": "Neplatné prihlasovacie údaje",
+    "try_again": "Skúste to prosím znova",
+    "account_deleted": "Účet bol úspešne zmazaný",
+    "account_delete_error": "Účet sa nepodarilo zmazať"
   },
 
   "camera": {
@@ -174,5 +182,121 @@
     "title": "Stránka nebola nájdená",
     "description": "Ospravedlňujeme sa, ale požadovaná stránka neexistuje alebo bola presunutá.",
     "go_back": "Späť na hlavnú stránku"
+  },
+
+  "navigation": {
+    "registration": "Registrácia",
+    "sign_in": "Prihlásenie",
+    "restore_password": "Obnovenie hesla",
+    "product_detail": "Detail produktu",
+    "price_comparison": "Porovnanie cien",
+    "cart_detail": "Detail košíka",
+    "settings": "Nastavenia",
+    "discounts_tab": "Zľavy",
+    "search_tab": "Hľadať",
+    "list_tab": "Zoznam",
+    "profile_tab": "Profil",
+    "upload_tab": "Nahrávanie"
+  },
+
+  "product_detail": {
+    "loading": "Načítavam...",
+    "price_in_shop": "Cena v {{shopName}}",
+    "added": "Pridané ✓",
+    "updated": "Aktualizované ✓",
+    "removed": "Odobrané ✓",
+    "remove_from_cart": "Odobrať z košíka",
+    "select_quantity": "Zvoľte množstvo",
+    "update_in_cart": "Aktualizovať v košíku",
+    "add_to_shopping_list": "Pridať do nákupného zoznamu",
+    "guest_block_title": "Detail produktu",
+    "guest_block_description": "Pre zobrazenie detailu produktu a porovnania cien sa prosím zaregistrujte alebo prihláste."
+  },
+
+  "profile_screen": {
+    "title": "Váš profil",
+    "description": "Prihláste sa pre zobrazenie vášho profilu, histórie nákupov a štatistík vašich úspor.",
+    "no_shopping_lists": "Žiadne nákupné zoznamy",
+    "create_first_list": "Vytvorte si svoj prvý nákupný zoznam a uložte ho aby ste videli koľko ušetríte",
+    "purchase_history": "História nákupov",
+    "your_savings": "Vaše úspory",
+    "this_month": "Tento mesiac",
+    "total": "Celkovo"
+  },
+
+  "shopping_list_screen": {
+    "title": "Nákupný zoznam",
+    "description": "Prihláste sa pre vytvorenie nákupného zoznamu, porovnanie cien a zistenie kde nakúpite najlacnejšie.",
+    "start_typing": "Začni písať pre vyhľadanie kategórie alebo produktu",
+    "specific_products": "Konkrétne produkty",
+    "no_products_found": "Nenašli sa žiadne produkty",
+    "cheapest_variant": "Najlacnejšia varianta (kategória)",
+    "no_categories_found": "Nenašli sa žiadne kategórie"
+  },
+
+  "discount_list": {
+    "discounts_in": "Zľavy v {{storeName}}",
+    "no_discounts": "Tento obchod momentálne neponúka žiadne zľavnené produkty"
+  },
+
+  "shop_comparison_screen": {
+    "no_products_in_shops": "Vami zvolené produkty sa nenachádzajú v žiadnom obchode"
+  },
+
+  "search_results": {
+    "no_results": "Žiadne výsledky"
+  },
+
+  "paywall": {
+    "choose_subscription": "Zvoľte si predplatné",
+    "subscribe_for": "Odoberať za {{price}}",
+    "payment_error": "Nepodarilo sa spracovať platbu. Skúste to znova.",
+    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period."
+  },
+
+  "brigader": {
+    "discount_confirmation": "Potvrdenie zliav",
+    "product_categories": "Kategórie produktov",
+    "no_category": "Bez kategórie",
+    "unknown_product": "Neznámy produkt",
+    "confirm_category": "Potvrdiť kategóriu",
+    "change_category": "Zmeniť kategóriu",
+    "select_category": "Vybrať kategóriu",
+    "current_category": "Aktuálna kategória:",
+    "search_category": "Hľadať kategóriu...",
+    "no_categories_found": "Žiadne kategórie neboli nájdené",
+    "category_updated": "Kategória bola úspešne aktualizovaná",
+    "category_update_error": "Nepodarilo sa aktualizovať kategóriu",
+    "select_shop": "Vyberte obchod",
+    "select_shop_hint": "Vyberte obchod pre zobrazenie produktov",
+    "products_to_verify": "Produkty na overenie: {{count}}",
+    "no_products_to_verify": "Žiadne produkty na overenie kategórie",
+    "price_placeholder": "Cena",
+    "discount_confirmed": "Zľava bola úspešne potvrdená",
+    "discount_confirm_error": "Nepodarilo sa potvrdiť zľavu",
+    "price_updated": "Cena produktu bola úspešne aktualizovaná",
+    "price_update_error": "Nepodarilo sa aktualizovať cenu produktu",
+    "brand": "Značka: {{brand}}",
+    "discounted_price": "Zľavnená cena: {{price}} €",
+    "status": "Stav: {{state}}",
+    "find_product": "Nájsť produkt v obchode",
+    "search_product": "Vyhľadať produkt:",
+    "search_product_placeholder": "Zadajte názov produktu...",
+    "found_products": "Nájdené produkty:",
+    "no_products_found": "Žiadne produkty nenájdené",
+    "confirm_price": "Potvrdiť cenu",
+    "batch_info": "Informácie o batchi",
+    "location": "Lokácia: {{location}}",
+    "discount_count": "Počet zliav: {{count}}",
+    "unresolved": "Nevyriešené: {{count}}",
+    "valid_from": "Platné od: {{date}}",
+    "valid_to": "Platné do: {{date}}",
+    "previous": "Predošlé",
+    "page_of": "Strana {{current}} z {{total}}",
+    "next": "Ďalšie",
+    "all_resolved": "Všetky zľavy v tomto batchi boli vyriešené ✓",
+    "select_batch": "Vyber import batch",
+    "select_batch_hint": "Vyber batch pre pokračovanie",
+    "cancel": "Zrušiť"
   }
 }

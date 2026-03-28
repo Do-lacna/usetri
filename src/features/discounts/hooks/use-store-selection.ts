@@ -1,20 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
-import { Animated } from "react-native";
-import type { ShopExtendedDto } from "~/src/network/model";
+import { useEffect, useMemo, useState } from 'react';
+import { Animated } from 'react-native';
+import type { ShopExtendedDto } from '~/src/network/model';
 import {
   useGetDiscountsStatistics,
   useGetShops,
-} from "~/src/network/query/query";
-import { sortShopsByDiscountCount } from "../utils/store-utils";
+} from '~/src/network/query/query';
+import { sortShopsByDiscountCount } from '../utils/store-utils';
 
 export const useStoreSelection = (scrollY?: Animated.Value) => {
-  const { data: { shops } = {} } = useGetShops();
-  const { data: { stats = [] } = {}, isLoading: areDiscountStatisticsLoading } =
-    useGetDiscountsStatistics();
+  const {
+    data: { shops } = {},
+  } = useGetShops();
+  const {
+    data: { stats = [] } = {},
+    isLoading: areDiscountStatisticsLoading,
+  } = useGetDiscountsStatistics();
   const [activeStoreId, setActiveStoreId] = useState<number | null>(null);
 
   const activeStore = shops?.find(
-    (store: ShopExtendedDto) => store.id === activeStoreId
+    (store: ShopExtendedDto) => store.id === activeStoreId,
   );
 
   const sortedShops = useMemo(() => {

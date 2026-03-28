@@ -167,7 +167,9 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
     // Camera permissions are not granted yet.
     return (
       <View className="flex-1 justify-center items-center bg-black">
-        <Text className="text-white text-lg">{t('camera.permission_message')}</Text>
+        <Text className="text-white text-lg">
+          {t('camera.permission_message')}
+        </Text>
         <Button onPress={requestCameraPermission}>
           <Text>{t('camera.continue')}</Text>
         </Button>

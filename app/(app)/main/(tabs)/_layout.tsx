@@ -1,5 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { AnimatedCartBadge } from '~/src/components/layout/animated-cart-badge';
 import { useSession } from '~/src/context/authentication-context';
@@ -12,6 +13,7 @@ import { getNumberOfCartItems } from '~/src/lib/utils';
 import { useGetCart } from '~/src/network/cart/cart';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const { brigaderActive, isGuest } = useSession();
   const {
     data: { cart } = {},
@@ -87,7 +89,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="discounts-screen"
         options={{
-          title: 'Zľavy',
+          title: t('navigation.discounts_tab'),
           tabBarIcon: ({ color, focused }) => (
             <ActiveIndicator focused={focused}>
               <BadgePercent
@@ -101,7 +103,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search-screen"
         options={{
-          title: 'Hĺadať',
+          title: t('navigation.search_tab'),
           tabBarIcon: ({ color, focused }) => (
             <ActiveIndicator focused={focused}>
               <Search size={28} color={focused ? activeColor : inactiveColor} />
@@ -112,7 +114,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="shopping-list"
         options={{
-          title: 'Zoznam',
+          title: t('navigation.list_tab'),
           tabBarIcon: ({ color, focused }) => (
             <ActiveIndicator focused={focused}>
               <View style={{ position: 'relative' }}>
@@ -129,7 +131,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profil',
+          title: t('navigation.profile_tab'),
           tabBarIcon: ({ color, focused }) => (
             <ActiveIndicator focused={focused}>
               <FontAwesome
@@ -144,7 +146,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="brigader"
         options={{
-          title: 'Nahravanie',
+          title: t('navigation.upload_tab'),
           tabBarIcon: ({ color, focused }) => (
             <ActiveIndicator focused={focused}>
               <FontAwesome

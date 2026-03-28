@@ -1,11 +1,13 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 import '~/global.css';
 import { COLORS } from '~/src/lib/constants';
 import { useColorScheme } from '~/src/lib/useColorScheme';
 
 export default function AppLayout() {
   const { isDarkColorScheme } = useColorScheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -22,7 +24,7 @@ export default function AppLayout() {
         <Stack.Screen
           name="product/[id]"
           options={{
-            title: 'Detail produktu',
+            title: t('navigation.product_detail'),
             presentation: 'card',
             animation: 'slide_from_right',
             headerShown: true,
@@ -36,7 +38,7 @@ export default function AppLayout() {
         <Stack.Screen
           name="main/price-comparison-modal/price-comparison-modal-screen"
           options={{
-            title: 'Porovnanie cien',
+            title: t('navigation.price_comparison'),
 
             headerShown: true,
             headerTitleStyle: {
@@ -48,7 +50,7 @@ export default function AppLayout() {
         <Stack.Screen
           name="main/archived-cart/[id]"
           options={{
-            title: 'Detail košíka',
+            title: t('navigation.cart_detail'),
 
             headerShown: true,
             headerTitleStyle: {
@@ -61,7 +63,7 @@ export default function AppLayout() {
         <Stack.Screen
           name="main/menu-screen/menu-screen"
           options={{
-            title: 'Nastavenia',
+            title: t('navigation.settings'),
             headerShown: true,
             headerTitleStyle: {
               fontFamily: 'Expose-Bold',

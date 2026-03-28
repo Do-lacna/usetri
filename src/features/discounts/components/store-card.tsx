@@ -158,7 +158,6 @@ export const StoreCard: React.FC<StoreCardProps> = ({
             >
               {getStoreDisplayName(store.name)}
             </Animated.Text>
-
           </Animated.View>
 
           {isActive && (

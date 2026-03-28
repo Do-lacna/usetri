@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ImageBackground, Platform, View } from 'react-native';
 import { COLORS } from '../../lib/constants';
 import { useGetArchivedCart } from '../../network/customer/customer';
@@ -8,6 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 import { Text } from '../ui/text';
 
 const TotalSavedCard: React.FC = () => {
+  const { t } = useTranslation();
   const iconColor = COLORS.black;
 
   const {
@@ -27,7 +29,7 @@ const TotalSavedCard: React.FC = () => {
         imageStyle={{ resizeMode: 'repeat', opacity: 0.2 }}
       >
         <Text className="text-lg font-expose-medium text-card-foreground">
-          Vaše úspory
+          {t('profile_screen.your_savings')}
         </Text>
         <View className="flex-row space-x-4">
           <View
@@ -38,7 +40,7 @@ const TotalSavedCard: React.FC = () => {
             <View className="flex-row items-center mb-2">
               <Ionicons name="calendar-outline" size={20} color={iconColor} />
               <Text className="text-sm font-expose-medium ml-2 text-card-foreground">
-                Tento mesiac
+                {t('profile_screen.this_month')}
               </Text>
             </View>
             <Text className="text-2xl font-expose-bold text-card-foreground">
@@ -59,7 +61,7 @@ const TotalSavedCard: React.FC = () => {
                 color={iconColor}
               />
               <Text className="text-sm font-expose-medium ml-2 text-card-foreground">
-                Celkovo
+                {t('profile_screen.total')}
               </Text>
             </View>
             <Text className="text-2xl font-expose-bold text-card-foreground">
