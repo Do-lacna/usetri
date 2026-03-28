@@ -68,7 +68,7 @@ export const CustomSelect = ({
                 label={option.label}
                 value={option.value}
                 className={optionClassName}
-              ></SelectItem>
+              />
             );
           })}
         </SelectGroup>
