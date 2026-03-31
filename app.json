@@ -75,10 +75,17 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/usetri_splash_screen.png",
-          "imageContentMode": "cover",
-          "backgroundColor": "#ffffff",
-          "enableFullScreenImage_legacy": true
+          "ios": {
+            "image": "./assets/splashik.png",
+            "imageContentMode": "cover",
+            "backgroundColor": "#ffffff",
+            "enableFullScreenImage_legacy": true
+          },
+          "android": {
+            "image": "./assets/images/usetri-logo_symbol-purple.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+          }
         }
       ],
       [

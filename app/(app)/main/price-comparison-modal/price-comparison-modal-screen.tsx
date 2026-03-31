@@ -102,7 +102,7 @@ const ShopComparisonScreen: React.FC = () => {
             <ImageBackground
               source={require('~/assets/images/pattern.png')}
               className="px-4 py-6 border-b border-border"
-              imageStyle={{ resizeMode: 'repeat', opacity: 0.5 }}
+              imageStyle={{ resizeMode: 'cover', opacity: 0.5 }}
             >
               <ShopNavigationHeader
                 currentShop={currentShop}

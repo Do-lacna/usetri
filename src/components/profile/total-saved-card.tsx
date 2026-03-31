@@ -26,7 +26,7 @@ const TotalSavedCard: React.FC = () => {
       <ImageBackground
         source={require('~/assets/images/pattern.png')}
         className="px-4 py-2"
-        imageStyle={{ resizeMode: 'repeat', opacity: 0.2 }}
+        imageStyle={{ resizeMode: 'cover', opacity: 0.2 }}
       >
         <Text className="text-lg font-expose-medium text-card-foreground">
           {t('profile_screen.your_savings')}
