@@ -26,7 +26,7 @@
       "package": "com.dutosvarc.usetri",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#5040d0"
+        "backgroundColor": "#5645CC"
       },
       "permissions": [
         "android.permission.CAMERA",
@@ -82,7 +82,7 @@
             "enableFullScreenImage_legacy": true
           },
           "android": {
-            "image": "./assets/images/usetri-logo_symbol-purple.png",
+            "image": "./assets/images/usetri-logo_claim-purple.png",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
           }
