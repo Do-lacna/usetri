@@ -82,7 +82,7 @@
             "enableFullScreenImage_legacy": true
           },
           "android": {
-            "image": "./assets/images/usetri-logo_claim-purple.png",
+            "image": "./assets/images/usetri-logo_base-purple.png",
             "resizeMode": "contain",
             "backgroundColor": "#ffffff"
           }
