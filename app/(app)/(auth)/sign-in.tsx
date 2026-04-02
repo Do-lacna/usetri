@@ -28,6 +28,7 @@ import { useSession } from '~/src/context/authentication-context';
 import { Eye } from '~/src/lib/icons/Eye';
 import { EyeOff } from '~/src/lib/icons/EyeOff';
 import { signInSchema } from '~/src/schema/signin';
+import { logError, logSignIn } from '~/src/utils/analytics';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 export default function SignIn() {
@@ -56,6 +57,7 @@ export default function SignIn() {
       .then(async data => {
         setIsLoading(false);
         if (data?.user?.emailVerified) {
+          logSignIn('email');
           resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
         } else {
           Toast.show({
@@ -67,8 +69,7 @@ export default function SignIn() {
       })
       .catch(error => {
         setIsLoading(false);
-
-        console.error(error);
+        logError(error, 'signIn:email');
         Toast.show({
           type: 'error',
           text1: t('auth.sign_in_failed'),

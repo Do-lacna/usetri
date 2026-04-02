@@ -1,5 +1,6 @@
 import '~/global.css';
 
+import crashlytics from '@react-native-firebase/crashlytics';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {
   DefaultTheme,
@@ -53,6 +54,9 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Enable Crashlytics for production crash reporting
+crashlytics().setCrashlyticsCollectionEnabled(true);
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();

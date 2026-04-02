@@ -23,6 +23,7 @@ import { Button } from '~/src/components/ui/button';
 import { Input } from '~/src/components/ui/input';
 import { Eye } from '~/src/lib/icons/Eye';
 import { EyeOff } from '~/src/lib/icons/EyeOff';
+import { logError, logSignUp } from '~/src/utils/analytics';
 import { signUpSchema } from '~/src/schema/signup';
 
 export default function SignUp() {
@@ -53,8 +54,8 @@ export default function SignUp() {
         password,
       );
 
-      // Send email verification
       await userCredential.user.sendEmailVerification();
+      logSignUp('email');
 
       Toast.show({
         type: 'success',
@@ -67,6 +68,7 @@ export default function SignUp() {
         params: { email: userCredential?.user?.email },
       });
     } catch (error) {
+      logError(error, 'signUp:email');
       Toast.show({
         type: 'error',
         text1: t('auth.register_error'),

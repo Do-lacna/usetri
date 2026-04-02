@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Image, Text, TouchableOpacity } from 'react-native';
 import { useSession } from '~/src/context/authentication-context';
 import { useColorScheme } from '~/src/lib/useColorScheme';
+import { logError, logSignIn } from '~/src/utils/analytics';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 
 GoogleSignin.configure({
@@ -52,13 +53,14 @@ export function GoogleSignIn({ onLoadingChange }: Readonly<GoogleSignInProps>) {
         );
 
         setUser(user);
+        logSignIn('google');
 
         resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
         updateLoading(false);
       }
     } catch (error: any) {
       updateLoading(false);
-      console.error('Google Sign-In Error:', error);
+      logError(error, 'signIn:google');
     }
   };
 

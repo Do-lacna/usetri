@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { ArrowDown } from '~/src/lib/icons/ArrowDown';
 import { useGetCart } from '~/src/network/cart/cart';
+import { logCompareShops } from '~/src/utils/analytics';
 
 export type PriceSummaryProps = {
   onPress?: () => void;
@@ -48,6 +49,7 @@ const PriceSummary = ({ onPress }: PriceSummaryProps) => {
 
   const navigate = useCallback(() => {
     onPress?.();
+    logCompareShops();
     router.navigate(COMPARISON_ROUTE);
   }, [onPress]);
 

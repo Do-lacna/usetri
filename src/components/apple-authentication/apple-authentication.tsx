@@ -10,6 +10,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSession } from '~/src/context/authentication-context';
 import { COLORS } from '~/src/lib/constants';
+import { logError, logSignIn } from '~/src/utils/analytics';
 import { resetAndRedirect } from '~/src/utils/navigation-utils';
 import { useColorScheme } from '../../lib/useColorScheme';
 
@@ -55,6 +56,7 @@ export default function AppleAuthentication({
       );
 
       setUser(userCredential.user);
+      logSignIn('apple');
       resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
       updateLoading(false);
     } catch (e: any) {
@@ -62,7 +64,7 @@ export default function AppleAuthentication({
       if (e?.code === 'ERR_REQUEST_CANCELED') {
         // User canceled, no action needed
       } else {
-        console.error('Apple Sign-In Error:', e);
+        logError(e, 'signIn:apple');
 
         let errorMessage = t('auth.try_again');
 

@@ -10,6 +10,13 @@ import {
 } from 'react';
 import { AppState, type AppStateStatus } from 'react-native';
 import {
+  clearAnalyticsUser,
+  logBreadcrumb,
+  logContinueAsGuest,
+  logError,
+  setAnalyticsUser,
+} from '~/src/utils/analytics';
+import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
@@ -78,17 +85,16 @@ export function SessionProvider({ children }: PropsWithChildren) {
         return;
       }
       if (user?.emailVerified) {
-        // Force token refresh to get a new token
         const token = await user.getIdToken(true);
         await setItemAsync(USER_ID, user.uid);
         await setItemAsync(AUTH_TOKEN, token);
         setUser(user);
-        // Clear guest mode when user successfully authenticates
+        setAnalyticsUser(user.uid);
         clearGuestMode();
         setIsGuest(false);
       }
     } catch (e) {
-      console.error('Error in reactToChangedAuthState:', e);
+      logError(e, 'reactToChangedAuthState');
     } finally {
       setInitializing(false);
     }
@@ -103,7 +109,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         const token = await currentUser.getIdToken(true);
         await setItemAsync(AUTH_TOKEN, token);
       } catch (e) {
-        console.error('Error refreshing token on foreground:', e);
+        logError(e, 'refreshTokenOnForeground');
       }
     }
   };
@@ -121,7 +127,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           const token = await user.getIdToken();
           await setItemAsync(AUTH_TOKEN, token);
         } catch (e) {
-          console.error('Error in onIdTokenChanged:', e);
+          logError(e, 'onIdTokenChanged');
         }
       }
     });
@@ -157,8 +163,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
       setIsGuest(false);
       await getAuth().signOut();
       setUser(undefined);
+      clearAnalyticsUser();
+      logBreadcrumb('User signed out');
     } catch (e) {
-      console.error(e);
+      logError(e, 'performSignOut');
     }
   };
 
@@ -166,17 +174,19 @@ export function SessionProvider({ children }: PropsWithChildren) {
     setGuestMode(true);
     setIsGuest(true);
     setInitializing(false);
+    logContinueAsGuest();
     resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
   };
 
   const deleteUserAccount = async () => {
     try {
       await user?.delete();
+      clearAnalyticsUser();
       displaySuccessToastMessage(i18n.t('auth.account_deleted'));
       resetAndRedirect('/');
     } catch (e) {
+      logError(e, 'deleteUserAccount');
       displayErrorToastMessage(i18n.t('auth.account_delete_error'));
-      console.error(e);
     }
   };
 

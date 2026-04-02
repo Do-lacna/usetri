@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import qs from 'qs';
 import { BASE_API_URL } from '../lib/constants';
 import { isGuestMode } from '../persistence/guest-storage';
+import { logError } from '../utils/analytics';
 
 export const AUTH_TOKEN = 'authToken';
 export const USER_ID = 'userId';
@@ -64,10 +65,9 @@ apiClient.interceptors.response.use(
           return apiClient(originalRequest);
         }
 
-        // No user logged in, can't refresh token
-        console.error('No user logged in, cannot refresh token');
+        logError(new Error('No user logged in, cannot refresh token'), 'apiClient:401');
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        logError(refreshError, 'apiClient:tokenRefresh');
         // If refresh fails, reject the promise
         return Promise.reject(refreshError);
       }

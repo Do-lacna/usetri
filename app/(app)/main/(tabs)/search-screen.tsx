@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
 import { useSession } from '~/src/context/authentication-context';
@@ -9,6 +9,7 @@ import { CategoryDetailView } from '~/src/features/search/components/category-de
 import { SearchHeader } from '~/src/features/search/components/search-header';
 import { SearchResultsView } from '~/src/features/search/components/search-results-view';
 import type { PopularCategoryDto } from '~/src/network/model';
+import { logSearch } from '~/src/utils/analytics';
 import {
   useGetPopularCategories,
   useGetProducts,
@@ -21,6 +22,15 @@ export default function SearchScreen() {
   const [selectedCategory, setSelectedCategory] =
     React.useState<PopularCategoryDto | null>(null);
   const [showGuestOverlay, setShowGuestOverlay] = useState(false);
+  const searchLogTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+    clearTimeout(searchLogTimer.current);
+    if (query.length >= 2) {
+      searchLogTimer.current = setTimeout(() => logSearch(query), 1000);
+    }
+  }, []);
 
   // Get popular categories from backend
   const {
@@ -79,7 +89,7 @@ export default function SearchScreen() {
     <SafeAreaView className="flex-1 bg-background">
       <SearchHeader
         searchQuery={searchQuery}
-        onSearch={setSearchQuery}
+        onSearch={handleSearch}
         onClear={() => setSearchQuery('')}
       />
 

@@ -1,13 +1,20 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { ActivityIndicator, Platform, View } from 'react-native';
+import i18n from 'i18next';
+import { logError, logPurchase } from '~/src/utils/analytics';
+import { displayErrorToastMessage } from '~/src/utils/toast-utils';
 import Purchases, {
   type CustomerInfo,
   type PurchasesEntitlementInfos,
   type PurchasesPackage,
 } from 'react-native-purchases';
-// Provide RevenueCat functions to our app
 
-// Use your RevenueCat API keys
 const APIKeys = {
   apple: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY || '',
   google: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY || '',
@@ -30,12 +37,13 @@ export interface UserState {
 
 const RevenueCatContext = createContext<RevenueCatProps | null>(null);
 
-// Export context for easy usage
 export const useRevenueCat = () => {
   return useContext(RevenueCatContext) as RevenueCatProps;
 };
 
-export const RevenueCatProvider = ({ children }: any) => {
+export const RevenueCatProvider = ({
+  children,
+}: { children: ReactNode }) => {
   const [user, setUser] = useState<UserState>({
     cookies: 0,
     items: [],
@@ -55,26 +63,23 @@ export const RevenueCatProvider = ({ children }: any) => {
         }
         setIsReady(true);
 
-        // Use more logging during debug if want!
-        //TODO enable this when setting up revenuecat
-        // Purchases.setLogLevel(LOG_LEVEL.DEBUG);
-
-        // Listen for customer updates
         Purchases.addCustomerInfoUpdateListener(async info => {
-          // console.log(info);
           updateCustomerInformation(info);
         });
 
-        // Load all offerings and the user object with entitlements
         await loadOfferings();
       } catch (e) {
-        console.error('Error initializing RevenueCat: ', e);
+        logError(e, 'RevenueCat:init');
+        setIsReady(true);
       }
     };
     init();
+
+    return () => {
+      Purchases.removeCustomerInfoUpdateListener(updateCustomerInformation);
+    };
   }, []);
 
-  // Load all offerings a user can (currently) purchase
   const loadOfferings = async () => {
     try {
       const offerings = await Purchases.getOfferings();
@@ -82,11 +87,10 @@ export const RevenueCatProvider = ({ children }: any) => {
         setPackages(offerings.current.availablePackages);
       }
     } catch (e) {
-      console.error('Error loading offerings: ', e);
+      logError(e, 'RevenueCat:loadOfferings');
     }
   };
 
-  // Update user state based on previous purchases
   const updateCustomerInformation = async (customerInfo: CustomerInfo) => {
     setCustomerInfo(customerInfo);
     const newUser: UserState = {
@@ -96,46 +100,25 @@ export const RevenueCatProvider = ({ children }: any) => {
       entitlements: {} as PurchasesEntitlementInfos,
     };
     newUser.entitlements = customerInfo.entitlements;
-
-    // if (customerInfo?.entitlements.active["Epic Wand"] !== undefined) {
-    //   newUser.items.push(
-    //     customerInfo?.entitlements.active["Epic Wand"].identifier
-    //   );
-    // }
-
-    // if (customerInfo?.entitlements.active["Magic Boots"] !== undefined) {
-    //   newUser.items.push(
-    //     customerInfo?.entitlements.active["Magic Boots"].identifier
-    //   );
-    // }
-
-    // if (customerInfo?.entitlements.active["PRO Features"] !== undefined) {
-    //   newUser.pro = true;
-    // }
-
     setUser(newUser);
   };
 
-  // Purchase a package
   const purchasePackage = async (pack: PurchasesPackage) => {
     try {
       await Purchases.purchasePackage(pack);
-
-      // After a successful purchase, the customer info update listener will be called
-      // and the user state will be updated accordingly
-
-      // Directly add our consumable product
-      // if (pack.product.identifier === 'rca_299_consume') {
-      //   setUser({ ...user, cookies: (user.cookies += 5) });
-      // }
+      logPurchase(
+        pack.product.identifier,
+        pack.product.price,
+        pack.product.currencyCode,
+      );
     } catch (e: any) {
       if (!e.userCancelled) {
-        alert(e);
+        logError(e, 'RevenueCat:purchase');
+        displayErrorToastMessage(i18n.t('paywall.purchase_error'));
       }
     }
   };
 
-  // // Restore previous purchases
   const restorePermissions = async () => {
     const customer = await Purchases.restorePurchases();
     return customer;
@@ -149,8 +132,13 @@ export const RevenueCatProvider = ({ children }: any) => {
     customerInfo,
   };
 
-  // Return empty fragment if provider is not ready (Purchase not yet initialised)
-  if (!isReady) return null;
+  if (!isReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <RevenueCatContext.Provider value={value}>

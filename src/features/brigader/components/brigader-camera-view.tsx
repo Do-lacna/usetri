@@ -20,6 +20,7 @@ import {
   useCodeScanner,
 } from 'react-native-vision-camera';
 import { useUploadProductImage } from '~/src/network/imports/imports';
+import { logBarcodeScan, logError } from '~/src/utils/analytics';
 import { Button } from '~/src/components/ui/button';
 
 interface BarcodeData {
@@ -102,21 +103,21 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
     onCodeScanned: codes => {
       if (codes.length > 0 && !scannedBarcode) {
         const code = codes[0];
+        const barcodeValue = code.value || '';
         runOnJS(setScannedBarcode)({
-          value: code.value || '',
+          value: barcodeValue,
           type: code.type || 'unknown',
         });
+        if (barcodeValue) runOnJS(logBarcodeScan)(barcodeValue);
       }
     },
   });
 
-  // Handle camera errors
   const onError = (error: CameraRuntimeError) => {
-    console.error('Camera error:', error);
-    Alert.alert('Camera Error', 'An error occurred while using the camera.');
+    logError(error, 'brigader:camera');
+    Alert.alert(t('camera.error'), t('camera.error_message'));
   };
 
-  // Capture photo when user decides to take it
   const capturePhoto = async () => {
     if (!cameraRef.current || !scannedBarcode) return;
 
@@ -129,8 +130,8 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
         setCapturedPhoto(photo.path);
       }
     } catch (error) {
-      console.error('Error capturing photo:', error);
-      Alert.alert('Error', 'Failed to capture photo. Please try again.');
+      logError(error, 'brigader:capturePhoto');
+      Alert.alert(t('camera.error'), t('camera.capture_error'));
     }
   };
 
@@ -152,11 +153,8 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
         },
       });
     } catch (error) {
-      console.error('Error submitting data:', error);
-      Alert.alert(
-        'Submission Error',
-        'Failed to submit data. Please try again.',
-      );
+      logError(error, 'brigader:submitData');
+      Alert.alert(t('camera.error'), t('camera.submission_error'));
     } finally {
       setIsSubmitting(false);
       resetScreen();
@@ -214,28 +212,26 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
           </TouchableOpacity>
         </View>
 
-        {/* Scanning overlay */}
         {!scannedBarcode && (
           <View className="absolute inset-0 justify-center items-center">
             <View className="w-64 h-64 border-2 border-white border-dashed rounded-lg">
               <Text className="text-white text-center mt-4">
-                Nasnímajte čiarový kód alebo QR kód
+                {t('camera.scan_barcode_hint')}
               </Text>
             </View>
           </View>
         )}
 
-        {/* Scanned barcode display */}
         {scannedBarcode && (
           <View className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-75 p-3 rounded-lg">
             <Text className="text-success font-bold text-sm">
-              Nasnímaný barcode:
+              {t('camera.barcode_scanned')}
             </Text>
             <Text className="text-white text-lg font-mono">
               {scannedBarcode.value}
             </Text>
             <Text className="text-n6 text-xs mt-1">
-              Typ: {scannedBarcode.type}
+              {t('camera.type', { type: scannedBarcode.type })}
             </Text>
           </View>
         )}
@@ -243,11 +239,10 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
 
       {/* Bottom Controls */}
       <View className="bg-black p-6 pb-8">
-        {/* Barcode Status */}
         <View className="mb-4">
           {scannedBarcode ? (
             <View className="bg-success/20 p-3 rounded-lg">
-              <Text className="text-white font-bold">✓ Barcode Nasnímaný</Text>
+              <Text className="text-white font-bold">{t('camera.barcode_confirmed')}</Text>
               <Text className="text-white text-sm mt-1">
                 {scannedBarcode.type}: {scannedBarcode.value}
               </Text>
@@ -255,33 +250,31 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
           ) : (
             <View className="bg-i4 p-3 rounded-lg">
               <Text className="text-white">
-                Naskenujte barcode pre pokračovanie
+                {t('camera.scan_to_continue')}
               </Text>
             </View>
           )}
         </View>
 
-        {/* Photo Status */}
         {scannedBarcode && (
           <View className="mb-4">
             {capturedPhoto ? (
               <View className="bg-green-800 p-3 rounded-lg">
-                <Text className="text-white font-bold">✓ Nasnímaná foto</Text>
+                <Text className="text-white font-bold">{t('camera.photo_captured')}</Text>
                 <Text className="text-white text-sm mt-1">
-                  Pripravené na odoslanie
+                  {t('camera.ready_to_send')}
                 </Text>
               </View>
             ) : (
               <View className="bg-gray-700 p-3 rounded-lg">
                 <Text className="text-white">
-                  Odfoťte štítok pre pokračovanie
+                  {t('camera.take_photo_hint')}
                 </Text>
               </View>
             )}
           </View>
         )}
 
-        {/* Action Buttons */}
         <View className="space-y-3">
           {scannedBarcode && !capturedPhoto && (
             <TouchableOpacity
@@ -290,7 +283,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
               activeOpacity={0.8}
             >
               <Text className="text-white text-center font-bold text-lg">
-                📸 Odfoťte štítok
+                {t('camera.take_photo')}
               </Text>
             </TouchableOpacity>
           )}
@@ -308,12 +301,12 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
                 <View className="flex-row justify-center items-center">
                   <ActivityIndicator size="small" color="white" />
                   <Text className="text-white text-center font-bold text-lg ml-2">
-                    Odosielam...
+                    {t('camera.sending')}
                   </Text>
                 </View>
               ) : (
                 <Text className="text-white text-center font-bold text-lg">
-                  🚀 Odoslať fotku base 64
+                  {t('camera.send_photo')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -326,7 +319,7 @@ const BrigaderCameraView: React.FC<CameraViewProps> = ({
               activeOpacity={0.8}
             >
               <Text className="text-white text-center font-bold text-lg">
-                🔄 Nasnímať znova
+                {t('camera.scan_again')}
               </Text>
             </TouchableOpacity>
           )}

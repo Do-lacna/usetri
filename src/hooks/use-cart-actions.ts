@@ -8,6 +8,8 @@ import {
   useGetCart,
 } from '~/src/network/cart/cart';
 import {} from '~/src/network/customer/customer';
+import i18n from 'i18next';
+import { logAddToCart, logRemoveFromCart } from '~/src/utils/analytics';
 import { displayErrorToastMessage } from '~/src/utils/toast-utils';
 
 export type UseCartActionsProps = {
@@ -32,7 +34,7 @@ export const useCartActions = ({
     mutation: {
       onError: e => {
         displayErrorToastMessage(
-          'Nepodarilo sa aktualizovať nákupný zoznam',
+          i18n.t('shopping_list.update_error'),
           'top',
         );
       },
@@ -52,6 +54,7 @@ export const useCartActions = ({
 
   const handleAddProductToCart = (productId?: number, quantity = 1) => {
     if (!productId) return;
+    logAddToCart(productId);
     //TODO call on success
     //   setSearchQuery("");
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
@@ -85,6 +88,7 @@ export const useCartActions = ({
     type: 'category' | 'product',
     id?: number,
   ) => {
+    if (id && type === 'product') logRemoveFromCart(id);
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     let updatedCategories = category_items;
     let updatedProducts = product_items;

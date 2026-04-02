@@ -50,7 +50,7 @@ const SearchBarComponent = <T,>(
     onSearch,
     onClear,
     searchText = '',
-    placeholder = 'Hľadať',
+    placeholder,
     options = [],
     onOptionSelect,
     renderOption,
@@ -67,6 +67,7 @@ const SearchBarComponent = <T,>(
   ref: React.Ref<ISearchBarHandle>,
 ) => {
   const { t } = useTranslation();
+  const resolvedPlaceholder = placeholder ?? t('search_bar.placeholder');
   const [isFocused, setIsFocused] = useState(false);
   const dropdownAnimation = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput>(null);
@@ -176,13 +177,13 @@ const SearchBarComponent = <T,>(
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChangeText={onSearch}
-          placeholder={placeholder}
+          placeholder={resolvedPlaceholder}
           placeholderTextColor={isFocused ? COLORS.v3 : COLORS.v2}
           className="flex-1 text-foreground text-base font-medium"
           autoComplete="off"
           autoCorrect={false}
           editable={!disabled}
-          accessibilityLabel={placeholder}
+          accessibilityLabel={resolvedPlaceholder}
           accessibilityRole="search"
           style={{
             textAlignVertical: 'center',

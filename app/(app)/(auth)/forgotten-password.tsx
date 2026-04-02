@@ -97,7 +97,7 @@ export default function ForgottenPassword() {
             name="email"
             render={({ field: { value, onBlur, onChange } }) => (
               <Input
-                placeholder="Zadajte svoj e-mail"
+                placeholder={t('auth.email_placeholder')}
                 aria-labelledby="username"
                 aria-errormessage="inputError"
                 className="w-full"

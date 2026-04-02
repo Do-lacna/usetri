@@ -82,7 +82,8 @@
     "search_placeholder": "Vyhľadaj kategóriu alebo produkt",
     "cancel": "Zruš",
     "empty_cart_message": "Tvoj nákupný zoznam je prázdny",
-    "empty_cart_hint": "Vyhľadaj kategórie potravín alebo produkty a pridaj si ich do svojho nákupného zoznamu"
+    "empty_cart_hint": "Vyhľadaj kategórie potravín alebo produkty a pridaj si ich do svojho nákupného zoznamu",
+    "update_error": "Nepodarilo sa aktualizovať nákupný zoznam"
   },
 
   "cart_drawer": {
@@ -158,6 +159,7 @@
     "user_not_found": "Používateľ s daným e-mailom nebol nájdený",
     "invalid_email": "Nesprávny formát e-mailovej adresy",
     "too_many_requests": "Príliš veľa pokusov. Skúste to neskôr",
+    "email_placeholder": "Zadajte svoj e-mail",
     "guest_title": "Prihláste sa pre prístup",
     "guest_description": "Táto funkcia je dostupná len pre prihlásených používateľov. Zaregistrujte sa alebo sa prihláste pre plný prístup ku všetkým funkciám.",
     "overlay_title": "Chcete vidieť viac?",
@@ -175,7 +177,23 @@
   "camera": {
     "permission_message": "Na skenovanie čiarových kódov produktov táto aplikácia používa kameru vášho zariadenia",
     "continue": "Pokračovať",
-    "no_device": "Nenájdené žiadne zariadenie kamery"
+    "no_device": "Nenájdené žiadne zariadenie kamery",
+    "error": "Chyba kamery",
+    "error_message": "Pri používaní kamery sa vyskytla chyba.",
+    "capture_error": "Nepodarilo sa odfotiť. Skúste to znova.",
+    "submission_error": "Nepodarilo sa odoslať údaje. Skúste to znova.",
+    "scan_barcode_hint": "Nasnímajte čiarový kód alebo QR kód",
+    "barcode_scanned": "Nasnímaný barcode:",
+    "type": "Typ: {{type}}",
+    "barcode_confirmed": "✓ Barcode Nasnímaný",
+    "scan_to_continue": "Naskenujte barcode pre pokračovanie",
+    "photo_captured": "✓ Nasnímaná foto",
+    "ready_to_send": "Pripravené na odoslanie",
+    "take_photo_hint": "Odfoťte štítok pre pokračovanie",
+    "take_photo": "📸 Odfoťte štítok",
+    "sending": "Odosielam...",
+    "send_photo": "🚀 Odoslať fotku",
+    "scan_again": "🔄 Nasnímať znova"
   },
 
   "not_found": {
@@ -250,8 +268,11 @@
   "paywall": {
     "choose_subscription": "Zvoľte si predplatné",
     "subscribe_for": "Odoberať za {{price}}",
+    "purchase_error": "Nepodarilo sa spracovať nákup. Skúste to znova.",
     "payment_error": "Nepodarilo sa spracovať platbu. Skúste to znova.",
-    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period."
+    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period.",
+    "subscription_activated": "Predplatné bolo úspešne aktivované, najdete ho v profile",
+    "subscription": "Predplatné"
   },
 
   "brigader": {

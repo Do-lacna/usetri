@@ -82,7 +82,8 @@
     "search_placeholder": "Search category or product",
     "cancel": "Cancel",
     "empty_cart_message": "Your shopping list is empty",
-    "empty_cart_hint": "Search food categories or products and add them to your shopping list"
+    "empty_cart_hint": "Search food categories or products and add them to your shopping list",
+    "update_error": "Failed to update shopping list"
   },
 
   "cart_drawer": {
@@ -158,6 +159,7 @@
     "user_not_found": "No user found with this email address",
     "invalid_email": "Invalid email format",
     "too_many_requests": "Too many attempts. Please try again later.",
+    "email_placeholder": "Enter your email",
     "guest_title": "Sign in for access",
     "guest_description": "This feature is only available for registered users. Sign up or sign in for full access to all features.",
     "overlay_title": "Want to see more?",
@@ -167,7 +169,23 @@
   "camera": {
     "permission_message": "To scan product barcodes, this app uses your device's camera",
     "continue": "Continue",
-    "no_device": "No camera device found"
+    "no_device": "No camera device found",
+    "error": "Camera Error",
+    "error_message": "An error occurred while using the camera.",
+    "capture_error": "Failed to capture photo. Please try again.",
+    "submission_error": "Failed to submit data. Please try again.",
+    "scan_barcode_hint": "Scan a barcode or QR code",
+    "barcode_scanned": "Scanned barcode:",
+    "type": "Type: {{type}}",
+    "barcode_confirmed": "✓ Barcode Scanned",
+    "scan_to_continue": "Scan a barcode to continue",
+    "photo_captured": "✓ Photo Captured",
+    "ready_to_send": "Ready to send",
+    "take_photo_hint": "Take a photo of the label to continue",
+    "take_photo": "📸 Take photo",
+    "sending": "Sending...",
+    "send_photo": "🚀 Send photo",
+    "scan_again": "🔄 Scan again"
   },
 
   "not_found": {
@@ -246,8 +264,11 @@
   "paywall": {
     "choose_subscription": "Choose a subscription",
     "subscribe_for": "Subscribe for {{price}}",
+    "purchase_error": "Failed to process purchase. Please try again.",
     "payment_error": "Failed to process payment. Please try again.",
-    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period."
+    "payment_disclaimer": "Payment will be charged to your Apple ID or Google Play account at confirmation of purchase. Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period.",
+    "subscription_activated": "Subscription successfully activated, you can find it in your profile",
+    "subscription": "Subscription"
   },
 
   "brigader": {
