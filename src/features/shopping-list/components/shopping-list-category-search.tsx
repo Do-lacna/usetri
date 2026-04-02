@@ -1,14 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, View } from 'react-native';
+import { NoDataText } from '~/src/components/no-data-text/no-data-text';
+import Divider from '~/src/components/ui/divider';
 import { Skeleton } from '~/src/components/ui/skeleton';
+import { Text } from '~/src/components/ui/text';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import type { AddCategoryExtendedWithPathDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
 import { type SearchOptions, searchItems } from '~/src/utils/search-utils';
-import { NoDataText } from '~/src/components/no-data-text/no-data-text';
-import Divider from '~/src/components/ui/divider';
-import { Text } from '~/src/components/ui/text';
 
 interface ShoppingListCategorySearchProps {
   searchQuery: string;
@@ -72,10 +72,7 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     id,
     image_url,
   }: AddCategoryExtendedWithPathDto) => (
-    <Pressable
-      key={String(id)}
-      onPress={() => onCategorySelect?.(Number(id))}
-    >
+    <Pressable key={String(id)} onPress={() => onCategorySelect?.(Number(id))}>
       <View className="flex flex-row items-center border border-g1 rounded-full px-3 py-3 bg-muted">
         {!!image_url && (
           <View className="relative w-5 h-5 mr-2">
@@ -85,7 +82,9 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
             <Image
               source={{ uri: image_url }}
               resizeMode="contain"
-              className={loadedImageMap[Number(id)] ? 'w-5 h-5' : 'w-5 h-5 opacity-0'}
+              className={
+                loadedImageMap[Number(id)] ? 'w-5 h-5' : 'w-5 h-5 opacity-0'
+              }
               onLoadEnd={() => markImageAsLoaded(Number(id))}
               onError={() => markImageAsLoaded(Number(id))}
             />

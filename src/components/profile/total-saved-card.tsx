@@ -1,8 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, Platform, View } from 'react-native';
-import { COLORS } from '../../lib/constants';
+import { CalendarOutline } from '../../lib/icons/CalendarOutline';
+import { TrendingUp } from '../../lib/icons/TrendingUp';
 import { useGetArchivedCart } from '../../network/customer/customer';
 import { Card } from '../ui/card';
 import { Skeleton } from '../ui/skeleton';
@@ -10,7 +10,6 @@ import { Text } from '../ui/text';
 
 const TotalSavedCard: React.FC = () => {
   const { t } = useTranslation();
-  const iconColor = COLORS.black;
 
   const {
     isLoading,
@@ -38,7 +37,7 @@ const TotalSavedCard: React.FC = () => {
             }`}
           >
             <View className="flex-row items-center mb-2">
-              <Ionicons name="calendar-outline" size={20} color={iconColor} />
+              <CalendarOutline size={20} className="text-card-foreground" />
               <Text className="text-sm font-expose-medium ml-2 text-card-foreground">
                 {t('profile_screen.this_month')}
               </Text>
@@ -55,11 +54,7 @@ const TotalSavedCard: React.FC = () => {
             }`}
           >
             <View className="flex-row items-center mb-2">
-              <Ionicons
-                name="trending-up-outline"
-                size={20}
-                color={iconColor}
-              />
+              <TrendingUp size={20} className="text-card-foreground" />
               <Text className="text-sm font-expose-medium ml-2 text-card-foreground">
                 {t('profile_screen.total')}
               </Text>

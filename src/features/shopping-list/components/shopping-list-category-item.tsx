@@ -16,14 +16,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useGetCart } from '~/src/network/cart/cart';
+import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 import { Skeleton } from '~/src/components/ui/skeleton';
 import { COLORS } from '~/src/lib/constants';
+import { useColorScheme } from '~/src/lib/useColorScheme';
+import { useGetCart } from '~/src/network/cart/cart';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
-import { useColorScheme } from '~/src/lib/useColorScheme';
 import SuggestedProductCard from './suggested-product-card';
-import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 
 const ShoppingListCategoryItem: React.FC<{
   item: CartCategoryDto;
@@ -122,7 +122,11 @@ const ShoppingListCategoryItem: React.FC<{
                 source={
                   image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE
                 }
-                className={isImageLoaded ? 'w-8 h-8 rounded-full' : 'w-8 h-8 rounded-full opacity-0'}
+                className={
+                  isImageLoaded
+                    ? 'w-8 h-8 rounded-full'
+                    : 'w-8 h-8 rounded-full opacity-0'
+                }
                 resizeMode="contain"
                 onLoadEnd={() => setIsImageLoaded(true)}
                 onError={() => setIsImageLoaded(true)}
