@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Pressable, View } from 'react-native';
+import { Skeleton } from '~/src/components/ui/skeleton';
 import { isArrayNotEmpty } from '~/src/lib/utils';
 import type { AddCategoryExtendedWithPathDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
@@ -28,6 +29,9 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
   const [searchResults, setSearchResults] = React.useState<
     AddCategoryExtendedWithPathDto[]
   >([]);
+  const [loadedImageMap, setLoadedImageMap] = React.useState<
+    Record<number, boolean>
+  >({});
 
   const {
     data: { categories = [] } = {},
@@ -50,19 +54,42 @@ const ShoppingListCategorySearch: React.FC<ShoppingListCategorySearchProps> = ({
     }
   }, [searchQuery]);
 
+  const markImageAsLoaded = (categoryId: number) => {
+    setLoadedImageMap(prev => {
+      if (prev[categoryId]) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [categoryId]: true,
+      };
+    });
+  };
+
   const renderCategory = ({
     name,
     id,
     image_url,
   }: AddCategoryExtendedWithPathDto) => (
-    <Pressable key={String(id)} onPress={() => onCategorySelect?.(Number(id))}>
+    <Pressable
+      key={String(id)}
+      onPress={() => onCategorySelect?.(Number(id))}
+    >
       <View className="flex flex-row items-center border border-g1 rounded-full px-3 py-3 bg-muted">
         {!!image_url && (
-          <Image
-            source={{ uri: image_url }}
-            resizeMode="contain"
-            className="w-5 h-5 mr-2"
-          />
+          <View className="relative w-5 h-5 mr-2">
+            {!loadedImageMap[Number(id)] && (
+              <Skeleton className="absolute inset-0 rounded-sm" />
+            )}
+            <Image
+              source={{ uri: image_url }}
+              resizeMode="contain"
+              className={loadedImageMap[Number(id)] ? 'w-5 h-5' : 'w-5 h-5 opacity-0'}
+              onLoadEnd={() => markImageAsLoaded(Number(id))}
+              onError={() => markImageAsLoaded(Number(id))}
+            />
+          </View>
         )}
         <Text className="text-sm font-expose">{name}</Text>
       </View>

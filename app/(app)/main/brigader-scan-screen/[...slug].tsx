@@ -28,6 +28,5 @@ export default function BrigaderScanScreen() {
     );
   }
 
-  //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return <BrigaderCameraView shopId={shopId} scannedProductBarcode={barcode} />;
 }

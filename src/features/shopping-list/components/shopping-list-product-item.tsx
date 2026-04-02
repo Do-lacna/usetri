@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
+import { Skeleton } from '~/src/components/ui/skeleton';
 import { COLORS } from '~/src/lib/constants';
 import type { CartProductDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
@@ -36,6 +37,7 @@ const ShoppingListProductItem: React.FC<{
   isExpanded: externalIsExpanded,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { isDarkColorScheme } = useColorScheme();
 
   const iconColor = isDarkColorScheme ? COLORS.n6 : COLORS.textPrimary;
@@ -72,6 +74,11 @@ const ShoppingListProductItem: React.FC<{
     }
   }, [externalIsExpanded]);
 
+  useEffect(() => {
+    const hasRemoteImage = Boolean(image_url || categoryImageUrl);
+    setIsImageLoaded(!hasRemoteImage);
+  }, [image_url, categoryImageUrl]);
+
   const incrementQuantity = () => {
     onUpdateQuantity(Number(id), quantity + 1);
   };
@@ -103,11 +110,16 @@ const ShoppingListProductItem: React.FC<{
         activeOpacity={0.7}
       >
         <View className="flex-row gap-3">
-          <View className="relative">
+          <View className="relative w-16 h-16">
+            {!isImageLoaded && (
+              <Skeleton className="absolute inset-0 rounded-lg" />
+            )}
             <Image
               source={imageSource}
-              className="w-16 h-16 rounded-lg"
+              className={isImageLoaded ? 'w-16 h-16 rounded-lg' : 'w-16 h-16 rounded-lg opacity-0'}
               resizeMode="contain"
+              onLoadEnd={() => setIsImageLoaded(true)}
+              onError={() => setIsImageLoaded(true)}
             />
           </View>
 

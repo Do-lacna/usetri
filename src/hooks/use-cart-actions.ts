@@ -55,8 +55,6 @@ export const useCartActions = ({
   const handleAddProductToCart = (productId?: number, quantity = 1) => {
     if (!productId) return;
     logAddToCart(productId);
-    //TODO call on success
-    //   setSearchQuery("");
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
@@ -70,7 +68,6 @@ export const useCartActions = ({
   const handleAddCategoryToCart = (categoryId: number, quantity = 1) => {
     if (!categoryId) return;
 
-    //   setSearchQuery("");
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
     sendUpdateCart({
@@ -92,7 +89,6 @@ export const useCartActions = ({
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
     let updatedCategories = category_items;
     let updatedProducts = product_items;
-    //TODO when BE adjusts DTO uncomment this
     if (type === 'category') {
       updatedCategories = category_items?.filter(
         ({ category_id }) => category_id !== id,
@@ -151,19 +147,21 @@ export const useCartActions = ({
   ) => {
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
 
-    const updatedCategoryIds = category_items.some(
+    const existingCategory = category_items.find(
       c => c.category_id === categoryId,
-    )
+    );
+    const quantity = existingCategory?.quantity ?? 1;
+
+    const updatedCategoryIds = existingCategory
       ? category_items.filter(({ category_id }) => category_id !== categoryId)
       : category_items;
 
     sendUpdateCart({
       data: {
         category_items: updatedCategoryIds,
-        //TODO fix this mirror quantity
         product_items: [
           ...product_items,
-          { product_id: productId, quantity: 1 },
+          { product_id: productId, quantity },
         ],
       },
     });
@@ -174,15 +172,16 @@ export const useCartActions = ({
     productId: number,
   ) => {
     const { product_items = [], category_items = [] } = getSimplifiedCart(cart);
+    const originalQuantity =
+      product_items.find(p => p.product_id === originalProductId)?.quantity ?? 1;
     const updatedProducts = product_items
       ?.filter(({ product_id }) => product_id !== originalProductId)
-      .concat({ product_id: productId, quantity: 1 });
+      .concat({ product_id: productId, quantity: originalQuantity });
 
     sendUpdateCart({
       data: {
         product_items: updatedProducts,
         category_items,
-        //TODO fix this mirror quantity
       },
     });
   };

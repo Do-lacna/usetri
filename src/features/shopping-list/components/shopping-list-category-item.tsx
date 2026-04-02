@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import { useGetCart } from '~/src/network/cart/cart';
+import { Skeleton } from '~/src/components/ui/skeleton';
 import { COLORS } from '~/src/lib/constants';
 import type { CartCategoryDto } from '~/src/network/model';
 import { useGetProducts } from '~/src/network/query/query';
@@ -36,6 +37,7 @@ const ShoppingListCategoryItem: React.FC<{
   isExpanded: externalIsExpanded,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { isDarkColorScheme } = useColorScheme();
   const {
     category: { id, name, image_url } = {},
@@ -66,6 +68,10 @@ const ShoppingListCategoryItem: React.FC<{
       setIsExpanded(externalIsExpanded);
     }
   }, [externalIsExpanded]);
+
+  useEffect(() => {
+    setIsImageLoaded(!image_url);
+  }, [image_url]);
 
   const incrementQuantity = () => {
     onUpdateQuantity(Number(id), quantity + 1);
@@ -105,16 +111,21 @@ const ShoppingListCategoryItem: React.FC<{
           {!!image_url && (
             <View
               className={`
-                w-8 h-8 rounded-full mr-3 justify-center items-center
+                relative w-8 h-8 rounded-full mr-3 justify-center items-center
                 ${isExpanded ? 'bg-primary/20' : 'bg-card'}
               `}
             >
+              {!isImageLoaded && (
+                <Skeleton className="absolute inset-0 rounded-full" />
+              )}
               <Image
                 source={
                   image_url ? { uri: image_url } : PLACEHOLDER_PRODUCT_IMAGE
                 }
-                className="w-8 h-8 rounded-full"
+                className={isImageLoaded ? 'w-8 h-8 rounded-full' : 'w-8 h-8 rounded-full opacity-0'}
                 resizeMode="contain"
+                onLoadEnd={() => setIsImageLoaded(true)}
+                onError={() => setIsImageLoaded(true)}
               />
             </View>
           )}

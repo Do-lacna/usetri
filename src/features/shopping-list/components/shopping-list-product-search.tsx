@@ -77,7 +77,6 @@ const ShoppingListProductSearch: React.FC<ShoppingListProductSearchProps> = ({
           <ActivityIndicator animating={true} className="mt-10" />
         ) : (
           <View className="flex items-center justify-center">
-            {/* TODO add nicer no data screen with picture */}
             <NoDataText className="text-xl font-expose my-4">
               {t('shopping_list_screen.no_products_found')}
             </NoDataText>

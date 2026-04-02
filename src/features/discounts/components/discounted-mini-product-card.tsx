@@ -69,7 +69,6 @@ const DiscountedMiniProductCard: React.FC<ProductCardProps> = ({
         />
 
         <View className="absolute bottom-1 flex-row gap-x-2 mt-1">
-          {/* {TODO add all available shops from BE} */}
           {shopsPrices?.map(({ shop_id }, index) => (
             <View
               key={shop_id}

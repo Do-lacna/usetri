@@ -38,7 +38,6 @@ export default function ArchivedCartScreen() {
     );
   }
 
-  //TODO this will be editted by BE and data will be returned from /archived-cart/${id} EP
   return (
     <View className="flex flex-1 align-center justify-center py-4 px-2">
       <SavedCartReceiptView
