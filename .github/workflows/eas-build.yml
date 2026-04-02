@@ -79,7 +79,23 @@ jobs:
       - name: 📥 Install dependencies
         run: npm ci
 
-      - name:  Build iOS app
+      - name: 🔐 Create ASC API key file
+        if: github.event.inputs.profile == 'production'
+        run: |
+          echo "${{ secrets.APPLE_ASC_API_KEY_P8 }}" > AuthKey.p8
+
+      - name:  Build iOS app (production)
+        if: github.event.inputs.profile == 'production'
+        env:
+          EXPO_ASC_API_KEY_PATH: ./AuthKey.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.APPLE_ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.APPLE_ASC_ISSUER_ID }}
+        run: |
+          PROFILE=${{ github.event.inputs.profile || 'development' }}
+          eas build --platform ios --profile $PROFILE --non-interactive --no-wait
+
+      - name:  Build iOS app (non-production)
+        if: github.event.inputs.profile != 'production'
         run: |
           PROFILE=${{ github.event.inputs.profile || 'development' }}
           eas build --platform ios --profile $PROFILE --non-interactive --no-wait
@@ -152,10 +168,21 @@ jobs:
         run: |
           echo '${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON }}' > service-account-key.json
 
+      - name: 🔐 Create ASC API key file
+        if: |
+          (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all') &&
+          needs.build-ios.result == 'success'
+        run: |
+          echo "${{ secrets.APPLE_ASC_API_KEY_P8 }}" > AuthKey.p8
+
       - name: 🚀 Submit to iOS App Store
         if: |
           (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all') &&
           needs.build-ios.result == 'success'
+        env:
+          EXPO_ASC_API_KEY_PATH: ./AuthKey.p8
+          EXPO_ASC_KEY_ID: ${{ secrets.APPLE_ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.APPLE_ASC_ISSUER_ID }}
         run: eas submit --platform ios --latest --non-interactive
 
       - name: 🚀 Submit to Google Play Store
