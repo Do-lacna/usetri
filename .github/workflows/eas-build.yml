@@ -90,6 +90,8 @@ jobs:
           EXPO_ASC_API_KEY_PATH: ./AuthKey.p8
           EXPO_ASC_KEY_ID: ${{ secrets.APPLE_ASC_KEY_ID }}
           EXPO_ASC_ISSUER_ID: ${{ secrets.APPLE_ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: W7Q9YP35BN
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE }}
         run: |
           PROFILE=${{ github.event.inputs.profile || 'development' }}
           eas build --platform ios --profile $PROFILE --non-interactive --no-wait
@@ -183,6 +185,8 @@ jobs:
           EXPO_ASC_API_KEY_PATH: ./AuthKey.p8
           EXPO_ASC_KEY_ID: ${{ secrets.APPLE_ASC_KEY_ID }}
           EXPO_ASC_ISSUER_ID: ${{ secrets.APPLE_ASC_ISSUER_ID }}
+          EXPO_APPLE_TEAM_ID: W7Q9YP35BN
+          EXPO_APPLE_TEAM_TYPE: ${{ secrets.APPLE_TEAM_TYPE }}
         run: eas submit --platform ios --latest --non-interactive
 
       - name: 🚀 Submit to Google Play Store
