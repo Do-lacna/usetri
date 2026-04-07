@@ -18,10 +18,8 @@ interface StoreCarouselProps {
   onStoreSelect: (storeId: number, index: number) => void;
   onSnapToItem: (index: number) => void;
   animatedHeight?: Animated.AnimatedInterpolation<number>;
-  scrollY?: Animated.Value;
+  collapseAnim?: Animated.Value;
 }
-
-const COLLAPSE_THRESHOLD = 150; // Height below which to show compact row
 
 export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   shops,
@@ -30,11 +28,9 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   onStoreSelect,
   onSnapToItem,
   animatedHeight,
-  scrollY,
+  collapseAnim,
 }) => {
   const carouselRef = useRef<any>(null);
-  const carouselViewRef = useRef<Animated.View>(null);
-  const compactViewRef = useRef<Animated.View>(null);
   const { width: screenWidth } = Dimensions.get('window');
 
   const CARD_WIDTH_PERCENTAGE = 0.75;
@@ -48,7 +44,6 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
   } = useCarouselAnimation({
     cardWidth: CARD_WIDTH,
     cardMargin: CARD_MARGIN,
-    scrollY,
     carouselRef,
   });
 
@@ -57,12 +52,13 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
     handleStoreSelectInternal(storeId, index);
   };
 
-  // Update pointer events via setNativeProps to avoid React re-renders on every scroll tick
-  useEffect(() => {
-    if (!scrollY) return;
+  const carouselViewRef = useRef<Animated.View>(null);
+  const compactViewRef = useRef<Animated.View>(null);
 
-    const listenerId = scrollY.addListener(({ value }) => {
-      const collapsed = value > COLLAPSE_THRESHOLD;
+  useEffect(() => {
+    if (!collapseAnim) return;
+    const listenerId = collapseAnim.addListener(({ value }) => {
+      const collapsed = value > 0.5;
       (carouselViewRef.current as any)?.setNativeProps({
         pointerEvents: collapsed ? 'none' : 'auto',
       });
@@ -70,22 +66,20 @@ export const StoreCarousel: React.FC<StoreCarouselProps> = ({
         pointerEvents: collapsed ? 'auto' : 'none',
       });
     });
+    return () => collapseAnim.removeListener(listenerId);
+  }, [collapseAnim]);
 
-    return () => scrollY.removeListener(listenerId);
-  }, [scrollY]);
-
-  // Crossfade spans the full scroll range so the transition is gradual, not a sudden snap
-  const carouselOpacity = scrollY
-    ? scrollY.interpolate({
-        inputRange: [0, COLLAPSE_THRESHOLD * 0.7],
+  const carouselOpacity = collapseAnim
+    ? collapseAnim.interpolate({
+        inputRange: [0, 0.6],
         outputRange: [1, 0],
         extrapolate: 'clamp',
       })
     : 1;
 
-  const compactOpacity = scrollY
-    ? scrollY.interpolate({
-        inputRange: [COLLAPSE_THRESHOLD * 0.4, COLLAPSE_THRESHOLD],
+  const compactOpacity = collapseAnim
+    ? collapseAnim.interpolate({
+        inputRange: [0.4, 1],
         outputRange: [0, 1],
         extrapolate: 'clamp',
       })

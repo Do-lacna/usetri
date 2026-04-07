@@ -1,8 +1,7 @@
 import type React from 'react';
-import { useEffect, useRef } from 'react';
-import { Animated, Image, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image, Text, View } from 'react-native';
 import FlippableCard from '~/src/components/flippable-card/flippable-card';
-import { RefreshCw } from '~/src/lib/icons/RefreshCw';
 import {
   type CartComparisonProductDto,
   CartComparisonProductType,
@@ -23,7 +22,7 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
   isFlipped,
   onFlip,
 }) => {
-  const spinValue = useRef(new Animated.Value(0)).current;
+  const { t } = useTranslation();
 
   const {
     detail: {
@@ -55,28 +54,9 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       ] as CartComparisonProductType[]
     ).includes(type);
 
-  useEffect(() => {
-    if (displayFlippableCard) {
-      Animated.sequence([
-        Animated.timing(spinValue, {
-          toValue: 1,
-          duration: 1200,
-          useNativeDriver: true,
-        }),
-        Animated.delay(500),
-        Animated.timing(spinValue, {
-          toValue: 0,
-          duration: 0,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    }
-  }, [displayFlippableCard]);
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+  const originalName = original_product_detail?.name || categoryName;
+  const isFromCategory =
+    type === CartComparisonProductType.CategoryReplacedWithProduct;
 
   const renderPriceSection = (currentPrice: number, showQuantity = true) => (
     <View className="items-end flex-shrink-0">
@@ -139,20 +119,44 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
       <View className="flex-row items-center justify-between min-h-[60px]">
         {renderProductInfo(name)}
         {renderPriceSection(finalPrice)}
-        {displayFlippableCard && (
-          <Animated.View
-            style={{ transform: [{ rotate: spin }] }}
-            className="ml-4 mr-2 rounded-full p-1.5 flex-shrink-0"
-          >
-            <RefreshCw size={16} className="text-terciary" />
-          </Animated.View>
-        )}
       </View>
+      {displayFlippableCard && originalName && (
+        <View className="flex-row items-center mt-2 pt-2 border-t border-border/50">
+          <View
+            className={`px-1.5 py-0.5 rounded mr-2 ${isFromCategory ? 'bg-primary/15' : 'bg-o1/15'}`}
+          >
+            <Text
+              className={`text-[10px] font-expose-bold ${isFromCategory ? 'text-primary' : 'text-o1'}`}
+            >
+              {t(
+                isFromCategory
+                  ? 'shop_comparison.from_category'
+                  : 'shop_comparison.replaced',
+              )}
+            </Text>
+          </View>
+          <Text
+            className="text-xs font-expose text-muted-foreground flex-1"
+            numberOfLines={1}
+          >
+            {isFromCategory
+              ? categoryName
+              : t('shop_comparison.originally', { name: originalName })}
+          </Text>
+        </View>
+      )}
     </View>
   );
 
   const backContent = displayFlippableCard ? (
     <View className={`p-4 bg-card ${borderClass}`}>
+      <View className="flex-row items-center mb-2">
+        <View className="px-1.5 py-0.5 bg-muted rounded">
+          <Text className="text-[10px] font-expose-bold text-muted-foreground">
+            {t('shop_comparison.original_product')}
+          </Text>
+        </View>
+      </View>
       <View className="flex-row items-center justify-between min-h-[60px]">
         {original_product_detail ? (
           <>
@@ -200,12 +204,6 @@ export const ProductListItem: React.FC<ProductListItemProps> = ({
             {renderPriceSection(price)}
           </>
         )}
-        <Animated.View
-          style={{ transform: [{ rotate: spin }] }}
-          className="ml-4 mr-2 rounded-full p-1.5 flex-shrink-0"
-        >
-          <RefreshCw size={16} className="text-terciary" />
-        </Animated.View>
       </View>
     </View>
   ) : null;

@@ -15,7 +15,8 @@ interface ShopPriceItemProps {
   discountValidTo?: string;
   isSelected: boolean;
   onSelect: (shopId: number) => void;
-  isAvailable?: boolean; // Flag to indicate product availability
+  isAvailable?: boolean;
+  isCheapest?: boolean;
 }
 
 export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
@@ -28,7 +29,8 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
   discountValidTo,
   isSelected,
   onSelect,
-  isAvailable = true, // Default to available
+  isAvailable = true,
+  isCheapest = false,
 }) => {
   const { t } = useTranslation();
 
@@ -39,20 +41,33 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
     ? new Date(productValidTo).toLocaleDateString()
     : null;
 
+  const borderClass = isCheapest
+    ? 'border-g1 bg-g2'
+    : isSelected
+      ? 'border-primary bg-primary/10'
+      : 'border-border bg-card';
+
   return (
     <TouchableOpacity
       onPress={() => onSelect(shopId)}
-      className={`p-4 rounded-lg border-2 mb-3 ${
-        isSelected ? 'border-primary bg-primary/10' : 'border-border bg-card'
-      } ${!isAvailable ? 'opacity-90' : ''}`}
+      className={`p-4 rounded-lg border-2 mb-3 ${borderClass} ${!isAvailable ? 'opacity-90' : ''}`}
     >
       {/* Shop name and price row */}
       <View className="flex-row items-center justify-between mb-2">
         <View className="flex-row items-center flex-1 gap-4">
           <ShopLogoBadge shopId={shopId} size={32} />
-          <Text className="text-lg font-expose-bold text-foreground mr-2">
-            {shopName}
-          </Text>
+          <View className="flex-row items-center gap-2">
+            <Text className="text-lg font-expose-bold text-foreground">
+              {shopName}
+            </Text>
+            {isCheapest && (
+              <View className="px-2 py-0.5 bg-g1 rounded-full">
+                <Text className="text-[10px] font-expose-bold text-black">
+                  {t('product.best_price')}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
 
         <View className="items-end">

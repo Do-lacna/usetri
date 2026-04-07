@@ -11,6 +11,10 @@ import { StoreCarousel } from './components/store-carousel';
 import { useStoreSelection } from './hooks/use-store-selection';
 
 const GUEST_SCROLL_LIMIT = 1000;
+const COLLAPSE_SCROLL_THRESHOLD = 120;
+const EXPAND_SCROLL_THRESHOLD = 40;
+const MIN_HEIGHT = 90;
+const MAX_HEIGHT = 240;
 
 export const DiscountsScreenContent: React.FC = () => {
   const { isGuest } = useSession();
@@ -25,7 +29,18 @@ export const DiscountsScreenContent: React.FC = () => {
     data: { stats = [] } = {},
   } = useGetDiscountsStatistics();
 
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const collapseAnim = useRef(new Animated.Value(0)).current;
+  const isCollapsed = useRef(false);
+
+  const expand = useCallback(() => {
+    if (!isCollapsed.current) return;
+    isCollapsed.current = false;
+    Animated.timing(collapseAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [collapseAnim]);
 
   const {
     activeStoreId,
@@ -33,13 +48,33 @@ export const DiscountsScreenContent: React.FC = () => {
     sortedShops,
     handleStoreSelect,
     handleSnapToItem,
-  } = useStoreSelection(scrollY);
+  } = useStoreSelection(expand);
 
   useEffect(() => {
-    scrollY.setValue(0);
+    isCollapsed.current = false;
+    collapseAnim.setValue(0);
     setShowGuestOverlay(false);
     setGuestOverlayMessage(null);
-  }, [activeStoreId, scrollY]);
+  }, [activeStoreId, collapseAnim]);
+
+  const handleScrollPosition = useCallback(
+    (scrollPosition: number) => {
+      if (scrollPosition > COLLAPSE_SCROLL_THRESHOLD && !isCollapsed.current) {
+        isCollapsed.current = true;
+        Animated.timing(collapseAnim, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: false,
+        }).start();
+      } else if (
+        scrollPosition < EXPAND_SCROLL_THRESHOLD &&
+        isCollapsed.current
+      ) {
+        expand();
+      }
+    },
+    [collapseAnim, expand],
+  );
 
   const handleGuestScrollLimitReached = useCallback(() => {
     setGuestOverlayMessage(null);
@@ -62,12 +97,8 @@ export const DiscountsScreenContent: React.FC = () => {
     setGuestOverlayMessage(null);
   }, []);
 
-  const SCROLL_DISTANCE = 150;
-  const MIN_HEIGHT = 90;
-  const MAX_HEIGHT = 240;
-
-  const carouselHeight = scrollY.interpolate({
-    inputRange: [0, SCROLL_DISTANCE],
+  const carouselHeight = collapseAnim.interpolate({
+    inputRange: [0, 1],
     outputRange: [MAX_HEIGHT, MIN_HEIGHT],
     extrapolate: 'clamp',
   });
@@ -84,7 +115,7 @@ export const DiscountsScreenContent: React.FC = () => {
         onStoreSelect={handleStoreSelect}
         onSnapToItem={handleSnapToItem}
         animatedHeight={carouselHeight}
-        scrollY={scrollY}
+        collapseAnim={collapseAnim}
       />
 
       {!!activeStore && (
@@ -92,7 +123,7 @@ export const DiscountsScreenContent: React.FC = () => {
           <DiscountList
             key={activeStoreId}
             shop={activeStore}
-            onScroll={isGuest ? undefined : scrollY}
+            onScrollPosition={isGuest ? undefined : handleScrollPosition}
             guestScrollLimit={isGuest ? GUEST_SCROLL_LIMIT : undefined}
             onGuestScrollLimitReached={
               isGuest ? handleGuestScrollLimitReached : undefined

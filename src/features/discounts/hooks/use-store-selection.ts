@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Animated } from 'react-native';
 import type { ShopExtendedDto } from '~/src/network/model';
 import {
   useGetDiscountsStatistics,
@@ -7,7 +6,7 @@ import {
 } from '~/src/network/query/query';
 import { sortShopsByDiscountCount } from '../utils/store-utils';
 
-export const useStoreSelection = (scrollY?: Animated.Value) => {
+export const useStoreSelection = (expand?: () => void) => {
   const {
     data: { shops } = {},
   } = useGetShops();
@@ -43,14 +42,7 @@ export const useStoreSelection = (scrollY?: Animated.Value) => {
     const store = sortedShops?.[index];
     if (store) {
       setActiveStoreId(Number(store.id));
-
-      if (scrollY) {
-        Animated.timing(scrollY, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }).start();
-      }
+      expand?.();
     }
   };
 

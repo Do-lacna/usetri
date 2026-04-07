@@ -75,7 +75,8 @@
 
   "product": {
     "may_not_be_available": "Produkt môže byť nedostupný v niektorých predajniach",
-    "last_available_on": "Naposledy dostupné do {{date}}"
+    "last_available_on": "Naposledy dostupné do {{date}}",
+    "best_price": "Najlepšia cena"
   },
 
   "shopping_list": {
@@ -108,7 +109,11 @@
     "missing": "Chýba",
     "category": "Kategória",
     "product_category": "Kategória: {{categoryName}}",
-    "not_available": "Nedostupné"
+    "not_available": "Nedostupné",
+    "replaced": "Nahradené",
+    "from_category": "Z kategórie",
+    "originally": "Pôvodne: {{name}}",
+    "original_product": "Pôvodný produkt"
   },
 
   "menu": {

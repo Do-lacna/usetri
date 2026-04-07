@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
-  type Animated,
   RefreshControl,
   Text,
   View,
@@ -22,7 +21,7 @@ import { getStoreDisplayName } from '../utils/store-utils';
 
 export interface IDiscountListProps {
   shop: ShopExtendedDto;
-  onScroll?: Animated.Value;
+  onScrollPosition?: (scrollPosition: number) => void;
   limitItems?: number;
   guestScrollLimit?: number;
   onGuestScrollLimitReached?: () => void;
@@ -38,7 +37,7 @@ const LIMIT = 20; // Number of items to fetch per page
 
 const DiscountList = ({
   shop,
-  onScroll,
+  onScrollPosition,
   limitItems,
   guestScrollLimit,
   onGuestScrollLimitReached,
@@ -222,9 +221,7 @@ const DiscountList = ({
               onGuestScrollLimitReached();
             }
 
-            if (onScroll) {
-              onScroll.setValue(scrollPosition);
-            }
+            onScrollPosition?.(scrollPosition);
           }}
           scrollEventThrottle={32}
         />

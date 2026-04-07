@@ -75,7 +75,8 @@
 
   "product": {
     "may_not_be_available": "Product may not be available in some stores",
-    "last_available_on": "Last available on {{date}}"
+    "last_available_on": "Last available on {{date}}",
+    "best_price": "Best price"
   },
 
   "shopping_list": {
@@ -108,7 +109,11 @@
     "missing": "Missing",
     "category": "Category",
     "product_category": "Category: {{categoryName}}",
-    "not_available": "Not available"
+    "not_available": "Not available",
+    "replaced": "Replaced",
+    "from_category": "From category",
+    "originally": "Originally: {{name}}",
+    "original_product": "Original product"
   },
 
   "menu": {

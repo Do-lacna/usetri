@@ -1,10 +1,9 @@
 import { useCallback, useMemo } from 'react';
-import { Animated, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 
 interface UseCarouselAnimationProps {
   cardWidth: number;
   cardMargin: number;
-  scrollY?: Animated.Value;
   carouselRef: React.RefObject<any>;
 }
 
@@ -17,7 +16,6 @@ interface UseCarouselAnimationReturn {
 export const useCarouselAnimation = ({
   cardWidth,
   cardMargin,
-  scrollY,
   carouselRef,
 }: UseCarouselAnimationProps): UseCarouselAnimationReturn => {
   const { width: screenWidth } = Dimensions.get('window');
@@ -34,29 +32,14 @@ export const useCarouselAnimation = ({
 
   const handleStoreSelect = useCallback(
     (storeId: number, index: number) => {
-      if (scrollY) {
-        Animated.timing(scrollY, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: false,
-        }).start(() => {
-          if (carouselRef.current) {
-            carouselRef.current.scrollTo({
-              x: index * itemWidth,
-              animated: true,
-            });
-          }
+      if (carouselRef.current) {
+        carouselRef.current.scrollTo({
+          x: index * itemWidth,
+          animated: true,
         });
-      } else {
-        if (carouselRef.current) {
-          carouselRef.current.scrollTo({
-            x: index * itemWidth,
-            animated: true,
-          });
-        }
       }
     },
-    [scrollY, itemWidth, carouselRef],
+    [itemWidth, carouselRef],
   );
 
   return {

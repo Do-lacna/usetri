@@ -49,6 +49,7 @@ export const ShopPricesList: React.FC<ShopPricesListProps> = ({
               isSelected={selectedShopId === shop_id}
               onSelect={onShopSelect}
               isAvailable={isAvailable}
+              isCheapest={index === 0 && shopsPrices.length > 1}
             />
           );
         },
