@@ -76,7 +76,7 @@
         "expo-splash-screen",
         {
           "ios": {
-            "image": "./assets/splashik.png",
+            "image": "./assets/splash.png",
             "imageContentMode": "cover",
             "backgroundColor": "#ffffff",
             "enableFullScreenImage_legacy": true

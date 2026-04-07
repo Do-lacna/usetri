@@ -173,7 +173,8 @@ export function CategoryDetailView({
               keyExtractor={subcategory =>
                 subcategory.id?.toString() || Math.random().toString()
               }
-              drawDistance={500}
+              estimatedItemSize={200}
+              drawDistance={300}
               showsVerticalScrollIndicator={false}
               removeClippedSubviews={true}
               contentContainerStyle={{ flexGrow: 1 }}

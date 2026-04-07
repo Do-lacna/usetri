@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
+import { InteractionManager } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GuestRegistrationOverlay } from '~/src/components/guest-registration-overlay';
 import { useSession } from '~/src/context/authentication-context';
@@ -57,25 +58,33 @@ export default function SearchScreen() {
 
   const isLoading = areProductsLoading || areCategoriesLoading;
 
-  const handleCategorySelect = (category: PopularCategoryDto) => {
-    if (category.category?.id === selectedCategory?.category?.id) {
-      setSelectedCategory(null);
-      return;
-    }
-    setSelectedCategory(category);
-  };
+  const handleCategorySelect = useCallback(
+    (category: PopularCategoryDto) => {
+      if (category.category?.id === selectedCategory?.category?.id) {
+        setSelectedCategory(null);
+        return;
+      }
+      setSelectedCategory(category);
+    },
+    [selectedCategory?.category?.id],
+  );
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setSelectedCategory(null);
-  };
+  }, []);
 
-  const handleProductPress = (productId: number, categoryId?: number) => {
-    if (isGuest) {
-      setShowGuestOverlay(true);
-      return;
-    }
-    router.navigate(`/product/${productId}`);
-  };
+  const handleProductPress = useCallback(
+    (productId: number, categoryId?: number) => {
+      if (isGuest) {
+        setShowGuestOverlay(true);
+        return;
+      }
+      InteractionManager.runAfterInteractions(() => {
+        router.navigate(`/product/${productId}`);
+      });
+    },
+    [isGuest],
+  );
 
   const handleDismissOverlay = useCallback(() => {
     setShowGuestOverlay(false);

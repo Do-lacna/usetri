@@ -1,4 +1,4 @@
-import type React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FlatList,
@@ -23,7 +23,7 @@ interface SubcategorySectionProps {
 const SKELETON_DATA = Array.from({ length: 4 }, (_, i) => ({ id: i }));
 const ItemSeparator = () => <View style={{ height: 12 }} />;
 
-export function SubcategorySection({
+export const SubcategorySection = React.memo(function SubcategorySection({
   subcategory,
   onProductPress,
   isSubcategorySelected = false,
@@ -34,34 +34,40 @@ export function SubcategorySection({
     isLoading,
   } = useGetProductsOutOfAllSubCategories(Number(subcategory?.id));
 
-  const renderProductFlat: FlatListRenderItem<ProductDtoWithShopsPrices> = ({
-    item,
-  }) => (
-    <DiscountedProductCard
-      product={item as any}
-      shopsPrices={item?.shops_prices}
-      onPress={(productId, categoryId) => onProductPress(productId, categoryId)}
-      className="w-44"
-    />
+  const renderProductFlat: FlatListRenderItem<ProductDtoWithShopsPrices> =
+    useCallback(
+      ({ item }) => (
+        <DiscountedProductCard
+          product={item as any}
+          shopsPrices={item?.shops_prices}
+          onPress={onProductPress}
+          className="w-44"
+        />
+      ),
+      [onProductPress],
+    );
+
+  const renderSkeletonFlat: FlatListRenderItem<{ id: number }> = useCallback(
+    () => <DiscountedProductCardSkeleton className="w-44" />,
+    [],
   );
 
-  const renderSkeletonFlat: FlatListRenderItem<{ id: number }> = () => (
-    <DiscountedProductCardSkeleton className="w-44" />
-  );
+  const renderProductGrid: FlatListRenderItem<ProductDtoWithShopsPrices> =
+    useCallback(
+      ({ item }) => (
+        <DiscountedProductCard
+          product={item as any}
+          shopsPrices={item?.shops_prices}
+          onPress={onProductPress}
+          className="flex-1"
+        />
+      ),
+      [onProductPress],
+    );
 
-  const renderProductGrid: FlatListRenderItem<ProductDtoWithShopsPrices> = ({
-    item,
-  }) => (
-    <DiscountedProductCard
-      product={item as any}
-      shopsPrices={item?.shops_prices}
-      onPress={(productId, categoryId) => onProductPress(productId, categoryId)}
-      className="flex-1"
-    />
-  );
-
-  const renderSkeletonGrid: FlatListRenderItem<{ id: number }> = () => (
-    <DiscountedProductCardSkeleton className="flex-1" />
+  const renderSkeletonGrid: FlatListRenderItem<{ id: number }> = useCallback(
+    () => <DiscountedProductCardSkeleton className="flex-1" />,
+    [],
   );
 
   const hasProducts = (categoryProducts ?? []).length > 0;
@@ -97,6 +103,9 @@ export function SubcategorySection({
       ItemSeparatorComponent={ItemSeparator}
       showsVerticalScrollIndicator={false}
       scrollEnabled={false}
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      windowSize={5}
     />
   ) : (
     <FlatList
@@ -106,6 +115,9 @@ export function SubcategorySection({
       showsHorizontalScrollIndicator={false}
       keyExtractor={(item, index) => String(item.detail?.id || index)}
       contentContainerStyle={{ gap: 12, paddingHorizontal: 16 }}
+      initialNumToRender={4}
+      maxToRenderPerBatch={4}
+      windowSize={3}
     />
   );
 
@@ -138,4 +150,4 @@ export function SubcategorySection({
       {content}
     </View>
   );
-}
+});

@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { formatDiscountValidity } from '~/src/features/discounts/utils/format-validity';
 import { AlertCircle } from '~/src/lib/icons/AlertCircle';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
@@ -42,16 +42,13 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
     : null;
 
   const borderClass = isCheapest
-    ? 'border-g1 bg-g2'
+    ? 'border-g1'
     : isSelected
       ? 'border-primary bg-primary/10'
       : 'border-border bg-card';
 
-  return (
-    <TouchableOpacity
-      onPress={() => onSelect(shopId)}
-      className={`p-4 rounded-lg border-2 mb-3 ${borderClass} ${!isAvailable ? 'opacity-90' : ''}`}
-    >
+  const content = (
+    <>
       {/* Shop name and price row */}
       <View className="flex-row items-center justify-between mb-2">
         <View className="flex-row items-center flex-1 gap-4">
@@ -113,6 +110,25 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
             </Text>
           </View>
         </View>
+      )}
+    </>
+  );
+
+  return (
+    <TouchableOpacity
+      onPress={() => onSelect(shopId)}
+      className={`rounded-lg border-2 mb-3 overflow-hidden ${borderClass} ${!isAvailable ? 'opacity-90' : ''} ${!isCheapest ? 'p-4' : ''}`}
+    >
+      {isCheapest ? (
+        <ImageBackground
+          source={require('~/assets/images/pattern2.png')}
+          className="p-4"
+          imageStyle={{ resizeMode: 'cover', opacity: 0.18 }}
+        >
+          {content}
+        </ImageBackground>
+      ) : (
+        content
       )}
     </TouchableOpacity>
   );
