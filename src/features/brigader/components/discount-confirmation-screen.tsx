@@ -33,6 +33,7 @@ import type {
 } from '~/src/network/model';
 import { DiscountImportActionEnum } from '~/src/network/model';
 import { useGetProducts, useGetShops } from '~/src/network/query/query';
+import { formatDate } from '~/src/utils/date-utils';
 import {
   displayErrorToastMessage,
   displaySuccessToastMessage,
@@ -473,18 +474,14 @@ export default function DiscountConfirmationScreen() {
                   {currentBatch.valid_from && (
                     <Text className="text-sm text-muted-foreground">
                       {t('brigader.valid_from', {
-                        date: new Date(
-                          currentBatch.valid_from,
-                        ).toLocaleDateString(),
+                        date: formatDate(currentBatch.valid_from),
                       })}
                     </Text>
                   )}
                   {currentBatch.valid_to && (
                     <Text className="text-sm text-muted-foreground">
                       {t('brigader.valid_to', {
-                        date: new Date(
-                          currentBatch.valid_to,
-                        ).toLocaleDateString(),
+                        date: formatDate(currentBatch.valid_to),
                       })}
                     </Text>
                   )}

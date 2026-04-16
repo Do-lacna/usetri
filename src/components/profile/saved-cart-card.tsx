@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { router } from 'expo-router';
 import type React from 'react';
 import {
@@ -8,9 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { DATE_FORMAT } from '../../lib/constants';
 import { getShopById } from '../../lib/utils';
 import { useGetShops } from '../../network/query/query';
+import { formatDate } from '../../utils/date-utils';
 import { getShopLogo } from '../../utils/logo-utils';
 import { Text } from '../ui/text';
 
@@ -55,7 +54,7 @@ const SavedCartCard: React.FC<SavedCartCardProps> = ({
               Nákup v {shopName}
             </Text>
             <Text className="text-muted-foreground font-expose text-sm">
-              {format(createdDate, DATE_FORMAT)}
+              {formatDate(createdDate)}
             </Text>
           </View>
           <View className="flex flex-col items-center">

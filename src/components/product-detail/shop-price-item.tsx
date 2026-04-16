@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { formatDiscountValidity } from '~/src/features/discounts/utils/format-validity';
 import { AlertCircle } from '~/src/lib/icons/AlertCircle';
+import { formatDate } from '~/src/utils/date-utils';
 import ShopLogoBadge from '../shop-logo-badge/shop-logo-badge';
 
 interface ShopPriceItemProps {
@@ -38,7 +39,7 @@ export const ShopPriceItem: React.FC<ShopPriceItemProps> = ({
     ? formatDiscountValidity(discountValidFrom, discountValidTo)
     : null;
   const latestAvailabilityDate = productValidTo
-    ? new Date(productValidTo).toLocaleDateString()
+    ? formatDate(productValidTo)
     : null;
 
   const borderClass = isCheapest
