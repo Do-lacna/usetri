@@ -7,10 +7,11 @@ import { DATE_FORMAT } from '~/src/lib/constants';
  * @returns Formatted date string in DD.MM.YYYY format
  */
 export const formatDate = (date: Date | string | number): string => {
-  const dateObj = typeof date === 'string' || typeof date === 'number' 
-    ? new Date(date) 
-    : date;
-  
+  const dateObj =
+    typeof date === 'string' || typeof date === 'number'
+      ? new Date(date)
+      : date;
+
   return format(dateObj, DATE_FORMAT);
 };
 
@@ -20,9 +21,10 @@ export const formatDate = (date: Date | string | number): string => {
  * @returns Formatted date-time string
  */
 export const formatDateTime = (date: Date | string | number): string => {
-  const dateObj = typeof date === 'string' || typeof date === 'number' 
-    ? new Date(date) 
-    : date;
-  
+  const dateObj =
+    typeof date === 'string' || typeof date === 'number'
+      ? new Date(date)
+      : date;
+
   return format(dateObj, 'dd.MM.yyyy HH:mm:ss');
 };
