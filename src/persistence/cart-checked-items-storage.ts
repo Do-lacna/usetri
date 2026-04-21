@@ -1,6 +1,15 @@
 import { storage } from '~/src/persistence/MMKV';
 
-const getKey = (cartId: number) => `ARCHIVED_CART_CHECKED_ITEMS:${cartId}`;
+const KEY_PREFIX = 'ARCHIVED_CART_CHECKED_ITEMS:';
+const getKey = (cartId: number) => `${KEY_PREFIX}${cartId}`;
+
+export const clearAllCheckedItems = () => {
+  for (const key of storage.getAllKeys()) {
+    if (key.startsWith(KEY_PREFIX)) {
+      storage.delete(key);
+    }
+  }
+};
 
 export const getCheckedItems = (cartId: number): number[] => {
   const raw = storage.getString(getKey(cartId));

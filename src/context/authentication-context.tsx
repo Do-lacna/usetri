@@ -1,4 +1,5 @@
 import { getAuth, type FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useQueryClient } from '@tanstack/react-query';
 import { deleteItemAsync, setItemAsync } from 'expo-secure-store';
 import i18n from 'i18next';
 import {
@@ -21,6 +22,7 @@ import {
   displaySuccessToastMessage,
 } from '~/src/utils/toast-utils';
 import { AUTH_TOKEN, USER_ID } from '../network/api-client';
+import { clearAllCheckedItems } from '../persistence/cart-checked-items-storage';
 import {
   clearGuestMode,
   isGuestMode,
@@ -67,6 +69,7 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
+  const queryClient = useQueryClient();
   const [[isLoading, session], setSession] = useStorageState('session');
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState<User>();
@@ -158,12 +161,15 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   const performSignOut = async () => {
     try {
-      await deleteItemAsync('authToken');
+      await deleteItemAsync(AUTH_TOKEN);
+      await deleteItemAsync(USER_ID);
       clearGuestMode();
       setIsGuest(false);
       await getAuth().signOut();
       setUser(undefined);
       clearAnalyticsUser();
+      clearAllCheckedItems();
+      queryClient.clear();
       logBreadcrumb('User signed out');
     } catch (e) {
       logError(e, 'performSignOut');
@@ -181,7 +187,11 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const deleteUserAccount = async () => {
     try {
       await user?.delete();
+      await deleteItemAsync(AUTH_TOKEN);
+      await deleteItemAsync(USER_ID);
       clearAnalyticsUser();
+      clearAllCheckedItems();
+      queryClient.clear();
       displaySuccessToastMessage(i18n.t('auth.account_deleted'));
       resetAndRedirect('/');
     } catch (e) {
