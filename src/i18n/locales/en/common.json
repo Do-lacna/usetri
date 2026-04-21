@@ -210,6 +210,8 @@
     "product_detail": "Product Detail",
     "price_comparison": "Price Comparison",
     "cart_detail": "Cart Detail",
+    "loyalty_card": "Loyalty card",
+    "loyalty_cards": "Loyalty cards",
     "settings": "Settings",
     "discounts_tab": "Discounts",
     "search_tab": "Search",
@@ -241,6 +243,28 @@
     "your_savings": "Your Savings",
     "this_month": "This Month",
     "total": "Total"
+  },
+
+  "loyalty_cards": {
+    "section_title": "Loyalty cards",
+    "count": "{{count}} of {{total}}",
+    "add_for_shop": "Add {{shop}}",
+    "tap_to_show": "Tap to show",
+    "show_to_cashier": "Show this to the cashier",
+    "card_number": "Card number",
+    "replace": "Replace",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "delete_title": "Delete loyalty card?",
+    "delete_message": "Your {{shop}} card will be removed. You can add it back anytime.",
+    "permission_title": "Photo library access",
+    "permission_message": "We need access to your photo library to add a loyalty card. Please allow it in system settings.",
+    "save_error_title": "Save failed",
+    "save_error_message": "Please try selecting the image again.",
+    "not_found": "Loyalty card not found.",
+    "manage_title": "Manage cards",
+    "manage_subtitle": "Add photos of your loyalty cards",
+    "empty_hint": "No cards yet. Tap a shop to add a photo."
   },
 
   "shopping_list_screen": {

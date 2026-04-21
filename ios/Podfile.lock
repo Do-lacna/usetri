@@ -13,6 +13,9 @@ PODS:
     - ExpoModulesCore
   - EXConstants (17.1.7):
     - ExpoModulesCore
+  - EXImageLoader (5.1.0):
+    - ExpoModulesCore
+    - React-Core
   - EXJSONUtils (0.15.0)
   - EXManifests (0.16.6):
     - ExpoModulesCore
@@ -304,6 +307,8 @@ PODS:
     - SDWebImageAVIFCoder (~> 0.11.0)
     - SDWebImageSVGCoder (~> 1.7.0)
     - SDWebImageWebPCoder (~> 0.14.6)
+  - ExpoImagePicker (16.1.4):
+    - ExpoModulesCore
   - ExpoKeepAwake (14.1.4):
     - ExpoModulesCore
   - ExpoLinearGradient (14.1.5):
@@ -2661,6 +2666,7 @@ DEPENDENCIES:
   - EASClient (from `../node_modules/expo-eas-client/ios`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - Expo (from `../node_modules/expo`)
@@ -2677,6 +2683,7 @@ DEPENDENCIES:
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
+  - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoLinking (from `../node_modules/expo-linking/ios`)
@@ -2824,6 +2831,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-application/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXImageLoader:
+    :path: "../node_modules/expo-image-loader/ios"
   EXJSONUtils:
     :path: "../node_modules/expo-json-utils/ios"
   EXManifests:
@@ -2856,6 +2865,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-router/ios"
   ExpoImage:
     :path: "../node_modules/expo-image/ios"
+  ExpoImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
@@ -3055,6 +3066,7 @@ SPEC CHECKSUMS:
   EASClient: 5944ca4aea2836e5ecc5158381f3d4eb43b30e56
   EXApplication: 50cc8ea58c138da6e3f25cd789634219c86b90d5
   EXConstants: 9d62a46a36eae6d28cb978efcbc68aef354d1704
+  EXImageLoader: ab4fcf9240cf3636a83c00e3fc5229d692899428
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: f4cc4a62ee4f1c8a9cf2bb79d325eac6cb9f5684
   Expo: aac1958faa117a45b952f63f742965d2bfd324ca
@@ -3071,6 +3083,7 @@ SPEC CHECKSUMS:
   ExpoHaptics: 7240781406f4563c3f4eb1e72864302a8c643fd0
   ExpoHead: 5df88545652c2d3a3ea50bcd7f6be6ca935ac997
   ExpoImage: b5d08ac8a79f798c8306b53165415c15986f9764
+  ExpoImagePicker: d2fff488a0738343a3cc21e98544ee9feafaa0e6
   ExpoKeepAwake: e8dedc115d9f6f24b153ccd2d1d8efcdfd68a527
   ExpoLinearGradient: ce334cff9859da4635c1d8eff6e291b11b04ccbb
   ExpoLinking: 343a89ea864a851831fd4495e8aea01cf0f6a36f

@@ -10,6 +10,7 @@ import { SavedCartCard } from '~/src/components/profile/saved-cart-card';
 import { TotalSavedCard } from '~/src/components/profile/total-saved-card';
 import Divider from '~/src/components/ui/divider';
 import { useSession } from '~/src/context/authentication-context';
+import { LoyaltyCardsEntry } from '~/src/features/loyalty-cards';
 import { useGetArchivedCart } from '~/src/network/customer/customer';
 import type { ShortArchivedCartDto } from '~/src/network/model';
 
@@ -64,6 +65,8 @@ export default function ProfileScreen() {
         userDisplayName={user?.displayName}
       />
       <TotalSavedCard />
+      <Divider className="my-8" />
+      <LoyaltyCardsEntry />
       <Divider className="my-8" />
       <View className="mb-1">
         <View className="flex-row justify-between items-center mb-4">

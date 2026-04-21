@@ -1,0 +1,1 @@
+export const LOYALTY_CARDS_KEY = 'LOYALTY_CARDS';

@@ -68,6 +68,13 @@
         }
       ],
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Usetri needs access to your photos so you can save a picture of your loyalty card.",
+          "cameraPermission": "Usetri needs access to your camera to take a picture of your loyalty card."
+        }
+      ],
+      [
         "react-native-vision-camera",
         {
           "cameraPermissionText": "This app uses your camera to scan product barcodes and help you track your purchases",

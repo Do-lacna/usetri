@@ -65,6 +65,8 @@
     <string>This app uses your camera to scan product barcodes and help you track your purchases</string>
     <key>NSFaceIDUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your Face ID biometric data.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Usetri needs access to your photos so you can save a picture of your loyalty card.</string>
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

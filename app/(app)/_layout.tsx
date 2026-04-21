@@ -71,6 +71,30 @@ export default function AppLayout() {
             headerBackButtonDisplayMode: 'minimal',
           }}
         />
+
+        <Stack.Screen
+          name="main/loyalty-card/[shopId]"
+          options={{
+            title: t('navigation.loyalty_card'),
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: 'Expose-Bold',
+            },
+            presentation: 'modal',
+          }}
+        />
+
+        <Stack.Screen
+          name="main/loyalty-cards-screen/loyalty-cards-screen"
+          options={{
+            title: t('navigation.loyalty_cards'),
+            headerShown: true,
+            headerTitleStyle: {
+              fontFamily: 'Expose-Bold',
+            },
+            presentation: 'modal',
+          }}
+        />
       </Stack>
     </>
   );

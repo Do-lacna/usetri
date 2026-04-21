@@ -8,7 +8,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder.jpg';
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';

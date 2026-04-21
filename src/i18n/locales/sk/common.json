@@ -214,6 +214,8 @@
     "product_detail": "Detail produktu",
     "price_comparison": "Porovnanie cien",
     "cart_detail": "Detail košíka",
+    "loyalty_card": "Vernostná karta",
+    "loyalty_cards": "Vernostné karty",
     "settings": "Nastavenia",
     "discounts_tab": "Zľavy",
     "search_tab": "Hľadať",
@@ -245,6 +247,28 @@
     "your_savings": "Vaše úspory",
     "this_month": "Tento mesiac",
     "total": "Celkovo"
+  },
+
+  "loyalty_cards": {
+    "section_title": "Vernostné karty",
+    "count": "{{count}} z {{total}}",
+    "add_for_shop": "Pridať {{shop}}",
+    "tap_to_show": "Ťukni pre zobrazenie",
+    "show_to_cashier": "Ukáž pokladníkovi",
+    "card_number": "Číslo karty",
+    "replace": "Nahradiť",
+    "delete": "Zmazať",
+    "cancel": "Zrušiť",
+    "delete_title": "Zmazať vernostnú kartu?",
+    "delete_message": "Odstráni sa karta obchodu {{shop}}. Môžeš ju kedykoľvek pridať späť.",
+    "permission_title": "Prístup k fotkám",
+    "permission_message": "Pre pridanie vernostnej karty potrebujeme prístup k tvojej knižnici fotiek. Povoľ ho v nastaveniach systému.",
+    "save_error_title": "Nepodarilo sa uložiť",
+    "save_error_message": "Skús prosím vybrať obrázok znova.",
+    "not_found": "Vernostná karta sa nenašla.",
+    "manage_title": "Spravovať karty",
+    "manage_subtitle": "Pridaj fotky svojich vernostných kariet",
+    "empty_hint": "Zatiaľ žiadne karty. Ťukni na obchod a pridaj fotku."
   },
 
   "shopping_list_screen": {
