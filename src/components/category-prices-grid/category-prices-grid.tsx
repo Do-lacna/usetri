@@ -12,6 +12,8 @@ interface CategoryPrice {
   originalPrice?: number;
   discountPrice?: number | null;
   product_id?: number;
+  amount?: number | null;
+  unit?: string | null;
 }
 
 interface CategoryPricesGridProps {
@@ -60,7 +62,15 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
       <View className="bg-muted rounded-xl py-4 px-2 border border-border">
         <View className="flex-row flex-wrap gap-3">
           {categoryPrices?.map(
-            ({ shop_id, price, originalPrice, discountPrice, product_id }) => {
+            ({
+              shop_id,
+              price,
+              originalPrice,
+              discountPrice,
+              product_id,
+              amount,
+              unit,
+            }) => {
               const hasDiscount =
                 discountPrice &&
                 discountPrice > 0 &&
@@ -68,6 +78,7 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
 
               const shop = getShopById(shop_id ?? null, shops);
               const shopName = shop?.name || '';
+              const amountLabel = amount && unit ? `${amount} ${unit}` : null;
 
               return shop_id ? (
                 <TouchableOpacity
@@ -87,20 +98,27 @@ export const CategoryPricesGrid: React.FC<CategoryPricesGridProps> = ({
                   className="flex-row items-center bg-background rounded-lg px-2 py-2 border border-border"
                 >
                   <ShopLogoBadge shopId={shop_id} size={20} />
-                  {hasDiscount ? (
-                    <View className="ml-2">
-                      <Text className="text-xs font-expose text-muted-foreground line-through">
-                        {originalPrice?.toFixed(2)}€
+                  <View className="ml-2">
+                    {hasDiscount ? (
+                      <>
+                        <Text className="text-xs font-expose text-muted-foreground line-through">
+                          {originalPrice?.toFixed(2)}€
+                        </Text>
+                        <Text className="text-sm font-expose-bold text-discount">
+                          {discountPrice?.toFixed(2)}€
+                        </Text>
+                      </>
+                    ) : (
+                      <Text className="text-sm font-expose text-foreground">
+                        {price.toFixed(2)}€
                       </Text>
-                      <Text className="text-sm font-expose-bold text-discount">
-                        {discountPrice?.toFixed(2)}€
+                    )}
+                    {amountLabel && (
+                      <Text className="text-[10px] font-expose text-muted-foreground leading-tight">
+                        {amountLabel}
                       </Text>
-                    </View>
-                  ) : (
-                    <Text className="text-sm font-expose text-foreground ml-2">
-                      {price.toFixed(2)}€
-                    </Text>
-                  )}
+                    )}
+                  </View>
                 </TouchableOpacity>
               ) : null;
             },

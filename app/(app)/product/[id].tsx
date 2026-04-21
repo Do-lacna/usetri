@@ -150,12 +150,14 @@ const ProductDetailScreen: React.FC = () => {
 
     return categoryShopPrices
       .filter(({ shop_id }) => !productShopIds.has(Number(shop_id)))
-      .map(({ shop_id, price, product_id }) => ({
+      .map(({ shop_id, price, product_id, product }) => ({
         shop_id,
         price: price?.actual_price ?? 0,
         originalPrice: price?.price ?? 0,
         discountPrice: price?.discount_price?.price,
         product_id,
+        amount: product?.unit?.original_amount,
+        unit: product?.unit?.original_unit,
       }));
   }, [categoryShopPrices, shops_prices]);
 

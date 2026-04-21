@@ -68,11 +68,13 @@ export const CategoryCartItem: React.FC<CategoryCartItemProps> = ({
     data: { shop_prices } = {},
   } = useGetCategoryPrices(Number(pendingCartData?.identifier));
 
-  const categoryPrices = shop_prices?.map(({ shop_id, price }) => ({
+  const categoryPrices = shop_prices?.map(({ shop_id, price, product }) => ({
     shop_id,
     price: price?.actual_price ?? 0,
     originalPrice: price?.price ?? 0,
     discountPrice: price?.discount_price?.price,
+    amount: product?.unit?.original_amount,
+    unit: product?.unit?.original_unit,
   }));
 
   return (
