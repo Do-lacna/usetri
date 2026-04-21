@@ -4,11 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { UserRole } from './userRole';
 
-export interface PriceDto {
-  price?: number;
-  change_requested?: string;
-  valid_from?: string;
+export interface UserMaintenanceDto {
   /** @nullable */
-  location?: string | null;
+  email?: string | null;
+  role?: UserRole;
 }

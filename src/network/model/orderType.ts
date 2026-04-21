@@ -12,4 +12,7 @@ export const OrderType = {
   None: 'None',
   TrigramSimilarity: 'TrigramSimilarity',
   Semantic: 'Semantic',
+  CreatedDate: 'CreatedDate',
+  FullTextSearch: 'FullTextSearch',
+  HybridSearch: 'HybridSearch',
 } as const;

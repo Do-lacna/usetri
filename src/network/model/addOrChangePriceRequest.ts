@@ -4,16 +4,15 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { BasePriceModel } from './basePriceModel';
 import type { DiscountPriceModel } from './discountPriceModel';
-import type { ProductValidityModel } from './productValidityModel';
+import type { ProductAvailabilityModel } from './productAvailabilityModel';
 
 export interface AddOrChangePriceRequest {
   shop_id?: number;
-  price?: number;
+  base_price?: BasePriceModel;
   discount_price?: DiscountPriceModel;
-  validity?: ProductValidityModel;
-  /** @nullable */
-  barcode?: string | null;
+  product_availability?: ProductAvailabilityModel;
   /** @nullable */
   location?: string | null;
 }

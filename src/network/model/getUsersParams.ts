@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DiscountPriceModel {
-  price?: number;
-  valid_from?: string;
-  valid_to?: string;
-}
+export type GetUsersParams = {
+  Limit?: number;
+  Offset?: number;
+};

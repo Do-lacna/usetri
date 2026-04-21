@@ -4,10 +4,12 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
+import type { ProductDto } from './productDto';
 import type { ShopPriceDto } from './shopPriceDto';
 
 export interface ShopCategoryPriceDto {
   shop_id?: number;
+  product?: ProductDto;
   price?: ShopPriceDto;
   product_id?: number;
 }

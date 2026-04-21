@@ -15,6 +15,7 @@ export type GetProductsAdminParams = {
   is_category_checked?: boolean;
   is_master_product?: boolean;
   is_barcode_checked?: boolean;
+  created_after?: string;
   Limit?: number;
   Offset?: number;
 };

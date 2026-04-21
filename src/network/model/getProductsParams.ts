@@ -14,6 +14,7 @@ export type GetProductsParams = {
   has_image?: boolean;
   is_category_checked?: boolean;
   is_master_product?: boolean;
+  created_after?: string;
   Limit?: number;
   Offset?: number;
 };

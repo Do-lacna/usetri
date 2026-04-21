@@ -35,18 +35,293 @@ import type {
   GetShopsAdminResponse,
   GetShopsStatsParams,
   GetShopsStatsResponse,
+  GetUsersParams,
   PatchCategoryRequest,
   PatchProductRequest,
   PatchProductResponse,
   ProblemDetails,
   ProductDto,
   UpdateShopRequest,
+  UploadUserRequest,
+  UserMaintenanceDtoGenericPagedResult,
   _ExportParams,
 } from '.././model';
 import { orvalApiClient } from '.././api-client';
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
+export const uploadUser = (
+  uploadUserRequest: UploadUserRequest,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<void>(
+    {
+      url: `/admin/users`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: uploadUserRequest,
+      signal,
+    },
+    options,
+  );
+};
+
+export const getUploadUserMutationOptions = <
+  TData = Awaited<ReturnType<typeof uploadUser>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadUserRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['uploadUser'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof uploadUser>>,
+    { data: UploadUserRequest }
+  > = props => {
+    const { data } = props ?? {};
+
+    return uploadUser(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadUserRequest },
+    TContext
+  >;
+};
+
+export type UploadUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof uploadUser>>
+>;
+export type UploadUserMutationBody = UploadUserRequest;
+export type UploadUserMutationError = ProblemDetails;
+
+export const useUploadUser = <
+  TData = Awaited<ReturnType<typeof uploadUser>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    TData,
+    TError,
+    { data: UploadUserRequest },
+    TContext
+  >;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, { data: UploadUserRequest }, TContext> => {
+  const mutationOptions = getUploadUserMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getUsers = (
+  params?: GetUsersParams,
+  options?: SecondParameter<typeof orvalApiClient>,
+  signal?: AbortSignal,
+) => {
+  return orvalApiClient<UserMaintenanceDtoGenericPagedResult>(
+    { url: `/admin/users`, method: 'GET', params, signal },
+    options,
+  );
+};
+
+export const getGetUsersQueryKey = (params?: GetUsersParams) => {
+  return [`/admin/users`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetUsersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUsers>>,
+  TError = unknown,
+>(
+  params?: GetUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetUsersQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUsers>>> = ({
+    signal,
+  }) => getUsers(params, requestOptions, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUsers>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetUsersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUsers>>
+>;
+export type GetUsersQueryError = unknown;
+
+export function useGetUsers<
+  TData = Awaited<ReturnType<typeof getUsers>>,
+  TError = unknown,
+>(
+  params: undefined | GetUsersParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsers>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUsers<
+  TData = Awaited<ReturnType<typeof getUsers>>,
+  TError = unknown,
+>(
+  params?: GetUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUsers>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUsers<
+  TData = Awaited<ReturnType<typeof getUsers>>,
+  TError = unknown,
+>(
+  params?: GetUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+
+export function useGetUsers<
+  TData = Awaited<ReturnType<typeof getUsers>>,
+  TError = unknown,
+>(
+  params?: GetUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof orvalApiClient>;
+  },
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUsersQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const deleteUser = (
+  email: string,
+  options?: SecondParameter<typeof orvalApiClient>,
+) => {
+  return orvalApiClient<void>(
+    { url: `/admin/users/${email}`, method: 'DELETE' },
+    options,
+  );
+};
+
+export const getDeleteUserMutationOptions = <
+  TData = Awaited<ReturnType<typeof deleteUser>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { email: string }, TContext>;
+  request?: SecondParameter<typeof orvalApiClient>;
+}) => {
+  const mutationKey = ['deleteUser'];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteUser>>,
+    { email: string }
+  > = props => {
+    const { email } = props ?? {};
+
+    return deleteUser(email, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { email: string },
+    TContext
+  >;
+};
+
+export type DeleteUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteUser>>
+>;
+
+export type DeleteUserMutationError = ProblemDetails;
+
+export const useDeleteUser = <
+  TData = Awaited<ReturnType<typeof deleteUser>>,
+  TError = ProblemDetails,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, { email: string }, TContext>;
+  request?: SecondParameter<typeof orvalApiClient>;
+}): UseMutationResult<TData, TError, { email: string }, TContext> => {
+  const mutationOptions = getDeleteUserMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 export const addShop = (
   addShopRequest: AddShopRequest,
   options?: SecondParameter<typeof orvalApiClient>,

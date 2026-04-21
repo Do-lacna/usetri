@@ -18,9 +18,8 @@ export interface ProductDto {
   unit?: UnitDto;
   /** @nullable */
   image_url?: string | null;
-  /** @nullable */
-  description?: string | null;
   category?: CategoryDto;
   is_category_checked?: boolean;
   is_mater_product?: boolean;
+  created_at?: string;
 }

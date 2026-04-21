@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DiscountPriceModel {
-  price?: number;
+export interface ProductAvailabilityModel {
   valid_from?: string;
   valid_to?: string;
 }

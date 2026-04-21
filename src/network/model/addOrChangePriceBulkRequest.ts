@@ -4,10 +4,10 @@
  * Dolacna.Backend.Api
  * OpenAPI spec version: 1.0
  */
-import type { AddOrChangePriceModel } from './addOrChangePriceModel';
+import type { AddOrChangePriceRequest } from './addOrChangePriceRequest';
 
 export interface AddOrChangePriceBulkRequest {
   /** @nullable */
   product_ids?: number[] | null;
-  price_model?: AddOrChangePriceModel;
+  price_model?: AddOrChangePriceRequest;
 }

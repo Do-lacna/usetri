@@ -8,11 +8,6 @@ import type { ProductDto } from './productDto';
 import type { ShopPriceDto } from './shopPriceDto';
 
 export interface ShopProductDto {
-  /**
-   * @deprecated
-   * @nullable
-   */
-  barcode?: string | null;
   detail?: ProductDto;
   /** @nullable */
   shops_prices?: ShopPriceDto[] | null;

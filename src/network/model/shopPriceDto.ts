@@ -9,7 +9,9 @@ import type { DiscountPriceDto } from './discountPriceDto';
 export interface ShopPriceDto {
   shop_id?: number;
   price?: number;
+  normalized_price?: number;
   actual_price?: number;
+  normalized_actual_price?: number;
   discount_price?: DiscountPriceDto;
   /** @nullable */
   valid_from?: string | null;
