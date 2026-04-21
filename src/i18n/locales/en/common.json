@@ -245,6 +245,13 @@
     "total": "Total"
   },
 
+  "saved_cart_receipt": {
+    "hint_title": "Check off items in the store",
+    "hint_description": "Tap an item once it's in your cart so you don't miss anything.",
+    "progress": "{{done}} of {{total}} checked",
+    "total": "Total"
+  },
+
   "loyalty_cards": {
     "section_title": "Loyalty cards",
     "count": "{{count}} of {{total}}",

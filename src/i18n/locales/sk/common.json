@@ -249,6 +249,13 @@
     "total": "Celkovo"
   },
 
+  "saved_cart_receipt": {
+    "hint_title": "Odškrtávaj si položky v obchode",
+    "hint_description": "Ťukni na položku po vložení do košíka, aby si na nič nezabudol.",
+    "progress": "{{done}} z {{total}} v košíku",
+    "total": "Celková suma"
+  },
+
   "loyalty_cards": {
     "section_title": "Vernostné karty",
     "count": "{{count}} z {{total}}",

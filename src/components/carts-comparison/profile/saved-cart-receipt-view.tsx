@@ -1,5 +1,6 @@
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Image,
   type ImageSourcePropType,
@@ -13,6 +14,7 @@ import PLACEHOLDER_PRODUCT_IMAGE from '~/assets/images/other/product_placeholder
 import ShopLogoBadge from '~/src/components/shop-logo-badge/shop-logo-badge';
 import { Skeleton } from '~/src/components/ui/skeleton';
 import { Check } from '~/src/lib/icons/Check';
+import { Info } from '~/src/lib/icons/Info';
 import type { ArchivedCartProduct, ShopExtendedDto } from '~/src/network/model';
 import { useGetCategories } from '~/src/network/query/query';
 import {
@@ -50,85 +52,88 @@ const ReceiptItemRow: React.FC<{
     : PLACEHOLDER_PRODUCT_IMAGE;
 
   const totalPrice = (price * quantity).toFixed(2);
-  const checkedClass = isChecked ? 'line-through opacity-50' : '';
+  const checkedTextClass = isChecked
+    ? 'line-through text-muted-foreground'
+    : '';
 
   return (
     <Pressable
       onPress={onToggle}
       disabled={disabled}
-      className={`bg-card rounded-xl p-3 shadow-sm border border-v2 ${
-        isChecked ? 'opacity-70' : ''
+      android_ripple={{ borderless: false }}
+      className={`flex-row items-center gap-3 rounded-2xl p-3 border ${
+        isChecked
+          ? 'bg-muted border-border opacity-70'
+          : 'bg-card border-border'
       }`}
     >
-      <View className="flex-row gap-3 items-center">
-        <View className="relative w-16 h-16">
-          {!isImageLoaded && (
-            <Skeleton className="absolute inset-0 rounded-lg" />
-          )}
-          <Image
-            source={imageSource}
-            className={
-              isImageLoaded
-                ? 'w-16 h-16 rounded-lg'
-                : 'w-16 h-16 rounded-lg opacity-0'
-            }
-            resizeMode="contain"
-            onLoadEnd={() => setIsImageLoaded(true)}
-            onError={() => setIsImageLoaded(true)}
-          />
-        </View>
+      <View className="relative w-16 h-16">
+        {!isImageLoaded && <Skeleton className="absolute inset-0 rounded-xl" />}
+        <Image
+          source={imageSource}
+          className={
+            isImageLoaded
+              ? 'w-16 h-16 rounded-xl'
+              : 'w-16 h-16 rounded-xl opacity-0'
+          }
+          resizeMode="contain"
+          onLoadEnd={() => setIsImageLoaded(true)}
+          onError={() => setIsImageLoaded(true)}
+        />
+      </View>
 
-        <View className="flex-1 flex-col justify-between py-0.5">
-          <View>
+      <View className="flex-1 justify-between self-stretch py-0.5">
+        <View>
+          <Text
+            className={`text-card-foreground font-expose-bold text-base leading-tight ${checkedTextClass}`}
+            numberOfLines={1}
+          >
+            {name}
+          </Text>
+          {(brand || amount || unit) && (
             <Text
-              className={`text-card-foreground font-expose-bold text-base leading-tight ${checkedClass}`}
-              numberOfLines={1}
-            >
-              {name}
-            </Text>
-            <Text
-              className={`text-muted-foreground font-expose text-xs mt-0.5 ${checkedClass}`}
+              className={`text-muted-foreground font-expose text-xs mt-1 ${checkedTextClass}`}
               numberOfLines={1}
             >
               {brand}
               {brand && (amount || unit) ? ' • ' : ''}
               {amount} {unit}
             </Text>
-          </View>
+          )}
+        </View>
 
-          <View className="flex-row items-center justify-between mt-2">
-            <View className="flex-row items-baseline gap-1">
-              <Text
-                className={`text-card-foreground font-expose-bold text-lg ${checkedClass}`}
-              >
-                {totalPrice}€
-              </Text>
-              {quantity > 1 && (
-                <Text
-                  className={`text-muted-foreground font-expose text-xs ${checkedClass}`}
-                >
-                  ({price.toFixed(2)}/ks × {quantity})
-                </Text>
-              )}
-            </View>
-
-            <View
-              className={`w-7 h-7 rounded-full border-2 items-center justify-center ${
-                isChecked
-                  ? 'bg-primary border-primary'
-                  : 'border-muted-foreground'
-              }`}
+        <View className="flex-row items-end justify-between mt-2">
+          <View className="flex-row items-baseline gap-1">
+            <Text
+              className={`text-card-foreground font-expose-bold text-lg ${checkedTextClass}`}
             >
-              {isChecked && (
-                <Check
-                  size={16}
-                  className="text-primary-foreground"
-                  strokeWidth={3}
-                />
-              )}
-            </View>
+              {totalPrice}€
+            </Text>
+            {quantity > 1 && (
+              <Text
+                className={`text-muted-foreground font-expose text-xs ${checkedTextClass}`}
+              >
+                ({price.toFixed(2)}/ks × {quantity})
+              </Text>
+            )}
           </View>
         </View>
+      </View>
+
+      <View
+        className={`w-7 h-7 rounded-full border-2 items-center justify-center ${
+          isChecked
+            ? 'bg-primary border-primary'
+            : 'bg-background border-muted-foreground'
+        }`}
+      >
+        {isChecked && (
+          <Check
+            size={16}
+            className="text-primary-foreground"
+            strokeWidth={3}
+          />
+        )}
       </View>
     </Pressable>
   );
@@ -140,6 +145,7 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
   specific_products: groceries = [],
   total_price,
 }) => {
+  const { t } = useTranslation();
   const canToggle = typeof cartId === 'number';
 
   const {
@@ -188,22 +194,60 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
     return [...unchecked, ...checked];
   }, [groceries, checkedIds]);
 
+  const totalItems = groceries?.length ?? 0;
+  const checkedCount = groceries
+    ? groceries.filter(p => {
+        const id = p.detail?.product_id;
+        return typeof id === 'number' && checkedIds.has(id);
+      }).length
+    : 0;
+
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <ScrollView className="flex-1 px-4 pb-6">
-        <View className="flex-row items-center justify-center gap-2 pb-4 mb-3">
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="px-4 pt-2 pb-8"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="flex-row items-center gap-3 p-4 mb-3 rounded-2xl bg-card border border-border">
           {typeof shopId === 'number' && (
-            <ShopLogoBadge shopId={shopId} size={28} />
+            <ShopLogoBadge shopId={shopId} size={36} />
           )}
-          {!!shopName && (
-            <Text className="text-xl font-expose-bold text-foreground">
-              {shopName}
-            </Text>
-          )}
+          <View className="flex-1">
+            {!!shopName && (
+              <Text className="text-lg font-expose-bold text-foreground">
+                {shopName}
+              </Text>
+            )}
+            {canToggle && totalItems > 0 && (
+              <Text className="text-xs font-expose text-muted-foreground mt-0.5">
+                {t('saved_cart_receipt.progress', {
+                  done: checkedCount,
+                  total: totalItems,
+                })}
+              </Text>
+            )}
+          </View>
         </View>
 
-        <View className="mb-2">
-          {groceries?.map(product => {
+        {canToggle && totalItems > 0 && (
+          <View className="flex-row items-start gap-3 p-3 mb-4 rounded-2xl bg-muted border border-border">
+            <View className="w-8 h-8 rounded-full bg-background items-center justify-center">
+              <Info size={16} className="text-muted-foreground" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-sm font-expose-bold text-foreground">
+                {t('saved_cart_receipt.hint_title')}
+              </Text>
+              <Text className="text-xs font-expose text-muted-foreground mt-0.5 leading-relaxed">
+                {t('saved_cart_receipt.hint_description')}
+              </Text>
+            </View>
+          </View>
+        )}
+
+        <View className="gap-2.5">
+          {orderedGroceries?.map(product => {
             const productId = product.detail?.product_id;
             const categoryId = product.detail?.category_id;
             const isChecked =
@@ -225,11 +269,11 @@ const SavedCartReceiptView: React.FC<SavedCartReceiptViewProps> = ({
           })}
         </View>
 
-        <View className="flex-row justify-between items-center bg-muted p-4 rounded-lg mt-2">
-          <Text className="text-lg font-expose-bold text-foreground">
-            Celková suma
+        <View className="flex-row justify-between items-center p-4 mt-4 rounded-2xl bg-card border border-border">
+          <Text className="text-base font-expose-bold text-foreground">
+            {t('saved_cart_receipt.total')}
           </Text>
-          <Text className="text-xl font-expose-bold text-green-600">
+          <Text className="text-xl font-expose-bold text-foreground">
             {formatPrice(total_price)}
           </Text>
         </View>
