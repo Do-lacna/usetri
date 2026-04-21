@@ -59,7 +59,10 @@ export default function ProfileScreen() {
 
   const renderListHeader = () => (
     <>
-      <ProfileHeader userEmail={user?.email} />
+      <ProfileHeader
+        userEmail={user?.email}
+        userDisplayName={user?.displayName}
+      />
       <TotalSavedCard />
       <Divider className="my-8" />
       <View className="mb-1">

@@ -8,13 +8,21 @@ import { useColorScheme } from '../../lib/useColorScheme';
 
 interface ProfileHeaderProps {
   userEmail?: string | null;
+  userDisplayName?: string | null;
   userImage?: string;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   userEmail = 'user@example.com',
+  userDisplayName,
   userImage,
 }) => {
+  const isApplePrivateRelay = !!userEmail
+    ?.toLowerCase()
+    .endsWith('@privaterelay.appleid.com');
+  const trimmedDisplayName = userDisplayName?.trim();
+  const displayedIdentity =
+    isApplePrivateRelay && trimmedDisplayName ? trimmedDisplayName : userEmail;
   const { colorScheme } = useColorScheme();
   const iconColor = COLORS.n6;
   const settingsIconColor =
@@ -36,7 +44,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       <View className="absolute -top-10 -right-10 w-32 h-32 bg-muted/20 rounded-full" />
       <View className="absolute -bottom-5 -left-5 w-20 h-20 bg-muted/30 rounded-full" />
 
-      <View className="flex-row items-center justify-between px-6 py-8 pt-12">
+      <View className="flex-row items-center justify-between pl-6 pr-20 py-8 pt-12">
         <View className="flex-row items-center flex-1">
           <View className="relative">
             <View className="w-16 h-16 rounded-full bg-muted border-2 border-border overflow-hidden">
@@ -62,7 +70,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               className="text-foreground text-lg font-expose-bold"
               numberOfLines={1}
             >
-              {userEmail}
+              {displayedIdentity}
             </Text>
           </View>
         </View>

@@ -41,6 +41,7 @@ export default function ArchivedCartScreen() {
   return (
     <View className="flex flex-1 align-center justify-center py-4 px-2">
       <SavedCartReceiptView
+        cartId={Number(cartId)}
         shop={shop}
         specific_products={mappedProducts}
         total_price={cart?.total_price}

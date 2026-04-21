@@ -2,6 +2,7 @@ import {
   AppleAuthProvider,
   getAuth,
   signInWithCredential,
+  updateProfile,
 } from '@react-native-firebase/auth';
 import * as AppleAuth from 'expo-apple-authentication';
 import { useState } from 'react';
@@ -41,7 +42,7 @@ export default function AppleAuthentication({
         ],
       });
 
-      const { identityToken } = credential;
+      const { identityToken, fullName } = credential;
 
       if (!identityToken) {
         throw new Error('No identity token received from Apple');
@@ -55,7 +56,23 @@ export default function AppleAuthentication({
         appleCredential,
       );
 
-      setUser(userCredential.user);
+      const firebaseUser = userCredential.user;
+
+      const fullNameString = [fullName?.givenName, fullName?.familyName]
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+
+      if (fullNameString && !firebaseUser.displayName) {
+        try {
+          await updateProfile(firebaseUser, { displayName: fullNameString });
+          await firebaseUser.reload();
+        } catch (profileError) {
+          logError(profileError, 'signIn:apple:updateProfile');
+        }
+      }
+
+      setUser(getAuth().currentUser ?? firebaseUser);
       logSignIn('apple');
       resetAndRedirect('/(app)/main/(tabs)/discounts-screen');
       updateLoading(false);
