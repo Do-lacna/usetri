@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     opacity: 0.55,
   },
   preview: {
-    width: 90,
-    height: 118,
+    width: 100,
+    height: 100,
     borderRadius: 10,
     overflow: 'hidden',
   },
