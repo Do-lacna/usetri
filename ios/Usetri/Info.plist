@@ -21,7 +21,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.16</string>
+    <string>1.0.20</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -62,9 +62,11 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>This app uses your camera to scan product barcodes and help you track your purchases</string>
+    <string>Usetri needs access to your camera to take a picture of your loyalty card.</string>
     <key>NSFaceIDUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your Face ID biometric data.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Usetri needs access to your photos so you can save a picture of your loyalty card.</string>
     <key>NSUserActivityTypes</key>
