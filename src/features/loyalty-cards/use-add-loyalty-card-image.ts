@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { useLoyaltyCards } from '~/src/hooks/use-loyalty-cards';
+import { logError } from '~/src/utils/analytics';
 
 export const useAddLoyaltyCardImage = () => {
   const { saveCard } = useLoyaltyCards();
@@ -34,7 +35,7 @@ export const useAddLoyaltyCardImage = () => {
 
         await saveCard(shopId, result.assets[0].uri);
       } catch (error) {
-        console.error('Failed to save loyalty card image', error);
+        logError(error, 'loyaltyCards:saveImage');
         Alert.alert(
           t('loyalty_cards.save_error_title'),
           t('loyalty_cards.save_error_message'),

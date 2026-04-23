@@ -11,6 +11,7 @@ import {
   useCodeScanner,
 } from 'react-native-vision-camera';
 import { X } from '~/src/lib/icons/Cancel';
+import { logError } from '~/src/utils/analytics';
 import IconButton from '../icon-button/icon-button';
 import { Button } from '../ui/button';
 
@@ -77,7 +78,7 @@ export default function BarcodeSearchCameraView({
   });
 
   const onError = (error: CameraRuntimeError) => {
-    console.error('Camera error:', error);
+    logError(error, 'barcodeSearch:camera');
   };
 
   if (!hasPermission) {

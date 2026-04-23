@@ -7,12 +7,14 @@ export const signUpSchema = z
       .email({ message: 'Nesprávny formát e-mailu' }),
     password: z
       .string({ required_error: 'Prosím zadajte svoje heslo' })
-      .min(5, 'Minimálna dĺžka hesla je 5 znakov'),
+      .min(8, 'Minimálna dĺžka hesla je 8 znakov')
+      .max(128, 'Maximálna dĺžka hesla je 128 znakov'),
     confirmPassword: z
-      .string({ required_error: 'Please enter valid password' })
-      .min(5, 'Minimálna dĺžka hesla je 5 znakov'),
+      .string({ required_error: 'Prosím zopakujte heslo' })
+      .min(8, 'Minimálna dĺžka hesla je 8 znakov')
+      .max(128, 'Maximálna dĺžka hesla je 128 znakov'),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: 'Heslá sa musia zhodovať',
-    path: ['confirmPassword'], // path of error
+    path: ['confirmPassword'],
   });

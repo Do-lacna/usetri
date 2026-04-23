@@ -17,6 +17,7 @@ import { ThemedLogo } from '~/src/components/themed-logo';
 import { Button } from '~/src/components/ui/button';
 import { Input } from '~/src/components/ui/input';
 import { forgottenPasswordSchema } from '~/src/schema/forgotten-password-schema';
+import { logError } from '~/src/utils/analytics';
 
 export default function ForgottenPassword() {
   const { t } = useTranslation();
@@ -34,14 +35,18 @@ export default function ForgottenPassword() {
   const handlePasswordReset = async ({
     email,
   }: z.infer<typeof forgottenPasswordSchema>) => {
-    // if (!email || !password) {
-    //   Alert.alert('Error', 'Please fill in all fields');
-    //   return;
-    // }
-
     try {
       setLoading(true);
-      await sendPasswordResetEmail(getAuth(), email);
+      try {
+        await sendPasswordResetEmail(getAuth(), email);
+      } catch (error: any) {
+        // Swallow user-not-found to prevent email enumeration — the user
+        // sees the same generic success message regardless.
+        if (error?.code !== 'auth/user-not-found') {
+          throw error;
+        }
+        logError(error, 'forgottenPassword:unknownEmail');
+      }
 
       Toast.show({
         type: 'success',
@@ -51,12 +56,10 @@ export default function ForgottenPassword() {
 
       router.back();
     } catch (error: any) {
-      console.error('Password reset error:', error?.code, error?.message);
+      logError(error, 'forgottenPassword');
 
       let errorMessage = t('auth.password_reset_error');
-      if (error?.code === 'auth/user-not-found') {
-        errorMessage = t('auth.user_not_found');
-      } else if (error?.code === 'auth/invalid-email') {
+      if (error?.code === 'auth/invalid-email') {
         errorMessage = t('auth.invalid_email');
       } else if (error?.code === 'auth/too-many-requests') {
         errorMessage = t('auth.too_many_requests');

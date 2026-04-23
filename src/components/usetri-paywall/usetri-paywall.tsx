@@ -13,6 +13,7 @@ import Purchases, {
   type PurchasesPackage,
 } from 'react-native-purchases';
 import { useRevenueCat } from '../../context/revenue-cat-provider';
+import { logError } from '../../utils/analytics';
 import { displayErrorToastMessage } from '../../utils/toast-utils';
 
 type SubscriptionPaywallProps = {
@@ -54,7 +55,7 @@ const SubscriptionPaywall: React.FC<SubscriptionPaywallProps> = ({
       if (!error.userCancelled) {
         displayErrorToastMessage(t('paywall.payment_error'));
         setErrorMessage(t('paywall.payment_error'));
-        console.error('Purchase error:', error);
+        logError(error, 'paywall:purchase');
       }
     } finally {
       setIsPurchasing(false);
